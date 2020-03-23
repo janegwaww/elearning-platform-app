@@ -1,0 +1,9 @@
+.el-main.top,.el-footer.bottom{
+    height: 50%;
+    border-top:1px solid red;
+    padding: 0;
+}
+.top .el-container ,.bottom .el-container{
+   
+    height: 100%;
+}
