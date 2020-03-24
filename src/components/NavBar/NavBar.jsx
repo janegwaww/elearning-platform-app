@@ -14,7 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Drawer from "../Drawer/Drawer.jsx";
+import Drawer from "../Drawer/Drawer";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -181,7 +181,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            HAETEK
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
