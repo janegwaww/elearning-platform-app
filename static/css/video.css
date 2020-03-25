@@ -1,9 +1,82 @@
+.el-main.top{
+    height: 60;
+}
+.el-footer.bottom {
+  height: 40%;
+ 
+}
 .el-main.top,.el-footer.bottom{
-    height: 50%;
-    border-top:1px solid red;
+    position: relative;
     padding: 0;
 }
-.top .el-container ,.bottom .el-container{
-   
-    height: 100%;
+.top .el-container,
+.bottom .el-container {
+  height: 100%;
+}
+.top .el-main,
+.bottom .el-main {
+  padding: 0;
+  position: relative;
+}
+.top .el-main {
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2%;
+  color: #fff;
+}
+.top .el-main > div {
+  width: 50%;
+  height: 96%;
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  text-align: center;
+}
+.top .el-main > div:first-child div {
+  width: 80%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.top .el-main > div:last-child > div {
+  width: 90%;
+  height: 90%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.top .el-main > div:last-child > p {
+  margin: 4px 0;
+}
+/* 时间轴 */
+.slider{
+  
+  background-color: rgb(105, 105, 105);
+  width: 100%;
+  height: 30px;
+  display: flex;
+  color:#fff;
+}
+.slider .left{
+    width:60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.slider .right{
+    display: block;
+    flex: 1;
+    flex-basis: auto;
+}
+.clearfix::after {
+  content: "\00A0";
+  display: block;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  clear: both;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+.clearfix {
+  zoom: 1;
 }
