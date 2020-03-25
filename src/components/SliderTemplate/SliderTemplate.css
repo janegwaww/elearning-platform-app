@@ -1,6 +1,6 @@
 .MuiSlider-thumb::after{
     width: 1px;
-    left: 5px !important;
+    left: 4px !important;
     right:0 !important;
     bottom:0 !important;
    top: 5px !important;
@@ -8,6 +8,10 @@
    height: 300px;
    content: '';
    background-color: red;
+   z-index: 100;
 
+}
+.MuiSlider-thumb:hover {
+    box-shadow: none !important;
 }
 

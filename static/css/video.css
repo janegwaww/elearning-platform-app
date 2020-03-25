@@ -17,21 +17,26 @@
 .bottom .el-main {
   padding: 0;
   position: relative;
+  color:#fff;
 }
 .top .el-main {
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: flex-start;
-  padding-top: 2%;
-  color: #fff;
+  box-sizing: border-box;
+  padding:2% 0;
+  
 }
 .top .el-main > div {
   width: 50%;
-  height: 96%;
+  height: 100%;
   -moz-box-flex: 1;
   -webkit-box-flex: 1;
   box-flex: 1;
   text-align: center;
+  
+  box-sizing: border-box;
+  
 }
 .top .el-main > div:first-child div {
   width: 80%;
@@ -45,6 +50,12 @@
 }
 .top .el-main > div:last-child > p {
   margin: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top .el-main > div:last-child > p span,.top .el-main > div:last-child > p svg{
+  margin-left: 20px;
 }
 /* 时间轴 */
 .slider{
@@ -65,6 +76,29 @@
     display: block;
     flex: 1;
     flex-basis: auto;
+    
+}
+/* 编辑区 */
+.video-img{
+  height: 35%;
+}
+.video-image{
+  height: 40px;
+  width:60%;
+  background-color: rgba(126, 123, 123,1);
+  display: flex;
+  align-items: center;
+  
+}
+.video-test{
+  padding-top:10px ;
+}
+.video-test span{
+display:inline-block;
+padding: 5px 10px;
+min-width: 200px;
+margin-right:20px ;
+background-color: rgb(83, 83, 83);
 }
 .clearfix::after {
   content: "\00A0";

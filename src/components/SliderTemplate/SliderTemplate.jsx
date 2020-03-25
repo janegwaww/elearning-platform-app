@@ -12,27 +12,37 @@ const TemplateSlider = withStyles({
         transform: "translateY(-6px)"
     },
     thumb: {
-        width: "8px",
-        height: "8px"
+        width: "9px",
+        height: "9px"
     },
     root: {
-        color: "#fff"
+        color: "#fff",
+        padding:'25px 0 0 0'
+    },
+    markLabel:{
+        top:'-5px',
+        color:'#fff'
+    },
+    active:{
+        boxShadow:'none'
     }
 })(Slider);
 
 const marks = [];
 for (let i = 0; i <= 1000; i += 10) {
-    marks.push({ value: i });
+    if(i%100===0){
+        marks.push({ value: i,label:i });
+    }else{
+        marks.push({ value: i });
+    }
+    
 }
 
 const handleChange = function (e) {
     console.log(e);
 };
-export default class SliderTemplate extends React.Component {
-  
-    render() {
-        return (
-            <TemplateSlider min={0} marks={marks} max={1000} defaultValue={60} step={0.01} valueLabelFormat={handleChange} />
-        );
-    }
-}
+
+const SliderTemplate=()=> <TemplateSlider min={0} marks={marks} max={1000} defaultValue={60} step={0.01} valueLabelFormat={handleChange} />
+
+export default SliderTemplate;
+
