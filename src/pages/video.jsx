@@ -27,7 +27,12 @@ export default class VideoPage extends Component {
     this.getChildrenMsg = this.getChildrenMsg.bind(this);
     this.get_top_inx = this.get_top_inx.bind(this);
   }
-
+  componentDidMount(){
+    this.setState({
+      video_h:document.getElementsByClassName('video')[0].clientHeight
+    })
+    
+  }
   getChildrenMsg(result, msg) {//
     // 子件传参上来
     this.setState({
@@ -64,12 +69,17 @@ export default class VideoPage extends Component {
                   <div><VideoChilden  topInx={this.state.top_inx || 1}/></div>
                 </div>
                 <div>
-                  <div>视频</div>
+                  <div className='video'>
+                 
+                    <video crossOrigin="anonymous"  height={this.state.video_h}>
+                    <source src="http://seeker.haetek.com:9191/static/upload/2020032614143782.mp4" type="video/mp4"></source>
+                    </video>
+                  </div>
                   <p>
                     <SkipPrevious />
                     <PlayArrow />
                     <SkipNext />
-                    <span>00:00:00</span>
+                    <span>00:00:00 // </span>
                   </p>
                 </div>
               </main>

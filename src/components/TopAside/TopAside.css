@@ -1,7 +1,9 @@
-.top-asidel,ul{
+.top-aside,ul{
     list-style: none;
         padding: 0;
+        margin: 0;
 }
+
 li{
     width:60px;
     text-align: center;
