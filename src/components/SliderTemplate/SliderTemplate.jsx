@@ -26,7 +26,7 @@ const TemplateSlider = withStyles({
         color: "#fff",
         padding: '25px 0 0 0',
         width:'98%',
-        margin:'0 auto'
+       
     },
     marked :{
         margin:0,
@@ -87,15 +87,8 @@ class SliderTemplate extends React.Component {
     render() {
         return (
      
-            <TemplateSlider  min={0} max={1000} value={this.state.value} marks={marks} aria-labelledby="continuous-slider"  onChange={this.handleChange} />
-                // <TemplateSlider  
-                //     min={0} 
-                //     max={1000} 
-                //     value={this.state.value} 
-                //      marks={marks}
-                //     aria-labelledby="non-linear-slider"
-                //     getAriaLabel={this.handleChange} 
-                // />
+            <TemplateSlider  min={0} max={1000} value={this.state.value} step={0.01} marks={marks} aria-labelledby="continuous-slider"  onChange={this.handleChange} />
+                
            
         )
     }

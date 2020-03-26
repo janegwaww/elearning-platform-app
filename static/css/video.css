@@ -38,10 +38,10 @@
   box-sizing: border-box;
   
 }
-.top .el-main > div:first-child div {
+.top .el-main > div:first-child>div {
   width: 80%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(94, 93, 93,1);
 }
 .top .el-main > div:last-child > div {
   width: 90%;

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Layout from "../layout";
-
 import SliderTemplate from "../components/SliderTemplate/SliderTemplate";
 import HeaderTemplate from "../components/Header/Header";
 import TopAside from "../components/TopAside/TopAside";
 import BottomAside from "../components/BottomAside/BottomAside";
+import VideoChilden from "../components/VideoChilden/VideoChilden";
 
 import {
   SubdirectoryArrowLeft,
@@ -17,20 +17,28 @@ import {
 import "../../static/css/video.css";
 //import getData from "../../static/js/request";
 
-export default class AboutPage extends Component {
+
+export default class VideoPage extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {};
     //绑定双击事件
     this.double_click = this.double_click.bind(this);
+    this.getChildrenMsg = this.getChildrenMsg.bind(this);
+    this.get_top_inx = this.get_top_inx.bind(this);
   }
 
-  getChildrenMsg(result, msg) {
+  getChildrenMsg(result, msg) {//
     // 子件传参上来
     this.setState({
       value: msg
     });
+  }
+  get_top_inx(result,value){
+   
+    this.setState({
+      top_inx:value
+    })
   }
 
   double_click(el) {
@@ -49,11 +57,11 @@ export default class AboutPage extends Component {
           <main className="el-main top">
             <section className="el-container">
               <aside className="el-aside">
-                <TopAside />
+                <TopAside  parent={this} />
               </aside>
               <main className="el-main">
                 <div>
-                  <div>上传文件</div>
+                  <div><VideoChilden  topInx={this.state.top_inx || 1}/></div>
                 </div>
                 <div>
                   <div>视频</div>
