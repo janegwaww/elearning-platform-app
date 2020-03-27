@@ -112,5 +112,12 @@
     - 配置路径校验
     - 使用gatsby插件
 
+*** 封装接口
+    - 设计模式[[https://addyosmani.com/resources/essentialjsdesignpatterns/book/#facadepatternjavascript][Facade]] [[https://addyosmani.com/resources/essentialjsdesignpatterns/book/#factorypatternjavascript][Factory]]
+    - 代码结构
+
+*** 添加单元测试
+    - Unit Testing
+
 *** 其他功能待完善...
 
