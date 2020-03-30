@@ -7,12 +7,21 @@
 }
 .add-folder section{
     text-align: center;
+    position: relative;
+}
+.add-folder section ul{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #fff;
+    color: #333;
 }
 .add-folder div{
     padding: 10px ;
     background-color: rgb(51, 50, 50);
     border-radius: 4px;
     margin-left:10px;
+    
 }
 .add-folder p{
     margin: 4px 0;
@@ -25,3 +34,4 @@
     text-align: center;
     background-color: rgb(80, 80, 80);
 }
+
