@@ -15,6 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "../Drawer/Drawer";
+import { getUser, isLoggedIn, logout } from "../../services/auth";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -121,8 +123,28 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {isLoggedIn() ? (
+        <>
+          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem
+            onClick={e => {
+              e.preventDefault();
+              logout(() => navigate(`/users/login`));
+            }}
+          >
+            Logout
+          </MenuItem>
+        </>
+      ) : (
+        <MenuItem
+          onClick={e => {
+            e.preventDefault();
+            navigate(`/users/login`);
+          }}
+        >
+          LogIn
+        </MenuItem>
+      )}
     </Menu>
   );
 
