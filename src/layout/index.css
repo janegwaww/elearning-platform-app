@@ -19,7 +19,7 @@ body {
 }
 
 .layout-container {
-  min-height: 100vh;
+  min-height: 90vh;
   min-width: 100vw;
   display: flex;
   padding: 20px;
