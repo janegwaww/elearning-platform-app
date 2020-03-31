@@ -6,7 +6,7 @@ import TopAside from "../components/TopAside/TopAside";
 import BottomAside from "../components/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
 import {Dialog, Button,DialogTitle,Snackbar,IconButton} from "@material-ui/core";
-
+import MuiAlert from '@material-ui/lab/Alert';
 import { withStyles } from "@material-ui/core/styles";
 import {
   SubdirectoryArrowLeft,
@@ -210,22 +210,20 @@ export default class VideoPage extends Component {
             }  
         }
         getData("video/subtitle", r_data, "post").then(res => {
-
-         
           handleClose();
           _this.setState({
                the_current:_the_data,
                video_data:_video_data,
-               is_suc:"修改成功"
+               is_suc:"suc"
              })
              setTimeout(()=>{_this.setState({is_suc:''})},3000)
         
         }).catch(err=>{
           _this.setState({
-            is_suc:"修改失败"
+            is_suc:"err"
           })
           setTimeout(()=>{_this.setState({is_suc:''})},3000)
-          console.log(err)
+          handleClose();
         })
        
     }
@@ -349,8 +347,6 @@ export default class VideoPage extends Component {
                         <Button onClick={handleServer} variant="contained" color="primary">保存</Button>
                        
                  </NewDialog>
-
-
                  <Snackbar
                   anchorOrigin={{
                    vertical: 'top',
@@ -360,6 +356,7 @@ export default class VideoPage extends Component {
                  autoHideDuration={3000}
                  message={_this.state.is_suc}
                > 
+               <MuiAlert  severity={_this.state.is_suc=='suc'?'success':'error'}>{_this.state.is_suc=='suc'?'修改成功':'修改失败'}</MuiAlert>
              </Snackbar>
                
                 </div>

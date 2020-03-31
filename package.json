@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.47",
     "axios": "^0.19.2",
     "element-theme-default": "^1.4.13",
     "gatsby": "^2.19.12",
