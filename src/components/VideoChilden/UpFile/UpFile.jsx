@@ -23,11 +23,9 @@ export default class UpFile extends Component {
     };
   }
   oncon(el) {
-    
     el.preventDefault();
     let _id = parseInt(el.target.dataset.id);
     let _data = this.state.file_pack;
-   
     if (_id > 2) {
       for (let i = 0; i < _data.length; i++) {
         if (_data[i].id === _id) {
@@ -50,7 +48,6 @@ export default class UpFile extends Component {
           _newData.push(_data[i]);
         }
       }
-      
       this.setState({
         file_pack: _newData
       });

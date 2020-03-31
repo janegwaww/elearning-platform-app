@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import "./Header.css";
 import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+
+const NewBtn = withStyles({
+  root:{
+    backgroundColor:'rgba(0, 0 , 0, 0.6)',
+    color:'#fff',
+    'border-radius':'18px'
+  }
+})(Button)
 
 export default class Header extends Component {
   render() {
@@ -17,7 +26,7 @@ export default class Header extends Component {
         </div>
         <div>
           <div>
-            <Button variant="contained">上传视频</Button>
+            <NewBtn variant="contained">上传视频</NewBtn>
           </div>
           <div>登录</div>
         </div>

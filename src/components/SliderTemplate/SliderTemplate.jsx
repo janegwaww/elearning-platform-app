@@ -25,8 +25,8 @@ const TemplateSlider = withStyles({
       backgroundColor: "red",
       zIndex: 100
     },
-    "&:hover":{
-        boxShadow: 'none'
+    "&:hover": {
+      boxShadow: "none"
     }
   },
   root: {
@@ -49,27 +49,20 @@ const TemplateSlider = withStyles({
   }
 })(Slider);
 
-const marks = [];
-for (let i = 0; i <= 1000; i += 10) {
-  if (i % 100 === 0) {
-    marks.push({ value: i, label: i });
-  } else {
-    marks.push({ value: i });
-  }
-}
-
 class SliderTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value
+      value: 0,
+      leng: props.length
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: nextProps.value
+      value: nextProps.value,
+      leng: nextProps.length
     });
     return true;
   }
@@ -87,13 +80,27 @@ class SliderTemplate extends React.Component {
     this.props.parent.getChildrenMsg(this, newValue);
   }
   render() {
+    let _this = this;
+    const marks = function(value) {
+      let marks = [];
+      if (value > 0) {
+        for (let i = 0; i <= value; i += 10) {
+          if (i % 100 === 0) {
+            marks.push({ value: i, label: i });
+          } else {
+            marks.push({ value: i });
+          }
+        }
+      }
+      return marks;
+    };
     return (
       <TemplateSlider
         min={0}
-        max={1000}
+        max={this.state.leng}
         value={this.state.value}
         step={0.01}
-        marks={marks}
+        marks={marks(this.state.leng)}
         aria-labelledby="continuous-slider"
         onChange={this.handleChange}
       />

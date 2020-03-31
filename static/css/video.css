@@ -58,6 +58,10 @@
   position: relative;
   overflow: hidden;
 }
+.subtitles{
+  position: absolute;
+  bottom: 5px;
+}
 .top .el-main > div:last-child > div video{
   width: 100%;
   object-fit:fill;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 const _path = __dirname;
-const request_url = 'http://seeker.haetek.com:9191/'
+const request_url ='http://seeker.haetek.com:9191/';//'http://seeker.haetek.com:9191/';//http://192.168.0.180:9191/'
 
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 10000;
 const get_data= function(url,data,method,header){
 
     return new Promise(function(resolve, reject) {

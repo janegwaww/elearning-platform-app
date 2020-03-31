@@ -21,8 +21,9 @@ body {
 
 .layout-container {
   min-height: 100vh;
-  min-width: 100vw;
+  /* min-width: 100vw; */
   display: flex;
+  min-width:1000px;
 }
 /* 布局 */
 .el-container{
