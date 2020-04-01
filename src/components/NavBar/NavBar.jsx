@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { navigate } from "@reach/router";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,7 +17,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "../Drawer/Drawer";
 import { getUser, isLoggedIn, logout } from "../../services/auth";
-import { navigate } from "@reach/router";
 
 const useStyles = makeStyles(theme => ({
   grow: {
