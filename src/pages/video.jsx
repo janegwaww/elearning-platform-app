@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Layout from "../layout";
 import SliderTemplate from "../components/SliderTemplate/SliderTemplate";
-import HeaderTemplate from "../components/Header/Header";
+import HeaderTemplate from "../components/Header1/Header1";
 import TopAside from "../components/TopAside/TopAside";
 import BottomAside from "../components/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
@@ -228,7 +228,7 @@ export default class VideoPage extends Component {
        
     }
     return (
-      <Layout>
+      
         <div className="el-container is-vertical">
           <header className="el-header">
             <HeaderTemplate />
@@ -364,7 +364,7 @@ export default class VideoPage extends Component {
             </section>
           </footer>
         </div>
-      </Layout>
+      
     );
   }
 }

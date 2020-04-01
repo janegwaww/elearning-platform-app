@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 import React, { Component } from "react";
-import "./Header.css";
+import "./Header1.css";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -35,12 +34,3 @@ export default class Header extends Component {
     );
   }
 }
-=======
-import React from "react";
-
-const Header = ({ siteTitle }) => {
-  return <div>{siteTitle || "Header"}</div>;
-};
-
-export default Header;
->>>>>>> origin/develop
