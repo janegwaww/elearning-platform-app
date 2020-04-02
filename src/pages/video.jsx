@@ -5,8 +5,15 @@ import HeaderTemplate from "../components/Header1/Header1";
 import TopAside from "../components/TopAside/TopAside";
 import BottomAside from "../components/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
-import {Dialog, Button,DialogTitle,Snackbar,IconButton} from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+
+import {
+  Dialog,
+  Button,
+  DialogTitle,
+  Snackbar,
+  IconButton
+} from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/core/styles";
 import {
   SubdirectoryArrowLeft,
@@ -15,12 +22,11 @@ import {
   SkipNext,
   SkipPrevious,
   PlayArrow,
-  Pause,
- 
+  Pause
 } from "@material-ui/icons";
 import "../../static/css/video.css";
 import getData from "../../static/js/request";
-// import FormData from "C:/Users/chen-web/AppData/Local/Microsoft/TypeScript/3.8/node_modules/form-data/index";
+
 const NewDialog = withStyles({
   paperWidthSm: {
     "max-width": "none"
@@ -31,10 +37,10 @@ const NewDialog = withStyles({
   }
 })(Dialog);
 const NewDialogTitle = withStyles({
-  root:{
-    padding:0
+  root: {
+    padding: 0
   }
-})(DialogTitle)
+})(DialogTitle);
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
@@ -43,19 +49,22 @@ export default class VideoPage extends Component {
       the_current: {}, //当前字幕
       status: false, //播放状态
       edi_show: false, //是否调起修改当前字幕弹窗
-      is_suc : ''
+      is_suc: ""
     };
     this.video_live = null;
     //绑定双击事件
     this.getChildrenMsg = this.getChildrenMsg.bind(this);
     this.get_top_inx = this.get_top_inx.bind(this);
+    this.getUpfileUrl= this.getUpfileUrl.bind(this);
   }
   componentDidMount() {
     this.setState({
       video_h: document.getElementsByClassName("video")[0].clientHeight
     });
+    document.getElementsByClassName('max-box')[0].style.height = document.getElementById('gatsby-focus-wrapper').clientHeight+'px';
     this.get_data();
   }
+
   componentWillReceiveProps(nextState) {
     return true;
   }
@@ -66,7 +75,6 @@ export default class VideoPage extends Component {
     //请求数据
     let video_data,
       _this = this;
-
     let _data = (_data = {
       model_action: "search",
       query_string: "",
@@ -85,6 +93,17 @@ export default class VideoPage extends Component {
         video_data: _data
       });
     });
+  }
+  getUpfileUrl(res){
+    console.log('video',res)
+    this.setState({
+      video_data:{
+        _path:res.video_path
+      }
+    })
+    this.video_live.load();
+    this.video_live.play();
+
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
@@ -167,204 +186,245 @@ export default class VideoPage extends Component {
     };
     const double_click = function(el) {
       // 双击修改字幕
-    
+
       el.preventDefault();
       _this.setState({
-        lu: el.target.dataset.lu,//修改语言
-        sub_inx: parseFloat(el.target.dataset.inx)//修改条目
+        lu: el.target.dataset.lu, //修改语言
+        sub_inx: parseFloat(el.target.dataset.inx) //修改条目
       });
       on_pause();
       handleOpen();
     };
-    const handleClose = function() {//取消编辑
-     
+    const handleClose = function() {
+      //取消编辑
+
       _this.setState({
         edi_show: false
       });
     };
-    const handleOpen = function() {//打开编辑
-     
+    const handleOpen = function() {
+      //打开编辑
+
       _this.setState({
         edi_show: true
       });
     };
-    const handleServer=function(){//保存编辑
-      let _the_data = _this.state.the_current,//当前，
-          _video_data = _this.state.video_data,//所有
-          _lu = _this.state.lu,
-          _inx = _this.state.sub_inx;
-      let _v = document.querySelector('#newTest').value;
-        if(_lu=='zh'){
-          _the_data.zh = _v;
-          _video_data.sub_josn[_inx].cn_sub=_v;
-        }else{
-          _the_data.en = _v;
-          _video_data.sub_josn[_inx].en_sub = _v;
+    const handleServer = function() {
+      //保存编辑
+      let _the_data = _this.state.the_current, //当前，
+        _video_data = _this.state.video_data, //所有
+        _lu = _this.state.lu,
+        _inx = _this.state.sub_inx;
+      let _v = document.querySelector("#newTest").value;
+      if (_lu == "zh") {
+        _the_data.zh = _v;
+        _video_data.sub_josn[_inx].cn_sub = _v;
+      } else {
+        _the_data.en = _v;
+        _video_data.sub_josn[_inx].en_sub = _v;
+      }
+      let r_data = {
+        model_action: "update",
+        extra_data: {
+          subtitling: _video_data.sub_josn,
+          task_id: _video_data.video_data.video_id, // task_id,
+          lang: "en"
         }
-        let r_data = {
-            "model_action": "update",
-            "extra_data": {
-            "subtitling": _video_data.sub_josn,
-            "task_id": _video_data.video_data.video_id,// task_id,
-            "lang":'en'
-            }  
-        }
-        getData("video/subtitle", r_data, "post").then(res => {
+      };
+      getData("video/subtitle", r_data, "post")
+        .then(res => {
           handleClose();
           _this.setState({
-               the_current:_the_data,
-               video_data:_video_data,
-               is_suc:"suc"
-             })
-             setTimeout(()=>{_this.setState({is_suc:''})},3000)
-        
-        }).catch(err=>{
-          _this.setState({
-            is_suc:"err"
-          })
-          setTimeout(()=>{_this.setState({is_suc:''})},3000)
-          handleClose();
+            the_current: _the_data,
+            video_data: _video_data,
+            is_suc: "suc"
+          });
+          setTimeout(() => {
+            _this.setState({ is_suc: "" });
+          }, 3000);
         })
-       
-    }
+        .catch(err => {
+          _this.setState({
+            is_suc: "err"
+          });
+          setTimeout(() => {
+            _this.setState({ is_suc: "" });
+          }, 3000);
+          handleClose();
+        });
+    };
     return (
-      
-        <div className="el-container is-vertical">
-          <header className="el-header">
-            <HeaderTemplate />
-          </header>
-          <main className="el-main top">
-            <section className="el-container">
-              <aside className="el-aside">
-                <TopAside parent={this} />
-              </aside>
-              <main className="el-main">
-                <div>
-                  <div>
-                    <VideoChilden topInx={this.state.top_inx || 1} />
-                  </div>
-                </div>
-                <div>
-                  <div className="video">
-                    <video
-                      poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
-                      height={this.state.video_h}
-                      ref={node => (this.video_live = node)}
-                      onTimeUpdate={time_date}
-                      onEnded={on_end}
-                    >
-                      <source
-                        src={
-                          "http://seeker.haetek.com:9191/" + video_data._path
-                        }
-                      ></source>
-                    </video>
-                    <div className="video-test subtitles">
-                      <p>
-                        <span data-lu="zh" onDoubleClick={double_click} data-inx={_this.state.the_current.inx}>
-                          {_this.state.the_current ? _this.state.the_current.zh : ""}
-                        </span>
-                      </p>
-                      <p>
-                        <span data-lu="en" onDoubleClick={double_click} data-inx={_this.state.the_current.inx}>
-                        {_this.state.the_current? _this.state.the_current.en: ""}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  <p>
-                    <span>
-                      <SkipPrevious />
-
-                      {this.state.status ? (
-                        <Pause onClick={on_pause} />
-                      ) : (
-                        <PlayArrow onClick={on_ply} />
-                      )}
-
-                      <SkipNext />
-                    </span>
-                    <span>
-                      {_this.state.the_current
-                        ? _this.state.the_current.time
-                        : 0}
-                      /
-                      {_this.state.the_current
-                        ? _this.state.the_current.video_len
-                        : 0}
-                    </span>
-                  </p>
-                </div>
-              </main>
-            </section>
-          </main>
-          <div className="slider">
-            <div className="left">
+      <div className="el-container is-vertical max-box">
+        <header className="el-header">
+          <HeaderTemplate />
+        </header>
+        <main className="el-main top">
+          <section className="el-container">
+            <aside className="el-aside">
+              <TopAside parent={this} />
+            </aside>
+            <main className="el-main">
               <div>
-                <SubdirectoryArrowLeft />
+                <div>
+                  <VideoChilden topInx={this.state.top_inx || 1} parent={this} />
+                </div>
               </div>
               <div>
-                <SubdirectoryArrowRight />
+                <div className="video">
+                  <video
+                    poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
+                    height={this.state.video_h}
+                    ref={node => (this.video_live = node)}
+                    onTimeUpdate={time_date}
+                    onEnded={on_end}
+                  >
+                    <source
+                      src={"http://seeker.haetek.com:9191/" + video_data._path}
+                    ></source>
+                  </video>
+                  <div className="video-test subtitles">
+                    <p>
+                      <span
+                        data-lu="zh"
+                        onDoubleClick={double_click}
+                        data-inx={_this.state.the_current.inx}
+                      >
+                        {_this.state.the_current
+                          ? _this.state.the_current.zh
+                          : ""}
+                      </span>
+                    </p>
+                    <p>
+                      <span
+                        data-lu="en"
+                        onDoubleClick={double_click}
+                        data-inx={_this.state.the_current.inx}
+                      >
+                        {_this.state.the_current
+                          ? _this.state.the_current.en
+                          : ""}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <p>
+                  <span>
+                    <SkipPrevious />
+
+                    {this.state.status ? (
+                      <Pause onClick={on_pause} />
+                    ) : (
+                      <PlayArrow onClick={on_ply} />
+                    )}
+
+                    <SkipNext />
+                  </span>
+                  <span>
+                    {_this.state.the_current ? _this.state.the_current.time : 0}
+                    /
+                    {_this.state.the_current
+                      ? _this.state.the_current.video_len
+                      : 0}
+                  </span>
+                </p>
               </div>
+            </main>
+          </section>
+        </main>
+        <div className="slider">
+          <div className="left">
+            <div>
+              <SubdirectoryArrowLeft />
             </div>
-            <div className="right">
-              <SliderTemplate
-                value={this.state.the_current.time || 0}
-                parent={this}
-                length={
-                  this.state.the_current ? this.state.the_current.video_len : 0
-                }
-              />
+            <div>
+              <SubdirectoryArrowRight />
             </div>
           </div>
-          <footer className="el-footer bottom clearfix">
-            <section className="el-container">
-              <aside className="el-aside">
-                <BottomAside />
-              </aside>
-              <main className="el-main">
-                <div className="video-img">图片</div>
-                <div className="video-image">
-                  <Image />
-                </div>
-                <div className="video-test">
-                  <p>
-                    <span data-lu="zh" onDoubleClick={double_click} data-inx={_this.state.the_current.inx}>
-                      {_this.state.the_current ? _this.state.the_current.zh : ""}
-                    </span>
-                  </p>
-                  <p>
-                    <span data-lu="en" onDoubleClick={double_click} data-inx={_this.state.the_current.inx}>
-                     {_this.state.the_current? _this.state.the_current.en: ""}
-                    </span>
-                  </p>
-                 <NewDialog  onClose={handleClose} open={_this.state.edi_show}>
-                      <NewDialogTitle>编辑当前字幕</NewDialogTitle>
-                      <form action="">
-                        <textarea name="newTest" id="newTest" defaultValue={_this.state.lu=='zh'?_this.state.the_current.zh:_this.state.the_current.en}  cols="50" rows="5"></textarea>
-                      </form>
-                        <Button variant="contained" onClick={handleClose}>取消</Button>
-                        <Button onClick={handleServer} variant="contained" color="primary">保存</Button>
-                       
-                 </NewDialog>
-                 <Snackbar
-                  anchorOrigin={{
-                   vertical: 'top',
-                   horizontal: 'center',
-                 }}
-                 open={_this.state.is_suc?true:false}
-                 autoHideDuration={3000}
-                 message={_this.state.is_suc}
-               > 
-               <MuiAlert  severity={_this.state.is_suc=='suc'?'success':'error'}>{_this.state.is_suc=='suc'?'修改成功':'修改失败'}</MuiAlert>
-             </Snackbar>
-               
-                </div>
-              </main>
-            </section>
-          </footer>
+          <div className="right">
+            <SliderTemplate
+              value={this.state.the_current.time || 0}
+              parent={this}
+              length={
+                this.state.the_current ? this.state.the_current.video_len : 0
+              }
+            />
+          </div>
         </div>
-      
+        <footer className="el-footer bottom">
+          <section className="el-container">
+            <aside className="el-aside">
+              <BottomAside />
+            </aside>
+            <main className="el-main">
+              <div className="video-img">图片</div>
+              <div className="video-image">
+                <Image />
+              </div>
+              <div className="video-test">
+                <p>
+                  <span
+                    data-lu="zh"
+                    onDoubleClick={double_click}
+                    data-inx={_this.state.the_current.inx}
+                  >
+                    {_this.state.the_current ? _this.state.the_current.zh : ""}
+                  </span>
+                </p>
+                <p>
+                  <span
+                    data-lu="en"
+                    onDoubleClick={double_click}
+                    data-inx={_this.state.the_current.inx}
+                  >
+                    {_this.state.the_current ? _this.state.the_current.en : ""}
+                  </span>
+                </p>
+                <NewDialog onClose={handleClose} open={_this.state.edi_show}>
+                  <NewDialogTitle>编辑当前字幕</NewDialogTitle>
+                  <form action="">
+                    <textarea
+                      name="newTest"
+                      id="newTest"
+                      defaultValue={
+                        _this.state.lu == "zh"
+                          ? _this.state.the_current.zh
+                          : _this.state.the_current.en
+                      }
+                      cols="50"
+                      rows="5"
+                    ></textarea>
+                  </form>
+                  <Button variant="contained" onClick={handleClose}>
+                    取消
+                  </Button>
+                  <Button
+                    onClick={handleServer}
+                    variant="contained"
+                    color="primary"
+                  >
+                    保存
+                  </Button>
+                </NewDialog>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={_this.state.is_suc ? true : false}
+                  autoHideDuration={3000}
+                  message={_this.state.is_suc}
+                >
+                  <MuiAlert
+                    severity={_this.state.is_suc == "suc" ? "success" : "error"}
+                  >
+                    {_this.state.is_suc == "suc" ? "修改成功" : "修改失败"}
+                  </MuiAlert>
+                </Snackbar>
+              </div>
+            </main>
+          </section>
+        </footer>
+      </div>
     );
   }
 }

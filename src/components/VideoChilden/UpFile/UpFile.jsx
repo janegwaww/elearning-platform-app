@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { Add, Minimize,PersonIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
+import Uploader from '../Uploader/Uploader';
 import "./UpFile.css";
 
  
 
 export default class UpFile extends Component {
-  constructor(porps) {
-    super(porps);
+  constructor(props) {
+    super(props);
     this.file_pack = React.createRef();
     this.create_file = this.create_file.bind(this);
     this.theElement = this.theElement.bind(this);
     this.del_file_pack = this.del_file_pack.bind(this);
     this.oncon = this.oncon.bind(this);
-    this.on_close=this.on_close.bind(this)
+    this.on_close=this.on_close.bind(this);
+    this.upFile_get_url=this.upFile_get_url.bind(this);
     this.state = {
       file_pack: [
         { id: 1, name: "新建文件夹" ,open:false},
@@ -83,6 +85,11 @@ export default class UpFile extends Component {
       </ul>)
     }
   }
+  upFile_get_url(res){
+   
+    this.props.parent.get_url(res)
+   
+  }
 
 
   theElement(item) {
@@ -120,6 +127,9 @@ export default class UpFile extends Component {
           {this.state.file_pack.map((item, index) => {
             return this.theElement(item);
           })}
+        </div>
+        <br />
+        <div><Uploader parent={this} />
         </div>
         
       </div>

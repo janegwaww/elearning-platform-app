@@ -1,13 +1,66 @@
-.el-main.top{
-    height: 60%;
+/* 布局 */
+.el-container {
+  width: 100%;
+ 
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.el-aside {
+  overflow: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+}
+.el-header {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.max-box{
+  min-width: 1000px;
+}
+.el-main {
+  display: block;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  overflow: auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.el-container.is-vertical {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.el-main.top {
+  height: 60%;
 }
 .el-footer.bottom {
   height: 40%;
- 
 }
-.el-main.top,.el-footer.bottom{
-    position: relative;
-    padding: 0;
+.el-main.top,
+.el-footer.bottom {
+  position: relative;
 }
 .top .el-container,
 .bottom .el-container {
@@ -15,56 +68,53 @@
 }
 .top .el-main,
 .bottom .el-main {
-  padding: 0;
   position: relative;
-  color:#fff;
+  color: #fff;
 }
 .top .el-main {
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: flex-start;
   box-sizing: border-box;
-  padding:1.5% 0;
-  
+  padding: 1.5% 0;
 }
-.top .el-aside{
+.top .el-aside {
   padding: 1.5% 0;
 }
 .top .el-main > div {
-  
   height: 100%;
   text-align: center;
   box-sizing: border-box;
 }
-.top .el-main > div:first-child{
-  width:35%;
+.top .el-main > div:first-child {
+  width: 35%;
 }
-.top .el-main > div:last-child{
-  width:65%;
+.top .el-main > div:last-child {
+  width: 65%;
 }
 
-.top .el-main > div:first-child>div {
+.top .el-main > div:first-child > div {
   width: 100%;
   height: 100%;
-  background-color: rgba(94, 93, 93,1);
-  border-radius:0 8px 8px 0;
+  background-color: rgba(94, 93, 93, 1);
+  border-radius: 0 8px 8px 0;
 }
 .top .el-main > div:last-child > div {
   width: 80%;
   height: 95%;
-  border-radius:8px ;
+  border-radius: 8px;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.8);
   position: relative;
   overflow: hidden;
 }
-.subtitles{
+.subtitles {
   position: absolute;
   bottom: 5px;
 }
-.top .el-main > div:last-child > div video{
+.top .el-main > div:last-child > div video {
   width: 100%;
-  object-fit:fill;
+  object-fit: fill;
 }
 .top .el-main > div:last-child > p {
   margin: 4px 0;
@@ -72,74 +122,63 @@
   align-items: center;
   justify-content: center;
 }
-.top .el-main > div:last-child > p{
+.top .el-main > div:last-child > p {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.top .el-main > div:last-child > p span{
+.top .el-main > div:last-child > p span {
   flex: 1;
   text-align: center;
   display: inline-block;
-  width:50%;
+  width: 50%;
 }
-.top .el-main > div:last-child > p svg{
+.top .el-main > div:last-child > p svg {
   margin-left: 20px;
 }
 /* 时间轴 */
-.slider{
-  
+.slider {
   background-color: rgb(105, 105, 105);
   width: 100%;
   height: 30px;
   display: flex;
-  color:#fff;
+  color: #fff;
 }
-.slider .left{
-    width:60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.slider .left {
+  width: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.slider .right{
-    display: block;
-    flex: 1;
-    flex-basis: auto;
-    
+.slider .right {
+  display: block;
+  flex: 1;
+  flex-basis: auto;
 }
 /* 编辑区 */
-.video-img{
+.video-img {
   height: 35%;
-
 }
-.video-image{
+.video-image {
   height: 40px;
-  width:60%;
-  background-color: rgba(126, 123, 123,1);
+  width: 60%;
+  background-color: rgba(126, 123, 123, 1);
   display: flex;
   align-items: center;
-  
 }
-.video-test{
-  padding-top:10px ;
+.video-test {
+  padding-top: 10px;
 }
-.video-test span{
-display:inline-block;
-padding: 5px 10px;
-min-width: 110px;
-margin-right:20px ;
-background-color: rgb(83, 83, 83);
+.video-test span {
+  display: inline-block;
+  padding: 5px 10px;
+  min-width: 110px;
+  margin-right: 20px;
+  background-color: rgb(83, 83, 83);
 }
-.video-test span:hover{
+.video-test span:hover {
   cursor: pointer;
 }
-
-
-
-
-
-
-
 
 .clearfix::after {
   content: "\00A0";

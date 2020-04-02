@@ -7,10 +7,15 @@ export default class VideoChilden extends Component {
     this.state = {
       inx: props.topInx
     };
+    this.get_url= this.get_url.bind(this);
+  }
+  get_url(res){
+    console.log(res)
+    this.props.parent.getUpfileUrl(res)
   }
   returnComponets(num) {
     if (num === 1) {
-      return <UpFile />;
+      return <UpFile parent={this} />;
     } else if (num === 2) {
       return <div>文本test</div>;
     } else if (num === 3) {

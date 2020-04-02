@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Header1.css";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import {Link} from 'react-router-dom'
 
 const NewBtn = withStyles({
   root:{
@@ -28,7 +29,9 @@ export default class Header extends Component {
           <div>
             <NewBtn variant="contained">上传视频</NewBtn>
           </div>
-          <div>登录</div>
+          <div>
+                登录
+          </div>
         </div>
       </header>
     );
