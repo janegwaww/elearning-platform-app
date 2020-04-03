@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UpFile from "./UpFile/UpFile";
+import Uploader from './Uploader/Uploader';
 
 export default class VideoChilden extends Component {
   constructor(props) {
@@ -10,12 +11,11 @@ export default class VideoChilden extends Component {
     this.get_url= this.get_url.bind(this);
   }
   get_url(res){
-    console.log(res)
     this.props.parent.getUpfileUrl(res)
   }
   returnComponets(num) {
     if (num === 1) {
-      return <UpFile parent={this} />;
+      return   <Uploader parent={this} />  //<UpFile parent={this} />;
     } else if (num === 2) {
       return <div>文本test</div>;
     } else if (num === 3) {

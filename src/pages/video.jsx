@@ -24,8 +24,8 @@ import {
   PlayArrow,
   Pause
 } from "@material-ui/icons";
-import "../../static/css/video.css";
-import getData from "../../static/js/request";
+import "../assets/css/video.css";
+import getData from "../assets/js/request";
 
 const NewDialog = withStyles({
   paperWidthSm: {
@@ -95,7 +95,7 @@ export default class VideoPage extends Component {
     });
   }
   getUpfileUrl(res){
-    console.log('video',res)
+   
     this.setState({
       video_data:{
         _path:res.video_path

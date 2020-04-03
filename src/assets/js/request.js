@@ -4,7 +4,6 @@ const request_url ='http://seeker.haetek.com:9191/';//'http://seeker.haetek.com:
 
 axios.defaults.timeout = 10000;
 const get_data= function(url,data,method,header){
-
     return new Promise(function(resolve, reject) {
         axios({
             url:request_url+url,
