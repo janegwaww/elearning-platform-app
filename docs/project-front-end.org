@@ -34,7 +34,9 @@
 * 需求
 
 ** 需求树
-    [[./k-engine.png]]
+   #+ATTR_ORG: :width 200/250/300/400/500/600
+   #+ATTR_MD: :width 200/250/300/400/500/600
+   [[file:./k-engine.png]]
 
 ** 页面设计
    [[https://lanhuapp.com/web/#/item/project/board?pid=47bee535-8720-48ed-ab4f-30c5e6b779e0]]
@@ -84,6 +86,7 @@
 ** 技术选型
 
    - 框架用 [[https://reactjs.org/][react]]
+   - 超类用typescript
    - 用 [[https://www.gatsbyjs.org/][gatsby]]快速构建方案
    - 用 [[https://www.gatsbyjs.org/starters/Vagr9K/gatsby-advanced-starter/][gatsby-advanced-start]]快速开始方案
    - 前后端交互用 [[https://restfulapi.net/][restAPI]]
@@ -104,7 +107,7 @@
     - 页面的编写
 
 *** 前端登录解决方案
-    前端登录，三方登录用 [[http://www.passportjs.org/][passportjs]]
+    前端登录，三方登录用
     包含：微博，微信，QQ
 
 *** 客户路由和用户认证
@@ -118,6 +121,13 @@
 
 *** 添加单元测试
     - Unit Testing
+    - Test framwork: JestJS
+    - components test, page test.
 
-*** 其他功能待完善...
-
+*** 编辑视频技术设计
+    - 后台：python, ffmpeg, socket.io
+    - 前台：react, redux, typescript, socket.io
+    - 大概结构图
+      #+ATTR_ORG: :width 200/250/300/400/500/600
+      #+ATTR_MD: :width 200/250/300/400/500/600
+      [[file:./videoeditedesign.png]]
