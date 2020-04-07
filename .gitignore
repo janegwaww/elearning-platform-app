@@ -61,3 +61,7 @@ public.zip
 
 # Bundle stats
 bundle-stats.json
+
+#docs
+docs/*.md
+.DS_Store

@@ -76,6 +76,7 @@ module.exports = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-material-ui",
     "gatsby-plugin-sass",
+    "gatsby-plugin-typescript",
     {
       resolve: "gatsby-plugin-manifest",
       options: {
