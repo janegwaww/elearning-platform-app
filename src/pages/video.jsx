@@ -55,13 +55,14 @@ export default class VideoPage extends Component {
     //绑定双击事件
     this.getChildrenMsg = this.getChildrenMsg.bind(this);
     this.get_top_inx = this.get_top_inx.bind(this);
-    this.getUpfileUrl= this.getUpfileUrl.bind(this);
+    this.getUpfileUrl = this.getUpfileUrl.bind(this);
   }
   componentDidMount() {
     this.setState({
       video_h: document.getElementsByClassName("video")[0].clientHeight
     });
-    document.getElementsByClassName('max-box')[0].style.height = document.getElementById('gatsby-focus-wrapper').clientHeight+'px';
+    document.getElementsByClassName("max-box")[0].style.height =
+      document.getElementById("gatsby-focus-wrapper").clientHeight + "px";
     this.get_data();
   }
 
@@ -94,16 +95,23 @@ export default class VideoPage extends Component {
       });
     });
   }
-  getUpfileUrl(res){
-   
-    this.setState({
-      video_data:{
-        _path:res.video_path
-      }
-    })
+  getUpfileUrl(res) {
+    if (res.subtitling) {
+      this.setState({
+        video_data: {
+          sub_josn: res.subtitling,
+          _path: res.video_path
+        }
+      });
+    } else {
+      this.setState({
+        video_data: {
+          _path: res.video_path
+        }
+      });
+    }
     this.video_live.load();
-    this.video_live.play();
-
+    // this.video_live.play();
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
@@ -156,6 +164,7 @@ export default class VideoPage extends Component {
     const _this = this;
     const { video_data } = this.state;
     const on_ply = function() {
+      console.log(_this.state);
       //播放
       if (!_this.state.video_data._path) {
         return;
@@ -215,6 +224,7 @@ export default class VideoPage extends Component {
         _video_data = _this.state.video_data, //所有
         _lu = _this.state.lu,
         _inx = _this.state.sub_inx;
+
       let _v = document.querySelector("#newTest").value;
       if (_lu == "zh") {
         _the_data.zh = _v;
@@ -266,7 +276,10 @@ export default class VideoPage extends Component {
             <main className="el-main">
               <div>
                 <div>
-                  <VideoChilden topInx={this.state.top_inx || 1} parent={this} />
+                  <VideoChilden
+                    topInx={this.state.top_inx || 1}
+                    parent={this}
+                  />
                 </div>
               </div>
               <div>
