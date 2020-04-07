@@ -26,6 +26,7 @@ import {
 } from "@material-ui/icons";
 import "../assets/css/video.css";
 import getData from "../assets/js/request";
+import dateConversion from '../assets/js/dateConversion';
 
 const NewDialog = withStyles({
   paperWidthSm: {
@@ -76,12 +77,12 @@ export default class VideoPage extends Component {
     //请求数据
     let video_data,
       _this = this;
-    let _data = (_data = {
+    let _data =  {
       model_action: "search",
       query_string: "",
       type: "global",
       video_ids: []
-    });
+    };
     getData("videos", _data, "post").then(res => {
       video_data = res.result_data[0];
       let _data = {
@@ -164,7 +165,7 @@ export default class VideoPage extends Component {
     const _this = this;
     const { video_data } = this.state;
     const on_ply = function() {
-      console.log(_this.state);
+     
       //播放
       if (!_this.state.video_data._path) {
         return;
@@ -188,6 +189,7 @@ export default class VideoPage extends Component {
       //实时播放时间
       let time = el.target.currentTime;
       _this.sub_test(time);
+      
     };
     const on_end = function() {
       //播放结束
@@ -295,6 +297,7 @@ export default class VideoPage extends Component {
                       src={"http://seeker.haetek.com:9191/" + video_data._path}
                     ></source>
                   </video>
+                  {_this.state.the_current.zh?(
                   <div className="video-test subtitles">
                     <p>
                       <span
@@ -318,7 +321,7 @@ export default class VideoPage extends Component {
                           : ""}
                       </span>
                     </p>
-                  </div>
+                  </div>):''}
                 </div>
                 <p>
                   <span>
@@ -333,10 +336,10 @@ export default class VideoPage extends Component {
                     <SkipNext />
                   </span>
                   <span>
-                    {_this.state.the_current ? _this.state.the_current.time : 0}
+                    {_this.state.the_current ?dateConversion(_this.state.the_current.time) : 0}
                     /
                     {_this.state.the_current
-                      ? _this.state.the_current.video_len
+                      ?dateConversion(_this.state.the_current.video_len)
                       : 0}
                   </span>
                 </p>
@@ -373,7 +376,8 @@ export default class VideoPage extends Component {
               <div className="video-image">
                 <Image />
               </div>
-              <div className="video-test">
+              {_this.state.the_current.zh?(
+              <div className="video-test" >
                 <p>
                   <span
                     data-lu="zh"
@@ -393,7 +397,7 @@ export default class VideoPage extends Component {
                   </span>
                 </p>
                 <NewDialog onClose={handleClose} open={_this.state.edi_show}>
-                  <NewDialogTitle>编辑当前字幕</NewDialogTitle>
+                  <NewDialogTitle>编辑当前的{_this.state.lu=='zh'?'中文':'英文'}字幕</NewDialogTitle>
                   <form action="">
                     <textarea
                       name="newTest"
@@ -433,7 +437,7 @@ export default class VideoPage extends Component {
                     {_this.state.is_suc == "suc" ? "修改成功" : "修改失败"}
                   </MuiAlert>
                 </Snackbar>
-              </div>
+              </div>):''}
             </main>
           </section>
         </footer>

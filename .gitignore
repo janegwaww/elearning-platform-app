@@ -54,6 +54,7 @@ public/
 .cache/
 .node_modules/
 public.zip
+publicbar/
 
 
 # Gatsby context

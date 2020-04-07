@@ -23,3 +23,33 @@
     text-align: center;
 
 }
+.article{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Upload-the-article{
+    height: 5px;
+    width:200px;
+    background-color: #eee;
+    position: relative;
+    overflow: hidden;
+    
+}
+.Upload-the-article span{
+    display: inline-block;
+    height: 5px;
+    width:10px;
+    transform: translateX(-10px);
+    background-color: chartreuse;
+    position: absolute;
+    left: 0;
+    top:0;
+    animation:mymove 3s ease-in-out 0.1s infinite ;
+}
+    @keyframes mymove {
+        0%{ transform: translateX(-10px);}
+        100%{
+            transform: translateX(190px); 
+        }
+    }

@@ -16,6 +16,8 @@ export default class UploadVideos extends Component {
     };
     this.fileInput = createRef();
     this.fileInput_chunk = createRef();
+    this.new_subtitles= this.new_subtitles.bind(this);
+    this.query_subtitles= this.query_subtitles.bind(this);
   }
   componentDidMount() {
     this.createUploader();
@@ -121,6 +123,8 @@ export default class UploadVideos extends Component {
       
         _this.props.parent.get_url(res.result_data[0]);
         alert("上传成功！");
+       
+        _this.new_subtitles()//生成字幕
       }
     });
     this.uploader.on("uploadError", function(file) {
@@ -132,51 +136,52 @@ export default class UploadVideos extends Component {
       });
     });
   };
-  render() {
-    const { fileName, updata_msg, status } = this.state;
+
+ new_subtitles () {
+   let _this = this;
+   // if(!updata_msg.video_id){alert("video_id 不能为空");return}
+   let _data = {
+     model_action: "generate",
+     extra_data: {
+       task_id: _this.state.updata_msg.video_id|| _this.state.updata_msg._id,
+       lang: "en"
+     }
+   };
+   this.setState({
+     status:5
+   });
+   getData("video/subtitle", _data, "post")
+     .then(res => {
+       _this.query_subtitles();//查询是否生成字幕
+       console.log("成功", res);
+     })
+     .catch(err => {
+       console.log("err", err);
+     });
+ };
+  query_subtitles () {
     let _this = this;
-    const new_subtitles = function() {
-   
-      // if(!updata_msg.video_id){alert("video_id 不能为空");return}
-      let _data = {
-        model_action: "generate",
-        extra_data: {
-          task_id: updata_msg.video_id||updata_msg._id,
-          lang: "en"
-        }
-      };
-      _this.setState({
-        status:5
-      });
-      getData("video/subtitle", _data, "post")
-        .then(res => {
-          console.log("成功", res);
-        })
-        .catch(err => {
-          console.log("err", err);
-        });
-    };
-    const query_subtitles = function() {
       let _data = {
         model_action: "query",
         extra_data: {
-          task_id: updata_msg.video_id||updata_msg._id,
+          task_id: _this.state.updata_msg.video_id|| _this.state.updata_msg._id,
           lang: "cn"
         }
       };
       _this.setState({
-        status:1
+        status:6
       })
       getData("video/subtitle", _data, "post")
         .then(res => {
-          
           if (res.result_data[0] && res.result_data[0].subtitling) {
             _this.props.parent.get_url(res.result_data[0]);
+            _this.setState({status:1});
+            alert('生成完成，请点击播放视频可以观看字幕并可以双击字幕编辑')
             return;
           } else {
-            alert("字幕正在生成！");
             setTimeout(() => {
-              query_subtitles();
+              
+              _this.query_subtitles();
             }, 10000);
           }
         })
@@ -184,6 +189,12 @@ export default class UploadVideos extends Component {
           console.log(err);
         });
     };
+
+
+  render() {
+    const { fileName, updata_msg, status } = this.state;
+    let _this = this;
+    
     return (
       <div className="section upload-cover ">
         <label className="file-label">
@@ -221,15 +232,21 @@ export default class UploadVideos extends Component {
         
         
         {status==4 ? (
-          <Button variant="contained" color="primary" onClick={new_subtitles}>
+          <Button variant="contained" color="primary" onClick={_this.new_subtitles}>
             生成字幕
           </Button>
         ) : (
           <span></span>
         )}
-        {status==5?(<Button variant="contained" onClick={query_subtitles}>
+        {status==5?(<Button variant="contained" onClick={_this.query_subtitles}>
         查询字幕
       </Button>):(<span></span>)}
+      {status==6?
+      (<div className='article'>
+        <div className='Upload-the-article'><span></span></div>
+        <div>正在生成字幕...</div>
+      </div>):(<span></span>)
+      }
         
       </div>
     );

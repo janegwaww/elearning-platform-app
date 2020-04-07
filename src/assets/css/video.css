@@ -111,6 +111,7 @@
 .subtitles {
   position: absolute;
   bottom: 5px;
+  z-index: 10;
 }
 .top .el-main > div:last-child > div video {
   width: 100%;
@@ -179,7 +180,16 @@
 .video-test span:hover {
   cursor: pointer;
 }
-
+.video .video-test p{
+  margin: 0;
+}
+.video .video-test span{
+  margin: 0;
+ 
+}
+.video .subtitles{
+width: 100%;
+}
 .clearfix::after {
   content: "\00A0";
   display: block;

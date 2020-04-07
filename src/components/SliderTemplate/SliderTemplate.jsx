@@ -3,6 +3,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import "./SliderTemplate.css";
+import dateConversion from '../../assets/js/dateConversion';
 
 const TemplateSlider = withStyles({
   mark: {
@@ -85,8 +86,8 @@ class SliderTemplate extends React.Component {
       let marks = [];
       if (value > 0) {
         for (let i = 0; i <= value; i += 10) {
-          if (i % 100 === 0) {
-            marks.push({ value: i, label: i });
+          if (i % 60 === 0) {
+            marks.push({ value: i, label:dateConversion( i) });
           } else {
             marks.push({ value: i });
           }
