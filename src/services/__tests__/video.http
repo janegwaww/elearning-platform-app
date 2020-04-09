@@ -1,0 +1,252 @@
+# Some generic vars
+:common-path = http://seeker.haetek.com:9191/video
+:common-header = <<
+Content-Type: application/json
+
+# ①视频验重：
+# 前端：
+# {
+#  "token" : "02527f8e41007cebc5c7c9c13268b990"     # 整个视频文件以二进制MD5出它的值
+# }
+# 后端：
+# 已存在：
+# {
+#     "count": "len(result_data)",
+#     "err": -1,
+#     "err_msg": "This video is already available!",
+#     "result_data": []
+# }
+# 未存在：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "This video can be uploaded!",
+#     "result_data": []
+# }
+POST :common-path/verify
+:common-header
+{
+        "token": "02527f8e41007cebc5c7c9c13268b990"
+}
+
+
+
+# ②上传视频
+# http://seeker.haetek.com:9191/video/upload
+# 前端：
+# 以form表单形式提交
+# "file" : mp4文件
+# "task_id":  文件ID     # 文件MD5
+# "chunk":  文件序号    # 开始定为0
+# "chunks": 视频文件总份数
+# "video_type": 视频格式
+# 后端：
+# 上传视频 分片完成 返回
+# {
+#     "count": "len(result_data)",
+#     "err": 1,
+#     "err_msg": "Video shard acceptance completed!",
+#     "result_data": []
+# }
+# 整个视频上传完成 返回
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "File uploaded successfully",
+#     "result_data": [
+#     "video_path":"",
+#     "image_path":"",
+#     "video_id":""]
+# }
+POST :common-path/upload
+Content-Type: video/mp4
+< /Users/guojian/Downloads/V7_1.mp4
+
+
+
+# ③续传视频
+# http://seeker.haetek.com:9191/video/breakpoint
+# 前端：
+# {
+#     "task_id": task_id
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [task_id + chunk0, task_id + chunk1, ...]    #已成功上传的文件
+# }
+POST :common-path/breakpoint
+:common-header
+{
+        "task_id": ""
+}
+
+
+
+# ④开启生成字幕
+# http://seeker.haetek.com:9191/video/subtitle
+# 前端：
+# {
+# "model_action": "generate",
+# "extra_data": {
+# "task_id": task_id,
+# "lang":"en"/"cn"
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 1,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "video_path":"",
+#     "subtitling":[]
+# }]   
+# }
+POST :common-path/subtitle
+:common-header
+{
+        "model_action": "generate",
+        "extra_data": {
+                        "task_id": "",
+                        "lang": "cn"
+                      }
+}
+
+
+
+# ⑤查询生成字幕
+# http://seeker.haetek.com:9191/video/subtitle
+# 前端：
+# {
+# "model_action": "query",
+# "extra_data": {
+# "task_id": task_id,
+# }
+# }
+# 后端：
+# 已生成
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+# "video_path":"",
+# "subtitling":[]
+# }]   
+# }
+# 未生成
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "generating",
+#     "result_data": []   
+# }
+POST :common-path/subtitle
+:common-header
+{
+        "model_action": "query",
+        "extra_data": {
+               "task_id": "",
+        }
+}
+
+
+# ⑥编辑字幕
+# http://seeker.haetek.com:9191/video/subtitle
+# 前端：
+# {
+# "model_action": "update",
+# "extra_data": {
+# "subtitling": [],
+# "task_id": task_id.
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": []
+# }
+POST :common-path/subtitle
+:common-header
+{
+        "model_action": "update",
+        "extra_data": {
+                "subtitling": [],
+                "task_id": ""
+        }
+}
+
+# ⑦编辑视频
+# http://seeker.haetek.com:9191/video/update
+# 前端：
+# 以form表单形式提交
+# "file" : mp4文件
+# "task_id":  文件ID     # 文件MD5
+# "subtitling":  []     
+# "chunk":  文件序号    # 开始定为0
+# "chunks": 视频文件总份数
+# "lang": "cn"/"en"
+# "video_type": 视频格式
+# 后端：
+# 上传视频 分片完成 返回
+# {
+#     "count": "len(result_data)",
+#     "err": 1,
+#     "err_msg": "Video shard acceptance completed!",
+#     "result_data": []
+# }
+# 整个视频上传完成 返回
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "File uploaded successfully",
+#     "result_data": [
+# "video_path":"",
+# "video_id":""]
+# }
+POST :common-path/update
+Content-Type: video/mp4
+{
+        "file" : "",
+        "task_id":  "",
+        "subtitling":  [],
+        "chunk":  0,
+        "chunks": 0,
+        "lang": "cn",
+        "video_type": "mp4",
+}
+
+
+
+# ⑧提交审核
+# http://seeker.haetek.com:9191/video/check
+# 前端：
+# {
+# "model_action": "submit",
+# "extra_data": {
+# "task_id": task_id,
+# "video_data":{}
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": []
+# }
+POST :common-path/check
+:common-header
+{
+        "model_action": "submit",
+        "extra_data": {
+                "task_id": "",
+                "video_data":{}
+                }
+}
+
