@@ -22,6 +22,7 @@ export const AUTH_URL = {
   login: urlJoin(PATH, "login"),
   signup: urlJoin(PATH, "signup")
 };
+
 const axiosInstance = axios.create({
   baseURL: PATH,
   timeout: 1000
