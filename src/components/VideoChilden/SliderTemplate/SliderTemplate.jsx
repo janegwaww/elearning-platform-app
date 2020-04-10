@@ -3,12 +3,12 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 import "./SliderTemplate.css";
-import dateConversion from '../../assets/js/dateConversion';
+import dateConversion from '../../../assets/js/dateConversion';
 
 const TemplateSlider = withStyles({
   mark: {
     backgroundColor: "#bfbfbf",
-    height: 5,
+    height:5,
     width: 1,
     transform: "translateY(-6px)"
   },
@@ -40,7 +40,8 @@ const TemplateSlider = withStyles({
   },
   markLabel: {
     top: "-5px",
-    color: "#fff"
+    color: "#CCCCD1",
+    'margin-left':"30px"
   },
   track: {
     // height: 2,
@@ -67,11 +68,7 @@ class SliderTemplate extends React.Component {
     });
     return true;
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //     // console.log(nextProps,nextState);
-  //     return true;
-  // }
-
+  
   handleChange(e, newValue) {
     //移动滑块读取滑块值 ，并将值传递给video页面
     this.setState({
@@ -88,17 +85,26 @@ class SliderTemplate extends React.Component {
         for (let i = 0; i <= value; i += 10) {
           if (i % 60 === 0) {
             marks.push({ value: i, label:dateConversion( i) });
+            
           } else {
             marks.push({ value: i });
+            
           }
         }
+      }else{
+        for (let i = 0; i <= 1000; i += 10) {
+
+            marks.push({ value: i });
+          
+        }
       }
+     
       return marks;
     };
     return (
       <TemplateSlider
         min={0}
-        max={this.state.leng}
+        max={this.state.leng||1000}
         value={this.state.value}
         step={0.01}
         marks={marks(this.state.leng)}

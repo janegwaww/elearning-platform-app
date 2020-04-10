@@ -153,7 +153,7 @@ export default class UploadVideos extends Component {
    getData("video/subtitle", _data, "post")
      .then(res => {
        _this.query_subtitles();//查询是否生成字幕
-       console.log("成功", res);
+      // console.log("成功", res);
      })
      .catch(err => {
        console.log("err", err);
@@ -180,7 +180,6 @@ export default class UploadVideos extends Component {
             return;
           } else {
             setTimeout(() => {
-              
               _this.query_subtitles();
             }, 10000);
           }

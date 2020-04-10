@@ -1,18 +1,11 @@
 import React, { Component } from "react";
-import Layout from "../layout";
-import SliderTemplate from "../components/SliderTemplate/SliderTemplate";
-import HeaderTemplate from "../components/Header1/Header1";
-import TopAside from "../components/TopAside/TopAside";
-import BottomAside from "../components/BottomAside/BottomAside";
+import SliderTemplate from "../components/VideoChilden/SliderTemplate/SliderTemplate";
+import HeaderTemplate from "../components/VideoChilden/Header/Header";
+import TopAside from "../components/VideoChilden/TopAside/TopAside";
+import BottomAside from "../components/VideoChilden/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
 
-import {
-  Dialog,
-  Button,
-  DialogTitle,
-  Snackbar,
-  IconButton
-} from "@material-ui/core";
+import { Dialog, Button, DialogTitle, Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -22,26 +15,28 @@ import {
   SkipNext,
   SkipPrevious,
   PlayArrow,
-  Pause
+  Pause,
 } from "@material-ui/icons";
-import "../assets/css/video.css";
+import styles from "../assets/css/video.module.css";
 import getData from "../assets/js/request";
-import dateConversion from '../assets/js/dateConversion';
+import dateConversion from "../assets/js/dateConversion";
+import { func } from "prop-types";
 
 const NewDialog = withStyles({
   paperWidthSm: {
-    "max-width": "none"
+    "max-width": "none",
   },
   paperScrollPaper: {
     display: "block",
-    padding: "32px"
-  }
+    padding: "32px",
+  },
 })(Dialog);
 const NewDialogTitle = withStyles({
   root: {
-    padding: 0
-  }
+    padding: 0,
+  },
 })(DialogTitle);
+
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +45,7 @@ export default class VideoPage extends Component {
       the_current: {}, //当前字幕
       status: false, //播放状态
       edi_show: false, //是否调起修改当前字幕弹窗
-      is_suc: ""
+      is_suc: "",
     };
     this.video_live = null;
     //绑定双击事件
@@ -60,11 +55,12 @@ export default class VideoPage extends Component {
   }
   componentDidMount() {
     this.setState({
-      video_h: document.getElementsByClassName("video")[0].clientHeight
+      video_h: document.getElementById("myvideo").clientHeight,
     });
-    document.getElementsByClassName("max-box")[0].style.height =
+    document.getElementById("max-box").style.height =
       document.getElementById("gatsby-focus-wrapper").clientHeight + "px";
     this.get_data();
+    
   }
 
   componentWillReceiveProps(nextState) {
@@ -77,40 +73,41 @@ export default class VideoPage extends Component {
     //请求数据
     let video_data,
       _this = this;
-    let _data =  {
+    let _data = {
       model_action: "search",
       query_string: "",
       type: "global",
-      video_ids: []
+      video_ids: [],
     };
-    getData("videos", _data, "post").then(res => {
+    getData("videos", _data, "post").then((res) => {
       video_data = res.result_data[0];
       let _data = {
         video_data: video_data,
         sub_josn: video_data.subtitling,
-        _path: video_data.video_path["720P"]
+        _path: video_data.video_path["720P"],
       };
 
       _this.setState({
-        video_data: _data
+        video_data: _data,
       });
     });
   }
   getUpfileUrl(res) {
+    //
+    let _data = this.state.video_data || {};
     if (res.subtitling) {
-      this.setState({
-        video_data: {
-          sub_josn: res.subtitling,
-          _path: res.video_path
-        }
-      });
+      _data.sub_josn = res.subtitling;
+      _data._path = res.video_path;
     } else {
-      this.setState({
-        video_data: {
-          _path: res.video_path
-        }
-      });
+      _data._path = res.video_path;
+      _data.video_id = res._id || res.video_id;
     }
+    if (_data.video_data) {
+      delete _data.video_data;
+    }
+    this.setState({
+      video_data: _data,
+    });
     this.video_live.load();
     // this.video_live.play();
   }
@@ -122,7 +119,7 @@ export default class VideoPage extends Component {
   }
   get_top_inx(result, value) {
     this.setState({
-      top_inx: value
+      top_inx: value,
     });
   }
 
@@ -140,7 +137,7 @@ export default class VideoPage extends Component {
           zh: json_sub[i].cn_sub,
           en: json_sub[i].en_sub,
           time: time,
-          inx: i
+          inx: i,
         };
       }
       if (json_sub[i + 1]) {
@@ -158,16 +155,22 @@ export default class VideoPage extends Component {
       _data.video_len = this.video_live.duration;
     }
     this.setState({
-      the_current: _data
+      the_current: _data,
     });
   }
   render() {
     const _this = this;
     const { video_data } = this.state;
     const on_ply = function() {
-     
       //播放
       if (!_this.state.video_data._path) {
+        // _this.state.is_suc
+        // _this.setState({
+        //   is_suc:'视频未加载完成'
+        // });
+        // setTimeout(() => {
+        //   _this.setState({ is_suc: "" });
+        // }, 3000);
         return;
       }
       if (_this.video_live.currentTime === 0) {
@@ -175,21 +178,21 @@ export default class VideoPage extends Component {
       }
       _this.video_live.play();
       _this.setState({
-        status: true
+        status: true,
       });
     };
     const on_pause = function() {
       //暂停
       _this.video_live.pause();
       _this.setState({
-        status: false
+        status: false,
       });
     };
     const time_date = function(el) {
       //实时播放时间
+      console.log(el)
       let time = el.target.currentTime;
       _this.sub_test(time);
-      
     };
     const on_end = function() {
       //播放结束
@@ -197,11 +200,10 @@ export default class VideoPage extends Component {
     };
     const double_click = function(el) {
       // 双击修改字幕
-
       el.preventDefault();
       _this.setState({
         lu: el.target.dataset.lu, //修改语言
-        sub_inx: parseFloat(el.target.dataset.inx) //修改条目
+        sub_inx: parseFloat(el.target.dataset.inx), //修改条目
       });
       on_pause();
       handleOpen();
@@ -210,14 +212,14 @@ export default class VideoPage extends Component {
       //取消编辑
 
       _this.setState({
-        edi_show: false
+        edi_show: false,
       });
     };
     const handleOpen = function() {
       //打开编辑
 
       _this.setState({
-        edi_show: true
+        edi_show: true,
       });
     };
     const handleServer = function() {
@@ -235,29 +237,30 @@ export default class VideoPage extends Component {
         _the_data.en = _v;
         _video_data.sub_josn[_inx].en_sub = _v;
       }
+
       let r_data = {
         model_action: "update",
         extra_data: {
           subtitling: _video_data.sub_josn,
-          task_id: _video_data.video_data.video_id, // task_id,
-          lang: "en"
-        }
+          task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
+          lang: "en",
+        },
       };
       getData("video/subtitle", r_data, "post")
-        .then(res => {
+        .then((res) => {
           handleClose();
           _this.setState({
             the_current: _the_data,
             video_data: _video_data,
-            is_suc: "suc"
+            is_suc: "suc",
           });
           setTimeout(() => {
             _this.setState({ is_suc: "" });
           }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           _this.setState({
-            is_suc: "err"
+            is_suc: "err",
           });
           setTimeout(() => {
             _this.setState({ is_suc: "" });
@@ -265,63 +268,82 @@ export default class VideoPage extends Component {
           handleClose();
         });
     };
+
     return (
-      <div className="el-container is-vertical max-box">
-        <header className="el-header">
+      <div
+        className={`${styles.elContainer} ${styles.isVertical} ${styles.maxBox}`}
+        id="max-box"
+      >
+        <header className={styles.elHeader}>
           <HeaderTemplate />
         </header>
-        <main className="el-main top">
-          <section className="el-container">
-            <aside className="el-aside">
+        <main className={`${styles.elMain} ${styles.top}`}>
+          <section className={styles.elContainer}>
+            <aside className={styles.elAside}>
               <TopAside parent={this} />
             </aside>
-            <main className="el-main">
+            <main className={styles.elMain}>
               <div>
                 <div>
-                  <VideoChilden
-                    topInx={this.state.top_inx || 1}
-                    parent={this}
-                  />
+                  <div className={styles.navTabs}>
+                    <p>新建视频</p>
+                  </div>
+                  
+                    <VideoChilden
+                      topInx={this.state.top_inx || 1}
+                      parent={this}
+                    />
+                  
                 </div>
               </div>
               <div>
-                <div className="video">
+              <section>
+                <div className={styles.video} id="myvideo">
                   <video
                     poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
                     height={this.state.video_h}
-                    ref={node => (this.video_live = node)}
+                    ref={(node) => (this.video_live = node)}
                     onTimeUpdate={time_date}
                     onEnded={on_end}
                   >
-                    <source
-                      src={"http://seeker.haetek.com:9191/" + video_data._path}
-                    ></source>
+                    {video_data._path ? (
+                      <source
+                        src={
+                          "http://seeker.haetek.com:9191/" + video_data._path
+                        }
+                      ></source>
+                    ) : (
+                      ""
+                    )}
                   </video>
-                  {_this.state.the_current.zh?(
-                  <div className="video-test subtitles">
-                    <p>
-                      <span
-                        data-lu="zh"
-                        onDoubleClick={double_click}
-                        data-inx={_this.state.the_current.inx}
-                      >
-                        {_this.state.the_current
-                          ? _this.state.the_current.zh
-                          : ""}
-                      </span>
-                    </p>
-                    <p>
-                      <span
-                        data-lu="en"
-                        onDoubleClick={double_click}
-                        data-inx={_this.state.the_current.inx}
-                      >
-                        {_this.state.the_current
-                          ? _this.state.the_current.en
-                          : ""}
-                      </span>
-                    </p>
-                  </div>):''}
+                  {_this.state.the_current.zh ? (
+                    <div className={`${styles.videoTest} ${styles.subtitles}`}>
+                      <p>
+                        <span
+                          data-lu="zh"
+                          onDoubleClick={double_click}
+                          data-inx={_this.state.the_current.inx}
+                        >
+                          {_this.state.the_current
+                            ? _this.state.the_current.zh
+                            : ""}
+                        </span>
+                      </p>
+                      <p>
+                        <span
+                          data-lu="en"
+                          onDoubleClick={double_click}
+                          data-inx={_this.state.the_current.inx}
+                        >
+                          {_this.state.the_current
+                            ? _this.state.the_current.en
+                            : ""}
+                        </span>
+                      </p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <p>
                   <span>
@@ -336,19 +358,23 @@ export default class VideoPage extends Component {
                     <SkipNext />
                   </span>
                   <span>
-                    {_this.state.the_current ?dateConversion(_this.state.the_current.time) : 0}
+                    {_this.state.the_current
+                      ? dateConversion(_this.state.the_current.time)
+                      : 0}
                     /
                     {_this.state.the_current
-                      ?dateConversion(_this.state.the_current.video_len)
+                      ? dateConversion(_this.state.the_current.video_len)
                       : 0}
                   </span>
                 </p>
+                </section>
               </div>
+             
             </main>
           </section>
         </main>
-        <div className="slider">
-          <div className="left">
+        <div className={styles.slider}>
+          <div className={styles.left}>
             <div>
               <SubdirectoryArrowLeft />
             </div>
@@ -356,7 +382,7 @@ export default class VideoPage extends Component {
               <SubdirectoryArrowRight />
             </div>
           </div>
-          <div className="right">
+          <div className={styles.right}>
             <SliderTemplate
               value={this.state.the_current.time || 0}
               parent={this}
@@ -366,78 +392,90 @@ export default class VideoPage extends Component {
             />
           </div>
         </div>
-        <footer className="el-footer bottom">
-          <section className="el-container">
-            <aside className="el-aside">
+        <footer className={`${styles.elFooter} ${styles.bottom}`}>
+          <section className={styles.elContainer}>
+            <aside className={styles.elAside}>
               <BottomAside />
             </aside>
-            <main className="el-main">
-              <div className="video-img">图片</div>
-              <div className="video-image">
+            <main className={styles.elMain}>
+              <div className={styles.videoImg}>图片</div>
+              <div className={styles.videoImage}>
                 <Image />
               </div>
-              {_this.state.the_current.zh?(
-              <div className="video-test" >
-                <p>
-                  <span
-                    data-lu="zh"
-                    onDoubleClick={double_click}
-                    data-inx={_this.state.the_current.inx}
+              {_this.state.the_current.zh ? (
+                <div className={styles.videoTest}>
+                  <p>
+                    <span
+                      data-lu="zh"
+                      onDoubleClick={double_click}
+                      data-inx={_this.state.the_current.inx}
+                    >
+                      {_this.state.the_current
+                        ? _this.state.the_current.zh
+                        : ""}
+                    </span>
+                  </p>
+                  <p>
+                    <span
+                      data-lu="en"
+                      onDoubleClick={double_click}
+                      data-inx={_this.state.the_current.inx}
+                    >
+                      {_this.state.the_current
+                        ? _this.state.the_current.en
+                        : ""}
+                    </span>
+                  </p>
+                  <NewDialog onClose={handleClose} open={_this.state.edi_show}>
+                    <NewDialogTitle>
+                      编辑当前的{_this.state.lu == "zh" ? "中文" : "英文"}字幕
+                    </NewDialogTitle>
+                    <form action="">
+                      <textarea
+                        name="newTest"
+                        id="newTest"
+                        autofocus
+                        defaultValue={
+                          _this.state.lu == "zh"
+                            ? _this.state.the_current.zh
+                            : _this.state.the_current.en
+                        }
+                        cols="50"
+                        rows="5"
+                      ></textarea>
+                    </form>
+                    <Button variant="contained" onClick={handleClose}>
+                      取消
+                    </Button>
+                    <Button
+                      onClick={handleServer}
+                      variant="contained"
+                      color="primary"
+                    >
+                      保存
+                    </Button>
+                  </NewDialog>
+                  <Snackbar
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                    open={_this.state.is_suc ? true : false}
+                    autoHideDuration={3000}
+                    message={_this.state.is_suc}
                   >
-                    {_this.state.the_current ? _this.state.the_current.zh : ""}
-                  </span>
-                </p>
-                <p>
-                  <span
-                    data-lu="en"
-                    onDoubleClick={double_click}
-                    data-inx={_this.state.the_current.inx}
-                  >
-                    {_this.state.the_current ? _this.state.the_current.en : ""}
-                  </span>
-                </p>
-                <NewDialog onClose={handleClose} open={_this.state.edi_show}>
-                  <NewDialogTitle>编辑当前的{_this.state.lu=='zh'?'中文':'英文'}字幕</NewDialogTitle>
-                  <form action="">
-                    <textarea
-                      name="newTest"
-                      id="newTest"
-                      defaultValue={
-                        _this.state.lu == "zh"
-                          ? _this.state.the_current.zh
-                          : _this.state.the_current.en
+                    <MuiAlert
+                      severity={
+                        _this.state.is_suc == "suc" ? "success" : "error"
                       }
-                      cols="50"
-                      rows="5"
-                    ></textarea>
-                  </form>
-                  <Button variant="contained" onClick={handleClose}>
-                    取消
-                  </Button>
-                  <Button
-                    onClick={handleServer}
-                    variant="contained"
-                    color="primary"
-                  >
-                    保存
-                  </Button>
-                </NewDialog>
-                <Snackbar
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "center"
-                  }}
-                  open={_this.state.is_suc ? true : false}
-                  autoHideDuration={3000}
-                  message={_this.state.is_suc}
-                >
-                  <MuiAlert
-                    severity={_this.state.is_suc == "suc" ? "success" : "error"}
-                  >
-                    {_this.state.is_suc == "suc" ? "修改成功" : "修改失败"}
-                  </MuiAlert>
-                </Snackbar>
-              </div>):''}
+                    >
+                      {_this.state.is_suc == "suc" ? "修改成功" : "修改失败"}
+                    </MuiAlert>
+                  </Snackbar>
+                </div>
+              ) : (
+                ""
+              )}
             </main>
           </section>
         </footer>
