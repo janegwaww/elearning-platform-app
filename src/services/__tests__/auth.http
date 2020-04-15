@@ -1,19 +1,43 @@
 # test login post api
-POST http://seeker.haetek.com:9191/users/login
+POST http://seeker.haetek.com:9191/code/generate
 Content-Type: application/json
 
 {
-        "username": "dipper",
-        "password": "pass"
+        "model_action": "generate",
+        "extra_data": {
+                      "mobile": 13049393610    # 手机号码
+        }
 }
 
 
-# test signup post api
-POST http://seeker.haetek.com:9191/users/signup
+# test login post api
+POST http://seeker.haetek.com:9191/code/login
 Content-Type: application/json
 
 {
-        "username": "dipper",
-        "password": "pass",
-        "email": "re@st.com"
+        "model_action": "login",
+        "extra_data": {
+                      "mobile": 15642336090,    # 手机号码
+                      "code":""    # 唯一ID
+                      }
+}
+
+
+
+#test qrcode generate api
+POST http://seeker.haetek.com:9191/qrcode/generate
+Content-Type: application/json
+{
+        "model_action": "generate"
+}
+
+
+#test qrcode enquiry api
+POST http://seeker.haetek.com:9191/qrcode/enquiry
+Content-Type: application/json
+{
+        "model_action": "enquiry",
+        "extra_data": {
+                      "qrcode":""    # 从后端获取的
+        }
 }

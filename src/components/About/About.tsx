@@ -12,9 +12,12 @@ const useStyles = makeStyles(theme => ({
 
 const AboutTemplate = () => {
   const classes = useStyles();
+  const handleClick = (values: string): void => {
+    return alert(values);
+  };
   return (
     <div className={clsx(classes.font)}>
-      <h1 onClick={(e): void => this.handleClick("about")}>
+      <h1 onClick={(e): void => handleClick("about")}>
         Edit About component or pages/about.jsx to include your information.
       </h1>
     </div>
@@ -25,10 +28,6 @@ class About extends Component {
   constructor(props) {
     super(props);
   }
-
-  handleClick = (values: string): void => {
-    return alert(values);
-  };
 
   render() {
     return (
