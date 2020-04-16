@@ -10,8 +10,9 @@ export default class TopAside extends Component {
     };
     this.btn_click = this.btn_click.bind(this); //绑定事件
   }
+  
   shouldComponentUpdate(nextProps, nextState) {
-    //     // console.log(nextProps,nextState);
+        console.log(nextProps,nextState);
     return true;
   }
   btn_click(el) {
@@ -29,7 +30,7 @@ export default class TopAside extends Component {
       <ul className={styles.topAside}>
         <li
           data-inx="1"
-          className={this.state.inx == 1 ? styles.active : ""}
+          className={this.state.inx === 1 ? styles.active : ""}
         >
           <MovieCreation />
           <br />
@@ -37,14 +38,14 @@ export default class TopAside extends Component {
           <div data-inx="1" onClick={this.btn_click}></div>
         </li>
         <li
-          data-inx="2"
-          className={this.state.inx == 2 ? styles.active : ""}
+          data-inx="3"
+          className={this.state.inx === 3 ? styles.active : ""}
           onClick={this.btn_click}
         >
           <TextFields />
           <br />
           文本
-          <div data-inx="2" onClick={this.btn_click}></div>
+          <div data-inx="3" onClick={this.btn_click}></div>
         </li>
       </ul>
     );

@@ -326,7 +326,7 @@ export default class VideoPage extends Component {
      
     };
     const context_focus = function(el, value) {
-      console.log("focus", el);
+      // console.log("focus", el);
       _this.setState({
         top_inx: 2,
       })
@@ -353,8 +353,7 @@ export default class VideoPage extends Component {
           the_current:_the_data,
           video_data:_video_data
         })
-      console.log("blur", el.target.dataset, el.target.innerHTML);
-
+   
     };
 
     const handleClose = function() {

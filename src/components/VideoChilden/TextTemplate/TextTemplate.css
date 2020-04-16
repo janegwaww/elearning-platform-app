@@ -1,0 +1,36 @@
+.text-template{
+    overflow-y:auto ;
+}
+  .text-template svg{
+    vertical-align: middle
+ }
+
+  /* 设置滚动条的样式 */
+  .text-template::-webkit-scrollbar {
+    width:8px;
+    background-color: yellowgreen;
+    }
+
+    /* 滚动槽 */
+    .text-template::-webkit-scrollbar-track {
+    border-radius:8px;
+    }
+
+    /* 滚动条滑块 */
+    .text-template::-webkit-scrollbar-thumb {
+    border-radius:8px;
+    background:black;
+    }
+
+
+.nav-tabs{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom:1px solid #58585E;
+    height: 52px;
+  }
+  .text-direction{
+      width:84px;
+      height: 84px;
+  }

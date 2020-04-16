@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TestFile from "./TestFile/TestFile";
 import Uploader from './Uploader/Uploader';
+import TextTemplate from './TextTemplate/TextTemplate';
 
 export default class VideoChilden extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class VideoChilden extends Component {
     } else if (num === 2) {
       return <TestFile parent={this} />
     } else if (num === 3) {
-      return <div>剪辑</div>;
+      return <TextTemplate />;
     } else if (num === 4) {
       return <div>音频</div>;
     } else if (num === 5) {
