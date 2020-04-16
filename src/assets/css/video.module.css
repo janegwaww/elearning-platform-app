@@ -116,18 +116,8 @@ body{background-color: #eee;}
   padding: 0 16px;
   position: relative;
 }
-.nav-tabs{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border-bottom:1px solid #58585E;
-  height: 52px;
-}
-.nav-tabs+div{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+
 .top .el-main > div:last-child section> div {
   
   height: 95%;
@@ -204,20 +194,21 @@ margin-top: 12px;
 }
 .video-test {
   padding-top: 10px;
+  overflow: hidden;
 }
 .video-test span {
-  display: inline-block;
+  display: block;
   padding: 5px 10px;
   min-width: 110px;
   margin-right: 20px;
-  background-color: rgb(83, 83, 83);
+   background-color: rgb(83, 83, 83); 
 }
-.video-test span:hover {
+.video-test p:hover ,.video-test span:hover{
   cursor: pointer;
 }
-.video .video-test p{
+/* .video .video-test p{
   margin: 0;
-}
+} */
 .video .video-test span{
   margin: 0;
  

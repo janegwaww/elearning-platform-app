@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UpFile from "./UpFile/UpFile";
+import TestFile from "./TestFile/TestFile";
 import Uploader from './Uploader/Uploader';
 
 export default class VideoChilden extends Component {
@@ -9,15 +9,19 @@ export default class VideoChilden extends Component {
       inx: props.topInx
     };
     this.get_url= this.get_url.bind(this);
+    this.get_style=this.get_style.bind(this);
   }
   get_url(res){
     this.props.parent.getUpfileUrl(res)
   }
+  get_style(res){
+    this.props.parent.parent_styles(res)
+  }
   returnComponets(num) {
     if (num === 1) {
-      return   <Uploader parent={this} />  //<UpFile parent={this} />;
+      return   <Uploader parent={this} /> 
     } else if (num === 2) {
-      return <div>文本test</div>;
+      return <TestFile parent={this} />
     } else if (num === 3) {
       return <div>剪辑</div>;
     } else if (num === 4) {

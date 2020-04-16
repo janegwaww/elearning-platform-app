@@ -26,6 +26,7 @@ const TemplateSlider = withStyles({
       backgroundColor: "red",
       zIndex: 100
     },
+   
     "&:hover": {
       boxShadow: "none"
     }
@@ -58,7 +59,6 @@ class SliderTemplate extends React.Component {
       value: 0,
       leng: props.length
     };
-
     this.handleChange = this.handleChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {

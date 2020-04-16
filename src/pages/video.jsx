@@ -20,7 +20,6 @@ import {
 import styles from "../assets/css/video.module.css";
 import getData from "../assets/js/request";
 import dateConversion from "../assets/js/dateConversion";
-import { func } from "prop-types";
 
 const NewDialog = withStyles({
   paperWidthSm: {
@@ -46,12 +45,15 @@ export default class VideoPage extends Component {
       status: false, //播放状态
       edi_show: false, //是否调起修改当前字幕弹窗
       is_suc: "",
+      styles: {}, //页面中使用
+      style: {}, //上传时使用
     };
     this.video_live = null;
     //绑定双击事件
     this.getChildrenMsg = this.getChildrenMsg.bind(this);
     this.get_top_inx = this.get_top_inx.bind(this);
     this.getUpfileUrl = this.getUpfileUrl.bind(this);
+    this.parent_styles = this.parent_styles.bind(this);
   }
   componentDidMount() {
     this.setState({
@@ -59,8 +61,7 @@ export default class VideoPage extends Component {
     });
     document.getElementById("max-box").style.height =
       document.getElementById("gatsby-focus-wrapper").clientHeight + "px";
-    this.get_data();
-    
+    // this.get_data();
   }
 
   componentWillReceiveProps(nextState) {
@@ -69,29 +70,29 @@ export default class VideoPage extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return true;
   }
-  get_data() {
-    //请求数据
-    let video_data,
-      _this = this;
-    let _data = {
-      model_action: "search",
-      query_string: "",
-      type: "global",
-      video_ids: [],
-    };
-    getData("videos", _data, "post").then((res) => {
-      video_data = res.result_data[0];
-      let _data = {
-        video_data: video_data,
-        sub_josn: video_data.subtitling,
-        _path: video_data.video_path["720P"],
-      };
+  // get_data() {
+  //   //请求数据
+  //   let video_data,
+  //     _this = this;
+  //   let _data = {
+  //     model_action: "search",
+  //     query_string: "",
+  //     type: "global",
+  //     video_ids: [],
+  //   };
+  //   getData("videos", _data, "post").then((res) => {
+  //     video_data = res.result_data[0];
+  //     let _data = {
+  //       video_data: video_data,
+  //       sub_josn: video_data.subtitling,
+  //       _path: video_data.video_path["720P"],
+  //     };
 
-      _this.setState({
-        video_data: _data,
-      });
-    });
-  }
+  //     _this.setState({
+  //       video_data: _data,
+  //     });
+  //   });
+  // }
   getUpfileUrl(res) {
     //
     let _data = this.state.video_data || {};
@@ -110,6 +111,100 @@ export default class VideoPage extends Component {
     });
     this.video_live.load();
     // this.video_live.play();
+  }
+  parent_styles(res) {
+    //获取样式 writing-mode: vertical-rl; writing-mode: tb-lr;
+
+    this.setState({ style: res });
+    let _styles = this.state.styles || {};
+    let align,
+      textAlignLast,
+      bold,
+      u,
+      i,
+      family,
+      size,
+      vertical,
+      spacing,
+      line,
+      color;
+    if (res.align === 0) {
+      (align = "inherit"), (textAlignLast = "inherit");
+    } else if (res.align === 1) {
+      align = "right";
+    } else if (res.align === 2) {
+      align = "center";
+    } else if (res.align === 3) {
+      align = "left";
+    } else if (res.align === 4) {
+      align = "justify";
+      textAlignLast = "justify";
+    }
+    if (res.bold === -1) {
+      bold = "bold";
+    } else {
+      bold = "normal";
+    }
+    if (res._u === -1) {
+      u = "underline";
+    } else {
+      u = "none";
+    }
+    if (res._i === -1) {
+      i = "italic";
+    } else {
+      i = "normal";
+    }
+    if (res.family) {
+      family = res.family;
+    } else {
+      family = "inherit";
+    }
+    if (!res.size || res.size < 12) {
+      size = "12px";
+    } else {
+      size = res.size + "px";
+    }
+    if (res.spacing) {
+      spacing = res.spacing + "px";
+    } else {
+      spacing = "normal";
+    }
+    if (res.line) {
+      line = res.line + "px";
+    } else {
+      line = "normal";
+    }
+    if (res.vertical == 2) {
+      // writing-mode: vertical-rl; writing-mode: tb-lr;
+      vertical = "vertical-rl";
+      // vertical1='tb-lr'
+    } else if (res.vertical == 1) {
+      vertical = "vertical-lr";
+    } else {
+      vertical = "horizontal-tb";
+      // vertical1='horizontal-tb'
+    }
+    if (res.color) {
+      color = "#" + res.color;
+    } else {
+      color = "inherit";
+    }
+    this.setState({
+      styles: {
+        color: color,
+        textAlign: align,
+        textAlignLast: textAlignLast,
+        fontWeight: bold,
+        textDecoration: u,
+        fontStyle: i,
+        fontSize: size,
+        fontFamily: family,
+        writingMode: vertical,
+        lineHeight: line,
+        letterSpacing: spacing,
+      },
+    });
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
@@ -161,6 +256,7 @@ export default class VideoPage extends Component {
   render() {
     const _this = this;
     const { video_data } = this.state;
+
     const on_ply = function() {
       //播放
       if (!_this.state.video_data._path) {
@@ -190,7 +286,7 @@ export default class VideoPage extends Component {
     };
     const time_date = function(el) {
       //实时播放时间
-      console.log(el)
+      // console.log(el)
       let time = el.target.currentTime;
       _this.sub_test(time);
     };
@@ -201,23 +297,74 @@ export default class VideoPage extends Component {
     const double_click = function(el) {
       // 双击修改字幕
       el.preventDefault();
+
       _this.setState({
         lu: el.target.dataset.lu, //修改语言
         sub_inx: parseFloat(el.target.dataset.inx), //修改条目
+        top_inx: 2,
       });
       on_pause();
       handleOpen();
     };
+    const context_input = function(el, value) {
+      let _the_data = _this.state.the_current, //当前，
+          lang = el.target.dataset.lu,
+          _inx = parseInt(el.target.dataset.inx);
+          
+          // if(lang =='zh'){
+          //   let doc = el.target; // jquery 对象转dom对象
+          //       doc.focus();
+              
+          //   _the_data.zh = el.target.innerText;
+            
+          //   _this.setState({
+          //     // the_current:_the_data
+          //   })
+          // }
+      console.log(el.target.innerText);
+      console.log(el.target.dataset);
+     
+    };
+    const context_focus = function(el, value) {
+      console.log("focus", el);
+      _this.setState({
+        top_inx: 2,
+      })
+      on_pause();
+    };
+    const context_blur = function(el) {
+      let _the_data = _this.state.the_current, //当前，
+        _video_data = _this.state.video_data, //所有
+        lang = el.target.dataset.lu,
+        _inx = parseInt(el.target.dataset.inx);
+        if(lang=='zh'){
+          if(_the_data.zh!==el.target.innerText){
+            _the_data.zh=el.target.innerText;
+            _video_data.sub_josn[_inx].cn_sub =el.target.innerText.toString();
+          }
+        }else{
+            if(_the_data.en!==el.target.innerText){
+              _the_data.en=el.target.innerText;
+              _video_data.sub_josn[_inx].en_sub =el.target.innerText.toString();
+             
+          }
+        }
+        _this.setState({
+          the_current:_the_data,
+          video_data:_video_data
+        })
+      console.log("blur", el.target.dataset, el.target.innerHTML);
+
+    };
+
     const handleClose = function() {
       //取消编辑
-
       _this.setState({
         edi_show: false,
       });
     };
     const handleOpen = function() {
       //打开编辑
-
       _this.setState({
         edi_show: true,
       });
@@ -237,7 +384,6 @@ export default class VideoPage extends Component {
         _the_data.en = _v;
         _video_data.sub_josn[_inx].en_sub = _v;
       }
-
       let r_data = {
         model_action: "update",
         extra_data: {
@@ -275,7 +421,7 @@ export default class VideoPage extends Component {
         id="max-box"
       >
         <header className={styles.elHeader}>
-          <HeaderTemplate />
+          <HeaderTemplate parent={this} />
         </header>
         <main className={`${styles.elMain} ${styles.top}`}>
           <section className={styles.elContainer}>
@@ -284,92 +430,86 @@ export default class VideoPage extends Component {
             </aside>
             <main className={styles.elMain}>
               <div>
-                <div>
-                  <div className={styles.navTabs}>
-                    <p>新建视频</p>
-                  </div>
-                  
-                    <VideoChilden
-                      topInx={this.state.top_inx || 1}
-                      parent={this}
-                    />
-                  
-                </div>
+                <VideoChilden topInx={this.state.top_inx || 1} parent={this} />
               </div>
               <div>
-              <section>
-                <div className={styles.video} id="myvideo">
-                  <video
-                    poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
-                    height={this.state.video_h}
-                    ref={(node) => (this.video_live = node)}
-                    onTimeUpdate={time_date}
-                    onEnded={on_end}
-                  >
-                    {video_data._path ? (
-                      <source
-                        src={
-                          "http://seeker.haetek.com:9191/" + video_data._path
-                        }
-                      ></source>
-                    ) : (
-                      ""
-                    )}
-                  </video>
-                  {_this.state.the_current.zh ? (
-                    <div className={`${styles.videoTest} ${styles.subtitles}`}>
-                      <p>
+                <section>
+                  <div className={styles.video} id="myvideo">
+                    <video
+                      poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
+                      height={this.state.video_h}
+                      ref={(node) => (this.video_live = node)}
+                      onTimeUpdate={time_date}
+                      onEnded={on_end}
+                    >
+                      {video_data._path ? (
+                        <source src={video_data._path}></source>
+                      ) : (
+                        ""
+                      )}
+                    </video>
+                    {_this.state.the_current.zh ? (
+                      <div
+                        className={`${styles.videoTest} ${styles.subtitles}`}
+                        style={_this.state.styles}
+                      >
                         <span
                           data-lu="zh"
-                          onDoubleClick={double_click}
                           data-inx={_this.state.the_current.inx}
+                          contenteditable="true"
+                          suppressContentEditableWarning="true" 
+                          onBlur={context_blur}
+                          onFocus={context_focus}
+                          title="点击文字可编辑"
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.zh
                             : ""}
+                            
                         </span>
-                      </p>
-                      <p>
+
                         <span
                           data-lu="en"
-                          onDoubleClick={double_click}
                           data-inx={_this.state.the_current.inx}
+                          contenteditable="true"
+                          suppressContentEditableWarning="true" 
+                          onBlur={context_blur}
+                          onFocus={context_focus}
+                          title="点击文字可编辑"
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.en
                             : ""}
                         </span>
-                      </p>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <p>
-                  <span>
-                    <SkipPrevious />
-
-                    {this.state.status ? (
-                      <Pause onClick={on_pause} />
+                      </div>
                     ) : (
-                      <PlayArrow onClick={on_ply} />
+                      ""
                     )}
+                  </div>
+                  <p>
+                    <span>
+                      <SkipPrevious />
 
-                    <SkipNext />
-                  </span>
-                  <span>
-                    {_this.state.the_current
-                      ? dateConversion(_this.state.the_current.time)
-                      : 0}
-                    /
-                    {_this.state.the_current
-                      ? dateConversion(_this.state.the_current.video_len)
-                      : 0}
-                  </span>
-                </p>
+                      {this.state.status ? (
+                        <Pause onClick={on_pause} />
+                      ) : (
+                        <PlayArrow onClick={on_ply} />
+                      )}
+
+                      <SkipNext />
+                    </span>
+                    <span>
+                      {_this.state.the_current
+                        ? dateConversion(_this.state.the_current.time)
+                        : 0}
+                      /
+                      {_this.state.the_current
+                        ? dateConversion(_this.state.the_current.video_len)
+                        : 0}
+                    </span>
+                  </p>
                 </section>
               </div>
-             
             </main>
           </section>
         </main>
@@ -404,27 +544,32 @@ export default class VideoPage extends Component {
               </div>
               {_this.state.the_current.zh ? (
                 <div className={styles.videoTest}>
-                  <p>
-                    <span
-                      data-lu="zh"
-                      onDoubleClick={double_click}
-                      data-inx={_this.state.the_current.inx}
-                    >
-                      {_this.state.the_current
-                        ? _this.state.the_current.zh
-                        : ""}
-                    </span>
+                  {/**属性contenteditable='true'时 此标签支持onblur,onfocus,oninput事件 */}
+                  <p
+                    data-lu="zh"
+                    data-inx={_this.state.the_current.inx}
+                    contenteditable="true"
+                    suppressContentEditableWarning="true" 
+                    onInput={context_input}
+                    onBlur={context_blur}
+                    onFocus={context_focus}
+                    title="点击文字可编辑"
+                  >
+                    {_this.state.the_current ? _this.state.the_current.zh : ""}
                   </p>
-                  <p>
-                    <span
-                      data-lu="en"
-                      onDoubleClick={double_click}
-                      data-inx={_this.state.the_current.inx}
-                    >
-                      {_this.state.the_current
-                        ? _this.state.the_current.en
-                        : ""}
-                    </span>
+                  <p
+                    data-lu="en"
+                    
+                    contenteditable="true"
+                    suppressContentEditableWarning="true" 
+                   
+                    onBlur={context_blur}
+                    title="点击文字可编辑"
+                    onInput={context_input}
+                    onFocus={context_focus}
+                    data-inx={_this.state.the_current.inx}
+                  >
+                    {_this.state.the_current ? _this.state.the_current.en : ""}
                   </p>
                   <NewDialog onClose={handleClose} open={_this.state.edi_show}>
                     <NewDialogTitle>
@@ -434,7 +579,6 @@ export default class VideoPage extends Component {
                       <textarea
                         name="newTest"
                         id="newTest"
-                        autofocus
                         defaultValue={
                           _this.state.lu == "zh"
                             ? _this.state.the_current.zh
