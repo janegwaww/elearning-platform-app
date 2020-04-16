@@ -78,7 +78,7 @@ export default function TextTemplate() {
             </Grid>
             <Grid item xs={9}>
               <div className="text-direction">
-                <Grid container spacing={0}>
+                <Grid container spacing={0} className={classes.root}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].reverse().map((value) => (
                     <Grid key={value} item className={classes.item}>
                       <Paper

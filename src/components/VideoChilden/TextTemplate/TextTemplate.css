@@ -21,8 +21,6 @@
     border-radius:8px;
     background:black;
     }
-
-
 .nav-tabs{
     display: flex;
     justify-content: flex-start;
@@ -33,4 +31,5 @@
   .text-direction{
       width:84px;
       height: 84px;
+      margin-top: -10px;
   }
