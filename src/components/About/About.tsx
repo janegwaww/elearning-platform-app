@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import clsx from "clsx";
-import theme from "../../layout/theme";
+import { makeStyles } from "@material-ui/core/styles";
 import "./About.scss";
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +14,7 @@ const AboutTemplate = () => {
     return alert(values);
   };
   return (
-    <div className={clsx(classes.font)}>
+    <div className={classes.font}>
       <h1 onClick={(e): void => handleClick("about")}>
         Edit About component or pages/about.jsx to include your information.
       </h1>
@@ -30,11 +28,7 @@ class About extends Component {
   }
 
   render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <AboutTemplate />
-      </ThemeProvider>
-    );
+    return <AboutTemplate />;
   }
 }
 

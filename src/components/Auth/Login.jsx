@@ -1,10 +1,27 @@
 import React, { useEffect } from "react";
+import Helmet from "react-helmet";
 import { navigate } from "gatsby";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { makeStyles } from "@material-ui/core/styles";
+import KEForm from "../KEFormKit/KEForm";
 import { handleLogin, isLoggedIn } from "../../services/auth";
+import config from "../../../data/SiteConfig";
+import backgroundImage from "../../../static/images/login-background-image.png";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    minHeight: "100vh",
+    minWidth: "100vw",
+    backgroundColor: "rgba(232,240,255,1)"
+  },
+  secondary: {
+    background: `left top / 100% 100% no-repeat url(${backgroundImage})`,
+    height: "93.65vh"
+  }
+}));
 
 const Login = () => {
+  const classes = useStyles();
+
   useEffect(() => {
     if (isLoggedIn()) {
       navigate(`/users/profile`);
@@ -16,34 +33,12 @@ const Login = () => {
   };
 
   return (
-    <Formik
-      initialValues={{ username: "", password: "" }}
-      validationSchema={Yup.object({
-        username: Yup.string()
-          .max(15, "Must be 15 characters or less")
-          .required("Required"),
-        password: Yup.string()
-          .min(8, "Must be 8 characters or more")
-          .required("Required")
-      })}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          handleSubmit(values);
-          navigate(`/users/profile`);
-        }, 400);
-      }}
-    >
-      <Form>
-        <label htmlFor="username">UserName</label>
-        <Field name="username" type="text" />
-        <ErrorMessage name="username" />
-        <label htmlFor="password">Password</label>
-        <Field name="password" type="password" />
-        <ErrorMessage name="password" />
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
+    <div className={classes.root}>
+      <div className={classes.secondary}>
+        <Helmet title={`Login | ${config.siteTitle}`} />
+        <KEForm onSubmit={handleSubmit} />
+      </div>
+    </div>
   );
 };
 

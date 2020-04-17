@@ -1,6 +1,5 @@
 import React from "react";
 import { Router } from "@reach/router";
-import Layout from "../layout";
 import Profile from "../components/Profile/Profile";
 import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
@@ -9,14 +8,12 @@ import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const Users = () => {
   return (
-    <Layout>
-      <Router basepath="/users">
-        <PrivateRoute path="/profile" component={Profile} />
-        <Login path="/login" />
-        <Signup path="signup" />
-        <Default path="/" />
-      </Router>
-    </Layout>
+    <Router basepath="/users">
+      <PrivateRoute path="/profile" component={Profile} />
+      <Login path="/login" />
+      <Signup path="signup" />
+      <Default path="/" />
+    </Router>
   );
 };
 
