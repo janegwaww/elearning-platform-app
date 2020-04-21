@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { navigate } from "gatsby";
 import {
   Container,
   CssBaseline,
@@ -12,15 +11,10 @@ import {
   Link
 } from "@material-ui/core";
 import CustomInput from "./CustomInput";
+import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
+import useStyles from "./KEFormStyle";
 import keLogo from "../../../static/images/ke-logo.png";
 import qrcode from "../../../static/images/qr-code.png";
-import useStyles from "./KEFormStyle";
-import wechat from "../../../static/images/wechat-icon.png";
-import qq from "../../../static/images/qq-icon.png";
-import weibo from "../../../static/images/weibo-icon.png";
-import wechatDefault from "../../../static/images/wechat-icon-default.png";
-import qqDefault from "../../../static/images/qq-icon-default.png";
-import weiboDefault from "../../../static/images/weibo-icon-default.png";
 import account from "../../../static/images/account.png";
 
 const KEForm = props => {
@@ -28,20 +22,17 @@ const KEForm = props => {
   const classes = useStyles();
 
   const handleSubmit = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      setSubmitting(false);
-      props.onSubmit(values);
-      navigate(`/users/profile`);
-    }, 400);
+    setSubmitting(false);
+    props.onSubmit(values);
   };
 
   const YupObject = Yup.object({
     mobile: Yup.string()
-      .max(15, "Must be 15 characters or less")
-      .required("必需的"),
+      .matches(/^1\d{10}$/, "手机号格式不正确!")
+      .required("手机号必须填写!"),
     smscode: Yup.string()
-      .min(8, "Must be 8 characters or more")
-      .required("Required")
+      .matches(/^\d{4}$/, "验证码错误!")
+      .required("验证码必须填写!")
   });
 
   const QrCodeIcon = () => {
@@ -49,7 +40,7 @@ const KEForm = props => {
     return (
       <div className={classes.qrCode} onClick={loginOptionSwitch}>
         <div className={classes.qrImage}>
-          <Tooltip title="扫描二维码登录">
+          <Tooltip title={!accountLogin ? "账号登录" : "扫描二维码登录"}>
             {accountLogin ? (
               <img src={qrcode} alt="qrcode" width="40" height="40" />
             ) : (
@@ -73,48 +64,6 @@ const KEForm = props => {
       </Link>
     </Typography>
   );
-
-  const ThirdPartyLogin = () => {
-    const Logo = ({ urls }) => {
-      const [chosen, setChosen] = useState(false);
-      return (
-        <div
-          style={{ margin: "10px 8px", cursor: "pointer" }}
-          onMouseOver={() => setChosen(true)}
-          onMouseOut={() => setChosen(false)}
-        >
-          <img
-            src={urls[0]}
-            alt="thirdpartylogin"
-            width="32"
-            style={{ display: chosen ? "none" : "block" }}
-          />
-          <img
-            src={urls[1]}
-            alt="thirdpartylogin"
-            width="32"
-            style={{ display: !chosen ? "none" : "block" }}
-          />
-        </div>
-      );
-    };
-    return (
-      <div className={classes.thirdParty}>
-        <div>第三方账号登录</div>
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "row",
-            justifyContent: "center"
-          }}
-        >
-          <Logo urls={[wechatDefault, wechat]} />
-          <Logo urls={[qqDefault, qq]} />
-          <Logo urls={[weiboDefault, weibo]} />
-        </div>
-      </div>
-    );
-  };
 
   const AccountLoginComponent = () => (
     <div style={{ width: "100%" }}>
@@ -141,7 +90,7 @@ const KEForm = props => {
           </Button>
         </Form>
       </Formik>
-      <ThirdPartyLogin />
+      <ThirdPartyLoginOpt />
     </div>
   );
 
@@ -154,12 +103,14 @@ const KEForm = props => {
           backgroundColor: "#d8d8d8",
           margin: "20px auto"
         }}
-      ></div>
+      >
+        qrcode
+      </div>
       <Typography style={{ color: "#303133", fontSize: "14px" }}>
         扫描二维码登录
       </Typography>
       <Typography style={{ color: "#909399", fontSize: "12px" }}>
-        使用知擎APP"扫一扫”用手机账号同步在电脑登录
+        使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
       </Typography>
     </div>
   );

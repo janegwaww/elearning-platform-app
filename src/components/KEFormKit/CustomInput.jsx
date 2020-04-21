@@ -13,18 +13,14 @@ import {
 import useStyles from "./CustomInputStyle";
 
 const CustomInput = props => {
+  const classes = useStyles();
+  const [inputValue, setInputValue] = useState("");
   const {
     field: { name },
-    form: { touched, errors, setFieldValue, setTouched },
+    form: { touched, errors, setFieldValue, setFieldTouched },
     type,
     label
   } = props;
-  const [inputValue, setInputValue] = useState("");
-  const classes = useStyles();
-
-  useEffect(() => {
-    console.log(props.form);
-  }, [inputValue]);
 
   const handleChange = event => {
     const { value } = event.target;
@@ -37,17 +33,14 @@ const CustomInput = props => {
     setFieldValue(name, "");
   };
 
-  const handleBlur = () => {
-    setTouched(name, inputValue);
-    console.log("blur");
+  const handleFocus = () => {
+    setFieldTouched(name, true);
   };
 
-  const handleFocus = () => {
-    console.log("focus");
-  };
+  const handleError = () => touched[name] && errors[name];
 
   const ErrorAlert = () => {
-    return touched === name && errors[name] ? (
+    return touched[name] && errors[name] ? (
       <span>
         <Warning style={{ fontSize: 10, marginRight: 4 }} />
         {errors[name]}
@@ -93,14 +86,13 @@ const CustomInput = props => {
     <FormControl className={classes.root}>
       <InputLabel className={classes.label}>{label}</InputLabel>
       <Input
-        error={false}
+        error={handleError()}
         endAdornment={<CustomAdornment />}
         className={classes.input}
         classes={{ underline: classes.underline }}
         value={inputValue}
         onChange={handleChange}
-        /* onBlur={handleBlur} */
-        /* onFocus={handleFocus} */
+        onFocus={handleFocus}
       />
       <FormHelperText className={classes.helpText}>
         <ErrorAlert />

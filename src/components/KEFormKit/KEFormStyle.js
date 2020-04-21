@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     display: "flex",
     flexFlow: "column nowrap",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     alignItems: "strech",
     padding: "0 14.14%"
   },
@@ -65,19 +65,13 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "42px",
     display: "block",
     textAlign: "center",
-    padding: theme.spacing(2)
+    padding: "30% 0 10px"
   },
   protocol: {
     textAlign: "center",
     padding: theme.spacing(2),
     fontSize: "12px",
     color: "#c0c4cc"
-  },
-  thirdParty: {
-    margin: "30px 0",
-    textAlign: "center",
-    color: "#909399",
-    fontSize: "12px"
   }
 }));
 

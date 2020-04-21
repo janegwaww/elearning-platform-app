@@ -30,6 +30,7 @@ const Login = () => {
 
   const handleSubmit = values => {
     handleLogin(values);
+    navigate(`/users/profile`);
   };
 
   return (
