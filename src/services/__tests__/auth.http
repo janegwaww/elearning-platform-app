@@ -137,3 +137,143 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODc2MzUxO
                       "qrcode":"a22f47be-8516-11ea-8bcb-931aa4fa0d6a"
                       }
 }
+
+
+
+# ⑨手机号验重：
+# http://seeker.haetek.com:9191/mobile/check
+# 前端：
+# {
+# "model_action": "check",
+# "extra_data": {
+# "mobile": 15642336090    # 手机号码
+# }
+# }
+# 后端：
+# 已存在：
+# {
+#     "count": "len(result_data)",
+#     "err": -1,
+#     "err_msg": "This mobile is already exist!",
+#     "result_data": []
+# }
+# 未存在：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "This mobile can be registered!",
+#     "result_data": []
+# }
+POST http://seeker.haetek.com:9191/mobile/check
+Content-Type: application/json
+{
+        "model_action": "check",
+        "extra_data": {
+                        "mobile": "15642336090"
+                      }
+}
+
+
+
+# ⑥第三方生成二维码：
+# http://seeker.haetek.com:9191/third/generate
+# 前端：
+# {
+# "model_action": "generate",
+# "model_type": "qq"/"wechat"/"microblog",    # QQ/微信/微博
+# "extra_data": {}
+# }
+# 后端
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+# "url":""    # 用于前端生成二维码
+#     }]
+# }
+POST http://seeker.haetek.com:9191/third/generate
+Content-Type: application/json
+{
+        "model_action": "generate",
+        "model_type": "qq",
+        "extra_data": {}
+
+}
+
+
+# ⑦第三方登录：
+# http://seeker.haetek.com:9191/third/login
+# 前端：
+# {
+# "model_action": "login",
+# "model_type": "qq"/"wechat"/"microblog",    # QQ/微信/微博
+# "extra_data": {
+# "code":""    # 从第三方获取的
+# }
+# }
+# 后端：
+# 第一次登陆：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+# "access_token":""    # 加密字符串用于标记用户
+#     }]
+# }
+# 之后需要走绑定手机流程：①生成验证码-->⑧第三方绑定手机号
+# 非第一次登陆：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+# "name":"",     # 用户昵称
+# "headshot":""    # 用户头像
+#     }]
+# }
+POST http://seeker.haetek.com:9191/third/login
+Content-Type: application/json
+{
+        "model_action": "login",
+        "model_type": "qq",
+        "extra_data": {
+                      "code":"AAC566ABBBB7E4E072F40F25BE83703F"
+                      }
+}
+
+
+
+# ⑧第三方绑定手机号：
+# http://seeker.haetek.com:9191/third/mobile
+# 前端：
+# {
+# "model_action": "mobile",
+# "extra_data": {
+# "mobile": 15642336090,    # 手机号码
+# "code":""    # 验证码时从后端获取的唯一ID
+# "access_token":""    # 第三方登录时从后端获取的唯一ID
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "name":"",     # 用户昵称
+#     "headshot":""    # 用户头像
+#     }]
+# }
+POST http://seeker.haetek.com:9191/third/mobile
+Content-Type: application/json
+{
+        "model_action": "mobile",
+        "extra_data": {
+                      "mobile": 15642336090,
+                      "code":"AAC566ABBBB7E4E072F40F25BE83703",
+                      "access_token":""
+        }
+
+}
