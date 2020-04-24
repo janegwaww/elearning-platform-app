@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { handleLogin } from "../../services/auth";
+import { generateThirdPartyUrl } from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
@@ -26,14 +26,16 @@ const useStyles = makeStyles(theme => ({
 const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
 
-  const handleLoginClick = () => {
-    if (false) {
-      handleLogin();
-    }
+  const handleLoginClick = method => {
+    generateThirdPartyUrl(method).then(res => {
+      if (res) {
+        window.location.href = `${res}`;
+      }
+    });
   };
 
-  const Logo = ({ url }) => (
-    <div className={classes.logo} onClick={handleLoginClick}>
+  const Logo = ({ url, method }) => (
+    <div className={classes.logo} onClick={() => handleLoginClick(method)}>
       <img src={url} alt="thirdpartylogin" width="32" />
     </div>
   );
@@ -42,9 +44,9 @@ const ThirdPartyLoginOpt = () => {
     <div className={classes.root}>
       <div>第三方账号登录</div>
       <div className={classes.logos}>
-        <Logo url={wechat} />
-        <Logo url={qq} />
-        <Logo url={weibo} />
+        <Logo url={wechat} method="wechat" />
+        <Logo url={qq} method="qq" />
+        <Logo url={weibo} method="weibo" />
       </div>
     </div>
   );

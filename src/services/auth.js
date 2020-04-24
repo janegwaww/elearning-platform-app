@@ -65,3 +65,15 @@ export const enquiryQRCode = qrcode => {
     });
   });
 };
+
+export const generateThirdPartyUrl = modelType => {
+  return new Promise(res => {
+    authApis.thirdQRCode({ modelType }).then(response => {
+      const { data } = response;
+      if (data.err === 0) {
+        res(data.result_data[0]);
+      }
+      res(false);
+    });
+  });
+};

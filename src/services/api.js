@@ -26,7 +26,15 @@ export const AUTH_URL = {
   // 获取二维码
   qrcode: urlJoin(PATH, "qrcode/generate"),
   // 验证二维码
-  enquiry: urlJoin(PATH, "qrcode/enquiry")
+  enquiry: urlJoin(PATH, "qrcode/enquiry"),
+  // 跳转第三方二维码
+  thirdQRCode: urlJoin(PATH, "third/generate"),
+  // 三方登录
+  thirdLogin: urlJoin(PATH, "third/login"),
+  // 三方绑定手机
+  thirdMobile: urlJoin(PATH, "third/mobile"),
+  // 手机号验重
+  mobileCheck: urlJoin(PATH, "mobile/check")
 };
 
 const axiosInstance = axios.create({
@@ -49,10 +57,18 @@ const fetchMethod = postMethod => async (url, params) => {
 // 登录注册接口封装
 export const authApis = (() => {
   const authFetch = fetchMethod(axiosInstance);
-  const params = ({ action, param }) => ({
-    model_action: action || "generate",
-    extra_data: param || {}
-  });
+  const params = ({ action, param, modelType }) => {
+    return !modelType
+      ? {
+          model_action: action || "generate",
+          extra_data: param || {}
+        }
+      : {
+          model_action: action || "generate",
+          model_type: modelType || "qq",
+          extra_data: param || {}
+        };
+  };
 
   return {
     login: ({ mobile, code }) => {
@@ -69,6 +85,9 @@ export const authApis = (() => {
     enquiry: ({ qrcode }) => {
       const param = { qrcode };
       return authFetch(AUTH_URL.enquiry, params({ action: "enquiry", param }));
+    },
+    thirdQRCode: ({ modelType }) => {
+      return authFetch(AUTH_URL.thirdQRCode, params({ modelType }));
     }
   };
 })();
