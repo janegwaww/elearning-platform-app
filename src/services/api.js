@@ -19,17 +19,27 @@ export const VIDEO_URL = {
   videoCheck: urlJoin(PATH, "video", "check")
 };
 export const AUTH_URL = {
-  login: urlJoin(PATH, "login"),
-  signup: urlJoin(PATH, "signup")
+  // 登录
+  login: urlJoin(PATH, "code/login"),
+  // 发送验证码
+  smscode: urlJoin(PATH, "code/generate"),
+  // 获取二维码
+  qrcode: urlJoin(PATH, "qrcode/generate"),
+  // 验证二维码
+  enquiry: urlJoin(PATH, "qrcode/enquiry")
 };
 
 const axiosInstance = axios.create({
   baseURL: PATH,
-  timeout: 1000
+  timeout: 5000,
+  headers: {
+    "Access-Control-Allow-Origin": "*"
+  }
 });
+
 const fetchMethod = postMethod => async (url, params) => {
   try {
-    const response = await [postMethod].post(url, params);
+    const response = await postMethod.post(url, params);
     return response;
   } catch (error) {
     return error;
@@ -39,12 +49,26 @@ const fetchMethod = postMethod => async (url, params) => {
 // 登录注册接口封装
 export const authApis = (() => {
   const authFetch = fetchMethod(axiosInstance);
+  const params = ({ action, param }) => ({
+    model_action: action || "generate",
+    extra_data: param || {}
+  });
+
   return {
-    login: ({ username, password }) => {
-      return authFetch(AUTH_URL.login, { username, password });
+    login: ({ mobile, code }) => {
+      const param = { mobile, code };
+      return authFetch(AUTH_URL.login, params({ action: "login", param }));
     },
-    signup: ({ username, password, email }) => {
-      return authFetch(AUTH_URL.signup, { username, password, email });
+    smscode: ({ mobile }) => {
+      const param = { mobile };
+      return authFetch(AUTH_URL.smscode, params({ param }));
+    },
+    qrcode: () => {
+      return authFetch(AUTH_URL.qrcode, params({}));
+    },
+    enquiry: ({ qrcode }) => {
+      const param = { qrcode };
+      return authFetch(AUTH_URL.enquiry, params({ action: "enquiry", param }));
     }
   };
 })();

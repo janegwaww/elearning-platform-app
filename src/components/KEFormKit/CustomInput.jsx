@@ -15,12 +15,21 @@ import useStyles from "./CustomInputStyle";
 const CustomInput = props => {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState("");
+  const [timer, setTimer] = useState(0);
+  const [sending, setSending] = useState(false);
   const {
     field: { name },
-    form: { touched, errors, setFieldValue, setFieldTouched },
+    form: { touched, errors, setFieldValue, setFieldTouched, values },
     type,
-    label
+    label,
+    onSend
   } = props;
+
+  useEffect(() => {
+    if (timer > 0) {
+      setTimeout(() => setTimer(timer - 1), 1000);
+    }
+  }, [timer]);
 
   const handleChange = event => {
     const { value } = event.target;
@@ -37,7 +46,7 @@ const CustomInput = props => {
     setFieldTouched(name, true);
   };
 
-  const handleError = () => touched[name] && errors[name];
+  const handleError = () => !!(touched[name] && errors[name]);
 
   const ErrorAlert = () => {
     return touched[name] && errors[name] ? (
@@ -48,15 +57,28 @@ const CustomInput = props => {
     ) : null;
   };
 
-  const SendButtonAdornment = () => (
-    <InputAdornment position="end">
-      <Divider orientation="vertical" className={classes.divider} />
-      <IconButton size="small" className={classes.iconButton}>
-        <span className={clsx(classes.sendCode)}>获取验证码</span>
-      </IconButton>
-    </InputAdornment>
-  );
-
+  const SendButtonAdornment = () => {
+    const handleDisabled = () =>
+      !!(touched.mobile && errors.mobile) || timer > 0;
+    const handleCodeSend = () => {
+      setTimer(60);
+      setSending(true);
+      return typeof onSend === "function" && onSend(values);
+    };
+    return (
+      <InputAdornment position="end">
+        <Divider orientation="vertical" className={classes.divider} />
+        <IconButton
+          disabled={handleDisabled()}
+          size="small"
+          className={clsx(classes.iconButton, classes.sendCode)}
+          onClick={handleCodeSend}
+        >
+          {sending ? `重新发送(${timer})` : "获取验证码"}
+        </IconButton>
+      </InputAdornment>
+    );
+  };
   const ClearInputAdornment = () => (
     <InputAdornment position="end">
       {!!inputValue && (

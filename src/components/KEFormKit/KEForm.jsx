@@ -1,6 +1,8 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
+import { navigate } from "gatsby";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import QRCode from "qrcode.react";
 import {
   Container,
   CssBaseline,
@@ -13,17 +15,56 @@ import {
 import CustomInput from "./CustomInput";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
-import keLogo from "../../../static/images/ke-logo.png";
 import qrcode from "../../../static/images/qr-code.png";
 import account from "../../../static/images/account.png";
+import loginBg from "../../../static/images/login-bg.png";
+import {
+  generateSMSCode,
+  handleLogin,
+  generateQRCode,
+  enquiryQRCode
+} from "../../services/auth";
 
 const KEForm = props => {
   const [accountLogin, setAccountLogin] = useState(true);
+  const [qrcodeValue, setQrcodeValue] = useState("");
   const classes = useStyles();
+
+  const varifyQRCode = () => {
+    enquiryQRCode(qrcodeValue).then(res => {
+      if (res) {
+        return navigate("/users/profile");
+      }
+      if (!res && qrcodeValue) {
+        setTimeout(() => {
+          varifyQRCode();
+        }, 1000);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (!accountLogin) {
+      generateQRCode().then(data => {
+        setQrcodeValue(data);
+        varifyQRCode();
+        console.log(data);
+      });
+    }
+  }, [accountLogin]);
 
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(false);
-    props.onSubmit(values);
+    handleLogin(values, res => {
+      if (res) {
+        navigate(`/users/profile`);
+      }
+    });
+  };
+
+  const handleCodeSend = values => {
+    /* 发送验证码 */
+    generateSMSCode(values.mobile);
   };
 
   const YupObject = Yup.object({
@@ -83,6 +124,7 @@ const KEForm = props => {
             label="验证码"
             name="smscode"
             type="smscode"
+            onSend={handleCodeSend}
             component={CustomInput}
           />
           <Button type="submit" className={classes.loginButton}>
@@ -98,13 +140,13 @@ const KEForm = props => {
     <div style={{ textAlign: "center", marginBottom: "49px" }}>
       <div
         style={{
-          width: "200px",
-          height: "200px",
+          width: "120px",
+          height: "120px",
           backgroundColor: "#d8d8d8",
           margin: "20px auto"
         }}
       >
-        qrcode
+        <QRCode value={qrcodeValue} />
       </div>
       <Typography style={{ color: "#303133", fontSize: "14px" }}>
         扫描二维码登录
@@ -124,7 +166,13 @@ const KEForm = props => {
             <Grid item xs={6}>
               <div className={classes.leftModule}>
                 <div className={classes.KELogo}>
-                  <img src={keLogo} width="316" height="117" alt="kelogo" />
+                  <img
+                    src={loginBg}
+                    alt="login-bg"
+                    height="397"
+                    width="144"
+                    className={classes.loginBg}
+                  />
                 </div>
               </div>
             </Grid>

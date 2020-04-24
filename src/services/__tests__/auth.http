@@ -1,3 +1,18 @@
+# 前端：
+# {
+# "model_action": "generate",
+# "extra_data": {
+# "mobile": 15642336090    # 手机号码
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "code":""    # MD5 }]
+# }
 # test login post api
 POST http://seeker.haetek.com:9191/code/generate
 Content-Type: application/json
@@ -5,11 +20,29 @@ Content-Type: application/json
 {
         "model_action": "generate",
         "extra_data": {
-                      "mobile": 13049393610    # 手机号码
+                      "mobile": 13049393610
         }
 }
 
 
+# 前端：
+# {
+# "model_action": "login",
+# "extra_data": {
+# "mobile": 15642336090,    # 手机号码
+# "code":""    # 唯一ID
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "name":"",     # 用户昵称
+#     "headshot":""    # 用户头像
+# }]
+# }
 # test login post api
 POST http://seeker.haetek.com:9191/code/login
 Content-Type: application/json
@@ -17,13 +50,25 @@ Content-Type: application/json
 {
         "model_action": "login",
         "extra_data": {
-                      "mobile": 15642336090,    # 手机号码
-                      "code":""    # 唯一ID
+                      "mobile": 13049393610,
+                      "code":"7847"
                       }
 }
 
 
 
+# 前端：
+# {
+# "model_action": "generate"
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "qrcode":""    # 唯一ID}]
+# }
 #test qrcode generate api
 POST http://seeker.haetek.com:9191/qrcode/generate
 Content-Type: application/json
@@ -32,12 +77,63 @@ Content-Type: application/json
 }
 
 
+# 前端：
+# {
+# "model_action": "enquiry",
+# "extra_data": {
+# "qrcode":""    # 从后端获取的
+# }
+# }
+# 后端：
+# 未扫：
+# {
+#     "count": "len(result_data)",
+#     "err": 1,
+#     "err_msg": "",
+#     "result_data": []
+# }
+# 已扫：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+#     "name":"",     # 用户昵称
+#     "headshot":""    # 用户头像
+#     }]
+# }
 #test qrcode enquiry api
 POST http://seeker.haetek.com:9191/qrcode/enquiry
 Content-Type: application/json
 {
         "model_action": "enquiry",
         "extra_data": {
-                      "qrcode":""    # 从后端获取的
+                      "qrcode":"f0e7b058-843f-11ea-b8e2-6fd503907e03"
         }
+}
+
+
+# 前端：
+# {
+# "model_action": "scan",
+# "extra_data": {
+# "qrcode":""    # 通过扫描获取
+# }
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": []
+# }
+#varify qrcode
+POST http://seeker.haetek.com:9191/qrcode/scan
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODc2MzUxODUsImlhdCI6MTU4NzYyMDc4NSwiaXNzIjoiaGVpZHVua2VqaSIsImRhdGEiOnsiX2lkIjoiMjAyMDA0MjIxNTQ3MzE1NzEyMSJ9fQ.vO0TsKcbvTHJ7hkYKlRtyg0_wGYjuCcJpaJLrQbBw1w
+{
+        "model_action": "scan",
+        "extra_data": {
+                      "qrcode":"a22f47be-8516-11ea-8bcb-931aa4fa0d6a"
+                      }
 }

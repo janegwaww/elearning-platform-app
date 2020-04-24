@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "block",
-    marginBottom: theme.spacing(0.8)
+    marginBottom: theme.spacing(2),
+    zIndex: 2
   },
   input: {
     width: "100%"
