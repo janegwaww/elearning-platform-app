@@ -1,14 +1,16 @@
 import React from "react";
 import Helmet from "react-helmet";
+import { ThemeProvider } from "@material-ui/core/styles";
 import config from "../../data/SiteConfig";
 import NavBar from "../components/NavBar/NavBar";
+import theme from "./theme";
 import "./index.css";
 
 export default class MainLayout extends React.Component {
   render() {
     const { children } = this.props;
     return (
-      <div>
+      <ThemeProvider theme={theme}>
         <NavBar />
         <div className="layout-container">
           <Helmet>
@@ -18,7 +20,7 @@ export default class MainLayout extends React.Component {
           </Helmet>
           {children}
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 }

@@ -1,10 +1,16 @@
 const config = {
+  // 网站名称
   siteTitle: "Haetek Technology", // Site title.
+  // 网站简称
   siteTitleShort: "Haetek", // Short site title for homescreen (PWA). Preferably should be under 12 characters to prevent truncation.
+  // SEO名称
   siteTitleAlt: "Haetek Technology", // Alternative site title for SEO.
+  // 网站logo
   siteLogo: "/logos/logo-1024.png", // Logo used for SEO and manifest.
+  // 网址
   siteUrl: "https://gatsby-advanced-starter-demo.netlify.com", // Domain of your website without pathPrefix.
   pathPrefix: "/", // Prefixes all links. For cases when deployed to example.github.io/gatsby-advanced-starter/.
+  // 网站描述
   siteDescription: "A GatsbyJS stater with Advanced design in mind.", // Website description used for RSS feeds/meta description tag.
   siteRss: "/rss.xml", // Path to the RSS file.
   siteRssTitle: "Gatsby Advanced Starter RSS feed", // Title of the RSS feed
