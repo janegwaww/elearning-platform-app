@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
     minHeight: "580px",
     minWidth: "440px",
     backgroundColor: "#fff",
-    position: "relative",
     display: "flex",
     flexFlow: "column nowrap",
     justifyContent: "space-between",
@@ -58,14 +57,6 @@ const useStyles = makeStyles(theme => ({
     transform: "translateY(-50%)",
     zIndex: 1
   },
-  loginButton: {
-    background:
-      "linear-gradient(270deg,rgba(0,125,255,1) 0%,rgba(5,161,254,1) 100%)",
-    borderRadius: "30px",
-    width: "100%",
-    color: "#fff",
-    marginTop: theme.spacing(2)
-  },
   welcomeTitle: {
     fontSize: "20px",
     fontFamily: "PingFangSC-Regular,PingFang SC",
@@ -75,12 +66,6 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     textAlign: "left",
     padding: "10% 0 10px"
-  },
-  protocol: {
-    textAlign: "center",
-    padding: theme.spacing(4),
-    fontSize: "12px",
-    color: "#c0c4cc"
   }
 }));
 

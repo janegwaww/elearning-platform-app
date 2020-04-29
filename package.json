@@ -48,9 +48,11 @@
     "react-disqus-comments": "^1.4.0",
     "react-dom": "^16.10.1",
     "react-helmet": "^5.2.1",
+    "react-iframe": "^1.8.0",
     "react-share": "^4.0.1",
     "react-twitter-widgets": "^1.7.1",
     "url-join": "^4.0.0",
+    "url-parse": "^1.4.7",
     "yup": "^0.28.3"
   },
   "devDependencies": {
