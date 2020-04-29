@@ -1,77 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { globalHistory } from "@reach/router";
 import { navigate } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import urlParse from "url-parse";
+import AccountForm from "./AccountForm";
+import UserProtocol from "./UserProtocol";
+import useStyles from "./ThirdPartyLoginOptStyle";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
   bindingMobile
 } from "../../services/auth";
-import ThirdIframe from "./ThirdIframe";
-import AccountForm from "./AccountForm";
-import UserProtocol from "./UserProtocol";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(5),
-    textAlign: "center",
-    color: "#909399",
-    fontSize: "12px"
-  },
-  logos: {
-    display: "flex",
-    flexFlow: "row",
-    justifyContent: "center"
-  },
-  logo: {
-    margin: "20px 14px",
-    cursor: "pointer"
-  },
-  bindingMobile: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: theme.zIndex.modal,
-    backgroundColor: "white",
-    height: "100%",
-    width: "50%",
-    padding: "0 6%",
-    display: "flex",
-    flexFlow: "column nowrap",
-    justifyContent: "space-between"
-  },
-  title: {
-    fontSize: "20px",
-    fontFamily: "PingFangSC-Regular,PingFang SC",
-    fontWeight: 400,
-    color: "rgba(48,49,51,1)",
-    lineHeight: "28px",
-    textAlign: "left",
-    padding: "10% 0 10px"
-  }
-}));
-
 const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
-  const [thirdUrl, setThirdUrl] = useState("");
-  const [code, setCode] = useState("");
-  const [thirdMethod, setThirdMethod] = useState("");
+  const locationHref = globalHistory.location.href;
+  const [thirdMethod, setThirdMethod] = useState("qq");
   const [binding, setBinding] = useState(false);
   const [acToken, setAcToken] = useState("");
+  const [hcode, setHCode] = useState("");
 
   const handleLoginClick = method => {
     setThirdMethod(method);
     generateThirdPartyUrl(method).then(res => {
       if (res) {
-        setThirdUrl(`${res}`);
+        window.location.href = `${res}`;
       }
     });
   };
 
-  const handleLogin = () => {
+  const handleLogin = ({ code }) => {
     const param = { code, modelType: thirdMethod };
     handleThirdLogin(param).then(response => {
       const { accessToken } = response;
@@ -87,7 +48,7 @@ const ThirdPartyLoginOpt = () => {
   };
 
   const handleBindMobile = ({ mobile }) => {
-    const param = { mobile, code, accessToken: acToken };
+    const param = { mobile, code: hcode, accessToken: acToken };
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);
@@ -96,11 +57,15 @@ const ThirdPartyLoginOpt = () => {
     });
   };
 
+  const getThirdCode = href => urlParse(href, true).query.code || "";
+
   useEffect(() => {
-    if (code) {
-      handleLogin();
+    const getCode = getThirdCode(locationHref);
+    if (getCode) {
+      setHCode(getCode);
+      handleLogin({ code: getCode });
     }
-  }, [code]);
+  }, [locationHref]);
 
   const Logo = ({ url, method }) => (
     <div className={classes.logo} onClick={() => handleLoginClick(method)}>
@@ -132,7 +97,6 @@ const ThirdPartyLoginOpt = () => {
         <Logo url={qq} method="qq" />
         <Logo url={weibo} method="weibo" />
       </div>
-      <ThirdIframe url={thirdUrl} handleCode={val => setCode(val)} />
       <BindingForm />
     </div>
   );

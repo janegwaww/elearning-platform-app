@@ -95,14 +95,14 @@ export const handleThirdLogin = ({ code, modelType }) => {
   return new Promise(res => {
     authApis.thirdLogin({ code, modelType }).then(response => {
       const { data, headers } = response;
-      if (headers.authorization) {
+      if (headers && headers.authorization) {
         setUser({
           name: data.result_data[0].name,
           token: headers.authorization
         });
         return res(true);
       }
-      if (data.err === 0) {
+      if (data && data.err === 0) {
         return res({ accessToken: data.result_data[0].access_token });
       }
       return res(false);
