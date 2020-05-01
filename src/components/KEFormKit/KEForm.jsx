@@ -1,34 +1,38 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { navigate } from "gatsby";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
 import QRCode from "qrcode.react";
 import {
   Container,
   CssBaseline,
   Grid,
   Tooltip,
-  Button,
-  Typography,
-  Link
+  Typography
 } from "@material-ui/core";
-import CustomInput from "./CustomInput";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
+import AccountForm from "./AccountForm";
+import UserProtocol from "./UserProtocol";
+import {
+  generateQRCode,
+  enquiryQRCode,
+  handleLogin
+} from "../../services/auth";
 import qrcode from "../../../static/images/qr-code.png";
 import account from "../../../static/images/account.png";
 import loginBg from "../../../static/images/login-bg.png";
-import {
-  generateSMSCode,
-  handleLogin,
-  generateQRCode,
-  enquiryQRCode
-} from "../../services/auth";
 
-const KEForm = props => {
+const KEForm = () => {
+  const classes = useStyles();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
-  const classes = useStyles();
+
+  const handleClickLogin = values => {
+    handleLogin(values, res => {
+      if (res) {
+        navigate(`/users/profile`);
+      }
+    });
+  };
 
   const varifyQRCode = () => {
     enquiryQRCode(qrcodeValue).then(res => {
@@ -53,29 +57,6 @@ const KEForm = props => {
     }
   }, [accountLogin]);
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    setSubmitting(false);
-    handleLogin(values, res => {
-      if (res) {
-        navigate(`/users/profile`);
-      }
-    });
-  };
-
-  const handleCodeSend = values => {
-    /* 发送验证码 */
-    generateSMSCode(values.mobile);
-  };
-
-  const YupObject = Yup.object({
-    mobile: Yup.string()
-      .matches(/^1\d{10}$/, "手机号格式不正确!")
-      .required("手机号必须填写!"),
-    smscode: Yup.string()
-      .matches(/^\d{4}$/, "验证码错误!")
-      .required("验证码必须填写!")
-  });
-
   const QrCodeIcon = () => {
     const loginOptionSwitch = () => setAccountLogin(!accountLogin);
     return (
@@ -93,67 +74,34 @@ const KEForm = props => {
     );
   };
 
-  const UserProtocol = () => (
-    <Typography className={classes.protocol}>
-      登录代表你已同意
-      <Link href="/" underline="always">
-        用户协议
-      </Link>
-      和
-      <Link href="/" underline="always">
-        隐私政策
-      </Link>
-    </Typography>
-  );
-
   const AccountLoginComponent = () => (
     <div style={{ width: "100%" }}>
-      <Formik
-        initialValues={{ mobile: "", smscode: "" }}
-        validationSchema={YupObject}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          <Field
-            label="手机号码"
-            name="mobile"
-            type="mobile"
-            component={CustomInput}
-          />
-          <Field
-            label="验证码"
-            name="smscode"
-            type="smscode"
-            onSend={handleCodeSend}
-            component={CustomInput}
-          />
-          <Button type="submit" className={classes.loginButton}>
-            登录
-          </Button>
-        </Form>
-      </Formik>
-      <ThirdPartyLoginOpt />
+      <AccountForm handleButton={handleClickLogin} />
     </div>
   );
 
   const QrCodeLoginComponent = () => (
-    <div style={{ textAlign: "center", marginBottom: "49px" }}>
-      <div
-        style={{
-          width: "120px",
-          height: "120px",
-          backgroundColor: "#d8d8d8",
-          margin: "20px auto"
-        }}
-      >
-        <QRCode value={qrcodeValue} />
+    <div style={{ textAlign: "center" }}>
+      <div>
+        <div
+          style={{
+            width: "160px",
+            height: "160px",
+            backgroundColor: "transparent",
+            margin: "30px auto"
+          }}
+        >
+          <QRCode value={qrcodeValue} level="L" size="80" />
+        </div>
+        <Typography
+          style={{ color: "#303133", fontSize: "14px", marginBottom: "10px" }}
+        >
+          扫描二维码登录
+        </Typography>
+        <Typography style={{ color: "#909399", fontSize: "12px" }}>
+          使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
+        </Typography>
       </div>
-      <Typography style={{ color: "#303133", fontSize: "14px" }}>
-        扫描二维码登录
-      </Typography>
-      <Typography style={{ color: "#909399", fontSize: "12px" }}>
-        使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
-      </Typography>
     </div>
   );
 
@@ -185,6 +133,7 @@ const KEForm = props => {
                 ) : (
                   <QrCodeLoginComponent />
                 )}
+                <ThirdPartyLoginOpt />
                 <UserProtocol />
               </div>
             </Grid>

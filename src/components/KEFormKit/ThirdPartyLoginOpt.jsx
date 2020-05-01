@@ -1,51 +1,103 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { handleLogin } from "../../services/auth";
+import React, { useState, useEffect } from "react";
+import { globalHistory } from "@reach/router";
+import { navigate } from "gatsby";
+import Typography from "@material-ui/core/Typography";
+import urlParse from "url-parse";
+import AccountForm from "./AccountForm";
+import UserProtocol from "./UserProtocol";
+import useStyles from "./ThirdPartyLoginOptStyle";
+import {
+  generateThirdPartyUrl,
+  handleThirdLogin,
+  bindingMobile
+} from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(5),
-    textAlign: "center",
-    color: "#909399",
-    fontSize: "12px"
-  },
-  logos: {
-    display: "flex",
-    flexFlow: "row",
-    justifyContent: "center"
-  },
-  logo: {
-    margin: "20px 14px",
-    cursor: "pointer"
-  }
-}));
-
 const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
+  const locationHref = globalHistory.location.href;
+  const [thirdMethod, setThirdMethod] = useState("qq");
+  const [binding, setBinding] = useState(false);
+  const [acToken, setAcToken] = useState("");
+  const [hcode, setHCode] = useState("");
 
-  const handleLoginClick = () => {
-    if (false) {
-      handleLogin();
-    }
+  const handleLoginClick = method => {
+    setThirdMethod(method);
+    generateThirdPartyUrl(method).then(res => {
+      if (res) {
+        window.location.href = `${res}`;
+      }
+    });
   };
 
-  const Logo = ({ url }) => (
-    <div className={classes.logo} onClick={handleLoginClick}>
+  const handleLogin = ({ code }) => {
+    const param = { code, modelType: thirdMethod };
+    handleThirdLogin(param).then(response => {
+      const { accessToken } = response;
+      if (accessToken) {
+        /* 执行绑定手机号操作 */
+        setBinding(true);
+        setAcToken(accessToken);
+      }
+      if (response && !accessToken) {
+        navigate(`/users/profile`);
+      }
+    });
+  };
+
+  const handleBindMobile = ({ mobile, smscode }) => {
+    const param = { mobile, code: smscode, accessToken: acToken };
+    bindingMobile(param).then(response => {
+      if (response) {
+        setBinding(false);
+        navigate(`/users/profile`);
+      }
+    });
+  };
+
+  const getThirdCode = href => urlParse(href, true).query.code || "";
+
+  useEffect(() => {
+    const getCode = getThirdCode(locationHref);
+    if (getCode) {
+      setHCode(getCode);
+      handleLogin({ code: getCode });
+    }
+  }, [locationHref]);
+
+  const Logo = ({ url, method }) => (
+    <div className={classes.logo} onClick={() => handleLoginClick(method)}>
       <img src={url} alt="thirdpartylogin" width="32" />
     </div>
   );
+
+  const BindingForm = () =>
+    binding ? (
+      <div className={classes.bindingMobile}>
+        <div>
+          <Typography variant="h5" gutterBottom className={classes.title}>
+            第一次登录需要绑定手机号码
+          </Typography>
+          <AccountForm
+            handleButton={handleBindMobile}
+            buttonText="绑定并登录"
+          />
+        </div>
+        <UserProtocol />
+      </div>
+    ) : null;
 
   return (
     <div className={classes.root}>
       <div>第三方账号登录</div>
       <div className={classes.logos}>
-        <Logo url={wechat} />
-        <Logo url={qq} />
-        <Logo url={weibo} />
+        <Logo url={wechat} method="wechat" />
+        <Logo url={qq} method="qq" />
+        <Logo url={weibo} method="weibo" />
       </div>
+      <BindingForm />
     </div>
   );
 };
