@@ -77,28 +77,31 @@ const KEForm = () => {
   const AccountLoginComponent = () => (
     <div style={{ width: "100%" }}>
       <AccountForm handleButton={handleClickLogin} />
-      <ThirdPartyLoginOpt />
     </div>
   );
 
   const QrCodeLoginComponent = () => (
-    <div style={{ textAlign: "center", marginBottom: "49px" }}>
-      <div
-        style={{
-          width: "120px",
-          height: "120px",
-          backgroundColor: "#d8d8d8",
-          margin: "20px auto"
-        }}
-      >
-        <QRCode value={qrcodeValue} />
+    <div style={{ textAlign: "center" }}>
+      <div>
+        <div
+          style={{
+            width: "160px",
+            height: "160px",
+            backgroundColor: "transparent",
+            margin: "30px auto"
+          }}
+        >
+          <QRCode value={qrcodeValue} level="L" size="80" />
+        </div>
+        <Typography
+          style={{ color: "#303133", fontSize: "14px", marginBottom: "10px" }}
+        >
+          扫描二维码登录
+        </Typography>
+        <Typography style={{ color: "#909399", fontSize: "12px" }}>
+          使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
+        </Typography>
       </div>
-      <Typography style={{ color: "#303133", fontSize: "14px" }}>
-        扫描二维码登录
-      </Typography>
-      <Typography style={{ color: "#909399", fontSize: "12px" }}>
-        使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
-      </Typography>
     </div>
   );
 
@@ -130,6 +133,7 @@ const KEForm = () => {
                 ) : (
                   <QrCodeLoginComponent />
                 )}
+                <ThirdPartyLoginOpt />
                 <UserProtocol />
               </div>
             </Grid>

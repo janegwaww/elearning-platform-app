@@ -8,12 +8,14 @@ import { generateSMSCode } from "../../services/auth";
 
 const useStyles = makeStyles(theme => ({
   loginButton: {
-    background:
-      "linear-gradient(270deg,rgba(0,125,255,1) 0%,rgba(5,161,254,1) 100%)",
+    backgroundColor: "#007cff",
     borderRadius: "30px",
     width: "100%",
     color: "#fff",
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    "&.Mui-disabled": {
+      backgroundColor: "#ddd"
+    }
   }
 }));
 
@@ -44,6 +46,7 @@ const AccountForm = ({ handleButton, buttonText = "登录" }) => {
       initialValues={{ mobile: "", smscode: "" }}
       validationSchema={YupObject}
       onSubmit={handleSubmit}
+      validateOnMount
     >
       {({ isValid }) => {
         return (
@@ -65,6 +68,7 @@ const AccountForm = ({ handleButton, buttonText = "登录" }) => {
               type="submit"
               className={classes.loginButton}
               disabled={!isValid}
+              color="primary"
             >
               {buttonText}
             </Button>

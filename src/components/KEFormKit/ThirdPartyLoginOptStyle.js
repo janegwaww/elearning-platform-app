@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     color: "rgba(48,49,51,1)",
     lineHeight: "28px",
     textAlign: "left",
-    padding: "10% 0 10px"
+    padding: "10% 0 10px",
+    marginBottom: theme.spacing(4)
   }
 }));
 

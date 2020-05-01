@@ -47,8 +47,8 @@ const ThirdPartyLoginOpt = () => {
     });
   };
 
-  const handleBindMobile = ({ mobile }) => {
-    const param = { mobile, code: hcode, accessToken: acToken };
+  const handleBindMobile = ({ mobile, smscode }) => {
+    const param = { mobile, code: smscode, accessToken: acToken };
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);

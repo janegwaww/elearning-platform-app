@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4),
     fontSize: "12px",
     color: "#c0c4cc"
+  },
+  link: {
+    color: "#007cff"
   }
 }));
 
@@ -17,11 +20,11 @@ const UserProtocol = () => {
   return (
     <Typography className={classes.protocol}>
       登录代表你已同意
-      <Link href="/" underline="always">
+      <Link href="/" underline="always" className={classes.link}>
         用户协议
       </Link>
       和
-      <Link href="/" underline="always">
+      <Link href="/" underline="always" className={classes.link}>
         隐私政策
       </Link>
     </Typography>

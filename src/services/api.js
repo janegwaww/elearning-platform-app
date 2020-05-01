@@ -1,7 +1,7 @@
 import urlJoin from "url-join";
 import axios from "axios";
 
-const PATH = "http://seeker.haetek.com:9191";
+const PATH = "http://seeker.haetek.com:8181";
 const PATH_V1 = urlJoin(PATH, "/api/v1/gateway");
 
 export const VIDEO_URL = {

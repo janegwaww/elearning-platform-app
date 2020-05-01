@@ -53,7 +53,8 @@ export const generateSMSCode = mobile => {
 export const generateQRCode = () => {
   return new Promise(res => {
     authApis.qrcode().then(response => {
-      if (response.data.err === 0) {
+      const { data } = response;
+      if (data && data.err === 0) {
         res(response.data.result_data[0].qrcode);
       }
     });
@@ -83,7 +84,7 @@ export const generateThirdPartyUrl = modelType => {
     authApis.thirdQRCode({ modelType }).then(response => {
       const { data } = response;
       if (data.err === 0) {
-        res(data.result_data[0]);
+        res(data.result_data[0].url);
       }
       res(false);
     });
