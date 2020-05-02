@@ -1,3 +1,5 @@
+import { globalHistory } from "@reach/router";
+import { navigate } from "gatsby";
 import { authApis } from "./api";
 
 export const isBrowser = () => typeof window !== "undefined";
@@ -144,4 +146,9 @@ export const userAlreadyExist = mobile => {
       res(true);
     });
   });
+};
+
+export const loginNavigate = modal => {
+  const location = globalHistory.location.pathname;
+  return !!modal ? navigate(`${location}`) : navigate(`/users/profile`);
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -29,6 +29,8 @@ export default function KEFormModal() {
     setOpen(false);
   };
 
+  useEffect(() => {}, [open]);
+
   return (
     <div>
       <button type="button" onClick={handleOpen}>
@@ -52,7 +54,7 @@ export default function KEFormModal() {
             <p id="transition-modal-description">
               react-transition-group animates me.
             </p>
-            <KEForm />
+            <KEForm modal={`${true}`} />
           </div>
         </Fade>
       </Modal>

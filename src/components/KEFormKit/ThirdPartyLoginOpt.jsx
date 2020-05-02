@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { globalHistory } from "@reach/router";
-import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
 import urlParse from "url-parse";
 import AccountForm from "./AccountForm";
@@ -9,19 +8,19 @@ import useStyles from "./ThirdPartyLoginOptStyle";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
-  bindingMobile
+  bindingMobile,
+  loginNavigate
 } from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
 
-const ThirdPartyLoginOpt = () => {
+const ThirdPartyLoginOpt = ({ modal }) => {
   const classes = useStyles();
   const locationHref = globalHistory.location.href;
   const [thirdMethod, setThirdMethod] = useState("qq");
   const [binding, setBinding] = useState(false);
   const [acToken, setAcToken] = useState("");
-  const [hcode, setHCode] = useState("");
 
   const handleLoginClick = method => {
     setThirdMethod(method);
@@ -42,7 +41,7 @@ const ThirdPartyLoginOpt = () => {
         setAcToken(accessToken);
       }
       if (response && !accessToken) {
-        navigate(`/users/profile`);
+        loginNavigate(modal);
       }
     });
   };
@@ -52,7 +51,7 @@ const ThirdPartyLoginOpt = () => {
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);
-        navigate(`/users/profile`);
+        loginNavigate(modal);
       }
     });
   };
@@ -62,7 +61,6 @@ const ThirdPartyLoginOpt = () => {
   useEffect(() => {
     const getCode = getThirdCode(locationHref);
     if (getCode) {
-      setHCode(getCode);
       handleLogin({ code: getCode });
     }
   }, [locationHref]);
