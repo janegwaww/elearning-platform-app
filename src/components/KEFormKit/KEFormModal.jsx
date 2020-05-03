@@ -4,6 +4,8 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import KEForm from "./KEForm";
+import keformModalHeader from "../../../static/images/keform-modal-header.png";
+import keformModalClear from "../../../static/images/keform-modal-clear.png";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -13,7 +15,26 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     backgroundColor: "transparent",
-    padding: theme.spacing(2, 4, 3)
+    border: "none",
+    width: "880px",
+    height: "580px",
+    "&:focus": {
+      outline: "none"
+    }
+  },
+  header: {
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: "-119px"
+  },
+  clear: {
+    height: "119px",
+    display: "flex",
+    alignItems: "flex-end",
+    paddingBottom: "20px"
   }
 }));
 
@@ -50,10 +71,26 @@ export default function KEFormModal() {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">
-              react-transition-group animates me.
-            </p>
+            <div className={classes.header}>
+              <div className={classes.clear}>
+                <img
+                  src={`${keformModalClear}`}
+                  alt="clear"
+                  width="26"
+                  height="26"
+                  onClick={() => handleClose()}
+                />
+              </div>
+              <div>
+                <img
+                  src={`${keformModalHeader}`}
+                  alt="modal-header"
+                  width="398"
+                  height="119"
+                />
+              </div>
+              <div></div>
+            </div>
             <KEForm modal={`${true}`} />
           </div>
         </Fade>
