@@ -75,7 +75,7 @@ export default class VideoPage extends Component {
 
     // 调整滚动条宽度
    
-    getObj('thumb').style.width=getWidth('edit-region','sliderbox','thumbbox')+'px'
+    getObj('thumb').style.width=getWidth('edit-region','sliderbox','thumbbox')+'px';
 
     // this.get_data();
   }
@@ -653,6 +653,7 @@ export default class VideoPage extends Component {
                         onMouseDown={(evt) => {
                            evt.stopPropagation();
                            evt.preventDefault();
+                           getObj('thumb').style.width=getWidth('edit-region','sliderbox','thumbbox')+'px';
                           let obj = evt.target;
                           // edit-region, sliderbox,thumbbox,thumb
                         

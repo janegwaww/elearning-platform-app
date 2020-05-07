@@ -23,6 +23,11 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
       }
       xhr.onload = function(res) {
+
+          if(_this.current==_this.totalConud-1){
+              console.log('上传完成')
+            return
+          }
         _this.current +=1;
         _this.size=_this.current*_this.options.shardSize;
         _this.upFile(formData,filesArr);
@@ -40,26 +45,25 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
       xhr.open("POST", this.options.url, true);
       xhr.upload.onprogress = function(res) {//进度
           let _size=_this.current*_this.options.shardSize+res.loaded;
-          let _progress = parseInt(_size/_this.options.filesSize);
+          let _progress = parseInt(_size/_this.options.filesSize*100);
          _this.options.pageObj.setState({
           progress:_progress
         })
-        // console.log(res)
         if(_progress>=100){
           _this.current=0;
           _this.totalConud=1;
-          _this.options.pageObj
-          document.getElementById(_this.options.fileId).value='';
+          _this.options.pageObj.setState({files:_this.options.filesList,status:3})
+          // document.getElementById(_this.options.fileId).value='';
           
         }
       };
-      xhr.setRequestHeader("Authorization","Bearer " +(getUser().name||''));
+      xhr.setRequestHeader("Authorization","Bearer " +(getUser().token||''));
     
       xhr.send(formData)
   }else{
     _this.current=0;
     _this.totalConud=1;
-    document.getElementById(_this.options.fileId).value='';
+    // document.getElementById(_this.options.fileId).value='';
     return
   }
 
@@ -69,8 +73,9 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
 UpdataFile.prototype.init = function() {
   let _option = this.options;
   let _files = document.getElementById(_option.fileId).files[0];
-  console.log(_files)
+  
   if(!_files){return}
+  this.options.filesList =[_files];
   let  size = _files.size,
     start,
     end,

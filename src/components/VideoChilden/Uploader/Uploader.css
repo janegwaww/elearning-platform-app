@@ -93,6 +93,15 @@ text-align: center;
     bottom:0;
     color:#FFFFFF
 }
+
+
+.items.btn span{
+    display: none;
+}
+
+.items.btn:hover span{
+    display: block;
+}
 /* .nav-tabs+div>section{
     position: relative;
 } */

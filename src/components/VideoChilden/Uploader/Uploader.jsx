@@ -8,8 +8,9 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import getData from "../../../assets/js/request";
 import { getUser, isLoggedIn } from "../..//../services/auth";
 import UpdataFile from "../../../assets/js/updataFile";
-import Message from "./message";
-import md5 from "md5";
+import Message from "./Message";
+import Message1 from './Message1';
+// import md5 from "md5";
 
 const NewLinearProgress = withStyles({
   root: {
@@ -36,7 +37,7 @@ export default class UploadVideos extends Component {
       fileName_chunk: "",
       progress: 0,
       updata_msg: null,
-      status: 1, //2.暂停上传，3.继续上传，4,生成字幕，5.查询字幕，
+      status: 1, //2.上传，3.上传完成未来编辑，4,生成图片，5.生成字幕，
       dialogOpen: false,
       files: [], //文件列表
     };
@@ -53,31 +54,7 @@ export default class UploadVideos extends Component {
       });
     }
   }
-  // handleSubmit = e => {
-  //   e.preventDefault();
-  //   this.setState({ fileName: this.fileInput.current.files[0].name });
-  //   let file = this.fileInput.current.files[0];
-  //   let formData = new FormData();
-  //   formData.append(file.name, file);
-  //   axios({
-  //     url: "http://seeker.haetek.com:9191",
-  //     method: "post",
-  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     data: formData
-  //   })
-  //     .then(res => {
-  //       console.log(res);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-  // async getHash() {
-  //   const res = await axios.post("http://192.168.0.180:6869/breakpoint", {
-  //     task_id: ""
-  //   });
-  //   return await res.data;
-  // }
+  
   beforeSend() {
     WebUpload.Uploader.register(
       {
@@ -119,9 +96,7 @@ export default class UploadVideos extends Component {
       }
     );
   }
-  Dialog_html() {
-    return <Dialog open={true}>你还登录，将为您跳转到登录页!</Dialog>;
-  }
+ 
   createUploader = () => {
     let task_id = WebUpload.Base.guid();
     this.beforeSend();
@@ -259,58 +234,78 @@ export default class UploadVideos extends Component {
         </div>
 
         <div className="lists">
-          <section>
-            <input
-              type="file"
-              id="newFile"
-              onChange={(e) => {
+          {_this.state.status === 1 ? (
+            <section>
+              <input
+                type="file"
+                id="newFile"
+                onChange={(e) => {
+                  // getData('api/v1/gateway',{
+                  //   'model_name':'user',
+                  //   "model_action":'is_login',
+                  //   'extra_data':{},
+                  //   'model_type':''
+                  // }).then(res=>{
+                  //   console.log(res)
+                  // }).catch(err=>{
+                  //   console.log(err)
+                  // })
+                  _this.setState({ status: 2 });
+                  let myFile = new UpdataFile({
+                    fileId: "newFile",
+                    pageObj: _this,
+                    url: "http://api.haetek.com:9191/api/v1/gateway",
+                    filesSize: e.target.files[0].size,
+                    shardSize: 10 * 1024 * 1024, //一个分片大小
+                  });
+                  myFile.init();
+                }}
+              />
+              <br />
+              <p>拖放您要上传的视频</p>
+              <p>您的视频在发布之前将处于私享状态</p>
+            </section>
+          ) : (
+            <section></section>
+          )}
+          {_this.state.status === 2 ? (
+            <section>
+              <div className="items">
+                  <NewLinearProgress
+                    variant="determinate"
+                    value={this.state.progress}
+                  ></NewLinearProgress>
+              </div>
+            </section>
+          ) : (<i></i>)}
+                {_this.state.status===3?(
+                  <section>
+                    <div className="items btn">
+                      <span className="edit" title="添加到编辑区">
+                        <Create onClick={()=>{
+                          getData('api/v1/gateway',{
+                            "model_name":"video",
+                            "model_action": "generate_thumbnail",
+                            "extra_data": {
+                            "video_id": video_id
+                            },
+                            "model_type":""
+                          }).then(res=>{
 
-                getData('api/v1/gateway',{
-                  'model_name':'user',
-                  "model_action":'is_login',
-                  'extra_data':{},
-                  'model_type':''
-                }).then(res=>{
-                  console.log(res)
-                }).catch(err=>{
-                  console.log(err)
-                })
+                          }).catch(err=>{
 
+                          })
 
-
-                let myFile = new UpdataFile({
-                  // files: e.target.files[0],
-                  fileId:'newFile',
-                  pageObj: _this,
-                  url: "http://api.haetek.com:9191/api/v1/gateway",
-                  filesSize:e.target.files[0].size,
-                  shardSize: 10 * 1024 * 1024, //一个分片大小
-                });
-                myFile.init();
-              }}
-            />
-            <br />
-            <p>拖放您要上传的视频</p>
-            <p>您的视频在发布之前将处于私享状态</p>
-       
-          </section>
-          <section>
-            <div className="items">
-              <NewLinearProgress
-                variant="determinate"
-                value={this.state.progress}
-              ></NewLinearProgress>
-              <span className="edit" title="添加到编辑区">
-                <Create />
-              </span>
-              <span className="del" title="删除">
-                {" "}
-                <Delete />
-              </span>
-              <p>123456</p>
-            </div>
-            <p>素材</p>
-          </section>
+                        }}/>
+                      </span>
+                      <span className="del" title="删除">
+                        <Delete />
+                      </span>
+                      <p style={{fontSize:'10px'}}>123456</p>
+                    </div>
+                    <p style={{width: '120px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace: 'nowrap'}}>{_this.state.files[0].name}</p>
+                  </section>
+                ):(<i></i>)}
 
           {/*
          
@@ -348,7 +343,7 @@ export default class UploadVideos extends Component {
 
             <br />
           </label>
-          {this.state.status == 9 ? this.Dialog_html() : ""}
+        
           {status >= 4 ? (
             <div className="updata-img">
               <img src="https://material-ui.com/static/images/avatar/1.jpg" />
