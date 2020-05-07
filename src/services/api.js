@@ -66,6 +66,12 @@ const extraApis = (cusFetch, paramMethod) => (modelActions = []) =>
     {}
   );
 
+// 合并接口
+const apis = (...objs) => {
+  const concatObj = (target, source) => Object.assign(target, source);
+  return objs.reduce(concatObj, {});
+};
+
 // 登录注册接口封装
 export const authApis = () => {
   const modelActions = [
@@ -130,7 +136,7 @@ export const videoApis = () => {
     // 查看课件
     "view_file"
   ];
-  const getToken = getUser().token;
+  const getToken = "";
   axiosInstance.headers = {
     Authorization: `Bearer ${getToken}`
   };
@@ -144,10 +150,4 @@ export const videoApis = () => {
   return getApis;
 };
 
-// 合并接口
-const apis = (...objs) => {
-  const concatObj = (target, source) => Object.assign(target, source);
-  return objs.reduce(concatObj, {});
-};
-
-export default apis(authApis, videoApis);
+export default apis(authApis(), videoApis());
