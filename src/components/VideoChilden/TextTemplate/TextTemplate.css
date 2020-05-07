@@ -8,7 +8,7 @@
   /* 设置滚动条的样式 */
   .text-template::-webkit-scrollbar {
     width:8px;
-    background-color: yellowgreen;
+    background-color: #ccc;
     }
 
     /* 滚动槽 */
@@ -19,7 +19,7 @@
     /* 滚动条滑块 */
     .text-template::-webkit-scrollbar-thumb {
     border-radius:8px;
-    background:black;
+    background:#58585E;
     }
 .nav-tabs{
     display: flex;

@@ -1,11 +1,23 @@
 import React, { Component } from "react";
 
-import {PlayArrow,Title,VolumeUp,FontDownload} from  "@material-ui/icons";
+import {PlayArrow,Title,VolumeUp,FontDownload,SubdirectoryArrowLeft,SubdirectoryArrowRight} from  "@material-ui/icons";
 
-import "./BottomAside.css";
+import  styles from "./BottomAside.module.css";
 
 export default ()=> (
-      <ul >
+      <ul className={styles.ul}>
+        <li>
+        <div className={styles.slider}>
+                <div className={styles.left}>
+                  <div>
+                    <SubdirectoryArrowLeft />
+                  </div>
+                  <div>
+                    <SubdirectoryArrowRight />
+                  </div>
+                </div>
+              </div>
+        </li>
         <li><Title /> </li>
         <li><PlayArrow /></li>
         <li><VolumeUp /></li>

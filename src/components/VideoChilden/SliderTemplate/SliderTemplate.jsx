@@ -22,11 +22,11 @@ const TemplateSlider = withStyles({
       bottom: 0,
       top: "5px",
       position: "absolute",
-      height: "300px",
+      height: "800px",
       backgroundColor: "red",
       zIndex: 100
     },
-   
+    
     "&:hover": {
       boxShadow: "none"
     }
@@ -34,7 +34,10 @@ const TemplateSlider = withStyles({
   root: {
     color: "#fff",
     padding: "25px 0 0 0",
-    width: "98%"
+   
+  },
+  rail:{
+    'background-color':'transparent'
   },
   marked: {
     margin: 0
@@ -44,9 +47,9 @@ const TemplateSlider = withStyles({
     color: "#CCCCD1",
     'margin-left':"30px"
   },
-  track: {
-    // height: 2,
-  },
+  track :{
+  'background-color':'transparent'
+},
   active: {
     boxShadow: "none"
   }
@@ -107,7 +110,7 @@ class SliderTemplate extends React.Component {
         max={this.state.leng||1000}
         value={this.state.value}
         step={0.01}
-        marks={marks(this.state.leng)}
+        marks={marks(this.state.leng||1200)}
         aria-labelledby="continuous-slider"
         onChange={this.handleChange}
       />

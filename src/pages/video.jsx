@@ -5,7 +5,14 @@ import TopAside from "../components/VideoChilden/TopAside/TopAside";
 import BottomAside from "../components/VideoChilden/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
 
-import { Dialog, Button, DialogTitle, Snackbar } from "@material-ui/core";
+import {
+  Dialog,
+  Button,
+  DialogTitle,
+  Snackbar,
+  Slider,
+  Grid,
+} from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -16,10 +23,14 @@ import {
   SkipPrevious,
   PlayArrow,
   Pause,
+  RemoveCircleOutline,
+  AddCircleOutline,
+  SwapHoriz,
 } from "@material-ui/icons";
 import styles from "../assets/css/video.module.css";
 import getData from "../assets/js/request";
 import dateConversion from "../assets/js/dateConversion";
+import {getObj,getScroll,getPage ,getWidth,getStyles} from '../assets/js/totls';
 
 const NewDialog = withStyles({
   paperWidthSm: {
@@ -57,10 +68,15 @@ export default class VideoPage extends Component {
   }
   componentDidMount() {
     this.setState({
-      video_h: document.getElementById("myvideo").clientHeight,
+      video_h: getObj("myvideo").clientHeight,
     });
-    document.getElementById("max-box").style.height =
-      document.getElementById("gatsby-focus-wrapper").clientHeight + "px";
+    getObj("max-box").style.height =
+    getObj("gatsby-focus-wrapper").clientHeight + "px";
+
+    // 调整滚动条宽度
+   
+    getObj('thumb').style.width=getWidth('edit-region','sliderbox','thumbbox')+'px'
+
     // this.get_data();
   }
 
@@ -308,28 +324,27 @@ export default class VideoPage extends Component {
     };
     const context_input = function(el, value) {
       let _the_data = _this.state.the_current, //当前，
-          lang = el.target.dataset.lu,
-          _inx = parseInt(el.target.dataset.inx);
-          
-          // if(lang =='zh'){
-          //   let doc = el.target; // jquery 对象转dom对象
-          //       doc.focus();
-              
-          //   _the_data.zh = el.target.innerText;
-            
-          //   _this.setState({
-          //     // the_current:_the_data
-          //   })
-          // }
+        lang = el.target.dataset.lu,
+        _inx = parseInt(el.target.dataset.inx);
+
+      // if(lang =='zh'){
+      //   let doc = el.target; // jquery 对象转dom对象
+      //       doc.focus();
+
+      //   _the_data.zh = el.target.innerText;
+
+      //   _this.setState({
+      //     // the_current:_the_data
+      //   })
+      // }
       console.log(el.target.innerText);
       console.log(el.target.dataset);
-     
     };
     const context_focus = function(el, value) {
       // console.log("focus", el);
       _this.setState({
         top_inx: 2,
-      })
+      });
       on_pause();
     };
     const context_blur = function(el) {
@@ -337,23 +352,21 @@ export default class VideoPage extends Component {
         _video_data = _this.state.video_data, //所有
         lang = el.target.dataset.lu,
         _inx = parseInt(el.target.dataset.inx);
-        if(lang=='zh'){
-          if(_the_data.zh!==el.target.innerText){
-            _the_data.zh=el.target.innerText;
-            _video_data.sub_josn[_inx].cn_sub =el.target.innerText.toString();
-          }
-        }else{
-            if(_the_data.en!==el.target.innerText){
-              _the_data.en=el.target.innerText;
-              _video_data.sub_josn[_inx].en_sub =el.target.innerText.toString();
-             
-          }
+      if (lang == "zh") {
+        if (_the_data.zh !== el.target.innerText) {
+          _the_data.zh = el.target.innerText;
+          _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
         }
-        _this.setState({
-          the_current:_the_data,
-          video_data:_video_data
-        })
-   
+      } else {
+        if (_the_data.en !== el.target.innerText) {
+          _the_data.en = el.target.innerText;
+          _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
+        }
+      }
+      _this.setState({
+        the_current: _the_data,
+        video_data: _video_data,
+      });
     };
 
     const handleClose = function() {
@@ -456,7 +469,7 @@ export default class VideoPage extends Component {
                           data-lu="zh"
                           data-inx={_this.state.the_current.inx}
                           contenteditable="true"
-                          suppressContentEditableWarning="true" 
+                          suppressContentEditableWarning="true"
                           onBlur={context_blur}
                           onFocus={context_focus}
                           title="点击文字可编辑"
@@ -464,14 +477,13 @@ export default class VideoPage extends Component {
                           {_this.state.the_current
                             ? _this.state.the_current.zh
                             : ""}
-                            
                         </span>
 
                         <span
                           data-lu="en"
                           data-inx={_this.state.the_current.inx}
                           contenteditable="true"
-                          suppressContentEditableWarning="true" 
+                          suppressContentEditableWarning="true"
                           onBlur={context_blur}
                           onFocus={context_focus}
                           title="点击文字可编辑"
@@ -512,114 +524,214 @@ export default class VideoPage extends Component {
             </main>
           </section>
         </main>
-        <div className={styles.slider}>
-          <div className={styles.left}>
-            <div>
-              <SubdirectoryArrowLeft />
-            </div>
-            <div>
-              <SubdirectoryArrowRight />
-            </div>
-          </div>
-          <div className={styles.right}>
-            <SliderTemplate
-              value={this.state.the_current.time || 0}
-              parent={this}
-              length={
-                this.state.the_current ? this.state.the_current.video_len : 0
-              }
-            />
-          </div>
-        </div>
+
         <footer className={`${styles.elFooter} ${styles.bottom}`}>
           <section className={styles.elContainer}>
             <aside className={styles.elAside}>
               <BottomAside />
             </aside>
-            <main className={styles.elMain}>
-              <div className={styles.videoImg}>图片</div>
-              <div className={styles.videoImage}>
-                <Image />
-              </div>
-              {_this.state.the_current.zh ? (
-                <div className={styles.videoTest}>
-                  {/**属性contenteditable='true'时 此标签支持onblur,onfocus,oninput事件 */}
-                  <p
-                    data-lu="zh"
-                    data-inx={_this.state.the_current.inx}
-                    contenteditable="true"
-                    suppressContentEditableWarning="true" 
-                    onInput={context_input}
-                    onBlur={context_blur}
-                    onFocus={context_focus}
-                    title="点击文字可编辑"
-                  >
-                    {_this.state.the_current ? _this.state.the_current.zh : ""}
-                  </p>
-                  <p
-                    data-lu="en"
-                    
-                    contenteditable="true"
-                    suppressContentEditableWarning="true" 
-                   
-                    onBlur={context_blur}
-                    title="点击文字可编辑"
-                    onInput={context_input}
-                    onFocus={context_focus}
-                    data-inx={_this.state.the_current.inx}
-                  >
-                    {_this.state.the_current ? _this.state.the_current.en : ""}
-                  </p>
-                  <NewDialog onClose={handleClose} open={_this.state.edi_show}>
-                    <NewDialogTitle>
-                      编辑当前的{_this.state.lu == "zh" ? "中文" : "英文"}字幕
-                    </NewDialogTitle>
-                    <form action="">
-                      <textarea
-                        name="newTest"
-                        id="newTest"
-                        defaultValue={
-                          _this.state.lu == "zh"
-                            ? _this.state.the_current.zh
-                            : _this.state.the_current.en
+            <main className={styles.elMain} >
+              <section className={`${styles.elContainer} ${styles.isVertical}`}>
+
+                <main className={styles.elMain} style={{'overflow': 'hidden'}} id = 'edit-region'>
+                  <section style={{'height':'100%'}} id="sliderbox">
+                      
+                    <div  className={styles.slider}>
+                      <SliderTemplate
+                        value={this.state.the_current.time || 0}
+                        parent={this}
+                        length={
+                          this.state.the_current
+                            ? this.state.the_current.video_len
+                            : 0
                         }
-                        cols="50"
-                        rows="5"
-                      ></textarea>
-                    </form>
-                    <Button variant="contained" onClick={handleClose}>
-                      取消
-                    </Button>
-                    <Button
-                      onClick={handleServer}
-                      variant="contained"
-                      color="primary"
-                    >
-                      保存
-                    </Button>
-                  </NewDialog>
-                  <Snackbar
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "center",
-                    }}
-                    open={_this.state.is_suc ? true : false}
-                    autoHideDuration={3000}
-                    message={_this.state.is_suc}
-                  >
-                    <MuiAlert
-                      severity={
-                        _this.state.is_suc == "suc" ? "success" : "error"
-                      }
-                    >
-                      {_this.state.is_suc == "suc" ? "修改成功" : "修改失败"}
-                    </MuiAlert>
-                  </Snackbar>
-                </div>
-              ) : (
-                ""
-              )}
+                      />
+                    </div>
+                    <div className={styles.videoImg}>图片</div>
+                    
+                    <div className={styles.videoImage}>
+                      <Image />
+                    </div>
+                    <div className={styles.videoImg}>图片</div>
+                
+                    {_this.state.the_current.zh ? (
+                      <div className={styles.videoTest}>
+                        属性contenteditable='true'时
+                        此标签支持onblur,onfocus,oninput事件
+                        <p
+                          data-lu="zh"
+                          data-inx={_this.state.the_current.inx}
+                          contenteditable="true"
+                          suppressContentEditableWarning="true"
+                          onInput={context_input}
+                          onBlur={context_blur}
+                          onFocus={context_focus}
+                          title="点击文字可编辑"
+                        >
+                          {_this.state.the_current
+                            ? _this.state.the_current.zh
+                            : ""}
+                        </p>
+                        <p
+                          data-lu="en"
+                          contenteditable="true"
+                          suppressContentEditableWarning="true"
+                          onBlur={context_blur}
+                          title="点击文字可编辑"
+                          onInput={context_input}
+                          onFocus={context_focus}
+                          data-inx={_this.state.the_current.inx}
+                        >
+                          {_this.state.the_current
+                            ? _this.state.the_current.en
+                            : ""}
+                        </p>
+                        <NewDialog
+                          onClose={handleClose}
+                          open={_this.state.edi_show}
+                        >
+                          <NewDialogTitle>
+                            编辑当前的{_this.state.lu == "zh" ? "中文" : "英文"}
+                            字幕
+                          </NewDialogTitle>
+                          <form action="">
+                            <textarea
+                              name="newTest"
+                              id="newTest"
+                              defaultValue={
+                                _this.state.lu == "zh"
+                                  ? _this.state.the_current.zh
+                                  : _this.state.the_current.en
+                              }
+                              cols="50"
+                              rows="5"
+                            ></textarea>
+                          </form>
+                          <Button variant="contained" onClick={handleClose}>
+                            取消
+                          </Button>
+                          <Button
+                            onClick={handleServer}
+                            variant="contained"
+                            color="primary"
+                          >
+                            保存
+                          </Button>
+                        </NewDialog>
+                        <Snackbar
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                          }}
+                          open={_this.state.is_suc ? true : false}
+                          autoHideDuration={3000}
+                          message={_this.state.is_suc}
+                        >
+                          <MuiAlert
+                            severity={
+                              _this.state.is_suc == "suc" ? "success" : "error"
+                            }
+                          >
+                            {_this.state.is_suc == "suc"
+                              ? "修改成功"
+                              : "修改失败"}
+                          </MuiAlert>
+                        </Snackbar>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </section>
+                    
+                </main>
+
+                <footer className={styles.elFooter} style={{height:'24px'}} >
+                  <div className={styles.bottomRight}>
+                    <div className={styles.scroller} id='thumbbox'>
+                      <div
+                        className={styles.scrollThumb} id = 'thumb'
+                        onMouseDown={(evt) => {
+                           evt.stopPropagation();
+                           evt.preventDefault();
+                          let obj = evt.target;
+                          // edit-region, sliderbox,thumbbox,thumb
+                        
+                          let x = getPage(evt).pageX-getStyles('thumb','transform');
+                            document.onmousemove = function(e){
+                              let barX = getPage(e).pageX-x;
+                              console.log(barX)
+                              barX = barX<0?0:barX;
+                              barX = barX>getObj('thumbbox').clientWidth-obj.clientWidth?getObj('thumbbox').clientWidth-obj.clientWidth:barX;
+                              console.log(barX)
+                              obj.style.transform='translateX('+barX+'px)';
+                              
+                              let contentMax = getObj('sliderbox').scrollWidth- getObj('edit-region').clientWidth;
+                              let barMax = getObj('thumbbox').clientWidth - obj.clientWidth;
+
+                              let contentX = barX/barMax*contentMax;
+                              getObj('sliderbox').style.transform='translateX(-'+contentX+'px)'
+                              
+                              console.log(contentMax,barMax)
+
+                            }
+                            document.onmouseup = function(){
+                              document.onmousemove = null;
+                            }
+                         
+                        }}
+                       
+                      ></div>
+                    </div>
+                    <div className={styles.perBtns}>
+                      <Grid container>
+                        <Grid item>
+                          <RemoveCircleOutline />
+                        </Grid>
+                        <Grid item xs>
+                          <Slider
+                            defaultValue={20}
+                            aria-labelledby="continuous-slider"
+                          />
+                        </Grid>
+                        <Grid item>
+                          <AddCircleOutline />
+                        </Grid>
+                        <Grid item>
+                          <SwapHoriz />
+                        </Grid>
+                      </Grid>
+                    </div>
+                      </div>
+                </footer>
+
+                {/*
+                
+                  <div className={styles.videoImg}>图片</div>
+                  <div className={styles.videoImage}>
+                    <Image />
+                  </div>
+                    */}
+              </section>
             </main>
+
+            {/*<header className={styles.elHeader}>
+              
+            </header>
+
+            <main className={styles.elMain}>
+              <section className={styles.elContainer}>
+                <aside className={styles.elAside}>
+                  <BottomAside />
+                </aside>
+
+                <main className={styles.elMain}>
+                 
+                </main>
+              </section>
+            </main>
+            <footer className={styles.elFooter}>
+              
+                  </footer>*/}
           </section>
         </footer>
       </div>
