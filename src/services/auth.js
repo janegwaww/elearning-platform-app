@@ -2,6 +2,8 @@ import { globalHistory } from "@reach/router";
 import { navigate } from "gatsby";
 import { authApis } from "./api";
 
+const apis = authApis();
+
 export const isBrowser = () => typeof window !== "undefined";
 
 // 获取用户
@@ -16,7 +18,7 @@ const setUser = user =>
 
 // 手机号验证码登录
 export const handleLogin = ({ mobile, smscode }, callback) => {
-  authApis.login({ mobile, code: smscode }).then(response => {
+  apis.codeLogin({ mobile, code: smscode }).then(response => {
     const {
       data: { err, err_msg, result_data },
       headers
@@ -48,13 +50,13 @@ export const logout = callback => {
 
 // 发送验证码
 export const generateSMSCode = mobile => {
-  authApis.smscode({ mobile });
+  apis.generateCode({ mobile });
 };
 
 // 获取二维码
 export const generateQRCode = () => {
   return new Promise(res => {
-    authApis.qrcode().then(response => {
+    apis.generateQrcode().then(response => {
       const { data } = response;
       if (data && data.err === 0) {
         res(response.data.result_data[0].qrcode);
@@ -66,7 +68,7 @@ export const generateQRCode = () => {
 // 二维码验证登录
 export const enquiryQRCode = qrcode => {
   return new Promise(res => {
-    authApis.enquiry({ qrcode }).then(response => {
+    apis.enquiryQrcode({ qrcode }).then(response => {
       const { data, headers } = response;
       if (data.err === 0) {
         setUser({
@@ -81,9 +83,9 @@ export const enquiryQRCode = qrcode => {
 };
 
 // 获取第三方跳转地址
-export const generateThirdPartyUrl = modelType => {
+export const generateThirdPartyUrl = () => {
   return new Promise(res => {
-    authApis.thirdQRCode({ modelType }).then(response => {
+    apis.generateThirdQrcode().then(response => {
       const { data } = response;
       if (data.err === 0) {
         res(data.result_data[0].url);
@@ -94,9 +96,9 @@ export const generateThirdPartyUrl = modelType => {
 };
 
 // 第三方登录，第一次登录要执行绑定手机号操作，不是第一次登录就直接登录
-export const handleThirdLogin = ({ code, modelType }) => {
+export const handleThirdLogin = ({ code }) => {
   return new Promise(res => {
-    authApis.thirdLogin({ code, modelType }).then(response => {
+    apis.thirdLogin({ code }).then(response => {
       const { data, headers } = response;
       if (headers && headers.authorization) {
         setUser({
@@ -116,27 +118,29 @@ export const handleThirdLogin = ({ code, modelType }) => {
 // 绑定手机并登录
 export const bindingMobile = ({ mobile, code, accessToken }) => {
   return new Promise(res => {
-    authApis.thirdMobile({ mobile, code, accessToken }).then(response => {
-      const {
-        data: { err, result_data },
-        headers
-      } = response;
-      if (err === 0) {
-        setUser({
-          name: result_data[0].name,
-          token: headers.authorization
-        });
-        return res(true);
-      }
-      return res(false);
-    });
+    apis
+      .thirdBindMobile({ mobile, code, access_token: accessToken })
+      .then(response => {
+        const {
+          data: { err, result_data },
+          headers
+        } = response;
+        if (err === 0) {
+          setUser({
+            name: result_data[0].name,
+            token: headers.authorization
+          });
+          return res(true);
+        }
+        return res(false);
+      });
   });
 };
 
 // 手机号是否已经存在
 export const userAlreadyExist = mobile => {
   return new Promise(res => {
-    authApis.mobileCheck({ mobile }).then(response => {
+    apis.checkMobile({ mobile }).then(response => {
       const {
         data: { err }
       } = response;
