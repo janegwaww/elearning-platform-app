@@ -91,7 +91,7 @@ const KEForm = ({ modal }) => {
             margin: "30px auto"
           }}
         >
-          <QRCode value={qrcodeValue} level="L" size="80" />
+          <QRCode value={qrcodeValue} level="L" size={160} />
         </div>
         <Typography
           style={{ color: "#303133", fontSize: "14px", marginBottom: "10px" }}
