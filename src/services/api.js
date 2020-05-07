@@ -1,7 +1,9 @@
 import urlJoin from "url-join";
 import axios from "axios";
 
-const PATH = "http://seeker.haetek.com:9191";
+const PATH = "http://seeker.haetek.com:8181";
+const PATH_V1 = urlJoin(PATH, "/api/v1/gateway");
+
 export const VIDEO_URL = {
   // 视频验重
   videoVerify: urlJoin(PATH, "video", "verify"),
@@ -88,6 +90,27 @@ export const authApis = (() => {
     },
     thirdQRCode: ({ modelType }) => {
       return authFetch(AUTH_URL.thirdQRCode, params({ modelType }));
+    },
+    thirdLogin: ({ code, modelType }) => {
+      const param = { code };
+      return authFetch(
+        AUTH_URL.thirdLogin,
+        params({ action: "login", modelType, param })
+      );
+    },
+    thirdMobile: ({ mobile, code, accessToken }) => {
+      const param = { mobile, code, access_token: accessToken };
+      return authFetch(
+        AUTH_URL.thirdMobile,
+        params({ action: "mobile", param })
+      );
+    },
+    mobileCheck: ({ mobile }) => {
+      const param = { mobile };
+      return authFetch(
+        AUTH_URL.mobileCheck,
+        params({ action: "check", param })
+      );
     }
   };
 })();

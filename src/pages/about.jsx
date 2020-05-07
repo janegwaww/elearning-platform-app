@@ -3,6 +3,7 @@ import Helmet from "react-helmet";
 import Layout from "../layout";
 import About from "../components/About/About";
 import config from "../../data/SiteConfig";
+import KEFormModal from "../components/KEFormKit/KEFormModal";
 
 class AboutPage extends Component {
   render() {
@@ -12,6 +13,7 @@ class AboutPage extends Component {
           <Helmet title={`About | ${config.siteTitle}`} />
           
           <About />
+          <KEFormModal />
         </div>
       </Layout>
     );

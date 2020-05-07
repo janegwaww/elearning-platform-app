@@ -130,11 +130,11 @@ Content-Type: application/json
 #varify qrcode
 POST http://seeker.haetek.com:9191/qrcode/scan
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODc2MzUxODUsImlhdCI6MTU4NzYyMDc4NSwiaXNzIjoiaGVpZHVua2VqaSIsImRhdGEiOnsiX2lkIjoiMjAyMDA0MjIxNTQ3MzE1NzEyMSJ9fQ.vO0TsKcbvTHJ7hkYKlRtyg0_wGYjuCcJpaJLrQbBw1w
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODc5OTYxOTcsImlhdCI6MTU4Nzk4MTc5NywiaXNzIjoiaGVpZHVua2VqaSIsImRhdGEiOnsiX2lkIjoiMjAyMDA0MjIxNTQ3MzE1NzEyMSJ9fQ.e0XwDV2_sNxUwgJUp_nOZwTYZ-gLoLlK0U69N_yYn5A
 {
         "model_action": "scan",
         "extra_data": {
-                      "qrcode":"a22f47be-8516-11ea-8bcb-931aa4fa0d6a"
+                      "qrcode":"d78b8ce2-886d-11ea-b454-4f1194e0fe2a"
                       }
 }
 
@@ -169,7 +169,7 @@ Content-Type: application/json
 {
         "model_action": "check",
         "extra_data": {
-                        "mobile": "15642336090"
+                        "mobile": "15642336091"
                       }
 }
 
@@ -189,7 +189,7 @@ Content-Type: application/json
 #     "err": 0,
 #     "err_msg": "OK",
 #     "result_data": [{
-# "url":""    # 用于前端生成二维码
+#                    "url":""    # 用于前端生成二维码
 #     }]
 # }
 POST http://seeker.haetek.com:9191/third/generate
@@ -219,7 +219,7 @@ Content-Type: application/json
 #     "err": 0,
 #     "err_msg": "OK",
 #     "result_data": [{
-# "access_token":""    # 加密字符串用于标记用户
+#                    "access_token":""    # 加密字符串用于标记用户
 #     }]
 # }
 # 之后需要走绑定手机流程：①生成验证码-->⑧第三方绑定手机号
@@ -229,8 +229,8 @@ Content-Type: application/json
 #     "err": 0,
 #     "err_msg": "OK",
 #     "result_data": [{
-# "name":"",     # 用户昵称
-# "headshot":""    # 用户头像
+#                    "name":"",     # 用户昵称
+#                    "headshot":""    # 用户头像
 #     }]
 # }
 POST http://seeker.haetek.com:9191/third/login
