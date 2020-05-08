@@ -1,5 +1,3 @@
-import { globalHistory } from "@reach/router";
-import { navigate } from "gatsby";
 import { authApis } from "./api";
 
 const apis = authApis();
@@ -150,9 +148,4 @@ export const userAlreadyExist = mobile => {
       res(true);
     });
   });
-};
-
-export const loginNavigate = modal => {
-  const location = globalHistory.location.pathname;
-  return !!modal ? navigate(`${location}`) : navigate(`/users/profile`);
 };

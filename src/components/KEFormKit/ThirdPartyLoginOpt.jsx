@@ -8,14 +8,13 @@ import useStyles from "./ThirdPartyLoginOptStyle";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
-  bindingMobile,
-  loginNavigate
+  bindingMobile
 } from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
 
-const ThirdPartyLoginOpt = ({ modal }) => {
+const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   const classes = useStyles();
   const locationHref = globalHistory.location.href;
   const [thirdMethod, setThirdMethod] = useState("qq");
@@ -41,7 +40,7 @@ const ThirdPartyLoginOpt = ({ modal }) => {
         setAcToken(accessToken);
       }
       if (response && !accessToken) {
-        loginNavigate(modal);
+        handleNavigate();
       }
     });
   };
@@ -51,7 +50,7 @@ const ThirdPartyLoginOpt = ({ modal }) => {
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);
-        loginNavigate(modal);
+        handleNavigate();
       }
     });
   };
