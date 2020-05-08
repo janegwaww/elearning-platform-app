@@ -26,6 +26,7 @@ export const getWidth = (boxId, contentId, scrollboxId) => {
   let _box = getObj(boxId);
   let _sliderbox = getObj(contentId);
   let _thumbbox = getObj(scrollboxId); //滚动盒子
+  
   if (_sliderbox.scrollWidth > _box.clientWidth) {
     barWidth =
       (_box.clientWidth / _sliderbox.scrollWidth) * _thumbbox.clientWidth;
@@ -40,7 +41,9 @@ export const getStyles = (objId, att) => {
     att_value = obj.getAttribute(att);
   } else {
     att_value = document.defaultView.getComputedStyle(obj, null)[att];
-
+    if(att =='left'){
+      att_value = parseInt(att_value.split('p')[0]);
+    }
     if (att_value == "none" || !att_value) {
       att_value = 0;
     } else {

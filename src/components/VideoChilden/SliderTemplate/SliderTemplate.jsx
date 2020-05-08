@@ -1,119 +1,122 @@
 import React from "react";
-
-import { withStyles } from "@material-ui/core/styles";
-import Slider from "@material-ui/core/Slider";
 import "./SliderTemplate.css";
-import dateConversion from '../../../assets/js/dateConversion';
+import dateConversion from "../../../assets/js/dateConversion";
+import {getObj,getScroll,getPage ,getWidth,getStyles} from '../../../assets/js/totls';
 
-const TemplateSlider = withStyles({
-  mark: {
-    backgroundColor: "#bfbfbf",
-    height:5,
-    width: 1,
-    transform: "translateY(-6px)"
-  },
-  thumb: {
-    width: "9px",
-    height: "9px",
-    "&:after": {
-      width: "1px",
-      left: "4px",
-      right: 0,
-      bottom: 0,
-      top: "5px",
-      position: "absolute",
-      height: "800px",
-      backgroundColor: "red",
-      zIndex: 100
-    },
-    
-    "&:hover": {
-      boxShadow: "none"
-    }
-  },
-  root: {
-    color: "#fff",
-    padding: "25px 0 0 0",
+
    
-  },
-  rail:{
-    'background-color':'transparent'
-  },
-  marked: {
-    margin: 0
-  },
-  markLabel: {
-    top: "-5px",
-    color: "#CCCCD1",
-    'margin-left':"30px"
-  },
-  track :{
-  'background-color':'transparent'
-},
-  active: {
-    boxShadow: "none"
-  }
-})(Slider);
-
 class SliderTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      leng: props.length
+      leng: props.length ,
     };
-    this.handleChange = this.handleChange.bind(this);
+    
   }
   componentWillReceiveProps(nextProps) {
+    
+    let value=0;
+    if(this.state.leng==nextProps.length){
+      value = (nextProps.value*1000)/(this.state.leng*1000/getObj('sliderbox').scrollWidth);
+     
+      this.setState({
+        value: value,
+      })
+    }else{
+      value = (nextProps.value*1000)/(nextProps.length*1000/getObj('sliderbox').scrollWidth);
     this.setState({
-      value: nextProps.value,
-      leng: nextProps.length
+      value: value,
+      leng: nextProps.length,
     });
+  }
     return true;
   }
-  
-  handleChange(e, newValue) {
-    //移动滑块读取滑块值 ，并将值传递给video页面
-    this.setState({
-      value: newValue
-    });
-    // 传值
-    this.props.parent.getChildrenMsg(this, newValue);
-  }
+
+
   render() {
     let _this = this;
-    const marks = function(value) {
-      let marks = [];
-      if (value > 0) {
-        for (let i = 0; i <= value; i += 10) {
-          if (i % 60 === 0) {
-            marks.push({ value: i, label:dateConversion( i) });
-            
-          } else {
-            marks.push({ value: i });
-            
-          }
-        }
-      }else{
-        for (let i = 0; i <= 1000; i += 10) {
+    
+    let lists = [];
+    let leng= this.state.leng||100
+    for (let i = 0; i < Math.ceil((leng * 1000) / 274 / 10); i++) {
+      lists.push(
+        <div className="scales" key={i}>
+          <span>{dateConversion(i * 2.74)}</span>
+          <div className="sub-scales" data-index={i}>
+            <div className="mm" data-inx={i+'_1'}></div>
+            <div className="mm" data-inx={i+'_2'}></div>
+            <div className="mm" data-inx={i+'_3'}></div>
+            <div className="mm" data-inx={i+'_4'}></div>
+            <div className="mm" data-inx={i+'_5'}></div>
+            <div className="mm" data-inx={i+'_6'}></div>
+            <div className="mm" data-inx={i+'_7'}></div>
+            <div className="mm" data-inx={i+'_8'}></div>
+            <div className="mm" data-inx={i+'_9'}></div>
+            <div className="mm" data-inx={i+'_10'}></div>
+          </div>
+        </div>
+      );
+    }
 
-            marks.push({ value: i });
-          
-        }
-      }
-     
-      return marks;
-    };
     return (
-      <TemplateSlider
-        min={0}
-        max={this.state.leng||1000}
-        value={this.state.value}
-        step={0.01}
-        marks={marks(this.state.leng||1200)}
-        aria-labelledby="continuous-slider"
-        onChange={this.handleChange}
-      />
+      
+        <div className="mainedit">
+          <div className="mark" id= 'mark' onClick={(e)=>{
+            e.stopPropagation();
+            e.preventDefault();
+              
+            let x = getPage(e).pageX-getStyles('pointer','left');
+              let total_x =getObj('mark').scrollWidth;
+              console.log(this.props)
+              // 页面的位置加页面偏移的位置就是移动的位置
+              let barX = getPage(e).pageX-50-6-getStyles('sliderbox','transform')
+              barX= barX<0?0:barX;
+              barX = barX>total_x-6 ?total_x-6:barX;
+              _this.setState({
+                value:barX
+              })
+              this.props.parent.video_live.pause()//拖动滑块时暂停播放
+              this.props.parent.setState({
+                status: false,
+              });
+              _this.props.parent.getChildrenMsg(_this, leng/total_x*barX);
+              // getObj('pointer').style.left=barX+'px';
+          }}>{lists}</div>
+          <div className="draggable">
+            <div className="pointer" id='pointer' style={{left:this.state.value+'px'}} onMouseDown={(e)=>{
+              e.stopPropagation();
+              e.preventDefault();
+              
+              let obj = e.target;
+              let x = getPage(e).pageX-getStyles('pointer','left');
+              
+              let total_x =getObj('sliderbox').scrollWidth;
+              
+              document.onmousemove=(ev)=>{
+                let barX = getPage(ev).pageX-x;
+                barX=barX>=0?barX:0;
+                barX =barX> total_x-6?total_x-6:barX;
+               //每px对应多少毫秒
+               _this.setState({
+                 value:barX
+               })
+               this.props.parent.video_live.pause()//拖动滑块时暂停播放
+              this.props.parent.setState({
+                status: false,
+              });
+                // getObj('pointer').style.left=barX+'px';
+                _this.props.parent.getChildrenMsg(_this, leng/total_x*barX);
+              }
+              document.onmouseup=(ev)=>{
+                document.onmousemove=null;
+              }
+              
+            }}></div>
+          </div>
+        </div>
+       
+      
     );
   }
 }

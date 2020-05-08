@@ -9,7 +9,7 @@ import getData from "../../../assets/js/request";
 import { getUser, isLoggedIn } from "../..//../services/auth";
 import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
-import Message1 from './Message1';
+import Message1 from "./Message1";
 // import md5 from "md5";
 
 const NewLinearProgress = withStyles({
@@ -54,7 +54,7 @@ export default class UploadVideos extends Component {
       });
     }
   }
-  
+
   beforeSend() {
     WebUpload.Uploader.register(
       {
@@ -96,7 +96,7 @@ export default class UploadVideos extends Component {
       }
     );
   }
- 
+
   createUploader = () => {
     let task_id = WebUpload.Base.guid();
     this.beforeSend();
@@ -236,20 +236,37 @@ export default class UploadVideos extends Component {
         <div className="lists">
           {_this.state.status === 1 ? (
             <section>
+              <label
+                onClick={(e) => {
+                  if (!isLoggedIn()) {
+                    _this.setState({
+                      dialogOpen: true,
+                    });
+                  }
+                  getData("api/v1/gateway", {
+                    model_name: "user",
+                    model_action: "is_login",
+                    extra_data: {},
+                    model_type: "",
+                  })
+                    .then((res) => {
+                      console.log(1);
+                      document.getElementById("newFile").click();
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                  e.stopPropagation();
+                  e.preventDefault();
+                }}
+              >
+                选择文件
+              </label>
               <input
                 type="file"
                 id="newFile"
                 onChange={(e) => {
-                  // getData('api/v1/gateway',{
-                  //   'model_name':'user',
-                  //   "model_action":'is_login',
-                  //   'extra_data':{},
-                  //   'model_type':''
-                  // }).then(res=>{
-                  //   console.log(res)
-                  // }).catch(err=>{
-                  //   console.log(err)
-                  // })
+                  //
                   _this.setState({ status: 2 });
                   let myFile = new UpdataFile({
                     fileId: "newFile",
@@ -267,45 +284,61 @@ export default class UploadVideos extends Component {
             </section>
           ) : (
             <section></section>
-          )}
+         )}
           {_this.state.status === 2 ? (
             <section>
               <div className="items">
-                  <NewLinearProgress
-                    variant="determinate"
-                    value={this.state.progress}
-                  ></NewLinearProgress>
+                <NewLinearProgress
+                  variant="determinate"
+                  value={this.state.progress}
+                ></NewLinearProgress>
               </div>
             </section>
-          ) : (<i></i>)}
-                {_this.state.status===3?(
-                  <section>
-                    <div className="items btn">
-                      <span className="edit" title="添加到编辑区">
-                        <Create onClick={()=>{
-                          getData('api/v1/gateway',{
-                            "model_name":"video",
-                            "model_action": "generate_thumbnail",
-                            "extra_data": {
-                            "video_id": video_id
-                            },
-                            "model_type":""
-                          }).then(res=>{
-
-                          }).catch(err=>{
-
-                          })
-
-                        }}/>
-                      </span>
-                      <span className="del" title="删除">
-                        <Delete />
-                      </span>
-                      <p style={{fontSize:'10px'}}>123456</p>
-                    </div>
-                    <p style={{width: '120px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace: 'nowrap'}}>{_this.state.files[0].name}</p>
-                  </section>
-                ):(<i></i>)}
+          ) : (
+            <i></i>
+          )}
+          {_this.state.status === 3 ? (
+            <section>
+              <div className="items btn" style={{backgroundImage:'url(http://videos.haetek.com/'+_this.state.files[0].image_path+')'}}>
+                <span className="edit" title="添加到编辑区">
+                  <Create
+                    onClick={() => {
+                      getData("api/v1/gateway", {//生成图片
+                        model_name: "video",
+                        model_action: "generate_thumbnail",
+                        extra_data: {
+                          video_id: _this.state.files[0]._id,
+                        },
+                        model_type: "",
+                      })
+                        .then((res) => {
+                          console.log(res)
+                        })
+                        .catch((err) => {
+                          console.log(err)
+                        });
+                    }}
+                  />
+                </span>
+                <span className="del" title="删除">
+                  <Delete />
+                </span>
+                <p style={{ fontSize: "10px" }}>123456</p>
+              </div>
+              <p
+                style={{
+                  width: "120px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {_this.state.files[0]._id}
+              </p>
+            </section>
+          ) : (
+            <i></i>
+          )}
 
           {/*
          

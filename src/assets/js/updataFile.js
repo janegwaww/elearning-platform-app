@@ -25,6 +25,7 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
       xhr.onload = function(res) {
 
           if(_this.current==_this.totalConud-1){
+            // console.log(res)
               console.log('上传完成')
             return
           }
@@ -39,7 +40,15 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
       };
       xhr.onreadystatechange = function(res) {
         if (xhr.status == 200 && xhr.readyState === 4) {
-          // console.log(this.current,JSON.parse(xhr.response));
+            let _data = JSON.parse(xhr.response);
+            if(_data.err==0&&_data.result_data.length>0){
+              console.log(_this.options.pageObj.props.parent.get_url(_data.result_data[0]))//上传成功后将地址传给播放器
+              _this.options.pageObj.setState({
+                files:_data.result_data,
+                status:3
+              })
+            }
+        
         }
       };
       xhr.open("POST", this.options.url, true);
@@ -52,7 +61,7 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
         if(_progress>=100){
           _this.current=0;
           _this.totalConud=1;
-          _this.options.pageObj.setState({files:_this.options.filesList,status:3})
+          // _this.options.pageObj.setState({files:_this.options.filesList,status:3})
           // document.getElementById(_this.options.fileId).value='';
           
         }
@@ -66,7 +75,6 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
     // document.getElementById(_this.options.fileId).value='';
     return
   }
-
 
 
 }
@@ -97,6 +105,10 @@ UpdataFile.prototype.init = function() {
   _formData.append("model_name", "video");
   _formData.append("model_action", "upload");
   _formData.append("chunks", sharConud);
+
+  // formData.set('file',filesArr[_this.current]);
+  // formData.set("chunk", _this.current);
+
  
   this.upFile(_formData,filesArr);
   

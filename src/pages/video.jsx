@@ -4,7 +4,7 @@ import HeaderTemplate from "../components/VideoChilden/Header/Header";
 import TopAside from "../components/VideoChilden/TopAside/TopAside";
 import BottomAside from "../components/VideoChilden/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
-
+import '../components/VideoChilden/SliderTemplate/SliderTemplate.css';
 import {
   Dialog,
   Button,
@@ -109,15 +109,18 @@ export default class VideoPage extends Component {
   //     });
   //   });
   // }
-  getUpfileUrl(res) {
+  getUpfileUrl(res) {//接收组件传递视频数据
     //
+    console.log(res)
     let _data = this.state.video_data || {};
+
     if (res.subtitling) {
       _data.sub_josn = res.subtitling;
       _data._path = res.video_path;
     } else {
       _data._path = res.video_path;
       _data.video_id = res._id || res.video_id;
+      _data.image_path=res.image_path
     }
     if (_data.video_data) {
       delete _data.video_data;
@@ -224,6 +227,7 @@ export default class VideoPage extends Component {
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
+   console.log(msg)
     this.video_live.currentTime = msg;
     this.sub_test(msg);
     return;
@@ -236,34 +240,35 @@ export default class VideoPage extends Component {
 
   sub_test(time) {
     //更新字幕
-    if (!this.state.video_data.sub_josn || time <= 0) {
-      return;
-    }
-    let json_sub = this.state.video_data.sub_josn;
+    // if (!this.state.video_data.sub_josn || time <= 0) {
+    //   return;
+    // }
+    // let json_sub = this.state.video_data.sub_josn;
 
     let _data = {};
-    for (let i = 0; i < json_sub.length; i++) {
-      if (time >= json_sub[i].bg && time <= json_sub[i].ed) {
-        _data = {
-          zh: json_sub[i].cn_sub,
-          en: json_sub[i].en_sub,
-          time: time,
-          inx: i,
-        };
-      }
-      if (json_sub[i + 1]) {
-        if (time > json_sub[i].ed && time < json_sub[i + 1].bg) {
-          _data = { zh: "", en: "", time: time, inx: i };
-        }
-      } else {
-        if (time > json_sub[i].ed) {
-          _data = { zh: "", en: "", time: time, inx: i };
-        }
-      }
-    }
+    // for (let i = 0; i < json_sub.length; i++) {
+    //   if (time >= json_sub[i].bg && time <= json_sub[i].ed) {
+    //     _data = {
+    //       zh: json_sub[i].cn_sub,
+    //       en: json_sub[i].en_sub,
+    //       time: time,
+    //       inx: i,
+    //     };
+    //   }
+    //   if (json_sub[i + 1]) {
+    //     if (time > json_sub[i].ed && time < json_sub[i + 1].bg) {
+    //       _data = { zh: "", en: "", time: time, inx: i };
+    //     }
+    //   } else {
+    //     if (time > json_sub[i].ed) {
+    //       _data = { zh: "", en: "", time: time, inx: i };
+    //     }
+    //   }
+    // }
 
     if (this.video_live.duration) {
       _data.video_len = this.video_live.duration;
+      _data.time = time
     }
     this.setState({
       the_current: _data,
@@ -302,7 +307,7 @@ export default class VideoPage extends Component {
     };
     const time_date = function(el) {
       //实时播放时间
-      // console.log(el)
+      
       let time = el.target.currentTime;
       _this.sub_test(time);
     };
@@ -427,6 +432,22 @@ export default class VideoPage extends Component {
         });
     };
 
+
+    let lists =[];
+    for (let i=0; i<100;i++) {
+      lists.push(<div className ='mark-list' key={i}>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+      <div className='mm'></div>
+    </div>)
+    }
     return (
       <div
         className={`${styles.elContainer} ${styles.isVertical} ${styles.maxBox}`}
@@ -534,7 +555,7 @@ export default class VideoPage extends Component {
               <section className={`${styles.elContainer} ${styles.isVertical}`}>
 
                 <main className={styles.elMain} style={{'overflow': 'hidden'}} id = 'edit-region'>
-                  <section style={{'height':'100%'}} id="sliderbox">
+                  <section style={{'height':'100%'}} id="sliderbox" >
                       
                     <div  className={styles.slider}>
                       <SliderTemplate
@@ -546,6 +567,7 @@ export default class VideoPage extends Component {
                             : 0
                         }
                       />
+                   
                     </div>
                     <div className={styles.videoImg}>图片</div>
                     
@@ -653,6 +675,8 @@ export default class VideoPage extends Component {
                         onMouseDown={(evt) => {
                            evt.stopPropagation();
                            evt.preventDefault();
+                           console.log(getWidth('edit-region','sliderbox','thumbbox')+'px');
+                          //  getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
                            getObj('thumb').style.width=getWidth('edit-region','sliderbox','thumbbox')+'px';
                           let obj = evt.target;
                           // edit-region, sliderbox,thumbbox,thumb
@@ -660,10 +684,10 @@ export default class VideoPage extends Component {
                           let x = getPage(evt).pageX-getStyles('thumb','transform');
                             document.onmousemove = function(e){
                               let barX = getPage(e).pageX-x;
-                              console.log(barX)
+                              
                               barX = barX<0?0:barX;
                               barX = barX>getObj('thumbbox').clientWidth-obj.clientWidth?getObj('thumbbox').clientWidth-obj.clientWidth:barX;
-                              console.log(barX)
+                              
                               obj.style.transform='translateX('+barX+'px)';
                               
                               let contentMax = getObj('sliderbox').scrollWidth- getObj('edit-region').clientWidth;
@@ -672,7 +696,6 @@ export default class VideoPage extends Component {
                               let contentX = barX/barMax*contentMax;
                               getObj('sliderbox').style.transform='translateX(-'+contentX+'px)'
                               
-                              console.log(contentMax,barMax)
 
                             }
                             document.onmouseup = function(){
