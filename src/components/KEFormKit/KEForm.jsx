@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import { navigate } from "gatsby";
 import QRCode from "qrcode.react";
 import {
   Container,
@@ -14,22 +15,25 @@ import UserProtocol from "./UserProtocol";
 import {
   generateQRCode,
   enquiryQRCode,
-  handleLogin,
-  loginNavigate
+  handleLogin
 } from "../../services/auth";
 import qrcode from "../../../static/images/qr-code.png";
 import account from "../../../static/images/account.png";
 import loginBg from "../../../static/images/login-bg.png";
 
-const KEForm = ({ modal }) => {
+const KEForm = ({ modal, modalClose }) => {
   const classes = useStyles();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
 
+  const handleNavigate = () => {
+    !!modal ? modalClose() : navigate(`/users/profile`);
+  };
+
   const handleClickLogin = values => {
     handleLogin(values, res => {
       if (res) {
-        loginNavigate(modal);
+        handleNavigate();
       }
     });
   };
@@ -37,7 +41,7 @@ const KEForm = ({ modal }) => {
   const varifyQRCode = () => {
     enquiryQRCode(qrcodeValue).then(res => {
       if (res) {
-        return loginNavigate(modal);
+        handleNavigate();
       }
       if (!res && qrcodeValue) {
         setTimeout(() => {
@@ -133,7 +137,7 @@ const KEForm = ({ modal }) => {
                 ) : (
                   <QrCodeLoginComponent />
                 )}
-                <ThirdPartyLoginOpt modal />
+                <ThirdPartyLoginOpt handleNavigate />
                 <UserProtocol />
               </div>
             </Grid>
