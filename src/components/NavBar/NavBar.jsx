@@ -16,7 +16,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Drawer from "../Drawer/Drawer";
-import { getUser, isLoggedIn, logout } from "../../services/auth";
+import { isLoggedIn, logout } from "../../services/auth";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -192,7 +192,7 @@ export default function PrimarySearchAppBar() {
   return (
     <div className={classes.grow}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar id="back-to-top-anchor">
           <IconButton
             edge="start"
             className={classes.menuButton}
