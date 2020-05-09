@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Header.module.css";
+import { navigate } from "@reach/router";
+
 import {
   Button,
   Avatar,
@@ -60,11 +62,12 @@ export default class  Header extends Component {
       );
       // console.log(_host,__dirname,__filename,window.location.href)
         // console.log(window.location)
-        
-      window.location.href = __dirname+ "users/login";
+        navigate(`/users/login`)
+      // window.location.href = __dirname+ "users/login";
     
     } else {
-      window.location.href = __dirname + "users";
+      navigate(`/users`)
+      // window.location.href = __dirname + "users";
     }
   };
 

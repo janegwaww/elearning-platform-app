@@ -234,7 +234,7 @@ export default class UploadVideos extends Component {
         </div>
 
         <div className="lists">
-          {_this.state.status === 1 ? (
+         {/* {_this.state.status === 1 ? (*/}
             <section>
               <label
                 onClick={(e) => {
@@ -282,9 +282,9 @@ export default class UploadVideos extends Component {
               <p>拖放您要上传的视频</p>
               <p>您的视频在发布之前将处于私享状态</p>
             </section>
-          ) : (
-            <section></section>
-         )}
+          {/*) : (
+            <section></section>gatsby clean
+          )}* */}
           {_this.state.status === 2 ? (
             <section>
               <div className="items">
