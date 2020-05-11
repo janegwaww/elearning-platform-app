@@ -1,4 +1,5 @@
 export const getObj = (id) => {
+
   return document.getElementById(id);
 };
 

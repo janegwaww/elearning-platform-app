@@ -57,11 +57,8 @@
     "react-share": "^4.0.1",
     "react-twitter-widgets": "^1.7.1",
     "url-join": "^4.0.0",
-
     "webuploader": "^0.1.8",
-
     "url-parse": "^1.4.7",
-
     "yup": "^0.28.3"
   },
   "devDependencies": {

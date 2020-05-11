@@ -2,6 +2,7 @@ import axios from "axios";
 import getData from "./request";
 import { getUser } from "../../services/auth";
 import md5 from "md5";
+import { getObj } from "./totls";
 function UpdataFile(options) {
   this.options = options;
   this.current=0;//当前的上传片数
@@ -26,7 +27,8 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
 
           if(_this.current==_this.totalConud-1){
             // console.log(res)
-              console.log('上传完成')
+              console.log('上传完成');
+              getObj(_this.options.fileId).value='';
             return
           }
         _this.current +=1;
@@ -41,8 +43,10 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
       xhr.onreadystatechange = function(res) {
         if (xhr.status == 200 && xhr.readyState === 4) {
             let _data = JSON.parse(xhr.response);
+            console.log(_data)
             if(_data.err==0&&_data.result_data.length>0){
-              console.log(_this.options.pageObj.props.parent.get_url(_data.result_data[0]))//上传成功后将地址传给播放器
+              
+              _this.options.pageObj.props.parent.get_url(_data.result_data[0])//上传成功后将地址传给播放器
               _this.options.pageObj.setState({
                 files:_data.result_data,
                 status:3

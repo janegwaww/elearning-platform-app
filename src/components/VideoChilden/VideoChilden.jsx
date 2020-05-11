@@ -11,6 +11,10 @@ export default class VideoChilden extends Component {
     };
     this.get_url= this.get_url.bind(this);
     this.get_style=this.get_style.bind(this);
+    this.get_image=this.get_image.bind(this);
+  }
+  get_image(res){
+    this.props.parent.get_image(res);
   }
   get_url(res){
     this.props.parent.getUpfileUrl(res)

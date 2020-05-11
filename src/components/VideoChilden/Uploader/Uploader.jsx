@@ -2,7 +2,21 @@ import React, { createRef, Component } from "react";
 import WebUpload from "webuploader";
 import axios from "axios";
 import "./Uploader.css";
-import { Button, LinearProgress, Dialog } from "@material-ui/core";
+import {
+  Button,
+  LinearProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+
+} from "@material-ui/core";
 import { Delete, Add, Create } from "@material-ui/icons";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import getData from "../../../assets/js/request";
@@ -10,6 +24,8 @@ import { getUser, isLoggedIn } from "../..//../services/auth";
 import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
 import Message1 from "./Message1";
+import { navigate } from "@reach/router";
+import { getObj } from "../../../assets/js/totls";
 // import md5 from "md5";
 
 const NewLinearProgress = withStyles({
@@ -29,6 +45,13 @@ const NewLinearProgress = withStyles({
     },
   },
 })(LinearProgress);
+const  Dynamic = withStyles({
+  root: {
+    position: "absolute",
+    bottom: "10px",
+    left: 0,
+  }
+})(LinearProgress)
 export default class UploadVideos extends Component {
   constructor(props) {
     super(props);
@@ -37,9 +60,18 @@ export default class UploadVideos extends Component {
       fileName_chunk: "",
       progress: 0,
       updata_msg: null,
-      status: 1, //2.上传，3.上传完成未来编辑，4,生成图片，5.生成字幕，
+      status: 1, //2.上传，3.上传完成未来编辑，4,生成字幕，5.，
       dialogOpen: false,
+      promptOpen: false,
+      promp_info: {
+        title: "温馨提示",
+        msg: "请登录",
+        type: 1,
+      },
       files: [], //文件列表
+      lang_value: "", //语言
+      lang_open: false,
+      
     };
     this.fileInput = createRef();
     this.fileInput_chunk = createRef();
@@ -47,165 +79,125 @@ export default class UploadVideos extends Component {
     this.query_subtitles = this.query_subtitles.bind(this);
   }
   componentDidMount() {
-    this.createUploader();
+   
+    let _data  = this.props.parent.props.parent.state.video_data;
+     
+      if(_data.video_id){
+        this.setState({
+          status:3,
+          files:[_data]
+        })
+      }
     if (getUser().name) {
       this.setState({
         user_info: getUser(),
       });
     }
   }
-
-  beforeSend() {
-    WebUpload.Uploader.register(
-      {
-        "before-send": "checkchunk",
-      },
-      {
-        checkchunk: (block) => {
-          var blob = block.blob.getSource();
-          let deferred = WebUpload.Deferred();
-          this.setState({
-            status: 2,
-          });
-          //   这个肯定是异步的，需要通过FileReader读取blob后再算。
-          // WebUpload.Uploader.prototype.md5File(blob, function(error, ret) {
-          //   读取md5出错的话，分片不能跳过。
-          // console.log(ret);
-          // if (error) {
-          //   deferred.resolve();
-          // } else {
-          //   方案二
-          //   在这个文件上传前，一次性把所有已成功的分片md5拿到。
-          //   在这里只需本地验证就ok
-          // this.getHash().then(data => {
-          const arr = Array.from({ length: 50 }).reduce(
-            (acc, cur, index) => acc.concat(index),
-            []
-          );
-          // if (arr.includes(block.chunk)) {
-          if (false) {
-            deferred.reject();
-          } else {
-            deferred.resolve();
-          }
-          // }
-          // });
-          return deferred.promise();
-          // });
-        },
-      }
-    );
-  }
-
-  createUploader = () => {
-    let task_id = WebUpload.Base.guid();
-    this.beforeSend();
-    let _this = this;
-    this.uploader = WebUpload.create({
-      server: "http://192.168.0.200:9191/video/upload",
-      auto: true,
-      chunked: true,
-      chunkedSize: 20 * 1024 * 1024,
-      chunkRetry: 10,
-      threads: 1,
-      duplicate: true,
-      formData: {
-        task_id: task_id,
-        video_type: "mp4",
-        name1: "mp4",
-        Authorization:
-          "Bearer " +
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODgwNzg5ODIsImlhdCI6MTU4ODA2NDU4MiwiaXNzIjoiaGVpZHVua2VqaSIsImRhdGEiOnsiX2lkIjoiMjAyMDA0MjUxNDMyMjM4Mjg4MTUifX0.bh61pObsbbdrOU_Yr7Y2J_a_aRxs9aRkr02hLrM7drE",
-      },
-      accept: {
-        title: "video",
-        extensions: "mp4",
-        mimeTypes: "video/*",
-      },
-      pick: "#filePicker",
-    });
-
-    this.uploader.on("uploadComplete", function(file) {});
-    this.uploader.on("uploadSuccess", (file, res) => {
-      if (res.err == 0) {
-        _this.setState({
-          updata_msg: res.result_data[0],
-          status: 4,
-        });
-        _this.props.parent.get_url(res.result_data[0]);
-        alert("上传成功！");
-
-        //_this.new_subtitles(); //生成字幕
-      }
-    });
-
-    // this.uploader.on("uploadBeforeSend", (file) => {
-    //   if (!isLoggedIn() && file.start == 0) {
-    //     this.uploader.stop();
-    //     if (this.state.status != 9) {
-    //       this.setState({ status: 9 });
-    //       setTimeout(() => {
-    //         let _host = this.props.parent.props.parent.props.location.origin;
-    //         window.location.href = _host + "/users/login";
-    //       }, 3000);
-    //     }
-    //   }
-    //   return false;
-    // });
-    this.uploader.on("uploadError", function(file, err) {
-      console.log("error: ", file);
-      console.log(err);
-    });
-    this.uploader.on("uploadProgress", (pro) => {
+  componentWillReceiveProps(nextProps) {
+    
+    if (nextProps.parent.props.parent.state.uploadStatus === 4) {
       this.setState({
-        progress: parseInt(100 - pro.remaning * (100 / pro.blocks.length), 10),
+        status: 4,
       });
-    });
-  };
+      nextProps.parent.props.parent.setState({
+        uploadStatus:0
+      })
 
-  new_subtitles(str) {
-    if (!this.state.lang) {
-      alert("请选择来源");
+    }
+  }
+  
+
+  new_subtitles(str) {//获取新的字幕
+    if (!this.state.lang_value) {
+      alert("请选择视频的语言");
       return;
     }
     let _this = this;
     let _data = {
-      model_action: "generate",
-      extra_data: {
-        task_id: _this.state.updata_msg.video_id || _this.state.updata_msg._id,
-        lang: this.state.lang,
-      },
+      "model_name":"video",
+      "model_action":"generate_subtitle",
+      
+      extra_data:{
+        "task_id": this.state.files[0]._id||this.state.files[0].video_id,
+        lang:this.state.lang_value,
+        },
+        "model_type":"", 
     };
     this.setState({
       status: 5,
     });
-    getData("video/subtitle", _data, "post")
+   
+   
+    getData("api/v1/gateway", _data, "post")
       .then((res) => {
         _this.query_subtitles(); //查询是否生成字幕
-        // console.log("成功", res);
+        console.log("成功", res);
       })
-      .catch((err) => {
-        console.log("err", err);
-      });
   }
   query_subtitles() {
     let _this = this;
     let _data = {
-      model_action: "query",
+      "model_name":"video",
+      "model_type":"",
+      model_action: "query_subtitle",
       extra_data: {
-        task_id: _this.state.updata_msg.video_id || _this.state.updata_msg._id,
-        lang: this.state.lang,
+        task_id:this.state.files[0]._id||this.state.files[0].video_id
       },
     };
-    _this.setState({
-      status: 6,
-    });
-    getData("video/subtitle", _data, "post")
+    // _this.setState({
+    //   status: 3,
+    // });
+    getData("api/v1/gateway", _data, "post")
       .then((res) => {
+        if(res.err==4104){
+          navigate(`users/login`);
+          return
+        }
         if (res.result_data[0] && res.result_data[0].subtitling) {
           _this.props.parent.get_url(res.result_data[0]);
-          _this.setState({ status: 7, lang: "" });
-          alert("生成完成，请点击播放视频可以观看字幕并可以双击字幕编辑");
+
+          _this.setState({ status: 3, lang_value: "" });
+          let json_sub = res.result_data[0].subtitling;
+          let total_time =_this.props.parent.props.parent.state.the_current.video_len;
+          let test_arr = [];
+          let total_w = getObj('sliderbox').scrollWidth;
+         
+          
+         
+          console.log(total_time*1000/total_w)//每px占的毫秒
+          for(let i=0;i<json_sub.length;i++){
+            if(i===0){
+
+            test_arr.push(<div className="test-nodes" key={i} 
+            style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
+            marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
+              <p  onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+              onFocus={_this.props.parent.props.parent.context_focus}
+              data-lu='zh' data-inx={i} contenteditable={'true'}  title='点击文字可编辑' >{json_sub[i].cn_sub}
+              </p>
+              <p data-lu='en' onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contenteditable={'true'} title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              </div>
+              )
+            }else{
+              test_arr.push(<div className="test-nodes" key={i} 
+            style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
+            marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
+            <p contenteditable={'true'}  data-lu='zh' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+            onFocus={_this.props.parent.props.parent.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
+              </p>
+              <p data-lu='en' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+              onFocus={_this.props.parent.props.parent.context_focus} contenteditable={'true'}  title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              </div>)
+            }
+          }
+          
+          _this.props.parent.props.parent.setState({
+            test_arr:test_arr
+          })
+          
+          
           return;
         } else {
           setTimeout(() => {
@@ -217,15 +209,17 @@ export default class UploadVideos extends Component {
         console.log(err);
       });
   }
+  gopage(url) {}
 
   render() {
-    const { fileName, updata_msg, status } = this.state;
+    const { fileName, updata_msg, status, lang_value, lang_open } = this.state;
     let _this = this;
-    const seleckChange = function(el) {
-      _this.setState({
-        lang: el.target.value,
-      });
-    };
+
+    // const seleckChange = function(el) {
+    //   _this.setState({
+    //     lang: el.target.value,
+    //   });
+    // };
 
     return (
       <div className="section upload-cover ">
@@ -234,89 +228,121 @@ export default class UploadVideos extends Component {
         </div>
 
         <div className="lists">
-         {/* {_this.state.status === 1 ? (*/}
-            <section>
-              <label
-                onClick={(e) => {
-                  if (!isLoggedIn()) {
-                    _this.setState({
-                      dialogOpen: true,
-                    });
-                  }
-                  getData("api/v1/gateway", {
-                    model_name: "user",
-                    model_action: "is_login",
-                    extra_data: {},
-                    model_type: "",
-                  })
-                    .then((res) => {
-                      console.log(1);
-                      document.getElementById("newFile").click();
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-              >
-                选择文件
-              </label>
-              <input
-                type="file"
-                id="newFile"
-                onChange={(e) => {
-                  //
-                  _this.setState({ status: 2 });
-                  let myFile = new UpdataFile({
-                    fileId: "newFile",
-                    pageObj: _this,
-                    url: "http://api.haetek.com:9191/api/v1/gateway",
-                    filesSize: e.target.files[0].size,
-                    shardSize: 10 * 1024 * 1024, //一个分片大小
+          {/*{_this.state.status === 1 ? (*/}
+          <section>
+            <label
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (!isLoggedIn()) {
+                  _this.setState({
+                    dialogOpen: true,
                   });
-                  myFile.init();
-                }}
-              />
-              <br />
-              <p>拖放您要上传的视频</p>
-              <p>您的视频在发布之前将处于私享状态</p>
-            </section>
-          {/*) : (
-            <section></section>gatsby clean
-          )}* */}
-          {_this.state.status === 2 ? (
+                  return false;
+                }
+                getData("api/v1/gateway", {
+                  model_name: "user",
+                  model_action: "is_login",
+                  extra_data: {},
+                  model_type: "",
+                })
+                  .then((res) => {
+                    if (res.err === 0 && res.errmsg == "OK") {
+                      document.getElementById("newFile").click();
+                    } else {
+                      let _data = this.state.promp_info;
+                      _data.msg = "登录超时，正在为你跳转登录页...";
+                      _this.setState({
+                        promp_info: _data,
+                        promptOpen: true,
+                      });
+                      setTimeout(() => {
+                        _this.setState({
+                          promptOpen: false,
+                        });
+                        navigate(`users/login`);
+                      }, 3000);
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+
+                return false;
+              }}
+            >
+              选择文件
+            </label>
+            <input
+              type="file"
+              id="newFile"
+              onChange={(e) => {
+                //
+                _this.setState({ status: 2 });
+                let myFile = new UpdataFile({
+                  fileId: "newFile",
+                  pageObj: _this,
+                  url: "http://api.haetek.com:9191/api/v1/gateway",
+                  filesSize: e.target.files[0].size,
+                  shardSize: 10 * 1024 * 1024, //一个分片大小
+                });
+                myFile.init();
+              }}
+            />
+            <br />
+            <p>拖放您要上传的视频</p>
+            <p>您的视频在发布之前将处于私享状态</p>
+          </section>
+          {/*} ) : (
+            <section></section>
+         )}*/}
+          {status === 2 || status===5? (
             <section>
               <div className="items">
+              {status===5?(
+                <div style={{padding:'10px 0'}}>
+                <LinearProgress />
+                <p>正在生成生字幕，请稍后...</p>
+                </div>
+                ):(
                 <NewLinearProgress
                   variant="determinate"
                   value={this.state.progress}
                 ></NewLinearProgress>
+                )}
               </div>
             </section>
           ) : (
             <i></i>
           )}
-          {_this.state.status === 3 ? (
+          {status === 3 ? (
             <section>
-              <div className="items btn" style={{backgroundImage:'url(http://videos.haetek.com/'+_this.state.files[0].image_path+')'}}>
+              <div
+                className="items btn"
+                style={{
+                  backgroundImage:
+                    "url(http://api.haetek.com:9191/" +
+                    _this.state.files[0].image_path +
+                    ")",
+                }}
+              >
                 <span className="edit" title="添加到编辑区">
                   <Create
                     onClick={() => {
-                      getData("api/v1/gateway", {//生成图片
+                     
+                      getData("api/v1/gateway", {
+                        //生成图片
                         model_name: "video",
                         model_action: "generate_thumbnail",
                         extra_data: {
-                          video_id: _this.state.files[0]._id,
+                          video_id: _this.state.files[0]._id||this.state.files[0].video_id,
                         },
                         model_type: "",
-                      })
-                        .then((res) => {
-                          console.log(res)
-                        })
-                        .catch((err) => {
-                          console.log(err)
-                        });
+                      }).then((res) => {
+                        if (res.err === 0) {
+                          this.props.parent.get_image(res.result_data);
+                        }
+                      });
                     }}
                   />
                 </span>
@@ -333,96 +359,30 @@ export default class UploadVideos extends Component {
                   whiteSpace: "nowrap",
                 }}
               >
-                {_this.state.files[0]._id}
+                {_this.state.files[0]._id||_this.state.files[0].video_id}
               </p>
             </section>
           ) : (
             <i></i>
           )}
 
-          {/*
-         
-
-          
-            <Button variant="contained"
-            color="primary" onClick={()=>{
-              let _data={
-                  "task_id" : '12123456' 
-              }
-              getData("video/breakpoint", _data, "post",{
-                Authorization:
-                "Bearer" +
-                " " +
-                "J0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODgwNjc5NjgsImlhdCI6MTU4ODA1MzU2OCwiaXNzIjoiaGVpZHVua2VqaSIsImRhdGEiOnsiX2lkIjoiMjAyMDA0MjUxNDMyMjM4Mjg4MTUifX0.wJGrBB_VWmQxWRT4g_vvzF7Qy0dS5FL9O-_NKUVG4h4",
-                'Content-Type':'multipart/form-data'
-            }).then(res=>{
-              console.log(res)
-            }).catch(err=>{console.log(err)})
-
-            }}> 续传</Button>
-*/}
-        </div>
-
-        {/* <div>
-          <label className="file-label">
-            <div
-              className="file-input"
-              id="filePicker"
-              name="resume"
-              ref={this.fileInput_chunk}
+          {_this.state.status === 4 ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={(e) => {
+                this.setState({ lang_open: true });
+              }}
             >
-              <span className="file-label">大文件上传</span>
-            </div>
-
-            <br />
-          </label>
-        
-          {status >= 4 ? (
-            <div className="updata-img">
-              <img src="https://material-ui.com/static/images/avatar/1.jpg" />
-              <span>
-                <Delete />
-              </span>{" "}
-              <span>
-                <Add />
-              </span>
-            </div>
+              语音智能识别提取字幕
+            </Button>
           ) : (
-            ""
+            <i></i>
           )}
         </div>
-        {status > 1 && status < 4 ? (
-          <span className="file-name">
-            <LinearProgress variant="determinate" value={this.state.progress} />
-           
-          </span>
-        ) : (
-          <span></span>
-        )}
 
-        <br />
-        {status == 2 ? (
-          <button
-            className="button is-info"
-            onClick={() => {
-              this.uploader.stop(true);
-              this.setState({ status: 3 });
-            }}
-          >
-            暂停上传
-          </button>
-        ) : status == 3 ? (
-          <button
-            onClick={() => {
-              this.uploader.upload();
-              this.setState({ status: 2 });
-            }}
-          >
-            继续上传
-          </button>
-        ) : (
-          <span></span>
-        )}
+        {/* 
+          
 
         {status == 4 ? (
           <div>
@@ -465,8 +425,48 @@ export default class UploadVideos extends Component {
         )}*/}
         <Message
           parent={this}
-          msg="您还没有登录，将为您跳转到登录页面！"
+          msg="您还没有登录，是否跳转到登录页面？"
         ></Message>
+        <Message1
+          parent={this}
+          open={this.state.promptOpen}
+          msg={this.state.promp_info}
+        />
+        <Dialog open={lang_open}>
+          <DialogTitle>请选择上传视频的语言</DialogTitle>
+          <DialogContent>
+            <FormControl component="fieldset">
+              <RadioGroup
+                aria-label="gender"
+                name="lang"
+                value={lang_value}
+                onChange={(event, newValue) => {
+                  _this.setState({ lang_value: newValue });
+                }}
+              >
+                <FormControlLabel value="en" control={<Radio />} label="英文" />
+                <FormControlLabel value="cn" control={<Radio />} label="中文" />
+              </RadioGroup>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained"
+              onClick={() => {
+                _this.setState({ lang_open: false });
+              }}
+            >
+              取消
+            </Button>
+            <Button variant="contained" color="primary"
+              onClick={() => {
+                _this.setState({ lang_open: false });
+                _this.new_subtitles()
+              }}
+            >
+              确定
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

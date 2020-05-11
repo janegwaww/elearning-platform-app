@@ -77,6 +77,10 @@ body{background-color: #eee;}
 .bottom .el-main {
   position: relative;
   color: #fff;
+
+}
+.bottom .el-main{
+  background-color: #2E2E30;
 }
 .top .el-main {
   
@@ -164,7 +168,8 @@ body{background-color: #eee;}
 /* 时间轴 */
   .slider {
  width: auto;
- transform: translateX(5px);
+ /* transform: translateX(5px); */
+height: 30px;
 } 
 
 /* 编辑区 */
@@ -174,10 +179,20 @@ body{background-color: #eee;}
   margin-top: 12px;
 }
 .video-image {
- 
   background-color: rgba(126, 123, 123, 1);
   display: flex;
-  align-items: center;
+  align-items: center ;
+}
+
+.video-image .new-menu{
+  display: none;
+
+  width:70px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.video-img .test-nodes{
+  display: inline-block;
 }
 .video-test {
   padding-top: 10px;
@@ -203,8 +218,8 @@ body{background-color: #eee;}
 .video .subtitles{
 width: 100%;
 }
-/* .clearfix::after {
-  content: "\00A0";
+.clearfix::after {
+  content: "";
   display: block;
   visibility: hidden;
   width: 0;
@@ -216,7 +231,7 @@ width: 100%;
 }
 .clearfix {
   zoom: 1;
-} */
+}
 
 /* 页面下的滚动条 */
 .bottom-right{

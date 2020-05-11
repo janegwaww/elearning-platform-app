@@ -5,6 +5,12 @@
 
     color: #CCCCD1;
     font-size: 14px;
+    position: relative;
+}
+.nav-tabs button{
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 .testedit svg{
     width:20px;

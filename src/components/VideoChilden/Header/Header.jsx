@@ -5,18 +5,19 @@ import { navigate } from "@reach/router";
 import {
   Button,
   Avatar,
+  Snackbar,
   Dialog,
   DialogTitle,
   TextField,
   FormControl,
   InputLabel,
   Input,
- 
+  IconButton,
   InputAdornment,
 } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
-import { Save, AccountCircle } from "@material-ui/icons";
+import { Save, AccountCircle ,CloseIcon} from "@material-ui/icons";
 import getData from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 import { node } from "prop-types";
@@ -38,11 +39,24 @@ const NewBtn2 = withStyles({
 })(NewBtn);
 
 
+ 
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+
+  //   setOpen(false);
+  // };
+ 
+
 
 export default class  Header extends Component {
   constructor(props) {
     super(props);
-    this.state={open_updata:false};
+    this.state={open_updata:false,open:false};
     this.btn_user = this.btn_user.bind(this);
   }
   componentWillReceiveProps(nextProps) {
@@ -52,7 +66,7 @@ export default class  Header extends Component {
       })
     }
   }
-
+  
   btn_user = function (info) {
     
     if (!getUser().name) {
@@ -73,10 +87,16 @@ export default class  Header extends Component {
 
   render() {
     let _this = this;
+
+  const handleClose=()=>{
+    this.setState({open:false})
+  }
+
+
     const btn_save = function (el) {
       // "Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,  0,100,100, 0, 0,1,1,0,2,10,10,10,0";
       //Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-     console.log(_this.props)
+    
       let _video_data = _this.props.parent.state.video_data;
         if(JSON.stringify(_video_data) ==='{}'){
           return
@@ -87,7 +107,7 @@ export default class  Header extends Component {
         i = _styles._i,
         u = _styles._u,
         fontName = _styles.family,
-        color = "&H" + _styles.color.substring(1),
+        color =_styles.color? "&H" + _styles.color.substring(1):'',
         size = parseInt(_styles.size),
         spacing = _styles.spacing,
         name = "MD",
@@ -116,16 +136,20 @@ export default class  Header extends Component {
         alignment +
         ",10,10,10,0";
       let r_data = {
-        model_action: "update",
+        
+        "model_name":"video",
+        "model_action":"update_subtitle",
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
           style: style,
           lang: "en",
         },
+        "model_type":""
       };
-      getData("video/subtitle", r_data, "post").then((res) => {
+      getData("api/v1/gateway", r_data, "post").then((res) => {
         console.log(res);
+        _this.setState({open:true})
       });
     };
 
@@ -195,6 +219,20 @@ export default class  Header extends Component {
             </form>
           </div>
         </Dialog>
+
+        <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={this.state.open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Note archived"
+       
+      />
+
+
       </header>
     );
   }

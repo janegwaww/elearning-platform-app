@@ -17,14 +17,15 @@ class SliderTemplate extends React.Component {
   componentWillReceiveProps(nextProps) {
     
     let value=0;
+    getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
     if(this.state.leng==nextProps.length){
       value = (nextProps.value*1000)/(this.state.leng*1000/getObj('sliderbox').scrollWidth);
-     
       this.setState({
         value: value,
       })
     }else{
-      value = (nextProps.value*1000)/(nextProps.length*1000/getObj('sliderbox').scrollWidth);
+    value = (nextProps.value*1000)/(nextProps.length*1000/getObj('sliderbox').scrollWidth);
+    // getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
     this.setState({
       value: value,
       leng: nextProps.length,

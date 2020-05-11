@@ -10,14 +10,15 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 
-const Message1 = (props) => {
+const Message1 = (props)=> {
+
     return (
-      <Dialog open={true}>
-        <DialogTitle>温馨提示</DialogTitle>
+      <Dialog open={props.open}>
+        <DialogTitle>{props.msg.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{props.msg}</DialogContentText>
+          <DialogContentText>{props.msg.msg}</DialogContentText>
         </DialogContent>
       </Dialog>
     );
   };
-  export default Message1;
+  export default Message1

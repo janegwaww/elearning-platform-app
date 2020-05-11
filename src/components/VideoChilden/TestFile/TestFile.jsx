@@ -30,6 +30,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 
+
 const NewSlider = withStyles({
   root: {
     width: "180px",
@@ -153,11 +154,12 @@ export default class TestFile extends React.Component {
     
     return (
       <div className="testedit">
-        <div className="nav-tabs">
+        <div className="nav-tabs" >
           <p>文字</p>
+         <button onClick={()=>{this.props.parent.props.parent.setState({top_inx:1})}}>取消</button>
         </div>
         <section>
-          <form>
+          <form >
             <div className="font-family">
               <label> 字体:</label>
               <select name="family" onChange={(el)=>this.font_style('family',el.target.value)}>

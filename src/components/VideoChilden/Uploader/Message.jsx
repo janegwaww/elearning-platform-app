@@ -8,10 +8,10 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { navigate } from "@reach/router";
 
 
-
-const Message = (props) => {
+ const Message = (props)=>{
   // console.log(props);
     
   return (
@@ -27,7 +27,7 @@ const Message = (props) => {
           color="primary"
           onClick={() => {
             props.parent.setState({ dialogOpen: false });
-            window.location.href = __dirname + "users/login";
+            navigate(`/users/login`)
           }}
         >
           确定
@@ -45,4 +45,4 @@ const Message = (props) => {
     </Dialog>
   );
 };
-export default Message;
+export default Message
