@@ -652,6 +652,7 @@ export default class VideoPage extends Component {
                             getStyles("sliderbox", "transform") -
                             50 -
                             20;
+                          
                           _obj.style.transform = "translateX(" + x + "px)";
                         }
                       }}

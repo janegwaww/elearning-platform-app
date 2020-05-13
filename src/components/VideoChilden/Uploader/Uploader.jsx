@@ -174,21 +174,21 @@ export default class UploadVideos extends Component {
             marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
               <p  onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
               onFocus={_this.props.parent.props.parent.context_focus}
-              data-lu='zh' data-inx={i} contenteditable={'true'}  title='点击文字可编辑' >{json_sub[i].cn_sub}
+              data-lu='zh' data-inx={i} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].cn_sub}
               </p>
               <p data-lu='en' onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contenteditable={'true'} title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>
               </div>
               )
             }else{
               test_arr.push(<div className="test-nodes" key={i} 
             style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
             marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
-            <p contenteditable={'true'}  data-lu='zh' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+            <p contentEditable='true'  data-lu='zh' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
             onFocus={_this.props.parent.props.parent.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
               </p>
               <p data-lu='en' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} contenteditable={'true'}  title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              onFocus={_this.props.parent.props.parent.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>
               </div>)
             }
           }
@@ -251,6 +251,7 @@ export default class UploadVideos extends Component {
                       document.getElementById("newFile").click();
                     } else {
                       let _data = this.state.promp_info;
+                      localStorage.removeItem('haetekUser');
                       _data.msg = "登录超时，正在为你跳转登录页...";
                       _this.setState({
                         promp_info: _data,
