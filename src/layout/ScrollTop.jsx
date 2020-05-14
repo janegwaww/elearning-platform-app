@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2)
+  },
+  fab: {
+    borderRadius: "20%"
   }
 }));
 
@@ -33,7 +36,11 @@ function ScrollTop(props) {
   return (
     <Zoom in={trigger}>
       <div onClick={handleClick} role="presentation" className={classes.root}>
-        <Fab color="#ddd" size="small" aria-label="scroll back to top">
+        <Fab
+          size="small"
+          aria-label="scroll back to top"
+          classes={{ root: classes.fab }}
+        >
           <KeyboardArrowUpIcon />
         </Fab>
       </div>

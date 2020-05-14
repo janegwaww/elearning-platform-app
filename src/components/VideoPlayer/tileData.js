@@ -1,7 +1,7 @@
 const tileData = [
   {
-    img: "../images/login-background-image.pn",
-    title: "Breakfast",
+    img: "../images/login-background-image.png",
+    title: "Breakfastes",
     author: "jill111",
     cols: 2,
     featured: true

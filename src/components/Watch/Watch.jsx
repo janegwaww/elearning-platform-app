@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { globalHistory } from "@reach/router";
+import { globalHistory, navigate } from "@reach/router";
 import { Grid, Divider } from "@material-ui/core";
+import urlParse from "url-parse";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import Comments from "../Comments/Comments";
 import VideoList from "../VideoList/VideoList";
@@ -20,8 +21,11 @@ class Watch extends Component {
   }
 
   getVideoId = () => {
-    const href = globalHistory.location.href;
-    this.setState({ vid: href });
+    const videoId = urlParse(globalHistory.location.href, true).query.vid;
+    if (!videoId) {
+      return navigate("/");
+    }
+    this.setState({ vid: videoId });
   };
 
   render() {
@@ -34,20 +38,14 @@ class Watch extends Component {
             <VideoPlayer vid={vid} />
             <Introduction />
             <Divider />
-            <div style={{ height: "1000px" }}>
-              <Comments vid={vid} />
-            </div>
+            <Comments vid={vid} />
           </Grid>
           <Grid item xs={3}>
             <PersonAvatar />
             <Divider />
-            <div style={{ height: "800px" }}>
-              <VideoList />
-            </div>
+            <VideoList />
             <Divider />
-            <div style={{ height: "800px" }}>
-              <VideoList />
-            </div>
+            <VideoList />
           </Grid>
         </Grid>
       </Fragment>

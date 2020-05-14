@@ -1,20 +1,19 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Typography, Link } from "@material-ui/core";
-import SingleLineGridList from "./SingleLineGridList";
+import VideoWindow from "./VideoWindow";
+import VideoSearchWrap from "./VideoSearchWrap";
+import { videoPath } from "../../services/video";
 
 class VideoPlayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vid: ""
+      videoInfo: {}
     };
   }
 
-  componentDidMount() {
-    const { vid } = this.props;
-    this.setId(vid);
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
     if (this.props.vid !== prevProps.vid) {
@@ -22,30 +21,29 @@ class VideoPlayer extends Component {
     }
   }
 
-  fetchVideo = vid => console.log(vid);
-
-  setId = id => this.setState({ vid: id });
+  fetchVideo = vid => {
+    videoPath(vid).then(data => {
+      console.log(data);
+      this.setState({ videoInfo: data });
+    });
+  };
 
   render() {
+    const { videoInfo } = this.state;
+
     return (
       <Fragment>
         <div style={{ paddingTop: "0.35em" }}>
           <Typography variant="h6" gutterBottom>
-            C4D修神记：零基础到三维封神。行业名师帮你打基础，拒绝纸上谈兵
+            {videoInfo && videoInfo.title}
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
-            来自频道<Link>@三维设计</Link>
+            来自频道<Link color="secondary">{videoInfo.authName}</Link>
           </Typography>
         </div>
-        <div>
-          <video controls width="100%">
-            <source
-              src="http://videos.haetek.com/sv/41a45e0c-171aa124b85/41a45e0c-171aa124b85.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
-        <SingleLineGridList />
+        <VideoSearchWrap>
+          {timer => <VideoWindow info={videoInfo} timer={timer} />}
+        </VideoSearchWrap>
       </Fragment>
     );
   }
