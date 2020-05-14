@@ -1,16 +1,25 @@
 import React from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Dialog, Button, TextField,Snackbar } from "@material-ui/core";
-import Alert from '@material-ui/lab/Alert'
+import {
+  Dialog,
+  Button,
+  TextField,
+  Snackbar,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { ContactSupport ,Add,Delete} from "@material-ui/icons";
+import { ContactSupport, Add, Delete } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
-import getData from '../../../assets/js/request';
-
+import getData from "../../../assets/js/request";
+import { isGoLogin } from "../../../assets/js/totls";
+import { navigate } from "@reach/router";
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -22,7 +31,6 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-
 });
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -70,201 +78,257 @@ const NewBtn2 = withStyles({
 })(Button);
 
 const usersStyles = makeStyles((them) => ({
-    snackbar:{
-        top:'50%',
-        bottom:'auto',
-        transform:'translate(-50%,-50%)'
-    },
+  snackbar: {
+    top: "50%",
+    bottom: "auto",
+    transform: "translate(-50%,-50%)",
+  },
+  radiogroup: {
+    flexDirection: "row",
+  },
   root: {
     width: "100%",
-    fontSize:"14px",
-    '& div':{
-        alignItems:'flex-start',
-        '& .file':{
-            width:'80px',
-            height:'80px',
-            position:'relative', 
-            margin:'0 5px',
-            overflow:'hidden',
-            '& input':{
-                width:'100%',
-                height:'100%',
-            },
-           '& .delete':{
-            position:'absolute',
-            top:0,
-            right:0,
-            color:'green',
-            '& :hover':{
-                color:'#ccc'
-            }
-           },
-            '& img':{
-                width:'100%',
-                height:'100%',
-                display:'block'
-            },
-            "& label":{
-                width:'80px',
-                height:'80px',
-                display:'block',
-                position:'absolute',
-                left:0,
-                top:0,
-                backgroundColor:'#ccc',
-                color:'#fff',
-                lineHeight:'80px',
-                textAlign:'center',
-                fontSize:'20px'
-            }
-            
-        }
+    fontSize: "14px",
+    "& div": {
+      alignItems: "flex-start",
+      "& .file": {
+        width: "80px",
+        height: "80px",
+        position: "relative",
+        margin: "0 5px",
+        overflow: "hidden",
+        border: "1px solid #ccc",
+        display: "inline-block",
+        "& input": {
+          width: "100%",
+          height: "100%",
+        },
+        "& .delete": {
+          position: "absolute",
+          top: 0,
+          right: 0,
+          color: "green",
+          "& :hover": {
+            color: "#ccc",
+          },
+        },
+        "& img": {
+          width: "100%",
+          height: "100%",
+          display: "block",
+        },
+        "& label": {
+          width: "80px",
+          height: "80px",
+          display: "block",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          backgroundColor: "#ccc",
+          color: "#fff",
+          lineHeight: "80px",
+          textAlign: "center",
+          fontSize: "20px",
+        },
+      },
     },
 
-
-    '& p':{
-        margin:0
+    "& p": {
+      margin: 0,
     },
-    '& .sign':{
-       
-        backgroundColor:'#EEEEEE',
-        "& label":{
-            display:'inline-block',
-            marginRight:'10px',
-            minWidth:'auto',
-        }
+    "& .sign": {
+      backgroundColor: "#EEEEEE",
+      padding:'12px',
+      "& label": {
+        display: "inline-block",
+        
+        minWidth: "auto",
+        marginLeft:0,
+      },
     },
     "& label": {
-      minWidth:'80px',
+      minWidth: "80px",
       transform: "translate(0, 1.5px) scale(1.1)",
     },
-    "& span": {
+    "&  .item span": {
       color: "red",
     },
+    "& .MuiFormControlLabel-root ": {
+      minWidth: "auto",
+      '& .MuiRadio-root':{
+        padding:0,
+      }
+    },
+    '& .MuiOutlinedInput-input':{
+      padding:'8px 6px',
+      backgroundColor:'#fff'
+    }
   },
-  
 }));
 
 export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
-  const [openSnackbar, setOpenSnackbar] = React.useState({open:false,type:'success',msg:'上传成功!'});
-  const [currency, setCurrency] = React.useState("EUR");//视频系列
-  const [videoTitle,setVideoTitle] = React.useState(null);//视频标题
-  const [videodescription,setVideodescription] = React.useState(null);//视频描述
-  const [videosign,setVideosign] = React.useState(null);//视频标签
-  const [file,setFile] = React.useState(null);//文件
-  const [fileSrc,setFileSrc] = React.useState(null);//图片文件的临时路径
-  const [currencies,setCurrencies]= React.useState([{
-    value: "USD",
-    label: "$",
-  },
-  {
-    value: "EUR",
-    label: "€",
-  },
-  {
-    value: "BTC",
-    label: "฿",
-  },
-  {
-    value: "JPY",
-    label: "¥",
-  },])
+  const [openSnackbar, setOpenSnackbar] = React.useState({
+    open: false,
+    type: "success",
+    msg: "上传成功!",
+  });
+  const [videoTitle, setVideoTitle] = React.useState(''); //视频标题
+  const [videodescription, setVideodescription] = React.useState(''); //视频描述
+  const [videosign, setVideosign] = React.useState([]); //视频标签
+  const [file, setFile] = React.useState(null); //文件
+  const [fileSrc, setFileSrc] = React.useState(''); //图片文件的临时路径
+  const [currency, setCurrency] = React.useState(''); //视频系列
+  const [addseries,setAddseries] = React.useState('');//新建系列
+  const [newseries,setNewseries] = React.useState('');//暂存新系列
+  const [currencies, setCurrencies] = React.useState([
+    {
+      title: "USD",
+      label: "$",
+    },
+    {
+      title: "EUR",
+      label: "€",
+    },
+    {
+      title: "BTC",
+      label: "฿",
+    },
+    {
+      title: "JPY",
+      label: "¥",
+    },
+  ]);
   const usersClass = usersStyles();
-  const handleClickOpen = () => {//打开上传弹窗
-    if(JSON.stringify(props.parent.props.parent.state.video_data)==="{}"){
-        setOpenSnackbar({open:true,type:'error',msg:'亲！还没有添加文件呢！'})
-        // return
+  const handleClickOpen = () => {
+    //打开上传弹窗
+    if (JSON.stringify(props.parent.props.parent.state.video_data) === "{}") {
+      setOpenSnackbar({
+        open: true,
+        type: "error",
+        msg: "亲！还没有添加文件呢！",
+      });
+      return;
     }
+    getData("api/v1/gateway", {
+      model_name: "series",
+      model_action: "get_series",
+      extra_data: {},
+      model_type: "",
+    }).then((res) => {
+      if(res.err==0&&res.result_data.length>0){
+        setCurrencies(res.result_data)
+      }
+      console.log(res);
+    });
+
     setOpen(true);
   };
-  const handleClose = () => {//关闭上传弹窗
+  const handleClose = () => {
+    //关闭上传弹窗
     setOpen(false);
+    setCurrency('');
+    setVideoTitle('');
+    setVideodescription('');
+    setVideosign([])
+    setFile(null)
+    setFileSrc('')
   };
-// const snackbarOpen=()=>{
 
-// }
-const snackbarClose=()=>{//关闭提示
-    setOpenSnackbar({open:false})
-}
-
-  const confimSubmit=()=>{//提交表单
-        
-        let _data = new FormData();
-        console.log(_data)
-        _data.set('model_name','video');
-        _data.set('model_action','check');
-        _data.set('model_type','');
-        _data.set('task_id',123)
-        if(!videoTitle){
-            setOpenSnackbar({open:true,type:'error',msg:'标题不能为空!'})//error
-            return
-        }else{
-            _data.set('title',videoTitle);
-        };
-        if(!videodescription){
-            setOpenSnackbar({open:true,type:'error',msg:'描述不能为空!'})
-            return
-        }else{
-            _data.set("description",videodescription);
-        };
-        if(!videosign||videosign.length<1){
-            setOpenSnackbar({open:true,type:'error',msg:'请先择1个或多个标签!'})
-        }else{
-            _data.set('category',JSON.stringify(videosign))
-        };
-       if(file){
-           _data.set('image',file);
-       };
-       if(currency){
-           _data.set('series_title',currency)
-       }
-       getData("api/v1/gateway",_data).then(res=>{
-           console.log(res)
-       })
-        
+  const snackbarClose = () => {
+    //关闭提示
+    setOpenSnackbar({ open: false });
   };
-  const handleChange = (event) => {//添加系列
+
+  const confimSubmit = () => {
+    //提交表单
+
+    let _data = new FormData();
+
+    _data.set("model_name", "video");
+    _data.set("model_action", "check");
+    _data.set("model_type", "");
+    _data.set("task_id", props.parent.props.parent.state.video_data.video_id);
+    if (!videoTitle) {
+      setOpenSnackbar({ open: true, type: "error", msg: "标题不能为空!" }); //error
+      return;
+    } else {
+      _data.set("title", videoTitle);
+    }
+    if (!videodescription) {
+      setOpenSnackbar({ open: true, type: "error", msg: "描述不能为空!" });
+      return;
+    } else {
+      _data.set("description", videodescription);
+    }
+    if (!videosign || videosign.length < 1) {
+      setOpenSnackbar({
+        open: true,
+        type: "error",
+        msg: "请先择1个或多个标签!",
+      });
+      return;
+    } else {
+      _data.set("category", JSON.stringify(videosign));
+    }
+    if (file) {
+      _data.set("image", file);
+    }
+    if (currency) {
+      _data.set("series_title", currency);
+    }
+    getData("api/v1/gateway", _data).then((res) => {
+      console.log(res);
+      if(res.err==0&&res.errmsg=='OK'){
+        setOpenSnackbar({open:true,type:'success',msg:'提交成功,系统将会自动审核,个人中心将会看到此视频的实时状态!'});
+        handleClose();
+       
+      }else{
+        setOpenSnackbar({open:true,type:'error',msg:'网络出错'});
+      }
+    });
+  };
+  const handleChange = (event) => {
+    //添加系列
     setCurrency(event.target.value);
     
   };
-  const titleChange=(event)=>{//添加标题
-      setVideoTitle(event.target.value);
-      
+  const titleChange = (event) => {
+    //添加标题
+    setVideoTitle(event.target.value);
   };
-  const descriptionChange =(event)=>{//添加描述
-      setVideodescription(event.target.value);
-     
+  const descriptionChange = (event) => {
+    //添加描述
+    setVideodescription(event.target.value);
   };
-  const signChane = (event)=>{//添加标签
-      let v_arr = [];
-      let obj_arr = document.querySelectorAll('input[name="videoSign"]');
-      for(let i=0;i<obj_arr.length;i++){
-        if(obj_arr[i].checked){
-            v_arr.push(obj_arr[i].value);
-        }
+  const signChane = (event) => {
+    //添加标签
+    let v_arr = [];
+    let obj_arr = document.querySelectorAll('input[name="videoSign"]');
+    for (let i = 0; i < obj_arr.length; i++) {
+      if (obj_arr[i].checked) {
+        v_arr.push(obj_arr[i].value);
       }
-      if(v_arr.length>0){
-        setVideosign(v_arr)
-      }else{
-        setVideosign(null)
-      }
-      
-     
-  };
-  const fileChane=(event)=>{//添加文件
-      let img_arr = event.target.files[0];
-      let img_src='';
-    if(window.createObjectURl !=undefined){
-        img_src=window.createObjectURl(img_arr);
-    }else if(window.URL!=undefined){
-        img_src=window.URL.createObjectURL(img_arr);
-    }else {
-        img_src=window.webkitURL.createObjectURL(img_arr);
     }
-    setFile(img_arr);setFileSrc(img_src)
-      
-        
+    if (v_arr.length > 0) {
+      setVideosign(v_arr);
+    } else {
+      setVideosign(null);
+    }
+  };
+  const fileChane = (event) => {
+    //添加文件
+    let img_arr = event.target.files[0];
+    let img_src = "";
+    if (window.createObjectURl != undefined) {
+      img_src = window.createObjectURl(img_arr);
+    } else if (window.URL != undefined) {
+      img_src = window.URL.createObjectURL(img_arr);
+    } else {
+      img_src = window.webkitURL.createObjectURL(img_arr);
+    }
+    setFile(img_arr);
+    setFileSrc(img_src);
   };
 
   return (
@@ -272,17 +336,13 @@ const snackbarClose=()=>{//关闭提示
       <NewBtn2 variant="outlined" color="primary" onClick={handleClickOpen}>
         上传视频
       </NewBtn2>
-      <Dialog
-       
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
+      <Dialog aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           上传视频
         </DialogTitle>
         <DialogContent dividers>
           <form id="updata_info" className={usersClass.root}>
-            <div>
+            <div className="item">
               <label>
                 <span>*</span> 标题
               </label>
@@ -293,11 +353,11 @@ const snackbarClose=()=>{//关闭提示
                 fullWidth
                 onChange={titleChange}
               />
-              <span title='一个引人注目的标题可以帮助您吸引观看者。在确定视频标题时，最好加入观众在查找类似视频时可能会使用的关键字。'>
+              <span title="一个引人注目的标题可以帮助您吸引观看者。在确定视频标题时，最好加入观众在查找类似视频时可能会使用的关键字。">
                 <ContactSupport />
               </span>
             </div>
-            <div>
+            <div className="item">
               <label>
                 <span>*</span> 描述
               </label>
@@ -310,16 +370,16 @@ const snackbarClose=()=>{//关闭提示
                 fullWidth
                 onChange={descriptionChange}
               />
-              <span title='在说明中加入适当的关键字，可以帮助观看者通过搜索更轻松地找到您的视频。您可以在说明中大致介绍视频的内容，并将关键字放在说明的开头部'>
+              <span title="在说明中加入适当的关键字，可以帮助观看者通过搜索更轻松地找到您的视频。您可以在说明中大致介绍视频的内容，并将关键字放在说明的开头部">
                 <ContactSupport />
               </span>
             </div>
 
-            <div>
+            <div className="item">
               <label>
                 <span>*</span>添加标签
               </label>
-              <p className='sign'>
+              <p className="sign">
                 {[
                   "标签",
                   "标签",
@@ -334,63 +394,121 @@ const snackbarClose=()=>{//关闭提示
                   "标签",
                 ].map((value, inx) => (
                   <label key={inx}>
-                    <input type="checkbox" name='videoSign' value={value+inx}  onChange={signChane}/>
+                    <input
+                      type="checkbox"
+                      name="videoSign"
+                      value={value + inx}
+                      onChange={signChane}
+                    />
                     {value}
                   </label>
                 ))}
               </p>
-              <span title='添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。'>
+              <span title="添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。">
                 <ContactSupport />
               </span>
             </div>
             <div>
-              <label >
-                封面图
-              </label>
-                <p>选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。</p>
-              
-            </div>
-            <div>
-                <label></label>
-                {fileSrc?(<div className='file'> 
-                <img src={fileSrc} title='缩略图' alt='缩略图' />
-                    <span className='delete'><Delete  onClick={()=>{
-                        setFileSrc(null);setFile(null);
-                        document.getElementById('coverfile').value='';
-                    }} /></span>
-                     </div>):(<i></i>)
-                }
-                
-                <div className='file'>
-                    <input type="file" name="file" id="coverfile" onChange={fileChane} />
-                    <label htmlFor="coverfile"><Add /></label>
+              <label>封面图</label>
+              <section>
+                <p>
+                  选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
+                </p>
+                <div>
+                  {props.parent.props.parent.state.video_data.image_path &&
+                  !fileSrc ? (
+                    <div className="file">
+                      <img
+                        src={
+                          "http://api.haetek.com:9191/" +
+                          props.parent.props.parent.state.video_data.image_path
+                        }
+                        title="缩略图"
+                        alt="缩略图"
+                      />
+                    </div>
+                  ) : (
+                    <i></i>
+                  )}
+                  {fileSrc ? (
+                    <div className="file">
+                      <img src={fileSrc} title="缩略图" alt="缩略图" />
+                      <span className="delete">
+                        <Delete
+                          onClick={() => {
+                            setFileSrc('');
+                            setFile(null);
+                            document.getElementById("coverfile").value = "";
+                          }}
+                        />
+                      </span>
+                    </div>
+                  ) : (
+                    <i></i>
+                  )}
+
+                  <div className="file">
+                    <input
+                      type="file"
+                      name="file"
+                      id="coverfile"
+                      onChange={fileChane}
+                    />
+                    <label htmlFor="coverfile">
+                      <Add />
+                    </label>
+                  </div>
                 </div>
-                
+              </section>
             </div>
+
             <div>
               <label>播放系列</label>
-              <p>
-                将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-              </p>
-            </div>
-            <div>
-              <label></label>
-              <TextField
-                id="standard-select-currency-native"
-                select
-                value={currency}
-                onChange={handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                {currencies.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-               
-              </TextField>
+              <section>
+                <p>
+                  将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+                </p>
+                <section className='sign'>
+                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}>新建</Button>):(
+                  <section>
+                    <TextField fullWidth type='text' variant="outlined" onChange={(e)=>{
+                      setNewseries(e.target.value)
+                    }}/>
+                    <DialogActions>
+                      <Button  variant="contained" onClick={()=>{setAddseries(false)}}>取消</Button>
+                      <Button color='primary' variant="contained" onClick={()=>{
+                        let _data  = currencies;
+                        if(_data.some((option)=>newseries==option.value)){
+                          setOpenSnackbar({open:true,type:'error',msg:'新建系列失败，您所新建的系列已存在!'});
+                          return
+                        }
+                        _data.push({title:newseries,label:newseries});
+                        setCurrencies(_data);
+                        setAddseries(false);
+                      }}>确认</Button>
+                    </DialogActions>
+                  </section>
+                )}
+                </section>
+                <section className="sign">
+                  <RadioGroup
+                    aria-label="gender"
+                    name="gender1"
+                    value={currency}
+                    onChange={handleChange}
+                    className={usersClass.radiogroup}
+                  >
+                    {currencies.map((option) => (
+                      <FormControlLabel
+                        key={option.title}
+                        value={option.title}
+                        label={option.title}
+                        control={<Radio color="primary" />}
+                      />
+                    ))}
+                  </RadioGroup>
+                </section>
+              </section>
             </div>
           </form>
         </DialogContent>
@@ -404,16 +522,31 @@ const snackbarClose=()=>{//关闭提示
             variant="contained"
             color="primary"
           >
-            确定
+            提交
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar open={openSnackbar.open} autoHideDuration={3000} onClose={snackbarClose} className={usersClass.snackbar}>
+      <Snackbar
+        open={openSnackbar.open}
+        autoHideDuration={3000}
+        onClose={snackbarClose}
+        className={usersClass.snackbar}
+      >
         <Alert onClose={snackbarClose} severity={openSnackbar.type}>
-            {openSnackbar.msg}
+          {openSnackbar.msg}
         </Alert>
-      
       </Snackbar>
+      {/*<Dialog open={true}>
+      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          添加系列
+        </DialogTitle>
+        <DialogContent dividers>
+            <TextField  type='text' variant="outlined" fullWidth  placeholder='输入你要添加的系列名。'/>
+        </DialogContent>
+        <DialogActions>
+        <Button>取消</Button><Button>确定</Button>
+        </DialogActions>
+                </Dialog>*/}
     </div>
   );
 }

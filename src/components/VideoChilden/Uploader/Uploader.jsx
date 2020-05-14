@@ -1,6 +1,6 @@
 import React, { createRef, Component } from "react";
 import WebUpload from "webuploader";
-import axios from "axios";
+
 import "./Uploader.css";
 import {
   Button,
@@ -20,12 +20,13 @@ import {
 import { Delete, Add, Create } from "@material-ui/icons";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import getData from "../../../assets/js/request";
-import { getUser, isLoggedIn } from "../..//../services/auth";
+
 import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
 import Message1 from "./Message1";
 import { navigate } from "@reach/router";
-import { getObj } from "../../../assets/js/totls";
+import { getUser, isLoggedIn } from "../../../services/auth";
+import { getObj,isGoLogin } from "../../../assets/js/totls";
 // import md5 from "md5";
 
 const NewLinearProgress = withStyles({
@@ -156,7 +157,7 @@ export default class UploadVideos extends Component {
         }
         if (res.result_data[0] && res.result_data[0].subtitling) {
           _this.props.parent.get_url(res.result_data[0]);
-
+          
           _this.setState({ status: 3, lang_value: "" });
           let json_sub = res.result_data[0].subtitling;
           let total_time =_this.props.parent.props.parent.state.the_current.video_len;
@@ -165,7 +166,7 @@ export default class UploadVideos extends Component {
          
           
          
-          console.log(total_time*1000/total_w)//每px占的毫秒
+         // console.log(total_time*1000/total_w)//每px占的毫秒
           for(let i=0;i<json_sub.length;i++){
             if(i===0){
 
@@ -228,7 +229,7 @@ export default class UploadVideos extends Component {
         </div>
 
         <div className="lists">
-          {/*{_this.state.status === 1 ? (*/}
+          {_this.state.status === 1 ? (
           <section>
             <label
               onClick={(e) => {
@@ -294,9 +295,9 @@ export default class UploadVideos extends Component {
             <p>拖放您要上传的视频</p>
             <p>您的视频在发布之前将处于私享状态</p>
           </section>
-          {/*} ) : (
+          ) : (
             <section></section>
-         )}*/}
+         )}
           {status === 2 || status===5? (
             <section>
               <div className="items">

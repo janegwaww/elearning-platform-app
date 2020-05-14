@@ -45,7 +45,7 @@ export default function SimpleMenu(props) {
   const popperClose = (event) => {
     setPopperEl(null);
   };
-  const id = open ? "simple-popper" : undefined;
+  // const id = open ? "simple-popper" : undefined;
   return (
     <div>
       <Button
@@ -83,14 +83,14 @@ export default function SimpleMenu(props) {
         </NewMenuItem>
         <NewMenuItem onClick={handleClose}>删除</NewMenuItem>
       </Menu>
-      <Popper
+      {/*<Popper
         id={id}
         open={Boolean(popperEl)}
         anchorEl={popperEl}
         className={classes.popper}
       >
         <div className={classes.paper}>请先上传文件</div>
-      </Popper>
+      </Popper>*/}
     </div>
   );
 }

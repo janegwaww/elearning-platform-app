@@ -171,51 +171,7 @@ export default class Header extends Component {
             )}
           </div>
         </div>
-        {/*this.state.open_updata */}
-
-        {/* <Dialog open={true} aria-labelledby="customized-dialog-title">
-          <div className={styles.dialogUpdata}>
-          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          上传视频
-        </DialogTitle>
-          
-            <form id='updata_info'>
-         
-                <div>
-                    <label htmlFor='title'><span>*</span>标题</label>
-                    <input type='text' name='title'  id='title' required/>
-                </div>
-                <div>
-                <label htmlFor='describe'><span>*</span>描述</label>
-                <textarea type='text' name='describe'  id='describe' required></textarea>
-                
-                </div>
-                <div>
-                  <label><span>*</span>添加标签</label>
-                   <p>
-                    {['标签1','标签1','标签1','标签1','标签1','标签1','标签1','标签1','标签1','标签1','标签1'].map((value,inx)=>(<label key={inx}>
-                      <input type='checkbox' />{value}</label>))}
-                      </p>
-                </div>
-                <div>
-                      <label htmlFor='file'><span>*</span>缩略图</label>
-                      <input type='file' name='file' id = 'file' />
-                  </div>
-                  <div>
-                   <label >播放列表</label>
-                    <select name='list'>
-                      <option>--</option>
-                    </select>
-                  </div>
-                  <div>
-                   <Button variant="contained" onClick={()=>{this.setState({open_updata:false})}}>取消</Button>&nbsp;&nbsp;<Button variant="contained" color="primary">继续</Button>
-                  </div>
-               
-
-            </form>
-          </div>
-                    </Dialog>*/}
-
+       
         <Snackbar
           anchorOrigin={{
             vertical: "top",
@@ -224,7 +180,7 @@ export default class Header extends Component {
           open={this.state.open}
           autoHideDuration={3000}
           onClose={handleClose}
-          message="Note archived"
+          message="保存成功"
         />
       </header>
     );

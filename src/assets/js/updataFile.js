@@ -28,7 +28,7 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
           if(_this.current==_this.totalConud-1){
             // console.log(res)
               console.log('上传完成');
-              getObj(_this.options.fileId).value='';
+              // getObj(_this.options.fileId).value='';
             return
           }
         _this.current +=1;
