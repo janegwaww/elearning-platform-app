@@ -1,21 +1,23 @@
-import React, { useRef } from "react";
+import React from "react";
 import { navigate } from "@reach/router";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Drawer from "../Drawer/Drawer";
+import Container from "@material-ui/core/Container";
+import {
+  Toolbar,
+  Menu,
+  MenuItem,
+  Badge,
+  InputBase,
+  Typography,
+  IconButton,
+  AppBar,
+  Button
+} from "@material-ui/core";
 import { isLoggedIn, logout } from "../../services/auth";
 
 const useStyles = makeStyles(theme => ({
@@ -59,6 +61,8 @@ const useStyles = makeStyles(theme => ({
     color: "inherit"
   },
   inputInput: {
+    backgroundColor: "#f2f2f5",
+    borderRadius: "50px 0 0 50px",
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
@@ -67,6 +71,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("md")]: {
       width: "20ch"
     }
+  },
+  searchButton: {
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: "0px 50px 50px 0",
+    color: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main
+    }
+  },
+  createButton: {
+    borderRadius: "20px",
+    marginLeft: "20px"
   },
   sectionDesktop: {
     display: "none",
@@ -83,7 +99,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const drawerRef = useRef(null);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -106,10 +121,6 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const handleDrawerOpen = e => {
-    drawerRef.current.handleDrawerOpen(e);
   };
 
   const menuId = "primary-search-account-menu";
@@ -192,71 +203,89 @@ export default function PrimarySearchAppBar() {
   return (
     <div className={classes.grow}>
       <AppBar position="static">
-        <Toolbar id="back-to-top-anchor">
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            HAETEK
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+        <Container fixed>
+          <Toolbar id="back-to-top-anchor">
+            <IconButton>
+              <img src="../logos/Logo.png" />
+            </IconButton>
+            <div>
+              <Button color="inherit">
+                <Typography>首页</Typography>
+              </Button>
+              <Button color="inherit">
+                <Typography>频道</Typography>
+              </Button>
+              <Button color="inherit">
+                <Typography>我的订阅</Typography>
+              </Button>
+              <Button color="inherit">
+                <Typography>优秀创作者</Typography>
+              </Button>
+              <Button color="inherit">
+                <Typography>下载APP</Typography>
+              </Button>
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
+            <div className={classes.search}>
+              <InputBase
+                placeholder="搜索..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+              <Button
+                className={classes.searchButton}
+                startIcon={<SearchIcon />}
+              >
+                搜索
+              </Button>
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <IconButton
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={17} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Button
+                color="secondary"
+                variant="contained"
+                className={classes.createButton}
+              >
+                <Typography>投稿</Typography>
+              </Button>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </Container>
       </AppBar>
+
       {renderMobileMenu}
       {renderMenu}
-      <Drawer ref={drawerRef} />
     </div>
   );
 }

@@ -56,7 +56,7 @@ class Footer extends Component {
     return (
       <footer className="footer">
         <div className="footer-above">
-          <Container>
+          <Container fixed>
             <Grid container>
               <Grid item xs={9}>
                 <div className="footer-above-left">
@@ -78,7 +78,7 @@ class Footer extends Component {
           </Container>
         </div>
         <div className="footer-bottom">
-          <Container>
+          <Container fixed>
             <div className="notice-container">
               <h4 className="copyright">{copyright}</h4>
               <h4></h4>
