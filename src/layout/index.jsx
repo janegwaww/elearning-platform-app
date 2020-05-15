@@ -3,6 +3,8 @@ import Helmet from "react-helmet";
 import { ThemeProvider } from "@material-ui/core/styles";
 import config from "../../data/SiteConfig";
 import NavBar from "../components/NavBar/NavBar";
+import Footer from "../components/Footer/Footer";
+import ScrollTop from "./ScrollTop";
 import theme from "./theme";
 import "./index.css";
 
@@ -19,6 +21,8 @@ export default class MainLayout extends React.Component {
           </Helmet>
           {children}
         </div>
+        <ScrollTop />
+        <Footer config={config} />
       </ThemeProvider>
     );
   }

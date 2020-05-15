@@ -8,14 +8,13 @@ import useStyles from "./ThirdPartyLoginOptStyle";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
-  bindingMobile,
-  loginNavigate
+  bindingMobile
 } from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
 import weibo from "../../../static/images/weibo-icon.png";
 
-const ThirdPartyLoginOpt = ({ modal }) => {
+const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   const classes = useStyles();
   const locationHref = globalHistory.location.href;
   const [thirdMethod, setThirdMethod] = useState("qq");
@@ -24,7 +23,7 @@ const ThirdPartyLoginOpt = ({ modal }) => {
 
   const handleLoginClick = method => {
     setThirdMethod(method);
-    generateThirdPartyUrl(method).then(res => {
+    generateThirdPartyUrl({ type: method }).then(res => {
       if (res) {
         window.location.href = `${res}`;
       }
@@ -32,7 +31,7 @@ const ThirdPartyLoginOpt = ({ modal }) => {
   };
 
   const handleLogin = ({ code }) => {
-    const param = { code, modelType: thirdMethod };
+    const param = { code, type: thirdMethod };
     handleThirdLogin(param).then(response => {
       const { accessToken } = response;
       if (accessToken) {
@@ -41,17 +40,17 @@ const ThirdPartyLoginOpt = ({ modal }) => {
         setAcToken(accessToken);
       }
       if (response && !accessToken) {
-        loginNavigate(modal);
+        handleNavigate();
       }
     });
   };
 
   const handleBindMobile = ({ mobile, smscode }) => {
-    const param = { mobile, code: smscode, accessToken: acToken };
+    const param = { mobile, code: smscode, access_token: acToken };
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);
-        loginNavigate(modal);
+        handleNavigate();
       }
     });
   };

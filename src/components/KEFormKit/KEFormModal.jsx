@@ -91,7 +91,7 @@ export default function KEFormModal() {
               </div>
               <div></div>
             </div>
-            <KEForm modal={`${true}`} />
+            <KEForm modal={`${true}`} modalClose={handleClose} />
           </div>
         </Fade>
       </Modal>
