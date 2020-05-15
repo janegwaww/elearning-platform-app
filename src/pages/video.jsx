@@ -149,7 +149,7 @@ export default class VideoPage extends Component {
   }
   parent_styles(res) {
     //获取样式 writing-mode: vertical-rl; writing-mode: tb-lr;
-
+console.log(res)
     this.setState({ style: res });
     let _styles = this.state.styles || {};
     let align,
@@ -196,7 +196,7 @@ export default class VideoPage extends Component {
       family = "inherit";
     }
     if (!res.size || res.size < 12) {
-      size = "12px";
+      size = "inherit";
     } else {
       size = res.size + "px";
     }
@@ -245,34 +245,33 @@ export default class VideoPage extends Component {
     //图片集
 
     let total_time = this.video_live.duration;
-    let _obj = getObj("image-box");
     this.setState({
       the_current: {
         video_len: total_time,
         time: this.video_live.currentTime,
       },
+      video_img_arr: res,
     });
+    let _obj = getObj("image-box");
     let box_w = getObj("sliderbox").scrollWidth;
     let len = res.length;
     let img_str = "";
     let img_pos = "";
-    let img_w = box_w / total_time;
-    for (let i = 0; i < len; i++) {
-      if (i == len - 1) {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i] + ") "),
-          (img_pos += i * img_w + "px " + i * 0 + "px ");
+    let img_w = box_w / (total_time-0.7);
+  
+    for (let i = 0; i < len-2; i++) {
+      if (i == len - 3) {
+        (img_str += "url(http://api.haetek.com:9191/" + res[i+2] + ") "),
+          (img_pos += i * img_w + "px " +  "0px ");
       } else {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i] + "), "),
-          (img_pos += i * img_w + "px " + i * 0 + "px, ");
+        (img_str += "url(http://api.haetek.com:9191/" + res[i+2] + "), "),
+          (img_pos += i * img_w + "px " +  "0px, ");
       }
     }
     _obj.style["background-image"] = img_str;
     _obj.style.backgroundPosition = img_pos;
-    _obj.style.backgroundRepeat = "no-repeat";
     _obj.style.backgroundSize = img_w + "px 46px";
-    this.setState({
-      video_img_arr: res,
-    });
+    
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
@@ -336,17 +335,21 @@ export default class VideoPage extends Component {
     });
   }
   context_focus(el, value) {
+    el.target.className='normal';
     this.setState({
       top_inx: 2,
+      status: false,
     });
     this.video_live.pause();
+    
   };
    context_blur(el) {
+     el.target.classList.remove('normal')
     let _the_data = this.state.the_current, //当前，
       _video_data = this.state.video_data, //所有
       lang = el.target.dataset.lu,
       _inx = parseInt(el.target.dataset.inx);
-      console.log(_video_data ,_the_data,lang,_inx)
+      
     if (lang == "zh") {
       if (_the_data.zh !== el.target.innerText) {
         _the_data.zh = el.target.innerText;
@@ -397,43 +400,14 @@ export default class VideoPage extends Component {
       //实时播放时间
 
       let time = el.target.currentTime;
-      console.log(time)
+     
       _this.sub_test(time);
     };
     const on_end = function() {
       //播放结束
       on_pause();
     };
-    // const double_click = function(el) {
-    //   // 双击修改字幕
-    //   el.preventDefault();
-
-    //   _this.setState({
-    //     lu: el.target.dataset.lu, //修改语言
-    //     sub_inx: parseFloat(el.target.dataset.inx), //修改条目
-    //     top_inx: 2,
-    //   });
-    //   on_pause();
-    //   handleOpen();
-    // };
-    const context_input = function(el, value) {
-      let _the_data = _this.state.the_current, //当前，
-        lang = el.target.dataset.lu,
-        _inx = parseInt(el.target.dataset.inx);
-
-      // if(lang =='zh'){
-      //   let doc = el.target; // jquery 对象转dom对象
-      //       doc.focus();
-
-      //   _the_data.zh = el.target.innerText;
-
-      //   _this.setState({
-      //     // the_current:_the_data
-      //   })
-      // }
-      console.log(el.target.innerText);
-      console.log(el.target.dataset);
-    };
+    
    
 
 
@@ -553,7 +527,7 @@ export default class VideoPage extends Component {
                         <span
                           data-lu="zh"
                           data-inx={_this.state.the_current.inx}
-                          contenteditable="true"
+                          contentEditable="true"
                           suppressContentEditableWarning="true"
                           onBlur={_this.context_blur}
                           onFocus={_this.context_focus}
@@ -563,11 +537,11 @@ export default class VideoPage extends Component {
                             ? _this.state.the_current.zh
                             : ""}
                         </span>
-
+                            <br/>
                         <span
                           data-lu="en"
                           data-inx={_this.state.the_current.inx}
-                          contenteditable="true"
+                          contentEditable="true"
                           suppressContentEditableWarning="true"
                           onBlur={_this.context_blur}
                           onFocus={_this.context_focus}
@@ -644,7 +618,7 @@ export default class VideoPage extends Component {
                       id="image-box"
                       onMouseOver={(e) => {
                         let _obj = getObj("new-menu");
-                        
+                      
                         if (_this.state.video_img_arr) {
                           _obj.style.display = "block";
                           let x =
@@ -667,94 +641,6 @@ export default class VideoPage extends Component {
                     <div className={styles.videoImg} id='video-test'>
                        {_this.state.test_arr?_this.state.test_arr:''}
                     </div>
-
-                   {/* {_this.state.the_current.zh ? (
-                      <div className={styles.videoTest}>
-                        {/*属性contenteditable='true'时
-                    此标签支持onblur,onfocus,oninput事件*
-                        <p
-                          data-lu="zh"
-                          data-inx={_this.state.the_current.inx}
-                          contenteditable="true"
-                          suppressContentEditableWarning="true"
-                          onInput={context_input}
-                          onBlur={_this.context_blur}
-                          onFocus={_this.context_focus}
-                          title="点击文字可编辑"
-                        >
-                          {_this.state.the_current
-                            ? _this.state.the_current.zh
-                            : ""}
-                        </p>
-                        <p
-                          data-lu="en"
-                          contenteditable="true"
-                          suppressContentEditableWarning="true"
-                          onBlur={_this.context_blur}
-                          title="点击文字可编辑"
-                          onInput={context_input}
-                          onFocus={_this.context_focus}
-                          data-inx={_this.state.the_current.inx}
-                        >
-                          {_this.state.the_current
-                            ? _this.state.the_current.en
-                            : ""}
-                        </p>
-                        {/*<NewDialog
-                          onClose={handleClose}
-                          open={_this.state.edi_show}
-                        >
-                          <NewDialogTitle>
-                            编辑当前的{_this.state.lu == "zh" ? "中文" : "英文"}
-                            字幕
-                          </NewDialogTitle>
-                          <form action="">
-                            <textarea
-                              name="newTest"
-                              id="newTest"
-                              defaultValue={
-                                _this.state.lu == "zh"
-                                  ? _this.state.the_current.zh
-                                  : _this.state.the_current.en
-                              }
-                              cols="50"
-                              rows="5"
-                            ></textarea>
-                          </form>
-                          <Button variant="contained" onClick={handleClose}>
-                            取消
-                          </Button>
-                          <Button
-                            onClick={handleServer}
-                            variant="contained"
-                            color="primary"
-                          >
-                            保存
-                          </Button>
-                        </NewDialog>
-                        <Snackbar
-                          anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "center",
-                          }}
-                          open={_this.state.is_suc ? true : false}
-                          autoHideDuration={3000}
-                          message={_this.state.is_suc}
-                        >
-                          <MuiAlert
-                            severity={
-                              _this.state.is_suc == "suc" ? "success" : "error"
-                            }
-                          >
-                            {_this.state.is_suc == "suc"
-                              ? "修改成功"
-                              : "修改失败"}
-                          </MuiAlert>
-                          </Snackbar>
-                      </div>
-                    ) : (
-                      ""
-                    )}*/}
                   </section>
                 </main>
 

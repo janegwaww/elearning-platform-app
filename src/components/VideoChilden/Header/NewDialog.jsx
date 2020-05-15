@@ -8,6 +8,7 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  InputAdornment
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -15,7 +16,8 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { ContactSupport, Add, Delete } from "@material-ui/icons";
+import { ContactSupport, Add, Delete,Cancel} from "@material-ui/icons";
+import { green } from '@material-ui/core/colors';
 import Typography from "@material-ui/core/Typography";
 import getData from "../../../assets/js/request";
 import { isGoLogin } from "../../../assets/js/totls";
@@ -24,6 +26,9 @@ const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
+    backgroundColor:'#eee',
+    height:'56px'
+    
   },
   closeButton: {
     position: "absolute",
@@ -32,6 +37,9 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+
+
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -55,8 +63,10 @@ const DialogTitle = withStyles(styles)((props) => {
 const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    
   },
 }))(MuiDialogContent);
+
 
 const DialogActions = withStyles((theme) => {
   return {
@@ -79,8 +89,7 @@ const NewBtn2 = withStyles({
 
 const usersStyles = makeStyles((them) => ({
   snackbar: {
-    top: "50%",
-    bottom: "auto",
+    top:'40%',
     transform: "translate(-50%,-50%)",
   },
   radiogroup: {
@@ -89,7 +98,19 @@ const usersStyles = makeStyles((them) => ({
   root: {
     width: "100%",
     fontSize: "14px",
-    "& div": {
+    "& span":{
+      display:'inline-block',
+    },
+    "& button":{
+      padding:0
+    },
+    "& b":{
+      fontWeight:400,
+      display:'inline-block',
+      // padding:'4px 12px',
+      // backgroundColor:'#D3D3D3'
+    },
+    "& >div": {
       alignItems: "flex-start",
       "& .file": {
         width: "80px",
@@ -128,7 +149,7 @@ const usersStyles = makeStyles((them) => ({
           color: "#fff",
           lineHeight: "80px",
           textAlign: "center",
-          fontSize: "20px",
+         
         },
       },
     },
@@ -141,17 +162,34 @@ const usersStyles = makeStyles((them) => ({
       padding:'12px',
       "& label": {
         display: "inline-block",
-        
+        margin:'6px',
         minWidth: "auto",
-        marginLeft:0,
+        // marginLeft:0,
+        fontSize:'12px',
       },
     },
     "& label": {
-      minWidth: "80px",
+      minWidth: "65px",
       transform: "translate(0, 1.5px) scale(1.1)",
     },
     "&  .item span": {
       color: "red",
+      position:'relative',
+      
+      '& span':{
+        display:'none',
+        position:'absolute',
+        right:'-10px',
+        bottom:0,
+        width:'397px',
+        boxShadow:'0px 0px 2px 0px rgba(118,131,144,1)',
+        color:'#666',
+       transform:'translateY(100%)',
+       zIndex:1000,
+        padding:'16px',
+        backgroundColor:'#fff',
+        
+      }
     },
     "& .MuiFormControlLabel-root ": {
       minWidth: "auto",
@@ -162,6 +200,13 @@ const usersStyles = makeStyles((them) => ({
     '& .MuiOutlinedInput-input':{
       padding:'8px 6px',
       backgroundColor:'#fff'
+    },
+    '& .MuiOutlinedInput-multiline':{
+      padding:'1px'
+    },
+    '& .MuiInputAdornment-root':{
+      fontSize:'20px',
+     color:'#D5D5D5'
     }
   },
 }));
@@ -179,26 +224,10 @@ export default function CustomizedDialogs(props) {
   const [file, setFile] = React.useState(null); //文件
   const [fileSrc, setFileSrc] = React.useState(''); //图片文件的临时路径
   const [currency, setCurrency] = React.useState(''); //视频系列
-  const [addseries,setAddseries] = React.useState('');//新建系列
+  const [addseries,setAddseries] = React.useState(false);//新建系列
   const [newseries,setNewseries] = React.useState('');//暂存新系列
-  const [currencies, setCurrencies] = React.useState([
-    {
-      title: "USD",
-      label: "$",
-    },
-    {
-      title: "EUR",
-      label: "€",
-    },
-    {
-      title: "BTC",
-      label: "฿",
-    },
-    {
-      title: "JPY",
-      label: "¥",
-    },
-  ]);
+  const [seriesdescription,setSeriesdescription] = React.useState('');//系列描述
+  const [currencies, setCurrencies] = React.useState([]);
   const usersClass = usersStyles();
   const handleClickOpen = () => {
     //打开上传弹窗
@@ -219,7 +248,7 @@ export default function CustomizedDialogs(props) {
       if(res.err==0&&res.result_data.length>0){
         setCurrencies(res.result_data)
       }
-      console.log(res);
+      
     });
 
     setOpen(true);
@@ -230,9 +259,11 @@ export default function CustomizedDialogs(props) {
     setCurrency('');
     setVideoTitle('');
     setVideodescription('');
-    setVideosign([])
-    setFile(null)
-    setFileSrc('')
+    setVideosign([]);
+    setFile(null);
+    setFileSrc('');
+    setNewseries('');
+  
   };
 
   const snackbarClose = () => {
@@ -276,6 +307,9 @@ export default function CustomizedDialogs(props) {
     }
     if (currency) {
       _data.set("series_title", currency);
+      if(seriesdescription){
+        _data.set('description_title',seriesdescription);
+      }
     }
     getData("api/v1/gateway", _data).then((res) => {
       console.log(res);
@@ -334,7 +368,7 @@ export default function CustomizedDialogs(props) {
   return (
     <div>
       <NewBtn2 variant="outlined" color="primary" onClick={handleClickOpen}>
-        上传视频
+        发布视频
       </NewBtn2>
       <Dialog aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -353,8 +387,9 @@ export default function CustomizedDialogs(props) {
                 fullWidth
                 onChange={titleChange}
               />
-              <span title="一个引人注目的标题可以帮助您吸引观看者。在确定视频标题时，最好加入观众在查找类似视频时可能会使用的关键字。">
+              <span>
                 <ContactSupport />
+                <span>一个引人注目的标题可以帮助您吸引观看者。在确定视频标<br/>题时，最好加入观众在查找类似视频时可能会使用的关键<br/>字。</span>
               </span>
             </div>
             <div className="item">
@@ -370,8 +405,9 @@ export default function CustomizedDialogs(props) {
                 fullWidth
                 onChange={descriptionChange}
               />
-              <span title="在说明中加入适当的关键字，可以帮助观看者通过搜索更轻松地找到您的视频。您可以在说明中大致介绍视频的内容，并将关键字放在说明的开头部">
+              <span >
                 <ContactSupport />
+                <span >在说明中加入适当的关键字，可以帮助观看者通过搜索更轻<br/>松地找到您的视频。您可以在说明中大致介绍视频的内容，<br/>并将关键字放在说明的开头部</span>
               </span>
             </div>
 
@@ -400,12 +436,14 @@ export default function CustomizedDialogs(props) {
                       value={value + inx}
                       onChange={signChane}
                     />
-                    {value}
+                    <b>{value}</b>
+                    
                   </label>
                 ))}
               </p>
-              <span title="添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。">
+              <span >
                 <ContactSupport />
+                <span>添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。</span>
               </span>
             </div>
             <div>
@@ -468,21 +506,44 @@ export default function CustomizedDialogs(props) {
                 <p>
                   将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
                 </p>
-                <section className='sign'>
-                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}>新建</Button>):(
+                <section className='sign' style={{borderBottom:'1px solid #ccc'}}>
+                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}><add />新建</Button>):(
                   <section>
-                    <TextField fullWidth type='text' variant="outlined" onChange={(e)=>{
+                    <TextField fullWidth type='text' label='系列标题' variant="outlined" value={newseries} 
+                    onChange={(e)=>{
                       setNewseries(e.target.value)
-                    }}/>
+                    }}  
+                    InputProps={{endAdornment:<InputAdornment position='end'><Cancel  onClick={()=>{setNewseries('')}}/></InputAdornment> }}/>
+                    <TextField
+                    
+                    rows={3}
+                    variant="outlined"
+                    multiline
+                    fullWidth
+                    value= {seriesdescription}
+                    label='系列描述'
+                    onChange={(event)=>{
+                      setSeriesdescription(event.target.value)
+                    }}
+                  />
                     <DialogActions>
                       <Button  variant="contained" onClick={()=>{setAddseries(false)}}>取消</Button>
                       <Button color='primary' variant="contained" onClick={()=>{
                         let _data  = currencies;
-                        if(_data.some((option)=>newseries==option.value)){
+                        if(_data.some((option)=>newseries==option.title)){
                           setOpenSnackbar({open:true,type:'error',msg:'新建系列失败，您所新建的系列已存在!'});
                           return
                         }
-                        _data.push({title:newseries,label:newseries});
+                        if(!seriesdescription){
+                          setOpenSnackbar({open:true,type:'error',msg:'亲，新建了系列，系列描述不要忘记填写哦!'});
+                          return
+                        }
+                        if(_data[_data.length-1].type){
+                          _data[_data.length-1]={title:newseries,label:newseries,type:'new'}
+                        }else{
+                          _data.push({title:newseries,label:newseries,type:'new'});
+                        }
+                        
                         setCurrencies(_data);
                         setAddseries(false);
                       }}>确认</Button>
@@ -498,12 +559,13 @@ export default function CustomizedDialogs(props) {
                     onChange={handleChange}
                     className={usersClass.radiogroup}
                   >
+                  
                     {currencies.map((option) => (
                       <FormControlLabel
                         key={option.title}
                         value={option.title}
                         label={option.title}
-                        control={<Radio color="primary" />}
+                        control={<Radio color='primary' />}
                       />
                     ))}
                   </RadioGroup>
@@ -527,6 +589,7 @@ export default function CustomizedDialogs(props) {
         </DialogActions>
       </Dialog>
       <Snackbar
+      
         open={openSnackbar.open}
         autoHideDuration={3000}
         onClose={snackbarClose}

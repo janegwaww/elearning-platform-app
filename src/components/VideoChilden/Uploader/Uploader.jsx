@@ -262,7 +262,7 @@ export default class UploadVideos extends Component {
                         _this.setState({
                           promptOpen: false,
                         });
-                        navigate(`users/login`);
+                       navigate(`/users/login`);
                       }, 3000);
                     }
                   })
@@ -289,6 +289,20 @@ export default class UploadVideos extends Component {
                   shardSize: 10 * 1024 * 1024, //一个分片大小
                 });
                 myFile.init();
+                myFile.on('progress',function (res) {//监听文件上传进程
+                   _this.setState({
+                      progress:res.size
+                  })
+                });
+                myFile.on('onchange',function (res) {
+                  console.log('onchange',res)
+                })
+                myFile.on('onload',function (res) {
+                  console.log('onload',res)
+                })
+                myFile.on('error',function (res) {
+                  console.log('error',res)
+                })
               }}
             />
             <br />
@@ -341,6 +355,7 @@ export default class UploadVideos extends Component {
                         },
                         model_type: "",
                       }).then((res) => {
+                  
                         if (res.err === 0) {
                           this.props.parent.get_image(res.result_data);
                         }
@@ -382,49 +397,7 @@ export default class UploadVideos extends Component {
             <i></i>
           )}
         </div>
-
-        {/* 
-          
-
-        {status == 4 ? (
-          <div>
-            <span>
-              <label>视频语言来源：</label>
-              <select name="lang" id="lang" onChange={seleckChange}>
-                <option value="">--请选择语言--</option>
-                <option value="en">英文 </option>
-                <option value="cn">中文</option>
-              </select>
-            </span>
-            &nbsp; &nbsp;
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => _this.new_subtitles()}
-            >
-              生成字幕
-            </Button>
-          </div>
-        ) : (
-          <span></span>
-        )}
-        {status == 5 ? (
-          <Button variant="contained" onClick={_this.query_subtitles}>
-            查询字幕
-          </Button>
-        ) : (
-          <span></span>
-        )}
-        {status == 6 ? (
-          <div className="article">
-            <div className="Upload-the-article">
-              <span></span>
-            </div>
-            <div>正在生成字幕...</div>
-          </div>
-        ) : (
-          <span></span>
-        )}*/}
+        
         <Message
           parent={this}
           msg="您还没有登录，是否跳转到登录页面？"

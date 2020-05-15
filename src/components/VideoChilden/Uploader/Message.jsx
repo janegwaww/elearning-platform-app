@@ -12,7 +12,6 @@ import { navigate } from "@reach/router";
 
 
  const Message = (props)=>{
-  // console.log(props);
     
   return (
     <Dialog open={props.parent.state.dialogOpen}>
@@ -27,7 +26,7 @@ import { navigate } from "@reach/router";
           color="primary"
           onClick={() => {
             props.parent.setState({ dialogOpen: false });
-            navigate(`/users/login`)
+            navigate(`/users/login`);
           }}
         >
           确定

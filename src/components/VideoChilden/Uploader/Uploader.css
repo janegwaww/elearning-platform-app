@@ -44,11 +44,15 @@
     background-color:  #1B1B1D ;
     border-radius:8px;
     padding: 5px;
+    vertical-align: top;
 }
 #video-test .test-nodes p{
     white-space:nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+#video-test .test-nodes .normal{
+    white-space: normal;
 }
 .upload-cover input[type='file']:focus{
     border-color: transparent;

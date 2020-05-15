@@ -41,7 +41,7 @@ form>div>label{
     color:#fff;
 }
 .font-family select:nth-child(2){
-    
+
     width:100px ;
 }
 .font-family select:nth-child(3){
@@ -59,6 +59,12 @@ form>div>label{
 .font-color .active,.font-direction .active,.font-style .active{
     border-color: blue;
     
+}
+#updata_info .item>span:hover span{
+    display: inline-block;
+}
+#updata_info .MuiSvgIcon-root:hover{
+    cursor: pointer;
 }
 /* .font-color span:nth-child(2){
     background-color: #FFFFFF;
