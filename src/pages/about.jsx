@@ -11,6 +11,7 @@ class AboutPage extends Component {
       <Layout>
         <div className="about-container">
           <Helmet title={`About | ${config.siteTitle}`} />
+          
           <About />
           <KEFormModal />
         </div>
@@ -18,5 +19,5 @@ class AboutPage extends Component {
     );
   }
 }
-
 export default AboutPage;
+
