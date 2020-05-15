@@ -44,6 +44,8 @@ class Watch extends Component {
             <PersonAvatar />
             <Divider />
             <VideoList />
+            <br />
+            <br />
             <Divider />
             <VideoList />
           </Grid>

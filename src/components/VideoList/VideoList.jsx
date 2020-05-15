@@ -1,20 +1,44 @@
 import React, { Component, Fragment } from "react";
-import CommentList from "../Comments/Comments";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import { FixedSizeList } from "react-window";
 
-class VideoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%",
+    height: 400,
+    maxWidth: 300,
+    marginTop: "20px",
+    backgroundColor: theme.palette.background.paper
   }
+}));
 
-  render() {
-    return (
-      <Fragment>
-        <div>系列课程</div>
-        <CommentList />
-      </Fragment>
-    );
-  }
+function renderRow(props) {
+  const { index, style } = props;
+
+  return (
+    <ListItem button style={style} key={index}>
+      <ListItemText primary={`Item ${index + 1}`} />
+    </ListItem>
+  );
 }
 
-export default VideoList;
+renderRow.propTypes = {
+  index: PropTypes.number.isRequired,
+  style: PropTypes.object.isRequired
+};
+
+export default function VideoList() {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      系列课程
+      <FixedSizeList height={400} width={300} itemSize={46} itemCount={200}>
+        {renderRow}
+      </FixedSizeList>
+    </div>
+  );
+}
