@@ -36,9 +36,9 @@ const AccountForm = ({ handleButton, buttonText = "登录" }) => {
     handleButton(values);
   };
 
-  const handleCodeSend = values => {
+  const handleCodeSend = ({ mobile }) => {
     /* 发送验证码 */
-    generateSMSCode(values.mobile);
+    generateSMSCode({ mobile });
   };
 
   return (

@@ -1,7 +1,9 @@
 import { videoApis } from "./api";
 import { pipeThen } from "./utils";
+import { getUser } from "./auth";
 
-const apis = videoApis();
+const { token } = getUser();
+const apis = videoApis(token);
 
 const getSubtitleFrontParam = (arr = []) =>
   arr.map(i => ({
