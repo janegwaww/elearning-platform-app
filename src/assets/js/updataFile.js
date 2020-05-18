@@ -1,9 +1,7 @@
-import axios from "axios";
-import getData from "./request";
+
 import { getUser } from "../../services/auth";
 import md5 from "md5";
-import { getObj } from "./totls";
-import { getNullableType } from "C:/Users/chen-web/AppData/Local/Microsoft/TypeScript/3.8/node_modules/graphql/type/definition";
+
 function UpdataFile(options) {
   this.options = options;
   this.current=0;//当前的上传片数
@@ -22,7 +20,6 @@ UpdataFile.prototype.on= function(attribute,c_b){
         return attribute
       },
       set:function (value,oldvalue) {
-        
         c_b&&c_b(value)
         
       }
@@ -32,7 +29,7 @@ UpdataFile.prototype.upFile=function(formData,filesArr){
  
   let xhr;
   let _this = this;
-  // console.log(_this.totalConud,_this.current)
+  
   if(_this.current<_this.totalConud){
     formData.set('file',filesArr[_this.current]);
     formData.set("chunk", _this.current);

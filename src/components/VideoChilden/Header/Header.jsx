@@ -21,7 +21,7 @@ import {
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
-import { Save, AccountCircle, CloseIcon } from "@material-ui/icons";
+import { Save, AccountCircle, CloseIcon,ArrowDropDown } from "@material-ui/icons";
 import getData from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 import { node } from "prop-types";
@@ -163,8 +163,10 @@ export default class Header extends Component {
           <div className={styles.users} onClick={this.btn_user}>
             {this.state.user_info ? (
               <div>
-                <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+                <Avatar  />
                 <span>{this.state.user_info.name}</span>
+                <ArrowDropDown  />
+               
               </div>
             ) : (
               <Avatar />

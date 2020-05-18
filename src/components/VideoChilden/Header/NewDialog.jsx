@@ -589,11 +589,14 @@ export default function CustomizedDialogs(props) {
         </DialogActions>
       </Dialog>
       <Snackbar
-      
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
         open={openSnackbar.open}
         autoHideDuration={3000}
         onClose={snackbarClose}
-        className={usersClass.snackbar}
+       
       >
         <Alert onClose={snackbarClose} severity={openSnackbar.type}>
           {openSnackbar.msg}
