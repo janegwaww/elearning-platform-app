@@ -30,8 +30,8 @@ const KEForm = ({ modal, modalClose }) => {
     !!modal ? modalClose() : navigate(`/users/profile`);
   };
 
-  const handleClickLogin = values => {
-    handleLogin(values, res => {
+  const handleClickLogin = ({ mobile, smscode }) => {
+    handleLogin({ mobile, code: smscode }).then(res => {
       if (res) {
         handleNavigate();
       }
@@ -39,7 +39,7 @@ const KEForm = ({ modal, modalClose }) => {
   };
 
   const varifyQRCode = () => {
-    enquiryQRCode(qrcodeValue).then(res => {
+    enquiryQRCode({ qrcode: qrcodeValue }).then(res => {
       if (res) {
         handleNavigate();
       }

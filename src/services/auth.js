@@ -1,8 +1,9 @@
 import { authApis } from "./api";
+import { pipeThen } from "./utils";
 
 const apis = authApis();
 
-export const isBrowser = () => typeof window !== "undefined";
+const isBrowser = () => typeof window !== "undefined";
 
 // 获取用户
 export const getUser = () =>
@@ -14,24 +15,18 @@ export const getUser = () =>
 const setUser = user =>
   window.localStorage.setItem("haetekUser", JSON.stringify(user));
 
-// 手机号验证码登录
-export const handleLogin = ({ mobile, smscode }, callback) => {
-  apis.codeLogin({ mobile, code: smscode }).then(response => {
-    const {
-      data: { err, err_msg, result_data },
-      headers
-    } = response;
-    if (err === 0) {
-      setUser({
-        name: `${result_data[0].name}`,
-        token: `${headers.authorization}`
-      });
-      return callback(true);
-    }
-    alert(err_msg);
-    callback(false);
+// 获取返回结果
+const getResultData = ({ data }) => Promise.resolve(data.result_data);
+
+// 获取数组
+const getArrayData = (arr = []) => Promise.resolve(arr[0] || {});
+
+// 获取数据,headers
+const getLoginData = ({ data, headers }) =>
+  Promise.resolve({
+    resultData: data.result_data[0] || {},
+    authorization: headers.authorization
   });
-};
 
 // 是否登录
 export const isLoggedIn = () => {
@@ -46,106 +41,99 @@ export const logout = callback => {
   callback();
 };
 
+// 获取验证码
+const sendSMSCode = ({ code }) => Promise.resolve(!!code);
+
 // 发送验证码
-export const generateSMSCode = mobile => {
-  apis.generateCode({ mobile });
+export const generateSMSCode = pipeThen(
+  sendSMSCode,
+  getArrayData,
+  getResultData,
+  apis.generateCode
+);
+
+// 存入用户
+const setLoginUser = ({ resultData, authorization }) => {
+  setUser({
+    name: `${resultData.name}`,
+    token: `${authorization}`
+  });
+  return Promise.resolve(!!authorization);
 };
+
+// 手机号验证码登录
+export const handleLogin = pipeThen(setLoginUser, getLoginData, apis.codeLogin);
+
+// 获取返回给前端的数据
+const getQrcode = ({ qrcode }) => Promise.resolve(qrcode);
 
 // 获取二维码
-export const generateQRCode = () => {
-  return new Promise(res => {
-    apis.generateQrcode().then(response => {
-      const { data } = response;
-      if (data && data.err === 0) {
-        res(response.data.result_data[0].qrcode);
-      }
-    });
-  });
-};
+export const generateQRCode = pipeThen(
+  getQrcode,
+  getArrayData,
+  getResultData,
+  apis.generateQRCode
+);
 
 // 二维码验证登录
-export const enquiryQRCode = qrcode => {
-  return new Promise(res => {
-    apis.enquiryQrcode({ qrcode }).then(response => {
-      const { data, headers } = response;
-      if (data.err === 0) {
-        setUser({
-          name: data.result_data[0].name,
-          token: headers.authorization
-        });
-        res(true);
-      }
-      res(false);
-    });
-  });
-};
+export const enquiryQRCode = pipeThen(
+  setLoginUser,
+  getLoginData,
+  apis.enquiryQrCode
+);
+
+const getUrl = ({ url }) => Promise.resolve(url);
 
 // 获取第三方跳转地址
-export const generateThirdPartyUrl = () => {
-  return new Promise(res => {
-    apis.generateThirdQrcode().then(response => {
-      const { data } = response;
-      if (data.err === 0) {
-        res(data.result_data[0].url);
-      }
-      res(false);
+export const generateThirdPartyUrl = pipeThen(
+  getUrl,
+  getArrayData,
+  getResultData,
+  apis.generateThirdQrcode
+);
+
+// 设置三方登录数据并返回对应值
+const setThirdLogin = ({ resultData, authorization }) => {
+  if (authorization) {
+    setUser({
+      name: resultData.name,
+      token: authorization
     });
-  });
+    return Promise.resolve(true);
+  }
+  if (resultData.access_token) {
+    return Promise.resolve({ accessToken: resultData.access_token });
+  }
+  return Promise.resolve(false);
 };
 
 // 第三方登录，第一次登录要执行绑定手机号操作，不是第一次登录就直接登录
-export const handleThirdLogin = ({ code }) => {
-  return new Promise(res => {
-    apis.thirdLogin({ code }).then(response => {
-      const { data, headers } = response;
-      if (headers && headers.authorization) {
-        setUser({
-          name: data.result_data[0].name,
-          token: headers.authorization
-        });
-        return res(true);
-      }
-      if (data && data.err === 0) {
-        return res({ accessToken: data.result_data[0].access_token });
-      }
-      return res(false);
-    });
-  });
-};
+export const handleThirdLogin = pipeThen(
+  setThirdLogin,
+  getLoginData,
+  apis.thirdLogin
+);
 
 // 绑定手机并登录
-export const bindingMobile = ({ mobile, code, accessToken }) => {
-  return new Promise(res => {
-    apis
-      .thirdBindMobile({ mobile, code, access_token: accessToken })
-      .then(response => {
-        const {
-          data: { err, result_data },
-          headers
-        } = response;
-        if (err === 0) {
-          setUser({
-            name: result_data[0].name,
-            token: headers.authorization
-          });
-          return res(true);
-        }
-        return res(false);
-      });
-  });
+export const bindingMobile = pipeThen(
+  setLoginUser,
+  getLoginData,
+  apis.thirdBindMobile
+);
+
+const getErrData = ({ data }) => Promise.resolve(data.err);
+
+const verifyMobile = err => {
+  if (err === 0) {
+    Promise.resolve(true);
+  } else {
+    Promise.resolve(false);
+  }
 };
 
 // 手机号是否已经存在
-export const userAlreadyExist = mobile => {
-  return new Promise(res => {
-    apis.checkMobile({ mobile }).then(response => {
-      const {
-        data: { err }
-      } = response;
-      if (err === 0) {
-        res(false);
-      }
-      res(true);
-    });
-  });
-};
+export const userAlreadyExist = pipeThen(
+  verifyMobile,
+  getErrData,
+  apis.checkMobile
+);

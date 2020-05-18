@@ -1,70 +1,89 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import clsx from "clsx";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import tileData from "./tileData";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import useStyles from "./SingleLineGridListStyles.js";
+import { secondsToHMS } from "../../services/utils";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
-  },
-  gridList: {
-    flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)"
-  },
-  title: {
-    color: theme.palette.primary.light
-  },
-  titleBar: {
-    background:
-      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
-  }
-}));
-
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-export default function SingleLineGridList() {
+function SingleLineGridList({ tileList = [], clipJump }) {
   const classes = useStyles();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handleOpen = () => setShow(true);
+
+  const handleClick = time => {
+    if (typeof clipJump === "function") {
+      clipJump(time);
+    }
+  };
+
+  const getCount = () => tileList.length;
+
+  useEffect(() => {
+    if (tileList.length > 0) {
+      handleOpen();
+    }
+  }, [tileList]);
+
+  const PressMatchedLine = ({ line }) => {
+    const wrapStr = ({ wholeStr, matchedStr }) =>
+      wholeStr.replace(
+        matchedStr,
+        `<span style='color:#fc5659'>${matchedStr}</span>`
+      );
+    return (
+      <div
+        className={classes.content}
+        id="grid-tile-content"
+        dangerouslySetInnerHTML={{ __html: wrapStr(line) }}
+      ></div>
+    );
+  };
 
   return (
-    <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
+    <div
+      className={clsx(classes.root, show && classes.showRoot)}
+      id="search-result"
+    >
+      <div className={classes.head}>
+        <Typography variant="body2">
+          {`共为你找到${getCount()}个结果`}
+        </Typography>
+        <IconButton size="small" onClick={handleClose}>
+          <CloseIcon style={{ color: "#9e9ea6" }} fontSize="inherit" />
+        </IconButton>
+      </div>
+      <GridList
+        className={classes.gridList}
+        cols={4}
+        cellHeight={140}
+        style={{ margin: "4px" }}
+      >
+        {tileList.map(tile => (
+          <GridListTile
+            key={tile.matchedStr}
+            classes={{ root: classes.listRoot, tile: classes.tile }}
+            onClick={() => handleClick(tile.startTime)}
+          >
+            <PressMatchedLine
+              line={{ wholeStr: tile.wholeStr, matchedStr: tile.matchedStr }}
+            />
             <GridListTileBar
-              title={tile.title}
               classes={{
                 root: classes.titleBar,
                 title: classes.title
               }}
               actionIcon={
-                <IconButton aria-label={`star ${tile.title}`}>
-                  <StarBorderIcon className={classes.title} />
-                </IconButton>
+                <Paper classes={{ root: classes.title }}>
+                  {secondsToHMS(tile.startTime)}
+                </Paper>
               }
             />
           </GridListTile>
@@ -73,3 +92,5 @@ export default function SingleLineGridList() {
     </div>
   );
 }
+
+export default SingleLineGridList;

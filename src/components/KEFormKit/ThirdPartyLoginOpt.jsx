@@ -23,7 +23,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
 
   const handleLoginClick = method => {
     setThirdMethod(method);
-    generateThirdPartyUrl(method).then(res => {
+    generateThirdPartyUrl({ type: method }).then(res => {
       if (res) {
         window.location.href = `${res}`;
       }
@@ -31,7 +31,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   };
 
   const handleLogin = ({ code }) => {
-    const param = { code, modelType: thirdMethod };
+    const param = { code, type: thirdMethod };
     handleThirdLogin(param).then(response => {
       const { accessToken } = response;
       if (accessToken) {
@@ -46,7 +46,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   };
 
   const handleBindMobile = ({ mobile, smscode }) => {
-    const param = { mobile, code: smscode, accessToken: acToken };
+    const param = { mobile, code: smscode, access_token: acToken };
     bindingMobile(param).then(response => {
       if (response) {
         setBinding(false);

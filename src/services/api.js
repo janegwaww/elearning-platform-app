@@ -1,20 +1,22 @@
 import urlJoin from "url-join";
 import axios from "axios";
 import { pipe, wrapCamelName } from "./utils";
-import { getUser } from "./auth";
 
 // 接口路径
 const PATH = "http://seeker.haetek.com:9191";
 // 接口地址
 const API_PATH = urlJoin(PATH, "/api/v1/gateway");
+
 // 创建请求方法
-const axiosInstance = axios.create({
-  baseURL: PATH,
-  timeout: 5000,
-  headers: {
-    "Access-Control-Allow-Origin": "*"
-  }
-});
+const axiosInstance = (token = "") =>
+  axios.create({
+    baseURL: PATH,
+    timeout: 5000,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`
+    }
+  });
 
 // 生成传给接口参数的工厂函数
 const paramFactory = ({
@@ -30,9 +32,9 @@ const paramFactory = ({
 });
 
 // 封装请求
-const fetchMethod = postMethod => async (url, params) => {
+const fetchMethod = (token = "") => async (url, params) => {
   try {
-    const response = await postMethod.post(url, params);
+    const response = await axiosInstance(token).post(url, params);
     return response;
   } catch (error) {
     return console.log(error);
@@ -94,18 +96,17 @@ export const authApis = () => {
     // 视频收藏
     "video_collect"
   ];
-  const authFetch = fetchMethod(axiosInstance);
   const getParam = pipe(extraParam("user"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(authFetch, getParam)
+    extraApis(fetchMethod(), getParam)
   )(modelActions);
 
   return getApis;
 };
 
 // 视频接口封装
-export const videoApis = () => {
+export const videoApis = (token = "") => {
   const modelActions = [
     // 视频验重
     "verify",
@@ -136,15 +137,10 @@ export const videoApis = () => {
     // 查看课件
     "view_file"
   ];
-  const getToken = "";
-  axiosInstance.headers = {
-    Authorization: `Bearer ${getToken}`
-  };
-  const videoFetch = fetchMethod(axiosInstance);
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(videoFetch, getParam)
+    extraApis(fetchMethod(token), getParam)
   )(modelActions);
 
   return getApis;
