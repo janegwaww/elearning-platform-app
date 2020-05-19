@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -9,6 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Pagination from "@material-ui/lab/Pagination";
+import { getComments } from "../../services/video";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,8 +21,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CommentList() {
+export default function CommentList({ vid }) {
   const classes = useStyles();
+  const [comments, setComments] = useState([]);
 
   const CommentInput = () => {
     return (
@@ -32,9 +34,22 @@ export default function CommentList() {
     );
   };
 
+  const setCommentsMethod = () => {
+    getComments({
+      video_id: vid,
+      parent_id: "",
+      max_size: 10,
+      page: 1
+    }).then(data => setComments(data));
+  };
+
+  useEffect(() => {
+    setCommentsMethod();
+  }, [vid]);
+
   return (
     <div>
-      <Typography>739条评论</Typography>
+      <Typography>{`${comments.length}条评论`}</Typography>
       <CommentInput />
       <List className={classes.root}>
         {Array.from({ length: 10 }).map((o, i) => (

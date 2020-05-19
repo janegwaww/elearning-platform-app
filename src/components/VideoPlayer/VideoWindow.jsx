@@ -31,7 +31,7 @@ class VideoWindow extends Component {
               {
                 kind: "subtitles",
                 src: info.assPath,
-                srcLand: "cn",
+                srcland: "cn",
                 default: true
               }
             ]

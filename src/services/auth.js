@@ -35,7 +35,7 @@ export const logout = callback => {
 //     const pipe = (...fns) => x => fns.reduce((v,f) => f(v),x);
 //     const add1 = n => n+1;
 //     const double = n => n*2;
-//     const add1ThenDouble=pipe(add1, double);
+//     const add1ThenDouble = pipe(add1, double);
 //     add1ThenDouble(2); //6
 // ((2+1=3)*2=6)
 
@@ -57,7 +57,7 @@ const getResultData = ({ data }) => Promise.resolve(data.result_data);
 //           {}   // 返回第一组
 //     ]
 // }
-const getArrayData = (arr = []) => Promise.resolve(arr[0] || {});
+const getArrayData = ([arr]) => Promise.resolve(arr || {});
 
 // 获取数据,headers
 // 因为登录有headers,因此需要同时处理返回的数据和headers
@@ -130,7 +130,7 @@ export const generateThirdPartyUrl = pipeThen(
 // 三方登录这里处理了三种情况：
 //        第一次登录则获取用于绑定手机的access token
 //        不是第一次登录就直接登录
-//        登录答失败
+//        登录失败
 const setThirdLogin = ({ resultData, authorization }) => {
   if (authorization) {
     setUser({

@@ -69,7 +69,7 @@ const extraApis = (cusFetch, paramMethod) => (modelActions = []) =>
   );
 
 // 合并接口
-const apis = (...objs) => {
+const combineObj = (...objs) => {
   const concatObj = (target, source) => Object.assign(target, source);
   return objs.reduce(concatObj, {});
 };
@@ -135,7 +135,9 @@ export const videoApis = (token = "") => {
     // 局部搜索
     "local_search",
     // 查看课件
-    "view_file"
+    "get_related_video",
+    // 热门作者
+    "hot_video"
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
@@ -146,4 +148,24 @@ export const videoApis = (token = "") => {
   return getApis;
 };
 
-export default apis(authApis(), videoApis());
+export const searchPartApis = (token = "") => {
+  const modelActionsArr = [
+    ["post_comment", "get_comment"],
+    ["video_collect"],
+    ["give_like"],
+    ["view_file"]
+  ];
+  const getParam = ["comment", "collect", "like", "document"].reduce(
+    (acc, cur, idx) =>
+      Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
+    {}
+  );
+  const getApis = pipe(
+    names => names.map(wrapCamelName),
+    extraApis(fetchMethod(token), getParam)
+  )(modelActionsArr.flat());
+
+  return getApis;
+};
+
+export default combineObj(authApis(), videoApis());
