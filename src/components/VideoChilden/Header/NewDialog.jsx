@@ -191,11 +191,15 @@ const usersStyles = makeStyles((them) => ({
         
       }
     },
+    "& svg":{
+      verticalAlign:'middle'
+    },
     "& .MuiFormControlLabel-root ": {
       minWidth: "auto",
       '& .MuiRadio-root':{
         padding:0,
       }
+
     },
     '& .MuiOutlinedInput-input':{
       padding:'8px 6px',
@@ -210,8 +214,14 @@ const usersStyles = makeStyles((them) => ({
     }
   },
 }));
+function call_back(prveProps,nextProps){
+ 
+  return JSON.stringify(prveProps.parent.props.parent.state.video_data)==JSON.stringify(nextProps.parent.props.parent.state.video_data)
 
-export default function CustomizedDialogs(props) {
+}
+
+ function CustomizedDialogs(props) {
+ console.log('props',props)
   const [open, setOpen] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
@@ -229,7 +239,7 @@ export default function CustomizedDialogs(props) {
   const [seriesdescription,setSeriesdescription] = React.useState('');//系列描述
   const [currencies, setCurrencies] = React.useState([]);
   const usersClass = usersStyles();
-  const handleClickOpen = () => {
+  const handleClickOpen =React.useCallback(() => {
     //打开上传弹窗
     if (JSON.stringify(props.parent.props.parent.state.video_data) === "{}") {
       setOpenSnackbar({
@@ -252,8 +262,8 @@ export default function CustomizedDialogs(props) {
     });
 
     setOpen(true);
-  };
-  const handleClose = () => {
+  },[]);
+  const handleClose =React.useCallback( () => {
     //关闭上传弹窗
     setOpen(false);
     setCurrency('');
@@ -264,7 +274,7 @@ export default function CustomizedDialogs(props) {
     setFileSrc('');
     setNewseries('');
   
-  };
+  },[]);
 
   const snackbarClose = () => {
     //关闭提示
@@ -312,7 +322,7 @@ export default function CustomizedDialogs(props) {
       }
     }
     getData("api/v1/gateway", _data).then((res) => {
-      console.log(res);
+    
       if(res.err==0&&res.errmsg=='OK'){
         setOpenSnackbar({open:true,type:'success',msg:'提交成功,系统将会自动审核,个人中心将会看到此视频的实时状态!'});
         handleClose();
@@ -507,7 +517,7 @@ export default function CustomizedDialogs(props) {
                   将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
                 </p>
                 <section className='sign' style={{borderBottom:'1px solid #ccc'}}>
-                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}><add />新建</Button>):(
+                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}><Add />新建</Button>):(
                   <section>
                     <TextField fullWidth type='text' label='系列标题' variant="outlined" value={newseries} 
                     onChange={(e)=>{
@@ -616,3 +626,4 @@ export default function CustomizedDialogs(props) {
     </div>
   );
 }
+export default React.memo(CustomizedDialogs,call_back);

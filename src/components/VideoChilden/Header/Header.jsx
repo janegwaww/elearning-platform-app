@@ -63,6 +63,7 @@ export default class Header extends Component {
     }
   }
 
+
   btn_user = function(info) {
     if (!getUser().name) {
       localStorage.setItem("no_login_page", window.location.href);
@@ -90,6 +91,7 @@ export default class Header extends Component {
       }
 
       let _styles = _this.props.parent.state.style;
+      if(JSON.stringify(_styles)=='{}'){return};
       let bold = _styles.bold,
         i = _styles._i,
         u = _styles._u,

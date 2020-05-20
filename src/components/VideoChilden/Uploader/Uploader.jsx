@@ -23,7 +23,7 @@ import getData from "../../../assets/js/request";
 
 import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
-import Message1 from "./Message1";
+
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import { getObj,isGoLogin } from "../../../assets/js/totls";
@@ -62,12 +62,11 @@ export default class UploadVideos extends Component {
       progress: 0,
       updata_msg: null,
       status: 1, //2.上传，3.上传完成未来编辑，4,生成字幕，5.，
-      dialogOpen: false,
-      promptOpen: false,
-      promp_info: {
-        title: "温馨提示",
-        msg: "请登录",
-        type: 1,
+      promp_info: {//弹窗信息
+        open:false,
+        title:'温馨提示',
+        msg:'提示内容',
+        type:1//管理弹窗样式
       },
       files: [], //文件列表
       lang_value: "", //语言
@@ -237,7 +236,13 @@ export default class UploadVideos extends Component {
                 e.preventDefault();
                 if (!isLoggedIn()) {
                   _this.setState({
-                    dialogOpen: true,
+                
+                    promp_info:{
+                      type:1,
+                      open:true,
+                      msg:'您还没有登录，是否跳转到登录页面',
+                      title:'温馨提示'
+                    }
                   });
                   return false;
                 }
@@ -253,14 +258,16 @@ export default class UploadVideos extends Component {
                     } else {
                       let _data = this.state.promp_info;
                       localStorage.removeItem('haetekUser');
-                      _data.msg = "登录超时，正在为你跳转登录页...";
+                        _data.type=3;
+                        _data.open=true;
+                        _data.msg="登录超时，正在为你跳转登录页..."
                       _this.setState({
                         promp_info: _data,
-                        promptOpen: true,
                       });
                       setTimeout(() => {
+                        _data.open=false;
                         _this.setState({
-                          promptOpen: false,
+                          promp_info:_data
                         });
                        navigate(`/users/login`);
                       }, 3000);
@@ -363,7 +370,17 @@ export default class UploadVideos extends Component {
                     }}
                   />
                 </span>
-                <span className="del" title="删除">
+                <span className="del" title="删除" onClick={()=>{
+                  this.setState({
+                
+                    promp_info:{
+                      type:2,
+                      open:true,
+                      msg:'您将删除视频，删除后将无法恢复，是否确定要删除？',
+                      title:'温馨提示'
+                    }
+                  })
+                }}>
                   <Delete />
                 </span>
                 <p style={{ fontSize: "10px" }}>123456</p>
@@ -400,13 +417,9 @@ export default class UploadVideos extends Component {
         
         <Message
           parent={this}
-          msg="您还没有登录，是否跳转到登录页面？"
+          promp_info={this.state.promp_info}
         ></Message>
-        <Message1
-          parent={this}
-          open={this.state.promptOpen}
-          msg={this.state.promp_info}
-        />
+        
         <Dialog open={lang_open}>
           <DialogTitle>请选择上传视频的语言</DialogTitle>
           <DialogContent>

@@ -7,20 +7,17 @@ import VideoChilden from "../components/VideoChilden/VideoChilden";
 import "../components/VideoChilden/SliderTemplate/SliderTemplate.css";
 import {
   Dialog,
-  Button,
+ 
   DialogTitle,
-  Snackbar,
+
   Slider,
   Grid,
-  Menu,
-  MenuItem,
+
 } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
+
 import { withStyles } from "@material-ui/core/styles";
 import {
-  SubdirectoryArrowLeft,
-  SubdirectoryArrowRight,
-  Image,
+
   SkipNext,
   SkipPrevious,
   PlayArrow,
@@ -28,7 +25,7 @@ import {
   RemoveCircleOutline,
   AddCircleOutline,
   SwapHoriz,
-  MoreHoriz,
+
 } from "@material-ui/icons";
 import styles from "../assets/css/video.module.css";
 import getData from "../assets/js/request";
@@ -42,21 +39,7 @@ import {
 } from "../assets/js/totls";
 import NewMenu from "../components/VideoChilden/Menu/Menu";
 
-const NewDialog = withStyles({
-  paperWidthSm: {
-    "max-width": "none",
-  },
-  paperScrollPaper: {
-    display: "block",
-    padding: "32px",
-  },
-})(Dialog);
-const NewDialogTitle = withStyles({
-  root: {
-    padding: 0,
-  },
-})(DialogTitle);
-// const [anchorEl, setAnchorEl] = React.useState(null);
+
 
 export default class VideoPage extends Component {
   constructor(props) {
@@ -71,6 +54,7 @@ export default class VideoPage extends Component {
       style: {}, //上传时使用
       video_img_arr: null,
       test_arr:null,
+      scaleX:1
     };
     this.video_live = null;
     //绑定双击事件
@@ -597,7 +581,7 @@ console.log(res)
                   id="edit-region"
                 >
                   <section
-                    style={{ height: "100%", position: "absolute" }}
+                    style={{ height: "100%", position: "absolute" ,transform:'scaleX('+this.state.scaleX+')'}}
                     id="sliderbox"
                   >
                     <div className={`${styles.slider} ${styles.clearfix}`}>
@@ -699,16 +683,40 @@ console.log(res)
                     <div className={styles.perBtns}>
                       <Grid container>
                         <Grid item>
-                          <RemoveCircleOutline />
+                          <RemoveCircleOutline onClick={()=>{
+                            if(_this.state.scaleX<=1){_this.setState({scaleX:1})
+                          }else{
+                            _this.setState({
+                              scaleX:_this.state.scaleX-0.01
+                            })
+                          }
+                        }
+                        } />
                         </Grid>
                         <Grid item xs>
                           <Slider
-                            defaultValue={20}
-                            aria-labelledby="continuous-slider"
+                            value={_this.state.scaleX}
+                            step={0.01}
+                            min={1}
+                            max={3}
+                            
+                            onChange ={(event,value)=>{
+                              
+                              _this.setState({
+                                scaleX:value
+                              })
+                              
+                            }}
                           />
                         </Grid>
                         <Grid item>
-                          <AddCircleOutline />
+                          <AddCircleOutline onClick={()=>{
+                            if(_this.state.scaleX>=3){
+                              _this.setState({scaleX:3})
+                            }else{
+                              _this.setState({scaleX:_this.state.scaleX+0.01})
+                            }
+                          }}/>
                         </Grid>
                         <Grid item>
                           <SwapHoriz />
