@@ -28,7 +28,7 @@ import {
 
 } from "@material-ui/icons";
 import styles from "../assets/css/video.module.css";
-import getData from "../assets/js/request";
+import {get_data} from "../assets/js/request";
 import dateConversion from "../assets/js/dateConversion";
 import {
   getObj,
@@ -97,7 +97,7 @@ export default class VideoPage extends Component {
   //     type: "global",
   //     video_ids: [],
   //   };
-  //   getData("videos", _data, "post").then((res) => {
+  //   get_data("videos", _data, "post").then((res) => {
   //     video_data = res.result_data[0];
   //     let _data = {
   //       video_data: video_data,
@@ -430,7 +430,7 @@ console.log(res)
     //       lang: "en",
     //     },
     //   };
-    //   getData("video/subtitle", r_data, "post")
+    //   get_data("video/subtitle", r_data, "post")
     //     .then((res) => {
     //       handleClose();
     //       _this.setState({
@@ -581,7 +581,7 @@ console.log(res)
                   id="edit-region"
                 >
                   <section
-                    style={{ height: "100%", position: "absolute" ,transform:'scaleX('+this.state.scaleX+')'}}
+                    style={{ height: "100%", position: "absolute",transform:'scaleX('+this.state.scaleX+')' }}
                     id="sliderbox"
                   >
                     <div className={`${styles.slider} ${styles.clearfix}`}>
@@ -595,11 +595,12 @@ console.log(res)
                         }
                       />
                     </div>
-                    <div className={styles.videoImg}>图片</div>
+                    <div className={styles.videoImg} >图片</div>
 
                     <div
                       className={styles.videoImage}
                       id="image-box"
+                     
                       onMouseOver={(e) => {
                         let _obj = getObj("new-menu");
                       
@@ -622,7 +623,7 @@ console.log(res)
                         <NewMenu parent={this} />
                       </div>
                     </div>
-                    <div className={styles.videoImg} id='video-test'>
+                    <div className={styles.videoImg} id='video-test' >
                        {_this.state.test_arr?_this.state.test_arr:''}
                     </div>
                   </section>
@@ -637,10 +638,7 @@ console.log(res)
                         onMouseDown={(evt) => {
                           evt.stopPropagation();
                           evt.preventDefault();
-                          console.log(
-                            getWidth("edit-region", "sliderbox", "thumbbox") +
-                              "px"
-                          );
+                         
                           //  getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
                           getObj("thumb").style.width =
                             getWidth("edit-region", "sliderbox", "thumbbox") +

@@ -1,31 +1,31 @@
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../services/auth";
-import getData from './request';
-export const isGoLogin=(c_b)=>{//检查是否登录与超时
-    if(!isLoggedIn()){
-      c_b&&c_b(false);
-      return false;
-    }
-      getData("api/v1/gateway", {
-        model_name: "user",
-        model_action: "is_login",
-        extra_data: {},
-        model_type: "",
-      })
-        .then((res) => {
-          if(c_b){
-            c_b(res)
-          }else{
-            if(res.err==4104){
-              navigate(`users/login`);
-              return
-            }
-          }
-        })
+import {get_data} from './request';
+// export const isGoLogin=(c_b)=>{//检查是否登录与超时
+//     if(!isLoggedIn()){
+//       c_b&&c_b(false);
+//       return false;
+//     }
+//     get_data("api/v1/gateway", {
+//         model_name: "user",
+//         model_action: "is_login",
+//         extra_data: {},
+//         model_type: "",
+//       })
+//         .then((res) => {
+//           if(c_b){
+//             c_b(res)
+//           }else{
+//             if(res.err==4104){
+//               navigate(`users/login`);
+//               return
+//             }
+//           }
+//         })
   
     
     
-}
+// }
 
 export const getObj = (id) => {
 

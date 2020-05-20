@@ -22,7 +22,7 @@ import {
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 import { Save, AccountCircle, CloseIcon,ArrowDropDown } from "@material-ui/icons";
-import getData from "../../../assets/js/request";
+import {get_data} from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 import { node } from "prop-types";
 import NewDialog from "./NewDialog";
@@ -135,7 +135,7 @@ export default class Header extends Component {
         },
         model_type: "",
       };
-      getData("api/v1/gateway", r_data, "post").then((res) => {
+      get_data("api/v1/gateway", r_data, "post").then((res) => {
         console.log(res);
         _this.setState({ open: true });
       });

@@ -8,7 +8,7 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  InputAdornment
+  InputAdornment,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
@@ -16,19 +16,18 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { ContactSupport, Add, Delete,Cancel} from "@material-ui/icons";
-import { green } from '@material-ui/core/colors';
+import { ContactSupport, Add, Delete, Cancel } from "@material-ui/icons";
+import { green } from "@material-ui/core/colors";
 import Typography from "@material-ui/core/Typography";
-import getData from "../../../assets/js/request";
+import { get_data, get_alldata } from "../../../assets/js/request";
 import { isGoLogin } from "../../../assets/js/totls";
 import { navigate } from "@reach/router";
 const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
-    backgroundColor:'#eee',
-    height:'56px'
-    
+    backgroundColor: "#eee",
+    height: "56px",
   },
   closeButton: {
     position: "absolute",
@@ -37,9 +36,6 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
-
-
-
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -63,10 +59,8 @@ const DialogTitle = withStyles(styles)((props) => {
 const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    
   },
 }))(MuiDialogContent);
-
 
 const DialogActions = withStyles((theme) => {
   return {
@@ -89,7 +83,7 @@ const NewBtn2 = withStyles({
 
 const usersStyles = makeStyles((them) => ({
   snackbar: {
-    top:'40%',
+    top: "40%",
     transform: "translate(-50%,-50%)",
   },
   radiogroup: {
@@ -98,15 +92,15 @@ const usersStyles = makeStyles((them) => ({
   root: {
     width: "100%",
     fontSize: "14px",
-    "& span":{
-      display:'inline-block',
+    "& span": {
+      display: "inline-block",
     },
-    "& button":{
-      padding:0
+    "& button": {
+      padding: 0,
     },
-    "& b":{
-      fontWeight:400,
-      display:'inline-block',
+    "& b": {
+      fontWeight: 400,
+      display: "inline-block",
       // padding:'4px 12px',
       // backgroundColor:'#D3D3D3'
     },
@@ -149,7 +143,6 @@ const usersStyles = makeStyles((them) => ({
           color: "#fff",
           lineHeight: "80px",
           textAlign: "center",
-         
         },
       },
     },
@@ -159,13 +152,13 @@ const usersStyles = makeStyles((them) => ({
     },
     "& .sign": {
       backgroundColor: "#EEEEEE",
-      padding:'12px',
+      padding: "12px",
       "& label": {
         display: "inline-block",
-        margin:'6px',
+        margin: "6px",
         minWidth: "auto",
         // marginLeft:0,
-        fontSize:'12px',
+        fontSize: "12px",
       },
     },
     "& label": {
@@ -174,72 +167,71 @@ const usersStyles = makeStyles((them) => ({
     },
     "&  .item span": {
       color: "red",
-      position:'relative',
-      
-      '& span':{
-        display:'none',
-        position:'absolute',
-        right:'-10px',
-        bottom:0,
-        width:'397px',
-        boxShadow:'0px 0px 2px 0px rgba(118,131,144,1)',
-        color:'#666',
-       transform:'translateY(100%)',
-       zIndex:1000,
-        padding:'16px',
-        backgroundColor:'#fff',
-        
-      }
+      position: "relative",
+
+      "& span": {
+        display: "none",
+        position: "absolute",
+        right: "-10px",
+        bottom: 0,
+        width: "397px",
+        boxShadow: "0px 0px 2px 0px rgba(118,131,144,1)",
+        color: "#666",
+        transform: "translateY(100%)",
+        zIndex: 1000,
+        padding: "16px",
+        backgroundColor: "#fff",
+      },
     },
-    "& svg":{
-      verticalAlign:'middle'
+    "& svg": {
+      verticalAlign: "middle",
     },
     "& .MuiFormControlLabel-root ": {
       minWidth: "auto",
-      '& .MuiRadio-root':{
-        padding:0,
-      }
-
+      "& .MuiRadio-root": {
+        padding: 0,
+      },
     },
-    '& .MuiOutlinedInput-input':{
-      padding:'8px 6px',
-      backgroundColor:'#fff'
+    "& .MuiOutlinedInput-input": {
+      padding: "8px 6px",
+      backgroundColor: "#fff",
     },
-    '& .MuiOutlinedInput-multiline':{
-      padding:'1px'
+    "& .MuiOutlinedInput-multiline": {
+      padding: "1px",
     },
-    '& .MuiInputAdornment-root':{
-      fontSize:'20px',
-     color:'#D5D5D5'
-    }
+    "& .MuiInputAdornment-root": {
+      fontSize: "20px",
+      color: "#D5D5D5",
+    },
   },
 }));
-function call_back(prveProps,nextProps){
- 
-  return JSON.stringify(prveProps.parent.props.parent.state.video_data)==JSON.stringify(nextProps.parent.props.parent.state.video_data)
-
+function call_back(prveProps, nextProps) {
+  return (
+    JSON.stringify(prveProps.parent.props.parent.state.video_data) ==
+    JSON.stringify(nextProps.parent.props.parent.state.video_data)
+  );
 }
 
- function CustomizedDialogs(props) {
- console.log('props',props)
+function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     type: "success",
     msg: "上传成功!",
   });
-  const [videoTitle, setVideoTitle] = React.useState(''); //视频标题
-  const [videodescription, setVideodescription] = React.useState(''); //视频描述
+  const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
+  const [videodescription, setVideodescription] = React.useState(""); //视频描述
   const [videosign, setVideosign] = React.useState([]); //视频标签
   const [file, setFile] = React.useState(null); //文件
-  const [fileSrc, setFileSrc] = React.useState(''); //图片文件的临时路径
-  const [currency, setCurrency] = React.useState(''); //视频系列
-  const [addseries,setAddseries] = React.useState(false);//新建系列
-  const [newseries,setNewseries] = React.useState('');//暂存新系列
-  const [seriesdescription,setSeriesdescription] = React.useState('');//系列描述
+  const [fileSrc, setFileSrc] = React.useState(""); //图片文件的临时路径
+  const [currency, setCurrency] = React.useState(""); //视频系列
+  const [addseries, setAddseries] = React.useState(false); //新建系列
+  const [newseries, setNewseries] = React.useState(""); //暂存新系列
+  const [seriesdescription, setSeriesdescription] = React.useState(""); //系列描述
   const [currencies, setCurrencies] = React.useState([]);
+  const [signs, setSigns] = React.useState({});
   const usersClass = usersStyles();
-  const handleClickOpen =React.useCallback(() => {
+  const handleClickOpen = React.useCallback(() => {
     //打开上传弹窗
     if (JSON.stringify(props.parent.props.parent.state.video_data) === "{}") {
       setOpenSnackbar({
@@ -249,32 +241,42 @@ function call_back(prveProps,nextProps){
       });
       return;
     }
-    getData("api/v1/gateway", {
-      model_name: "series",
-      model_action: "get_series",
-      extra_data: {},
-      model_type: "",
-    }).then((res) => {
-      if(res.err==0&&res.result_data.length>0){
-        setCurrencies(res.result_data)
-      }
-      
-    });
 
+    get_alldata(
+      "api/v1/gateway",
+      [
+        {
+          model_name: "series",
+          model_action: "get_series",
+          // extra_data: {},
+          // model_type: "",
+        },
+        {
+          model_name: "category",
+          model_action: "get_category",
+          // extra_data: {},
+          // model_type: "",
+        }
+      ]
+    ).then(function(res){
+    
+      setCurrencies(res[0].result_data)
+      setSigns(res[1].result_data[0])
+    
+    });
     setOpen(true);
-  },[]);
-  const handleClose =React.useCallback( () => {
+  }, []);
+  const handleClose = React.useCallback(() => {
     //关闭上传弹窗
     setOpen(false);
-    setCurrency('');
-    setVideoTitle('');
-    setVideodescription('');
+    setCurrency("");
+    setVideoTitle("");
+    setVideodescription("");
     setVideosign([]);
     setFile(null);
-    setFileSrc('');
-    setNewseries('');
-  
-  },[]);
+    setFileSrc("");
+    setNewseries("");
+  }, []);
 
   const snackbarClose = () => {
     //关闭提示
@@ -306,7 +308,7 @@ function call_back(prveProps,nextProps){
       setOpenSnackbar({
         open: true,
         type: "error",
-        msg: "请先择1个或多个标签!",
+        msg: "请先择1个最3个标签,如没有请选择‘其他’哦!",
       });
       return;
     } else {
@@ -317,25 +319,26 @@ function call_back(prveProps,nextProps){
     }
     if (currency) {
       _data.set("series_title", currency);
-      if(seriesdescription){
-        _data.set('description_title',seriesdescription);
+      if (seriesdescription) {
+        _data.set("description_title", seriesdescription);
       }
     }
-    getData("api/v1/gateway", _data).then((res) => {
-    
-      if(res.err==0&&res.errmsg=='OK'){
-        setOpenSnackbar({open:true,type:'success',msg:'提交成功,系统将会自动审核,个人中心将会看到此视频的实时状态!'});
+    get_data("api/v1/gateway", _data).then((res) => {
+      if (res.err == 0 && res.errmsg == "OK") {
+        setOpenSnackbar({
+          open: true,
+          type: "success",
+          msg: "提交成功,系统将会自动审核,个人中心将会看到此视频的实时状态!",
+        });
         handleClose();
-       
-      }else{
-        setOpenSnackbar({open:true,type:'error',msg:'网络出错'});
+      } else {
+        setOpenSnackbar({ open: true, type: "error", msg: "网络出错" });
       }
     });
   };
   const handleChange = (event) => {
     //添加系列
     setCurrency(event.target.value);
-    
   };
   const titleChange = (event) => {
     //添加标题
@@ -347,17 +350,31 @@ function call_back(prveProps,nextProps){
   };
   const signChane = (event) => {
     //添加标签
+
+    if(event.target.checked){
+    if(videosign.length>2){
+      event.target.checked=false;
+      setOpenSnackbar({
+        open: true,
+        type: "error",
+        msg: "最多只能选择3个标签哦!",
+      });
+      return
+    }
+  };
     let v_arr = [];
+    
     let obj_arr = document.querySelectorAll('input[name="videoSign"]');
     for (let i = 0; i < obj_arr.length; i++) {
       if (obj_arr[i].checked) {
         v_arr.push(obj_arr[i].value);
       }
     }
+   console.log(v_arr)
     if (v_arr.length > 0) {
       setVideosign(v_arr);
     } else {
-      setVideosign(null);
+      setVideosign([]);
     }
   };
   const fileChane = (event) => {
@@ -399,7 +416,13 @@ function call_back(prveProps,nextProps){
               />
               <span>
                 <ContactSupport />
-                <span>一个引人注目的标题可以帮助您吸引观看者。在确定视频标<br/>题时，最好加入观众在查找类似视频时可能会使用的关键<br/>字。</span>
+                <span>
+                  一个引人注目的标题可以帮助您吸引观看者。在确定视频标
+                  <br />
+                  题时，最好加入观众在查找类似视频时可能会使用的关键
+                  <br />
+                  字。
+                </span>
               </span>
             </div>
             <div className="item">
@@ -415,9 +438,15 @@ function call_back(prveProps,nextProps){
                 fullWidth
                 onChange={descriptionChange}
               />
-              <span >
+              <span>
                 <ContactSupport />
-                <span >在说明中加入适当的关键字，可以帮助观看者通过搜索更轻<br/>松地找到您的视频。您可以在说明中大致介绍视频的内容，<br/>并将关键字放在说明的开头部</span>
+                <span>
+                  在说明中加入适当的关键字，可以帮助观看者通过搜索更轻
+                  <br />
+                  松地找到您的视频。您可以在说明中大致介绍视频的内容，
+                  <br />
+                  并将关键字放在说明的开头部
+                </span>
               </span>
             </div>
 
@@ -426,34 +455,23 @@ function call_back(prveProps,nextProps){
                 <span>*</span>添加标签
               </label>
               <p className="sign">
-                {[
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                  "标签",
-                ].map((value, inx) => (
-                  <label key={inx}>
+                {Object.keys(signs).map((value, inx) => (
+                  <label key={value}> 
                     <input
                       type="checkbox"
                       name="videoSign"
-                      value={value + inx}
+                      value={value}
                       onChange={signChane}
                     />
-                    <b>{value}</b>
-                    
+                    <b>{signs[value]}</b>
                   </label>
                 ))}
               </p>
-              <span >
+              <span>
                 <ContactSupport />
-                <span>添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。</span>
+                <span>
+                  添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。
+                </span>
               </span>
             </div>
             <div>
@@ -484,7 +502,7 @@ function call_back(prveProps,nextProps){
                       <span className="delete">
                         <Delete
                           onClick={() => {
-                            setFileSrc('');
+                            setFileSrc("");
                             setFile(null);
                             document.getElementById("coverfile").value = "";
                           }}
@@ -516,50 +534,110 @@ function call_back(prveProps,nextProps){
                 <p>
                   将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
                 </p>
-                <section className='sign' style={{borderBottom:'1px solid #ccc'}}>
-                {!addseries?(<Button color='primary' variant="contained" onClick={()=>{setAddseries(true)}}><Add />新建</Button>):(
-                  <section>
-                    <TextField fullWidth type='text' label='系列标题' variant="outlined" value={newseries} 
-                    onChange={(e)=>{
-                      setNewseries(e.target.value)
-                    }}  
-                    InputProps={{endAdornment:<InputAdornment position='end'><Cancel  onClick={()=>{setNewseries('')}}/></InputAdornment> }}/>
-                    <TextField
-                    
-                    rows={3}
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                    value= {seriesdescription}
-                    label='系列描述'
-                    onChange={(event)=>{
-                      setSeriesdescription(event.target.value)
-                    }}
-                  />
-                    <DialogActions>
-                      <Button  variant="contained" onClick={()=>{setAddseries(false)}}>取消</Button>
-                      <Button color='primary' variant="contained" onClick={()=>{
-                        let _data  = currencies;
-                        if(_data.some((option)=>newseries==option.title)){
-                          setOpenSnackbar({open:true,type:'error',msg:'新建系列失败，您所新建的系列已存在!'});
-                          return
-                        }
-                        if(!seriesdescription){
-                          setOpenSnackbar({open:true,type:'error',msg:'亲，新建了系列，系列描述不要忘记填写哦!'});
-                          return
-                        }
-                        if(_data[_data.length-1].type){
-                          _data[_data.length-1]={title:newseries,label:newseries,type:'new'}
-                        }else{
-                          _data.push({title:newseries,label:newseries,type:'new'});
-                        }
-                        
-                        setCurrencies(_data);
-                        setAddseries(false);
-                      }}>确认</Button>
-                    </DialogActions>
-                  </section>
-                )}
+                <section
+                  className="sign"
+                  style={{ borderBottom: "1px solid #ccc" }}
+                >
+                  {!addseries ? (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={() => {
+                        setAddseries(true);
+                      }}
+                    >
+                      <Add />
+                      新建
+                    </Button>
+                  ) : (
+                    <section>
+                      <TextField
+                        fullWidth
+                        type="text"
+                        label="系列标题"
+                        variant="outlined"
+                        value={newseries}
+                        onChange={(e) => {
+                          setNewseries(e.target.value);
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Cancel
+                                onClick={() => {
+                                  setNewseries("");
+                                }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      <TextField
+                        rows={3}
+                        variant="outlined"
+                        multiline
+                        fullWidth
+                        value={seriesdescription}
+                        label="系列描述"
+                        onChange={(event) => {
+                          setSeriesdescription(event.target.value);
+                        }}
+                      />
+                      <DialogActions>
+                        <Button
+                          variant="contained"
+                          onClick={() => {
+                            setAddseries(false);
+                          }}
+                        >
+                          取消
+                        </Button>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={() => {
+                            let _data = currencies;
+                            if (
+                              _data.some((option) => newseries == option.title)
+                            ) {
+                              setOpenSnackbar({
+                                open: true,
+                                type: "error",
+                                msg: "新建系列失败，您所新建的系列已存在!",
+                              });
+                              return;
+                            }
+                            if (!seriesdescription) {
+                              setOpenSnackbar({
+                                open: true,
+                                type: "error",
+                                msg: "亲，新建了系列，系列描述不要忘记填写哦!",
+                              });
+                              return;
+                            }
+                            if (_data[_data.length - 1].type) {
+                              _data[_data.length - 1] = {
+                                title: newseries,
+                                label: newseries,
+                                type: "new",
+                              };
+                            } else {
+                              _data.push({
+                                title: newseries,
+                                label: newseries,
+                                type: "new",
+                              });
+                            }
+
+                            setCurrencies(_data);
+                            setAddseries(false);
+                          }}
+                        >
+                          确认
+                        </Button>
+                      </DialogActions>
+                    </section>
+                  )}
                 </section>
                 <section className="sign">
                   <RadioGroup
@@ -569,13 +647,12 @@ function call_back(prveProps,nextProps){
                     onChange={handleChange}
                     className={usersClass.radiogroup}
                   >
-                  
                     {currencies.map((option) => (
                       <FormControlLabel
                         key={option.title}
                         value={option.title}
                         label={option.title}
-                        control={<Radio color='primary' />}
+                        control={<Radio color="primary" />}
                       />
                     ))}
                   </RadioGroup>
@@ -599,14 +676,13 @@ function call_back(prveProps,nextProps){
         </DialogActions>
       </Dialog>
       <Snackbar
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
         open={openSnackbar.open}
         autoHideDuration={3000}
         onClose={snackbarClose}
-       
       >
         <Alert onClose={snackbarClose} severity={openSnackbar.type}>
           {openSnackbar.msg}
@@ -626,4 +702,4 @@ function call_back(prveProps,nextProps){
     </div>
   );
 }
-export default React.memo(CustomizedDialogs,call_back);
+export default React.memo(CustomizedDialogs, call_back);

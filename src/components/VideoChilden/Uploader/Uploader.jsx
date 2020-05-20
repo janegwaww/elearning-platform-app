@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 import { Delete, Add, Create } from "@material-ui/icons";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import getData from "../../../assets/js/request";
+import {get_data} from "../../../assets/js/request";
 
 import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
@@ -129,7 +129,7 @@ export default class UploadVideos extends Component {
     });
    
    
-    getData("api/v1/gateway", _data, "post")
+    get_data("api/v1/gateway", _data, "post")
       .then((res) => {
         _this.query_subtitles(); //查询是否生成字幕
         console.log("成功", res);
@@ -148,7 +148,7 @@ export default class UploadVideos extends Component {
     // _this.setState({
     //   status: 3,
     // });
-    getData("api/v1/gateway", _data, "post")
+    get_data("api/v1/gateway", _data, "post")
       .then((res) => {
         if(res.err==4104){
           navigate(`users/login`);
@@ -246,7 +246,7 @@ export default class UploadVideos extends Component {
                   });
                   return false;
                 }
-                getData("api/v1/gateway", {
+                get_data("api/v1/gateway", {
                   model_name: "user",
                   model_action: "is_login",
                   extra_data: {},
@@ -353,7 +353,7 @@ export default class UploadVideos extends Component {
                   <Create
                     onClick={() => {
                      
-                      getData("api/v1/gateway", {
+                      get_data("api/v1/gateway", {
                         //生成图片
                         model_name: "video",
                         model_action: "generate_thumbnail",
