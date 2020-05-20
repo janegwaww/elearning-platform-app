@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
+  },
+  pagination: {
+    justifyContent: "center"
   }
 }));
 
@@ -79,7 +82,14 @@ export default function CommentList({ vid }) {
           </Fragment>
         ))}
       </List>
-      <Pagination count={10} variant="outlined" shape="rounded" />
+      <div style={{ marginTop: 8 }}>
+        <Pagination
+          count={10}
+          variant="outlined"
+          shape="rounded"
+          classes={{ ul: classes.pagination }}
+        />
+      </div>
     </div>
   );
 }
