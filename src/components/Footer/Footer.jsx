@@ -38,7 +38,7 @@ const ContractUs = () => {
     <div className="contract-us">
       <ul>
         {menu.map(o => (
-          <li>
+          <li key={o}>
             <Link>{o}</Link>
           </li>
         ))}

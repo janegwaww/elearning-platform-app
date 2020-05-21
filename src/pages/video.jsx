@@ -6,13 +6,8 @@ import BottomAside from "../components/VideoChilden/BottomAside/BottomAside";
 import VideoChilden from "../components/VideoChilden/VideoChilden";
 import "../components/VideoChilden/SliderTemplate/SliderTemplate.css";
 import {
-  Dialog,
- 
-  DialogTitle,
-
   Slider,
   Grid,
-
 } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -22,10 +17,9 @@ import {
   SkipPrevious,
   PlayArrow,
   Pause,
-  RemoveCircleOutline,
-  AddCircleOutline,
-  SwapHoriz,
 
+  PhotoSizeSelectActual,
+  
 } from "@material-ui/icons";
 import styles from "../assets/css/video.module.css";
 import {get_data} from "../assets/js/request";
@@ -680,26 +674,16 @@ console.log(res)
                     </div>
                     <div className={styles.perBtns}>
                       <Grid container>
-                        <Grid item>
-                          <RemoveCircleOutline onClick={()=>{
-                            if(_this.state.scaleX<=1){_this.setState({scaleX:1})
-                          }else{
-                            _this.setState({
-                              scaleX:_this.state.scaleX-0.01
-                            })
-                          }
-                        }
-                        } />
+                        <Grid item style={{overflow:'hidden',width:'20px',height:'16px',margin:'0 5px',transform:'translate(-3px,8px)'}}>
+                        <PhotoSizeSelectActual style={{color:'#25262c',backgroundColor:'white',transform: 'translate(-7px, -3px) scale(1.2)'}}/>
                         </Grid>
-                        <Grid item xs>
+                        <Grid item xs style={{transform: 'translate(0px, 4px)',width: 'calc(100% - 54px)'}}>
                           <Slider
                             value={_this.state.scaleX}
                             step={0.01}
                             min={1}
                             max={3}
-                            
                             onChange ={(event,value)=>{
-                              
                               _this.setState({
                                 scaleX:value
                               })
@@ -707,17 +691,10 @@ console.log(res)
                             }}
                           />
                         </Grid>
-                        <Grid item>
-                          <AddCircleOutline onClick={()=>{
-                            if(_this.state.scaleX>=3){
-                              _this.setState({scaleX:3})
-                            }else{
-                              _this.setState({scaleX:_this.state.scaleX+0.01})
-                            }
-                          }}/>
-                        </Grid>
-                        <Grid item>
-                          <SwapHoriz />
+                        
+                        <Grid item style={{overflow:'hidden' ,margin:'0 5px',transform: 'translate(0px, -2px)'}}>
+                          
+                          <PhotoSizeSelectActual style={{color:'#25262c',backgroundColor:'white',transform: 'translate(0px, 5px) scale(2)'}}/>
                         </Grid>
                       </Grid>
                     </div>

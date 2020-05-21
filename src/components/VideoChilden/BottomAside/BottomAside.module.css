@@ -1,5 +1,5 @@
  .ul li{
-    width:50px;
+    width:70px;
 }
 
 .slider {
@@ -8,6 +8,7 @@
     height: 30px;
     display: flex;
     color: #CCCCD1;
+    justify-content: center;
   }
   .slider .left {
     display: flex;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import {PlayArrow,Title,VolumeUp,FontDownload,SubdirectoryArrowLeft,SubdirectoryArrowRight} from  "@material-ui/icons";
+import {PlayArrow,Title,VolumeUp,FontDownload,SubdirectoryArrowLeft,SubdirectoryArrowRight,Replay,
+  Refresh} from  "@material-ui/icons";
 
 import  styles from "./BottomAside.module.css";
 
@@ -10,10 +11,12 @@ export default ()=> (
         <div className={styles.slider}>
                 <div className={styles.left}>
                   <div>
-                    <SubdirectoryArrowLeft />
+                  <Replay />
+                   
                   </div>
                   <div>
-                    <SubdirectoryArrowRight />
+                  <Refresh />
+                  
                   </div>
                 </div>
               </div>

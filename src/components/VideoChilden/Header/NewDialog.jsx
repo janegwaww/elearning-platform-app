@@ -688,17 +688,7 @@ function CustomizedDialogs(props) {
           {openSnackbar.msg}
         </Alert>
       </Snackbar>
-      {/*<Dialog open={true}>
-      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          添加系列
-        </DialogTitle>
-        <DialogContent dividers>
-            <TextField  type='text' variant="outlined" fullWidth  placeholder='输入你要添加的系列名。'/>
-        </DialogContent>
-        <DialogActions>
-        <Button>取消</Button><Button>确定</Button>
-        </DialogActions>
-                </Dialog>*/}
+     
     </div>
   );
 }

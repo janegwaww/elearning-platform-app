@@ -1,0 +1,58 @@
+.el-container {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -ms-flex-preferred-size: auto;
+    flex-basis: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    min-width: 0;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-size: 14px;
+    
+  }
+  .el-aside {
+    overflow: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    background-color: #212121;
+    color: #fff;
+  }
+  .el-header {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  .max-box{
+    min-width: 1000px;
+    /* max-width:1440px; */
+    margin: 0 auto;
+    background-color:rgb(10, 10, 10)   ;
+  }
+  .el-main {
+    display: block;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -ms-flex-preferred-size: auto;
+    flex-basis: auto;
+    /* overflow: auto; */
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .el-container.is-vertical {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  

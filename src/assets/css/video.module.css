@@ -1,3 +1,4 @@
+
 body{background-color: #eee;}
 /* 布局 */
 .el-container {
@@ -244,6 +245,7 @@ width: 100%;
   display: flex;
   z-index: 100;
   background: #25262c;
+  overflow: hidden;
 }
 .scroller{
   -ms-flex: 1;
@@ -259,8 +261,15 @@ width: 100%;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
-  /* align-items: center; */
+  align-items: center;
 color:#fff;
+}
+.per-btns svg{
+  width:24px;
+  height: 20px;
+  vertical-align: middle;
+  margin:0 5px;
+  transform: translateY(4px);
 }
 .scroll-thumb{
   height: 10px;
