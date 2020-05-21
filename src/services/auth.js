@@ -72,6 +72,7 @@ const getLoginData = ({ data, headers }) =>
 const setLoginUser = ({ resultData, authorization }) => {
   setUser({
     name: `${resultData.name}`,
+    headshot: `${resultData.headshot}`,
     token: `${authorization}`
   });
   return Promise.resolve(!!authorization);
@@ -135,6 +136,7 @@ const setThirdLogin = ({ resultData, authorization }) => {
   if (authorization) {
     setUser({
       name: resultData.name,
+      headshot: resultData.headshot,
       token: authorization
     });
     return Promise.resolve(true);
