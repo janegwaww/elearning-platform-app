@@ -1,4 +1,4 @@
-.top-aside,ul{
+.top-aside,.ul{
     list-style: none;
         padding: 0;
         margin: 0;
@@ -6,7 +6,7 @@
         font-size:14px;  
 }
 
-.top-aside li,ul li{
+.top-aside li,.ul li{
     width:50px;
     text-align: center;
     font-size: 14px;

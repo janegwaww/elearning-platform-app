@@ -1,4 +1,6 @@
-.el-container {
+
+
+.ma-container {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -18,28 +20,27 @@
     font-size: 14px;
     
   }
-  .el-aside {
+  .ma-aside {
     overflow: auto;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    background-color: #212121;
-    color: #fff;
+   
   }
-  .el-header {
+  .ma-header,.ma-footer {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     -ms-flex-negative: 0;
     flex-shrink: 0;
   }
-  .max-box{
+  /* .max-box{
     min-width: 1000px;
-    /* max-width:1440px; */
+     max-width:1440px; 
     margin: 0 auto;
     background-color:rgb(10, 10, 10)   ;
-  }
-  .el-main {
+  } */
+  .ma-main {
     display: block;
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -50,7 +51,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
-  .el-container.is-vertical {
+  .ma-container.is-vertical {
     -webkit-box-orient: vertical;
     -ms-flex-direction: column;
     flex-direction: column;

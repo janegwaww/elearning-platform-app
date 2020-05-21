@@ -55,12 +55,13 @@
     "react-helmet": "^5.2.1",
     "react-iframe": "^1.8.0",
     "react-player": "^2.0.1",
+    "react-router-dom": "^5.2.0",
     "react-share": "^4.0.1",
     "react-twitter-widgets": "^1.7.1",
     "react-window": "^1.8.5",
     "url-join": "^4.0.0",
-    "webuploader": "^0.1.8",
     "url-parse": "^1.4.7",
+    "webuploader": "^0.1.8",
     "yup": "^0.28.3"
   },
   "devDependencies": {

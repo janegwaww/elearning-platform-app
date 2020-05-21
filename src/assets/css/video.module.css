@@ -1,5 +1,5 @@
 
-body{background-color: #eee;}
+/* body{background-color: #eee;} */
 /* 布局 */
 .el-container {
   width: 100%;
@@ -30,7 +30,7 @@ body{background-color: #eee;}
   background-color: #212121;
   color: #fff;
 }
-.el-header {
+.el-header ,.el-footer{
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   -ms-flex-negative: 0;
@@ -53,6 +53,7 @@ body{background-color: #eee;}
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .el-container.is-vertical {
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;

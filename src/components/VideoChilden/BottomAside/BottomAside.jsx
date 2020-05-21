@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
-import {PlayArrow,Title,VolumeUp,FontDownload,SubdirectoryArrowLeft,SubdirectoryArrowRight,Replay,
+import {PlayArrow,Title,VolumeUp,FontDownload,Replay,
   Refresh} from  "@material-ui/icons";
 
 import  styles from "./BottomAside.module.css";
-
+import  sty from '../TopAside/TopAside.module.css';
 export default ()=> (
-      <ul className={styles.ul}>
+      <ul className={`${styles.ul} ${sty.ul}` }>
+  
+
         <li>
         <div className={styles.slider}>
                 <div className={styles.left}>
