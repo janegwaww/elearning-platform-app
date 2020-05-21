@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import StarIcon from "@material-ui/icons/Star";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -74,8 +76,8 @@ export default function UserFeedback({
       value: val,
       type: "video"
     }).then(data => {
-      if (!data) {
-        setData(oppositeValue(val));
+      if (data) {
+        setData(val);
       }
     });
   };
@@ -101,6 +103,20 @@ export default function UserFeedback({
     }
   };
 
+  const HeartIcon = () =>
+    like === 0 ? (
+      <FavoriteIcon className={classes.item} />
+    ) : (
+      <FavoriteBorderIcon className={classes.item} />
+    );
+
+  const StarOrNot = () =>
+    collect ? (
+      <StarIcon className={classes.item} />
+    ) : (
+      <StarBorderIcon className={classes.item} />
+    );
+
   return (
     <div className={classes.root}>
       <IconButton size="small" className={classes.viewButton}>
@@ -115,7 +131,7 @@ export default function UserFeedback({
         onClick={() => handleClick("like")}
         className={classes.likeButton}
       >
-        <FavoriteBorderIcon className={classes.item} />
+        <HeartIcon />
         <LightTooltip title="喜欢" placement="bottom">
           <Typography>{likeCounts}</Typography>
         </LightTooltip>
@@ -141,7 +157,7 @@ export default function UserFeedback({
         onClick={() => handleClick("collect")}
         className={classes.collectButton}
       >
-        <StarBorderIcon className={classes.item} />
+        <StarOrNot />
         <LightTooltip title="收藏" placement="bottom">
           <Typography>{collectionCounts}</Typography>
         </LightTooltip>

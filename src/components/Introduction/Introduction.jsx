@@ -14,7 +14,9 @@ import {
   IconButton,
   Chip,
   Paper,
-  Collapse
+  Collapse,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
 import FileViewButton from "./FileViewButton";
 import { getVideoIntro } from "../../services/video";
@@ -66,6 +68,7 @@ export default function Introduction({ vid = "" }) {
     description: "",
     category: [""]
   });
+  const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
 
   const fetchIntroduction = () => {
@@ -92,6 +95,42 @@ export default function Introduction({ vid = "" }) {
     </Paper>
   );
 
+  const ExpandIcon = () =>
+    checked ? (
+      <ExpandLessIcon fontSize="small" />
+    ) : (
+      <ExpandMoreIcon fontSize="small" />
+    );
+
+  const handleMenuOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const renderMenu = (
+    <Menu
+      id="user-feedback-complaint-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleMenuClose}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      transformOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <MenuItem
+        onClick={e => {
+          e.preventDefault();
+          handleMenuClose();
+        }}
+      >
+        投拆
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <Card className={classes.root}>
       <div className={classes.header}>
@@ -102,9 +141,15 @@ export default function Introduction({ vid = "" }) {
           <FileViewButton />
         </div>
         <div className={classes.headerItem}>
-          <IconButton aria-label="settings">
+          <IconButton
+            aria-label="settings"
+            aria-controls="user-feedback-complaint-menu"
+            aria-haspopup="true"
+            onClick={handleMenuOpen}
+          >
             <MoreVertIcon fontSize="medium" />
           </IconButton>
+          {renderMenu}
         </div>
       </div>
       <Divider />
@@ -120,12 +165,10 @@ export default function Introduction({ vid = "" }) {
       <ChipArray chips={intro.category} />
       <CardActions>
         <Button size="small" color="secondary" onClick={handleChange}>
-          {checked ? "收起" : "查看更多"}
-          {checked ? (
-            <ExpandLessIcon fontSize="small" />
-          ) : (
-            <ExpandMoreIcon fontSize="small" />
-          )}
+          <Typography variant="body2">
+            {checked ? "收起" : "查看更多"}
+          </Typography>
+          <ExpandIcon />
         </Button>
       </CardActions>
     </Card>
