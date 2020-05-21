@@ -70,7 +70,7 @@ export default class Header extends Component {
 
       navigate(`/users/login`);
     } else {
-      navigate(`/users/proFile`);
+      navigate(`/users/profile`);
     }
   };
 
