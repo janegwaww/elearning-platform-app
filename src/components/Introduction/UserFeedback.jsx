@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
@@ -60,7 +60,7 @@ const LightTooltip = withStyles(theme => ({
 }))(Tooltip);
 
 export default function UserFeedback({
-  backData: { viewCounts, likeCounts, collectionCounts, id, isLike, isCollect }
+  backData: { viewCounts, likeCounts, id, isLike, isCollect }
 }) {
   const classes = useStyles();
   const [like, setLike] = useState(isLike);
@@ -82,40 +82,37 @@ export default function UserFeedback({
     });
   };
 
-  const likeAction = () => {
-    actionEvent(setLike, likeTheVideo, like);
-  };
-
-  const collectAction = () => {
-    actionEvent(setCollect, collectTheVideo, collect);
-  };
-
   const handleClick = act => {
     switch (act) {
       case "like":
-        likeAction();
+        actionEvent(setLike, likeTheVideo, like);
         break;
       case "collect":
-        collectAction();
+        actionEvent(setCollect, collectTheVideo, collect);
         break;
       default:
         console.log("no action");
     }
   };
 
-  const HeartIcon = () =>
-    like === 0 ? (
+  const HeartIcon = heart =>
+    heart === 1 ? (
       <FavoriteIcon className={classes.item} />
     ) : (
       <FavoriteBorderIcon className={classes.item} />
     );
 
-  const StarOrNot = () =>
-    collect ? (
+  const StarOrNot = star =>
+    star === 1 ? (
       <StarIcon className={classes.item} />
     ) : (
       <StarBorderIcon className={classes.item} />
     );
+
+  useEffect(() => {
+    setLike(isLike);
+    setCollect(isCollect);
+  }, [isLike, isCollect]);
 
   return (
     <div className={classes.root}>
@@ -131,7 +128,7 @@ export default function UserFeedback({
         onClick={() => handleClick("like")}
         className={classes.likeButton}
       >
-        <HeartIcon />
+        {HeartIcon(like)}
         <LightTooltip title="喜欢" placement="bottom">
           <Typography>{likeCounts}</Typography>
         </LightTooltip>
@@ -157,9 +154,8 @@ export default function UserFeedback({
         onClick={() => handleClick("collect")}
         className={classes.collectButton}
       >
-        <StarOrNot />
         <LightTooltip title="收藏" placement="bottom">
-          <Typography>{collectionCounts}</Typography>
+          {StarOrNot(collect)}
         </LightTooltip>
       </IconButton>
     </div>
