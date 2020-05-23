@@ -7,13 +7,14 @@ const apisVideo = videoApis(token);
 const apisSearch = searchPartApis(token);
 
 // 获取后端结果字段
-const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
+const getResultData = ({ data = {} }) =>
+  Promise.resolve(data.result_data || []);
 
 // 获取后端错误代码
-const getErrData = ({ data = {} }) => Promise.resolve(data.err);
+const getErrData = ({ data = {} }) => Promise.resolve(data.err || "0");
 
 // 获数组中的第一条数据
-const getResultDataFirst = ([obj]) => Promise.resolve(obj || {});
+const getResultDataFirst = arr => Promise.resolve((arr && arr[0]) || {});
 
 // ----------字募搜索-------------
 // 截取前端需要的字募字段
@@ -82,7 +83,7 @@ const boolErrData = err => Promise.resolve(err === "0");
 export const collectTheVideo = pipeThen(
   boolErrData,
   getErrData,
-  apisSearch.videoCollect
+  apisSearch.addCollection
 );
 
 // --------视频点赞-----------

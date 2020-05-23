@@ -37,7 +37,8 @@ const fetchMethod = (token = "") => async (url, params) => {
     const response = await axiosInstance(token).post(url, params);
     return response;
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return Promise.resolve({});
   }
 };
 
@@ -151,11 +152,11 @@ export const videoApis = (token = "") => {
 export const searchPartApis = (token = "") => {
   const modelActionsArr = [
     ["post_comment", "get_comment"],
-    ["video_collect"],
+    ["add_collection"],
     ["give_like"],
     ["view_file"]
   ];
-  const getParam = ["comment", "collect", "like", "document"].reduce(
+  const getParam = ["comment", "collection", "like", "document"].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
     {}

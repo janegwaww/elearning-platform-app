@@ -16,7 +16,7 @@ export default function TextCollapse({ children }) {
     <div>
       <Collapse
         in={checked}
-        collapsedHeight={40}
+        collapsedHeight={30}
         ref={ref => {
           collapse = ref;
         }}

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import SharePopover from "./SharePopover";
 import { likeTheVideo, collectTheVideo } from "../../services/video";
+import LightTooltip from "./LightTooltip";
+import UserLikeHeart from "./UserLikeHeart";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,15 +49,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LightTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: "rgba(242,242,245,1)",
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11
-  }
-}))(Tooltip);
-
 export default function UserFeedback({
   backData: { viewCounts, likeCounts, id, isLike, isCollect }
 }) {
@@ -82,25 +72,13 @@ export default function UserFeedback({
     });
   };
 
-  const handleClick = act => {
-    switch (act) {
-      case "like":
-        actionEvent(setLike, likeTheVideo, like);
-        break;
-      case "collect":
-        actionEvent(setCollect, collectTheVideo, collect);
-        break;
-      default:
-        console.log("no action");
-    }
+  const handleLikeClick = event => {
+    event.preventDefault();
+    actionEvent(setLike, likeTheVideo, like);
   };
 
-  const HeartIcon = heart =>
-    heart === 1 ? (
-      <FavoriteIcon className={classes.item} />
-    ) : (
-      <FavoriteBorderIcon className={classes.item} />
-    );
+  const handleStarClick = () =>
+    actionEvent(setCollect, collectTheVideo, collect);
 
   const StarOrNot = star =>
     star === 1 ? (
@@ -123,16 +101,11 @@ export default function UserFeedback({
         </LightTooltip>
       </IconButton>
 
-      <IconButton
-        size="small"
-        onClick={() => handleClick("like")}
-        className={classes.likeButton}
-      >
-        {HeartIcon(like)}
-        <LightTooltip title="喜欢" placement="bottom">
-          <Typography>{likeCounts}</Typography>
-        </LightTooltip>
-      </IconButton>
+      <UserLikeHeart
+        like={like}
+        likeCounts={likeCounts}
+        handleClick={handleLikeClick}
+      />
 
       <SharePopover>
         {handleShare => (
@@ -151,7 +124,7 @@ export default function UserFeedback({
 
       <IconButton
         size="small"
-        onClick={() => handleClick("collect")}
+        onClick={handleStarClick}
         className={classes.collectButton}
       >
         <LightTooltip title="收藏" placement="bottom">

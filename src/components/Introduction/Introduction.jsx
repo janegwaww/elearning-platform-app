@@ -147,7 +147,7 @@ export default function Introduction({ vid = "" }) {
             aria-haspopup="true"
             onClick={handleMenuOpen}
           >
-            <MoreVertIcon fontSize="medium" />
+            <MoreVertIcon fontSize="default" />
           </IconButton>
           {renderMenu}
         </div>
