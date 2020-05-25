@@ -41,7 +41,8 @@ const extraVideoInfo = (data = {}) => ({
   videoPath: data.video_path,
   assPath: data.ass_path,
   title: data.title,
-  authName: data.user_name
+  authName: data.user_name,
+  imagePath: data.image_path
 });
 
 const videoInfoFront = (result = {}) => Promise.resolve(extraVideoInfo(result));
@@ -91,4 +92,19 @@ export const likeTheVideo = pipeThen(
   boolErrData,
   getErrData,
   apisSearch.giveLike
+);
+
+// -------获取相关视频---------
+const seriesVideoData = data => Promise.resolve(data.video_data || []);
+export const getRelativeVideos = pipeThen(
+  seriesVideoData,
+  getResultDataFirst,
+  getResultData,
+  apisVideo.getRelatedVideo
+);
+
+// ----------获取推荐视频----------
+export const getRecommendVideos = pipeThen(
+  getResultData,
+  apisVideo.getRelatedVideo
 );

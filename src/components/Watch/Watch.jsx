@@ -4,11 +4,11 @@ import { navigate } from "gatsby";
 import { Grid, Divider } from "@material-ui/core";
 import urlParse from "url-parse";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
-import VideoList from "../VideoList/VideoList";
-import PersonAvatar from "./Avatar.jsx";
 
 const LazyComments = lazy(() => import("../Comments/Comments"));
 const LazyIntroduction = lazy(() => import("../Introduction/Introduction"));
+const LazyPersonAvatar = lazy(() => import("./Avatar"));
+const LazyVideoList = lazy(() => import("../VideoList/VideoList"));
 
 class Watch extends Component {
   constructor(props) {
@@ -19,16 +19,27 @@ class Watch extends Component {
   }
 
   componentDidMount() {
-    this.getVideoId();
+    this.verifyId();
   }
 
-  getVideoId = () => {
-    const videoId = urlParse(globalHistory.location.href, true).query.vid;
-    if (!videoId) {
+  componentDidUpdate(prevProp) {
+    if (this.props.vid !== prevProp.vid) {
+      this.setState({ vid: this.props.vid });
+    }
+  }
+
+  getVideoId = () => urlParse(globalHistory.location.href, true).query.vid;
+
+  verifyId = () => {
+    let { vid } = this.props;
+    if (!vid) {
+      vid = this.getVideoId();
+    }
+    if (!vid) {
       /* 视频ID不存在就返回主页; */
       return navigate("/");
     }
-    this.setState({ vid: videoId });
+    this.setState({ vid: vid });
   };
 
   render() {
@@ -48,13 +59,13 @@ class Watch extends Component {
             </Suspense>
           </Grid>
           <Grid item xs={3}>
-            <PersonAvatar />
-            <Divider />
-            <VideoList />
-            <br />
-            <br />
-            <Divider />
-            <VideoList />
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyPersonAvatar />
+              <br />
+              <Divider />
+              <LazyVideoList vid={vid} type="series" />
+              <LazyVideoList vid={vid} type="recommend" />
+            </Suspense>
           </Grid>
         </Grid>
       </Fragment>

@@ -12,7 +12,6 @@ import {
   Typography,
   Divider,
   IconButton,
-  Chip,
   Paper,
   Collapse,
   Menu,
@@ -21,6 +20,7 @@ import {
 import FileViewButton from "./FileViewButton";
 import { getVideoIntro } from "../../services/video";
 import UserFeedback from "./UserFeedback";
+import ChipArray from "./ChipArray";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,20 +30,6 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between"
-  },
-  chips: {
-    display: "flex",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
-    listStyle: "none",
-    padding: theme.spacing(0.5),
-    margin: 0,
-    boxShadow: "none"
-  },
-  chip: {
-    margin: theme.spacing(0.5),
-    backgroundColor: "rgba(242,242,245,1)",
-    color: "rgba(135,135,145,1)"
   },
   headerItem: {
     display: "flex"
@@ -84,16 +70,6 @@ export default function Introduction({ vid = "" }) {
   useEffect(() => {
     fetchIntroduction();
   }, [vid]);
-
-  const ChipArray = ({ chips = [] }) => (
-    <Paper component="ul" className={classes.chips}>
-      {chips.map(o => (
-        <li key={o}>
-          <Chip label={o} size="small" className={classes.chip} />
-        </li>
-      ))}
-    </Paper>
-  );
 
   const ExpandIcon = () =>
     checked ? (

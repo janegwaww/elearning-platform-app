@@ -3,7 +3,7 @@ import axios from "axios";
 import { pipe, wrapCamelName } from "./utils";
 
 // 接口路径
-const PATH = "http://seeker.haetek.com:9191";
+const PATH = "http://api.haetek.com:9191";
 // 接口地址
 const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 
@@ -11,7 +11,7 @@ const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 const axiosInstance = (token = "") =>
   axios.create({
     baseURL: PATH,
-    timeout: 5000,
+    timeout: 10000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`

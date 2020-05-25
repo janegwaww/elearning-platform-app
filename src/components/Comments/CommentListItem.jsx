@@ -71,7 +71,7 @@ export default function CommentListItem({ listItem = {} }) {
   };
 
   const handleShows = id => {
-    if (commentCounts >= 0) {
+    if (commentCounts >= 1) {
       setShowReply(prev => !prev);
       getComments({
         video_id: listItem.video_id,
