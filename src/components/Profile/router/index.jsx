@@ -1,22 +1,36 @@
-
-
-
 import React from "react";
-import { Router } from "@reach/router";
-import ProfileIndex from "../ProfileChildens/index";
-import MsgCenter from '../ProfileChildens/MsgCenter';
+import ProfileIndex from "../ProfileChildens/ProfileIndex";
+import MsgCenter from "../ProfileChildens/MsgCenter";
+import CreateCenter from "../ProfileChildens/CreateCenter";
+import Dynamic from '../ProfileChildens/Dynamic';
+const return_run = (prveProps, nextPropa) => {
+  
+};
+const return_dom = (num) => {
+  if (!num) {
+    return <ProfileIndex />;
+  }
+  switch (num) {
+    case 1:
+      // 默认页
+      return <ProfileIndex />;
 
+    case 2:
+      // 消息中心
+      return <MsgCenter />;
+    case 3:
+      // 创作中心
+      return <CreateCenter />;
+    case 4:
+      // 动态
+      return <Dynamic />;
 
-const PageRouter = () => {
-  return (
-    <Router basepath="/users/profile">
-      
-    <ProfileIndex path="/" component={ProfileIndex} />
-    <MsgCenter path="/msgcenter" component={MsgCenter}  />
-      {/*<Login path="/login" />
-  <Default path="/" />*/}
-    </Router>
-  );
+    default:
+      return <ProfileIndex />;
+  }
+};
+const PageRouter = (props) => {
+  return return_dom(props.num);
 };
 
-export default PageRouter;
+export default React.memo(PageRouter, return_run);

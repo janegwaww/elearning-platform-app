@@ -9,6 +9,7 @@ import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
 import '../../../assets/css/container.css';
 import '../../../assets/css/tootls.css';
+
 export default class MainLayout extends React.Component {
   render() {
     const { children } = this.props;
@@ -23,7 +24,7 @@ export default class MainLayout extends React.Component {
             <header className='ma-header' >
               <NavBar />
             </header>
-            <main className='ma-main profide-main' style={{height:'1px'}}>
+            <main className='ma-main profile-main' style={{height:'1px'}}>
          
               {children}
               

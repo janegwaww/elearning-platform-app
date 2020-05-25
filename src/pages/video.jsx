@@ -127,7 +127,7 @@ export default class VideoPage extends Component {
   }
   parent_styles(res) {
     //获取样式 writing-mode: vertical-rl; writing-mode: tb-lr;
-console.log(res)
+
     this.setState({ style: res });
     let _styles = this.state.styles || {};
     let align,

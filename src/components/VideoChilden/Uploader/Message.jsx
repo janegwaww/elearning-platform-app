@@ -8,7 +8,7 @@ import {
   DialogActions,Snackbar
 } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+
 import { navigate } from "@reach/router";
 
 function Alert(props) {
