@@ -14,7 +14,8 @@ class Watch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vid: ""
+      vid: "",
+      avatar: {}
     };
   }
 
@@ -42,14 +43,18 @@ class Watch extends Component {
     this.setState({ vid: vid });
   };
 
+  handleVideoInfo = data => {
+    this.setState({ avatar: data });
+  };
+
   render() {
-    const { vid } = this.state;
+    const { vid, avatar } = this.state;
 
     return (
       <Fragment>
         <Grid container spacing={2}>
           <Grid item xs={9}>
-            <VideoPlayer vid={vid} />
+            <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
             <Suspense fallback={<div>Loading...</div>}>
               <LazyIntroduction vid={vid} />
             </Suspense>
@@ -60,7 +65,7 @@ class Watch extends Component {
           </Grid>
           <Grid item xs={3}>
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyPersonAvatar />
+              <LazyPersonAvatar auth={avatar} />
               <br />
               <Divider />
               <LazyVideoList vid={vid} type="series" />

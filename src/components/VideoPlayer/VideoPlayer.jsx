@@ -20,9 +20,10 @@ class VideoPlayer extends Component {
   }
 
   fetchVideo = vid =>
-    videoPath({ video_id: vid }).then(data =>
-      this.setState({ videoInfo: data })
-    );
+    videoPath({ video_id: vid }).then(data => {
+      this.setState({ videoInfo: data });
+      this.props.handleVideoInfo(data.data);
+    });
 
   preventDefault = event => event.preventDefault();
 

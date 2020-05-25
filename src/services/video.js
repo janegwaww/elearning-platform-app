@@ -42,7 +42,8 @@ const extraVideoInfo = (data = {}) => ({
   assPath: data.ass_path,
   title: data.title,
   authName: data.user_name,
-  imagePath: data.image_path
+  imagePath: data.image_path,
+  data
 });
 
 const videoInfoFront = (result = {}) => Promise.resolve(extraVideoInfo(result));
@@ -107,4 +108,11 @@ export const getRelativeVideos = pipeThen(
 export const getRecommendVideos = pipeThen(
   getResultData,
   apisVideo.getRelatedVideo
+);
+
+// ------订阅作者---------
+export const subscribeAuth = pipeThen(
+  boolErrData,
+  getErrData,
+  apisSearch.addSubscription
 );

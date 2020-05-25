@@ -154,9 +154,16 @@ export const searchPartApis = (token = "") => {
     ["post_comment", "get_comment"],
     ["add_collection"],
     ["give_like"],
-    ["view_file"]
+    ["view_file"],
+    ["add_subscription"]
   ];
-  const getParam = ["comment", "collection", "like", "document"].reduce(
+  const getParam = [
+    "comment",
+    "collection",
+    "like",
+    "document",
+    "subscription"
+  ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
     {}
