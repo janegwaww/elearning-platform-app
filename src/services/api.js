@@ -137,8 +137,10 @@ export const videoApis = (token = "") => {
     "local_search",
     // 查看课件
     "get_related_video",
+    // 热门视频
+    "hot_video",
     // 热门作者
-    "hot_video"
+    "hot_author"
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
@@ -155,7 +157,7 @@ export const searchPartApis = (token = "") => {
     ["add_collection"],
     ["give_like"],
     ["view_file"],
-    ["add_subscription"]
+    ["add_subscription", "latest_subscription"]
   ];
   const getParam = [
     "comment",

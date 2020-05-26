@@ -4,6 +4,8 @@ import Container from "@material-ui/core/Container";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import Home from "../components/Home/Home";
+import Banner from "../components/Home/Banner";
+import HotAuth from "../components/Home/HotAuth";
 
 export default class HomePage extends Component {
   render() {
@@ -11,11 +13,11 @@ export default class HomePage extends Component {
       <Layout>
         <div className="home-container" style={{ width: "100%" }}>
           <Helmet title={`Home | ${config.siteTitle}`} />
-          <div style={{ backgroundColor: "#ddd", height: 480 }}>bar</div>
+          <Banner />
           <Container fixed>
-            <Home />
+            <Home {...this.props} />
           </Container>
-          <div style={{ backgroundColor: "#ddd", height: 500 }}>bar</div>
+          <HotAuth />
         </div>
       </Layout>
     );
