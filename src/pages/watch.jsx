@@ -9,7 +9,7 @@ import config from "../../data/SiteConfig";
 class WatchPage extends Component {
   render() {
     const { location } = this.props;
-    const { state } = location;
+    const { state = {} } = location;
 
     return (
       <Layout>

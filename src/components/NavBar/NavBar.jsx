@@ -205,11 +205,11 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Container fixed>
           <Toolbar id="back-to-top-anchor">
-            <IconButton>
+            <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
             <div>
-              <Button color="inherit">
+              <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
               <Button color="inherit">
@@ -265,6 +265,7 @@ export default function PrimarySearchAppBar() {
                 color="secondary"
                 variant="contained"
                 className={classes.createButton}
+                onClick={() => navigate("/video/")}
               >
                 <Typography>投稿</Typography>
               </Button>

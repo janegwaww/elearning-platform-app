@@ -171,7 +171,7 @@ export const searchPartApis = (token = "") => {
   const getApis = pipe(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod(token), getParam)
-  )(modelActionsArr.flat());
+  )([].concat.apply([], modelActionsArr));
 
   return getApis;
 };
