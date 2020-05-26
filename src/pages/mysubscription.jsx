@@ -5,12 +5,12 @@ import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import Home from "../components/Home/Home";
 
-export default class HomePage extends Component {
+export default class MySubscriptionPage extends Component {
   render() {
     return (
       <Layout>
-        <div className="home-container" style={{ width: "100%" }}>
-          <Helmet title={`Home | ${config.siteTitle}`} />
+        <div className="subscription-container" style={{ width: "100%" }}>
+          <Helmet title={`Subscription | ${config.siteTitle}`} />
           <div style={{ backgroundColor: "#ddd", height: 480 }}>bar</div>
           <Container fixed>
             <Home />

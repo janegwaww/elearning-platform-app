@@ -212,13 +212,19 @@ export default function PrimarySearchAppBar() {
               <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
-              <Button color="inherit">
+              <Button color="inherit" onClick={() => navigate("/channel/")}>
                 <Typography>频道</Typography>
               </Button>
-              <Button color="inherit">
+              <Button
+                color="inherit"
+                onClick={() => navigate("/mysubscription/")}
+              >
                 <Typography>我的订阅</Typography>
               </Button>
-              <Button color="inherit">
+              <Button
+                color="inherit"
+                onClick={() => navigate("/excellentcreator/")}
+              >
                 <Typography>优秀创作者</Typography>
               </Button>
               <Button color="inherit">
