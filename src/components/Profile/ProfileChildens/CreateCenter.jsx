@@ -1,5 +1,4 @@
 import React from "react";
-
 import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import {WorksItem }from "./components/WorksItem";
@@ -9,9 +8,9 @@ import Management from './components/management';
 const CreateCenter = (props) => {
   const classes = userStyles();
   return (
-    <div>
+    <div className='view-scroll all-height'>
       创作中心 作品管理
-      <section className="bg-white profile-padding profile-top">
+      <section className="bg-white profile-padding ">
         <main>
           <div>
             <ProNavbar list={["系列"]} parent={props} />
@@ -39,7 +38,6 @@ const CreateCenter = (props) => {
               <Navbar lists = {['全部(5)','进行中(3)','已完成(2)']} parent={this} />
           </div>
           <Management />
-      
       </section>
     </div>
   );

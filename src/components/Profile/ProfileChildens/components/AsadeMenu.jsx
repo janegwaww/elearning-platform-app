@@ -1,12 +1,32 @@
-import React from 'react';
-import {Container,MenuList,MenuItem} from '@material-ui/core';
-const AsadeMenu=(props)=>{
-        
-    return(
-        <MenuList open={props.open} id={props.id}  >
-        {props.menus.map((v)=>(<MenuItem key={v} selected={v==props.menus[0]}>{v}</MenuItem>))}
-        
-        </MenuList>
-    )
-}
+import React from "react";
+import { MenuList, MenuItem } from "@material-ui/core";
+const AsadeMenu = (props) => {
+  return (
+    <div style={{height:props.open?'auto':'0px',transition:'all 0.5s'}} className='view-overflow'>
+      <MenuList>
+        {props.menus.map((v, inx) => (
+          <MenuItem
+            key={v}
+            selected={v == props.menus[0]}
+            data-inx={inx}
+            onClick={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              let _data = JSON.parse(
+                JSON.stringify(props.parent.state.nowPage)
+              );
+              _data.childPage = props.menus[inx];
+              _data.childPage_id = inx;
+              props.parent.setState({
+                nowPage: _data,
+              });
+            }}
+          >
+            {v}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </div>
+  );
+};
 export default AsadeMenu;

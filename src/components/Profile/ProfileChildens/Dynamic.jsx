@@ -3,15 +3,13 @@ import { ProNavbar } from "./components/ProfileNav";
 import { Avatar, Grid } from "@material-ui/core";
 import {WorksItem }from "./components/WorksItem";
 import userStyles from './components/profileStyle';
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+
 import Pagination from '@material-ui/lab/Pagination';
-const useStyles = makeStyles((theme) => ({
- 
-}));
+
 const Dynamic = (props) => {
     const classes = userStyles();
   return (
-    <section className="profile-top bg-white profile-padding">
+    <section className="bg-white profile-padding all-height view-scroll">
       <div>历史记录</div>
       <nav className="profile-bottom">
         <ProNavbar list={["我的订阅", "我的收藏", "历史记录"]} parent={props} />

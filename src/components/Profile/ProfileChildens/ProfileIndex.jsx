@@ -1,6 +1,7 @@
 import React from "react";
 import BannerOne from "../../../assets/img/profile.png";
 import { Avatar, Grid } from "@material-ui/core";
+import {Settings} from '@material-ui/icons';
 import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import {WorksItem }from "./components/WorksItem";
@@ -10,13 +11,26 @@ const ProfileIndex = (props) => {
   const classes = userStyles();
   
   return (
-    <section>
-      <main>
+    <section className=' view-scroll all-height'>
+      <main className='all-width'>
         <img
           src={BannerOne}
           className="all-width"
           style={{ height: "300px" }}
         />
+        <span className='bg-white' style={{position:'absolute',right:0,top:0}} onClick={()=>{
+          event.stopPropagation();
+        event.preventDefault();
+            props.parent.setState({
+              nowPage:{
+                childPage:'', 
+                chilepage_id:0,
+                parent:'SetingsCenter',
+                parent_id:5
+              }
+            })
+          console.log(props)
+        }}><Settings /></span>
       </main>
       <main
         style={{ height: "158px", paddingTop: "20px" }}

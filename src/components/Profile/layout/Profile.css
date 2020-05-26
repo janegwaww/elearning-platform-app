@@ -1,83 +1,91 @@
-.profile-main{
-    margin-bottom: 40px;   
+.profile-main {
+  margin: 40px 0;
 }
 .profile-left {
   width: 210px;
   margin-right: 40px;
 }
-.ul{
-    list-style: none;
+.profile-left::-webkit-scrollbar,.view-scroll::-webkit-scrollbar{
+  width:8px;
+  background-color: #EDF6FF;
 }
-.ul li:hover{
+.profile-left::-webkit-scrollbar-thumb,.view-scroll::-webkit-scrollbar-thumb{
+  border-radius:6px;
+  background:#bdbdbd;
+}
+.ul {
+  list-style: none;
+}
+.ul li:hover {
   cursor: pointer;
 }
-.profile-margin{
+.profile-margin {
   margin: 40px 0;
 }
-.profile-padding{
-  padding:40px
+.profile-padding {
+  padding: 40px;
 }
-.profile-margin .box-flex,.box-fle.zero-edges{
-  margin:0 10px;
+.profile-margin .box-flex,
+.box-fle.zero-edges {
+  margin: 0 10px;
   border-radius: 12px;
   padding: 10px;
 }
-.profile-margin .box-flex:last-child{
+.profile-margin .box-flex:last-child {
   margin-right: 0;
 }
-.profile-margin .box-flex:first-child{
+.profile-margin .box-flex:first-child {
   margin-left: 0;
 }
-.profile-margin .box-flex p:nth-child(2){
+.profile-margin .box-flex p:nth-child(2) {
   margin: 10px 0;
 }
-.pronavbar-btn{
- border-radius: 12px; 
- padding: 5px 10px;
- line-height: 16px;
+.pronavbar-btn {
+  border-radius: 12px;
+  padding: 5px 10px;
+  line-height: 16px;
 }
 
-.all-width .view-overflow{
-  border-radius:12px ;
+.all-width .view-overflow {
+  border-radius: 12px;
 }
-.box-flex.zero-edges{
-  width:25%;
+.box-flex.zero-edges {
+  width: 25%;
   margin: 0;
   padding: 0 10px;
 }
-.box-flex.zero-edges:first-child{
-  margin-left:-10px ;
+.box-flex.zero-edges:first-child {
+  margin-left: -10px;
 }
-.box-flex.zero-edges:last-child{
+.box-flex.zero-edges:last-child {
   margin-right: -10px;
 }
-.profile-point span{
+.profile-point span {
   display: inline-block;
   margin-right: 40px;
-
 }
 
-.profile-point span:first-child svg{
+.profile-point span:first-child svg {
   transform: rotate(-90deg);
 }
-.profile-point svg{
+.profile-point svg {
   vertical-align: middle;
 }
-.profile-time{
-  position:absolute;
-        background:rgba(32,32,32,.4);
-        right:10px;
-        bottom:0;
-        
-        border-radius:4px;
+.profile-time {
+  position: absolute;
+  background: rgba(32, 32, 32, 0.4);
+  right: 10px;
+  bottom: 0;
+
+  border-radius: 4px;
 }
 
-.profile-top{
-  margin-top:30px ;
+.profile-top {
+  margin-top: 30px;
 }
-.profile-bottom{
-  margin-bottom:30px ;
+.profile-bottom {
+  margin-bottom: 30px;
 }
-.profile-right{
+.profile-right {
   margin-right: 40px;
 }
