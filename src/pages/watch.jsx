@@ -8,12 +8,15 @@ import config from "../../data/SiteConfig";
 
 class WatchPage extends Component {
   render() {
+    const { location } = this.props;
+    const { state } = location;
+
     return (
       <Layout>
         <CssBaseline />
         <Helmet title={`Watch | ${config.siteTitle}`} />
         <Container fixed>
-          <Watch />
+          <Watch vid={state.vid} />
         </Container>
       </Layout>
     );

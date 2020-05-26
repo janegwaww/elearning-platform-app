@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -38,7 +39,7 @@ const ContractUs = () => {
     <div className="contract-us">
       <ul>
         {menu.map(o => (
-          <li>
+          <li key={o}>
             <Link>{o}</Link>
           </li>
         ))}
@@ -55,6 +56,7 @@ class Footer extends Component {
 
     return (
       <footer className="footer">
+        <CssBaseline />
         <div className="footer-above">
           <Container fixed>
             <Grid container>

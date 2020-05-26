@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     "&.Mui-disabled": {
       backgroundColor: "#ddd"
+    },
+    "&:hover": {
+      backgroundColor: "#007cff"
     }
   }
 }));
