@@ -13,20 +13,19 @@ class VideoPlayer extends Component {
     };
   }
 
-  componentDidMount() {}
-
   componentDidUpdate(prevProps) {
     if (this.props.vid !== prevProps.vid) {
       this.fetchVideo(this.props.vid);
     }
   }
 
-  fetchVideo = vid => {
-    videoPath(vid).then(data => {
-      console.log(data);
+  fetchVideo = vid =>
+    videoPath({ video_id: vid }).then(data => {
       this.setState({ videoInfo: data });
+      this.props.handleVideoInfo(data.data);
     });
-  };
+
+  preventDefault = event => event.preventDefault();
 
   render() {
     const { videoInfo } = this.state;
@@ -38,10 +37,13 @@ class VideoPlayer extends Component {
             {videoInfo && videoInfo.title}
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
-            来自频道<Link color="secondary">{videoInfo.authName}</Link>
+            来自频道
+            <Link href="#" color="secondary" onClick={this.preventDefault}>
+              {`@${videoInfo.authName}`}
+            </Link>
           </Typography>
         </div>
-        <VideoSearchWrap>
+        <VideoSearchWrap vid={this.props.vid}>
           {timer => <VideoWindow info={videoInfo} timer={timer} />}
         </VideoSearchWrap>
       </Fragment>

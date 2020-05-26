@@ -48,7 +48,7 @@ const KeInput = withStyles({
   }
 })(InputBase);
 
-const VideoSearchWrap = ({ children }) => {
+const VideoSearchWrap = ({ children, vid }) => {
   const classes = useStyles();
   const [input, setInput] = useState("");
   const [gridList, setGridList] = useState([]);
@@ -65,10 +65,8 @@ const VideoSearchWrap = ({ children }) => {
 
   const handleInputClick = e => {
     e.preventDefault();
-    const id = "d2d78c2831cd27b8054005c3c7fc6355";
-    subtitles({ query_string: input, video_id: id }).then(data => {
-      /* setGridList(data); */
-      console.log(data);
+    subtitles({ query_string: input, video_id: [vid] }).then(data => {
+      setGridList(data);
     });
   };
 

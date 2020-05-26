@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -55,6 +56,7 @@ class Footer extends Component {
 
     return (
       <footer className="footer">
+        <CssBaseline />
         <div className="footer-above">
           <Container fixed>
             <Grid container>

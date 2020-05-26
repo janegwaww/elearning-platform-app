@@ -15,19 +15,6 @@ export const getUser = () =>
 const setUser = user =>
   window.localStorage.setItem("haetekUser", JSON.stringify(user));
 
-// 获取返回结果
-const getResultData = ({ data }) => Promise.resolve(data.result_data);
-
-// 获取数组
-const getArrayData = (arr = []) => Promise.resolve(arr[0] || {});
-
-// 获取数据,headers
-const getLoginData = ({ data, headers }) =>
-  Promise.resolve({
-    resultData: data.result_data[0] || {},
-    authorization: headers.authorization
-  });
-
 // 是否登录
 export const isLoggedIn = () => {
   const user = getUser();
@@ -41,10 +28,61 @@ export const logout = callback => {
   callback();
 };
 
-// 获取验证码
+// ------------------------------------------------
+// 以下使用的设计模式是函数组合
+// 用pipe函数来组合方法处理数组
+// 例如:
+//     const pipe = (...fns) => x => fns.reduce((v,f) => f(v),x);
+//     const add1 = n => n+1;
+//     const double = n => n*2;
+//     const add1ThenDouble = pipe(add1, double);
+//     add1ThenDouble(2); //6
+// ((2+1=3)*2=6)
+
+// 获取后端接口返回的结果字段方法
+// {
+//     "count": "len(result_data)",
+//     "err": "0",
+//     "err_msg": "200",
+//     "result_data": [{}]  // 返回这一个字段
+// }
+const getResultData = ({ data }) => Promise.resolve(data.result_data);
+
+// 获取后端接口返回的结果字段中的第一个数组
+// {
+//     "count": "len(result_data)",
+//     "err": "0",
+//     "err_msg": "200",
+//     "result_data": [
+//           {}   // 返回第一组
+//     ]
+// }
+const getArrayData = ([arr]) => Promise.resolve(arr || {});
+
+// 获取数据,headers
+// 因为登录有headers,因此需要同时处理返回的数据和headers
+const getLoginData = ({ data, headers }) =>
+  Promise.resolve({
+    resultData: data.result_data[0] || {},
+    authorization: headers.authorization
+  });
+
+// 存入用户数据和headers
+// 这一步是从上一步获取的用户数据流存入游览器
+const setLoginUser = ({ resultData, authorization }) => {
+  setUser({
+    name: `${resultData.name}`,
+    headshot: `${resultData.headshot}`,
+    token: `${authorization}`
+  });
+  return Promise.resolve(!!authorization);
+};
+
+// ----------------------------
+// 获取验证码专门方法
 const sendSMSCode = ({ code }) => Promise.resolve(!!code);
 
-// 发送验证码
+// 导出用于发送验证码的方法
 export const generateSMSCode = pipeThen(
   sendSMSCode,
   getArrayData,
@@ -52,22 +90,15 @@ export const generateSMSCode = pipeThen(
   apis.generateCode
 );
 
-// 存入用户
-const setLoginUser = ({ resultData, authorization }) => {
-  setUser({
-    name: `${resultData.name}`,
-    token: `${authorization}`
-  });
-  return Promise.resolve(!!authorization);
-};
-
+// -------------------------
 // 手机号验证码登录
 export const handleLogin = pipeThen(setLoginUser, getLoginData, apis.codeLogin);
 
-// 获取返回给前端的数据
+// -----------------------
+// 获取返回给前端的二维码专门处理方法
 const getQrcode = ({ qrcode }) => Promise.resolve(qrcode);
 
-// 获取二维码
+// 导出获取二维码的方法
 export const generateQRCode = pipeThen(
   getQrcode,
   getArrayData,
@@ -75,6 +106,7 @@ export const generateQRCode = pipeThen(
   apis.generateQRCode
 );
 
+// ------------------------
 // 二维码验证登录
 export const enquiryQRCode = pipeThen(
   setLoginUser,
@@ -82,6 +114,8 @@ export const enquiryQRCode = pipeThen(
   apis.enquiryQrCode
 );
 
+// ---------------------
+// 获取后台返回数据中的url的方法
 const getUrl = ({ url }) => Promise.resolve(url);
 
 // 获取第三方跳转地址
@@ -92,11 +126,17 @@ export const generateThirdPartyUrl = pipeThen(
   apis.generateThirdQrcode
 );
 
+// -------------------------
 // 设置三方登录数据并返回对应值
+// 三方登录这里处理了三种情况：
+//        第一次登录则获取用于绑定手机的access token
+//        不是第一次登录就直接登录
+//        登录失败
 const setThirdLogin = ({ resultData, authorization }) => {
   if (authorization) {
     setUser({
       name: resultData.name,
+      headshot: resultData.headshot,
       token: authorization
     });
     return Promise.resolve(true);
@@ -114,6 +154,7 @@ export const handleThirdLogin = pipeThen(
   apis.thirdLogin
 );
 
+// --------------------
 // 绑定手机并登录
 export const bindingMobile = pipeThen(
   setLoginUser,
@@ -121,8 +162,12 @@ export const bindingMobile = pipeThen(
   apis.thirdBindMobile
 );
 
+// --------------------
+// 获取错误代码
+// 因为验证手机号是否登录是用错误码来判的
 const getErrData = ({ data }) => Promise.resolve(data.err);
 
+// 验证手机号
 const verifyMobile = err => {
   if (err === 0) {
     Promise.resolve(true);
@@ -131,7 +176,7 @@ const verifyMobile = err => {
   }
 };
 
-// 手机号是否已经存在
+// 导出手机号是否已经存在方法
 export const userAlreadyExist = pipeThen(
   verifyMobile,
   getErrData,

@@ -9,7 +9,7 @@ import KEFormModal from "../components/KEFormKit/KEFormModal";
 export default class HomePage extends Component {
   handleClick = () => {
     let vid = "d2d78c2831cd27b8054005c3c7fc6355";
-    navigate(`/watch?vid=${vid}`);
+    navigate(`/watch?vid=${vid}`, { state: { vid } });
   };
   render() {
     return (

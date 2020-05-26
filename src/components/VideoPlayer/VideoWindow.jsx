@@ -5,7 +5,9 @@ import ReactPlayer from "react-player";
 class VideoWindow extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      height: "400px"
+    };
     this.playerRef = React.createRef(null);
   }
 
@@ -16,22 +18,29 @@ class VideoWindow extends Component {
     }
   }
 
+  imagePath = path => `http://api.haetek.com:9191/${path}`;
+
   render() {
     const { info } = this.props;
+    const { height } = this.state;
+
     return (
       <ReactPlayer
         ref={this.playerRef}
         url={info.videoPath}
+        light={this.imagePath(info.imagePath)}
         width="100%"
-        height="100%"
+        height={height}
         controls
+        playbackRate={1}
+        onStart={() => this.setState({ height: "100%" })}
         config={{
           file: {
             tracks: [
               {
                 kind: "subtitles",
                 src: info.assPath,
-                srcLand: "cn",
+                srcland: "cn",
                 default: true
               }
             ]

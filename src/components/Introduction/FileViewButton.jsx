@@ -1,0 +1,104 @@
+import React from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import CloseIcon from "@material-ui/icons/Close";
+import HelpIcon from "@material-ui/icons/Help";
+
+const useStyles = makeStyles(theme => ({
+  viewButton: {
+    display: "flex",
+    alignItems: "center"
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500]
+  },
+  helpIcon: {
+    color: "#fc5659",
+    fontSize: 18,
+    margin: 4
+  }
+}));
+
+const ViewButton = withStyles({
+  root: {
+    backgroundColor: "#fc5659",
+    borderRadius: "27px",
+    boxShadow: "none",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#fc5659"
+    }
+  }
+})(Button);
+
+export default function FileViewButton({ vid = "" }) {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <div className={classes.viewButton}>
+        <ViewButton
+          variant="contained"
+          onClick={handleClickOpen}
+          color="secondary"
+        >
+          <Typography variant="body2">课件下载（付费）</Typography>
+        </ViewButton>
+        <Tooltip title="付费下载内容">
+          <HelpIcon className={classes.helpIcon} />
+        </Tooltip>
+      </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            onClick={handleClose}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            取消
+          </Button>
+          <Button onClick={handleClose} color="secondary" autoFocus>
+            立即购买
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}

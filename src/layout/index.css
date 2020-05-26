@@ -16,13 +16,12 @@ body {
 
 #___gatsby #gatsby-focus-wrapper {
   min-height: 100vh;
-  min-width: 100vw;
+  /* min-width: 100vw; */
 }
 
 .layout-container {
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 90vh;
+  /* min-width: 100vw; */
   display: flex;
- 
-}
 
+}

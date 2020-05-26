@@ -33,7 +33,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
   }, [tileList]);
 
   const PressMatchedLine = ({ line }) => {
-    const wrapStr = ({ wholeStr, matchedStr }) =>
+    const wrapStr = ({ wholeStr = "", matchedStr = "" }) =>
       wholeStr.replace(
         matchedStr,
         `<span style='color:#fc5659'>${matchedStr}</span>`
