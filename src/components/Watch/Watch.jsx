@@ -1,14 +1,14 @@
-import React, { Component, Fragment, lazy, Suspense } from "react";
+import React, { Component, Fragment } from "react";
 import { globalHistory } from "@reach/router";
 import { navigate } from "gatsby";
 import { Grid, Divider } from "@material-ui/core";
 import urlParse from "url-parse";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
-const LazyComments = lazy(() => import("../Comments/Comments"));
-const LazyIntroduction = lazy(() => import("../Introduction/Introduction"));
-const LazyPersonAvatar = lazy(() => import("./Avatar"));
-const LazyVideoList = lazy(() => import("../VideoList/VideoList"));
+import LazyComments from "../Comments/Comments";
+import LazyIntroduction from "../Introduction/Introduction";
+import LazyPersonAvatar from "./Avatar";
+import LazyVideoList from "../VideoList/VideoList";
 
 class Watch extends Component {
   constructor(props) {
@@ -52,25 +52,19 @@ class Watch extends Component {
 
     return (
       <Fragment>
-        <Grid container spacing={2}>
+        <Grid container style={{ marginTop: 18 }}>
           <Grid item xs={9}>
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyIntroduction vid={vid} />
-            </Suspense>
+            <LazyIntroduction vid={vid} />
             <Divider />
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyComments vid={vid} />
-            </Suspense>
+            <LazyComments vid={vid} />
           </Grid>
           <Grid item xs={3}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <LazyPersonAvatar auth={avatar} />
-              <br />
-              <Divider />
-              <LazyVideoList vid={vid} type="series" />
-              <LazyVideoList vid={vid} type="recommend" />
-            </Suspense>
+            <LazyPersonAvatar auth={avatar} />
+            <br />
+            <Divider />
+            <LazyVideoList vid={vid} type="series" />
+            <LazyVideoList vid={vid} type="recommend" />
           </Grid>
         </Grid>
       </Fragment>
