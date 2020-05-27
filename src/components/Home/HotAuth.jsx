@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
+import HomeTab from "./HomeTab";
 import { getHotAuths } from "../../services/home";
+import CreatorBar from "./CreatorBar";
 
 export default function HotAuth() {
   const [auths, setAuths] = useState([]);
@@ -16,16 +18,21 @@ export default function HotAuth() {
 
   return (
     <Fragment>
-      <div style={{ backgroundColor: "#F2F2F5", height: 500 }}>
-        {auths.map((o, i) => (
-          <div
-            key={i}
-            style={{ width: 100, height: 100, backgroundColor: "#fff" }}
-          >
-            {o.user_name}
-          </div>
-        ))}
-      </div>
+      <br />
+      <HomeTab
+        tabs={[
+          {
+            label: "优秀创作者",
+            tabContent: () => (
+              <Fragment>
+                {auths.map((o, i) => (
+                  <CreatorBar info={o} key={i} />
+                ))}
+              </Fragment>
+            )
+          }
+        ]}
+      />
     </Fragment>
   );
 }
