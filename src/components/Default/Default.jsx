@@ -1,7 +1,8 @@
 import React from "react";
+import { Redirect } from "@reach/router";
 
 const Default = () => {
-  return <div>Default</div>;
+  return <Redirect to="/users/login" noThrow />;
 };
 
 export default Default;

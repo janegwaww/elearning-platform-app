@@ -10,15 +10,17 @@ import "./Comments.sass";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#fff",
     padding: theme.spacing(2)
   },
   pagination: {
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#fff"
   },
   list: {
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    backgroundColor: "#fff"
   }
 }));
 
