@@ -243,6 +243,7 @@ export default function PrimarySearchAppBar() {
               <Button
                 className={classes.searchButton}
                 startIcon={<SearchIcon />}
+                onClick={() => navigate("/search/")}
               >
                 搜索
               </Button>
