@@ -29,6 +29,7 @@ export default class CreatorHome extends Component {
                           count={10}
                           variant="outlined"
                           shape="rounded"
+                          style={{ backgroundColor: "#fff" }}
                         />
                       </div>
                     )
