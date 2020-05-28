@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { navigate } from "gatsby";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -8,10 +9,23 @@ import Avatar from "@material-ui/core/Avatar";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
+  const [list, setList] = useState([]);
+
+  const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
+
+  const handleClick = id => {
+    if (id) {
+      navigate(`/watch?vid=${id}`, { state: { vid: id } });
+    }
+  };
+
+  useEffect(() => {
+    setList(cutItemsToCount(items, itemCount));
+  }, []);
 
   return (
     <Grid container wrap="wrap" spacing={2}>
-      {(loading ? Array.from(new Array(itemCount)) : items).map(
+      {(loading ? Array.from(new Array(itemCount)) : list).map(
         (item, index) => (
           <Grid item xs={3}>
             <Box
@@ -20,8 +34,11 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               style={{
                 border: "1px solid rgba(242,242,245,1)",
                 borderRadius: "12px",
-                overflow: "hidden"
+                overflow: "hidden",
+                backgroundColor: "#fff",
+                cursor: "pointer"
               }}
+              onClick={() => handleClick(item.video_id)}
             >
               {item ? (
                 <img
@@ -39,11 +56,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     {item.title}
                   </Typography>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      alt={item.user_name}
-                      src={item.head_shot}
-                      style={{ width: 28, height: 28, margin: 8 }}
-                    />
+                    {item.head_shot && (
+                      <Avatar
+                        alt={item.user_name}
+                        src={item.head_shot}
+                        style={{ width: 28, height: 28, margin: 8 }}
+                      />
+                    )}
                     <Typography
                       display="block"
                       variant="caption"
@@ -59,7 +78,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                       {`来自频道@${item.category && item.category.toString()}`}
                     </Typography>
                     <Typography variant="caption" color="textSecondary">
-                      {new Date(item.time).toISOString().slice(0, 10)}
+                      {item.time &&
+                        new Date(item.time).toISOString().slice(0, 10)}
                     </Typography>
                   </div>
                 </Box>

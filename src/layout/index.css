@@ -19,6 +19,7 @@ body {
 }
 
 .layout-container {
-  min-height: 90vh;
-  display: flex;
+    min-width: 100%;
+    min-height: 90vh;
+    display: flex;
 }

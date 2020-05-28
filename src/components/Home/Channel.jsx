@@ -6,7 +6,8 @@ import GridCards from "./GridCards";
 
 const useStyles = makeStyles(theme => ({
   pagination: {
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#fff"
   }
 }));
 

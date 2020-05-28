@@ -5,11 +5,14 @@ import CreatorBar from "./CreatorBar";
 
 export default function HotAuth() {
   const [auths, setAuths] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchAuths = () => {
-    getHotAuths({ max_size: 2, page: 1, video_size: 4 }).then(data =>
-      setAuths(data)
-    );
+    setLoading(true);
+    getHotAuths({ max_size: 2, page: 1, video_size: 4 }).then(data => {
+      setAuths(data);
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export default function HotAuth() {
             tabContent: () => (
               <Fragment>
                 {auths.map((o, i) => (
-                  <CreatorBar info={o} key={i} />
+                  <CreatorBar info={o} key={i} loading={loading} />
                 ))}
               </Fragment>
             )
