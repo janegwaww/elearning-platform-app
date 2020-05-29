@@ -205,20 +205,26 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Container fixed>
           <Toolbar id="back-to-top-anchor">
-            <IconButton>
+            <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
             <div>
-              <Button color="inherit">
+              <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
-              <Button color="inherit">
+              <Button color="inherit" onClick={() => navigate("/channel/")}>
                 <Typography>频道</Typography>
               </Button>
-              <Button color="inherit">
+              <Button
+                color="inherit"
+                onClick={() => navigate("/mysubscription/")}
+              >
                 <Typography>我的订阅</Typography>
               </Button>
-              <Button color="inherit">
+              <Button
+                color="inherit"
+                onClick={() => navigate("/excellentcreator/")}
+              >
                 <Typography>优秀创作者</Typography>
               </Button>
               <Button color="inherit">
@@ -237,6 +243,7 @@ export default function PrimarySearchAppBar() {
               <Button
                 className={classes.searchButton}
                 startIcon={<SearchIcon />}
+                onClick={() => navigate("/search/")}
               >
                 搜索
               </Button>
@@ -265,6 +272,7 @@ export default function PrimarySearchAppBar() {
                 color="secondary"
                 variant="contained"
                 className={classes.createButton}
+                onClick={() => navigate("/video/")}
               >
                 <Typography>投稿</Typography>
               </Button>

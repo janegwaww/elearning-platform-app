@@ -1,0 +1,427 @@
+# Some generic vars
+:common-path = http://seeker.haetek.com:9191/api/v1/gateway
+:common-header = <<
+Content-Type: application/json
+Authorization: Bearer erw35sfgagtgrfa
+
+# ①全局搜索：
+# 前端：
+# {
+# "model_name": "video",
+# "model_action": "global_search",
+# "extra_data": {
+# "query_string":"",     # 为搜索输入项，不可为空
+# "video_ids":[],    # 可以为空
+# "type":"",    # all/video/series/user  全部/视频/系列/作者
+# "max_size":10,    # 最大返回条数
+# "page":1    # 页数
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "200",
+#     "result_data": [{
+# "source":"",    # 三种类型：video,series,user
+# "data":{},
+# "match_frame":{}
+# }]
+# }
+
+# 细节描述：
+# "source":"video"
+# "data":{
+# "video_id":"",
+# "user_id":"",    # 作者ID
+# "user_name":"",    # 作者昵称
+# "headshot":"",    # 作者头像
+# "title":"",
+# "description":"",
+# "upload_time":"",
+# "video_time":"00:00:00",
+# "category":[],
+# "image_path":"",
+# "view_counts":"",    # 视频播放量
+# "like_counts":"",    # 点赞量
+# "comment_counts":"",    # 评论量
+# }
+# "match_frame":{
+#   "matched_str": "宇宙的维度是",
+#   "end_time": "14.35",
+#   "start_time": "6.59",
+#   "subs_pos": [26, 42],
+#   "whole_str": "也就是说在m理论里面，宇宙的维度是十维加一维等于11维，",
+#   "type":"subtitle"
+# }
+# 或者
+# "match_frame":{
+#   "matched_str": "宇宙的维度是",
+#   "type":"title"/"description"
+# }
+
+# "source":"series"
+# "data":{
+# "series_id":"",
+# "user_id":"",    # 作者ID
+# "user_name":"",    # 作者昵称
+# "headshot":"",    # 作者头像
+# "title":"",
+# "description":"",
+# "upload_time":"",
+# "category":[],
+# "image_path":"",
+# "view_counts":"",    # 视频播放量
+# "like_counts":"",    # 点赞量
+# "comment_counts":"",    # 评论量
+# }
+# "match_frame":{
+#   "matched_str": "宇宙的维度是",
+#   "type":"title"/"description"
+# }
+
+# "source":"user"
+# "data":{
+# "user_id":"",    # 作者ID
+# "user_name":"",    # 作者昵称
+# "headshot":"",    # 作者头像
+# "introduction":"",
+# "video_counts":"",    # 作品总量
+# "subscription_counts":"",    # 收藏量
+# }
+# "match_frame":{
+#   "matched_str": "宇宙的维度是",
+# }
+POST :common-path
+:common-header
+{
+        "model_name": "video",
+        "model_action": "global_search",
+        "extra_data": {
+                "query_string":"math",
+                "video_ids":[],
+                "type":"all",
+                "max_size":10,
+                "page":1
+        },
+        "model_type":""
+}
+
+
+# ②视频播放：
+# 前端：
+# {
+# "model_name": "video",
+# "model_action": "video_play",
+# "extra_data": {
+# "video_id":""
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "ok",
+#     "result_data": [{
+# "video_path":"",
+# "audio_path":"",
+#      "lang":"",
+#      "ass_path": "",
+#        "upload_time":"",
+# "video_id":"",
+# "user_id":"",    # 作者ID
+# "user_name":"",    # 作者昵称
+# "headshot":"",    # 作者头像
+# "title":"",
+# "description":"",
+# "upload_time":"",
+# "category":[],
+# "image_path":"",
+# "view_counts":"",    # 视频播放量
+# "like_counts":"",    # 点赞量
+# "collection_counts":"",    # 收藏量
+# "is_like":0/1,    # 0未点赞，1已点赞
+# "is_collect":0/1,    # 0未收藏，1已收藏
+# "is_subscribe":0/1    # 0未订阅，1已订阅
+# }]
+# }
+
+# 功能说明：
+# 后端需要更新视频播放量（videos表，video_view字段+1）
+POST :common-path
+:common-header
+{
+        "model_name": "video",
+        "model_action": "video_play",
+        "extra_data": {
+                      "video_id":""
+        },
+        "model_type":""
+}
+
+# ③局部搜索：
+# 前端：
+# {
+# "model_name": "video",
+# "model_action": "local_search",
+# "extra_data": {
+# "query_string":"",    # 不可为空
+#   "video_id":[]    # 不可为空
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "200",
+#     "result_data": [{
+#       "match_frame":{}
+# },
+# {
+#       "match_frame":{}
+# }]
+# }
+
+# 细节描述：
+# "match_frame":{
+#   "matched_str": "宇宙的维度是",
+#   "end_time": "14.35",
+#   "start_time": "6.59",
+#   "subs_pos": [26, 42],
+#   "whole_str": "也就是说在m理论里面，宇宙的维度是十维加一维等于11维，",
+#   "video_id": "t3nX4wB59WYJ"
+# }
+POST :common-path
+:common-header
+{
+        "model_name": "video",
+        "model_action": "local_search",
+        "extra_data": {
+              "query_string":"math",
+              "video_id":["adfsgfnj"]
+              },
+        "model_type":""
+}
+
+
+# ④发布评论：
+# 前端：
+# {
+# "model_name": "comment",
+# "model_action": "post_comment",
+# "extra_data": {
+# "video_id":"",
+# "parent_id":"",    # 主评论的ID，若自身为主评论则为空
+# "content":"",
+# "to_user_id":"",    # @用户ID
+# "to_user_name":""    # @用户昵称
+# },
+# "model_type":""
+# }
+# 后端：
+# 发布成功：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "ok",
+#     "result_data": []
+# }
+# 发布失败：
+# {
+#     "count": "len(result_data)",
+#     "err": "-1",
+#     "err_msg": "",
+#     "result_data": []
+# }
+# 功能说明：
+# 前端可以在得到后端响应之前先更新状态，默认成功
+POST :common-path
+
+
+# ⑤收藏：
+# 前端：
+# {
+# "model_name": "collect",
+# "model_action": "video_collect",
+# "extra_data": {
+# "relation_id":"",    # 关联ID
+#   "value":0/1,    # 1为收藏，0为取消
+#              "type": "video/ series"   视频收藏/ 系列收藏
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "OK",
+#     "result_data": []
+# }
+# 功能说明：
+# 前端可以在得到后端响应之前先更新状态，默认成功
+POST :common-path
+
+
+# ⑥点赞：
+# 前端：
+# {
+# "model_name": "like",
+# "model_action": "give_like",
+# "extra_data": {
+# "relation_id":"",    # 关联ID
+#   "value":0/1    # 1为收藏，0为取消
+#   "type": "video/comment/series"  # 视频/ 评论/ 课件
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "OK",
+#     "result_data": []
+# }
+# 功能说明：
+# 前端可以在得到后端响应之前先更新状态，默认成功
+POST :common-path
+
+
+# ⑦查看课件：
+# video_id ： ee73aca89fb3c23397f55f5db9f8db03
+# video_id ： 5c82d69504419c65f4aec21db403e904
+# 暂时只有这两个视频课件
+# 前端：
+# {
+# "model_name": "document",
+# "model_action": "view_file",
+# "extra_data": {
+# "video_id":""
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "OK",
+#     "result_data": [{
+# "file_name":"",    # 文档名称
+# "file_path":"",    # 文档路径
+# "image_path":"",    # 预览图路径
+# "price":""    # 价格
+# "time":""    # 上传时间
+# }]
+# }
+POST :common-path
+
+
+# ⑧获取评论：
+# 如果没有评论返回的是空列表
+# 前端：
+# {
+# "model_name": "comment",
+# "model_action": "get_comment",
+# "extra_data": {
+# "video_id":"",
+# "parent_id":"",    # 主评论的ID，若自身为主评论则为空
+# "max_size":10,    # 最大返回条数
+# "page":1    # 页数
+# },
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "ok",
+#     "result_data": [
+# {
+# "_id":"",
+# "content":"",
+# "user_id":"",
+# "user_name":"",
+# "headshot":"",
+# "time":"",
+# "is_like":0/1    # 0未点赞，1已点赞
+# "like_counts":int,
+# "comments_counts":int
+# },
+# {
+# "_id":"",
+# "content":"",
+# "user_id":"",
+# "user_name":"",
+# "headshot":"",
+# "time":"",
+# "is_like":0/1    # 0未点赞，1已点赞
+# "parent_id":"",
+# "to_user_id":"",
+# "to_user_name":""
+# "like_counts":int,
+# },
+# ...]
+# }
+POST :common-path
+:common-header
+{
+"model_name": "comment",
+"model_action": "get_comment",
+"extra_data": {
+"video_id":"",
+"parent_id":"",
+"max_size":10,
+"page":1
+},
+"model_type":""
+}
+
+
+# ⑨获取相关视频：
+# 前端：
+# {
+# "model_name": "video",
+# "model_action": "get_related_video",
+# "extra_data": {
+# "video_id":"",
+# "related_type":"",    # "series"为系列课程，"recommend"为推荐课程
+# "max_size":10,    # 最大返回条数
+# "page":1    # 页数
+# },
+# "model_type":""
+# }
+# 后端：
+# "series"
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "ok",
+#     "result_data": [{
+# "series_id":"",
+# "series_title":"",
+# "video_counts":int,
+# "video_data":[{
+# "video_id":"",
+# "video_title":"",
+# "video_time":"00:00:00",
+# "image_path":"",
+# "view_counts":""
+# }]
+# }]
+# }
+# "recommend"
+# {
+#     "count": "len(result_data)",
+#     "err": "0",
+#     "err_msg": "ok",
+#     "result_data": [{
+# "video_id":"",
+# "video_title":"",
+# "video_time":"00:00:00",
+# "image_path":"",
+# "view_counts":""
+# }]
+# }
+POST :common-header

@@ -189,6 +189,7 @@ module.exports = {
     },
     {
       resolve: "gatsby-plugin-create-client-paths",
+<<<<<<< HEAD
       options: { prefixes: [`/users/*`] }
     },
     {
@@ -198,6 +199,9 @@ module.exports = {
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: { prefixes: [`/users/profile/*`] }
+=======
+      options: { prefixes: [`/users/*`, `/excellentcreator/*`] }
+>>>>>>> 95e32b088976d8101c546c87e10d1b1b6afdb61e
     }
   ]
 };

@@ -1,70 +1,82 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import Pagination from "@material-ui/lab/Pagination";
+import { Avatar, List, TextField, Typography } from "@material-ui/core";
+import CommentListItem from "./CommentListItem";
+import { getComments } from "../../services/video";
+import { getUser } from "../../services/auth";
+import "./Comments.sass";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: "#fff",
+    padding: theme.spacing(2)
   },
-  inline: {
-    display: "inline"
+  pagination: {
+    justifyContent: "center",
+    backgroundColor: "#fff"
+  },
+  list: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    backgroundColor: "#fff"
   }
 }));
 
-export default function CommentList() {
-  const classes = useStyles();
+const CommentInput = () => {
+  const { name, headshot } = getUser();
+  return (
+    <div style={{ display: "flex" }}>
+      <Avatar alt={name} src={`${headshot}`} />
+      <TextField />
+    </div>
+  );
+};
 
-  const CommentInput = () => {
-    return (
-      <div style={{ display: "flex" }}>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        <TextField />
-      </div>
-    );
+export default function CommentList({ vid }) {
+  const classes = useStyles();
+  const [comments, setComments] = useState([]);
+
+  const setCommentsMethod = ({ page = 1 }) => {
+    getComments({
+      video_id: vid,
+      parent_id: "",
+      max_size: 10,
+      page
+    }).then(data => setComments(data));
   };
 
+  const handlePage = (event, page) => {
+    event.preventDefault();
+    setCommentsMethod({ page });
+  };
+
+  useEffect(() => {
+    setCommentsMethod({});
+  }, [vid]);
+
   return (
-    <div>
-      <Typography>739条评论</Typography>
-      <CommentInput />
-      <List className={classes.root}>
-        {Array.from({ length: 10 }).map((o, i) => (
-          <Fragment key={i}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                primary="Brunch this weekend?"
-                secondary={
-                  <Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      Ali Connors
-                    </Typography>
-                    {" — I'll be in your neighborhood doing errands this…"}
-                  </Fragment>
-                }
-              />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </Fragment>
-        ))}
-      </List>
-      <Pagination count={10} variant="outlined" shape="rounded" />
-    </div>
+    <Fragment>
+      <div className={classes.root}>
+        <Typography>{`${comments.length}条评论`}</Typography>
+        <br />
+        <CommentInput />
+        <List classes={{ root: classes.list }}>
+          {comments.map(o => (
+            <CommentListItem listItem={o} key={o.user_id} />
+          ))}
+        </List>
+      </div>
+      <div style={{ marginTop: 8 }}>
+        <Pagination
+          count={Math.ceil(comments.length / 10)}
+          variant="outlined"
+          shape="rounded"
+          classes={{ ul: classes.pagination }}
+          onChange={handlePage}
+        />
+      </div>
+    </Fragment>
   );
 }

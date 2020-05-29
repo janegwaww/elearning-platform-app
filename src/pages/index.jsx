@@ -1,32 +1,26 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import { navigate } from "gatsby";
-import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
-import KEFormModal from "../components/KEFormKit/KEFormModal";
+import Home from "../components/Home/Home";
+import Banner from "../components/Home/Banner";
+import HotAuth from "../components/Home/HotAuth";
 
 export default class HomePage extends Component {
-  handleClick = () => {
-    let vid = "d2d78c2831cd27b8054005c3c7fc6355";
-    navigate(`/watch?vid=${vid}`);
-  };
   render() {
     return (
       <Layout>
         <div className="home-container" style={{ width: "100%" }}>
           <Helmet title={`Home | ${config.siteTitle}`} />
-          <div>
-            <div>home</div>
-            <KEFormModal />
-            <br />
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={this.handleClick}
-            >
-              播放
-            </Button>
+          <Banner />
+          <Container fixed>
+            <Home {...this.props} />
+          </Container>
+          <div style={{ backgroundColor: "#F2F2F5" }}>
+            <Container>
+              <HotAuth />
+            </Container>
           </div>
         </div>
       </Layout>

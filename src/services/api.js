@@ -3,7 +3,7 @@ import axios from "axios";
 import { pipe, wrapCamelName } from "./utils";
 
 // 接口路径
-const PATH = "http://seeker.haetek.com:9191";
+const PATH = "http://api.haetek.com:9191";
 // 接口地址
 const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 
@@ -11,7 +11,7 @@ const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 const axiosInstance = (token = "") =>
   axios.create({
     baseURL: PATH,
-    timeout: 5000,
+    timeout: 10000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`
@@ -37,7 +37,8 @@ const fetchMethod = (token = "") => async (url, params) => {
     const response = await axiosInstance(token).post(url, params);
     return response;
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return Promise.resolve({});
   }
 };
 
@@ -69,7 +70,7 @@ const extraApis = (cusFetch, paramMethod) => (modelActions = []) =>
   );
 
 // 合并接口
-const apis = (...objs) => {
+const combineObj = (...objs) => {
   const concatObj = (target, source) => Object.assign(target, source);
   return objs.reduce(concatObj, {});
 };
@@ -135,7 +136,11 @@ export const videoApis = (token = "") => {
     // 局部搜索
     "local_search",
     // 查看课件
-    "view_file"
+    "get_related_video",
+    // 热门视频
+    "hot_video",
+    // 热门作者
+    "hot_author"
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
@@ -146,4 +151,31 @@ export const videoApis = (token = "") => {
   return getApis;
 };
 
-export default apis(authApis(), videoApis());
+export const searchPartApis = (token = "") => {
+  const modelActionsArr = [
+    ["post_comment", "get_comment"],
+    ["add_collection"],
+    ["give_like"],
+    ["view_file"],
+    ["add_subscription", "latest_subscription"]
+  ];
+  const getParam = [
+    "comment",
+    "collection",
+    "like",
+    "document",
+    "subscription"
+  ].reduce(
+    (acc, cur, idx) =>
+      Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
+    {}
+  );
+  const getApis = pipe(
+    names => names.map(wrapCamelName),
+    extraApis(fetchMethod(token), getParam)
+  )([].concat.apply([], modelActionsArr));
+
+  return getApis;
+};
+
+export default combineObj(authApis(), videoApis());
