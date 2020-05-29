@@ -154,14 +154,14 @@ export default class Header extends Component {
         </div>
         <div>
           <div>
-            <NewBtn2 onClick={()=>{
+           {/** <NewBtn2 onClick={()=>{
                
               if (JSON.stringify(this.props.parent.state.video_data) === "{}") {
                 new Modal().alert('亲！还没有添加文件呢！','error');
               return;
               }
               sessionStorage.setItem('file_data',JSON.stringify(this.props.parent.state.video_data));
-              navigate('/video/uppage')}}>发布视频 </NewBtn2>
+              navigate('/video/uppage')}}>发布视频 </NewBtn2> */}
             <NewDialog  parent = {this}/>
           </div>
           <div title="点击可保存你编辑文本样式">

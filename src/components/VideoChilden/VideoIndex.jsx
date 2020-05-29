@@ -64,8 +64,8 @@ export default class VideoPage extends Component {
     this.setState({
       video_h: getObj("myvideo").clientHeight,
     });
-    getObj("max-box").style.height =
-      getObj("gatsby-focus-wrapper").clientHeight + "px";
+    getObj("max-box").style.height = document.body.clientHeight+'px';
+      // getObj("gatsby-focus-wrapper").clientHeight + "px";
 
     // 调整滚动条宽度
 

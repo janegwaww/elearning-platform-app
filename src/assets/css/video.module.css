@@ -1,5 +1,8 @@
+body::-webkit-scrollbar{
+  display: none;
+}
 
-/* body{background-color: #eee;} */
+
 /* 布局 */
 .el-container {
   width: 100%;
