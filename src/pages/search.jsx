@@ -6,9 +6,23 @@ import config from "../../data/SiteConfig";
 import Search from "../components/Search/Search";
 
 class SearchPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchValue: ""
+    };
+  }
+
+  componentDidMount() {
+    const {
+      location: { state = {} }
+    } = this.props;
+    this.setState({ searchValue: state && state.searchValue });
+  }
+
   render() {
     return (
-      <SearchLayout>
+      <SearchLayout searchValue={this.state.searchValue}>
         {input => (
           <div
             className="search-container"
