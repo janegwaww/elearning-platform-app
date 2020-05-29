@@ -57,7 +57,7 @@ class Watch extends Component {
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
             <LazyIntroduction vid={vid} />
             <Divider />
-            <LazyComments vid={vid} />
+            {/* <LazyComments vid={vid} /> */}
           </Grid>
           <Grid item xs={3}>
             <LazyPersonAvatar auth={avatar} />

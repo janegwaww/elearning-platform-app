@@ -108,7 +108,7 @@ export default function CommentListItem({ listItem = {} }) {
           <LocalAtmIcon fontSize="small" className="local-atm-icon" />
           <div className="list-time">
             <Typography style={{ fontSize: "12px" }}>
-              {new Date(listItem.time).toISOString().slice(0, 10)}
+              {new Date(listItem.time * 1000).toISOString().slice(0, 10)}
             </Typography>
           </div>
         </div>

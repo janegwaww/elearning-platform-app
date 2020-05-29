@@ -19,7 +19,7 @@ class Home extends Component {
   componentDidMount() {
     this.fetchHotVideo();
     this.fetchLatestSub();
-    this.fetchRecommdVideos();
+    /* this.fetchRecommdVideos(); */
   }
 
   fetchHotVideo = () => {
@@ -30,13 +30,14 @@ class Home extends Component {
 
   fetchLatestSub = () => {
     getLatestSubscription({ type: "web" }).then(data => {
-      if (data.length > 0) {
+      if (data && data.length > 0) {
         this.setState({ latestSub: data, loading1: false });
       }
     });
   };
 
   fetchRecommdVideos = () => {
+    // 暂时没有接口
     /* getRecommendVideos({}).then(data =>
      *   this.setState({ recommdVideos: data, loading3: false })
      * ); */
@@ -74,16 +75,17 @@ class Home extends Component {
         <div>
           <HomeTab
             tabs={[
-              {
-                label: "为您推荐",
-                tabContent: () => (
-                  <GridCards
-                    loading={loading3}
-                    itemCount={8}
-                    items={recommdVideos}
-                  />
-                )
-              },
+              // 暂时隐藏
+              //             {
+              //               label: "为您推荐",
+              //               tabContent: () => (
+              //                 <GridCards
+              //                   loading={loading3}
+              //                   itemCount={8}
+              //                   items={recommdVideos}
+              //                 />
+              //               )
+              //             },
               {
                 label: "热门视频",
                 tabContent: () => (
