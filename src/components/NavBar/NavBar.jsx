@@ -123,6 +123,11 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleSearchClick = () => {
+    const { value } = document.getElementById("navbar-search-input");
+    navigate("/search/", { state: { searchValue: value } });
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -192,6 +197,7 @@ export default function PrimarySearchAppBar() {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          onClick={() => navigate("/profile/")}
         >
           <AccountCircle />
         </IconButton>
@@ -239,11 +245,12 @@ export default function PrimarySearchAppBar() {
                   input: classes.inputInput
                 }}
                 inputProps={{ "aria-label": "search" }}
+                id="navbar-search-input"
               />
               <Button
                 className={classes.searchButton}
                 startIcon={<SearchIcon />}
-                onClick={() => navigate("/search/")}
+                onClick={handleSearchClick}
               >
                 搜索
               </Button>

@@ -59,11 +59,9 @@ const TabPanel = ({ children, value, index, ...other }) => {
 };
 
 const useStyles = makeStyles(theme => ({
-  padding: {
-    padding: theme.spacing(3)
-  },
   demo1: {
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    minHeight: 300
   }
 }));
 

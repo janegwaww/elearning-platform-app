@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { navigate } from "gatsby";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -26,7 +27,12 @@ export default function CreatorBar({ info, ...props }) {
         <Avatar
           alt={info.user_name}
           src={info.headshot}
-          style={{ width: 50, height: 50 }}
+          style={{ width: 50, height: 50, cursor: "pointer" }}
+          onClick={() =>
+            navigate(`/excellentcreator/creator?cid=${info.author_id}`, {
+              state: { cid: info.author_id }
+            })
+          }
         />
         <div style={{ padding: "0 10px", width: "100%" }}>
           <div>

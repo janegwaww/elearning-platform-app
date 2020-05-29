@@ -11,7 +11,7 @@ const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 const axiosInstance = (token = "") =>
   axios.create({
     baseURL: PATH,
-    timeout: 10000,
+    timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${token}`
