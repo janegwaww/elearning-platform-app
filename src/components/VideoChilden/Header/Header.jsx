@@ -6,17 +6,7 @@ import {
   Button,
   Avatar,
   Snackbar,
-  Dialog,
-  MuiDialogTitle,
-  MuiDialogContent,
-  MuiDialogActions,
-  IconButton,
-  Typography,
-  TextField,
-  FormControl,
-  InputLabel,
-  Input,
-  InputAdornment,
+  
 } from "@material-ui/core";
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -26,6 +16,7 @@ import {get_data} from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 import { node } from "prop-types";
 import NewDialog from "./NewDialog";
+import Modal from '../../../assets/js/modal';
 
 const NewBtn = withStyles({
   root: {
@@ -37,6 +28,12 @@ const NewBtn = withStyles({
     "line-height": 0,
   },
 })(Button);
+
+const NewBtn2 = withStyles({
+  root: {
+    backgroundColor: "#007CFF",
+  },
+})(NewBtn);
 
 // const handleClick = () => {
 //   setOpen(true);
@@ -157,6 +154,14 @@ export default class Header extends Component {
         </div>
         <div>
           <div>
+            <NewBtn2 onClick={()=>{
+               
+              if (JSON.stringify(this.props.parent.state.video_data) === "{}") {
+                new Modal().alert('亲！还没有添加文件呢！','error');
+              return;
+              }
+              sessionStorage.setItem('file_data',JSON.stringify(this.props.parent.state.video_data));
+              navigate('/video/uppage')}}>发布视频 </NewBtn2>
             <NewDialog  parent = {this}/>
           </div>
           <div title="点击可保存你编辑文本样式">

@@ -8,6 +8,7 @@ axios.defaults.headers = {
   "Content-Type": "application/json",
   Authorization: "Bearer" + " " + getUser().token,
 };
+
 export const get_data = function(url, data, method, header) {
   return new Promise(function(resolve, reject) {
     axios({
@@ -18,6 +19,7 @@ export const get_data = function(url, data, method, header) {
         "Content-Type": "application/json",
         Authorization: "Bearer" + " " + getUser().token,
       },
+     
     })
       .then((res) => resolve(res.data))
       .catch((err) => {

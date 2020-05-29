@@ -1,6 +1,6 @@
-import { navigate } from "@reach/router";
-import { getUser, isLoggedIn } from "../../services/auth";
-import {get_data} from './request';
+// import { navigate } from "@reach/router";
+// import { getUser, isLoggedIn } from "../../services/auth";
+// import {get_data} from './request';
 // export const isGoLogin=(c_b)=>{//检查是否登录与超时
 //     if(!isLoggedIn()){
 //       c_b&&c_b(false);
@@ -86,3 +86,25 @@ export const getStyles = (objId, att) => {
 
   return att_value;
 };
+export const get_date=(timer,sep,num)=>{//时间戳转换
+    let _date =new Date(timer*1000),
+     _y = _date.getFullYear(),
+     _m = _date.getMonth(),
+     _d = _date.getDate(),
+     _h = _date.getHours(),
+     _min = _date.getMinutes(),
+     _s = _date.getSeconds(),
+     _day=_date.getDay();
+     let _num = num ||1;
+     let _sep = sep||'-';
+  if(num==1){
+    return _y+_sep+_m+_sep+_d+' '+_h+':'+_min;
+  }else{
+    return _y+_sep+_m+_sep+_d+' '+_h+':'+_min+':'+_s;
+  }
+
+}
+
+
+
+

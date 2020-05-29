@@ -10,10 +10,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import userStyles from "./profileStyle";
 
+
 const styles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   closeButton: {
     position: "absolute",
@@ -56,49 +57,43 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs(props) {
-  const classes = userStyles();
-  const [open, setOpen] = React.useState(false);
+  
+    const classes=userStyles();
+    const { children } = props;
+    const confirmClick = () => {
+      props.onEvent&&props.onEvent({ cancel: false, confirm: true });
+    };
+    const handleClose = () => {
+      
+      props.onEvent&&props.onEvent({ cancel: true, confirm: false });
+    };
 
-  const confirmClick = () => {
-    props.onEvent({ cancel: false, confirm: true });
-  };
-  const handleClose = () => {
-    props.onEvent({ cancel: true, confirm: false });
-  };
+    return (
+      <div>
+        <Dialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={props.open}
+          className={`${classes.dialog} fn-size-14`}
+        >
+          <DialogTitle className='text-center' onClose={handleClose}>
+            {props.title}
+          </DialogTitle>
+          <DialogContent dividers>{children}</DialogContent>
+          <DialogActions style={{justifyContent:'center'}}>
+            <Button autoFocus onClick={confirmClick} className={classes.btn1} >
+              确定
+            </Button>
+            <Button
+              autoFocus
+              onClick={handleClose}
+              className={`${classes.btn1} ${classes.btn2}`}
+            >
+              取消
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 
-  return (
-    <div>
-      {/*<Button variant="outlined" color="primary" onClick={handleClickOpen} className={classes.btn1}>
-         解除绑定
-  </Button>*/}
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={props.info.isOpen}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {props.info.dialogtitle}
-        </DialogTitle>
-        <DialogContent dividers>
-         
-            <Typography gutterBottom className="text-center">
-              {props.info.dialogmsg}
-            </Typography>
-          
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={confirmClick} className={classes.btn1}>
-            确定
-          </Button>
-          <Button
-            autoFocus
-            onClick={handleClose}
-            className={`${classes.btn1} ${classes.btn2}`}
-          >
-            取消
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}

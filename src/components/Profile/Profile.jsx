@@ -41,7 +41,14 @@ class Profile extends React.Component {
     };
     this.pageRoute = this.pageRoute.bind(this);
   }
+  // shouldComponentUpdate(nextProps, nextState){
+  //     console.log(nextProps);
+  //     console.log(nextState);
+  //     return true
+      
+  //   }
   pageRoute(event) {
+    
     
     let _data = event.target.dataset;
     let _menuOpen = JSON.parse(JSON.stringify(this.state.menuOpen));
@@ -106,11 +113,12 @@ class Profile extends React.Component {
                   <AdiseMenu
                     menus={["我的订阅", "我的收藏", "历史记录"]}
                     parent={this}
+                    info={this.state.nowPage}
                     open={menuOpen.Dynamic}
                     id={"dynamic-menu"}
                   />
                 </li>
-                <li
+               {/**  <li
                   aria-controls="message-menu"
                   onClick={this.pageRoute}
                   data-page="MsgCenter"
@@ -122,9 +130,11 @@ class Profile extends React.Component {
                     menus={["回复我的", "@我的私信", "收到的赞", "系统通知"]}
                     parent={this}
                     open={menuOpen.MsgCenter}
+                    info={this.state.nowPage}
                     id={"message-menu"}
                   />
                 </li>
+                */}
                 <li
                   aria-label="more"
                   aria-controls="create-menu"
@@ -140,9 +150,11 @@ class Profile extends React.Component {
                     menus={["作品管理", "申诉管理"]}
                     parent={this}
                     open={menuOpen.CreateCenter}
+                    info={this.state.nowPage}
                     id={"create-menu"}
                   />
                 </li>
+                {/**
                 <li>
                   {" "}
                   <ReportProblem />
@@ -158,6 +170,7 @@ class Profile extends React.Component {
                 <li>
                   <LocationCity /> 数据中心
                 </li>
+                 */}
               </ul>
             </aside>
             <main className="ma-main all-width">

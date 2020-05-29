@@ -89,3 +89,25 @@
 .profile-right {
   margin-right: 40px;
 }
+.profile-margin-10{
+  margin: 10px;
+}
+.MuiGrid-root.grid{
+  margin: 30px -10px -10px;
+    width: calc(100% + 20px);
+}
+ .MuiGrid-root.grid .MuiGrid-item{
+  padding: 0 10px;
+ }
+/* .btn1{
+  background-color:'#007CFF';
+  font-size:16px;
+  color:'white';
+  width:180px;
+  height:40px;
+  border-radius:20;
+}
+.btn2{
+  color:'#878791';
+  background-color:'#F2F2F5';
+} */
