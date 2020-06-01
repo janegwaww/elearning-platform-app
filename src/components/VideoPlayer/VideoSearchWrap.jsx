@@ -37,7 +37,7 @@ const KeSearchButton = withStyles({
 
 const KeInput = withStyles({
   root: {
-    width: "70%",
+    width: "60%",
     marginLeft: "20px"
   },
   input: {
@@ -50,7 +50,6 @@ const KeInput = withStyles({
 
 const VideoSearchWrap = ({ children, vid }) => {
   const classes = useStyles();
-  const [input, setInput] = useState("");
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState(0);
@@ -65,13 +64,10 @@ const VideoSearchWrap = ({ children, vid }) => {
 
   const handleInputClick = e => {
     e.preventDefault();
-    subtitles({ query_string: input, video_id: [vid] }).then(data => {
+    const { value } = document.getElementById("watch-subtitle-search");
+    subtitles({ query_string: value, video_id: [vid] }).then(data => {
       setGridList(data);
     });
-  };
-
-  const handleInput = e => {
-    setInput(e.target.value);
   };
 
   const handleJump = time => {
@@ -87,16 +83,11 @@ const VideoSearchWrap = ({ children, vid }) => {
     >
       <Paper component="form" classes={{ root: classes.paper }}>
         <KeInput
+          id="watch-subtitle-search"
           placeholder="支持对整段视频的字幕或语义定位搜索"
-          inputProps={{
-            "aria-label": "支持对整段视频的字幕或语义定位搜索"
-          }}
           type="text"
-          onChange={handleInput}
-          value={input}
         />
         <KeSearchButton
-          type="submit"
           aria-label="search"
           startIcon={<SearchIcon />}
           onClick={handleInputClick}

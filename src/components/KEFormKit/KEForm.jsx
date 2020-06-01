@@ -21,13 +21,13 @@ import qrcode from "../../../static/images/qr-code.png";
 import account from "../../../static/images/account.png";
 import loginBg from "../../../static/images/login-bg.png";
 
-const KEForm = ({ modal, modalClose }) => {
+const KEForm = ({ modal, modalClose, originPath = "/" }) => {
   const classes = useStyles();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
 
   const handleNavigate = () => {
-    !!modal ? modalClose() : navigate(`/users/profile`);
+    !!modal ? modalClose() : navigate(`${originPath}`);
   };
 
   const handleClickLogin = ({ mobile, smscode }) => {
