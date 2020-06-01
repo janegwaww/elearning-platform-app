@@ -51,7 +51,7 @@ export default function SearchLayout({ children, searchValue }) {
               value={refInput}
               id="search-page-input"
               type="text"
-              onChange={() => setRefInput()}
+              onChange={e => setRefInput(e.target.value)}
               style={{ backgroundColor: "#ddd" }}
             />
             <div onClick={handleSearch}>搜索</div>

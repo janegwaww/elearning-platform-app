@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,6 +20,19 @@ const SubButton = withStyles({
 
 export default function CreatorBar({ info, ...props }) {
   const [subscript, setSubscript] = useState(false);
+  const [fansCount, setFansCount] = useState(0);
+
+  const handleSubcript = () => {
+    setSubscript(prev => !prev);
+    !subscript
+      ? setFansCount(prev => prev + 1)
+      : setFansCount(prev => prev - 1);
+  };
+
+  useEffect(() => {
+    /* setSubscript(info.is_subscription); */
+    setFansCount(info.fans_counts);
+  }, []);
 
   return (
     <div style={{ display: "flex", marginBottom: "10px" }}>
@@ -50,7 +63,7 @@ export default function CreatorBar({ info, ...props }) {
               padding: "4px 0"
             }}
           >
-            <SubButton onClick={() => setSubscript(prev => !prev)}>
+            <SubButton onClick={() => handleSubcript()}>
               <Typography variant="caption">
                 {subscript ? "已订阅" : "+订阅"}
               </Typography>
@@ -58,7 +71,7 @@ export default function CreatorBar({ info, ...props }) {
             <Typography
               variant="caption"
               color="textSecondary"
-            >{`${info.fans_counts} 订阅`}</Typography>
+            >{`${fansCount} 订阅`}</Typography>
           </div>
         </div>
       </div>

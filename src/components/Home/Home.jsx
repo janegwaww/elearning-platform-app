@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import HomeTab from "./HomeTab";
 import GridCards from "./GridCards";
 import { getHotVideos, getLatestSubscription } from "../../services/home";
+import { isLoggedIn } from "../../services/auth";
 
 class Home extends Component {
   constructor(props) {
@@ -55,22 +56,24 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <div>
-          <HomeTab
-            tabs={[
-              {
-                label: "我的订阅",
-                tabContent: () => (
-                  <GridCards
-                    loading={loading1}
-                    itemCount={4}
-                    items={latestSub}
-                  />
-                )
-              }
-            ]}
-          />
-        </div>
+        {isLoggedIn() ? (
+          <div>
+            <HomeTab
+              tabs={[
+                {
+                  label: "我的订阅",
+                  tabContent: () => (
+                    <GridCards
+                      loading={loading1}
+                      itemCount={4}
+                      items={latestSub}
+                    />
+                  )
+                }
+              ]}
+            />
+          </div>
+        ) : null}
         <br />
         <div>
           <HomeTab
@@ -87,7 +90,7 @@ class Home extends Component {
               //               )
               //             },
               {
-                label: "热门视频",
+                label: "热门视频/系列",
                 tabContent: () => (
                   <GridCards
                     loading={loading2}
