@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
+import urlParse from "url-parse";
 import { isLoggedIn } from "../../services/auth";
 import KEForm from "../KEFormKit/KEForm";
 import config from "../../../data/SiteConfig";
@@ -19,8 +20,9 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Login = () => {
+const Login = ({ location }) => {
   const classes = useStyles();
+  const origin = urlParse(location.origin, true).pathname;
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -32,7 +34,7 @@ const Login = () => {
     <div className={classes.root}>
       <div className={classes.secondary}>
         <Helmet title={`Login | ${config.siteTitle}`} />
-        <KEForm />
+        <KEForm originPath={origin} />
       </div>
     </div>
   );

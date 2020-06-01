@@ -46,7 +46,7 @@ export const logout = callback => {
 //     "err_msg": "200",
 //     "result_data": [{}]  // 返回这一个字段
 // }
-const getResultData = ({ data }) => Promise.resolve(data.result_data);
+const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
 
 // 获取后端接口返回的结果字段中的第一个数组
 // {

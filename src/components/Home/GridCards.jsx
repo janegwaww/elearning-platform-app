@@ -13,10 +13,10 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
 
-  const handleClick = id => {
-    if (id) {
-      navigate(`/watch?vid=${id}`, { state: { vid: id } });
-    }
+  const handleClick = ({ video_id, series_id }) => {
+    !!video_id &&
+      navigate(`/watch?vid=${video_id}`, { state: { vid: video_id } });
+    !!series_id && navigate(`/series?sid=${series_id}`);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 backgroundColor: "#fff",
                 cursor: "pointer"
               }}
-              onClick={() => handleClick(item.video_id)}
+              onClick={() => handleClick(item)}
             >
               {item ? (
                 <img
