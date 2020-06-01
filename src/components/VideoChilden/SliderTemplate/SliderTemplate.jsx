@@ -40,7 +40,8 @@ class SliderTemplate extends React.Component {
     
     let lists = [];
     let leng= this.state.leng||100
-    for (let i = 0; i < Math.ceil((leng * 1000) / 274 / 10); i++) {
+   
+    for (let i = 0; i < Math.ceil((leng * 1000) / 2740); i++) {
       lists.push(
         <div className="scales" key={i}>
           <span>{dateConversion(i * 2.74)}</span>

@@ -159,9 +159,10 @@ export default class UploadVideos extends Component {
           
           _this.setState({ status: 3, lang_value: "" });
           let json_sub = res.result_data[0].subtitling;
+          console.log(json_sub)
           let total_time =_this.props.parent.props.parent.state.the_current.video_len;
           let test_arr = [];
-          let total_w = getObj('sliderbox').scrollWidth;
+          let total_w =total_time*1000/2740*110;// getObj('sliderbox').scrollWidth;
          
           
          

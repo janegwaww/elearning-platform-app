@@ -13,7 +13,7 @@
 .line{
   width:100%;
   height: 1px;
-  background-color: #EFEFEF;
+  background-color: #D5D5D5;
 }
 .box{
     display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
@@ -185,6 +185,9 @@
 .fn-color-2C2C3B{
   color:#2C2C3B;
 }
+.fn-color-21{
+  color:#212121;
+}
 .fn-color-9E9EA6{
   color:#9E9EA6;
 }
@@ -193,6 +196,7 @@
 }
 .fn-color-007CFF{
   color:#007CFF;
+  
 }
 .fn-color-02BB17{
   color:#02BB17;

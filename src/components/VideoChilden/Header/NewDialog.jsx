@@ -402,264 +402,264 @@ function CustomizedDialogs(props) {
           上传视频
         </DialogTitle>
         <DialogContent dividers>
-          <form id="updata_info" className={usersClass.root}>
-            <div className="item">
-              <label>
-                <span>*</span> 标题
-              </label>
-              <TextField
-                required
-                id="standard-required"
-                variant="outlined"
-                fullWidth
-                onChange={titleChange}
-              />
-              <span>
-                <ContactSupport />
-                <span>
-                  一个引人注目的标题可以帮助您吸引观看者。在确定视频标
-                  <br />
-                  题时，最好加入观众在查找类似视频时可能会使用的关键
-                  <br />
-                  字。
-                </span>
-              </span>
-            </div>
-            <div className="item">
-              <label>
-                <span>*</span> 描述
-              </label>
-              <TextField
-                required
-                id="standard-required"
-                rows={5}
-                variant="outlined"
-                multiline
-                fullWidth
-                onChange={descriptionChange}
-              />
-              <span>
-                <ContactSupport />
-                <span>
-                  在说明中加入适当的关键字，可以帮助观看者通过搜索更轻
-                  <br />
-                  松地找到您的视频。您可以在说明中大致介绍视频的内容，
-                  <br />
-                  并将关键字放在说明的开头部
-                </span>
-              </span>
-            </div>
+        <form id="updata_info" className={usersClass.root}>
+        <div className="item">
+          <label>
+            <span>*</span> 标题
+          </label>
+          <TextField
+            required
+            id="standard-required"
+            variant="outlined"
+            fullWidth
+            onChange={titleChange}
+          />
+          <span>
+            <ContactSupport />
+            <span>
+              一个引人注目的标题可以帮助您吸引观看者。在确定视频标
+              <br />
+              题时，最好加入观众在查找类似视频时可能会使用的关键
+              <br />
+              字。
+            </span>
+          </span>
+        </div>
+        <div className="item">
+          <label>
+            <span>*</span> 描述
+          </label>
+          <TextField
+            required
+            id="standard-required"
+            rows={5}
+            variant="outlined"
+            multiline
+            fullWidth
+            onChange={descriptionChange}
+          />
+          <span>
+            <ContactSupport />
+            <span>
+              在说明中加入适当的关键字，可以帮助观看者通过搜索更轻
+              <br />
+              松地找到您的视频。您可以在说明中大致介绍视频的内容，
+              <br />
+              并将关键字放在说明的开头部
+            </span>
+          </span>
+        </div>
 
-            <div className="item">
-              <label>
-                <span>*</span>添加标签
+        <div className="item">
+          <label>
+            <span>*</span>添加标签
+          </label>
+          <p className="sign">
+            {Object.keys(signs).map((value, inx) => (
+              <label key={value}> 
+                <input
+                  type="checkbox"
+                  name="videoSign"
+                  value={value}
+                  onChange={signChane}
+                />
+                <b>{signs[value]}</b>
               </label>
-              <p className="sign">
-                {Object.keys(signs).map((value, inx) => (
-                  <label key={value}> 
-                    <input
-                      type="checkbox"
-                      name="videoSign"
-                      value={value}
-                      onChange={signChane}
-                    />
-                    <b>{signs[value]}</b>
-                  </label>
-                ))}
-              </p>
-              <span>
-                <ContactSupport />
-                <span>
-                  添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。
-                </span>
-              </span>
-            </div>
+            ))}
+          </p>
+          <span>
+            <ContactSupport />
+            <span>
+              添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。
+            </span>
+          </span>
+        </div>
+        <div>
+          <label>封面图</label>
+          <section>
+            <p>
+              选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
+            </p>
             <div>
-              <label>封面图</label>
-              <section>
-                <p>
-                  选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
-                </p>
-                <div>
-                  {props.parent.props.parent.state.video_data.image_path &&
-                  !fileSrc ? (
-                    <div className="file">
-                      <img
-                        src={
-                          "http://api.haetek.com:9191/" +
-                          props.parent.props.parent.state.video_data.image_path
-                        }
-                        title="缩略图"
-                        alt="缩略图"
-                      />
-                    </div>
-                  ) : (
-                    <i></i>
-                  )}
-                  {fileSrc ? (
-                    <div className="file">
-                      <img src={fileSrc} title="缩略图" alt="缩略图" />
-                      <span className="delete">
-                        <Delete
-                          onClick={() => {
-                            setFileSrc("");
-                            setFile(null);
-                            document.getElementById("coverfile").value = "";
-                          }}
-                        />
-                      </span>
-                    </div>
-                  ) : (
-                    <i></i>
-                  )}
-
-                  <div className="file">
-                    <input
-                      type="file"
-                      name="file"
-                      id="coverfile"
-                      onChange={fileChane}
-                    />
-                    <label htmlFor="coverfile">
-                      <Add />
-                    </label>
-                  </div>
+              {props.parent.props.parent.state.video_data.image_path &&
+              !fileSrc ? (
+                <div className="file">
+                  <img
+                    src={
+                      "http://api.haetek.com:9191/" +
+                      props.parent.props.parent.state.video_data.image_path
+                    }
+                    title="缩略图"
+                    alt="缩略图"
+                  />
                 </div>
-              </section>
-            </div>
+              ) : (
+                <i></i>
+              )}
+              {fileSrc ? (
+                <div className="file">
+                  <img src={fileSrc} title="缩略图" alt="缩略图" />
+                  <span className="delete">
+                    <Delete
+                      onClick={() => {
+                        setFileSrc("");
+                        setFile(null);
+                        document.getElementById("coverfile").value = "";
+                      }}
+                    />
+                  </span>
+                </div>
+              ) : (
+                <i></i>
+              )}
 
-            <div>
-              <label>播放系列</label>
-              <section>
-                <p>
-                  将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                </p>
-                <section
-                  className="sign"
-                  style={{ borderBottom: "1px solid #ccc" }}
+              <div className="file">
+                <input
+                  type="file"
+                  name="file"
+                  id="coverfile"
+                  onChange={fileChane}
+                />
+                <label htmlFor="coverfile">
+                  <Add />
+                </label>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div>
+          <label>播放系列</label>
+          <section>
+            <p>
+              将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+            </p>
+            <section
+              className="sign"
+              style={{ borderBottom: "1px solid #ccc" }}
+            >
+              {!addseries ? (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    setAddseries(true);
+                  }}
                 >
-                  {!addseries ? (
+                  <Add />
+                  新建
+                </Button>
+              ) : (
+                <section>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    label="系列标题"
+                    variant="outlined"
+                    value={newseries}
+                    onChange={(e) => {
+                      setNewseries(e.target.value);
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Cancel
+                            onClick={() => {
+                              setNewseries("");
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    rows={3}
+                    variant="outlined"
+                    multiline
+                    fullWidth
+                    value={seriesdescription}
+                    label="系列描述"
+                    onChange={(event) => {
+                      setSeriesdescription(event.target.value);
+                    }}
+                  />
+                  <DialogActions>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        setAddseries(false);
+                      }}
+                    >
+                      取消
+                    </Button>
                     <Button
                       color="primary"
                       variant="contained"
                       onClick={() => {
-                        setAddseries(true);
+                        let _data = currencies;
+                        if (
+                          _data.some((option) => newseries == option.title)
+                        ) {
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "新建系列失败，您所新建的系列已存在!",
+                          });
+                          return;
+                        }
+                        if (!seriesdescription) {
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "亲，新建了系列，系列描述不要忘记填写哦!",
+                          });
+                          return;
+                        }
+                        if (_data[_data.length - 1].type) {
+                          _data[_data.length - 1] = {
+                            title: newseries,
+                            label: newseries,
+                            type: "new",
+                          };
+                        } else {
+                          _data.push({
+                            title: newseries,
+                            label: newseries,
+                            type: "new",
+                          });
+                        }
+
+                        setCurrencies(_data);
+                        setAddseries(false);
                       }}
                     >
-                      <Add />
-                      新建
+                      确认
                     </Button>
-                  ) : (
-                    <section>
-                      <TextField
-                        fullWidth
-                        type="text"
-                        label="系列标题"
-                        variant="outlined"
-                        value={newseries}
-                        onChange={(e) => {
-                          setNewseries(e.target.value);
-                        }}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Cancel
-                                onClick={() => {
-                                  setNewseries("");
-                                }}
-                              />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                      <TextField
-                        rows={3}
-                        variant="outlined"
-                        multiline
-                        fullWidth
-                        value={seriesdescription}
-                        label="系列描述"
-                        onChange={(event) => {
-                          setSeriesdescription(event.target.value);
-                        }}
-                      />
-                      <DialogActions>
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            setAddseries(false);
-                          }}
-                        >
-                          取消
-                        </Button>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          onClick={() => {
-                            let _data = currencies;
-                            if (
-                              _data.some((option) => newseries == option.title)
-                            ) {
-                              setOpenSnackbar({
-                                open: true,
-                                type: "error",
-                                msg: "新建系列失败，您所新建的系列已存在!",
-                              });
-                              return;
-                            }
-                            if (!seriesdescription) {
-                              setOpenSnackbar({
-                                open: true,
-                                type: "error",
-                                msg: "亲，新建了系列，系列描述不要忘记填写哦!",
-                              });
-                              return;
-                            }
-                            if (_data[_data.length - 1].type) {
-                              _data[_data.length - 1] = {
-                                title: newseries,
-                                label: newseries,
-                                type: "new",
-                              };
-                            } else {
-                              _data.push({
-                                title: newseries,
-                                label: newseries,
-                                type: "new",
-                              });
-                            }
-
-                            setCurrencies(_data);
-                            setAddseries(false);
-                          }}
-                        >
-                          确认
-                        </Button>
-                      </DialogActions>
-                    </section>
-                  )}
+                  </DialogActions>
                 </section>
-                <section className="sign">
-                  <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
-                    value={currency}
-                    onChange={handleChange}
-                    className={usersClass.radiogroup}
-                  >
-                    {currencies.map((option) => (
-                      <FormControlLabel
-                        key={option.title}
-                        value={option.title}
-                        label={option.title}
-                        control={<Radio color="primary" />}
-                      />
-                    ))}
-                  </RadioGroup>
-                </section>
-              </section>
-            </div>
-          </form>
+              )}
+            </section>
+            <section className="sign">
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                value={currency}
+                onChange={handleChange}
+                className={usersClass.radiogroup}
+              >
+                {currencies.map((option) => (
+                  <FormControlLabel
+                    key={option.title}
+                    value={option.title}
+                    label={option.title}
+                    control={<Radio color="primary" />}
+                  />
+                ))}
+              </RadioGroup>
+            </section>
+          </section>
+        </div>
+      </form>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>

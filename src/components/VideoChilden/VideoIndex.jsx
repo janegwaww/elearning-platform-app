@@ -231,12 +231,13 @@ export default class VideoPage extends Component {
       video_img_arr: res,
     });
     let _obj = getObj("image-box");
-    let box_w = getObj("sliderbox").scrollWidth;
+    
     let len = res.length;
     let img_str = "";
     let img_pos = "";
+    let box_w =total_time*1000*110/2740;// getObj("sliderbox").scrollWidth;
     let img_w = box_w / (total_time-0.7);
-  
+    
     for (let i = 0; i < len-2; i++) {
       if (i == len - 3) {
         (img_str += "url(http://api.haetek.com:9191/" + res[i+2] + ") "),
@@ -313,15 +314,19 @@ export default class VideoPage extends Component {
     });
   }
   context_focus(el, value) {
+    
     el.target.className='normal';
     this.setState({
       top_inx: 2,
       status: false,
     });
     this.video_live.pause();
+    this.video_live.currentTime=this.state.video_data.sub_josn[el.target.dataset.inx].bg;
     
+   
   };
    context_blur(el) {
+    
      el.target.classList.remove('normal')
     let _the_data = this.state.the_current, //当前，
       _video_data = this.state.video_data, //所有
@@ -333,10 +338,16 @@ export default class VideoPage extends Component {
         _the_data.zh = el.target.innerText;
         _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
       }
+      if(_video_data.sub_josn[_inx].en_sub){
+        _the_data.en=_video_data.sub_josn[_inx].en_sub;
+      }
     } else {
       if (_the_data.en !== el.target.innerText) {
         _the_data.en = el.target.innerText;
         _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
+      }
+      if(_video_data.sub_josn[_inx].cn_sub){
+        the_data.cn = _video_data.sub_josn[_inx].cn_sub;
       }
     }
     this.setState({
@@ -505,11 +516,8 @@ export default class VideoPage extends Component {
                         <span
                           data-lu="zh"
                           data-inx={_this.state.the_current.inx}
-                          contentEditable="true"
-                          suppressContentEditableWarning="true"
-                          onBlur={_this.context_blur}
-                          onFocus={_this.context_focus}
-                          title="点击文字可编辑"
+                          
+                          
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.zh
@@ -519,11 +527,7 @@ export default class VideoPage extends Component {
                         <span
                           data-lu="en"
                           data-inx={_this.state.the_current.inx}
-                          contentEditable="true"
-                          suppressContentEditableWarning="true"
-                          onBlur={_this.context_blur}
-                          onFocus={_this.context_focus}
-                          title="点击文字可编辑"
+                         
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.en

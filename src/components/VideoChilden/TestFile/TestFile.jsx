@@ -88,6 +88,7 @@ const _family = {
   // STKaiti: "华文楷体",
   // STSong: "华文宋体",
   // STFangsong: "华文仿宋",
+  
   SimHei: "黑体",
   SimSun: "宋体",
   "Microsoft YaHei": "微软雅黑",
@@ -136,7 +137,10 @@ export default class TestFile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _styles: {}
+      _styles: {
+        family:'Microsoft YaHei',
+        size:14
+      }
     };
   }
   font_style = function(name, value) {
@@ -162,17 +166,17 @@ export default class TestFile extends React.Component {
           <form >
             <div className="font-family">
               <label> 字体:</label>
-              <select name="family" onChange={(el)=>this.font_style('family',el.target.value)}>
-                <option></option>
+              <select name="family" value={this.state._styles.family} onChange={(el)=>this.font_style('family',el.target.value)}>
+              
                 {Object.keys(_family).map(item => (
-                  <option value={item} key={item}>
+                  <option value={item} key={item} checked={this.state._styles.family==item}>
                     {_family[item]}
                   </option>
                 ))}
               </select>
 
-              <select name="size" onChange={(el)=>this.font_style('size',el.target.value)}>
-                <option></option>
+              <select name="size" value={this.state._styles.size} onChange={(el)=>this.font_style('size',el.target.value)}>
+                
                 {_number.map(num => (
                   <option value={num} key={num}>
                     {num}

@@ -10,6 +10,7 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 
 import { navigate } from "@reach/router";
+import {getObj} from '../../../assets/js/totls';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -56,6 +57,9 @@ const Message = (props) => {
                   _data.open = false;
                   props.parent.setState({ promp_info: _data });
                 } else {
+                  
+                  getObj('image-box').style.backgroundImage='';
+                  getObj('video-test').innerHTML='';
                   promp_info.open = false;
                   props.parent.setState({
                     status: 1,
@@ -63,6 +67,10 @@ const Message = (props) => {
                     files: [],
                     promp_info: promp_info,
                   });
+                  if(sessionStorage.getItem('file_data')){
+                    sessionStorage.removeItem('file_data');
+                  }
+                  
                   props.parent.props.parent.setState({
                     style:{},
                     styles:{},

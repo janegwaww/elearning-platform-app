@@ -100,3 +100,31 @@ export function Navbar(props) {
     </div>
   );
 }
+export function NavTitle(props){
+  const classes = useStyles();
+  const [scrollWidth, setScrollWidth] = React.useState(
+    props.list[0].length * 18
+  );
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+
+  
+
+  return (
+    <div className={classes.root}>
+      <div className="box box-align-center fn-size-18 fn-color-2C2C3B">
+        {props.list.map((value, inx) => (
+          <span key={value}  data-inx={inx}>
+            {value}
+          </span>
+        ))}
+      </div>
+      <div
+        className={classes.scroll}
+        style={{
+          transform: "translate(" + scrollLeft + "px)",
+          width: scrollWidth + "px",
+        }}
+      ></div>
+    </div>
+  );
+}

@@ -24,7 +24,6 @@ Modal.prototype.alert = function(option) {
   this.body.appendChild(this.obj);
   document.getElementById('close').onclick=()=>{
     this.body.removeChild(this.obj);
-    
   }
   setTimeout(()=>{
       if(!document.querySelector('.alert')){return};
