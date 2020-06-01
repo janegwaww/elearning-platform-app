@@ -8,8 +8,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "grid",
     height: 148,
-    margin: "10px 0",
-    borderBottom: "1px solid #f2f2f5",
+    margin: "20px 0",
     gridTemplateColumns: "246px auto",
     gridTemplateRows: "24px auto auto 30px",
     gap: "10px",
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
   description: {
     gridColumn: 2,
-    gridRow: " 2 / 4"
+    gridRow: "2 / 4"
   },
   auth: {
     gridColumn: 2,
@@ -45,11 +44,17 @@ const useStyles = makeStyles(theme => ({
     height: 28,
     width: 28,
     marginRight: 5
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   }
 }));
 
 export default function SearchCard({ card = {} }) {
   const classes = useStyles();
+  const bull = <span className={classes.bullet}>•</span>;
 
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
 
@@ -80,6 +85,12 @@ export default function SearchCard({ card = {} }) {
           className={classes.avatar}
         />
         <Typography variant="caption">{card.user_name}</Typography>
+        <div style={{ marginRight: 40 }} />
+        <Typography variant="caption" color="textSecondary">
+          {card.view_counts}观看{bull}
+          {card.comment_counts}回应{bull}
+          {card.like_counts}点赞
+        </Typography>
       </div>
     </div>
   );
