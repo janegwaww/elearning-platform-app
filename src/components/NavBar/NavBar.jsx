@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { navigate } from "@reach/router";
-import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
@@ -19,89 +18,13 @@ import {
   Button
 } from "@material-ui/core";
 import { isLoggedIn, logout } from "../../services/auth";
-
-const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto"
-    }
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  inputRoot: {
-    color: "inherit"
-  },
-  inputInput: {
-    backgroundColor: "#f2f2f5",
-    borderRadius: "50px 0 0 50px",
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch"
-    }
-  },
-  searchButton: {
-    backgroundColor: theme.palette.secondary.main,
-    borderRadius: "0px 50px 50px 0",
-    color: theme.palette.primary.main,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main
-    }
-  },
-  createButton: {
-    borderRadius: "20px",
-    marginLeft: "20px"
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex"
-    }
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none"
-    }
-  }
-}));
+import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const isLogin = isLoggedIn();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -123,6 +46,11 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleSearchClick = () => {
+    const { value } = document.getElementById("navbar-search-input");
+    navigate("/search/", { state: { searchValue: value } });
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -134,13 +62,13 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {isLoggedIn() ? (
+      {isLogin ? (
         <>
           <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
           <MenuItem
             onClick={e => {
               e.preventDefault();
-              logout(() => navigate(`/users/login`));
+              logout(() => ({}));
             }}
           >
             Logout
@@ -192,6 +120,7 @@ export default function PrimarySearchAppBar() {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          onClick={() => navigate("/profile/")}
         >
           <AccountCircle />
         </IconButton>
@@ -199,6 +128,8 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
+
+  useEffect(() => {}, [isLogin]);
 
   return (
     <div className={classes.grow}>
@@ -219,13 +150,7 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
               >
-                <Typography>我的订阅</Typography>
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => navigate("/excellentcreator/")}
-              >
-                <Typography>优秀创作者</Typography>
+                <Typography>订阅</Typography>
               </Button>
               <Button color="inherit">
                 <Typography>下载APP</Typography>
@@ -239,11 +164,12 @@ export default function PrimarySearchAppBar() {
                   input: classes.inputInput
                 }}
                 inputProps={{ "aria-label": "search" }}
+                id="navbar-search-input"
               />
               <Button
                 className={classes.searchButton}
                 startIcon={<SearchIcon />}
-                onClick={() => navigate("/search/")}
+                onClick={handleSearchClick}
               >
                 搜索
               </Button>

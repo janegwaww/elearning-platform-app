@@ -28,9 +28,10 @@ export default function HotAuth() {
             label: "优秀创作者",
             tabContent: () => (
               <Fragment>
-                {auths.map((o, i) => (
-                  <CreatorBar info={o} key={i} loading={loading} />
-                ))}
+                {auths &&
+                  auths.map((o, i) => (
+                    <CreatorBar info={o} key={i} loading={loading} />
+                  ))}
               </Fragment>
             )
           }

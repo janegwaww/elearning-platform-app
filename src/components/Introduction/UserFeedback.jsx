@@ -53,8 +53,9 @@ export default function UserFeedback({
   backData: { viewCounts, likeCounts, id, isLike, isCollect }
 }) {
   const classes = useStyles();
-  const [like, setLike] = useState(isLike);
-  const [collect, setCollect] = useState(isCollect);
+  const [like, setLike] = useState(0);
+  const [collect, setCollect] = useState(0);
+  const [lCounts, setLCounts] = useState(0);
 
   const oppositeValue = val => (val === 1 ? 0 : 1);
 
@@ -75,6 +76,7 @@ export default function UserFeedback({
   const handleLikeClick = event => {
     event.preventDefault();
     actionEvent(setLike, likeTheVideo, like);
+    !like ? setLCounts(prev => prev + 1) : setLCounts(prev => prev - 1);
   };
 
   const handleStarClick = () =>
@@ -90,6 +92,7 @@ export default function UserFeedback({
   useEffect(() => {
     setLike(isLike);
     setCollect(isCollect);
+    setLCounts(likeCounts);
   }, [isLike, isCollect]);
 
   return (
@@ -103,7 +106,7 @@ export default function UserFeedback({
 
       <UserLikeHeart
         like={like}
-        likeCounts={likeCounts}
+        likeCounts={lCounts}
         handleClick={handleLikeClick}
       />
 
