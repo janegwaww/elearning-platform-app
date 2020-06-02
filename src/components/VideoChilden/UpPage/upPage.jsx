@@ -29,6 +29,7 @@ import "../../../assets/css/container.css";
 
 import { NavTitle } from "../../Profile/ProfileChildens/components/ProfileNav";
 import { get_data, get_alldata } from "../../../assets/js/request";
+import { navigate } from "@reach/router";
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -95,7 +96,9 @@ const userStyles = makeStyles((them) => ({
         position: "relative",
         border: "1px dashed #D5D5D5",
         overflow: "hidden",
-
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        backgroundSize: "100%",
         display: "inline-block",
         "& input": {
           width: "100%",
@@ -123,7 +126,7 @@ const userStyles = makeStyles((them) => ({
           backgroundColor: "#ccc",
           color: "#fff",
           lineHeight: "80px",
-          textAlign: "center",
+          textAlign: "center ",
           margin: 0,
         },
       },
@@ -208,12 +211,15 @@ export default function VideoIndex(props) {
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
   const [videosign, setVideosign] = React.useState([]); //视频标签
-  const [file, setFile] = React.useState(null); //文件
-  const [fileSrc, setFileSrc] = React.useState(""); //图片文件的临时路径
+
+  const [videoImg, setVideoImg] = React.useState(""); //图片文件的临时路径
   const [currency, setCurrency] = React.useState(""); //视频系列
   const [addseries, setAddseries] = React.useState(false); //新建系列
   const [newseries, setNewseries] = React.useState(""); //暂存新系列
   const [seriesdescription, setSeriesdescription] = React.useState(""); //系列描述
+  const [seriesImg, setSeriesImg] = React.useState(null); //新系列图
+  const [adjunct, setAdjunct] = React.useState([]); //附件
+
   const [signs, setSigns] = useState({}); //标签
   const [currencies, setCurrencies] = useState([]); //系列
   const snackbarClose = () => {
@@ -231,38 +237,48 @@ export default function VideoIndex(props) {
         model_action: "get_category",
       },
     ]).then((res) => {
-      console.log(res);
       setCurrencies(res[0].result_data);
       setSigns(res[1].result_data[0]);
     });
   }, []);
-
   return (
     <section style={{ height: "100vh" }} className="ma-container is-vertical">
       <header className="ma-heiader fn-size-16 fn-color-21">
-        <section fixed className={classes.toolbar}>
+        <section className={classes.toolbar}>
           <Toolbar
             className={`box-between box-align-center ${classes.toolbar}`}
           >
             <Toolbar>
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
                 <img src="../logos/Logo.png" />
               </IconButton>
-              <Button className={classes.btn}>我的制作中心</Button>
+              <Button
+                className={classes.btn}
+                onClick={() => {
+                  navigate("/video");
+                }}
+              >
+                我的制作中心
+              </Button>
               <div>使用教程</div>
             </Toolbar>
             <Toolbar>
-              <Typography style={{ marginRight: 40 }}>
-                <Save className={classes.save} />
-              </Typography>
               <div>
-                <Avatar className={classes.avatar} />
+                <Avatar
+                  className={classes.avatar}
+                  onClick={() => {
+                    navigate("/users");
+                  }}
+                />
               </div>
             </Toolbar>
           </Toolbar>
         </section>
       </header>
-
       <main className={`ma-main bg-f9 ${classes.main}`}>
         <Container
           className={`bg-white ${classes.main} `}
@@ -282,8 +298,8 @@ export default function VideoIndex(props) {
                   id="standard-required"
                   variant="outlined"
                   fullWidth
+                  value={videoTitle}
                   onChange={(event) => {
-                    console.log(event.target.value);
                     setVideoTitle(event.target.value);
                   }}
                 />
@@ -309,6 +325,7 @@ export default function VideoIndex(props) {
                   variant="outlined"
                   multiline
                   fullWidth
+                  vlaue={videodescription}
                   onChange={(event) => {
                     setVideodescription(event.target.value);
                   }}
@@ -336,33 +353,28 @@ export default function VideoIndex(props) {
                         type="checkbox"
                         name="videoSign"
                         value={value}
+                        checked={
+                          videosign.indexOf(value) > -1 ? "checked" : false
+                        }
                         onChange={(event) => {
                           if (event.target.checked) {
                             if (videosign.length > 2) {
-                              event.target.checked = false;
                               setOpenSnackbar({
                                 open: true,
                                 type: "error",
                                 msg: "最多只能选择3个标签哦!",
                               });
                               return;
+                            } else {
+                              let v_arr = JSON.parse(JSON.stringify(videosign));
+                              v_arr.push(event.target.value);
+                              setVideosign(v_arr);
                             }
-                          }
-                          let v_arr = [];
-
-                          let obj_arr = document.querySelectorAll(
-                            'input[name="videoSign"]'
-                          );
-                          for (let i = 0; i < obj_arr.length; i++) {
-                            if (obj_arr[i].checked) {
-                              v_arr.push(obj_arr[i].value);
-                            }
-                          }
-
-                          if (v_arr.length > 0) {
-                            setVideosign(v_arr);
                           } else {
-                            setVideosign([]);
+                            let v_arr = videosign.filter(
+                              (value) => event.target.value != value
+                            );
+                            setVideosign(v_arr);
                           }
                         }}
                       />
@@ -379,13 +391,52 @@ export default function VideoIndex(props) {
               </div>
               <div className="box">
                 <label>视频封面</label>
-                <section>
+                <section className="all-width">
                   <p>
                     选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
                   </p>
                   <div className="item">
+                    {videoImg ? (
+                      <div
+                        className="file"
+                        style={{
+                          backgroundImage:
+                            "url(http://api.haetek.com:9191/" + videoImg + ")",
+                          marginRight: 10,
+                        }}
+                      ></div>
+                    ) : (
+                      ""
+                    )}
+
                     <div className="file">
-                      <input type="file" name="file" id="coverfile" />
+                      <input
+                        type="file"
+                        name="file"
+                        id="coverfile"
+                        accept="image/*"
+                        onChange={(event) => {
+                          let _file = event.target.files[0];
+                          let _formData = new FormData();
+                          _formData.append("model_name", _file.name);
+                          _formData.append("model_action", "upload_file");
+                          _formData.append("type", "video_image");
+                          _formData.append("file", _file);
+                          get_data("api/v1/gateway", _formData).then((res) => {
+                            if (res.err == 0 && res.errmsg == "OK") {
+                              setVideoImg(res.result_data[0]);
+                            } else {
+                              setOpenSnackbar({
+                                open: true,
+                                type: "error",
+                                msg: "上传失败",
+                              });
+                            }
+                          });
+
+                          return false;
+                        }}
+                      />
                       <label
                         htmlFor="coverfile"
                         className="all-width all-height"
@@ -407,16 +458,20 @@ export default function VideoIndex(props) {
                     {!addseries ? (
                       <section className="sign">
                         <Button
-                          color="primary"
                           variant="contained"
-                          style={{ margin: "0 0 12px 0" }}
+                          style={{
+                            margin: "0 0 12px 0",
+                            backgroundColor: "#007CFF",
+                            color: "white",
+                            padding: "3px 12px",
+                          }}
                           onClick={() => {
                             setAddseries(true);
                             return false;
                           }}
                         >
                           <Add />
-                          新建
+                          新建系列
                         </Button>
                         <div className="line"></div>
                         <section>
@@ -426,6 +481,9 @@ export default function VideoIndex(props) {
                                 type="radio"
                                 name="gender1"
                                 value={option.title}
+                                onChange={(event) => {
+                                  setCurrency(event.target.value);
+                                }}
                               />
                               {option.title}
                             </label>
@@ -482,14 +540,65 @@ export default function VideoIndex(props) {
                             <p>
                               将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
                             </p>
-                            <div className="file item">
-                              <input type="file" name="file" id="e" />
-                              <label
-                                htmlFor="se"
-                                className="all-width all-height not"
-                              >
-                                <Add />
-                              </label>
+                            <div>
+                              {seriesImg ? (
+                                <div
+                                  className="file"
+                                  style={{
+                                    backgroundImage:
+                                      "url(http://api.haetek.com:9191/" +
+                                      seriesImg +
+                                      ")",
+                                    marginRight: 10,
+                                  }}
+                                ></div>
+                              ) : (
+                                ""
+                              )}
+
+                              <div className="file item">
+                                <input
+                                  type="file"
+                                  name="file"
+                                  id="seriesfile"
+                                  accept="image/*"
+                                  onChange={(event) => {
+                                    let _file = event.target.files[0];
+                                    let _formData = new FormData();
+                                    _formData.append("model_name", _file.name);
+                                    _formData.append(
+                                      "model_action",
+                                      "upload_file"
+                                    );
+                                    _formData.append("type", "video_image");
+                                    _formData.append("file", _file);
+                                    get_data("api/v1/gateway", _formData).then(
+                                      (res) => {
+                                        if (
+                                          res.err == 0 &&
+                                          res.errmsg == "OK"
+                                        ) {
+                                          setSeriesImg(res.result_data[0]);
+                                        } else {
+                                          setOpenSnackbar({
+                                            open: true,
+                                            type: "error",
+                                            msg: "上传失败",
+                                          });
+                                        }
+                                      }
+                                    );
+
+                                    return false;
+                                  }}
+                                />
+                                <label
+                                  htmlFor="seriesfile"
+                                  className="all-width all-height not"
+                                >
+                                  <Add />
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -561,7 +670,16 @@ export default function VideoIndex(props) {
               <div className="box item">
                 <label>上传附件：</label>
                 <div>
-                  <p>python和pytorch的常用命令.doc</p>
+                  <p style={{ marginBottom: 20 }}>
+                    视频相对应的的课件（以.pdf结尾的文件）
+                  </p>
+
+                  {adjunct && adjunct.length > 0
+                    ? adjunct.map((option) => (
+                        <p key={option.file_name}>{option.file_name}</p>
+                      ))
+                    : ""}
+
                   <div className={classes.textDoc}>
                     <span
                       className="fn-color-007CFF"
@@ -575,18 +693,142 @@ export default function VideoIndex(props) {
                       type="file"
                       id="text-doc"
                       style={{ width: 0, height: 0 }}
+                      onChange={(event) => {
+                        let _file = event.target.files[0];
+                        let _data = new FormData();
+                        _data.append("model_name", "file");
+                        _data.append("model_action", "upload_document");
+                        _data.append("type", "document");
+                        _data.append("file", _file);
+                        get_data("api/v1/gateway", _data).then((res) => {
+                          if (res.err == 0 && res.errmsg == "OK") {
+                            let _adjunct =JSON.parse(JSON.stringify( adjunct));
+                            _adjunct.push(res.result_data);
+
+                            setAdjunct(_adjunct);
+                          } else {
+                            setOpenSnackbar({
+                              open: true,
+                              type: "error",
+                              msg: "上传失败!请检查文件是否为pdf文件",
+                            });
+                          }
+                        });
+                        return false;
+                      }}
                     />
                   </div>
                 </div>
               </div>
 
               <div className="box-center">
-                <Button className={`${classes.btn} ${classes.btn1}`}>
+                <Button
+                  className={`${classes.btn} ${classes.btn1}`}
+                  onClick={() => {
+                    window.history.back();
+                    return false;
+                  }}
+                >
                   返回
                 </Button>
-                <Button className={classes.btn}>提交</Button>
-                <Button className={`${classes.btn} ${classes.btn1}`}>
-                  取消
+                <Button
+                  className={classes.btn}
+                  onClick={() => {
+                    if (!videoTitle) {
+                      setOpenSnackbar({
+                        open: true,
+                        type: "error",
+                        msg: "视频标题不能为空！",
+                      });
+                      return;
+                    }
+                    if (!videodescription) {
+                      setOpenSnackbar({
+                        open: true,
+                        type: "error",
+                        msg: "视频描述不能为空！",
+                      });
+                      return;
+                    }
+                    if (JSON.stringify(videosign) == "[]") {
+                      setOpenSnackbar({
+                        open: true,
+                        type: "error",
+                        msg: "请选择4个以下的标签！",
+                      });
+                      return;
+                    }
+                    console.log(JSON.parse( sessionStorage.getItem('file_data')))
+                    let _data = {
+                      task_id: JSON.parse(sessionStorage.getItem('file_data')).video_id,
+                      title: videoTitle,
+                      description: videodescription,
+                      category: videosign,
+                    };
+                    if (videoImg) {
+                      _data.image_path = videoImg;
+                    }
+                    if (currency) {
+                      let isNew = currencies.some((option) => {
+                        if (option.title == currency) {
+                          return option.type == "new";
+                        }
+                      });
+                      if (isNew) {
+                        if (seriesdescription) {
+                          _data.series_description = seriesdescription;
+                        }
+                        if (seriesImg) {
+                          _data.series_image_path = seriesImg;
+                        }
+                      }
+                      _data.series_title = currency;
+                    }
+
+                    if (JSON.stringify(adjunct) != "[]") {
+                      _data.document = adjunct;
+                    }
+                    get_data("api/v1/gateway", {
+                      model_name: "video",
+                      model_action: "check",
+                      extra_data:_data
+                    }).then((res) => {
+                      if(res.err==0&&res.errmsg=="OK"){
+                        setOpenSnackbar({
+                          open:true,
+                          type:'success',
+                          msg:'上传成功,正在为你跳转个人中心作品管理页...'
+                        })
+                        setTimeout(() => {
+                            navigate('/user/profile')
+                        }, 4000);
+                      }
+                      console.log(res);
+                    });
+                    console.log(currencies);
+                    console.log(_data);
+
+                    return false;
+                  }}
+                >
+                  提交
+                </Button>
+                <Button
+                  className={`${classes.btn} ${classes.btn1}`}
+                  onClick={() => {
+                    setVideoTitle("");
+                    setVideodescription("");
+                    setVideosign([]);
+                    setVideoImg("");
+                    setCurrency("");
+                    setNewseries("");
+                    setSeriesdescription("");
+                    setSeriesImg("");
+                    setAdjunct([]);
+                    return false;
+                  }}
+                >
+                  重置
                 </Button>
               </div>
             </form>

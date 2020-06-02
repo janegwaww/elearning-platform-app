@@ -4,11 +4,14 @@ function Modal() {
   this.obj = document.createElement("div");
 }
 Modal.prototype.alert = function(option) {
+  //argument多参时，第1个为显示的信息，第二个为类型，如成功success，失败error
+  //argument为一个参时，判断是字符还是对像，字符为信息，默认类型。对像时modal的各参就是对像属性
+
   if (arguments.length > 1) {
     this.msg = arguments[0];
     this.severity = arguments[1];
   } else {
-    this.option = arguments;
+    this.option = option;
   }
   if (this.severity) {
     this.obj.className = "alert " + this.severity;
@@ -28,7 +31,7 @@ Modal.prototype.alert = function(option) {
   setTimeout(()=>{
       if(!document.querySelector('.alert')){return};
       this.body.removeChild(this.obj);
-  },3000)
+  },5000)
   
 };
 

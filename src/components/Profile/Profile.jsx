@@ -118,7 +118,7 @@ class Profile extends React.Component {
                     id={"dynamic-menu"}
                   />
                 </li>
-               {/**  <li
+               <li
                   aria-controls="message-menu"
                   onClick={this.pageRoute}
                   data-page="MsgCenter"
@@ -134,7 +134,7 @@ class Profile extends React.Component {
                     id={"message-menu"}
                   />
                 </li>
-                */}
+               
                 <li
                   aria-label="more"
                   aria-controls="create-menu"
