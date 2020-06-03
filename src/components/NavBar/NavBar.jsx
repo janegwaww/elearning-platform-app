@@ -67,7 +67,14 @@ export default function PrimarySearchAppBar() {
     >
       {isLogin ? (
         <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem
+            onClick={e => {
+              e.preventDefault();
+              navigate(`/users/profile/`);
+            }}
+          >
+            Profile
+          </MenuItem>
           <MenuItem
             onClick={e => {
               e.preventDefault();
