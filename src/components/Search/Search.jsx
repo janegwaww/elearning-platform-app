@@ -28,8 +28,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const iterateItems = (arr = []) => {
-  return arr.map((o, i) => <SearchCard card={o} key={i} />);
+const iterateItems = (arr = [], loading) => {
+  // iterate there
+  return (loading ? Array.from({ length: 12 }) : arr).map((o, i) => (
+    <SearchCard card={o} key={i} />
+  ));
 };
 
 export default function Search({ input }) {
@@ -37,8 +40,10 @@ export default function Search({ input }) {
   const [result, setResult] = useState([]);
   const [count, setCount] = useState(0);
   const [type, setType] = useState("all");
+  const [loading, setLoading] = useState(true);
 
   const fetchSearchResult = ({ page = 1 }) => {
+    setLoading(true);
     searchGlobal({
       query_string: input,
       video_ids: [],
@@ -48,6 +53,7 @@ export default function Search({ input }) {
     }).then(data => {
       setResult(data.resultData);
       setCount(data.count);
+      setLoading(false);
     });
   };
 
@@ -82,7 +88,9 @@ export default function Search({ input }) {
       </ButtonGroup>
       <Divider />
       <br />
-      <div className={classes.searchResult}>{iterateItems(result)}</div>
+      <div className={classes.searchResult}>
+        {iterateItems(result, loading)}
+      </div>
       <br />
       <Pagination
         count={Math.ceil(count / 12)}
