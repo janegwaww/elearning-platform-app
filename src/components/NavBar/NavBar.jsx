@@ -15,9 +15,10 @@ import {
   Typography,
   IconButton,
   AppBar,
-  Button
+  Button,
+  Avatar
 } from "@material-ui/core";
-import { isLoggedIn, logout } from "../../services/auth";
+import { isLoggedIn, logout, getUser } from "../../services/auth";
 import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
@@ -25,6 +26,7 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isLogin = isLoggedIn();
+  const { headshot, name } = getUser();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -61,6 +63,7 @@ export default function PrimarySearchAppBar() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      classes={{ list: classes.list }}
     >
       {isLogin ? (
         <>
@@ -97,6 +100,7 @@ export default function PrimarySearchAppBar() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      classes={{ list: classes.list }}
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
@@ -192,7 +196,11 @@ export default function PrimarySearchAppBar() {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                {isLogin ? (
+                  <Avatar src={headshot} alt={name} />
+                ) : (
+                  <AccountCircle />
+                )}
               </IconButton>
               <Button
                 color="secondary"
