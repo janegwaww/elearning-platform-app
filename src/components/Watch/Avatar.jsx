@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Avatar } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -47,7 +48,16 @@ const PersonAvatar = ({ auth = {} }) => {
   return (
     <Fragment>
       <Paper elevation={0} className={classes.paper}>
-        <Avatar alt="avatar" src={headshot} style={{ marginRight: "8px" }} />
+        <Avatar
+          alt="avatar"
+          src={headshot}
+          style={{ marginRight: "8px" }}
+          onClick={() =>
+            navigate(`/excellentcreator/creator?cid=${user_id}`, {
+              state: { cid: "" }
+            })
+          }
+        />
         <div>
           <Typography>{user_name}</Typography>
           <div className={classes.subscrib}>
