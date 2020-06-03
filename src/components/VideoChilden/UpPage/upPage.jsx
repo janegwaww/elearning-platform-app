@@ -235,7 +235,7 @@ export default function VideoIndex(props) {
   useEffect(() => {
 
     if(localStorage.getItem('haetekUser')){
-      console.log(1)
+    
       setUserinfo(JSON.parse(localStorage.getItem('haetekUser')))
     }
    

@@ -161,11 +161,11 @@ export default class Header extends Component {
                 navigate("/video/uppage");
               }}
             >
-              发布视频{" "}
+              发布视频
             </NewBtn2>
           </div>
           <div title="点击可保存你编辑文本样式">
-            <Save className={styles.save} onClick={btn_save} />{" "}
+            <Save className={styles.save} onClick={btn_save} />
           </div>
           <div className={styles.users} onClick={this.btn_user}>
             {this.state.user_info ? (
