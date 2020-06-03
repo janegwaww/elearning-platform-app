@@ -93,12 +93,19 @@ export default class UploadVideos extends Component {
         user_info: getUser(),
       });
     }
+    if(sessionStorage.getItem('file_data')){
+      this.setState({
+        status:3,
+        files:[JSON.parse(sessionStorage.getItem('file_data'))]
+      })     
+    }
   }
   componentWillReceiveProps(nextProps) {
     
     if (nextProps.parent.props.parent.state.uploadStatus === 4) {
       this.setState({
         status: 4,
+        
       });
       nextProps.parent.props.parent.setState({
         uploadStatus:0
@@ -237,7 +244,6 @@ export default class UploadVideos extends Component {
                 e.preventDefault();
                 if (!isLoggedIn()) {
                   _this.setState({
-                
                     promp_info:{
                       type:1,
                       open:true,
