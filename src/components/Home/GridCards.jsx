@@ -15,8 +15,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const handleClick = ({ video_id, series_id }) => {
     !!video_id &&
-      navigate(`/watch?vid=${video_id}`, { state: { vid: video_id } });
-    !!series_id && navigate(`/series?sid=${series_id}`);
+      navigate(`/watch/?vid=${video_id}`, { state: { vid: video_id } });
+    !!series_id && navigate(`/series/?sid=${series_id}`);
   };
 
   useEffect(() => {

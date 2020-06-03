@@ -77,7 +77,7 @@ function RenderRow({ item, order }) {
   const classes = useStyles();
 
   const handleListClick = id =>
-    navigate(`/watch?vid=${id}`, { state: { vid: id } });
+    navigate(`/watch/?vid=${id}`, { state: { vid: id } });
 
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
 
