@@ -12,7 +12,7 @@ export default class ChannelPage extends Component {
         <div className="channel-container" style={{ width: "100%" }}>
           <Helmet title={`Channel | ${config.siteTitle}`} />
           <Container fixed>
-            <Channel />
+            <Channel {...this.props} />
           </Container>
         </div>
       </Layout>
