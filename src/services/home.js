@@ -53,3 +53,20 @@ export const getChannelList = pipeThen(
   getResultData,
   apisVideo.categoryInformation
 );
+
+// 获取系列详情
+const concatSeries = (arr, sour) =>
+  arr.reduce((acc, cur) => Object.assign(acc, { data: cur, source: sour }), []);
+
+const extraSeries = ({ video_data = [], document_data = [], ...info }) => {
+  const videos = concatSeries(video_data, "video");
+  const doc = concatSeries(document_data, "document");
+  return Promise.resolve({ info, series: [...videos, ...doc] });
+};
+
+export const getSeriesInfo = pipeThen(
+  extraSeries,
+  getFirstResultData,
+  getResultData,
+  apisSearch.getSeriesDetails
+);

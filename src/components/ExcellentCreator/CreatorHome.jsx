@@ -92,7 +92,8 @@ const CreatorAvatar = ({ auth }) => {
             style={{
               display: "flex",
               justifyContent: "space-evenly",
-              padding: "8px 0"
+              padding: "8px 0",
+              display: "none"
             }}
           >
             <ButtonBase className={classes.subButton}>+订阅</ButtonBase>
