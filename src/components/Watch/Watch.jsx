@@ -52,7 +52,7 @@ class Watch extends Component {
 
     return (
       <Fragment>
-        <Grid container style={{ marginTop: 18 }}>
+        <Grid container style={{ marginTop: 18 }} spacing={3}>
           <Grid item xs={9}>
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
             <LazyIntroduction vid={vid} />

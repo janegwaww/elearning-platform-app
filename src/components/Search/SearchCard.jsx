@@ -54,7 +54,75 @@ const titleItem = (pay, title, time, id) =>
       }}
     >
       {isPay(pay)}
-      <Link to={`/watch/?vid=${id}`} style={{ flexGrow: 1 }}>
+      <Link
+        to={`/watch/?vid=${id}`}
+        state={{ vid: id }}
+        style={{ flexGrow: 1 }}
+      >
+        <Typography variant="h6">{title}</Typography>
+      </Link>
+      {uploadTime(time)}
+    </div>
+  ) : null;
+
+// 暂时的处理（重复代码）
+const authTitleItem = (pay, title, time, id, uid) =>
+  title ? (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}
+    >
+      {isPay(pay)}
+      <Link
+        to={`/excellentcreator/creator/?cid=${uid}`}
+        state={{ cid: uid }}
+        style={{ flexGrow: 1 }}
+      >
+        <Typography variant="h6">{title}</Typography>
+      </Link>
+      {uploadTime(time)}
+    </div>
+  ) : null;
+// 暂时处理
+const seriesTitleItem = (pay, title, time, id) =>
+  title ? (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}
+    >
+      {isPay(pay)}
+      <Link
+        to={`/series/?sid=${id}`}
+        state={{ sid: id }}
+        style={{ flexGrow: 1 }}
+      >
+        <Typography variant="h6">{title}</Typography>
+      </Link>
+      {uploadTime(time)}
+    </div>
+  ) : null;
+// 暂时处理
+const docTitleItem = (pay, title, time, id) =>
+  title ? (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}
+    >
+      {isPay(pay)}
+      <Link
+        to={`/document/?did=${id}`}
+        state={{ did: id }}
+        style={{ flexGrow: 1 }}
+      >
         <Typography variant="h6">{title}</Typography>
       </Link>
       {uploadTime(time)}
@@ -88,7 +156,7 @@ const authAvatar = headshot =>
 const userAvatar = (name, headshot, id, view, comment, like) =>
   name ? (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <Link to={`/excellentcreator/creator/?cid=${id}`}>
+      <Link to={`/excellentcreator/creator/?cid=${id}`} state={{ cid: id }}>
         <Avatar
           src={headshot}
           alt={name}
@@ -154,7 +222,7 @@ const videoContainer = (...fns) => ({
       {fns[0](path)}
     </div>
     <div style={{ gridColumn: 2, gridRow: 1 }}>
-      {fns[1](pay, title, time, id)}
+      {fns[1](pay, title, time, id, uid)}
     </div>
     <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>{fns[2](des)}</div>
     <div style={{ gridColumn: 2, gridRow: 4 }}>{fns[3](sub)}</div>
@@ -264,7 +332,7 @@ export default function SearchCard({ card = {} }) {
 
   const authCard = videoContainer(
     authAvatar,
-    titleItem,
+    authTitleItem,
     descriptionItem,
     subtitle,
     fans
@@ -272,13 +340,13 @@ export default function SearchCard({ card = {} }) {
 
   const seriesCard = videoContainer(
     imagePick,
-    titleItem,
+    seriesTitleItem,
     descriptionItem,
     subtitle,
     userAvatar
   )(vtrans(data));
 
-  const docCard = docContainer(titleItem, userAvatar)(dtrans(data));
+  const docCard = docContainer(docTitleItem, userAvatar)(dtrans(data));
 
   const chosenCard = sour =>
     ({

@@ -13,10 +13,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Channel({ location: { state } }) {
+export default function Channel({ location: { state = {} } }) {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
+  const { index = "001", name = "" } = state;
 
   const fetchSubData = () => {
     setLoading(true);
@@ -27,12 +28,12 @@ export default function Channel({ location: { state } }) {
   };
 
   useEffect(() => {
-    if (state.index) {
+    if (index) {
       fetchSubData();
     } else {
       navigate("/");
     }
-  }, [state.index]);
+  }, [index]);
 
   return (
     <Fragment>

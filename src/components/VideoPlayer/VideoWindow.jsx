@@ -18,7 +18,7 @@ class VideoWindow extends Component {
     }
   }
 
-  imagePath = path => `http://api.haetek.com:9191/${path}`;
+  wrapPath = path => `http://api.haetek.com:9191/${path}`;
 
   render() {
     const { info } = this.props;
@@ -28,9 +28,8 @@ class VideoWindow extends Component {
       <ReactPlayer
         ref={this.playerRef}
         url={info.videoPath}
-        light={this.imagePath(info.imagePath)}
+        height="100%"
         width="100%"
-        height={height}
         controls
         playbackRate={1}
         onStart={() => this.setState({ height: "100%" })}
@@ -39,7 +38,7 @@ class VideoWindow extends Component {
             tracks: [
               {
                 kind: "subtitles",
-                src: info.assPath,
+                src: this.wrapPath(info.vttPath),
                 srcland: "cn",
                 default: true
               }
@@ -57,7 +56,7 @@ VideoWindow.defaultProps = {
 
 VideoWindow.propTypes = {
   info: PropTypes.object.isRequired,
-  timer: PropTypes.number
+  timer: PropTypes.string
 };
 
 export default VideoWindow;
