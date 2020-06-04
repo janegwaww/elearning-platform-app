@@ -56,7 +56,7 @@ export const getChannelList = pipeThen(
 
 // 获取系列详情
 const concatSeries = (arr, sour) =>
-  arr.reduce((acc, cur) => Object.assign(acc, { data: cur, source: sour }), []);
+  arr.reduce((acc, cur) => acc.concat({ data: cur, source: sour }), []);
 
 const extraSeries = ({ video_data = [], document_data = [], ...info }) => {
   const videos = concatSeries(video_data, "video");

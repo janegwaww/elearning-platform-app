@@ -23,15 +23,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Series({ location: { state } }) {
   const classes = useStyles();
-  const ser = "ser";
   const [loading, setLoading] = useState("true");
   const [series, setSeries] = useState([]);
   const [seriesInfo, setSeriesInfo] = useState({});
+  const { sid = "" } = state;
 
   const fetchSeriesData = () => {
     setLoading(true);
-    getSeriesInfo({ series_id: state.sid }).then(data => {
-      console.log(data);
+    getSeriesInfo({ series_id: sid }).then(data => {
       setSeries(data.series);
       setSeriesInfo(data.info);
       setLoading(false);
@@ -39,12 +38,12 @@ export default function Series({ location: { state } }) {
   };
 
   useEffect(() => {
-    if (state.sid) {
+    if (sid) {
       fetchSeriesData();
     } else {
       navigate("/");
     }
-  }, [state.sid]);
+  }, [sid]);
 
   return (
     <div>
