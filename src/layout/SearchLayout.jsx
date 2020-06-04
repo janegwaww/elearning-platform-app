@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
+import { Link } from "gatsby";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -36,11 +37,10 @@ export default function SearchLayout({ children, searchValue }) {
       >
         <Container>
           <nav>
-            <a href="#">知擎首页</a>
-            <a href="#">频道</a>
-            <a href="#">我的订阅</a>
-            <a href="#">优秀创作者</a>
-            <a href="#">下载APP</a>
+            <Link to="/">知擎首页</Link>
+            <Link to="/channel">频道</Link>
+            <Link to="/mysubscription">订阅</Link>
+            <Link to="#">下载APP</Link>
           </nav>
         </Container>
       </div>
