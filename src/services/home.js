@@ -8,6 +8,8 @@ const apisSearch = searchPartApis(token);
 
 const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
 
+const getFirstResultData = ([data = {}]) => Promise.resolve(data);
+
 const getCountResultData = ({ data = {} }) =>
   Promise.resolve({ resultData: data.result_data, count: data.count });
 
@@ -34,4 +36,20 @@ export const getHotAuths = pipeThen(getResultData, apisVideo.hotAuthor);
 export const searchGlobal = pipeThen(
   getCountResultData,
   apisVideo.globalSearch
+);
+
+// 获取作者信息
+const extraAuth = ({ data, ...auth }) => Promise.resolve({ auth, list: data });
+
+export const getCreatorInfo = pipeThen(
+  extraAuth,
+  getFirstResultData,
+  getResultData,
+  apisSearch.getAuthorInformation
+);
+
+// 获取频道
+export const getChannelList = pipeThen(
+  getResultData,
+  apisVideo.categoryInformation
 );

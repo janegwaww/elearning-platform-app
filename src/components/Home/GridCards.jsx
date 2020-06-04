@@ -74,7 +74,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography variant="caption" color="textSecondary">
-                      {`来自频道@${item.category && item.category.toString()}`}
+                      {item.category &&
+                        `来自频道@${item.category && item.category.toString()}`}
                     </Typography>
                     <Typography variant="caption" color="textSecondary">
                       {item.time &&
