@@ -18,6 +18,7 @@ import {
   Button,
   Avatar
 } from "@material-ui/core";
+import ChannelPopover from "./ChannelPopover";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
 import useStyles from "./NavBarStyles";
 
@@ -150,13 +151,14 @@ export default function PrimarySearchAppBar() {
             <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
-            <div>
+            <div style={{ display: "flex" }}>
               <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
-              <Button color="inherit" onClick={() => navigate("/channel/")}>
-                <Typography>频道</Typography>
-              </Button>
+              <ChannelPopover />
+              {/* <Button color="inherit">
+                  <Typography>频道</Typography>
+                  </Button> */}
               <Button
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
