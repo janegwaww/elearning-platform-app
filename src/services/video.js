@@ -39,6 +39,7 @@ export const subtitles = pipeThen(
 // 截取前端需要的字段
 const extraVideoInfo = (data = {}) => ({
   videoPath: data.video_path,
+  vttPath: data.vtt_path,
   assPath: data.ass_path,
   title: data.title,
   authName: data.user_name,

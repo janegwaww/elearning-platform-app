@@ -14,7 +14,9 @@ const axiosInstance = (token = "") =>
     timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${
+        JSON.parse(window.localStorage.getItem("haetekUser")).token
+      }`
     }
   });
 
