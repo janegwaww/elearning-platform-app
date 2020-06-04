@@ -42,8 +42,8 @@ export default function CreatorBar({ info, ...props }) {
           src={info.headshot}
           style={{ width: 50, height: 50, cursor: "pointer" }}
           onClick={() =>
-            navigate(`/excellentcreator/creator?cid=${info.author_id}`, {
-              state: { cid: info.author_id }
+            navigate(`/excellentcreator/creator?cid=${info.user_id}`, {
+              state: { cid: info.user_id }
             })
           }
         />
