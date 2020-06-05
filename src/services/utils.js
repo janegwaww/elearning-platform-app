@@ -20,3 +20,7 @@ export const wrapCamelName = (str = "") =>
 // 秒转iso时制
 export const secondsToHMS = (seconds = 0) =>
   new Date(seconds * 1000).toISOString().substr(11, 8);
+
+// 转iso日期
+export const secondsToDate = (seconds = 0) =>
+  new Date(seconds * 1000).toISOString().slice(0, 10);

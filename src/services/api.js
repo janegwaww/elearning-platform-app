@@ -14,7 +14,9 @@ const axiosInstance = (token = "") =>
     timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${
+        JSON.parse(window.localStorage.getItem("haetekUser")).token
+      }`
     }
   });
 
@@ -140,7 +142,9 @@ export const videoApis = (token = "") => {
     // 热门视频
     "hot_video",
     // 热门作者
-    "hot_author"
+    "hot_author",
+    // 频道
+    "category_information"
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
@@ -157,14 +161,18 @@ export const searchPartApis = (token = "") => {
     ["add_collection"],
     ["give_like"],
     ["view_file"],
-    ["add_subscription", "latest_subscription"]
+    ["add_subscription", "latest_subscription"],
+    ["get_author_information"],
+    ["get_series_details"]
   ];
   const getParam = [
     "comment",
     "collection",
     "like",
     "document",
-    "subscription"
+    "subscription",
+    "user",
+    "series"
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),

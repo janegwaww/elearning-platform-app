@@ -38,9 +38,17 @@ class VideoPlayer extends Component {
           </Typography>
           <Typography variant="subtitle2" gutterBottom>
             来自频道
-            <Link href="#" color="secondary" onClick={this.preventDefault}>
-              {`@${videoInfo.authName}`}
-            </Link>
+            {videoInfo.category &&
+              videoInfo.category.map(o => (
+                <Link
+                  href="#"
+                  color="secondary"
+                  onClick={this.preventDefault}
+                  key={o}
+                >
+                  {`@${o}`}
+                </Link>
+              ))}
           </Typography>
         </div>
         <VideoSearchWrap vid={this.props.vid}>

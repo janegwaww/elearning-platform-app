@@ -15,8 +15,9 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const handleClick = ({ video_id, series_id }) => {
     !!video_id &&
-      navigate(`/watch?vid=${video_id}`, { state: { vid: video_id } });
-    !!series_id && navigate(`/series?sid=${series_id}`);
+      navigate(`/watch/?vid=${video_id}`, { state: { vid: video_id } });
+    !!series_id &&
+      navigate(`/series/?sid=${series_id}`, { state: { sid: series_id } });
   };
 
   useEffect(() => {
@@ -74,7 +75,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <Typography variant="caption" color="textSecondary">
-                      {`来自频道@${item.category && item.category.toString()}`}
+                      {item.category &&
+                        `来自频道@${item.category && item.category.toString()}`}
                     </Typography>
                     <Typography variant="caption" color="textSecondary">
                       {item.time &&

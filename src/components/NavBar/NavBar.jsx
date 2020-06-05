@@ -15,9 +15,11 @@ import {
   Typography,
   IconButton,
   AppBar,
-  Button
+  Button,
+  Avatar
 } from "@material-ui/core";
-import { isLoggedIn, logout } from "../../services/auth";
+import ChannelPopover from "./ChannelPopover";
+import { isLoggedIn, logout, getUser } from "../../services/auth";
 import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
@@ -25,6 +27,7 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isLogin = isLoggedIn();
+  const { headshot, name } = getUser();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -61,10 +64,18 @@ export default function PrimarySearchAppBar() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      classes={{ list: classes.list }}
     >
       {isLogin ? (
         <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem
+            onClick={e => {
+              e.preventDefault();
+              navigate(`/users/profile/`);
+            }}
+          >
+            Profile
+          </MenuItem>
           <MenuItem
             onClick={e => {
               e.preventDefault();
@@ -97,6 +108,7 @@ export default function PrimarySearchAppBar() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      classes={{ list: classes.list }}
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
@@ -139,13 +151,14 @@ export default function PrimarySearchAppBar() {
             <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
-            <div>
+            <div style={{ display: "flex" }}>
               <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
-              <Button color="inherit" onClick={() => navigate("/channel/")}>
-                <Typography>频道</Typography>
-              </Button>
+              <ChannelPopover />
+              {/* <Button color="inherit">
+                  <Typography>频道</Typography>
+                  </Button> */}
               <Button
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
@@ -192,7 +205,11 @@ export default function PrimarySearchAppBar() {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                {isLogin ? (
+                  <Avatar src={headshot} alt={name} />
+                ) : (
+                  <AccountCircle />
+                )}
               </IconButton>
               <Button
                 color="secondary"
