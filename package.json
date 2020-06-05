@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@reach/router": "^1.3.3",
+    "assjs": "0.0.11",
     "axios": "^0.19.2",
     "clsx": "^1.1.0",
     "element-theme-default": "^1.4.13",

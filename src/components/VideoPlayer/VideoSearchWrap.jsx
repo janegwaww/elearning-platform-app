@@ -38,7 +38,8 @@ const KeSearchButton = withStyles({
 const KeInput = withStyles({
   root: {
     width: "60%",
-    marginLeft: "20px"
+    marginLeft: "20px",
+    marginTop: 0
   },
   input: {
     "&::placeholder": {
@@ -52,7 +53,7 @@ const VideoSearchWrap = ({ children, vid }) => {
   const classes = useStyles();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState("");
 
   const closeSearchInput = () => {
     setShowButton(true);

@@ -6,6 +6,15 @@ const { token } = getUser();
 const apisVideo = videoApis(token);
 const apisSearch = searchPartApis(token);
 
+// 错误信息提示
+const errorMessageNotice = (odata = {}) => {
+  const { data = {} } = odata;
+  if (data.err != 0) {
+    alert(data.errmsg);
+  }
+  return Promise.resolve(odata);
+};
+
 // 获取后端结果字段
 const getResultData = ({ data = {} }) =>
   Promise.resolve(data.result_data || []);
@@ -32,6 +41,7 @@ export const subtitles = pipeThen(
   subtitleFront,
   getResultDataFirst,
   getResultData,
+  errorMessageNotice,
   apisVideo.localSearch
 );
 
@@ -54,6 +64,7 @@ export const videoPath = pipeThen(
   videoInfoFront,
   getResultDataFirst,
   getResultData,
+  errorMessageNotice,
   apisVideo.videoPlay
 );
 
@@ -87,6 +98,7 @@ const boolErrData = err => Promise.resolve(err === "0");
 export const collectTheVideo = pipeThen(
   boolErrData,
   getErrData,
+  errorMessageNotice,
   apisSearch.addCollection
 );
 
@@ -94,6 +106,7 @@ export const collectTheVideo = pipeThen(
 export const likeTheVideo = pipeThen(
   boolErrData,
   getErrData,
+  errorMessageNotice,
   apisSearch.giveLike
 );
 
@@ -116,5 +129,6 @@ export const getRecommendVideos = pipeThen(
 export const subscribeAuth = pipeThen(
   boolErrData,
   getErrData,
+  errorMessageNotice,
   apisSearch.addSubscription
 );

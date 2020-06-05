@@ -6,6 +6,14 @@ const { token } = getUser();
 const apisVideo = videoApis(token);
 const apisSearch = searchPartApis(token);
 
+const errorMessageNotice = (odata = {}) => {
+  const { data = {} } = odata;
+  if (data.err != 0) {
+    alert(data.errmsg);
+  }
+  return Promise.resolve(odata);
+};
+
 const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
 
 const getFirstResultData = ([data = {}]) => Promise.resolve(data);
@@ -20,10 +28,18 @@ export const getLatestSubscription = pipeThen(
 );
 
 // 获取热门视频的最终数据
-export const getHotVideos = pipeThen(getResultData, apisVideo.hotVideo);
+export const getHotVideos = pipeThen(
+  getResultData,
+  errorMessageNotice,
+  apisVideo.hotVideo
+);
 
 // 获取热门作者的最终数据
-export const getHotAuths = pipeThen(getResultData, apisVideo.hotAuthor);
+export const getHotAuths = pipeThen(
+  getResultData,
+  errorMessageNotice,
+  apisVideo.hotAuthor
+);
 
 // 全局搜索
 // const concatResultData = ({ resultData, count }) => {
@@ -35,6 +51,7 @@ export const getHotAuths = pipeThen(getResultData, apisVideo.hotAuthor);
 
 export const searchGlobal = pipeThen(
   getCountResultData,
+  errorMessageNotice,
   apisVideo.globalSearch
 );
 
@@ -45,12 +62,14 @@ export const getCreatorInfo = pipeThen(
   extraAuth,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getAuthorInformation
 );
 
 // 获取频道
 export const getChannelList = pipeThen(
   getResultData,
+  errorMessageNotice,
   apisVideo.categoryInformation
 );
 
@@ -68,5 +87,6 @@ export const getSeriesInfo = pipeThen(
   extraSeries,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getSeriesDetails
 );

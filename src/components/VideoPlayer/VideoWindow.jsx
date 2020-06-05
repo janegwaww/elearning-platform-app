@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
+import ass from "assjs";
 
 class VideoWindow extends Component {
   constructor(props) {
@@ -11,6 +12,31 @@ class VideoWindow extends Component {
     this.playerRef = React.createRef(null);
   }
 
+  wrapPath = path => `http://api.haetek.com:9191/${path}`;
+
+  fetchVideoSubtitle = () => {
+    const { info = {} } = this.props;
+    const { vttPath } = info;
+    fetch(
+      `${this.wrapPath("static/videos/5c82d69504419c65f4aec21db403e904.ass")}`
+    )
+      .then(res => res.text())
+      .then(text => {
+        /* setTimeout(() => {
+         *   new ass(
+         *     text,
+         *     document
+         *       .getElementById("kengine-video-player")
+         *       .getElementsByTagName("video")[0]
+         *   );
+         * }, 1000); */
+      });
+  };
+
+  componentDidMount() {
+    this.fetchVideoSubtitle();
+  }
+
   componentDidUpdate(prevProps) {
     const { timer } = this.props;
     if (timer !== prevProps.timer) {
@@ -18,14 +44,13 @@ class VideoWindow extends Component {
     }
   }
 
-  wrapPath = path => `http://api.haetek.com:9191/${path}`;
-
   render() {
     const { info } = this.props;
     const { height } = this.state;
 
     return (
       <ReactPlayer
+        id="kengine-video-player"
         ref={this.playerRef}
         url={info.videoPath}
         height="100%"
@@ -51,7 +76,7 @@ class VideoWindow extends Component {
 }
 
 VideoWindow.defaultProps = {
-  timer: 0
+  timer: "0"
 };
 
 VideoWindow.propTypes = {

@@ -36,20 +36,20 @@ class VideoPlayer extends Component {
           <Typography variant="h6" gutterBottom>
             {videoInfo && videoInfo.title}
           </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            来自频道
-            {videoInfo.category &&
+          {/* <Typography variant="subtitle2" gutterBottom>
+              来自频道
+              {videoInfo.category &&
               videoInfo.category.map(o => (
-                <Link
-                  href="#"
-                  color="secondary"
-                  onClick={this.preventDefault}
-                  key={o}
-                >
-                  {`@${o}`}
-                </Link>
+              <Link
+              href="#"
+              color="secondary"
+              onClick={this.preventDefault}
+              key={o}
+              >
+              {`@${o}`}
+              </Link>
               ))}
-          </Typography>
+              </Typography> */}
         </div>
         <VideoSearchWrap vid={this.props.vid}>
           {timer => <VideoWindow info={videoInfo} timer={timer} />}

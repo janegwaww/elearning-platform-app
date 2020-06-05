@@ -31,20 +31,21 @@ export default function SearchLayout({ children, searchValue }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div
-        style={{ backgroundColor: "#2c2c3b", height: 36 }}
-        id="back-to-top-anchor"
-      >
-        <Container>
-          <nav>
-            <Link to="/">知擎首页</Link>
-            <Link to="/channel">频道</Link>
-            <Link to="/mysubscription">订阅</Link>
-            <Link to="#">下载APP</Link>
-          </nav>
-        </Container>
-      </div>
-      <AppBar position="static" color="inherit">
+      <AppBar position="fixed" color="inherit">
+        <div
+          style={{ backgroundColor: "#2c2c3b", height: 36 }}
+          id="back-to-top-anchor"
+        >
+          <Container>
+            <nav>
+              <Link to="/">知擎首页</Link>
+              <Link to="/channel">频道</Link>
+              <Link to="/mysubscription">订阅</Link>
+              <Link to="#">下载APP</Link>
+            </nav>
+          </Container>
+        </div>
+
         <Container>
           <Toolbar>
             <InputBase
