@@ -54,7 +54,8 @@ export function ProNavbar(props) {
     setScrollWidth(event.target.clientWidth);
     setScrollLeft(event.target.offsetLeft - 10);
     if (props.onEvent && props.list.length > 1) {
-      props.onEvent(parseInt(event.target.dataset.inx) + 1);
+     
+      props.onEvent(Math.floor(event.target.dataset.inx) + 1);
     }
   };
 
@@ -91,6 +92,7 @@ export function Navbar(props) {
           onClick={() => {
             if(val==idx){return}
             setVal(idx);
+            console.log('idx',idx)
             props.onEvent&&props.onEvent(idx);
           }}
         >

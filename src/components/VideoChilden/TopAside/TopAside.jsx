@@ -20,7 +20,8 @@ export default class TopAside extends Component {
     this.setState({
       inx: parseInt(el.target.dataset.inx),
     });
-    this.props.parent.get_top_inx(this, parseInt(el.target.dataset.inx));
+    // 暂时不用文字编辑，屏蔽
+    // this.props.parent.get_top_inx(this, parseInt(el.target.dataset.inx));
   }
   shouldComponentUpdate(nextProps, nextState) {
     return true;
@@ -37,6 +38,7 @@ export default class TopAside extends Component {
           媒体
           <div data-inx="1" onClick={this.btn_click}></div>
         </li>
+        {/** 
         <li
           data-inx="3"
           className={this.state.inx === 3 ? styles.active : ""}
@@ -47,6 +49,7 @@ export default class TopAside extends Component {
           文本
           <div data-inx="3" onClick={this.btn_click}></div>
         </li>
+        */}
       </ul>
     );
   }

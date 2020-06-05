@@ -61,14 +61,15 @@ export default class VideoPage extends Component {
     this.context_blur = this.context_blur.bind(this);
   }
   componentDidMount() {
-
-
-
     this.setState({
       video_h: getObj("myvideo").clientHeight,
     });
    
-    getObj("max-box").style.height = document.body.clientHeight+'px';
+    getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
+    window.onresize = (evnt) =>{
+      getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
+    }
+
       // getObj("gatsby-focus-wrapper").clientHeight + "px";
 
     // 调整滚动条宽度
@@ -83,13 +84,11 @@ export default class VideoPage extends Component {
       })
     }
   }
-
-  // componentWillReceiveProps(nextState) {
-  //   return true;
-  // }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return true;
-  // }
+ 
+  componentWillUnmount (){
+    window.onresize=null;
+  }
+ 
   
   getUpfileUrl(res) {
     //接收组件传递视频数据
@@ -304,7 +303,7 @@ export default class VideoPage extends Component {
     
     el.target.className='normal';
     this.setState({
-      top_inx: 2,
+      // top_inx: 2,// 暂时不用文字编辑，屏蔽 
       status: false,
     });
     this.video_live.pause();

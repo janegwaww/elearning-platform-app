@@ -8,7 +8,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import userStyles from "./profileStyle";
+import userStyles from "../../components/Profile/ProfileChildens/components/profileStyle";
 
 
 const styles = (theme) => ({
@@ -60,11 +60,11 @@ export default function CustomizedDialogs(props) {
   
     const classes=userStyles();
     const { children } = props;
+    const [files,setFiles]= React.useState(null);
     const confirmClick = () => {
       props.onEvent&&props.onEvent({ cancel: false, confirm: true });
     };
     const handleClose = () => {
-      
       props.onEvent&&props.onEvent({ cancel: true, confirm: false });
     };
 
@@ -79,7 +79,21 @@ export default function CustomizedDialogs(props) {
           <DialogTitle className='text-center' onClose={handleClose}>
             {props.title}
           </DialogTitle>
-          <DialogContent dividers>{children}</DialogContent>
+          <DialogContent dividers>
+          <input type='file' id={props.id} style={{width:0,height:0}} onChange={(e)=>{
+            e.preventDefault();
+              let _files = e.target.files[0];
+                let _reder = new FileReader();
+                 _reder.onload=()=>{
+                  
+                   props.onChange&&props.onChange(_files,_reder.result);
+                   setFiles(_reder.result);
+                 }
+                 _reder.readAsDataURL(_files);
+          }}  />
+          {children}
+          
+          </DialogContent>
           <DialogActions style={{justifyContent:'center'}}>
             <Button autoFocus onClick={confirmClick} className={classes.btn1} >
               确定

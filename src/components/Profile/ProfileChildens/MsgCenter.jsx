@@ -27,6 +27,9 @@ class MsgCenter extends React.Component {
   }
 
   componentWillMount() {
+   
+  }
+  componentWillReceiveProps(nextProps) {
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
       // let _data = {
       //   model_name: "subscription",
@@ -48,17 +51,16 @@ class MsgCenter extends React.Component {
       // }
       // this.update_data(_data);
       this.setState({
-        // page_id: nextProps.parent.state.nowPage.childpage_id,
+        page_id: nextProps.parent.state.nowPage.childpage_id,
       });
       return;
     }
   }
-  componentWillReceiveProps(nextProps) {}
   render() {
     return (
       
       <section className="all-height viev-scroll">
-        <div>消息中心</div>
+        
         <div className="box box-align-center box-between">
           <nav>
             <ProNavbar
@@ -70,9 +72,9 @@ class MsgCenter extends React.Component {
             全部已读
           </div>
         </div>
-
-        <main>
-          <div className="box box-align-start">
+{this.state.page_id===0?(
+        <main className='profile-top'>
+          <div className="box box-align-start ">
             <span className="fn-color-F86B6B">*</span>
             <div style={{ marginLeft: 10 }}>
               <p className="zero-edges">2020拜年祭—除夕贺岁节目正在直播 !</p>
@@ -105,8 +107,11 @@ class MsgCenter extends React.Component {
               <p className="zero-edges">2020年09月14日 12:51</p>
             </div>
           </div>
+          </main>
+          ):(
+          <main className='profile-top'>
           赞，私信/回复
-          <div className="box box-between box-align-center">
+          <div className="box box-between box-align-center ">
             <div className="box  box-align-start">
               <span className="fn-color-F86B6B">*</span>
               <div className="box box-align-start">
@@ -151,7 +156,7 @@ class MsgCenter extends React.Component {
             <Avatar />
           </div>
         </main>
-
+        )}
         <footer className="box box-end profile-top">
           <Pagination shape="rounded" count={20} />
         </footer>

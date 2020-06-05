@@ -10,9 +10,10 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 
 class ProfileIndex extends React.Component {
   constructor(props) {
+    console.log(props)
     super(props);
     this.state = {
-      userInfo: null, //用户信息
+      userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
       userWorks: null, //我的作品
       ordinaryOrSeries:false,//系列与普通
@@ -22,9 +23,10 @@ class ProfileIndex extends React.Component {
     };
   }
   componentWillMount() {
+  
     let _this = this;
     get_alldata("/api/v1/gateway", [
-      { model_name: "user", model_action: "get_information" }, //用户信息，
+     // { model_name: "user", model_action: "get_information" }, //用户信息，
       { model_name: "data", model_action: "get_data" }, //数据中心
       {
         //个人作品
@@ -36,13 +38,23 @@ class ProfileIndex extends React.Component {
       },
       { model_name: "collection", model_action: "get_collection" }, //我的收藏
     ]).then((res) => {
+     console.log(res)
+      
       _this.setState({
-        userInfo: res[0].result_data[0],
-        userData: res[1].result_data[0],
-        userWorks: res[2].result_data,
-        userCollection: res[3].result_data,
+        // userInfo: res[0].result_data[0],
+        userData: res[0].result_data[0],
+        userWorks: res[1].result_data,
+        userCollection: res[2].result_data,
       });
     });
+  }
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps)
+    if(JSON.stringify(nextProps.parent.state.userinfo)!=JSON.stringify(this.state.userinfo)){
+      this.setState({
+        userInfo:nextProps.parent.state.userinfo
+      })
+    }
   }
   // shouldComponentUpdate(nextProps, nextState){
   //   //优化

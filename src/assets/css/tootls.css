@@ -15,6 +15,11 @@
   height: 1px;
   background-color: #D5D5D5;
 }
+.bg-not{
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
 .box{
     display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
     display: -moz-box; /* 老版本语法: Firefox (buggy) */

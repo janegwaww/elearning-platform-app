@@ -16,11 +16,13 @@ const AsadeMenu = (props) => {
               let _data = JSON.parse(
                 JSON.stringify(props.parent.state.nowPage)
               );
+              if(_data.childpage_id===inx){return}
               _data.childPage = props.menus[inx];
               _data.childpage_id = inx;
               props.parent.setState({
                 nowPage: _data,
               });
+              sessionStorage.setItem('now_page',JSON.stringify(_data))
             }}
           >
             {v}

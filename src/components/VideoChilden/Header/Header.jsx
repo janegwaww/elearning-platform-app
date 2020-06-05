@@ -116,7 +116,7 @@ export default class Header extends Component {
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-          style: style,
+          // style: style,//暂时屏蔽
           lang: "en",
         },
         model_type: "",
