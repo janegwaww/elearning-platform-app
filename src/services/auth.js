@@ -48,6 +48,14 @@ export const logout = callback => {
 // }
 const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
 
+// 错误信息提示
+const errorMessageNotice = (data = {}) => {
+  if (data.data.err !== "0") {
+    alert(data.data.errmsg);
+  }
+  return Promise.resolve(data);
+};
+
 // 获取后端接口返回的结果字段中的第一个数组
 // {
 //     "count": "len(result_data)",
@@ -87,12 +95,18 @@ export const generateSMSCode = pipeThen(
   sendSMSCode,
   getArrayData,
   getResultData,
+  errorMessageNotice,
   apis.generateCode
 );
 
 // -------------------------
 // 手机号验证码登录
-export const handleLogin = pipeThen(setLoginUser, getLoginData, apis.codeLogin);
+export const handleLogin = pipeThen(
+  setLoginUser,
+  getLoginData,
+  errorMessageNotice,
+  apis.codeLogin
+);
 
 // -----------------------
 // 获取返回给前端的二维码专门处理方法
@@ -103,6 +117,7 @@ export const generateQRCode = pipeThen(
   getQrcode,
   getArrayData,
   getResultData,
+  errorMessageNotice,
   apis.generateQRCode
 );
 
@@ -111,6 +126,7 @@ export const generateQRCode = pipeThen(
 export const enquiryQRCode = pipeThen(
   setLoginUser,
   getLoginData,
+  errorMessageNotice,
   apis.enquiryQrCode
 );
 
@@ -123,6 +139,7 @@ export const generateThirdPartyUrl = pipeThen(
   getUrl,
   getArrayData,
   getResultData,
+  errorMessageNotice,
   apis.generateThirdQrcode
 );
 
@@ -151,6 +168,7 @@ const setThirdLogin = ({ resultData, authorization }) => {
 export const handleThirdLogin = pipeThen(
   setThirdLogin,
   getLoginData,
+  errorMessageNotice,
   apis.thirdLogin
 );
 
@@ -159,6 +177,7 @@ export const handleThirdLogin = pipeThen(
 export const bindingMobile = pipeThen(
   setLoginUser,
   getLoginData,
+  errorMessageNotice,
   apis.thirdBindMobile
 );
 
@@ -180,5 +199,6 @@ const verifyMobile = err => {
 export const userAlreadyExist = pipeThen(
   verifyMobile,
   getErrData,
+  errorMessageNotice,
   apis.checkMobile
 );
