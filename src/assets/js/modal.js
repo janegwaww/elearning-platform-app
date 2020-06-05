@@ -10,6 +10,7 @@ Modal.prototype.alert = function(option) {
   if (arguments.length > 1) {
     this.msg = arguments[0];
     this.severity = arguments[1];
+    this.times = arguments[2];
   } else {
     this.option = option;
   }
@@ -31,7 +32,7 @@ Modal.prototype.alert = function(option) {
   setTimeout(()=>{
       if(!document.querySelector('.alert')){return};
       this.body.removeChild(this.obj);
-  },5000)
+  },this.times||5000)
   
 };
 

@@ -18,41 +18,78 @@ import "./layout/profile.css";
 
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
-import { object } from "prop-types";
+import { get_data, get_alldata } from "../../assets/js/request";
 
-config.siteTitle = "黑顿-个人中心";
 class Profile extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      userinfo: null,
       nowPage: {
         parent: "ProfileIndex",
         parent_id: 1,
         childPage: "",
         childpage_id: 0,
       },
-      menuOpen: {
-        Dynamic: false,
-        MsgCenter: false,
-        CreateCenter: false,
-        ProfileIndex: false,
+      menuOpen: {//打开
+        Dynamic: false, //动态
+        MsgCenter: false, //作息中心
+        CreateCenter: false, //作品管理
+        ProfileIndex: false, //默认页
       },
     };
     this.pageRoute = this.pageRoute.bind(this);
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //     console.log(nextProps);
-  //     console.log(nextState);
-  //     return true
-      
-  //   }
+  componentWillMount() {
+    if (sessionStorage.getItem("now_page")) {
+      let _now_page = JSON.parse(sessionStorage.getItem("now_page"));
+      let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
+     
+      switch (_now_page.parent_id) {
+        case 2:
+          _menu_open.MsgCenter = true;
+          break;
+        case 3:
+          _menu_open.CreateCenter = true;
+          break;
+        case 4:
+          _menu_open.Dynamic = true;
+          break;
+      }
+        this.setState({
+          nowPage: _now_page,
+          menuOpen:_menu_open
+        });
+    };
+    //请求用户信息
+    get_data("/api/v1/gateway", 
+      { model_name: "user", model_action: "get_information" }).then(res=>{
+        if(res.err==0&&res.errmsg=='OK'){
+          this.setState({
+            userinfo:res.result_data[0]
+          })
+        }
+      })
+  }
+
+  // componentWillReceiveProps(nextProps){
+
+  // }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextProps);
+  //   console.log(nextState);
+  //   return true;
+  // }
   pageRoute(event) {
-    
-    
     let _data = event.target.dataset;
+    if(this.state.nowPage.parent_id===parseInt(_data.id)){
+      return
+    }
     let _menuOpen = JSON.parse(JSON.stringify(this.state.menuOpen));
-    if(!_data.page){return};
+    if (!_data.page) {
+      return;
+    }
     Object.keys(_menuOpen).forEach((va) => {
       if (_menuOpen[va] && va != _data.page) {
         _menuOpen[va] = false;
@@ -68,6 +105,13 @@ class Profile extends React.Component {
         childpage_id: 0,
       },
     });
+    sessionStorage.setItem('now_page',JSON.stringify( {
+      parent: _data.page,
+      parent_id: parseInt(_data.id),
+      childPage: _data.defaultpage || "",
+      childpage_id: 0,
+    }))
+ 
   }
   render() {
     const { menuOpen } = this.state;
@@ -86,13 +130,24 @@ class Profile extends React.Component {
                   onClick={this.pageRoute}
                 >
                   <div className="box box-center">
-                    <Avatar style={{ width: 80, height: 80 }}></Avatar>
+                    <Avatar
+                      style={{ width: 80, height: 80 }}
+                      src={
+                        this.state.userinfo && this.state.userinfo.headshot
+                          ? this.state.userinfo.headshot
+                          : ""
+                      }
+                    ></Avatar>
                   </div>
                   <p className="zero-edges fn-color-2C2C3B fn-size-18">
-                    Omnicreativora
+                    {this.state.userinfo && this.state.userinfo.user_name
+                      ? this.state.userinfo.user_name
+                      : "暂未留下称呼"}
                   </p>
                   <p className="zero-edges textview-overflow two fn-color-878791 fn-size-12">
-                    资深视觉设计/UI设计，淘宝天下网商特约访谈嘉宾…
+                    {this.state.userinfo && this.state.userinfo.introduction
+                      ? this.state.userinfo.introduction
+                      : "暂未留下描述哦"}
                   </p>
                 </div>
               ) : (
@@ -118,7 +173,7 @@ class Profile extends React.Component {
                     id={"dynamic-menu"}
                   />
                 </li>
-               <li
+                <li
                   aria-controls="message-menu"
                   onClick={this.pageRoute}
                   data-page="MsgCenter"
@@ -134,7 +189,7 @@ class Profile extends React.Component {
                     id={"message-menu"}
                   />
                 </li>
-               
+
                 <li
                   aria-label="more"
                   aria-controls="create-menu"

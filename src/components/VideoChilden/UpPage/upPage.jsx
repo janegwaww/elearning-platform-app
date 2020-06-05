@@ -3,33 +3,29 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import {
   Button,
-  AppBar,
   Toolbar,
   IconButton,
   Avatar,
   TextField,
-  RadioGroup,
   Snackbar,
-  Radio,
-  FormControlLabel,
   InputAdornment,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
-  Save,
-  AccountCircle,
-  CloseIcon,
-  ArrowDropDown,
   ContactSupport,
   Add,
   Cancel,
+  HighlightOff,
+  PhotoCameraOutlined,
 } from "@material-ui/icons";
 import "../../../assets/css/container.css";
 
 import { NavTitle } from "../../Profile/ProfileChildens/components/ProfileNav";
 import { get_data, get_alldata } from "../../../assets/js/request";
+
 import { navigate } from "@reach/router";
+import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -104,28 +100,28 @@ const userStyles = makeStyles((them) => ({
           width: "100%",
           height: "100%",
         },
-        "& .delete": {
-          position: "absolute",
-          top: 0,
-          right: 0,
-          color: "green",
-          "& :hover": {
-            color: "#ccc",
-          },
-        },
-        "& img": {
-          width: "100%",
-          height: "100%",
-          display: "block",
-        },
+        // "& .delete": {
+        //   position: "absolute",
+        //   top: 0,
+        //   right: 0,
+        //   color: "green",
+        //   "& :hover": {
+        //     color: "#ccc",
+        //   },
+        // },
+        // "& img": {
+        //   width: "100%",
+        //   height: "100%",
+        //   display: "block",
+        // },
         "& label": {
           display: "block",
           position: "absolute",
           left: 0,
           top: 0,
-          backgroundColor: "#ccc",
-          color: "#fff",
-          lineHeight: "80px",
+          backgroundColor: "white",
+          color: "#999",
+          paddingTop: 15,
           textAlign: "center ",
           margin: 0,
         },
@@ -158,6 +154,12 @@ const userStyles = makeStyles((them) => ({
     },
     "&  .item": {
       marginTop: 22,
+      "& .del": {
+        color: "#878791",
+        "&:hover": {
+          color: "#F86B6B",
+        },
+      },
 
       "& span": {
         position: "relative",
@@ -202,7 +204,7 @@ const userStyles = makeStyles((them) => ({
 
 export default function VideoIndex(props) {
   const classes = userStyles();
-
+  const [userinfo, setUserinfo] = React.useState(null);
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     type: "success",
@@ -212,33 +214,54 @@ export default function VideoIndex(props) {
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
   const [videosign, setVideosign] = React.useState([]); //视频标签
 
-  const [videoImg, setVideoImg] = React.useState(""); //图片文件的临时路径
+  const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
   const [addseries, setAddseries] = React.useState(false); //新建系列
-  const [newseries, setNewseries] = React.useState(""); //暂存新系列
-  const [seriesdescription, setSeriesdescription] = React.useState(""); //系列描述
-  const [seriesImg, setSeriesImg] = React.useState(null); //新系列图
+
+  const [newseries, setNewseries] = React.useState(""); //新建系列标题
+  const [seriesdescription, setSeriesdescription] = React.useState(""); //新系列描述
+  const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState([]); //附件
 
-  const [signs, setSigns] = useState({}); //标签
+  const [signs, setSigns] = useState([]); //标签
   const [currencies, setCurrencies] = useState([]); //系列
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
   };
   useEffect(() => {
+    if (localStorage.getItem("haetekUser")) {
+      setUserinfo(JSON.parse(localStorage.getItem("haetekUser")));
+    }
+    if(sessionStorage.getItem('file_data')){
+      let _path = JSON.parse(sessionStorage.getItem('file_data')).image_path;
+      if(_path){
+        setVideoImg(_path);
+      }
+      
+    }
+
     get_alldata("api/v1/gateway", [
       {
         model_name: "series",
         model_action: "get_series",
       },
-      {
-        model_name: "category",
-        model_action: "get_category",
-      },
+      // {
+      //   model_name: "category",
+      //   model_action: "get_category",
+      // },
     ]).then((res) => {
       setCurrencies(res[0].result_data);
-      setSigns(res[1].result_data[0]);
+
+      // if (
+      //   (Array.isArray && Array.isArray(res[1].result_data[0])) ||
+      //   Object.prototype.toString.call(res[1].result_data[0]) ==
+      //     "[object Array]"
+      // ) {
+      //   setSigns(res[1].result_data[0]);
+      // } else {
+      //   setSigns(res[1].result_data);
+      // }
     });
   }, []);
   return (
@@ -269,9 +292,15 @@ export default function VideoIndex(props) {
             <Toolbar>
               <div>
                 <Avatar
+                  src={userinfo && userinfo.headshot ? userinfo.headshot : ""}
                   className={classes.avatar}
                   onClick={() => {
-                    navigate("/users");
+                    if (!userinfo) {
+                      navigate("/users/login");
+                      return;
+                    }
+                    sessionStorage.removeItem('now_page');
+                    navigate("/users/profile");
                   }}
                 />
               </div>
@@ -321,7 +350,7 @@ export default function VideoIndex(props) {
                 <TextField
                   required
                   id="standard-required"
-                  rows={5}
+                  rows={3}
                   variant="outlined"
                   multiline
                   fullWidth
@@ -342,19 +371,19 @@ export default function VideoIndex(props) {
                 </span>
               </div>
 
-              <div className="item box">
+              {/*<div className="item box">
                 <label>
                   <span className="fn-color-F86B6B">*</span>添加标签
                 </label>
-                <p className="sign">
-                  {Object.keys(signs).map((value, inx) => (
-                    <label key={value}>
+                <p className="sign all-width">
+                  {signs.map((option, inx) => (
+                    <label key={option.name}>
                       <input
                         type="checkbox"
                         name="videoSign"
-                        value={value}
+                        value={option.id}
                         checked={
-                          videosign.indexOf(value) > -1 ? "checked" : false
+                          videosign.indexOf(option.id) > -1 ? "checked" : false
                         }
                         onChange={(event) => {
                           if (event.target.checked) {
@@ -378,7 +407,7 @@ export default function VideoIndex(props) {
                           }
                         }}
                       />
-                      <b>{signs[value]}</b>
+                      <b>{option.name}</b>
                     </label>
                   ))}
                 </p>
@@ -389,13 +418,14 @@ export default function VideoIndex(props) {
                   </span>
                 </span>
               </div>
+                      */}
               <div className="box">
                 <label>视频封面</label>
                 <section className="all-width">
                   <p>
                     选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
                   </p>
-                  <div className="item">
+                  <div className="item box">
                     {videoImg ? (
                       <div
                         className="file"
@@ -408,41 +438,19 @@ export default function VideoIndex(props) {
                     ) : (
                       ""
                     )}
-
-                    <div className="file">
-                      <input
-                        type="file"
-                        name="file"
+                    <div>
+                      <CuttingTemplate
                         id="coverfile"
-                        accept="image/*"
-                        onChange={(event) => {
-                          let _file = event.target.files[0];
+                        formdata={(() => {
                           let _formData = new FormData();
-                          _formData.append("model_name", _file.name);
                           _formData.append("model_action", "upload_file");
                           _formData.append("type", "video_image");
-                          _formData.append("file", _file);
-                          get_data("api/v1/gateway", _formData).then((res) => {
-                            if (res.err == 0 && res.errmsg == "OK") {
-                              setVideoImg(res.result_data[0]);
-                            } else {
-                              setOpenSnackbar({
-                                open: true,
-                                type: "error",
-                                msg: "上传失败",
-                              });
-                            }
-                          });
-
-                          return false;
+                          return _formData;
+                        })()}
+                        onEvent={(url) => {
+                          setVideoImg(url);
                         }}
                       />
-                      <label
-                        htmlFor="coverfile"
-                        className="all-width all-height"
-                      >
-                        <Add />
-                      </label>
                     </div>
                   </div>
                 </section>
@@ -467,6 +475,7 @@ export default function VideoIndex(props) {
                           }}
                           onClick={() => {
                             setAddseries(true);
+                            setSeriesImg(videoImg);
                             return false;
                           }}
                         >
@@ -480,6 +489,7 @@ export default function VideoIndex(props) {
                               <input
                                 type="radio"
                                 name="gender1"
+                                checked={option.title == currency}
                                 value={option.title}
                                 onChange={(event) => {
                                   setCurrency(event.target.value);
@@ -540,7 +550,7 @@ export default function VideoIndex(props) {
                             <p>
                               将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
                             </p>
-                            <div>
+                            <div className='box item'>
                               {seriesImg ? (
                                 <div
                                   className="file"
@@ -555,50 +565,14 @@ export default function VideoIndex(props) {
                               ) : (
                                 ""
                               )}
-
-                              <div className="file item">
-                                <input
-                                  type="file"
-                                  name="file"
+                             
+                                <CuttingTemplate
                                   id="seriesfile"
-                                  accept="image/*"
-                                  onChange={(event) => {
-                                    let _file = event.target.files[0];
-                                    let _formData = new FormData();
-                                    _formData.append("model_name", _file.name);
-                                    _formData.append(
-                                      "model_action",
-                                      "upload_file"
-                                    );
-                                    _formData.append("type", "video_image");
-                                    _formData.append("file", _file);
-                                    get_data("api/v1/gateway", _formData).then(
-                                      (res) => {
-                                        if (
-                                          res.err == 0 &&
-                                          res.errmsg == "OK"
-                                        ) {
-                                          setSeriesImg(res.result_data[0]);
-                                        } else {
-                                          setOpenSnackbar({
-                                            open: true,
-                                            type: "error",
-                                            msg: "上传失败",
-                                          });
-                                        }
-                                      }
-                                    );
-
-                                    return false;
+                                  onEvent={(url) => {
+                                    setSeriesImg(url);
                                   }}
                                 />
-                                <label
-                                  htmlFor="seriesfile"
-                                  className="all-width all-height not"
-                                >
-                                  <Add />
-                                </label>
-                              </div>
+                              
                             </div>
                           </div>
                         </div>
@@ -608,6 +582,7 @@ export default function VideoIndex(props) {
                             variant="contained"
                             onClick={() => {
                               setAddseries(false);
+                              setSeriesImg('')
                               return false;
                             }}
                           >
@@ -619,6 +594,15 @@ export default function VideoIndex(props) {
                             variant="contained"
                             onClick={() => {
                               let _data = currencies;
+                              if (!newseries) {
+                                setOpenSnackbar({
+                                  open: true,
+                                  type: "error",
+                                  msg: "新建系列失败，新建的标题不能为空!",
+                                });
+                                return;
+                              }
+
                               if (
                                 _data.some(
                                   (option) => newseries == option.title
@@ -631,15 +615,15 @@ export default function VideoIndex(props) {
                                 });
                                 return;
                               }
-                              if (!seriesdescription) {
-                                setOpenSnackbar({
-                                  open: true,
-                                  type: "error",
-                                  msg:
-                                    "亲，新建了系列，系列描述不要忘记填写哦!",
-                                });
-                                return;
-                              }
+                              // if (!seriesdescription) {
+                              //   setOpenSnackbar({
+                              //     open: true,
+                              //     type: "error",
+                              //     msg:
+                              //       "亲，新建了系列，系列描述不要忘记填写哦!",
+                              //   });
+                              //   return;
+                              // }
                               if (_data[_data.length - 1].type) {
                                 _data[_data.length - 1] = {
                                   title: newseries,
@@ -656,6 +640,7 @@ export default function VideoIndex(props) {
 
                               setCurrencies(_data);
                               setAddseries(false);
+                              setCurrency(newseries);
                               return false;
                             }}
                           >
@@ -675,8 +660,31 @@ export default function VideoIndex(props) {
                   </p>
 
                   {adjunct && adjunct.length > 0
-                    ? adjunct.map((option) => (
-                        <p key={option.file_name}>{option.file_name}</p>
+                    ? adjunct.map((option, inx) => (
+                        <p key={option.file_name}>
+                          {option.file_name}{" "}
+                          <span
+                            className="del"
+                            data-inx={inx}
+                            onClick={(event) => {
+                              let _data = event.target.dataset;
+                              if (JSON.stringify(_data) == "{}") {
+                                _data = event.target.parentNode.dataset;
+                                if (JSON.stringify(_data) == "{}") {
+                                  _data =
+                                    event.target.parentNode.parentNode.dataset;
+                                }
+                              }
+                              let _old_adjunct = JSON.parse(
+                                JSON.stringify(adjunct)
+                              );
+                              _old_adjunct.splice(_data.inx, 1);
+                              setAdjunct(_old_adjunct);
+                            }}
+                          >
+                            <HighlightOff />
+                          </span>
+                        </p>
                       ))
                     : ""}
 
@@ -687,7 +695,8 @@ export default function VideoIndex(props) {
                         document.getElementById("text-doc").click();
                       }}
                     >
-                      +点击上传课件
+                      <Add />
+                      点击上传课件
                     </span>
                     <input
                       type="file"
@@ -702,7 +711,7 @@ export default function VideoIndex(props) {
                         _data.append("file", _file);
                         get_data("api/v1/gateway", _data).then((res) => {
                           if (res.err == 0 && res.errmsg == "OK") {
-                            let _adjunct =JSON.parse(JSON.stringify( adjunct));
+                            let _adjunct = JSON.parse(JSON.stringify(adjunct));
                             _adjunct.push(res.result_data);
 
                             setAdjunct(_adjunct);
@@ -733,6 +742,7 @@ export default function VideoIndex(props) {
                 </Button>
                 <Button
                   className={classes.btn}
+                  disabled={addseries||!videoTitle||!videodescription ?true:false}
                   onClick={() => {
                     if (!videoTitle) {
                       setOpenSnackbar({
@@ -750,17 +760,18 @@ export default function VideoIndex(props) {
                       });
                       return;
                     }
-                    if (JSON.stringify(videosign) == "[]") {
-                      setOpenSnackbar({
-                        open: true,
-                        type: "error",
-                        msg: "请选择4个以下的标签！",
-                      });
-                      return;
-                    }
-                    console.log(JSON.parse( sessionStorage.getItem('file_data')))
+                    // if (JSON.stringify(videosign) == "[]") {
+                    //   setOpenSnackbar({
+                    //     open: true,
+                    //     type: "error",
+                    //     msg: "请选择4个以下的标签！",
+                    //   });
+                    //   return;
+                    // }
+
                     let _data = {
-                      task_id: JSON.parse(sessionStorage.getItem('file_data')).video_id,
+                      task_id: JSON.parse(sessionStorage.getItem("file_data"))
+                        .video_id,
                       title: videoTitle,
                       description: videodescription,
                       category: videosign,
@@ -791,22 +802,34 @@ export default function VideoIndex(props) {
                     get_data("api/v1/gateway", {
                       model_name: "video",
                       model_action: "check",
-                      extra_data:_data
+                      extra_data: _data,
                     }).then((res) => {
-                      if(res.err==0&&res.errmsg=="OK"){
+                      if (res.err == 0 && res.errmsg == "OK") {
                         setOpenSnackbar({
-                          open:true,
-                          type:'success',
-                          msg:'上传成功,正在为你跳转个人中心作品管理页...'
-                        })
+                          open: true,
+                          type: "success",
+                          msg: "上传成功,正在为你跳转个人中心作品管理页...",
+                        });
+                        sessionStorage.setItem('now_page',JSON.stringify({
+                          parent: "CreateCenter",
+                          parent_id: 3,
+                          childPage: "作品管理",
+                          childpage_id: 0,
+                        }))
+                        sessionStorage.removeItem('file_data');
                         setTimeout(() => {
-                            navigate('/user/profile')
+                          navigate("/users/profile");
                         }, 4000);
+                      }else{
+                        setOpenSnackbar({
+                          open: true,
+                          type: "error",
+                          msg: res.errmsg,
+                        });
                       }
-                      console.log(res);
+                     
                     });
-                    console.log(currencies);
-                    console.log(_data);
+                   
 
                     return false;
                   }}
@@ -819,7 +842,7 @@ export default function VideoIndex(props) {
                     setVideoTitle("");
                     setVideodescription("");
                     setVideosign([]);
-                    setVideoImg("");
+                    // setVideoImg("");
                     setCurrency("");
                     setNewseries("");
                     setSeriesdescription("");

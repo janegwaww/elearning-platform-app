@@ -5,7 +5,7 @@ import {
   Grid,
 } from "@material-ui/core";
 
-import { withStyles } from "@material-ui/core/styles";
+
 import {
 
   SkipNext,
@@ -19,7 +19,7 @@ import {
 
 import {
   getObj,
-  getScroll,
+
   getPage,
   getWidth,
   getStyles,
@@ -64,7 +64,12 @@ export default class VideoPage extends Component {
     this.setState({
       video_h: getObj("myvideo").clientHeight,
     });
-    getObj("max-box").style.height = document.body.clientHeight+'px';
+   
+    getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
+    window.onresize = (evnt) =>{
+      getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
+    }
+
       // getObj("gatsby-focus-wrapper").clientHeight + "px";
 
     // 调整滚动条宽度
@@ -72,41 +77,22 @@ export default class VideoPage extends Component {
     getObj("thumb").style.width =
       getWidth("edit-region", "sliderbox", "thumbbox") + "px";
 
-    // this.get_data();
+    
+    if(sessionStorage.getItem('file_data')){
+      this.setState({
+       video_data: JSON.parse(sessionStorage.getItem('file_data'))
+      })
+    }
   }
-
-  componentWillReceiveProps(nextState) {
-    return true;
+ 
+  componentWillUnmount (){
+    window.onresize=null;
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-  // get_data() {
-  //   //请求数据
-  //   let video_data,
-  //     _this = this;
-  //   let _data = {
-  //     model_action: "search",
-  //     query_string: "",
-  //     type: "global",
-  //     video_ids: [],
-  //   };
-  //   get_data("videos", _data, "post").then((res) => {
-  //     video_data = res.result_data[0];
-  //     let _data = {
-  //       video_data: video_data,
-  //       sub_josn: video_data.subtitling,
-  //       _path: video_data.video_path["720P"],
-  //     };
-
-  //     _this.setState({
-  //       video_data: _data,
-  //     });
-  //   });
-  // }
+ 
+  
   getUpfileUrl(res) {
     //接收组件传递视频数据
-    //
+    
     let _data = this.state.video_data || {};
     if (res.subtitling) {
       _data.sub_josn = res.subtitling;
@@ -122,6 +108,7 @@ export default class VideoPage extends Component {
     this.setState({
       video_data: _data,
     });
+    sessionStorage.setItem('file_data',_data);
     this.video_live.load();
     // this.video_live.play();
   }
@@ -317,7 +304,7 @@ export default class VideoPage extends Component {
     
     el.target.className='normal';
     this.setState({
-      top_inx: 2,
+      // top_inx: 2,// 暂时不用文字编辑，屏蔽 
       status: false,
     });
     this.video_live.pause();
@@ -361,13 +348,7 @@ export default class VideoPage extends Component {
     const on_ply = function() {
       //播放
       if (!_this.state.video_data._path) {
-        // _this.state.is_suc
-        // _this.setState({
-        //   is_suc:'视频未加载完成'
-        // });
-        // setTimeout(() => {
-        //   _this.setState({ is_suc: "" });
-        // }, 3000);
+       
         return;
       }
       if (_this.video_live.currentTime === 0) {
@@ -400,63 +381,7 @@ export default class VideoPage extends Component {
    
 
 
-    // const handleClose = function() {
-    //   //取消编辑
-    //   _this.setState({
-    //     edi_show: false,
-    //   });
-    // };
-    // const handleOpen = function() {
-    //   //打开编辑
-    //   _this.setState({
-    //     edi_show: true,
-    //   });
-    // };
-    // const handleServer = function() {
-    //   //保存编辑
-    //   let _the_data = _this.state.the_current, //当前，
-    //     _video_data = _this.state.video_data, //所有
-    //     _lu = _this.state.lu,
-    //     _inx = _this.state.sub_inx;
-
-    //   let _v = document.querySelector("#newTest").value;
-    //   if (_lu == "zh") {
-    //     _the_data.zh = _v;
-    //     _video_data.sub_josn[_inx].cn_sub = _v;
-    //   } else {
-    //     _the_data.en = _v;
-    //     _video_data.sub_josn[_inx].en_sub = _v;
-    //   }
-    //   let r_data = {
-    //     model_action: "update",
-    //     extra_data: {
-    //       subtitling: _video_data.sub_josn,
-    //       task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-    //       lang: "en",
-    //     },
-    //   };
-    //   get_data("video/subtitle", r_data, "post")
-    //     .then((res) => {
-    //       handleClose();
-    //       _this.setState({
-    //         the_current: _the_data,
-    //         video_data: _video_data,
-    //         is_suc: "suc",
-    //       });
-    //       setTimeout(() => {
-    //         _this.setState({ is_suc: "" });
-    //       }, 3000);
-    //     })
-    //     .catch((err) => {
-    //       _this.setState({
-    //         is_suc: "err",
-    //       });
-    //       setTimeout(() => {
-    //         _this.setState({ is_suc: "" });
-    //       }, 3000);
-    //       handleClose();
-    //     });
-    // };
+   
 
     let lists = [];
     for (let i = 0; i < 100; i++) {

@@ -15,7 +15,7 @@ import {get_data} from '../../../../assets/js/request';
 
 const stop_run=(prevValue,nextValue)=>{
   
-  return prevValue.series===nextValue.series
+  // return prevValue.series===nextValue.series
 }
 
 const SeriesItem = (props) => {
@@ -34,7 +34,7 @@ const SeriesItem = (props) => {
   return (
     <div className="box all-height box-between box-align-center profile-top">
       <div className="box all-height fn-size-12" style={{ maxWidth: "832px" }}>
-        <div style={{ width: "257px", marginRight: 20, position: "relative" }}>
+        <div style={{ width: 257, height:164, marginRight: 20, position: "relative" }}>
           <img
             src={
               props.info
@@ -43,13 +43,11 @@ const SeriesItem = (props) => {
             }
             className="all-height all-width"
           />
-          {!props.series ? (
+          
             <p className="profile-time fn-color-white fn-size-12">
-              {props.info ? props.info.video_time : ""}
+              {!props.series&&props.info? props.info.video_time : props.info&&props.info.video_data?'共'+props.info.video_data.length+'集':''}
             </p>
-          ) : (
-            ""
-          )}
+         
         </div>
         <div>
           <p className="fn-color-2C2C3B fn-size-16 zero-edges">

@@ -2,21 +2,15 @@ import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
 
-import {
-  Button,
-  Avatar,
-  Snackbar,
-  
-} from "@material-ui/core";
+import { Button, Avatar, Snackbar } from "@material-ui/core";
 
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
-import { Save, AccountCircle, CloseIcon,ArrowDropDown } from "@material-ui/icons";
-import {get_data} from "../../../assets/js/request";
+import { Save, ArrowDropDown } from "@material-ui/icons";
+import { get_data } from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
-import { node } from "prop-types";
-import NewDialog from "./NewDialog";
-import Modal from '../../../assets/js/modal';
+
+import Modal from "../../../assets/js/modal";
 
 const NewBtn = withStyles({
   root: {
@@ -35,38 +29,33 @@ const NewBtn2 = withStyles({
   },
 })(NewBtn);
 
-// const handleClick = () => {
-//   setOpen(true);
-// };
-// const handleClose = (event, reason) => {
-//   if (reason === 'clickaway') {
-//     return;
-//   }
-
-//   setOpen(false);
-// };
-
 export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { open_updata: false, open: false };
     this.btn_user = this.btn_user.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillMount(){
     if (getUser().name) {
+     
       this.setState({
         user_info: getUser(),
       });
+    }else{
+      
+      navigate('/users/login')
     }
   }
-
+ 
 
   btn_user = function(info) {
     if (!getUser().name) {
-      localStorage.setItem("no_login_page", window.location.href);
+      sessionStorage.setItem("no_login_page", window.location.href);
 
       navigate(`/users/login`);
     } else {
+      
+      sessionStorage.removeItem('now_page');
       navigate(`/users/profile`);
     }
   };
@@ -88,7 +77,9 @@ export default class Header extends Component {
       }
 
       let _styles = _this.props.parent.state.style;
-      if(JSON.stringify(_styles)=='{}'){return};
+      if (JSON.stringify(_styles) == "{}") {
+        return;
+      }
       let bold = _styles.bold,
         i = _styles._i,
         u = _styles._u,
@@ -127,7 +118,7 @@ export default class Header extends Component {
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-          style: style,
+          // style: style,//暂时屏蔽
           lang: "en",
         },
         model_type: "",
@@ -153,32 +144,50 @@ export default class Header extends Component {
         </div>
         <div>
           <div>
-            <NewBtn2 onClick={()=>{
-              if (JSON.stringify(this.props.parent.state.video_data) === "{}") {
-                new Modal().alert('亲！还没有添加文件呢！','error');
-              return;
-              }
-              sessionStorage.setItem('file_data',JSON.stringify(this.props.parent.state.video_data));
-              navigate('/video/uppage')}}>发布视频 </NewBtn2>
-            {/** <NewDialog  parent = {this}/> */}
+            <NewBtn2
+              onClick={() => {
+                if (
+                  JSON.stringify(this.props.parent.state.video_data) === "{}"
+                ) {
+                  new Modal().alert("亲！还没有添加文件呢！", "error");
+                  return;
+                }
+                if(!getUser().name){
+                  new Modal().alert("亲！还没有登录呢，正在为你跳转登录页...", "error");
+                  setTimeout(()=>{navigate('/users/login') },5000)
+                }
+                sessionStorage.setItem(
+                  "file_data",
+                  JSON.stringify(this.props.parent.state.video_data)
+                );
+                navigate("/video/uppage");
+              }}
+            >
+              发布视频
+            </NewBtn2>
           </div>
           <div title="点击可保存你编辑文本样式">
-            <Save className={styles.save} onClick={btn_save} />{" "}
+            <Save className={styles.save} onClick={btn_save} />
           </div>
           <div className={styles.users} onClick={this.btn_user}>
             {this.state.user_info ? (
               <div>
-                <Avatar  />
+                <Avatar
+                  src={
+                    this.state.user_info && this.state.user_info.headshot
+                      ? this.state.user_info.headshot
+                      : ""
+                  }
+                />
                 <span>{this.state.user_info.name}</span>
-                <ArrowDropDown  />
-               
+                <ArrowDropDown />
               </div>
             ) : (
               <Avatar />
             )}
           </div>
         </div>
-       
+
         <Snackbar
           anchorOrigin={{
             vertical: "top",

@@ -23,7 +23,11 @@ import StepContent from "@material-ui/core/StepContent";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ProfileDialog from "./components/ProFileDialog";
-import PublicDialog from "./components/PublicDialog";
+import PublicDialog from "../../../assets/template/PublicDialog";
+import { getObj } from "../../../assets/js/totls";
+import {get_data} from '../../../assets/js/request';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,14 +49,13 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
- 
+
   input: {
-    '& .MuiInputBase-input':{
-      border:'1px solid rgba(231,233,238,1)',
-  borderRadius:'10px',
-  padding:10,
-    }
-   
+    "& .MuiInputBase-input": {
+      border: "1px solid rgba(231,233,238,1)",
+      borderRadius: "10px",
+      padding: 10,
+    },
   },
   btn1: {
     width: 148,
@@ -77,9 +80,9 @@ const useStyles = makeStyles((theme) => ({
 
   radioRoot: {
     flexDirection: "row",
-    '& .MuiRadio-root':{
-      padding:'0 9px',
-    }
+    "& .MuiRadio-root": {
+      padding: "0 9px",
+    },
   },
   usersimg: {
     width: 70,
@@ -202,7 +205,13 @@ const Setpage = (props) => {
     dialogmsg: "确定解除绑定吗?",
   });
   const [uphead, setUphead] = React.useState(false); //打开上传头像弹窗
-  const [upcover, setUpcover] = React.useState(false); //打开上传封面
+  const [headerfiles, setHeaderfiles] = React.useState(null);
+  const [headerUrl, setHeaderUrl] = React.useState(null);
+  const [minheaderurl, setMinheaderurl] = React.useState(null);
+  const [newheaderurl,setNewheaderurl]=React.useState('');
+  let heraderRef =React.useRef(null);
+
+  const [upcover, setUpcover] = React.useState(false); //打开上传封面 
   const onEvent = function(value) {
     //设置nav
     setNavbarStatus(value);
@@ -249,42 +258,102 @@ const Setpage = (props) => {
                 头像:
               </Grid>
               <Grid item xs={10}>
-                <div
-                  className={`text-center fn-color-white box box-center ${classes.usersimg}`}
+
+                <div 
+                style = {{backgroundImage:"url(http://api.haetek.com:9191/"+newheaderurl+')'}}
+                  className={`text-center bg-not fn-color-white box box-center ${classes.usersimg}`}
                   onClick={() => {
                     setUphead(true);
                   }}
                 >
-                  <CameraAltOutlined />{" "}
+                  <CameraAltOutlined />
                 </div>
                 <PublicDialog
                   parent={props}
                   title="上传头像"
+                  id="headerimg"
                   open={uphead}
+                  onChange={(file, url) => {
+                    setHeaderfiles(file);
+                    setHeaderUrl(url);
+                    setMinheaderurl(url)
+                  }}
                   onEvent={(data) => {
-                    setUphead(false);
+                    
+                    let _cropper = heraderRef.getCroppedCanvas().toDataURL();
+                    let parts = _cropper.split(';base64,')
+                    let contentType = parts[0].split(':')[1]
+                    let raw = window.atob(parts[1])
+                    let rawLength = raw.length
+                    let uInt8Array = new Uint8Array(rawLength)
+                    for (let i = 0; i < rawLength; ++i) {
+                      uInt8Array[i] = raw.charCodeAt(i)
+                    }
+                    let newfile=new window.Blob([uInt8Array], { type: contentType, name: 'newfilename' });
+
+                    let _formdata = new FormData();
+                    _formdata.append("model_action", "upload_file");
+                    _formdata.append("type", "video_image");
+                    _formdata.append("model_name", 'headerImg');
+                    _formdata.append("file", newfile);
+
+                    get_data("api/v1/gateway", _formdata).then((res) => {
+
+                      setHeaderfiles(null);
+                      setHeaderUrl(null);
+                      setMinheaderurl(null)
+                      setNewheaderurl(res.result_data[0])
+                      console.log(res)
+                      setUphead(false);
+                    })
+
+                    // setUphead(false);
+                    
                   }}
                 >
                   <div className="box box-align-start text-center">
-                    <div
-                      className="bg-f3  box box-center fn-color-9E9EA6 profile-right"
-                      style={{ width: 370, height: 370 }}
-                    >
-                      <div>
-                        <AddCircleOutlined />
-                        <p className="zero-edges profile-margin-10">添加图片</p>
-                        <p className="zero-edges profile-margin-10">
-                          只支持JPG/PNG,大小不超过5M
-                        </p>
-                        <p className="zero-edges profile-margin-10">
-                          推荐尺寸240x240
-                        </p>
+                    {headerUrl ? (
+                   
+                      <Cropper
+                      className="profile-right"
+                      ref={cropper => {
+                        heraderRef = cropper
+                      }}
+                      src={headerUrl} // 文件
+                      style={{ height: 370, width: 370}} // 自定义样式
+                      aspectRatio={65 / 82} // 设置图片长宽比
+                      guides={false} // 是否显示九宫格
+                      preview=".cropper-preview" // 设置预览的dom
+                    />
+         
+                     
+                    
+                    ) : (
+                      <div
+                        className="bg-f3  box box-center fn-color-9E9EA6 profile-right"
+                        style={{ width: 370, height: 370 }}
+                        onClick={() => {
+                          getObj("headerimg").click();
+                        }}
+                      >
+                        <div>
+                          <AddCircleOutlined />
+                          <p className="zero-edges profile-margin-10">
+                            添加图片
+                          </p>
+                          <p className="zero-edges profile-margin-10">
+                            只支持JPG/PNG,大小不超过5M
+                          </p>
+                          <p className="zero-edges profile-margin-10">
+                            推荐尺寸240x240
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div>
                       <div
-                        className="bg-f3"
-                        style={{ width: 220, height: 220, borderRadius: "50%" }}
+                        className="bg-f3 bg-not cropper-preview view-overflow"
+                        style={{ minWidth: 220, height: 220, borderRadius: "50%" }}
                       ></div>
                       <p className="fn-color-9E9EA6">头像预览</p>
                     </div>
@@ -351,7 +420,7 @@ const Setpage = (props) => {
                 性别:
               </Grid>
               <Grid item xs={10}>
-                <RadioGroup 
+                <RadioGroup
                   aria-label="gender"
                   name="gender1"
                   className={classes.radioRoot}
@@ -377,7 +446,11 @@ const Setpage = (props) => {
                 出生日期:
               </Grid>
               <Grid item xs={10}>
-                <TextField type="date" defaultValue="2017-05-24"  className={classes.input}/>{" "}
+                <TextField
+                  type="date"
+                  defaultValue="2017-05-24"
+                  className={classes.input}
+                />{" "}
               </Grid>
               <Grid item xs={2} className="text-right">
                 我的简介:
@@ -547,7 +620,10 @@ const Setpage = (props) => {
                   联系方式：
                 </Grid>
                 <Grid itme xs={8}>
-                  <TextField placeholder="Placeholder" className={classes.input} />
+                  <TextField
+                    placeholder="Placeholder"
+                    className={classes.input}
+                  />
                 </Grid>
               </Grid>
             </div>
