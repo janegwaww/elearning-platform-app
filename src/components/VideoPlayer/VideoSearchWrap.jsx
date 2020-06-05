@@ -53,7 +53,7 @@ const VideoSearchWrap = ({ children, vid }) => {
   const classes = useStyles();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState("");
 
   const closeSearchInput = () => {
     setShowButton(true);
