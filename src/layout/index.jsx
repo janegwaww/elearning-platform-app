@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import ScrollTop from "./ScrollTop";
 import theme from "./theme";
-import "./index.css";
+import "./index.sass";
 
 export default class MainLayout extends React.Component {
   render() {

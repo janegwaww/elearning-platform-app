@@ -73,6 +73,7 @@ export default function PrimarySearchAppBar() {
             onClick={e => {
               e.preventDefault();
               logout(() => ({}));
+              handleMenuClose();
             }}
           >
             Logout
@@ -138,7 +139,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Container fixed>
           <Toolbar id="back-to-top-anchor">
             <IconButton onClick={() => navigate("/")}>
@@ -182,14 +183,14 @@ export default function PrimarySearchAppBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              {/* <IconButton
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                    >
+                    <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                    </Badge>
+                    </IconButton> */}
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -206,7 +207,6 @@ export default function PrimarySearchAppBar() {
               </IconButton>
               <Button
                 color="secondary"
-                variant="contained"
                 className={classes.createButton}
                 onClick={() => navigate("/video/")}
               >

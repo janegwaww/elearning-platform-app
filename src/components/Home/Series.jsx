@@ -7,8 +7,8 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Pagination from "@material-ui/lab/Pagination";
 import { getSeriesInfo } from "../../services/home";
-
 import SearchCard from "../Search/SearchCard";
+import { remotePath } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -18,13 +18,22 @@ const useStyles = makeStyles(theme => ({
   pagination: {
     justifyContent: "center",
     backgroundColor: "#fff"
+  },
+  head: {
+    display: "grid",
+    height: 190,
+    gridTemplateColumns: "300px auto",
+    gridTemplateRows: "repeat(6,1fr)",
+    gap: "10px",
+    border: "1px solid #ddd"
   }
 }));
 
-export default function Series({ location: { state } }) {
+export default function Series({ location: { state = {} } }) {
   const classes = useStyles();
   const [loading, setLoading] = useState("true");
   const [series, setSeries] = useState([]);
+  const [seriesStack, setSeriesStack] = useState([]);
   const [seriesInfo, setSeriesInfo] = useState({});
   const { sid = "" } = state;
 
@@ -32,9 +41,20 @@ export default function Series({ location: { state } }) {
     setLoading(true);
     getSeriesInfo({ series_id: sid }).then(data => {
       setSeries(data.series);
+      setSeriesStack(data.series);
       setSeriesInfo(data.info);
       setLoading(false);
     });
+  };
+
+  const handleSearchClick = type => {
+    const arr = [];
+    seriesStack.map(o => {
+      if (o.source === type || type === "all") {
+        arr.push(o);
+      }
+    });
+    setSeries(arr);
   };
 
   useEffect(() => {
@@ -45,6 +65,37 @@ export default function Series({ location: { state } }) {
     }
   }, [sid]);
 
+  const headCard = ({
+    image_path,
+    title,
+    video_counts,
+    description,
+    author_name
+  }) => (
+    <div className={classes.head}>
+      <img
+        src={remotePath(seriesInfo.image_path)}
+        alt={title}
+        style={{ height: "100%", width: 300, gridColumn: 1, gridRow: "1/7" }}
+      />
+      <Typography style={{ gridColumn: 2, gridRow: 1 }}>{title}</Typography>
+      <Typography
+        style={{ gridColumn: 2, gridRow: 2 }}
+        variant="caption"
+        color="textSecondary"
+      >
+        {`${video_counts} 个视频`}
+      </Typography>
+      <Typography style={{ gridColumn: 2, gridRow: "3/6" }} variant="body2">
+        <span style={{ display: "block" }}>系列简介:</span>
+        {description}
+      </Typography>
+      <Typography style={{ gridColumn: 2, gridRow: 7 }}>
+        {author_name}
+      </Typography>
+    </div>
+  );
+
   return (
     <div>
       <br />
@@ -53,12 +104,13 @@ export default function Series({ location: { state } }) {
         {` 系列课的详细信息`}
       </Typography>
       <br />
-      <div></div>
+      {headCard(seriesInfo)}
+      <br />
       <Divider />
       <div>
-        <Button>全部</Button>
-        <Button>视频</Button>
-        <Button>课件</Button>
+        <Button onClick={() => handleSearchClick("all")}>全部</Button>
+        <Button onClick={() => handleSearchClick("video")}>视频</Button>
+        <Button onClick={() => handleSearchClick("document")}>课件</Button>
       </div>
       <Divider />
       <br />
@@ -66,9 +118,21 @@ export default function Series({ location: { state } }) {
         <CircularProgress />
       ) : (
         <div style={{ minHeight: "90vh" }}>
-          {series.map((o, i) => (
-            <SearchCard card={o} key={i} />
-          ))}
+          {series.map((o, i) => {
+            let j = {};
+            const vtrans = obj => ({
+              ...obj,
+              data: Object.assign(obj.data, { title: obj.data.video_title })
+            });
+            const dtrans = obj => ({
+              ...obj,
+              data: Object.assign(obj.data, {
+                file_name: obj.data.document_name
+              })
+            });
+            j = o.source === "video" ? vtrans(o) : dtrans(o);
+            return <SearchCard card={j} key={i} />;
+          })}
         </div>
       )}
       <Pagination
