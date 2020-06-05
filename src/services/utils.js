@@ -1,3 +1,5 @@
+const PATH = "http://api.haetek.com:9191";
+
 // 数据流通用方法
 const pipeM = method => (...fns) => fns.reduce((f, g) => x => g(x)[method](f));
 
@@ -24,3 +26,5 @@ export const secondsToHMS = (seconds = 0) =>
 // 转iso日期
 export const secondsToDate = (seconds = 0) =>
   new Date(seconds * 1000).toISOString().slice(0, 10);
+
+export const remotePath = path => `${PATH}/${path}`;

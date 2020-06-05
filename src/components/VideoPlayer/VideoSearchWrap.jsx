@@ -38,7 +38,8 @@ const KeSearchButton = withStyles({
 const KeInput = withStyles({
   root: {
     width: "60%",
-    marginLeft: "20px"
+    marginLeft: "20px",
+    marginTop: 0
   },
   input: {
     "&::placeholder": {

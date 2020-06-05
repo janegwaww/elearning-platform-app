@@ -10,7 +10,8 @@ import { searchGlobal } from "../../services/home";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: "white"
+    backgroundColor: "white",
+    paddingTop: 35
   },
   ul: {
     listStyleType: "none",

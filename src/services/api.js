@@ -3,9 +3,15 @@ import axios from "axios";
 import { pipe, wrapCamelName } from "./utils";
 
 // 接口路径
-const PATH = "http://api.haetek.com:9191";
+export const PATH = "http://api.haetek.com:9191";
 // 接口地址
 const API_PATH = urlJoin(PATH, "/api/v1/gateway");
+// 获取用户
+const isBrowser = () => typeof window !== "undefined";
+const getUser = () =>
+  isBrowser() && window.localStorage.getItem("haetekUser")
+    ? JSON.parse(window.localStorage.getItem("haetekUser"))
+    : {};
 
 // 创建请求方法
 const axiosInstance = (token = "") =>
@@ -14,9 +20,7 @@ const axiosInstance = (token = "") =>
     timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${
-        JSON.parse(window.localStorage.getItem("haetekUser")).token
-      }`
+      Authorization: `Bearer ${getUser().token}`
     }
   });
 
