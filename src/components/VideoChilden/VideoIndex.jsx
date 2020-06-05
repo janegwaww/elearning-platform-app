@@ -108,6 +108,7 @@ export default class VideoPage extends Component {
     this.setState({
       video_data: _data,
     });
+    sessionStorage.setItem('file_data',_data);
     this.video_live.load();
     // this.video_live.play();
   }

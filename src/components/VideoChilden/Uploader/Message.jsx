@@ -12,6 +12,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { navigate } from "@reach/router";
 import {getObj} from '../../../assets/js/totls';
 
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }

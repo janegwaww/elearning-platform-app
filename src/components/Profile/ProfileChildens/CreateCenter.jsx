@@ -68,7 +68,7 @@ class CreateCenter extends React.Component {
           <main>
             <div>
               <ProNavbar
-                list={["普通", "系列"]}
+                list={["普通", "系列",'草稿箱']}
                 parent={this}
                 onEvent={(num) => {
                   
@@ -81,6 +81,9 @@ class CreateCenter extends React.Component {
                   }
                   if(num==2){
                     _data.extra_data.type='series';
+                  }
+                  if(num==3){
+                    _data.extra_data.type='draft'
                   }
                   
                 this.update_data(_data);

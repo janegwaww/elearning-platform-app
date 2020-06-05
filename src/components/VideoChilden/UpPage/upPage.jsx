@@ -299,6 +299,7 @@ export default function VideoIndex(props) {
                       navigate("/users/login");
                       return;
                     }
+                    sessionStorage.removeItem('now_page');
                     navigate("/users/profile");
                   }}
                 />

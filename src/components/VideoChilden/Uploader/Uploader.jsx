@@ -28,7 +28,7 @@ import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import { getObj,isGoLogin } from "../../../assets/js/totls";
 // import md5 from "md5";
-
+import Modal from '../../../assets/js/modal';
 const NewLinearProgress = withStyles({
   root: {
     position: "absolute",
@@ -166,7 +166,7 @@ export default class UploadVideos extends Component {
           
           _this.setState({ status: 3, lang_value: "" });
           let json_sub = res.result_data[0].subtitling;
-          console.log(json_sub)
+         
           let total_time =_this.props.parent.props.parent.state.the_current.video_len;
           let test_arr = [];
           let total_w =total_time*1000/2740*110;// getObj('sliderbox').scrollWidth;
@@ -312,6 +312,11 @@ export default class UploadVideos extends Component {
                   console.log('onchange',res)
                 })
                 myFile.on('onload',function (res) {
+                  let _data = res.response;
+                  if(_data.err===-1){
+                    new Modal().alert('此视频已有人上传，暂不支持多人同时此视频，请谅解！','error',5000);
+                    setTimeout(()=>{_this.setState({status:1,progress:0})},5000)
+                  }
                   console.log('onload',res)
                 })
                 myFile.on('error',function (res) {
@@ -379,7 +384,6 @@ export default class UploadVideos extends Component {
                 </span>
                 <span className="del" title="删除" onClick={()=>{
                   this.setState({
-                
                     promp_info:{
                       type:2,
                       open:true,

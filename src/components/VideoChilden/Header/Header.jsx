@@ -54,6 +54,8 @@ export default class Header extends Component {
 
       navigate(`/users/login`);
     } else {
+      
+      sessionStorage.removeItem('now_page');
       navigate(`/users/profile`);
     }
   };
