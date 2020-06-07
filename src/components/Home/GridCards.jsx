@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { navigate } from "gatsby";
+import { Link } from "gatsby";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -13,11 +13,21 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
 
-  const handleClick = ({ video_id, series_id }) => {
-    !!video_id &&
-      navigate(`/watch/?vid=${video_id}`, { state: { vid: video_id } });
-    !!series_id &&
-      navigate(`/series/?sid=${series_id}`, { state: { sid: series_id } });
+  // 点击标题跳转事件
+  const handleLink = ({ video_id, series_id }) => {
+    if (video_id) {
+      return {
+        to: `/watch/?vid=${video_id}`,
+        state: { vid: video_id }
+      };
+    }
+    if (series_id) {
+      return {
+        to: `/series/?sid=${series_id}`,
+        state: { sid: series_id }
+      };
+    }
+    return { to: "/", state: {} };
   };
 
   useEffect(() => {
@@ -38,7 +48,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 backgroundColor: "#fff",
                 cursor: "pointer"
               }}
-              onClick={() => handleClick(item)}
             >
               {item ? (
                 <img
@@ -52,16 +61,24 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
               {item ? (
                 <Box p={2}>
-                  <Typography gutterBottom variant="body2">
-                    {item.title}
-                  </Typography>
+                  <Link to={handleLink(item).to} state={handleLink(item).state}>
+                    <Typography gutterBottom variant="body2">
+                      {item.title}
+                    </Typography>
+                  </Link>
+
                   <div style={{ display: "flex", alignItems: "center" }}>
                     {item.head_shot && (
-                      <Avatar
-                        alt={item.user_name}
-                        src={item.head_shot}
-                        style={{ width: 28, height: 28, margin: 8 }}
-                      />
+                      <Link
+                        to={`/excellentcreator/creator/?cid=${item.user_id}`}
+                        state={{ cid: item.user_id }}
+                      >
+                        <Avatar
+                          alt={item.user_name}
+                          src={item.head_shot}
+                          style={{ width: 28, height: 28, margin: 8 }}
+                        />
+                      </Link>
                     )}
                     <Typography
                       display="block"
