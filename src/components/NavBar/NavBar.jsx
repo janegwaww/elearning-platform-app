@@ -66,19 +66,17 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
       classes={{ list: classes.list }}
     >
+      {isLogin ? <MenuItem onClick={handleMenuClose}>Profile</MenuItem> : null}
       {isLogin ? (
-        <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem
-            onClick={e => {
-              e.preventDefault();
-              logout(() => ({}));
-              handleMenuClose();
-            }}
-          >
-            Logout
-          </MenuItem>
-        </>
+        <MenuItem
+          onClick={e => {
+            e.preventDefault();
+            logout(() => ({}));
+            handleMenuClose();
+          }}
+        >
+          Logout
+        </MenuItem>
       ) : (
         <MenuItem
           onClick={e => {
