@@ -3,12 +3,11 @@ import { globalHistory } from "@reach/router";
 import { navigate } from "gatsby";
 import { Grid, Divider } from "@material-ui/core";
 import urlParse from "url-parse";
-import VideoPlayer from "../VideoPlayer/VideoPlayer";
-
-import LazyComments from "../Comments/Comments";
+/* import LazyComments from "../Comments/Comments"; */
 import LazyIntroduction from "../Introduction/Introduction";
 import LazyPersonAvatar from "./Avatar";
 import LazyVideoList from "../VideoList/VideoList";
+import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
 class Watch extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class Watch extends Component {
     }
     if (!vid) {
       /* 视频ID不存在就返回主页; */
-      /* return navigate("/"); */
+      return navigate("/");
     }
     this.setState({ vid: vid });
   };

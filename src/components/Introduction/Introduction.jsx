@@ -46,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Introduction({ vid = "" }) {
+  const classes = useStyles();
   const [checked, setChecked] = useState(false);
   const [intro, setIntro] = useState({
     likeCounts: 0,
@@ -55,7 +56,6 @@ export default function Introduction({ vid = "" }) {
     category: [""]
   });
   const [anchorEl, setAnchorEl] = useState(null);
-  const classes = useStyles();
 
   const fetchIntroduction = () => {
     getVideoIntro({ video_id: vid }).then(data => {
