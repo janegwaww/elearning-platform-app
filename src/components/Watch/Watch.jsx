@@ -38,7 +38,7 @@ class Watch extends Component {
     }
     if (!vid) {
       /* 视频ID不存在就返回主页; */
-      return navigate("/");
+      /* return navigate("/"); */
     }
     this.setState({ vid: vid });
   };

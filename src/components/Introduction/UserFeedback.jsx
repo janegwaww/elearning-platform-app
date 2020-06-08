@@ -59,9 +59,9 @@ export default function UserFeedback({
 
   const oppositeValue = val => (val === 1 ? 0 : 1);
 
-  const actionEvent = (setData, actApi, value) => {
+  const actionEvent = (setData, actApi, value, callback) => {
     const val = oppositeValue(value);
-    setData(val);
+    /* setData(val); */
     actApi({
       relation_id: id,
       value: val,
@@ -69,14 +69,16 @@ export default function UserFeedback({
     }).then(data => {
       if (data) {
         setData(val);
+        typeof callback === "function" && callback(val);
       }
     });
   };
 
   const handleLikeClick = event => {
     event.preventDefault();
-    actionEvent(setLike, likeTheVideo, like);
-    !like ? setLCounts(prev => prev + 1) : setLCounts(prev => prev - 1);
+    actionEvent(setLike, likeTheVideo, like, val =>
+      val ? setLCounts(prev => prev + 1) : setLCounts(prev => prev - 1)
+    );
   };
 
   const handleStarClick = () =>
