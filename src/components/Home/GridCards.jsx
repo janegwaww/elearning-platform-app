@@ -45,8 +45,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 border: "1px solid rgba(242,242,245,1)",
                 borderRadius: "12px",
                 overflow: "hidden",
-                backgroundColor: "#fff",
-                cursor: "pointer"
+                backgroundColor: "#fff"
               }}
             >
               {item ? (

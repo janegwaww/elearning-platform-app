@@ -23,9 +23,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#f2f2f5",
     borderRadius: "12px",
     width: "100%",
-    maxWidth: 360,
-    overflow: "auto",
-    maxHeight: 500
+    maxWidth: 360
+    /* overflow: "auto", */
+    /* maxHeight: 500 */
   },
   fixedListVert: {
     backgroundColor: "#fff"
@@ -163,12 +163,10 @@ export default function VideoList({ vid, type }) {
           <RenderRow item={o} order={verticle} key={o.video_id} />
         ))}
       </List>
-      {type === "series" && (
-        <div>
-          <br />
-          <Divider />
-        </div>
-      )}
+      <div>
+        <br />
+        <Divider />
+      </div>
     </div>
   );
 }

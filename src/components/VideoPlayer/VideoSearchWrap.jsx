@@ -1,9 +1,15 @@
 import React, { Fragment, useState } from "react";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Paper, InputBase } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import {
+  Button,
+  Paper,
+  InputBase,
+  InputAdornment,
+  ButtonBase
+} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
+import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
 import useStyles from "./VideoSearchWrapStyles";
@@ -29,15 +35,20 @@ const KeSearchButton = withStyles({
     color: "#fff",
     borderRadius: "0 20px 20px 0",
     fontSize: "12px",
+    padding: "6px 14px",
     "&:hover": {
       backgroundColor: "#007cff"
+    },
+    "& .MuiButton-startIcon": {
+      marginLeft: 0,
+      marginRight: 0
     }
   }
 })(Button);
 
 const KeInput = withStyles({
   root: {
-    width: "60%",
+    width: "70%",
     marginLeft: "20px",
     marginTop: 0
   },
@@ -54,6 +65,7 @@ const VideoSearchWrap = ({ children, vid }) => {
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState("");
+  const [input, setInput] = useState("");
 
   const closeSearchInput = () => {
     setShowButton(true);
@@ -65,8 +77,7 @@ const VideoSearchWrap = ({ children, vid }) => {
 
   const handleInputClick = e => {
     e.preventDefault();
-    const { value } = document.getElementById("watch-subtitle-search");
-    subtitles({ query_string: value, video_id: [vid] }).then(data => {
+    subtitles({ query_string: input, video_id: [vid] }).then(data => {
       setGridList(data);
     });
   };
@@ -87,6 +98,19 @@ const VideoSearchWrap = ({ children, vid }) => {
           id="watch-subtitle-search"
           placeholder="支持对整段视频的字幕或语义定位搜索"
           type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          autoFocus
+          endAdornment={
+            <InputAdornment position="end">
+              <ButtonBase onClick={() => setInput("")}>
+                <ClearIcon
+                  style={{ color: "rgba(189, 195, 199,0.8)" }}
+                  fontSize="small"
+                />
+              </ButtonBase>
+            </InputAdornment>
+          }
         />
         <KeSearchButton
           aria-label="search"
