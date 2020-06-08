@@ -86,49 +86,6 @@ const VideoSearchWrap = ({ children, vid }) => {
     setTimer(time);
   };
 
-  const SearchInput = () => (
-    <div
-      className={clsx(
-        classes.searchInput,
-        !showButton && classes.showSearchInput
-      )}
-    >
-      <Paper component="form" classes={{ root: classes.paper }}>
-        <KeInput
-          id="watch-subtitle-search"
-          placeholder="支持对整段视频的字幕或语义定位搜索"
-          type="text"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          autoFocus
-          endAdornment={
-            <InputAdornment position="end">
-              <ButtonBase onClick={() => setInput("")}>
-                <ClearIcon
-                  style={{ color: "rgba(189, 195, 199,0.8)" }}
-                  fontSize="small"
-                />
-              </ButtonBase>
-            </InputAdornment>
-          }
-        />
-        <KeSearchButton
-          aria-label="search"
-          startIcon={<SearchIcon />}
-          onClick={handleInputClick}
-        >
-          知识搜索
-        </KeSearchButton>
-      </Paper>
-      <div>
-        <ClearIcon
-          classes={{ root: classes.clearIcon }}
-          onClick={closeSearchInput}
-        />
-      </div>
-    </div>
-  );
-
   return (
     <Fragment>
       <div className={classes.root}>
@@ -146,7 +103,47 @@ const VideoSearchWrap = ({ children, vid }) => {
             知识搜索
           </ShowSearchButton>
         </div>
-        <SearchInput />
+        <div
+          className={clsx(
+            classes.searchInput,
+            !showButton && classes.showSearchInput
+          )}
+        >
+          <Paper component="form" classes={{ root: classes.paper }}>
+            <KeInput
+              id="watch-subtitle-search"
+              placeholder="支持对整段视频的字幕或语义定位搜索"
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <ButtonBase onClick={() => setInput("")}>
+                    {input ? (
+                      <ClearIcon
+                        style={{ color: "rgba(189, 195, 199,0.8)" }}
+                        fontSize="small"
+                      />
+                    ) : null}
+                  </ButtonBase>
+                </InputAdornment>
+              }
+            />
+            <KeSearchButton
+              aria-label="search"
+              startIcon={<SearchIcon />}
+              onClick={handleInputClick}
+            >
+              知识搜索
+            </KeSearchButton>
+          </Paper>
+          <div>
+            <ClearIcon
+              classes={{ root: classes.clearIcon }}
+              onClick={closeSearchInput}
+            />
+          </div>
+        </div>
         <div>{children(timer)}</div>
         <div>
           <SingleLineGridList tileList={gridList} clipJump={handleJump} />

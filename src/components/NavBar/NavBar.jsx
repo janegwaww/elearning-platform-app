@@ -16,7 +16,8 @@ import {
   IconButton,
   AppBar,
   Button,
-  Avatar
+  Avatar,
+  InputAdornment
 } from "@material-ui/core";
 import ChannelPopover from "./ChannelPopover";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
@@ -149,8 +150,8 @@ export default function PrimarySearchAppBar() {
               </Button>
               <ChannelPopover />
               {/* <Button color="inherit">
-                  <Typography>频道</Typography>
-                  </Button> */}
+                              <Typography>频道</Typography>
+                              </Button> */}
               <Button
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
@@ -170,25 +171,29 @@ export default function PrimarySearchAppBar() {
                 }}
                 inputProps={{ "aria-label": "search" }}
                 id="navbar-search-input"
+                endAdornment={
+                  <InputAdornment>
+                    <Button
+                      className={classes.searchButton}
+                      startIcon={<SearchIcon />}
+                      onClick={handleSearchClick}
+                    >
+                      搜索
+                    </Button>
+                  </InputAdornment>
+                }
               />
-              <Button
-                className={classes.searchButton}
-                startIcon={<SearchIcon />}
-                onClick={handleSearchClick}
-              >
-                搜索
-              </Button>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* <IconButton
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                    >
-                    <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                    </Badge>
-                    </IconButton> */}
+                              aria-label="show 17 new notifications"
+                              color="inherit"
+                              >
+                              <Badge badgeContent={17} color="secondary">
+                              <NotificationsIcon />
+                              </Badge>
+                              </IconButton> */}
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -203,8 +208,9 @@ export default function PrimarySearchAppBar() {
                   <AccountCircle />
                 )}
               </IconButton>
+            </div>
+            <div>
               <Button
-                color="secondary"
                 className={classes.createButton}
                 onClick={() => navigate("/video/")}
               >

@@ -47,7 +47,10 @@ const useStyles = makeStyles(theme => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(0.5)}px)`,
     transition: theme.transitions.create("width"),
-    width: "100%"
+    width: "100%",
+    "&::placeholder": {
+      fontSize: "0.875em"
+    }
   },
   searchButton: {
     padding: "6px 14px",
@@ -64,7 +67,9 @@ const useStyles = makeStyles(theme => ({
   },
   createButton: {
     borderRadius: "20px",
-    marginLeft: "20px"
+    marginLeft: "20px",
+    backgroundColor: theme.palette.secondary.main,
+    color: "#fff"
   },
   sectionDesktop: {
     display: "none",
