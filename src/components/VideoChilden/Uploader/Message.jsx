@@ -11,6 +11,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 import { navigate } from "@reach/router";
 import {getObj} from '../../../assets/js/totls';
+import { get_data } from "../../../assets/js/request";
 
 
 function Alert(props) {
@@ -58,26 +59,39 @@ const Message = (props) => {
                   _data.open = false;
                   props.parent.setState({ promp_info: _data });
                 } else {
+                 
+                  get_data('/api/v1/gateway', {
+                    "model_name": "video",
+                    "model_action": "delete_video",
+                    "extra_data": {
+                    "video_id":[ props.parent.state.files[0].video_id]
+                    },
+                    
+                    }).then(res=>{
+                      getObj('image-box').style.backgroundImage='';
+                      getObj('video-test').innerHTML='';
+                      promp_info.open = false;
+                      props.parent.setState({
+                        status: 1,
+                        progress: 0,
+                        files: [],
+                        the_current:{}
+                      
+                      });
+                      if(sessionStorage.getItem('file_data')){
+                        sessionStorage.removeItem('file_data');
+                      }
+                      
+                      props.parent.props.parent.setState({
+                        style:{},
+                        styles:{},
+                        video_data:{}
+                      })
+                      setOpen(true)
+                      console.log(res)
+                    })
+                    return
                   
-                  getObj('image-box').style.backgroundImage='';
-                  getObj('video-test').innerHTML='';
-                  promp_info.open = false;
-                  props.parent.setState({
-                    status: 1,
-                    progress: 0,
-                    files: [],
-                    promp_info: promp_info,
-                  });
-                  if(sessionStorage.getItem('file_data')){
-                    sessionStorage.removeItem('file_data');
-                  }
-                  
-                  props.parent.props.parent.setState({
-                    style:{},
-                    styles:{},
-                    video_data:{}
-                  })
-                  setOpen(true)
                 }
               }}
             >

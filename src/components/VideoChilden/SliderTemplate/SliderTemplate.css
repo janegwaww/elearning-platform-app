@@ -82,3 +82,16 @@ z-index: 1000;
     left: 0;
     top: 15px; 
 }
+.pointer span span{
+    color:red;
+    position: absolute;
+    left: 0;
+    top:20px;
+    display: none;
+}
+.pointer:hover span{
+    display: block;
+}
+.pointer span span:hover{
+    cursor: pointer;
+}

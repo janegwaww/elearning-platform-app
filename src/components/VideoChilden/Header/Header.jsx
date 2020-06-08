@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
 
-import { Button, Avatar, Snackbar } from "@material-ui/core";
+import { Button, Avatar, Snackbar,IconButton } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -11,7 +11,7 @@ import { get_data } from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 
 import Modal from "../../../assets/js/modal";
-
+// import Logo from '../../../assets/img/Logo.png';
 const NewBtn = withStyles({
   root: {
     backgroundColor: "#2E2E30",
@@ -132,8 +132,10 @@ export default class Header extends Component {
       <header className={styles.header}>
         <div className={styles.nav}>
           <div className={styles.logo}>
-            <span>Z</span>
-            <span>ZhiQing</span>
+          
+              <img src="../logos/Logo.png" />
+            
+           
           </div>
           <div>
             <NewBtn> 我的创作中心</NewBtn>

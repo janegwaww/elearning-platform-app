@@ -1,29 +1,16 @@
 import React, { Component } from "react";
 
-import {
-  Slider,
-  Grid,
-} from "@material-ui/core";
-
+import { Slider, Grid } from "@material-ui/core";
 
 import {
-
   SkipNext,
   SkipPrevious,
   PlayArrow,
   Pause,
-
   PhotoSizeSelectActual,
-  
 } from "@material-ui/icons";
 
-import {
-  getObj,
-
-  getPage,
-  getWidth,
-  getStyles,
-} from "../../assets/js/totls";
+import { getObj, getPage, getWidth, getStyles } from "../../assets/js/totls";
 import NewMenu from "./Menu/Menu";
 
 import SliderTemplate from "./SliderTemplate/SliderTemplate";
@@ -33,13 +20,14 @@ import BottomAside from "./BottomAside/BottomAside";
 import VideoChilden from "./VideoChilden";
 import "./SliderTemplate/SliderTemplate.css";
 import styles from "../../assets/css/video.module.css";
-import {get_data} from "../../assets/js/request";
+import { get_data } from "../../assets/js/request";
 import dateConversion from "../../assets/js/dateConversion";
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       video_data: {},
+      now_current:{},
       the_current: {}, //当前字幕
       status: false, //播放状态
       edi_show: false, //是否调起修改当前字幕弹窗
@@ -47,8 +35,9 @@ export default class VideoPage extends Component {
       styles: {}, //页面中使用
       style: {}, //上传时使用
       video_img_arr: null,
-      test_arr:null,
-      scaleX:1
+      test_arr: null,
+      scaleX: 1,
+      is_play_now:false
     };
     this.video_live = null;
     //绑定双击事件
@@ -59,40 +48,60 @@ export default class VideoPage extends Component {
     this.get_image = this.get_image.bind(this);
     this.context_focus = this.context_focus.bind(this);
     this.context_blur = this.context_blur.bind(this);
+    this.context_input=this.context_input.bind(this);
   }
   componentDidMount() {
     this.setState({
       video_h: getObj("myvideo").clientHeight,
     });
-   
-    getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
-    window.onresize = (evnt) =>{
-      getObj("max-box").style.height = document.documentElement.offsetHeight-1+'px';
-    }
 
-      // getObj("gatsby-focus-wrapper").clientHeight + "px";
+    getObj("max-box").style.height =
+      document.documentElement.offsetHeight - 1 + "px";
+    window.onresize = (evnt) => {
+      getObj("max-box").style.height =
+        document.documentElement.offsetHeight - 1 + "px";
+    };
+
+    // getObj("gatsby-focus-wrapper").clientHeight + "px";
 
     // 调整滚动条宽度
 
     getObj("thumb").style.width =
       getWidth("edit-region", "sliderbox", "thumbbox") + "px";
 
-    
-    if(sessionStorage.getItem('file_data')){
+    if (sessionStorage.getItem("file_data")) {
+      localStorage.setItem('file_data',sessionStorage.getItem("file_data"))
       this.setState({
-       video_data: JSON.parse(sessionStorage.getItem('file_data'))
-      })
+        video_data: JSON.parse(sessionStorage.getItem("file_data")),
+      });
     }
+    document.onkeydown = (ev) => {
+      if (ev.keyCode === 32) {
+        this.video_live.pause();
+        this.setState({
+          status: false,
+        });
+      }
+      if (ev.keyCode === 13) {
+        this.video_live.play();
+        this.setState({
+          status: true,
+          is_play_now:false
+        });
+      }
+    };
+
+   
   }
- 
-  componentWillUnmount (){
-    window.onresize=null;
+
+  componentWillUnmount() {
+    window.onresize = null;
+    document.onkeydown = null;
   }
- 
-  
+
   getUpfileUrl(res) {
     //接收组件传递视频数据
-    
+
     let _data = this.state.video_data || {};
     if (res.subtitling) {
       _data.sub_josn = res.subtitling;
@@ -108,7 +117,7 @@ export default class VideoPage extends Component {
     this.setState({
       video_data: _data,
     });
-    sessionStorage.setItem('file_data',_data);
+    sessionStorage.setItem("file_data", JSON.stringify(_data));
     this.video_live.load();
     // this.video_live.play();
   }
@@ -218,26 +227,25 @@ export default class VideoPage extends Component {
       video_img_arr: res,
     });
     let _obj = getObj("image-box");
-    
+
     let len = res.length;
     let img_str = "";
     let img_pos = "";
-    let box_w =total_time*1000*110/2740;// getObj("sliderbox").scrollWidth;
-    let img_w = box_w / (total_time-0.7);
-    
-    for (let i = 0; i < len-2; i++) {
+    let box_w = (total_time * 1000 * 110) / 2740; // getObj("sliderbox").scrollWidth;
+    let img_w = box_w / (total_time - 0.7);
+
+    for (let i = 0; i < len - 2; i++) {
       if (i == len - 3) {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i+2] + ") "),
-          (img_pos += i * img_w + "px " +  "0px ");
+        (img_str += "url(http://api.haetek.com:9191/" + res[i + 2] + ") "),
+          (img_pos += i * img_w + "px " + "0px ");
       } else {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i+2] + "), "),
-          (img_pos += i * img_w + "px " +  "0px, ");
+        (img_str += "url(http://api.haetek.com:9191/" + res[i + 2] + "), "),
+          (img_pos += i * img_w + "px " + "0px, ");
       }
     }
     _obj.style["background-image"] = img_str;
     _obj.style.backgroundPosition = img_pos;
     _obj.style.backgroundSize = img_w + "px 46px";
-    
   }
   getChildrenMsg(result, msg) {
     //滑块子件传参滑块位置过来，并且更新字幕
@@ -253,22 +261,25 @@ export default class VideoPage extends Component {
   }
 
   sub_test(time) {
+    
     //更新字幕
-    let _data = this.state.the_current||{};
+    let _data = this.state.the_current || {};
     if (this.video_live.duration) {
       _data.video_len = this.video_live.duration;
       _data.time = time;
     }
 
-    if (this.state.video_data.sub_josn && time > 0) {
+    if (this.state.video_data.sub_josn ) {//去掉了&&time>0
       let json_sub = this.state.video_data.sub_josn;
-      
+
       for (let i = 0; i < json_sub.length; i++) {
         if (time >= json_sub[i].bg && time <= json_sub[i].ed) {
           _data.zh = json_sub[i].cn_sub;
           _data.en = json_sub[i].en_sub;
           _data.time = time;
           _data.inx = i;
+          _data.start_time=json_sub[i].bg;
+          _data.end_time= json_sub[i].ed
           // _data = {
           //   zh: json_sub[i].cn_sub,
           //   en: json_sub[i].en_sub,
@@ -278,62 +289,162 @@ export default class VideoPage extends Component {
         }
         if (json_sub[i + 1]) {
           if (time > json_sub[i].ed && time < json_sub[i + 1].bg) {
-            _data.zh='';
-            _data.en='';
-            _data.time=time;
-            _data.inx=i;
+            _data.zh = "";
+            _data.en = "";
+            _data.time = time;
+            _data.inx = i;
+            _data.start_time=json_sub[i].bg;
+            _data.end_time= json_sub[i].ed
             // _data = { zh: "", en: "", time: time, inx: i };
           }
         } else {
           if (time > json_sub[i].ed) {
-            _data.zh='';
-            _data.en='';
-            _data.time=time;
-            _data.inx=i;
+            _data.zh = "";
+            _data.en = "";
+            _data.time = time;
+            _data.inx = i;
+            _data.start_time=json_sub[i].bg;
+            _data.end_time= json_sub[i].ed
             // _data = { zh: "", en: "", time: time, inx: i };
           }
         }
       }
     }
-    
+
     this.setState({
       the_current: _data,
     });
   }
   context_focus(el, value) {
     
-    el.target.className='normal';
+    el.target.className = "normal";
     this.setState({
-      // top_inx: 2,// 暂时不用文字编辑，屏蔽 
+      // top_inx: 2,// 暂时不用文字编辑，屏蔽
       status: false,
     });
     this.video_live.pause();
-    this.video_live.currentTime=this.state.video_data.sub_josn[el.target.dataset.inx].bg;
-    
+    this.video_live.currentTime = this.state.video_data.sub_josn[
+      el.target.dataset.inx
+    ].bg;
    
-  };
-   context_blur(el) {
+  }
+  context_input(el){
     
-     el.target.classList.remove('normal')
-    let _the_data = this.state.the_current, //当前，
-      _video_data = this.state.video_data, //所有
-      lang = el.target.dataset.lu,
-      _inx = parseInt(el.target.dataset.inx);
+    let _the_data =JSON.parse(JSON.stringify(this.state.the_current)) , //当前，
+    _video_data =this.state.video_data , //所有
+    lang = el.target.dataset.lu,
+    _inx = parseInt(el.target.dataset.inx),
+    _type = el.target.dataset.type;
+   
+    if(_type=='top'){
       
+      if (lang == "zh") {
+        if (_the_data.zh !== el.target.innerText) {
+          // _the_data.zh = el.target.innerText;
+          _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
+        }
+      }else{
+        if (_the_data.en !== el.target.innerText) {
+          // _the_data.en = el.target.innerText;
+          _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
+        }
+      }
+    
+        this.setState({
+          // the_current: _the_data,
+          video_data: _video_data,
+      })
+   
+      let json_sub =  _video_data.sub_josn;
+     
+      let total_time =_the_data.video_len;
+      let test_arr = [];
+      let total_w =total_time*1000/2740*110;
+
+      for(let i=0;i<json_sub.length;i++){
+        if(i===0){
+
+        test_arr.push(<div className="test-nodes" key={i} 
+        style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
+        marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
+          <p  onBlur={this.context_blur}  suppressContentEditableWarning="true"
+          onFocus={this.context_focus}
+          onInput={this.context_input}
+          data-type='bottom'
+          data-lu='zh' data-inx={i} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].cn_sub}
+          </p>
+          {json_sub[i].en_sub?
+          <p data-lu='en' onBlur={this.context_blur} 
+          onInput={this.context_input}
+          data-type='bottom' 
+          suppressContentEditableWarning="true"
+          onFocus={this.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
+          </div>
+          )
+        }else{
+          test_arr.push(<div className="test-nodes" key={i} 
+        style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
+        marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
+        <p contentEditable='true'  data-lu='zh' data-inx={i} 
+        onInput={this.context_input}
+        data-type='bottom'
+        onBlur={this.context_blur}  suppressContentEditableWarning="true"
+        onFocus={this.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
+          </p>
+          {json_sub[i].en_sub?
+          <p data-lu='en' data-inx={i} onBlur={this.context_blur} 
+          onInput={this.context_input}
+          data-type='bottom'
+          suppressContentEditableWarning="true"
+          onFocus={this.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
+          </div>)
+        }
+      }
+      
+      this.setState({
+        test_arr:test_arr
+      })
+
+
+    }else{
+      if (lang == "zh") {
+        if (_the_data.zh !== el.target.innerText) {
+          _the_data.zh = el.target.innerText;
+          // _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
+        }
+      }else{
+        if (_the_data.en !== el.target.innerText) {
+          _the_data.en = el.target.innerText;
+          // _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
+        }
+      }
+      this.setState({
+        the_current: _the_data,
+      })
+    }
+  }
+  context_blur(el) {
+    el.target.classList.remove("normal");
+   
+    let _the_data =JSON.parse(JSON.stringify(this.state.the_current)) , //当前，
+    _video_data =JSON.parse(JSON.stringify( this.state.video_data)) , //所有
+    lang = el.target.dataset.lu,
+    _inx = parseInt(el.target.dataset.inx);
+
     if (lang == "zh") {
       if (_the_data.zh !== el.target.innerText) {
         _the_data.zh = el.target.innerText;
         _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
       }
-      if(_video_data.sub_josn[_inx].en_sub){
-        _the_data.en=_video_data.sub_josn[_inx].en_sub;
+      if (_video_data.sub_josn[_inx].en_sub) {
+        _the_data.en = _video_data.sub_josn[_inx].en_sub;
       }
     } else {
       if (_the_data.en !== el.target.innerText) {
         _the_data.en = el.target.innerText;
         _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
       }
-      if(_video_data.sub_josn[_inx].cn_sub){
+      if (_video_data.sub_josn[_inx].cn_sub) {
         the_data.cn = _video_data.sub_josn[_inx].cn_sub;
       }
     }
@@ -341,14 +452,13 @@ export default class VideoPage extends Component {
       the_current: _the_data,
       video_data: _video_data,
     });
-  };
+  }
   render() {
     const _this = this;
     const { video_data } = this.state;
     const on_ply = function() {
       //播放
       if (!_this.state.video_data._path) {
-       
         return;
       }
       if (_this.video_live.currentTime === 0) {
@@ -357,6 +467,7 @@ export default class VideoPage extends Component {
       _this.video_live.play();
       _this.setState({
         status: true,
+        is_play_now:false
       });
     };
     const on_pause = function() {
@@ -368,20 +479,24 @@ export default class VideoPage extends Component {
     };
     const time_date = function(el) {
       //实时播放时间
-
       let time = el.target.currentTime;
-     
+      if(_this.state.is_play_now){
+        
+        if(time>=_this.state.the_current.end_time){
+          _this.video_live.currentTime = _this.state.the_current.start_time;
+          on_end()
+          return
+        }
+
+      }
+      
+
       _this.sub_test(time);
     };
     const on_end = function() {
       //播放结束
       on_pause();
     };
-    
-   
-
-
-   
 
     let lists = [];
     for (let i = 0; i < 100; i++) {
@@ -441,18 +556,26 @@ export default class VideoPage extends Component {
                         <span
                           data-lu="zh"
                           data-inx={_this.state.the_current.inx}
-                          
-                          
+                          data-type='top'
+                          onBlur={_this.context_blur}
+                          suppressContentEditableWarning="true"
+                          onFocus={_this.context_focus}
+                          onInput={_this.context_input}
+                          contentEditable="true"
+
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.zh
                             : ""}
                         </span>
-                            <br/>
+                        <br />
                         <span
                           data-lu="en"
                           data-inx={_this.state.the_current.inx}
-                         
+                          onBlur={_this.context_blur}
+                          suppressContentEditableWarning="true"
+                          onFocus={_this.context_focus}
+                          contentEditable="true"
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.en
@@ -465,15 +588,11 @@ export default class VideoPage extends Component {
                   </div>
                   <p>
                     <span>
-                      <SkipPrevious />
-
                       {this.state.status ? (
                         <Pause onClick={on_pause} />
                       ) : (
                         <PlayArrow onClick={on_ply} />
                       )}
-
-                      <SkipNext />
                     </span>
                     <span>
                       {_this.state.the_current
@@ -504,7 +623,7 @@ export default class VideoPage extends Component {
                   id="edit-region"
                 >
                   <section
-                    style={{ height: "100%", position: "absolute",transform:'scaleX('+this.state.scaleX+')' }}
+                    style={{ height: "100%", position: "absolute" }}
                     id="sliderbox"
                   >
                     <div className={`${styles.slider} ${styles.clearfix}`}>
@@ -518,15 +637,14 @@ export default class VideoPage extends Component {
                         }
                       />
                     </div>
-                    <div className={styles.videoImg} >图片</div>
+                    <div className={styles.videoImg}>图片</div>
 
                     <div
                       className={styles.videoImage}
                       id="image-box"
-                     
                       onMouseOver={(e) => {
                         let _obj = getObj("new-menu");
-                      
+
                         if (_this.state.video_img_arr) {
                           _obj.style.display = "block";
                           let x =
@@ -534,7 +652,7 @@ export default class VideoPage extends Component {
                             getStyles("sliderbox", "transform") -
                             50 -
                             20;
-                          
+
                           _obj.style.transform = "translateX(" + x + "px)";
                         }
                       }}
@@ -546,8 +664,8 @@ export default class VideoPage extends Component {
                         <NewMenu parent={this} />
                       </div>
                     </div>
-                    <div className={styles.videoImg} id='video-test' >
-                       {_this.state.test_arr?_this.state.test_arr:''}
+                    <div className={styles.videoImg} id="video-test">
+                      {_this.state.test_arr ? _this.state.test_arr : ""}
                     </div>
                   </section>
                 </main>
@@ -561,11 +679,15 @@ export default class VideoPage extends Component {
                         onMouseDown={(evt) => {
                           evt.stopPropagation();
                           evt.preventDefault();
-                         
+                          getObj('sliderbox').style.width=parseFloat( getStyles('mark','width').split('p'))*this.state.scaleX+'px';
+                          console.log(getStyles('mark','width').split('p'))
                           //  getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
                           getObj("thumb").style.width =
-                            getWidth("edit-region", "sliderbox", "thumbbox") +
+                            getWidth("edit-region", "mark", "thumbbox") +
                             "px";
+
+                           
+                            console.log(getWidth("edit-region", "mark", "thumbbox"))
                           let obj = evt.target;
                           // edit-region, sliderbox,thumbbox,thumb
 
@@ -603,27 +725,66 @@ export default class VideoPage extends Component {
                     </div>
                     <div className={styles.perBtns}>
                       <Grid container>
-                        <Grid item style={{overflow:'hidden',width:'20px',height:'16px',margin:'0 5px',transform:'translate(-3px,8px)'}}>
-                        <PhotoSizeSelectActual style={{color:'#25262c',backgroundColor:'white',transform: 'translate(-7px, -3px) scale(1.2)'}}/>
+                        <Grid
+                          item
+                          style={{
+                            overflow: "hidden",
+                            width: "20px",
+                            height: "16px",
+                            margin: "0 5px",
+                            transform: "translate(-3px,8px)",
+                          }}
+                        >
+                          <PhotoSizeSelectActual
+                            style={{
+                              color: "#25262c",
+                              backgroundColor: "white",
+                              transform: "translate(-7px, -3px) scale(1.2)",
+                            }}
+                          />
                         </Grid>
-                        <Grid item xs style={{transform: 'translate(0px, 4px)',width: 'calc(100% - 54px)'}}>
+                        <Grid
+                          item
+                          xs
+                          style={{
+                            transform: "translate(0px, 4px)",
+                            width: "calc(100% - 54px)",
+                          }}
+                        >
                           <Slider
                             value={_this.state.scaleX}
                             step={0.01}
                             min={1}
                             max={3}
-                            onChange ={(event,value)=>{
+                            onChange={(event, value) => {
+                              getObj("mark").style.transform =
+                                "scale(" + value + ")";
+
+                              getObj(
+                                "image-box"
+                              ).style.transform = "scale(" + value + ")";
                               _this.setState({
-                                scaleX:value
-                              })
-                              
+                                scaleX: value,
+                              });
                             }}
                           />
                         </Grid>
-                        
-                        <Grid item style={{overflow:'hidden' ,margin:'0 5px',transform: 'translate(0px, -2px)'}}>
-                          
-                          <PhotoSizeSelectActual style={{color:'#25262c',backgroundColor:'white',transform: 'translate(0px, 5px) scale(2)'}}/>
+
+                        <Grid
+                          item
+                          style={{
+                            overflow: "hidden",
+                            margin: "0 5px",
+                            transform: "translate(0px, -2px)",
+                          }}
+                        >
+                          <PhotoSizeSelectActual
+                            style={{
+                              color: "#25262c",
+                              backgroundColor: "white",
+                              transform: "translate(0px, 5px) scale(2)",
+                            }}
+                          />
                         </Grid>
                       </Grid>
                     </div>

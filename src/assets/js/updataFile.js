@@ -1,7 +1,8 @@
 import { getUser } from "../../services/auth";
 import md5 from "md5";
+import { render } from "react-dom";
 
-function UpdataFile(options) {
+function UpdataFile(options,file) {
   this.options = options;
   this.current = 0; //当前的上传片数
   this.totalConud = 1; //上传总片数
@@ -10,6 +11,7 @@ function UpdataFile(options) {
   this.upload = null;
   this.error = null;
   this.onchange = null;
+  this.files=file||null;
 }
 UpdataFile.prototype.on = function(attribute, c_b) {
   Object.defineProperty(this, attribute, {
@@ -121,7 +123,24 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
 };
 UpdataFile.prototype.init = function() {
   let _option = this.options;
-  let _files = document.getElementById(_option.fileId).files[0];
+  let _files =null
+  if(!_option.fileId){
+    _files = this.files;
+  }else{
+    _files = document.getElementById(_option.fileId).files[0];
+  }
+  
+  
+  // const reader = new FileReader();
+  // reader.onload = () => {
+  //   console.log(md5)
+    
+  //   console.log(md5(_files))
+  // };
+  // reader.readAsDataURL(_files);
+ 
+  // return
+
   if (!_files) {
     return;
   }

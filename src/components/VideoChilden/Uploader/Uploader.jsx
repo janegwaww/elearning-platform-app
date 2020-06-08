@@ -99,6 +99,7 @@ export default class UploadVideos extends Component {
         files:[JSON.parse(sessionStorage.getItem('file_data'))]
       })     
     }
+   
   }
   componentWillReceiveProps(nextProps) {
     
@@ -182,21 +183,33 @@ export default class UploadVideos extends Component {
             marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
               <p  onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
               onFocus={_this.props.parent.props.parent.context_focus}
+              onInput={_this.props.parent.props.parent.context_input}
+              data-type='bottom'
               data-lu='zh' data-inx={i} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].cn_sub}
               </p>
-              <p data-lu='en' onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              {json_sub[i].en_sub? <p data-lu='en' onBlur={_this.props.parent.props.parent.context_blur} 
+              onInput={_this.props.parent.props.parent.context_input}
+              data-type='bottom' 
+              suppressContentEditableWarning="true"
+              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
               </div>
               )
             }else{
               test_arr.push(<div className="test-nodes" key={i} 
             style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
             marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
-            <p contentEditable='true'  data-lu='zh' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
+            <p contentEditable='true'  data-lu='zh' data-inx={i} 
+            onInput={_this.props.parent.props.parent.context_input}
+            data-type='bottom'
+            onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
             onFocus={_this.props.parent.props.parent.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
               </p>
-              <p data-lu='en' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>
+              {json_sub[i].en_sub?
+              <p data-lu='en' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur} 
+              onInput={_this.props.parent.props.parent.context_input}
+              data-type='bottom'
+              suppressContentEditableWarning="true"
+              onFocus={_this.props.parent.props.parent.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
               </div>)
             }
           }
@@ -239,6 +252,108 @@ export default class UploadVideos extends Component {
           {_this.state.status === 1 ? (
           <section>
             <label
+            onDrop={(event)=>{
+              event.stopPropagation();
+              event.preventDefault();
+             var files = event.dataTransfer.files[0];
+             if(files.type.split('/')[1]!='mp4'){
+              _this.setState({
+                promp_info:{
+                  type:1,
+                  open:true,
+                  msg:"暂只支持mp4格式的视频，其他类型视频暂不支持！",
+                  title:'温馨提示'
+                }
+              });
+               return
+             }
+             if (!isLoggedIn()) {
+              _this.setState({
+                promp_info:{
+                  type:1,
+                  open:true,
+                  msg:'您还没有登录，是否跳转到登录页面',
+                  title:'温馨提示'
+                }
+              });
+              return false;
+            }
+            get_data("api/v1/gateway", {
+              model_name: "user",
+              model_action: "is_login",
+              extra_data: {},
+              model_type: "",
+            })
+              .then((res) => {
+                if (res.err === 0 && res.errmsg == "OK") {
+                  _this.setState({ status: 2 });
+                  let myFile = new UpdataFile({
+                    pageObj: _this,
+                    url: "http://api.haetek.com:9191/api/v1/gateway",
+                    filesSize: files.size,
+                    shardSize: 10 * 1024 * 1024, //一个分片大小
+                  },files);
+                  myFile.init();
+                  myFile.on('progress',function (res) {//监听文件上传进程
+                     _this.setState({
+                        progress:res.size
+                    })
+                  });
+                  myFile.on('onchange',function (res) {
+                    console.log('onchange',res)
+                  })
+                  myFile.on('onload',function (res) {
+                    let _data = res.response;
+                    if(_data.err===-1){
+                      new Modal().alert('此视频已有人上传，暂不支持多人同时此视频，请谅解！','error',5000);
+                      setTimeout(()=>{_this.setState({status:1,progress:0})},5000)
+                    }
+                    console.log('onload',res)
+                  })
+                  myFile.on('error',function (res) {
+                    console.log('error',res)
+                  })
+
+
+
+
+
+
+
+
+                } else {
+                  let _data = this.state.promp_info;
+                  localStorage.removeItem('haetekUser');
+                    _data.type=3;
+                    _data.open=true;
+                    _data.msg="登录超时，正在为你跳转登录页..."
+                  _this.setState({
+                    promp_info: _data,
+                  });
+                  setTimeout(() => {
+                    _data.open=false;
+                    _this.setState({
+                      promp_info:_data
+                    });
+                   navigate(`/users/login`);
+                  }, 3000);
+                }
+              })
+              
+
+            return false;
+          
+             
+            }}
+            onDragEnter={ev=>{
+              ev.stopPropagation();
+              ev.preventDefault();
+             
+            }}
+            onDragOver={(ev)=>{
+              ev.stopPropagation();
+              ev.preventDefault();
+            }}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
@@ -294,6 +409,17 @@ export default class UploadVideos extends Component {
               id="newFile"
               onChange={(e) => {
                 //
+                if(e.target.files[0].type.split('/')[1]!='mp4'){
+                  _this.setState({
+                    promp_info:{
+                      type:1,
+                      open:true,
+                      msg:"暂只支持mp4格式的视频，其他类型视频暂不支持！",
+                      title:'温馨提示'
+                    }
+                  });
+                   return
+                 }
                 _this.setState({ status: 2 });
                 let myFile = new UpdataFile({
                   fileId: "newFile",
@@ -394,7 +520,7 @@ export default class UploadVideos extends Component {
                 }}>
                   <Delete />
                 </span>
-                <p style={{ fontSize: "10px" }}>123456</p>
+                <p style={{ fontSize: "10px" }}></p>
               </div>
               <p
                 style={{
