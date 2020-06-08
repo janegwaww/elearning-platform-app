@@ -145,9 +145,9 @@ export default function VideoList({ vid, type }) {
       <div className={classes.listHead}>
         <Typography className={classes.listHead1}>
           {listName[type]}{" "}
-          <span
-            style={{ color: "#878791", fontSize: "12px" }}
-          >{`1/${series.length}`}</span>
+          {/* <span
+                style={{ color: "#878791", fontSize: "12px" }}
+                >{`1/${series.length}`}</span> */}
         </Typography>
         <IconButton size="small" onClick={() => setVerticle(false)}>
           <ListIcon fontSize="inherit" />
