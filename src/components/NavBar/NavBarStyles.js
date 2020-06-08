@@ -88,6 +88,13 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     backgroundColor: "#fff"
+  },
+  menus: {
+    display: "none",
+    alignItems: "center",
+    [theme.breakpoints.up("md")]: {
+      display: "flex"
+    }
   }
 }));
 

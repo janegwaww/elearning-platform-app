@@ -3,6 +3,7 @@ import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import ComputerIcon from "@material-ui/icons/Computer";
@@ -46,9 +47,9 @@ export default function SimplePopover() {
 
   return (
     <div>
-      <Button aria-describedby={id} color="inherit" onClick={handleClick}>
+      <ButtonBase aria-describedby={id} color="inherit" onClick={handleClick}>
         <Typography>频道</Typography>
-      </Button>
+      </ButtonBase>
       <Popover
         id={id}
         open={open}
