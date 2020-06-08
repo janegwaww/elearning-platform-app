@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
 /* import ass from "assjs"; */
+import "../VideoPlayer/VideoWindow.sass";
 
 class VideoWindow extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class VideoWindow extends Component {
   };
 
   componentDidMount() {
-    this.fetchVideoSubtitle();
+    /* this.fetchVideoSubtitle(); */
   }
 
   componentDidUpdate(prevProps) {
