@@ -77,7 +77,14 @@ export default function UserFeedback({
   const handleLikeClick = event => {
     event.preventDefault();
     actionEvent(setLike, likeTheVideo, like, val =>
-      val ? setLCounts(prev => prev + 1) : setLCounts(prev => prev - 1)
+      val
+        ? setLCounts(prev => prev + 1)
+        : setLCounts(prev => {
+            if (prev >= 1) {
+              return prev - 1;
+            }
+            return prev;
+          })
     );
   };
 
