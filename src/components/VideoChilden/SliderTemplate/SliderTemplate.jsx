@@ -29,7 +29,7 @@ class SliderTemplate extends React.Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+ 
     let value = 0;
     getObj("sliderbox").style.width =parseFloat( getStyles('mark','width').split('p'))*nextProps.parent.state.scaleX+'px';// getObj("mark").scrollWidth + "px";
    
