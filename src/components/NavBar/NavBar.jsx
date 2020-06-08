@@ -134,13 +134,13 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  useEffect(() => {}, [isLogin]);
+  /* useEffect(() => {}, [isLogin]); */
 
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Container fixed>
-          <Toolbar id="back-to-top-anchor">
+          <Toolbar>
             <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
