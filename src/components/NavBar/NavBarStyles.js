@@ -69,7 +69,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "20px",
     marginLeft: "20px",
     backgroundColor: theme.palette.secondary.main,
-    color: "#fff"
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main
+    }
   },
   sectionDesktop: {
     display: "none",
@@ -85,6 +88,13 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     backgroundColor: "#fff"
+  },
+  menus: {
+    display: "none",
+    alignItems: "center",
+    [theme.breakpoints.up("md")]: {
+      display: "flex"
+    }
   }
 }));
 

@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     display: "inline-flex",
     justifyContent: "flex-start",
     transform: "translate(-50%)",
-    transition: "visibility 0s linear 2s,opacity 2s",
+    transition: "visibility 0s linear 0.5s,opacity 0.5s",
     visibility: "hidden",
     opacity: 0
   },
