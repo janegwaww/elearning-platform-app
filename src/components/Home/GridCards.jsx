@@ -49,11 +49,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               }}
             >
               {item ? (
-                <img
-                  style={{ width: "100%", height: 160 }}
-                  alt={item.title}
-                  src={imagePath(item.image_path)}
-                />
+                <Link to={handleLink(item).to} state={handleLink(item).state}>
+                  <img
+                    style={{ width: "100%", height: 160 }}
+                    alt={item.title}
+                    src={imagePath(item.image_path)}
+                  />
+                </Link>
               ) : (
                 <Skeleton variant="rect" width="100%" height={160} />
               )}
