@@ -79,7 +79,7 @@ export const getStyles = (objId, att) => {
     } else {
       if (att == "transform") {
         let _v = att_value.split(",");
-        console.log(_v)
+        
         att_value = parseInt(_v[_v.length - 2]);
       }
     }

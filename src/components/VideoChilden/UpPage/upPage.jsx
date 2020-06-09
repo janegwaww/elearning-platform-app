@@ -701,6 +701,7 @@ export default function VideoIndex(props) {
                     <input
                       type="file"
                       id="text-doc"
+                      accept='.pdf'
                       style={{ width: 0, height: 0 }}
                       onChange={(event) => {
                         let _file = event.target.files[0];

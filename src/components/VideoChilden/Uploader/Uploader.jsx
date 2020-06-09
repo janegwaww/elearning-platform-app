@@ -17,7 +17,7 @@ import {
   Radio,
 
 } from "@material-ui/core";
-import { Delete, Add, Create } from "@material-ui/icons";
+import { Delete, Add, Create,PlayArrow } from "@material-ui/icons";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {get_data} from "../../../assets/js/request";
 
@@ -166,58 +166,9 @@ export default class UploadVideos extends Component {
           _this.props.parent.get_url(res.result_data[0]);
           
           _this.setState({ status: 3, lang_value: "" });
-          let json_sub = res.result_data[0].subtitling;
-         
-          let total_time =_this.props.parent.props.parent.state.the_current.video_len;
-          let test_arr = [];
-          let total_w =total_time*1000/2740*110;// getObj('sliderbox').scrollWidth;
-         
-          
-         
-         // console.log(total_time*1000/total_w)//每px占的毫秒
-          for(let i=0;i<json_sub.length;i++){
-            if(i===0){
 
-            test_arr.push(<div className="test-nodes" key={i} 
-            style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
-            marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
-              <p  onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus}
-              onInput={_this.props.parent.props.parent.context_input}
-              data-type='bottom'
-              data-lu='zh' data-inx={i} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].cn_sub}
-              </p>
-              {json_sub[i].en_sub? <p data-lu='en' onBlur={_this.props.parent.props.parent.context_blur} 
-              onInput={_this.props.parent.props.parent.context_input}
-              data-type='bottom' 
-              suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
-              </div>
-              )
-            }else{
-              test_arr.push(<div className="test-nodes" key={i} 
-            style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
-            marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
-            <p contentEditable='true'  data-lu='zh' data-inx={i} 
-            onInput={_this.props.parent.props.parent.context_input}
-            data-type='bottom'
-            onBlur={_this.props.parent.props.parent.context_blur}  suppressContentEditableWarning="true"
-            onFocus={_this.props.parent.props.parent.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
-              </p>
-              {json_sub[i].en_sub?
-              <p data-lu='en' data-inx={i} onBlur={_this.props.parent.props.parent.context_blur} 
-              onInput={_this.props.parent.props.parent.context_input}
-              data-type='bottom'
-              suppressContentEditableWarning="true"
-              onFocus={_this.props.parent.props.parent.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
-              </div>)
-            }
-          }
-          
-          _this.props.parent.props.parent.setState({
-            test_arr:test_arr
-          })
-          
+          _this.props.parent.props.parent.cueing(res.result_data[0].subtitling);
+         
           
           return;
         } else {
@@ -407,6 +358,7 @@ export default class UploadVideos extends Component {
             <input
               type="file"
               id="newFile"
+              accept='.mp4'
               onChange={(e) => {
                 //
                 if(e.target.files[0].type.split('/')[1]!='mp4'){

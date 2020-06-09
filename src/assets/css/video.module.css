@@ -281,3 +281,18 @@ color:#fff;
   border-radius: 8px;
   /* position: absolute; */
 }
+
+.btn{
+  position: absolute;
+  top:50px;
+  width:30px;
+  height: 30px;
+  z-index: 50;
+}
+
+.btn-prve{
+  left:0
+}
+.btn-next{
+  right: 0;
+}

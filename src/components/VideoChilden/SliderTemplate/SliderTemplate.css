@@ -3,7 +3,7 @@
 .scales{
     position: relative;
     height: 30px;
-    display: inline-block;
+    /* display: inline-block; */
     width:110px;
 }
 .scales span{

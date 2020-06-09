@@ -80,7 +80,7 @@ export default function CustomizedDialogs(props) {
             {props.title}
           </DialogTitle>
           <DialogContent dividers>
-          <input type='file' id={props.id} style={{width:0,height:0}} onChange={(e)=>{
+          <input type='file' id={props.id} style={{width:0,height:0}}  onChange={(e)=>{
             e.preventDefault();
               let _files = e.target.files[0];
                 let _reder = new FileReader();

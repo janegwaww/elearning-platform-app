@@ -31,8 +31,13 @@ class SliderTemplate extends React.Component {
   componentWillReceiveProps(nextProps) {
  
     let value = 0;
-    getObj("sliderbox").style.width =parseFloat( getStyles('mark','width').split('p'))*nextProps.parent.state.scaleX+'px';// getObj("mark").scrollWidth + "px";
-   
+    getObj("sliderbox").style.width =parseFloat( getStyles('mark','width').split('p')[0])*nextProps.parent.state.scaleX+'px';// getObj("mark").scrollWidth + "px";
+
+    // nextProps.parent.setState({
+    //   total_scroll_width:parseFloat(getStyles('mark','width').split('p')[0])*nextProps.parent.state.scaleX
+    // })
+    // console.log(nextProps.parent.state.the_current)
+    
     if (this.state.leng == nextProps.length) {
       value =
         (nextProps.value * 1000) /
@@ -82,7 +87,7 @@ class SliderTemplate extends React.Component {
     return (
       <div className="mainedit">
         <div
-          className="mark"
+          className="mark box"
           id="mark"
           onClick={(e) => {
             e.stopPropagation();
@@ -146,18 +151,7 @@ class SliderTemplate extends React.Component {
               };
             }}
           >
-            <span className="all-width">
-              <span style={{ position: "absolute" }} title="播放当前字幕段" onClick={()=>{
-                console.log(this.props.parent)
-                this.props.parent.video_live.currentTime=this.props.parent.state.the_current.start_time;
-                this.props.parent.video_live.play();
-                this.props.parent.setState({
-                  is_play_now:true
-                })
-              }}>
-                <PlayArrow />
-              </span>
-            </span>
+           
           </div>
         </div>
       </div>
