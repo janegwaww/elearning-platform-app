@@ -1,5 +1,4 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,18 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import CloseIcon from "@material-ui/icons/Close";
 import HelpIcon from "@material-ui/icons/Help";
-
-const ViewButton = withStyles({
-  root: {
-    backgroundColor: "#fc5659",
-    borderRadius: "27px",
-    boxShadow: "none",
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: "#fc5659"
-    }
-  }
-})(Button);
 
 export default function FileViewButton({ vid = "" }) {
   const [open, setOpen] = React.useState(false);
@@ -38,13 +25,22 @@ export default function FileViewButton({ vid = "" }) {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <ViewButton
+        <Button
           variant="contained"
           onClick={handleClickOpen}
           color="secondary"
+          style={{
+            backgroundColor: "#fc5659",
+            borderRadius: "27px",
+            boxShadow: "none",
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#fc5659"
+            }
+          }}
         >
           <Typography variant="body2">课件下载（付费）</Typography>
-        </ViewButton>
+        </Button>
         <Tooltip title="付费下载内容">
           <HelpIcon style={{ color: "#fc5659", fontSize: 18, margin: 4 }} />
         </Tooltip>

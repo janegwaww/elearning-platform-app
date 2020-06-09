@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import clsx from "clsx";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Paper,
@@ -13,24 +12,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
 import "./VideoSearchWrapStyles.sass";
-
-const KeSearchButton = withStyles({
-  root: {}
-})(Button);
-
-const KeInput = withStyles({
-  root: {
-    width: "70%",
-    marginLeft: "20px",
-    marginTop: 0
-  },
-  input: {
-    "&::placeholder": {
-      color: "rgba(255,255,255,1)",
-      fontSize: "12px"
-    }
-  }
-})(InputBase);
 
 const VideoSearchWrap = ({ children, vid }) => {
   const [gridList, setGridList] = useState([]);
@@ -71,7 +52,8 @@ const VideoSearchWrap = ({ children, vid }) => {
         </div>
         <div className={clsx("searchInput", !showButton && "showSearchInput")}>
           <Paper component="form" className="paper">
-            <KeInput
+            <InputBase
+              className="KeInput"
               id="watch-subtitle-search"
               placeholder="支持对整段视频的字幕或语义定位搜索"
               type="text"
@@ -84,7 +66,6 @@ const VideoSearchWrap = ({ children, vid }) => {
                       <ClearIcon
                         style={{ color: "rgba(189, 195, 199,0.8)" }}
                         fontSize="small"
-                        className="clearIcon"
                       />
                     ) : null}
                   </ButtonBase>

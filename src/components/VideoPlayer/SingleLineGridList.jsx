@@ -65,11 +65,8 @@ function SingleLineGridList({ tileList = [], clipJump }) {
         cellHeight={140}
         style={{ margin: "4px" }}
       >
-        {tileList.map(tile => (
-          <GridListTile
-            key={tile.matchedStr}
-            onClick={() => handleClick(tile.startTime)}
-          >
+        {tileList.map((tile, i) => (
+          <GridListTile key={i} onClick={() => handleClick(tile.startTime)}>
             <PressMatchedLine
               line={{ wholeStr: tile.wholeStr, matchedStr: tile.matchedStr }}
             />
