@@ -47,53 +47,53 @@ exports.createPages = async ({ graphql, actions }) => {
   // const listingPage = path.resolve("./src/templates/listing.jsx");
 
   // Get a full list of markdown posts
-  const markdownQueryResult = await graphql(`
-    {
-      allMarkdownRemark {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              tags
-              category
-              date
-            }
-          }
-        }
-      }
-    }
-  `);
+  // const markdownQueryResult = await graphql(`
+  //   {
+  //     allMarkdownRemark {
+  //       edges {
+  //         node {
+  //           fields {
+  //             slug
+  //           }
+  //           frontmatter {
+  //             title
+  //             tags
+  //             category
+  //             date
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `);
 
-  if (markdownQueryResult.errors) {
-    console.error(markdownQueryResult.errors);
-    throw markdownQueryResult.errors;
-  }
+  // if (markdownQueryResult.errors) {
+  //   console.error(markdownQueryResult.errors);
+  //   throw markdownQueryResult.errors;
+  // }
 
   // const tagSet = new Set();
   // const categorySet = new Set();
 
-  const postsEdges = markdownQueryResult.data.allMarkdownRemark.edges;
+  // const postsEdges = markdownQueryResult.data.allMarkdownRemark.edges;
 
   // Sort posts
-  postsEdges.sort((postA, postB) => {
-    const dateA = moment(
-      postA.node.frontmatter.date,
-      siteConfig.dateFromFormat
-    );
+  // postsEdges.sort((postA, postB) => {
+  //   const dateA = moment(
+  //     postA.node.frontmatter.date,
+  //     siteConfig.dateFromFormat
+  //   );
 
-    const dateB = moment(
-      postB.node.frontmatter.date,
-      siteConfig.dateFromFormat
-    );
+  //   const dateB = moment(
+  //     postB.node.frontmatter.date,
+  //     siteConfig.dateFromFormat
+  //   );
 
-    if (dateA.isBefore(dateB)) return 1;
-    if (dateB.isBefore(dateA)) return -1;
+  //   if (dateA.isBefore(dateB)) return 1;
+  //   if (dateB.isBefore(dateA)) return -1;
 
-    return 0;
-  });
+  //   return 0;
+  // });
 
   // Paging
   // const { postsPerPage } = siteConfig;

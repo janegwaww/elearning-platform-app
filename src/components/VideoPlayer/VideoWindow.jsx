@@ -28,13 +28,13 @@ class VideoWindow extends Component {
   }
 
   handleScroll(event) {
-    const { enterPip, exitPip } = this.playerRef.current;
-    if (event >= 400) {
-      enterPip && enterPip();
-    }
-    if (event < 400) {
-      exitPip && exitPip();
-    }
+    /* const { enterPip, exitPip } = this.playerRef.current;
+     * if (event >= 400) {
+     *   enterPip && enterPip();
+     * }
+     * if (event < 400) {
+     *   exitPip && exitPip();
+     * } */
   }
 
   render() {
@@ -63,7 +63,8 @@ class VideoWindow extends Component {
         {
           src: `${this.wrapPath(info.vttPath)}`,
           label: "captions on",
-          kind: "subtitles"
+          kind: "subtitles",
+          default: true
         }
       ]
     };
