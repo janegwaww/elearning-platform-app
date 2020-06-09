@@ -16,7 +16,9 @@ import {
   IconButton,
   AppBar,
   Button,
-  Avatar
+  Avatar,
+  InputAdornment,
+  ButtonBase
 } from "@material-ui/core";
 import ChannelPopover from "./ChannelPopover";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
@@ -66,26 +68,17 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
       classes={{ list: classes.list }}
     >
+      {isLogin ? <MenuItem onClick={handleMenuClose}>Profile</MenuItem> : null}
       {isLogin ? (
-        <>
-          <MenuItem
-            onClick={e => {
-              e.preventDefault();
-              navigate(`/users/profile/`);
-            }}
-          >
-            Profile
-          </MenuItem>
-          <MenuItem
-            onClick={e => {
-              e.preventDefault();
-              logout(() => ({}));
-              handleMenuClose();
-            }}
-          >
-            Logout
-          </MenuItem>
-        </>
+        <MenuItem
+          onClick={e => {
+            e.preventDefault();
+            logout(() => ({}));
+            handleMenuClose();
+          }}
+        >
+          Logout
+        </MenuItem>
       ) : (
         <MenuItem
           onClick={e => {
@@ -111,21 +104,42 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
       classes={{ list: classes.list }}
     >
+      {/* <MenuItem>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+              <MailIcon />
+              </Badge>
+              </IconButton>
+              <p>Messages</p>
+              </MenuItem> */}
+      {/* <MenuItem>
+              <IconButton aria-label="show 11 new notifications" color="inherit">
+              <Badge badgeContent={11} color="secondary">
+              <NotificationsIcon />
+              </Badge>
+              </IconButton>
+              <p>Notifications</p>
+              </MenuItem> */}
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+        <ButtonBase color="inherit" onClick={() => navigate("/")}>
+          <Typography>首页</Typography>
+        </ButtonBase>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <ChannelPopover />
+      </MenuItem>
+      <MenuItem>
+        <ButtonBase
+          color="inherit"
+          onClick={() => navigate("/mysubscription/")}
+        >
+          <Typography>订阅</Typography>
+        </ButtonBase>
+      </MenuItem>
+      <MenuItem>
+        <ButtonBase color="inherit">
+          <Typography>下载APP</Typography>
+        </ButtonBase>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -142,24 +156,24 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  useEffect(() => {}, [isLogin]);
+  /* useEffect(() => {}, [isLogin]); */
 
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
         <Container fixed>
-          <Toolbar id="back-to-top-anchor">
+          <Toolbar>
             <IconButton onClick={() => navigate("/")}>
               <img src="../logos/Logo.png" />
             </IconButton>
-            <div style={{ display: "flex" }}>
+            <div className={classes.menus}>
               <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
               <ChannelPopover />
               {/* <Button color="inherit">
-                  <Typography>频道</Typography>
-                  </Button> */}
+            <Typography>频道</Typography>
+            </Button> */}
               <Button
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
@@ -179,25 +193,29 @@ export default function PrimarySearchAppBar() {
                 }}
                 inputProps={{ "aria-label": "search" }}
                 id="navbar-search-input"
+                endAdornment={
+                  <InputAdornment>
+                    <Button
+                      className={classes.searchButton}
+                      startIcon={<SearchIcon />}
+                      onClick={handleSearchClick}
+                    >
+                      搜索
+                    </Button>
+                  </InputAdornment>
+                }
               />
-              <Button
-                className={classes.searchButton}
-                startIcon={<SearchIcon />}
-                onClick={handleSearchClick}
-              >
-                搜索
-              </Button>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* <IconButton
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                    >
-                    <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                    </Badge>
-                    </IconButton> */}
+                              aria-label="show 17 new notifications"
+                              color="inherit"
+                              >
+                              <Badge badgeContent={17} color="secondary">
+                              <NotificationsIcon />
+                              </Badge>
+                              </IconButton> */}
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -212,8 +230,9 @@ export default function PrimarySearchAppBar() {
                   <AccountCircle />
                 )}
               </IconButton>
+            </div>
+            <div>
               <Button
-                color="secondary"
                 className={classes.createButton}
                 onClick={() => navigate("/video/")}
               >

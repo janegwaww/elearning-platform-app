@@ -45,7 +45,7 @@ const fetchMethod = (token = "") => async (url, params) => {
   } catch (error) {
     console.log(error);
     alert(error.message);
-    return Promise.resolve(error.response);
+    return Promise.resolve({});
   }
 };
 
