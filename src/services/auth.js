@@ -51,7 +51,7 @@ const getResultData = ({ data = {} }) =>
 
 // 错误信息提示
 const errorMessageNotice = (data = {}) => {
-  if ([0, "0"].includes(data.data.err)) {
+  if (![0, "0"].includes(data.data.err)) {
     alert(data.data.errmsg);
   }
   return Promise.resolve(data);
