@@ -11,21 +11,9 @@ import SearchCard from "../Search/SearchCard";
 import { remotePath } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  name: {
-    color: theme.palette.secondary.main
-  },
   pagination: {
     justifyContent: "center",
     backgroundColor: "#fff"
-  },
-  head: {
-    display: "grid",
-    height: 190,
-    gridTemplateColumns: "300px auto",
-    gridTemplateRows: "repeat(6,1fr)",
-    gap: "10px",
-    border: "1px solid #ddd"
   }
 }));
 
@@ -72,7 +60,16 @@ export default function Series({ location: { state = {} } }) {
     description,
     author_name
   }) => (
-    <div className={classes.head}>
+    <div
+      style={{
+        display: "grid",
+        height: 190,
+        gridTemplateColumns: "300px auto",
+        gridTemplateRows: "repeat(6,1fr)",
+        gap: "10px",
+        border: "1px solid #ddd"
+      }}
+    >
       <img
         src={remotePath(seriesInfo.image_path)}
         alt={title}
@@ -100,7 +97,7 @@ export default function Series({ location: { state = {} } }) {
     <div>
       <br />
       <Typography>
-        <span className={classes.name}>{seriesInfo.title}</span>
+        <span style={{ color: "#007cff" }}>{seriesInfo.title}</span>
         {` 系列课的详细信息`}
       </Typography>
       <br />
