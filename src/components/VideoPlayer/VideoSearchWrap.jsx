@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import clsx from "clsx";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Paper,
@@ -12,23 +12,55 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
-import useStyles from "./VideoSearchWrapStyles";
 
-const ShowSearchButton = withStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.5)",
-    backgroundColor: "#007cff",
-    color: "#fff",
-    borderRadius: "20px",
-    fontSize: "12px",
-    padding: "6px 12px",
+    position: "relative"
+  },
+  searchButton: {
+    position: "absolute",
+    right: "-18px",
+    top: "30px",
+    visibility: "visible",
+    opacity: 1
+  },
+  hiddenSearchButton: {
+    transition: "visibility 0s linear 1s,opacity 1s",
+    visibility: "hidden",
+    opacity: 0
+  },
+  searchInput: {
+    position: "absolute",
+    top: "30px",
+    left: "50%",
     zIndex: 2,
-    "&:hover": {
-      backgroundColor: "#007cff"
-    }
+    display: "inline-flex",
+    justifyContent: "flex-start",
+    transform: "translate(-50%)",
+    transition: "visibility 0s linear 0.5s,opacity 0.5s",
+    visibility: "hidden",
+    opacity: 0
+  },
+  showSearchInput: {
+    opacity: 1,
+    visibility: "visible"
+  },
+  paper: {
+    backgroundColor: "rgba(44,44,59,0.6)",
+    borderRadius: "20px",
+    width: 400,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  clearIcon: {
+    fontSize: 14,
+    backgroundColor: "#ddd",
+    borderRadius: "20px",
+    marginLeft: "4px",
+    color: "gray"
   }
-})(Button);
-
+}));
 const KeSearchButton = withStyles({
   root: {
     backgroundColor: "#007cff",
@@ -95,13 +127,26 @@ const VideoSearchWrap = ({ children, vid }) => {
             !showButton && classes.hiddenSearchButton
           )}
         >
-          <ShowSearchButton
+          <Button
             startIcon={<SearchIcon />}
             onClick={handleSearchClick}
-            className={classes.searchButtonIn}
+            classes={{
+              root: {
+                boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.5)",
+                backgroundColor: "#007cff",
+                color: "#fff",
+                borderRadius: "20px",
+                fontSize: "12px",
+                padding: "6px 12px",
+                zIndex: 2,
+                "&:hover": {
+                  backgroundColor: "#007cff"
+                }
+              }
+            }}
           >
             知识搜索
-          </ShowSearchButton>
+          </Button>
         </div>
         <div
           className={clsx(
