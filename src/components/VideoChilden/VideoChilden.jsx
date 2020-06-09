@@ -43,7 +43,7 @@ export default class VideoChilden extends Component {
     this.setState({
       inx: nextProps.topInx
     });
-    return true;
+    // return true;
   }
   render() {
     return this.returnComponets(this.state.inx);

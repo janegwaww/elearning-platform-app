@@ -125,6 +125,7 @@ function CuttingTemplate(props) {
         <input
           type="file"
           id={props.id}
+          accept='.png,.jpeg,.jpg'
           onChange={(e) => {
             setOpen(true);
             e.preventDefault();

@@ -74,6 +74,7 @@ const Message = (props) => {
                       props.parent.setState({
                         status: 1,
                         progress: 0,
+                        promp_info: promp_info,
                         files: [],
                         the_current:{}
                       

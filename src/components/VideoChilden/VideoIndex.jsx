@@ -27,7 +27,7 @@ export default class VideoPage extends Component {
     super(props);
     this.state = {
       video_data: {},
-      now_current:{},
+      now_current: {},
       the_current: {}, //当前字幕
       status: false, //播放状态
       edi_show: false, //是否调起修改当前字幕弹窗
@@ -37,7 +37,11 @@ export default class VideoPage extends Component {
       video_img_arr: null,
       test_arr: null,
       scaleX: 1,
-      is_play_now:false
+      // total_scroll_width: 4070,
+      is_play_now: false,
+
+      video_bottom_slider:0,
+      a_few_screen:1,//移動幾屏
     };
     this.video_live = null;
     //绑定双击事件
@@ -48,7 +52,9 @@ export default class VideoPage extends Component {
     this.get_image = this.get_image.bind(this);
     this.context_focus = this.context_focus.bind(this);
     this.context_blur = this.context_blur.bind(this);
-    this.context_input=this.context_input.bind(this);
+    this.context_input = this.context_input.bind(this);
+    this.now_play = this.now_play.bind(this);
+    this.cueing = this.cueing.bind(this);
   }
   componentDidMount() {
     this.setState({
@@ -70,38 +76,160 @@ export default class VideoPage extends Component {
       getWidth("edit-region", "sliderbox", "thumbbox") + "px";
 
     if (sessionStorage.getItem("file_data")) {
-      localStorage.setItem('file_data',sessionStorage.getItem("file_data"))
+      let _data = JSON.parse(sessionStorage.getItem("file_data"));
       this.setState({
-        video_data: JSON.parse(sessionStorage.getItem("file_data")),
+        video_data: _data,
       });
+
+      // this.video_live.load();
+      // if(_data.sub_josn){
+      //   this.cueing(_data.video_data:sub_josn);
+      // }
     }
+
     document.onkeydown = (ev) => {
       if (ev.keyCode === 32) {
-        this.video_live.pause();
-        this.setState({
-          status: false,
-        });
-      }
-      if (ev.keyCode === 13) {
-        this.video_live.play();
-        this.setState({
-          status: true,
-          is_play_now:false
-        });
+        if (this.video_live.paused) {
+          this.video_live.play();
+          this.setState({
+            status: true,
+            is_play_now: false,
+          });
+        } else {
+          this.video_live.pause();
+          this.setState({
+            status: false,
+          });
+        }
       }
     };
-
-   
   }
 
   componentWillUnmount() {
     window.onresize = null;
     document.onkeydown = null;
   }
+  cueing(textArr) {
+    let total_time = this.video_live.duration;
+    let test_arr = [];
+    let total_w = ((total_time * 1000) / 2740) * 110; // getObj('sliderbox').scrollWidth;
+    let json_sub = textArr;
+    console.log(total_w, total_time);
+    // console.log(total_time*1000/total_w)//每px占的毫秒
+    for (let i = 0; i < json_sub.length; i++) {
+      if (i === 0) {
+        test_arr.push(
+          <div
+            className="test-nodes"
+            key={i}
+            style={{
+              width:
+                (json_sub[i].ed - json_sub[i].bg) *
+                  1000 *
+                  (total_w / (total_time * 1000)) +
+                "px",
+              marginLeft:
+                (total_w / total_time / 1000) * json_sub[i].bg * 1000 + "px",
+            }}
+          >
+            <p
+              onBlur={this.context_blur}
+              suppressContentEditableWarning="true"
+              onFocus={this.context_focus}
+              onInput={this.context_input}
+              data-type="bottom"
+              data-lu="zh"
+              data-inx={i}
+              contentEditable="true"
+              title="点击文字可编辑"
+            >
+              {json_sub[i].cn_sub}
+            </p>
+            {json_sub[i].en_sub ? (
+              <p
+                data-lu="en"
+                onBlur={this.context_blur}
+                onInput={this.context_input}
+                data-type="bottom"
+                suppressContentEditableWarning="true"
+                onFocus={this.context_focus}
+                data-inx={i}
+                contentEditable="true"
+                title="点击文字可编辑"
+              >
+                {json_sub[i].en_sub}
+              </p>
+            ) : (
+              ""
+            )}
+            <span title="播放當前段" data-inx={i} onClick={this.now_play}>
+              <PlayArrow />
+            </span>
+          </div>
+        );
+      } else {
+        test_arr.push(
+          <div
+            className="test-nodes"
+            key={i}
+            style={{
+              width:
+                (json_sub[i].ed - json_sub[i].bg) *
+                  1000 *
+                  (total_w / (total_time * 1000)) +
+                "px",
+              marginLeft:
+                (total_w / total_time / 1000) *
+                  (json_sub[i].bg - json_sub[i - 1].ed) *
+                  1000 +
+                1 +
+                "px",
+            }}
+          >
+            <p
+              contentEditable="true"
+              data-lu="zh"
+              data-inx={i}
+              onInput={this.context_input}
+              data-type="bottom"
+              onBlur={this.context_blur}
+              suppressContentEditableWarning="true"
+              onFocus={this.context_focus}
+              title="点击文字可编辑"
+            >
+              {json_sub[i].cn_sub}
+            </p>
+            {json_sub[i].en_sub ? (
+              <p
+                data-lu="en"
+                data-inx={i}
+                onBlur={this.context_blur}
+                onInput={this.context_input}
+                data-type="bottom"
+                suppressContentEditableWarning="true"
+                onFocus={this.context_focus}
+                contentEditable="true"
+                title="点击文字可编辑"
+              >
+                {json_sub[i].en_sub}
+              </p>
+            ) : (
+              ""
+            )}
+            <span title="播放當前段" data-inx={i} onClick={this.now_play}>
+              <PlayArrow />
+            </span>
+          </div>
+        );
+      }
+    }
 
+    this.setState({
+      test_arr: test_arr,
+    });
+  }
   getUpfileUrl(res) {
     //接收组件传递视频数据
-
     let _data = this.state.video_data || {};
     if (res.subtitling) {
       _data.sub_josn = res.subtitling;
@@ -226,6 +354,10 @@ export default class VideoPage extends Component {
       },
       video_img_arr: res,
     });
+    // console.log(this.state.video_data.sub_josn)
+    if (this.state.video_data.sub_josn) {
+      this.cueing(this.state.video_data.sub_josn);
+    }
     let _obj = getObj("image-box");
 
     let len = res.length;
@@ -261,7 +393,6 @@ export default class VideoPage extends Component {
   }
 
   sub_test(time) {
-    
     //更新字幕
     let _data = this.state.the_current || {};
     if (this.video_live.duration) {
@@ -269,7 +400,8 @@ export default class VideoPage extends Component {
       _data.time = time;
     }
 
-    if (this.state.video_data.sub_josn ) {//去掉了&&time>0
+    if (this.state.video_data.sub_josn) {
+      //去掉了&&time>0
       let json_sub = this.state.video_data.sub_josn;
 
       for (let i = 0; i < json_sub.length; i++) {
@@ -278,8 +410,8 @@ export default class VideoPage extends Component {
           _data.en = json_sub[i].en_sub;
           _data.time = time;
           _data.inx = i;
-          _data.start_time=json_sub[i].bg;
-          _data.end_time= json_sub[i].ed
+          _data.start_time = json_sub[i].bg;
+          _data.end_time = json_sub[i].ed;
           // _data = {
           //   zh: json_sub[i].cn_sub,
           //   en: json_sub[i].en_sub,
@@ -293,8 +425,8 @@ export default class VideoPage extends Component {
             _data.en = "";
             _data.time = time;
             _data.inx = i;
-            _data.start_time=json_sub[i].bg;
-            _data.end_time= json_sub[i].ed
+            _data.start_time = json_sub[i].bg;
+            _data.end_time = json_sub[i].ed;
             // _data = { zh: "", en: "", time: time, inx: i };
           }
         } else {
@@ -303,8 +435,8 @@ export default class VideoPage extends Component {
             _data.en = "";
             _data.time = time;
             _data.inx = i;
-            _data.start_time=json_sub[i].bg;
-            _data.end_time= json_sub[i].ed
+            _data.start_time = json_sub[i].bg;
+            _data.end_time = json_sub[i].ed;
             // _data = { zh: "", en: "", time: time, inx: i };
           }
         }
@@ -315,8 +447,33 @@ export default class VideoPage extends Component {
       the_current: _data,
     });
   }
+  now_play(ev) {
+    let _video = JSON.parse(JSON.stringify(this.state.video_data));
+    let _data = ev.target.dataset;
+    let _now_data = JSON.parse(JSON.stringify(this.state.the_current));
+    let _new_data = {};
+    if (JSON.stringify(_data) == "{}") {
+      _data = ev.target.parentNode.dataset;
+      if (JSON.stringify(_data) == "{}") {
+        _data = ev.target.parentNode.parentNode.dataset;
+      }
+    }
+    _new_data.video_len = _now_data.video_len;
+    _new_data.inx = parseInt(_data.inx);
+    _new_data.end_time = _video.sub_josn[_data.inx].ed;
+    _new_data.time = _video.sub_josn[_data.inx].bg;
+    _new_data.start_time = _video.sub_josn[_data.inx].bg;
+    _new_data.en = _video.sub_josn[_data.inx].en_sub;
+    _new_data.zh = _video.sub_josn[_data.inx].cn_sub;
+    this.video_live.currentTime = _new_data.start_time;
+    this.video_live.play();
+    this.setState({
+      the_current: _new_data,
+      status: true,
+      is_play_now: true,
+    });
+  }
   context_focus(el, value) {
-    
     el.target.className = "normal";
     this.setState({
       // top_inx: 2,// 暂时不用文字编辑，屏蔽
@@ -326,93 +483,41 @@ export default class VideoPage extends Component {
     this.video_live.currentTime = this.state.video_data.sub_josn[
       el.target.dataset.inx
     ].bg;
-   
+    this.sub_test(this.state.video_data.sub_josn[el.target.dataset.inx].bg);
+    // console.log(this.state.the_current)
   }
-  context_input(el){
-    
-    let _the_data =JSON.parse(JSON.stringify(this.state.the_current)) , //当前，
-    _video_data =this.state.video_data , //所有
-    lang = el.target.dataset.lu,
-    _inx = parseInt(el.target.dataset.inx),
-    _type = el.target.dataset.type;
-   
-    if(_type=='top'){
-      
+  context_input(el) {
+    let _the_data = JSON.parse(JSON.stringify(this.state.the_current)), //当前，
+      _video_data = this.state.video_data, //所有
+      lang = el.target.dataset.lu,
+      _inx = parseInt(el.target.dataset.inx),
+      _type = el.target.dataset.type;
+
+    if (_type == "top") {
       if (lang == "zh") {
         if (_the_data.zh !== el.target.innerText) {
           // _the_data.zh = el.target.innerText;
           _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
         }
-      }else{
+      } else {
         if (_the_data.en !== el.target.innerText) {
           // _the_data.en = el.target.innerText;
           _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
         }
       }
-    
-        this.setState({
-          // the_current: _the_data,
-          video_data: _video_data,
-      })
-   
-      let json_sub =  _video_data.sub_josn;
-     
-      let total_time =_the_data.video_len;
-      let test_arr = [];
-      let total_w =total_time*1000/2740*110;
 
-      for(let i=0;i<json_sub.length;i++){
-        if(i===0){
-
-        test_arr.push(<div className="test-nodes" key={i} 
-        style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
-        marginLeft:total_w/total_time/1000*json_sub[i].bg*1000+'px' }}>
-          <p  onBlur={this.context_blur}  suppressContentEditableWarning="true"
-          onFocus={this.context_focus}
-          onInput={this.context_input}
-          data-type='bottom'
-          data-lu='zh' data-inx={i} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].cn_sub}
-          </p>
-          {json_sub[i].en_sub?
-          <p data-lu='en' onBlur={this.context_blur} 
-          onInput={this.context_input}
-          data-type='bottom' 
-          suppressContentEditableWarning="true"
-          onFocus={this.context_focus} data-inx={i} contentEditable='true' title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
-          </div>
-          )
-        }else{
-          test_arr.push(<div className="test-nodes" key={i} 
-        style={{width:((json_sub[i].ed-json_sub[i].bg)*1000)*(total_w/(total_time*1000))+'px',
-        marginLeft:total_w/total_time/1000*(json_sub[i].bg-json_sub[i-1].ed)*1000+1+'px' }} >
-        <p contentEditable='true'  data-lu='zh' data-inx={i} 
-        onInput={this.context_input}
-        data-type='bottom'
-        onBlur={this.context_blur}  suppressContentEditableWarning="true"
-        onFocus={this.context_focus}  title='点击文字可编辑' >{json_sub[i].cn_sub}
-          </p>
-          {json_sub[i].en_sub?
-          <p data-lu='en' data-inx={i} onBlur={this.context_blur} 
-          onInput={this.context_input}
-          data-type='bottom'
-          suppressContentEditableWarning="true"
-          onFocus={this.context_focus} contentEditable='true'  title='点击文字可编辑' >{json_sub[i].en_sub}</p>:''}
-          </div>)
-        }
-      }
-      
       this.setState({
-        test_arr:test_arr
-      })
-
-
-    }else{
+        // the_current: _the_data,
+        video_data: _video_data,
+      });
+      this.cueing(_video_data.sub_josn);
+    } else {
       if (lang == "zh") {
         if (_the_data.zh !== el.target.innerText) {
           _the_data.zh = el.target.innerText;
           // _video_data.sub_josn[_inx].cn_sub = el.target.innerText.toString();
         }
-      }else{
+      } else {
         if (_the_data.en !== el.target.innerText) {
           _the_data.en = el.target.innerText;
           // _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
@@ -420,16 +525,16 @@ export default class VideoPage extends Component {
       }
       this.setState({
         the_current: _the_data,
-      })
+      });
     }
   }
   context_blur(el) {
     el.target.classList.remove("normal");
-   
-    let _the_data =JSON.parse(JSON.stringify(this.state.the_current)) , //当前，
-    _video_data =JSON.parse(JSON.stringify( this.state.video_data)) , //所有
-    lang = el.target.dataset.lu,
-    _inx = parseInt(el.target.dataset.inx);
+
+    let _the_data = this.state.the_current, //当前，
+      _video_data = this.state.video_data, //所有
+      lang = el.target.dataset.lu,
+      _inx = parseInt(el.target.dataset.inx);
 
     if (lang == "zh") {
       if (_the_data.zh !== el.target.innerText) {
@@ -445,9 +550,10 @@ export default class VideoPage extends Component {
         _video_data.sub_josn[_inx].en_sub = el.target.innerText.toString();
       }
       if (_video_data.sub_josn[_inx].cn_sub) {
-        the_data.cn = _video_data.sub_josn[_inx].cn_sub;
+        _the_data.cn = _video_data.sub_josn[_inx].cn_sub;
       }
     }
+    console.log(_the_data);
     this.setState({
       the_current: _the_data,
       video_data: _video_data,
@@ -467,7 +573,7 @@ export default class VideoPage extends Component {
       _this.video_live.play();
       _this.setState({
         status: true,
-        is_play_now:false
+        is_play_now: false,
       });
     };
     const on_pause = function() {
@@ -480,17 +586,30 @@ export default class VideoPage extends Component {
     const time_date = function(el) {
       //实时播放时间
       let time = el.target.currentTime;
-      if(_this.state.is_play_now){
-        
-        if(time>=_this.state.the_current.end_time){
+      let _data = _this.state.the_current;
+      if (_this.state.is_play_now) {
+        if (time >= _this.state.the_current.end_time) {
           _this.video_live.currentTime = _this.state.the_current.start_time;
-          on_end()
-          return
+
+          on_end();
+          return;
         }
-
       }
+     
+      _data.time = time;
       
-
+      _this.setState({
+        the_current: _data,
+        video_bottom_slider:getObj('video-bottom-slider').clientWidth/_this.state.the_current.video_len*time
+      });
+      let box_w =parseInt( getStyles('edit-region','width').split('p')[0]);
+      let box_w_off = getObj('sliderbox').clientWidth/_this.state.the_current.video_len*time;
+     
+       let _num =Math.floor( box_w_off/box_w );
+    
+      
+        getObj('sliderbox').style.transform='translate(-'+box_w*_num+'px)';
+      
       _this.sub_test(time);
     };
     const on_end = function() {
@@ -556,13 +675,12 @@ export default class VideoPage extends Component {
                         <span
                           data-lu="zh"
                           data-inx={_this.state.the_current.inx}
-                          data-type='top'
+                          data-type="top"
                           onBlur={_this.context_blur}
                           suppressContentEditableWarning="true"
                           onFocus={_this.context_focus}
                           onInput={_this.context_input}
                           contentEditable="true"
-
                         >
                           {_this.state.the_current
                             ? _this.state.the_current.zh
@@ -571,8 +689,10 @@ export default class VideoPage extends Component {
                         <br />
                         <span
                           data-lu="en"
+                          data-type="top"
                           data-inx={_this.state.the_current.inx}
                           onBlur={_this.context_blur}
+                          onInput={_this.context_input}
                           suppressContentEditableWarning="true"
                           onFocus={_this.context_focus}
                           contentEditable="true"
@@ -586,6 +706,7 @@ export default class VideoPage extends Component {
                       ""
                     )}
                   </div>
+                  
                   <p>
                     <span>
                       {this.state.status ? (
@@ -604,6 +725,46 @@ export default class VideoPage extends Component {
                         : 0}
                     </span>
                   </p>
+                  {this.state.the_current ? (
+                    <p
+                      className="all-width"
+                      id='video-bottom-slider'
+                      style={{
+                       
+                        height: 5,
+                        backgroundColor: "#ccc",
+                      }}
+                    >
+                    <span style={{
+                      display: "inline-block",
+                      position: "absolute",
+                      top:0,
+                      left:0,
+                      backgroundColor:'red',
+                      // width:12,
+                      height:5,
+                      transition:'all 0.3s',
+                      width:this.state.video_bottom_slider-10<0?0+'px':this.state.video_bottom_slider-10+'px'
+                    }}></span>
+                      <span
+                      id="video-bottom-slider-block"
+                        style={{
+                          display: "inline-block",
+                          width: 10,
+                          height: 10,
+                          borderRadius: "50%",
+                          backgroundColor: "green",
+                          position: "absolute",
+                          top:'50%',
+                          transform: 'translateY(-50%)',
+                          transition:'all 0.3s',
+                          left:this.state.video_bottom_slider-10+'px',
+                        }}
+                      ></span>
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </section>
               </div>
             </main>
@@ -622,6 +783,61 @@ export default class VideoPage extends Component {
                   style={{ overflow: "hidden" }}
                   id="edit-region"
                 >
+                  <div
+                    className={`${styles.btn} ${styles.btnPrve}`}
+                    onClick={(ev) => {
+                      let _w =
+                        getWidth("edit-region", "sliderbox", "thumbbox") *
+                        this.state.scaleX;
+                      getObj("thumb").style.width = _w + "px";
+                      let x = getStyles("thumb", "transform"); //当前的偏移量
+                      let barX = x - getObj("edit-region").clientWidth / 2 - 10; //将要移动的量
+                      let barMax = getObj("thumbbox").clientWidth - _w; //滚动条可以位移的位置
+                      if (barX <= 0) {
+                        barX = 0;
+                      }
+                      getObj("thumb").style.transform =
+                        "translateX(" + barX + "px)";
+                      let contentMax = //sliderbox 可以移的位置
+                        getObj("sliderbox").clientWidth -
+                        getObj("edit-region").clientWidth;
+
+                      let contentX = (barX / barMax) * contentMax;
+                      getObj("sliderbox").style.transform =
+                        "translateX(-" + contentX + "px)";
+                    }}
+                  >
+                    <SkipPrevious />
+                  </div>
+                  <div
+                    className={`${styles.btn} ${styles.btnNext}`}
+                    onClick={(ev) => {
+                      let _w =
+                        getWidth("edit-region", "sliderbox", "thumbbox") *
+                        this.state.scaleX;
+                      getObj("thumb").style.width = _w + "px";
+
+                      // edit-region, sliderbox,thumbbox,thumb
+                      let x = getStyles("thumb", "transform"); //当前的偏移量
+                      let barX = x + getObj("edit-region").clientWidth / 2 - 10; //将要移动的量
+
+                      let barMax = getObj("thumbbox").clientWidth - _w; //滚动条可以位移的位置
+                      if (barX > barMax) {
+                        barX = barMax;
+                      }
+                      getObj("thumb").style.transform =
+                        "translateX(" + barX + "px)";
+                      let contentMax = //sliderbox 可以移的位置
+                        getObj("sliderbox").clientWidth -
+                        getObj("edit-region").clientWidth;
+
+                      let contentX = (barX / barMax) * contentMax;
+                      getObj("sliderbox").style.transform =
+                        "translateX(-" + contentX + "px)";
+                    }}
+                  >
+                    <SkipNext />
+                  </div>
                   <section
                     style={{ height: "100%", position: "absolute" }}
                     id="sliderbox"
@@ -637,7 +853,7 @@ export default class VideoPage extends Component {
                         }
                       />
                     </div>
-                    <div className={styles.videoImg}>图片</div>
+                    <div className={styles.videoImg}></div>
 
                     <div
                       className={styles.videoImage}
@@ -677,17 +893,17 @@ export default class VideoPage extends Component {
                         className={styles.scrollThumb}
                         id="thumb"
                         onMouseDown={(evt) => {
-                          evt.stopPropagation();
-                          evt.preventDefault();
-                          getObj('sliderbox').style.width=parseFloat( getStyles('mark','width').split('p'))*this.state.scaleX+'px';
-                          console.log(getStyles('mark','width').split('p'))
+                          // evt.stopPropagation();
+                          // evt.preventDefault();
+                          // getObj('sliderbox').style.width=parseFloat( getStyles('mark','width').split('p'))*this.state.scaleX+'px';
+                          // console.log(getStyles('mark','width').split('p'))
                           //  getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
                           getObj("thumb").style.width =
-                            getWidth("edit-region", "mark", "thumbbox") +
+                            getWidth("edit-region", "sliderbox", "thumbbox") *
+                              this.state.scaleX +
                             "px";
 
-                           
-                            console.log(getWidth("edit-region", "mark", "thumbbox"))
+                          // console.log(getWidth("edit-region", "mark", "thumbbox"))
                           let obj = evt.target;
                           // edit-region, sliderbox,thumbbox,thumb
 
@@ -707,9 +923,13 @@ export default class VideoPage extends Component {
 
                             obj.style.transform = "translateX(" + barX + "px)";
 
+                            // let contentMax =
+                            //   getObj("sliderbox").scrollWidth -
+                            //   getObj("edit-region").clientWidth;
                             let contentMax =
-                              getObj("sliderbox").scrollWidth -
+                              getObj("sliderbox").clientWidth -
                               getObj("edit-region").clientWidth;
+
                             let barMax =
                               getObj("thumbbox").clientWidth - obj.clientWidth;
 
@@ -757,12 +977,24 @@ export default class VideoPage extends Component {
                             min={1}
                             max={3}
                             onChange={(event, value) => {
+                              getObj("mark").style.left =
+                                (getStyles("mark", "width").split("p")[0] *
+                                  (value - 1)) /
+                                  2 +
+                                "px";
                               getObj("mark").style.transform =
-                                "scale(" + value + ")";
+                                "scaleX(" + value + ")";
 
-                              getObj(
-                                "image-box"
-                              ).style.transform = "scale(" + value + ")";
+                              // "scaleX(" + value + ") ";
+                              // translateX("+getStyles('mark','width').split('p')[0]*(value-1)/4.925+'px)
+
+                              getObj("image-box").style.transform =
+                                "scale(" + value + ")";
+                              getObj("image-box").style.left =
+                                (getStyles("mark", "width").split("p")[0] *
+                                  (value - 1)) /
+                                  2 +
+                                "px";
                               _this.setState({
                                 scaleX: value,
                               });

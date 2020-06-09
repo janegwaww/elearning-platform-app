@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { MoreHoriz } from "@material-ui/icons";
-import Popper from "@material-ui/core/Popper";
+import Modal from '../../../assets/js/modal';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginRight: theme.spacing(2),
@@ -66,6 +66,11 @@ export default function SimpleMenu(props) {
         <NewMenuItem onClick={handleClose}>复制</NewMenuItem>
         <NewMenuItem
           onClick={(e) => {
+            console.log(props.parent.state.video_data)
+            if(props.parent.state.video_data.sub_josn){
+              handleClose();
+              return;
+            }
             if (JSON.stringify(props.parent.state.video_data) != "{}") {
               props.parent.setState({
                 uploadStatus: 4,
