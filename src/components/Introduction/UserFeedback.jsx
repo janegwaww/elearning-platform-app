@@ -12,41 +12,17 @@ import LightTooltip from "./LightTooltip";
 import UserLikeHeart from "./UserLikeHeart";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "inline-flex",
-    alignItems: "center",
-    "& > button": {
-      margin: "0 16px"
-    }
-  },
-  item: {
-    fontSize: 18,
-    margin: theme.spacing(0.5)
-  },
-  viewButton: {
-    "&:hover": {
-      color: theme.palette.secondary.main,
-      backgroundColor: "transparent"
-    }
-  },
+  root: {},
+  item: {},
+  viewButton: {},
   likeButton: {
     "&:hover": {
       color: "#fc5659",
       backgroundColor: "transparent"
     }
   },
-  shareButton: {
-    "&:hover": {
-      color: theme.palette.secondary.main,
-      backgroundColor: "transparent"
-    }
-  },
-  collectButton: {
-    "&:hover": {
-      color: "#fdc44f",
-      backgroundColor: "transparent"
-    }
-  }
+  shareButton: {},
+  collectButton: {}
 }));
 
 export default function UserFeedback({
@@ -105,9 +81,25 @@ export default function UserFeedback({
   }, [isLike, isCollect]);
 
   return (
-    <div className={classes.root}>
-      <IconButton size="small" className={classes.viewButton}>
-        <PlayCircleOutlineIcon className={classes.item} />
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        "& > button": {
+          margin: "0 16px"
+        }
+      }}
+    >
+      <IconButton
+        size="small"
+        style={{
+          "&:hover": {
+            color: "#007cff",
+            backgroundColor: "transparent"
+          }
+        }}
+      >
+        <PlayCircleOutlineIcon style={{ fontSize: 18, margin: "8px" }} />
         <LightTooltip title="播放" placement="bottom">
           <Typography>{viewCounts}</Typography>
         </LightTooltip>
@@ -125,10 +117,15 @@ export default function UserFeedback({
             aria-describedby={id}
             size="small"
             onClick={handleShare}
-            className={classes.shareButton}
+            style={{
+              "&:hover": {
+                color: "#007cff",
+                backgroundColor: "transparent"
+              }
+            }}
           >
             <LightTooltip title="分享">
-              <ShareIcon className={classes.item} />
+              <ShareIcon style={{ fontSize: 18, margin: "8px" }} />
             </LightTooltip>
           </IconButton>
         )}
@@ -137,7 +134,12 @@ export default function UserFeedback({
       <IconButton
         size="small"
         onClick={handleStarClick}
-        className={classes.collectButton}
+        style={{
+          "&:hover": {
+            color: "#fdc44f",
+            backgroundColor: "transparent"
+          }
+        }}
       >
         <LightTooltip title="收藏" placement="bottom">
           {StarOrNot(collect)}

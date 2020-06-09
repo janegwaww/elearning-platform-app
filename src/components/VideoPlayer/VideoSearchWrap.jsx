@@ -12,70 +12,10 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
+import "./VideoSearchWrapStyles.sass";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: "relative"
-  },
-  searchButton: {
-    position: "absolute",
-    right: "-18px",
-    top: "30px",
-    visibility: "visible",
-    opacity: 1
-  },
-  hiddenSearchButton: {
-    transition: "visibility 0s linear 1s,opacity 1s",
-    visibility: "hidden",
-    opacity: 0
-  },
-  searchInput: {
-    position: "absolute",
-    top: "30px",
-    left: "50%",
-    zIndex: 2,
-    display: "inline-flex",
-    justifyContent: "flex-start",
-    transform: "translate(-50%)",
-    transition: "visibility 0s linear 0.5s,opacity 0.5s",
-    visibility: "hidden",
-    opacity: 0
-  },
-  showSearchInput: {
-    opacity: 1,
-    visibility: "visible"
-  },
-  paper: {
-    backgroundColor: "rgba(44,44,59,0.6)",
-    borderRadius: "20px",
-    width: 400,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  clearIcon: {
-    fontSize: 14,
-    backgroundColor: "#ddd",
-    borderRadius: "20px",
-    marginLeft: "4px",
-    color: "gray"
-  }
-}));
 const KeSearchButton = withStyles({
-  root: {
-    backgroundColor: "#007cff",
-    color: "#fff",
-    borderRadius: "0 20px 20px 0",
-    fontSize: "12px",
-    padding: "6px 14px",
-    "&:hover": {
-      backgroundColor: "#007cff"
-    },
-    "& .MuiButton-startIcon": {
-      marginLeft: 0,
-      marginRight: 0
-    }
-  }
+  root: {}
 })(Button);
 
 const KeInput = withStyles({
@@ -93,7 +33,6 @@ const KeInput = withStyles({
 })(InputBase);
 
 const VideoSearchWrap = ({ children, vid }) => {
-  const classes = useStyles();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState("");
@@ -120,41 +59,18 @@ const VideoSearchWrap = ({ children, vid }) => {
 
   return (
     <Fragment>
-      <div className={classes.root}>
-        <div
-          className={clsx(
-            classes.searchButton,
-            !showButton && classes.hiddenSearchButton
-          )}
-        >
+      <div className="video-search-wrap">
+        <div className={`searchButton ${!showButton && "hiddenSearchButton"}`}>
           <Button
             startIcon={<SearchIcon />}
             onClick={handleSearchClick}
-            classes={{
-              root: {
-                boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.5)",
-                backgroundColor: "#007cff",
-                color: "#fff",
-                borderRadius: "20px",
-                fontSize: "12px",
-                padding: "6px 12px",
-                zIndex: 2,
-                "&:hover": {
-                  backgroundColor: "#007cff"
-                }
-              }
-            }}
+            className="showSearchButton"
           >
             知识搜索
           </Button>
         </div>
-        <div
-          className={clsx(
-            classes.searchInput,
-            !showButton && classes.showSearchInput
-          )}
-        >
-          <Paper component="form" classes={{ root: classes.paper }}>
+        <div className={clsx("searchInput", !showButton && "showSearchInput")}>
+          <Paper component="form" className="paper">
             <KeInput
               id="watch-subtitle-search"
               placeholder="支持对整段视频的字幕或语义定位搜索"
@@ -168,25 +84,24 @@ const VideoSearchWrap = ({ children, vid }) => {
                       <ClearIcon
                         style={{ color: "rgba(189, 195, 199,0.8)" }}
                         fontSize="small"
+                        className="clearIcon"
                       />
                     ) : null}
                   </ButtonBase>
                 </InputAdornment>
               }
             />
-            <KeSearchButton
+            <Button
+              className="KeSearchButton"
               aria-label="search"
               startIcon={<SearchIcon />}
               onClick={handleInputClick}
             >
               知识搜索
-            </KeSearchButton>
+            </Button>
           </Paper>
           <div>
-            <ClearIcon
-              classes={{ root: classes.clearIcon }}
-              onClick={closeSearchInput}
-            />
+            <ClearIcon className="clearIcon" onClick={closeSearchInput} />
           </div>
         </div>
         <div>{children(timer)}</div>
