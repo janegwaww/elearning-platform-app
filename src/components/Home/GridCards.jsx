@@ -30,6 +30,24 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     return { to: "/", state: {} };
   };
 
+  const isSeries = ({ video_id, series_id }) =>
+    series_id ? (
+      <div
+        style={{
+          position: "absolute",
+          backgroundColor: "#007cff",
+          padding: "2px 4px",
+          borderRadius: "0 0 4px 4px",
+          top: 0,
+          left: 18
+        }}
+      >
+        <Typography color="primary" variant="caption">
+          系列
+        </Typography>
+      </div>
+    ) : null;
+
   useEffect(() => {
     setList(cutItemsToCount(items, itemCount));
   }, [, loading]);
@@ -45,7 +63,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 border: "1px solid rgba(242,242,245,1)",
                 borderRadius: "12px",
                 overflow: "hidden",
-                backgroundColor: "#fff"
+                backgroundColor: "#fff",
+                position: "relative"
               }}
             >
               {item ? (
@@ -55,6 +74,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     alt={item.title}
                     src={imagePath(item.image_path)}
                   />
+                  {isSeries(item)}
                 </Link>
               ) : (
                 <Skeleton variant="rect" width="100%" height={160} />

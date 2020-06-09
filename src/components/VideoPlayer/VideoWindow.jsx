@@ -8,6 +8,21 @@ class VideoWindow extends Component {
     super(props);
     this.state = {};
     this.playerRef = React.createRef(null);
+    this.videoJsOptions = {
+      controls: true,
+      preload: "auto",
+      breakpoints: {
+        tiny: 300,
+        xsmall: 400,
+        small: 500,
+        medium: 600,
+        large: 700,
+        xlarge: 800,
+        huge: 900
+      },
+      responsive: true,
+      fluid: true
+    };
   }
 
   wrapPath = path => `http://api.haetek.com:9191/${path}`;
@@ -21,9 +36,12 @@ class VideoWindow extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { timer } = this.props;
+    const { timer, info } = this.props;
     if (timer !== prevProps.timer) {
       this.playerRef.current.seekTo(timer);
+    }
+    if (info.videoId !== prevProps.info.videoId) {
+      /* this.forceUpdate(); */
     }
   }
 
@@ -39,41 +57,27 @@ class VideoWindow extends Component {
 
   render() {
     const { info } = this.props;
-    const videoJsOptions = {
-      controls: true,
-      preload: "auto",
-      breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900
-      },
-      responsive: true,
-      fluid: true,
-      sources: [
-        {
-          src: `${info.videoPath}`,
-          type: "video/mp4"
-        }
-      ],
-      tracks: [
-        {
-          src: `${this.wrapPath(info.vttPath)}`,
-          label: "captions on",
-          kind: "subtitles",
-          default: true
-        }
-      ]
-    };
 
     return info.videoPath ? (
       <ReactVideo
         id="kengine-video-player"
+        videoId={info.videoId}
         ref={this.playerRef}
-        {...videoJsOptions}
+        {...this.videoJsOptions}
+        sources={[
+          {
+            src: `${info.videoPath}`,
+            type: "video/mp4"
+          }
+        ]}
+        tracks={[
+          {
+            src: `${this.wrapPath(info.vttPath)}`,
+            label: "captions on",
+            kind: "captions",
+            default: true
+          }
+        ]}
       />
     ) : null;
   }
