@@ -55,6 +55,7 @@ const extraVideoInfo = (data = {}) => ({
   authName: data.user_name,
   imagePath: data.image_path,
   category: data.category,
+  videoId: data.video_id,
   data
 });
 

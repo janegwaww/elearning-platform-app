@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import clsx from "clsx";
-import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
   Paper,
@@ -12,56 +11,9 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
-import useStyles from "./VideoSearchWrapStyles";
-
-const ShowSearchButton = withStyles({
-  root: {
-    boxShadow: "0px 0px 8px 0px rgba(0,0,0,0.5)",
-    backgroundColor: "#007cff",
-    color: "#fff",
-    borderRadius: "20px",
-    fontSize: "12px",
-    padding: "6px 12px",
-    zIndex: 2,
-    "&:hover": {
-      backgroundColor: "#007cff"
-    }
-  }
-})(Button);
-
-const KeSearchButton = withStyles({
-  root: {
-    backgroundColor: "#007cff",
-    color: "#fff",
-    borderRadius: "0 20px 20px 0",
-    fontSize: "12px",
-    padding: "6px 14px",
-    "&:hover": {
-      backgroundColor: "#007cff"
-    },
-    "& .MuiButton-startIcon": {
-      marginLeft: 0,
-      marginRight: 0
-    }
-  }
-})(Button);
-
-const KeInput = withStyles({
-  root: {
-    width: "70%",
-    marginLeft: "20px",
-    marginTop: 0
-  },
-  input: {
-    "&::placeholder": {
-      color: "rgba(255,255,255,1)",
-      fontSize: "12px"
-    }
-  }
-})(InputBase);
+import "./VideoSearchWrapStyles.sass";
 
 const VideoSearchWrap = ({ children, vid }) => {
-  const classes = useStyles();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState("");
@@ -88,29 +40,20 @@ const VideoSearchWrap = ({ children, vid }) => {
 
   return (
     <Fragment>
-      <div className={classes.root}>
-        <div
-          className={clsx(
-            classes.searchButton,
-            !showButton && classes.hiddenSearchButton
-          )}
-        >
-          <ShowSearchButton
+      <div className="video-search-wrap">
+        <div className={`searchButton ${!showButton && "hiddenSearchButton"}`}>
+          <Button
             startIcon={<SearchIcon />}
             onClick={handleSearchClick}
-            className={classes.searchButtonIn}
+            className="showSearchButton"
           >
             知识搜索
-          </ShowSearchButton>
+          </Button>
         </div>
-        <div
-          className={clsx(
-            classes.searchInput,
-            !showButton && classes.showSearchInput
-          )}
-        >
-          <Paper component="form" classes={{ root: classes.paper }}>
-            <KeInput
+        <div className={clsx("searchInput", !showButton && "showSearchInput")}>
+          <Paper component="form" className="paper">
+            <InputBase
+              className="KeInput"
               id="watch-subtitle-search"
               placeholder="支持对整段视频的字幕或语义定位搜索"
               type="text"
@@ -129,19 +72,17 @@ const VideoSearchWrap = ({ children, vid }) => {
                 </InputAdornment>
               }
             />
-            <KeSearchButton
+            <Button
+              className="KeSearchButton"
               aria-label="search"
               startIcon={<SearchIcon />}
               onClick={handleInputClick}
             >
               知识搜索
-            </KeSearchButton>
+            </Button>
           </Paper>
           <div>
-            <ClearIcon
-              classes={{ root: classes.clearIcon }}
-              onClick={closeSearchInput}
-            />
+            <ClearIcon className="clearIcon" onClick={closeSearchInput} />
           </div>
         </div>
         <div>{children(timer)}</div>

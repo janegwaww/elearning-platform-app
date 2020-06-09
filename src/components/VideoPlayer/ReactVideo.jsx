@@ -17,6 +17,23 @@ export default class VideoPlayer extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    // When a user moves from one title to the next, the VideoPlayer component will not be unmounted,
+    // instead its properties will be updated with the details of the new video. In this case,
+    // we can update the src of the existing player with the new video URL.
+    const { sources, tracks } = this.props;
+    if (sources[0].src !== prevProps.sources[0].src) {
+      if (this.player) {
+        this.player.src({
+          src: sources[0].src
+        });
+        const oldtrack = this.player.remoteTextTracks()[0];
+        this.player.removeRemoteTextTrack(oldtrack);
+        this.player.addRemoteTextTrack({ ...tracks[0] });
+      }
+    }
+  }
+
   // destroy player on unmount
   componentWillUnmount() {
     if (this.player) {
@@ -49,13 +66,11 @@ export default class VideoPlayer extends React.Component {
   // see https://github.com/videojs/video.js/pull/3856
   render() {
     return (
-      <div>
-        <div data-vjs-player>
-          <video
-            ref={node => (this.videoNode = node)}
-            className="video-js"
-          ></video>
-        </div>
+      <div data-vjs-player>
+        <video
+          ref={node => (this.videoNode = node)}
+          className="video-js"
+        ></video>
       </div>
     );
   }

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -22,31 +20,7 @@ import { getVideoIntro } from "../../services/video";
 import UserFeedback from "./UserFeedback";
 import ChipArray from "./ChipArray";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    boxShadow: "none"
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
-  headerItem: {
-    display: "flex"
-  },
-  headerItem1: {
-    flex: "2 0 auto"
-  },
-  headerItem2: {
-    flex: "0.1 0 auto"
-  },
-  paper: {
-    boxShadow: "none"
-  }
-}));
-
 export default function Introduction({ vid = "" }) {
-  const classes = useStyles();
   const [checked, setChecked] = useState(false);
   const [intro, setIntro] = useState({
     likeCounts: 0,
@@ -108,15 +82,21 @@ export default function Introduction({ vid = "" }) {
   );
 
   return (
-    <Card className={classes.root}>
-      <div className={classes.header}>
-        <div className={clsx(classes.headerItem, classes.headerItem1)}>
+    <Card style={{ boxShadow: "none" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}
+      >
+        <div style={{ flex: "2 0 auto", display: "flex" }}>
           <UserFeedback backData={intro} />
         </div>
-        <div className={clsx(classes.headerItem, classes.headerItem2)}>
+        <div style={{ flex: "0.1 0 auto", display: "flex" }}>
           <FileViewButton />
         </div>
-        <div className={classes.headerItem}>
+        <div style={{ display: "flex" }}>
           <IconButton
             aria-label="settings"
             aria-controls="user-feedback-complaint-menu"
@@ -131,7 +111,7 @@ export default function Introduction({ vid = "" }) {
       <Divider />
       <CardContent>
         <Collapse in={checked} collapsedHeight={60}>
-          <Paper elevation={4} className={classes.paper}>
+          <Paper elevation={4} style={{ boxShadow: "none" }}>
             <Typography variant="body2" component="p">
               {intro.description}
             </Typography>

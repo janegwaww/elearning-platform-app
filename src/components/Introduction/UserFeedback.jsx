@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -11,48 +10,9 @@ import { likeTheVideo, collectTheVideo } from "../../services/video";
 import LightTooltip from "./LightTooltip";
 import UserLikeHeart from "./UserLikeHeart";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "inline-flex",
-    alignItems: "center",
-    "& > button": {
-      margin: "0 16px"
-    }
-  },
-  item: {
-    fontSize: 18,
-    margin: theme.spacing(0.5)
-  },
-  viewButton: {
-    "&:hover": {
-      color: theme.palette.secondary.main,
-      backgroundColor: "transparent"
-    }
-  },
-  likeButton: {
-    "&:hover": {
-      color: "#fc5659",
-      backgroundColor: "transparent"
-    }
-  },
-  shareButton: {
-    "&:hover": {
-      color: theme.palette.secondary.main,
-      backgroundColor: "transparent"
-    }
-  },
-  collectButton: {
-    "&:hover": {
-      color: "#fdc44f",
-      backgroundColor: "transparent"
-    }
-  }
-}));
-
 export default function UserFeedback({
   backData: { viewCounts, likeCounts, id, isLike, isCollect }
 }) {
-  const classes = useStyles();
   const [like, setLike] = useState(0);
   const [collect, setCollect] = useState(0);
   const [lCounts, setLCounts] = useState(0);
@@ -93,9 +53,9 @@ export default function UserFeedback({
 
   const StarOrNot = star =>
     star === 1 ? (
-      <StarIcon className={classes.item} />
+      <StarIcon style={{ fontSize: 18, margin: "8px" }} />
     ) : (
-      <StarBorderIcon className={classes.item} />
+      <StarBorderIcon style={{ fontSize: 18, margin: "8px" }} />
     );
 
   useEffect(() => {
@@ -105,9 +65,25 @@ export default function UserFeedback({
   }, [isLike, isCollect]);
 
   return (
-    <div className={classes.root}>
-      <IconButton size="small" className={classes.viewButton}>
-        <PlayCircleOutlineIcon className={classes.item} />
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        "& > button": {
+          margin: "0 16px"
+        }
+      }}
+    >
+      <IconButton
+        size="small"
+        style={{
+          "&:hover": {
+            color: "#007cff",
+            backgroundColor: "transparent"
+          }
+        }}
+      >
+        <PlayCircleOutlineIcon style={{ fontSize: 16, margin: "8px" }} />
         <LightTooltip title="播放" placement="bottom">
           <Typography>{viewCounts}</Typography>
         </LightTooltip>
@@ -125,10 +101,15 @@ export default function UserFeedback({
             aria-describedby={id}
             size="small"
             onClick={handleShare}
-            className={classes.shareButton}
+            style={{
+              "&:hover": {
+                color: "#007cff",
+                backgroundColor: "transparent"
+              }
+            }}
           >
             <LightTooltip title="分享">
-              <ShareIcon className={classes.item} />
+              <ShareIcon style={{ fontSize: 16, margin: "8px" }} />
             </LightTooltip>
           </IconButton>
         )}
@@ -137,7 +118,12 @@ export default function UserFeedback({
       <IconButton
         size="small"
         onClick={handleStarClick}
-        className={classes.collectButton}
+        style={{
+          "&:hover": {
+            color: "#fdc44f",
+            backgroundColor: "transparent"
+          }
+        }}
       >
         <LightTooltip title="收藏" placement="bottom">
           {StarOrNot(collect)}
