@@ -1,0 +1,76 @@
+.single-line-grid-list
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-around
+  overflow: hidden
+  background-color: #2c2c3b
+  position: relative
+  padding: 0 18px
+  transition: max-height 0.2s
+  max-height: 0
+
+.showRoot
+  max-height: 300px
+
+  .head
+    width: 100%
+    display: flex
+    flex-wrap: nowrap row
+    color: #9e9ea6
+    justify-content: space-between
+    padding: 4px 0 0
+
+  .gridList
+    flex-wrap: nowrap
+    /* Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: translateZ(0)
+    &::-webkit-scrollbar
+      background-color: transparent
+      height: 4px
+    &::-webkit-scrollbar-thumb
+      background-color: rgba(135,135,145,0.3)
+      border-radius: 10px
+
+  .MuiGridList-root
+    min-width: 180px
+
+  .MuiGridListTile-tile
+    width: 88%
+    height: 92%
+    cursor: pointer
+    border: 1px solid rgba(158,158,166,0.3)
+    border-radius: 6px
+    background-color: rgba(0,0,0,0.4)
+    &:hover
+      background-color: rgba(0,0,0,1)
+      & .MuiPaper-root
+        background-color: rgba(0,124,255,1)
+      & #grid-tile-content
+        color: #fff
+
+  .MuiGridListTileBar-title
+    font-size: 12px
+    color: #fff
+    background-color: rgba(158,158,166,1)
+    padding: 0px 4px
+    margin-right: 4px
+
+  .title
+    font-size: 12px
+    color: #fff
+    background-color: rgba(158,158,166,1)
+    padding: 0px 4px
+    margin-right: 4px
+
+  .MuiGridListTileBar-root
+    background: transparent
+    height: 30px
+
+  .content
+    height: 100%
+    width: 100%
+    padding: 20px
+    color: #9e9ea6
+    user-select: none
+    text-overflow: ellipsis
+
