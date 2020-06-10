@@ -17,11 +17,11 @@ export default class HomePage extends Component {
           <Container fixed>
             <Home {...this.props} />
           </Container>
-          <div style={{ backgroundColor: "#F2F2F5" }}>
-            <Container>
+          {/* <div style={{ backgroundColor: "#F2F2F5" }}>
+              <Container>
               <HotAuth />
-            </Container>
-          </div>
+              </Container>
+              </div> */}
         </div>
       </Layout>
     );
