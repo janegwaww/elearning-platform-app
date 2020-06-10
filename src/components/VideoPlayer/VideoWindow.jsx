@@ -21,7 +21,11 @@ class VideoWindow extends Component {
         huge: 900
       },
       responsive: true,
-      fluid: true
+      fluid: true,
+      textTrackSettings: true,
+      html5: {
+        nativeTextTracks: false
+      }
     };
   }
 
