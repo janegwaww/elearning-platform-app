@@ -15,6 +15,16 @@ export default class VideoPlayer extends React.Component {
     this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
       console.log("onPlayerReady", this);
     });
+    // set track styles
+    this.player.ready(function() {
+      /* const settings = this.textTrackSettings;
+       * settings.setValues({
+       *   backgroundColor: "#000",
+       *   backgroundOpacity: "1",
+       *   edgeStyle: "dropShadow"
+       * });
+       * settings.updateDisplay(); */
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -29,7 +39,7 @@ export default class VideoPlayer extends React.Component {
         });
         const oldtrack = this.player.remoteTextTracks()[0];
         this.player.removeRemoteTextTrack(oldtrack);
-        this.player.addRemoteTextTrack({ ...tracks[0] });
+        this.player.addRemoteTextTrack({ ...tracks[0] }, true);
       }
     }
   }
