@@ -49,7 +49,7 @@ const PersonAvatar = ({ auth = {} }) => {
           <Typography>{user_name}</Typography>
           <div
             style={{
-              display: "flex",
+              display: "none",
               alignItems: "center",
               justifyContent: "space-between"
             }}
@@ -57,7 +57,7 @@ const PersonAvatar = ({ auth = {} }) => {
             <Typography variant="caption">212,103万 订阅</Typography>
             <Button
               size="small"
-              style={{ color: "#fc5659", display: "none" }}
+              style={{ color: "#fc5659" }}
               onClick={() => handleSub()}
             >
               {subButton ? "已订阅" : "+订阅"}

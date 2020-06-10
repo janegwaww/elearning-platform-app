@@ -71,7 +71,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 <Link to={handleLink(item).to} state={handleLink(item).state}>
                   <img
                     style={{ width: "100%", height: 160 }}
-                    alt={item.title}
+                    alt={item.image_path}
                     src={imagePath(item.image_path)}
                   />
                   {isSeries(item)}
@@ -83,7 +83,12 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Box p={2}>
                   <Link to={handleLink(item).to} state={handleLink(item).state}>
-                    <Typography gutterBottom variant="body2">
+                    <Typography
+                      gutterBottom
+                      variant="body2"
+                      noWrap
+                      align="left"
+                    >
                       {item.title}
                     </Typography>
                   </Link>
