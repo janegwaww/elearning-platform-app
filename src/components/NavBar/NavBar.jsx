@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { navigate } from "@reach/router";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Container from "@material-ui/core/Container";
@@ -20,7 +19,6 @@ import {
   InputAdornment,
   ButtonBase
 } from "@material-ui/core";
-import ChannelPopover from "./ChannelPopover";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
 import useStyles from "./NavBarStyles";
 
@@ -104,29 +102,10 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
       classes={{ list: classes.list }}
     >
-      {/* <MenuItem>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-              </Badge>
-              </IconButton>
-              <p>Messages</p>
-              </MenuItem> */}
-      {/* <MenuItem>
-              <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-              </Badge>
-              </IconButton>
-              <p>Notifications</p>
-              </MenuItem> */}
       <MenuItem>
         <ButtonBase color="inherit" onClick={() => navigate("/")}>
           <Typography>首页</Typography>
         </ButtonBase>
-      </MenuItem>
-      <MenuItem>
-        <ChannelPopover />
       </MenuItem>
       <MenuItem>
         <ButtonBase
@@ -140,6 +119,14 @@ export default function PrimarySearchAppBar() {
         <ButtonBase color="inherit">
           <Typography>下载APP</Typography>
         </ButtonBase>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -156,8 +143,6 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  /* useEffect(() => {}, [isLogin]); */
-
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
@@ -170,10 +155,6 @@ export default function PrimarySearchAppBar() {
               <Button color="inherit" onClick={() => navigate("/")}>
                 <Typography>首页</Typography>
               </Button>
-              <ChannelPopover />
-              {/* <Button color="inherit">
-            <Typography>频道</Typography>
-            </Button> */}
               <Button
                 color="inherit"
                 onClick={() => navigate("/mysubscription/")}
@@ -208,14 +189,14 @@ export default function PrimarySearchAppBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/* <IconButton
-                              aria-label="show 17 new notifications"
-                              color="inherit"
-                              >
-                              <Badge badgeContent={17} color="secondary">
-                              <NotificationsIcon />
-                              </Badge>
-                              </IconButton> */}
+              <IconButton
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={17} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
               <IconButton
                 edge="end"
                 aria-label="account of current user"

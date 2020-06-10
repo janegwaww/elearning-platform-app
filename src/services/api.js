@@ -44,9 +44,9 @@ const fetchMethod = (token = "") => async (url, params) => {
     const response = await axiosInstance(token).post(url, params);
     return response;
   } catch (error) {
-    // if (wConfirm && wConfirm()(error.message)) {
-    //   wConfirm = null;
-    // }
+    if (wConfirm && wConfirm()(error.message)) {
+      wConfirm = null;
+    }
     console.log(error);
     return Promise.resolve({});
   }

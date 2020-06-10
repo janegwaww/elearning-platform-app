@@ -10,6 +10,8 @@ import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
+import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 
 const useStyles = makeStyles(theme => ({
@@ -82,38 +84,44 @@ function RenderRow({ item, order }) {
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
 
   return order ? (
-    <ListItem divider button onClick={() => handleListClick(item.video_id)}>
-      <div className={classes.listItem2}>
-        <Link
-          to={`/watch/?vid=${item.video_id}`}
-          state={{ vid: item.video_id }}
-        >
+    <ListItem
+      divider
+      button
+      onClick={() => handleListClick(item.video_id)}
+      style={{ overflow: "hidden" }}
+    >
+      <Link to={`/watch/?vid=${item.video_id}`} state={{ vid: item.video_id }}>
+        <Box className={classes.listItem2} width="100%">
           <div className={classes.listHeadImg}>
             <img src={imagePath(item.image_path)} alt={item.video_title} />
           </div>
-        </Link>
-        <div>
-          <Typography>{item.video_title}</Typography>
-          <div className={classes.listTitle}>
-            <PlayCircleOutlineIcon
-              style={{ fontSize: "14px", marginRight: 2 }}
-            />
-            <span>{`${item.view_counts} 观看`}</span>
-          </div>
-        </div>
-      </div>
+          <Box>
+            <Tooltip title={item.video_title}>
+              <Typography noWrap align="left">
+                {item.video_title}
+              </Typography>
+            </Tooltip>
+            <div className={classes.listTitle}>
+              <PlayCircleOutlineIcon
+                style={{ fontSize: "14px", marginRight: 2 }}
+              />
+              <span>{`${item.view_counts} 观看`}</span>
+            </div>
+          </Box>
+        </Box>
+      </Link>
     </ListItem>
   ) : (
     <ListItem button>
-      <Link to="">
-        <div
-          className={classes.listItem}
-          onClick={() => handleListClick(item.video_id)}
-        >
+      <div
+        className={classes.listItem}
+        onClick={() => handleListClick(item.video_id)}
+      >
+        <Link to="/document/">
           <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
           {`${item.video_title}`}
-        </div>
-      </Link>
+        </Link>
+      </div>
     </ListItem>
   );
 }

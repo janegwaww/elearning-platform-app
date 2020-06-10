@@ -5,7 +5,6 @@ import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import Home from "../components/Home/Home";
 import Banner from "../components/Home/Banner";
-import HotAuth from "../components/Home/HotAuth";
 
 export default class HomePage extends Component {
   render() {
@@ -17,11 +16,6 @@ export default class HomePage extends Component {
           <Container fixed>
             <Home {...this.props} />
           </Container>
-          {/* <div style={{ backgroundColor: "#F2F2F5" }}>
-              <Container>
-              <HotAuth />
-              </Container>
-              </div> */}
         </div>
       </Layout>
     );
