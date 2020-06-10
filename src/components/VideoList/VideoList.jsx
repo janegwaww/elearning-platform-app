@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { navigate } from "gatsby";
+import React, { useState, useEffect } from "react";
+import { navigate, Link } from "gatsby";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,6 +10,8 @@ import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
+import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 
 const useStyles = makeStyles(theme => ({
@@ -82,21 +84,32 @@ function RenderRow({ item, order }) {
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
 
   return order ? (
-    <ListItem divider button onClick={() => handleListClick(item.video_id)}>
-      <div className={classes.listItem2}>
-        <div className={classes.listHeadImg}>
-          <img src={imagePath(item.image_path)} alt={item.video_title} />
-        </div>
-        <div>
-          <Typography>{item.video_title}</Typography>
-          <div className={classes.listTitle}>
-            <PlayCircleOutlineIcon
-              style={{ fontSize: "14px", marginRight: 2 }}
-            />
-            <span>{`${item.view_counts} 观看`}</span>
+    <ListItem
+      divider
+      button
+      onClick={() => handleListClick(item.video_id)}
+      style={{ overflow: "hidden" }}
+    >
+      <Link to={`/watch/?vid=${item.video_id}`} state={{ vid: item.video_id }}>
+        <Box className={classes.listItem2} width="100%">
+          <div className={classes.listHeadImg}>
+            <img src={imagePath(item.image_path)} alt={item.video_title} />
           </div>
-        </div>
-      </div>
+          <Box>
+            <Tooltip title={item.video_title}>
+              <Typography noWrap align="left">
+                {item.video_title}
+              </Typography>
+            </Tooltip>
+            <div className={classes.listTitle}>
+              <PlayCircleOutlineIcon
+                style={{ fontSize: "14px", marginRight: 2 }}
+              />
+              <span>{`${item.view_counts} 观看`}</span>
+            </div>
+          </Box>
+        </Box>
+      </Link>
     </ListItem>
   ) : (
     <ListItem button>
@@ -104,8 +117,10 @@ function RenderRow({ item, order }) {
         className={classes.listItem}
         onClick={() => handleListClick(item.video_id)}
       >
-        <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
-        {`${item.video_title}`}
+        <Link to="/document/">
+          <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
+          {`${item.video_title}`}
+        </Link>
       </div>
     </ListItem>
   );

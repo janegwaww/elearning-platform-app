@@ -49,7 +49,7 @@ const PersonAvatar = ({ auth = {} }) => {
           <Typography>{user_name}</Typography>
           <div
             style={{
-              display: "flex",
+              display: "none",
               alignItems: "center",
               justifyContent: "space-between"
             }}
