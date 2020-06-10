@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { navigate } from "gatsby";
+import React, { useState, useEffect } from "react";
+import { navigate, Link } from "gatsby";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
@@ -84,9 +84,14 @@ function RenderRow({ item, order }) {
   return order ? (
     <ListItem divider button onClick={() => handleListClick(item.video_id)}>
       <div className={classes.listItem2}>
-        <div className={classes.listHeadImg}>
-          <img src={imagePath(item.image_path)} alt={item.video_title} />
-        </div>
+        <Link
+          to={`/watch/?vid=${item.video_id}`}
+          state={{ vid: item.video_id }}
+        >
+          <div className={classes.listHeadImg}>
+            <img src={imagePath(item.image_path)} alt={item.video_title} />
+          </div>
+        </Link>
         <div>
           <Typography>{item.video_title}</Typography>
           <div className={classes.listTitle}>
@@ -100,13 +105,15 @@ function RenderRow({ item, order }) {
     </ListItem>
   ) : (
     <ListItem button>
-      <div
-        className={classes.listItem}
-        onClick={() => handleListClick(item.video_id)}
-      >
-        <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
-        {`${item.video_title}`}
-      </div>
+      <Link to="">
+        <div
+          className={classes.listItem}
+          onClick={() => handleListClick(item.video_id)}
+        >
+          <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
+          {`${item.video_title}`}
+        </div>
+      </Link>
     </ListItem>
   );
 }
