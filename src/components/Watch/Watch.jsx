@@ -8,6 +8,7 @@ import LazyIntroduction from "../Introduction/Introduction";
 import LazyPersonAvatar from "./Avatar";
 import LazyVideoList from "../VideoList/VideoList";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import { getIdFromHref } from "../../services/utils";
 
 class Watch extends Component {
   constructor(props) {
@@ -28,12 +29,10 @@ class Watch extends Component {
     }
   }
 
-  getVideoId = () => urlParse(globalHistory.location.href, true).query.vid;
-
   verifyId = () => {
     let { vid } = this.props;
     if (!vid) {
-      vid = this.getVideoId();
+      vid = getIdFromHref().vid;
     }
     if (!vid) {
       /* 视频ID不存在就返回主页; */

@@ -1,5 +1,5 @@
 import React from "react";
-import { navigate } from "@reach/router";
+import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -17,6 +17,7 @@ import {
   Button,
   Avatar,
   InputAdornment,
+  Link,
   ButtonBase
 } from "@material-ui/core";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
@@ -108,14 +109,6 @@ export default function PrimarySearchAppBar() {
         </ButtonBase>
       </MenuItem>
       <MenuItem>
-        <ButtonBase
-          color="inherit"
-          onClick={() => navigate("/mysubscription/")}
-        >
-          <Typography>订阅</Typography>
-        </ButtonBase>
-      </MenuItem>
-      <MenuItem>
         <ButtonBase color="inherit">
           <Typography>下载APP</Typography>
         </ButtonBase>
@@ -152,18 +145,22 @@ export default function PrimarySearchAppBar() {
               <img src="../logos/Logo.png" />
             </IconButton>
             <div className={classes.menus}>
-              <Button color="inherit" onClick={() => navigate("/")}>
-                <Typography>首页</Typography>
-              </Button>
-              <Button
+              <Link
+                href="/"
                 color="inherit"
-                onClick={() => navigate("/mysubscription/")}
+                underline="none"
+                style={{ padding: "6px 8px" }}
               >
-                <Typography>订阅</Typography>
-              </Button>
-              <Button color="inherit">
+                <Typography>首页</Typography>
+              </Link>
+              <Link
+                color="inherit"
+                href="#"
+                underline="none"
+                style={{ padding: "6px 8px" }}
+              >
                 <Typography>下载APP</Typography>
-              </Button>
+              </Link>
             </div>
             <div className={classes.search}>
               <InputBase
@@ -206,7 +203,11 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
               >
                 {isLogin ? (
-                  <Avatar src={headshot} alt={name} />
+                  <Avatar
+                    src={headshot}
+                    alt={name}
+                    style={{ width: 30, height: 30 }}
+                  />
                 ) : (
                   <AccountCircle />
                 )}

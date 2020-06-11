@@ -1,33 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Pagination from "@material-ui/lab/Pagination";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
-import { remotePath } from "../../services/utils";
+import { remotePath, getIdFromHref } from "../../services/utils";
 
-const useStyles = makeStyles(theme => ({
-  pagination: {
-    justifyContent: "center",
-    backgroundColor: "#fff"
-  }
-}));
-
-export default function Series({ location: { state = {} } }) {
-  const classes = useStyles();
+export default function Series() {
   const [loading, setLoading] = useState("true");
   const [series, setSeries] = useState([]);
   const [seriesStack, setSeriesStack] = useState([]);
   const [seriesInfo, setSeriesInfo] = useState({});
-  const { sid = "" } = state;
+  const { sid } = getIdFromHref();
 
-  const fetchSeriesData = () => {
+  const fetchSeriesData = id => {
     setLoading(true);
-    getSeriesInfo({ series_id: sid }).then(data => {
+    getSeriesInfo({ series_id: id }).then(data => {
       setSeries(data.series);
       setSeriesStack(data.series);
       setSeriesInfo(data.info);
@@ -47,7 +37,7 @@ export default function Series({ location: { state = {} } }) {
 
   useEffect(() => {
     if (sid) {
-      fetchSeriesData();
+      fetchSeriesData(sid);
     } else {
       navigate("/");
     }
@@ -132,12 +122,6 @@ export default function Series({ location: { state = {} } }) {
           })}
         </div>
       )}
-      <Pagination
-        count={Math.ceil(series.length / 16)}
-        variant="outlined"
-        shape="rounded"
-        classes={{ ul: classes.pagination }}
-      />
       <br />
     </div>
   );
