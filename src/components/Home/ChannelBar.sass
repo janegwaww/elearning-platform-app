@@ -1,0 +1,18 @@
+.channel-bar-paper
+  overflow: hidden
+  .item
+    display: flex
+    flex-flow: column wrap
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    &  > div:first-child
+      display: inline
+    & > div:nth-child(2)
+      display: none
+    &:hover > div:first-child
+      display: none
+    &:hover >  div:nth-child(2)
+      display: inline
+    &:hover
+      color: #007cff

@@ -1,64 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { navigate } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    boxShadow: "none",
-    overflow: "hidden"
-  },
-  item: {
-    display: "flex",
-    flexFlow: "column wrap",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    "&  > div:first-child": {
-      display: "inline"
-    },
-    "& > div:nth-child(2)": {
-      display: "none"
-    },
-
-    "&:hover > div:first-child": {
-      display: "none"
-    },
-    "&:hover  div:nth-child(2)": {
-      display: "inline"
-    },
-    "&:hover": {
-      color: "#007cff"
-    }
-  }
-}));
+import "./ChannelBar.sass";
 
 function ChannelBar({ cates }) {
-  const classes = useStyles();
-
   const handleClick = obj => {
     navigate(`/channel/?ch=${obj.index}`, {
       state: {
-        name: obj.name,
         index: obj.index
       }
     });
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Box className="channel-bar-paper">
       <Box pt={3} pb={3}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {cates.map(o => (
-            <Box
-              key={o.index}
-              onClick={() => handleClick(o)}
-              className={classes.item}
-            >
+            <Box key={o.index} onClick={() => handleClick(o)} className="item">
               <div>
                 <img
                   src={`${o.iconImage}`}
@@ -79,7 +41,7 @@ function ChannelBar({ cates }) {
       </Box>
       <Divider />
       <br />
-    </Paper>
+    </Box>
   );
 }
 
