@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { navigate } from "gatsby";
+import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import "./ChannelBar.sass";
 
 function ChannelBar({ cates, index }) {
-  const handleClick = obj => {
-    navigate(`/channel/?ch=${obj.index}`, {
-      state: {
-        index: obj.index
-      }
-    });
-  };
-
   return (
     <Box className="channel-bar-paper">
       <Box pt={3} pb={3}>
@@ -22,26 +14,35 @@ function ChannelBar({ cates, index }) {
           {cates.map(o => {
             const cn = index && index === o.index ? "slice-action" : "";
             return (
-              <Box
+              <Link
                 key={o.index}
-                onClick={() => handleClick(o)}
-                className={`item ${cn}`}
+                href={`/channel/?ch=${o.index}`}
+                state={{ index: o.index }}
+                underline="none"
+                color="textPrimary"
               >
-                <div>
-                  <img
-                    src={`${o.iconImage}`}
-                    alt={o.name}
-                    width="60"
-                    height="60"
-                  />
-                </div>
-                <div>
-                  <img src={`${o.actionIconImage}`} alt={o.name} />
-                </div>
-                <Typography noWrap align="center">
-                  {o.name}
-                </Typography>
-              </Box>
+                <Box className={`item ${cn}`}>
+                  <div>
+                    <img
+                      src={`${o.iconImage}`}
+                      alt={o.name}
+                      width="48"
+                      height="48"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      src={`${o.actionIconImage}`}
+                      alt={o.name}
+                      width="48"
+                      height="48"
+                    />
+                  </div>
+                  <Typography noWrap align="center">
+                    {o.name}
+                  </Typography>
+                </Box>
+              </Link>
             );
           })}
         </div>
@@ -55,82 +56,89 @@ function ChannelBar({ cates, index }) {
 ChannelBar.defaultProps = {
   cates: [
     {
-      name: "金融",
+      name: "热门",
       index: "001",
-      iconImage: "../icons/slices/slice1.png",
+      iconImage: "../icons/slices/slice1.svg",
       actionIconImage: "../icons/slices/slice1_action.svg"
     },
     {
-      name: "管理",
+      name: "数学",
       index: "002",
-      iconImage: "../icons/slices/slice2.png",
+      iconImage: "../icons/slices/slice2.svg",
       actionIconImage: "../icons/slices/slice2_action.svg"
     },
+
     {
       name: "人工智能",
       index: "003",
-      iconImage: "../icons/slices/slice3.png",
+      iconImage: "../icons/slices/slice3.svg",
       actionIconImage: "../icons/slices/slice3_action.svg"
     },
     {
-      name: "数学",
+      name: "物理",
       index: "004",
-      iconImage: "../icons/slices/slice4.png",
+      iconImage: "../icons/slices/slice4.svg",
       actionIconImage: "../icons/slices/slice4_action.svg"
     },
     {
-      name: "物理",
+      name: "历史",
       index: "005",
-      iconImage: "../icons/slices/slice5.png",
+      iconImage: "../icons/slices/slice5.svg",
       actionIconImage: "../icons/slices/slice5_action.svg"
     },
     {
-      name: "电子工程",
+      name: "心理学",
       index: "006",
-      iconImage: "../icons/slices/slice6.png",
+      iconImage: "../icons/slices/slice6.svg",
       actionIconImage: "../icons/slices/slice6_action.svg"
     },
     {
-      name: "机械工程",
+      name: "金融",
       index: "007",
-      iconImage: "../icons/slices/slice7.png",
+      iconImage: "../icons/slices/slice7.svg",
       actionIconImage: "../icons/slices/slice7_action.svg"
     },
     {
-      name: "游戏开发",
+      name: "软件工程",
       index: "008",
-      iconImage: "../icons/slices/slice8.png",
+      iconImage: "../icons/slices/slice8.svg",
       actionIconImage: "../icons/slices/slice8_action.svg"
     },
     {
-      name: "python",
+      name: "哲学",
       index: "009",
-      iconImage: "../icons/slices/slice9.png",
+      iconImage: "../icons/slices/slice9.svg",
       actionIconImage: "../icons/slices/slice9_action.svg"
     },
     {
-      name: "前端",
+      name: "经济",
       index: "010",
-      iconImage: "../icons/slices/slice10.png",
+      iconImage: "../icons/slices/slice10.svg",
       actionIconImage: "../icons/slices/slice10_action.svg"
     },
     {
-      name: "后台",
+      name: "艺术",
       index: "011",
-      iconImage: "../icons/slices/slice11.png",
+      iconImage: "../icons/slices/slice11.svg",
       actionIconImage: "../icons/slices/slice11_action.svg"
     },
     {
-      name: "计算机系统",
+      name: "管理",
       index: "012",
-      iconImage: "../icons/slices/slice12.png",
+      iconImage: "../icons/slices/slice12.svg",
       actionIconImage: "../icons/slices/slice12_action.svg"
     },
     {
-      name: "设计",
+      name: "自动化",
       index: "013",
-      iconImage: "../icons/slices/slice13.png",
+      iconImage: "../icons/slices/slice13.svg",
       actionIconImage: "../icons/slices/slice13_action.svg"
+    },
+    {
+      name: "机械工业",
+      index: "014",
+      iconImage: "../icons/slices/slice14.svg",
+      actionIconImage: "../icons/slices/slice14_action.svg"
     }
   ]
 };

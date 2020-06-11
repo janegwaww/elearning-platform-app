@@ -1,3 +1,6 @@
+import urlParse from "url-parse";
+import { globalHistory } from "@reach/router";
+
 const PATH = "http://api.haetek.com:9191";
 
 // 数据流通用方法
@@ -27,4 +30,10 @@ export const secondsToHMS = (seconds = 0) =>
 export const secondsToDate = (seconds = 0) =>
   new Date(seconds * 1000).toISOString().slice(0, 10);
 
+export const secondsToMouth = (seconds = 0) =>
+  new Date(seconds * 1000).toISOString().slice(5, 10);
+
 export const remotePath = path => `${PATH}/${path}`;
+
+export const getIdFromHref = () =>
+  urlParse(globalHistory.location.href, true).query;

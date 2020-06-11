@@ -1,34 +1,35 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { navigate } from "gatsby";
 import GridCards from "./GridCards";
-import { getChannelList } from "../../services/home";
 import ChannelBar from "./ChannelBar";
+import { getChannelList } from "../../services/home";
+import { getIdFromHref } from "../../services/utils";
 
-export default function Channel({ location: { state = {} } }) {
+export default function Channel() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
-  const { index = "001" } = state;
+  const { ch = "001" } = getIdFromHref();
 
-  const fetchSubData = () => {
+  const fetchSubData = id => {
     setLoading(true);
-    getChannelList({ category: index }).then(data => {
+    getChannelList({ category: id }).then(data => {
       setList(data);
       setLoading(false);
     });
   };
 
   useEffect(() => {
-    if (index) {
-      fetchSubData();
+    if (ch) {
+      fetchSubData(ch);
     } else {
       navigate("/");
     }
-  }, [index]);
+  }, [ch]);
 
   return (
     <Fragment>
       <div>
-        <ChannelBar index={index} />
+        <ChannelBar index={ch} />
         <br />
         <div style={{ minHeight: "90vh" }}>
           <GridCards loading={loading} itemCount={16} items={list} />
