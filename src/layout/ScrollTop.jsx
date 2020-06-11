@@ -1,23 +1,21 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Zoom from "@material-ui/core/Zoom";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
     position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2)
+    bottom: "16px",
+    right: "16px"
   },
   fab: {
     borderRadius: "20%"
   }
-}));
+};
 
 function ScrollTop(props) {
-  const classes = useStyles();
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 100
@@ -35,12 +33,8 @@ function ScrollTop(props) {
 
   return (
     <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        <Fab
-          size="small"
-          aria-label="scroll back to top"
-          classes={{ root: classes.fab }}
-        >
+      <div onClick={handleClick} role="presentation" style={styles.root}>
+        <Fab size="small" aria-label="scroll back to top" style={styles.fab}>
           <KeyboardArrowUpIcon />
         </Fab>
       </div>

@@ -28,7 +28,7 @@ export default function Channel({ location: { state = {} } }) {
   return (
     <Fragment>
       <div>
-        <ChannelBar />
+        <ChannelBar index={index} />
         <br />
         <div style={{ minHeight: "90vh" }}>
           <GridCards loading={loading} itemCount={16} items={list} />

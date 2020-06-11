@@ -1,5 +1,6 @@
 .channel-bar-paper
   overflow: hidden
+
   .item
     display: flex
     flex-flow: column wrap
@@ -7,12 +8,19 @@
     justify-content: center
     cursor: pointer
     &  > div:first-child
-      display: inline
+      display: block
     & > div:nth-child(2)
       display: none
     &:hover > div:first-child
       display: none
     &:hover >  div:nth-child(2)
-      display: inline
+      display: block
     &:hover
       color: #007cff
+
+    &.slice-action
+      color: #007cff
+      &  > div:first-child
+        display: none
+      & > div:nth-child(2)
+        display: block
