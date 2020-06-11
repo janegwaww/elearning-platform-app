@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { navigate } from "gatsby";
 import Divider from "@material-ui/core/Divider";
@@ -6,7 +6,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import "./ChannelBar.sass";
 
-function ChannelBar({ cates }) {
+function ChannelBar({ cates, index }) {
   const handleClick = obj => {
     navigate(`/channel/?ch=${obj.index}`, {
       state: {
@@ -19,24 +19,31 @@ function ChannelBar({ cates }) {
     <Box className="channel-bar-paper">
       <Box pt={3} pb={3}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {cates.map(o => (
-            <Box key={o.index} onClick={() => handleClick(o)} className="item">
-              <div>
-                <img
-                  src={`${o.iconImage}`}
-                  alt={o.name}
-                  width="60"
-                  height="60"
-                />
-              </div>
-              <div>
-                <img src={`${o.actionIconImage}`} alt={o.name} />
-              </div>
-              <Typography noWrap align="center">
-                {o.name}
-              </Typography>
-            </Box>
-          ))}
+          {cates.map(o => {
+            const cn = index && index === o.index ? "slice-action" : "";
+            return (
+              <Box
+                key={o.index}
+                onClick={() => handleClick(o)}
+                className={`item ${cn}`}
+              >
+                <div>
+                  <img
+                    src={`${o.iconImage}`}
+                    alt={o.name}
+                    width="60"
+                    height="60"
+                  />
+                </div>
+                <div>
+                  <img src={`${o.actionIconImage}`} alt={o.name} />
+                </div>
+                <Typography noWrap align="center">
+                  {o.name}
+                </Typography>
+              </Box>
+            );
+          })}
         </div>
       </Box>
       <Divider />
