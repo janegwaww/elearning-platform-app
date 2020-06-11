@@ -13,6 +13,7 @@ import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import GridCards from "../Home/GridCards";
 import { getCreatorInfo } from "../../services/home";
+import { getIdFromHref } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
   authAvatar: {
@@ -116,10 +117,8 @@ export default class CreatorHome extends Component {
   }
 
   componentDidMount() {
-    const {
-      location: { state }
-    } = this.props;
-    const { cid } = state;
+    const { cid } = getIdFromHref();
+    if (!cid) navigate("/");
     this.fetchData(cid);
   }
 

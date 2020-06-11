@@ -3,26 +3,13 @@ import { navigate, Link } from "gatsby";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
-import { secondsToDate } from "../../services/utils";
-
-const imagePath = path => `http://api.haetek.com:9191/${path}`;
-
-const bull = (
-  <span
-    style={{
-      display: "inline-block",
-      margin: "0 2px",
-      transform: "scale(0.8)"
-    }}
-  >
-    •
-  </span>
-);
+import Bull from "./Bull";
+import { secondsToDate, remotePath } from "../../services/utils";
 
 const imagePick = path =>
   path ? (
     <img
-      src={imagePath(path)}
+      src={remotePath(path)}
       style={{ height: "100%", width: "246px" }}
       alt={path}
     />
@@ -140,8 +127,10 @@ const userViews = (view, comment, like) => {
   return view || comment || like ? (
     <div style={{ gridColumn: 2, gridRow: 4 }}>
       <Typography variant="caption" color="textSecondary">
-        {view}观看{bull}
-        {comment}回应{bull}
+        {view}观看
+        <Bull />
+        {comment}回应
+        <Bull />
         {like}点赞
       </Typography>
     </div>
@@ -179,7 +168,7 @@ const fans = (vi, fa) =>
   fa || vi ? (
     <Typography>
       {`${vi}个视频`}
-      {bull}
+      <Bull />
       {`${fa}订阅`}
     </Typography>
   ) : null;
