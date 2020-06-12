@@ -1,45 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Pagination from "@material-ui/lab/Pagination";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
-import { remotePath } from "../../services/utils";
+import { remotePath, getIdFromHref } from "../../services/utils";
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  name: {
-    color: theme.palette.secondary.main
-  },
-  pagination: {
-    justifyContent: "center",
-    backgroundColor: "#fff"
-  },
-  head: {
-    display: "grid",
-    height: 190,
-    gridTemplateColumns: "300px auto",
-    gridTemplateRows: "repeat(6,1fr)",
-    gap: "10px",
-    border: "1px solid #ddd"
-  }
-}));
-
-export default function Series({ location: { state = {} } }) {
-  const classes = useStyles();
+export default function Series() {
   const [loading, setLoading] = useState("true");
   const [series, setSeries] = useState([]);
   const [seriesStack, setSeriesStack] = useState([]);
   const [seriesInfo, setSeriesInfo] = useState({});
-  const { sid = "" } = state;
+  const { sid } = getIdFromHref();
 
-  const fetchSeriesData = () => {
+  const fetchSeriesData = id => {
     setLoading(true);
-    getSeriesInfo({ series_id: sid }).then(data => {
+    getSeriesInfo({ series_id: id }).then(data => {
       setSeries(data.series);
       setSeriesStack(data.series);
       setSeriesInfo(data.info);
@@ -59,7 +37,7 @@ export default function Series({ location: { state = {} } }) {
 
   useEffect(() => {
     if (sid) {
-      fetchSeriesData();
+      fetchSeriesData(sid);
     } else {
       navigate("/");
     }
@@ -72,7 +50,16 @@ export default function Series({ location: { state = {} } }) {
     description,
     author_name
   }) => (
-    <div className={classes.head}>
+    <div
+      style={{
+        display: "grid",
+        height: 190,
+        gridTemplateColumns: "300px auto",
+        gridTemplateRows: "repeat(6,1fr)",
+        gap: "10px",
+        border: "1px solid #ddd"
+      }}
+    >
       <img
         src={remotePath(seriesInfo.image_path)}
         alt={title}
@@ -100,7 +87,7 @@ export default function Series({ location: { state = {} } }) {
     <div>
       <br />
       <Typography>
-        <span className={classes.name}>{seriesInfo.title}</span>
+        <span style={{ color: "#007cff" }}>{seriesInfo.title}</span>
         {` 系列课的详细信息`}
       </Typography>
       <br />
@@ -135,12 +122,6 @@ export default function Series({ location: { state = {} } }) {
           })}
         </div>
       )}
-      <Pagination
-        count={Math.ceil(series.length / 16)}
-        variant="outlined"
-        shape="rounded"
-        classes={{ ul: classes.pagination }}
-      />
       <br />
     </div>
   );

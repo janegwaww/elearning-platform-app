@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link } from "gatsby";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import Bull from "../Search/Bull";
+import { secondsToMouth } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const imagePath = path => `http://api.haetek.com:9191/${path}`;
@@ -30,6 +33,60 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     return { to: "/", state: {} };
   };
 
+  const isSeries = ({ video_id, series_id }) =>
+    series_id && (
+      <div
+        style={{
+          position: "absolute",
+          backgroundColor: "#007cff",
+          padding: "2px 4px",
+          borderRadius: "0 0 4px 4px",
+          top: 0,
+          left: 18
+        }}
+      >
+        <Typography color="primary" variant="caption">
+          系列
+        </Typography>
+      </div>
+    );
+
+  const duration = ({ video_time }) =>
+    video_time && (
+      <Box
+        p={0.4}
+        style={{
+          backgroundColor: "rgba(32,32,32,0.48)",
+          position: "absolute",
+          borderRadius: 4,
+          top: "44%",
+          right: "2%"
+        }}
+      >
+        <Typography variant="caption" color="primary">
+          {video_time}
+        </Typography>
+      </Box>
+    );
+
+  const seriesCounts = ({ video_counts }) =>
+    video_counts && (
+      <Box
+        p={0.4}
+        style={{
+          backgroundColor: "rgba(32,32,32,0.48)",
+          position: "absolute",
+          borderRadius: 4,
+          top: "44%",
+          right: "2%"
+        }}
+      >
+        <Typography variant="caption" color="primary">
+          {`共${video_counts}课`}
+        </Typography>
+      </Box>
+    );
+
   useEffect(() => {
     setList(cutItemsToCount(items, itemCount));
   }, [, loading]);
@@ -45,16 +102,25 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 border: "1px solid rgba(242,242,245,1)",
                 borderRadius: "12px",
                 overflow: "hidden",
-                backgroundColor: "#fff"
+                backgroundColor: "#fff",
+                position: "relative"
               }}
             >
               {item ? (
-                <Link to={handleLink(item).to} state={handleLink(item).state}>
+                <Link
+                  href={handleLink(item).to}
+                  state={handleLink(item).state}
+                  target="_blank"
+                  rel="noopener norefferer"
+                >
                   <img
                     style={{ width: "100%", height: 160 }}
-                    alt={item.title}
+                    alt={item.image_path}
                     src={imagePath(item.image_path)}
                   />
+                  {isSeries(item)}
+                  {duration(item)}
+                  {seriesCounts(item)}
                 </Link>
               ) : (
                 <Skeleton variant="rect" width="100%" height={160} />
@@ -62,44 +128,55 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
               {item ? (
                 <Box p={2}>
-                  <Link to={handleLink(item).to} state={handleLink(item).state}>
-                    <Typography gutterBottom variant="body2">
-                      {item.title}
-                    </Typography>
+                  <Link
+                    href={handleLink(item).to}
+                    state={handleLink(item).state}
+                    color="textPrimary"
+                    target="_blank"
+                    rel="noopener norefferer"
+                  >
+                    <Tooltip placement="top-start" title={item.title}>
+                      <Typography
+                        gutterBottom
+                        variant="body2"
+                        noWrap
+                        align="left"
+                      >
+                        {item.title}
+                      </Typography>
+                    </Tooltip>
                   </Link>
 
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {item.head_shot && (
-                      <Link
-                        to={`/excellentcreator/creator/?cid=${item.user_id}`}
-                        state={{ cid: item.user_id }}
-                      >
-                        <Avatar
-                          alt={item.user_name}
-                          src={item.head_shot}
-                          style={{ width: 28, height: 28, margin: 8 }}
-                        />
-                      </Link>
-                    )}
-                    <Typography
-                      display="block"
-                      variant="caption"
-                      color="textSecondary"
-                    >
-                      {item.user_name}
-                    </Typography>
-                  </div>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                  <Link
+                    href={`/excellentcreator/creator/?cid=${item.user_id}`}
+                    state={{ cid: item.user_id }}
                   >
-                    <Typography variant="caption" color="textSecondary">
-                      {item.category &&
-                        `来自频道@${item.category && item.category.toString()}`}
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                      {item.time &&
-                        new Date(item.time * 1000).toISOString().slice(0, 10)}
-                    </Typography>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Avatar
+                        alt={item.user_name}
+                        src={item.head_shot}
+                        style={{ width: 28, height: 28, margin: 8 }}
+                      />
+                      <Typography
+                        display="block"
+                        variant="caption"
+                        color="textSecondary"
+                      >
+                        {item.user_name}
+                      </Typography>
+                    </div>
+                  </Link>
+
+                  <div>
+                    {(item.view_counts || item.like_counts || item.time) && (
+                      <Typography variant="caption" color="textSecondary">
+                        {item.view_counts} 观看
+                        <Bull />
+                        {item.like_counts} 点赞
+                        <Bull />
+                        {secondsToMouth(item.upload_time)} 发布
+                      </Typography>
+                    )}
                   </div>
                 </Box>
               ) : (

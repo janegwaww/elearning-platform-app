@@ -7,11 +7,10 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import useStyles from "./SingleLineGridListStyles.js";
 import { secondsToHMS } from "../../services/utils";
+import "./SingleLineGridListStyles.sass";
 
 function SingleLineGridList({ tileList = [], clipJump }) {
-  const classes = useStyles();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -40,7 +39,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
       );
     return (
       <div
-        className={classes.content}
+        className="content"
         id="grid-tile-content"
         dangerouslySetInnerHTML={{ __html: wrapStr(line) }}
       ></div>
@@ -49,10 +48,10 @@ function SingleLineGridList({ tileList = [], clipJump }) {
 
   return (
     <div
-      className={clsx(classes.root, show && classes.showRoot)}
+      className={clsx("single-line-grid-list", show && "showRoot")}
       id="search-result"
     >
-      <div className={classes.head}>
+      <div className="head">
         <Typography variant="body2">
           {`共为你找到${getCount()}个结果`}
         </Typography>
@@ -61,29 +60,19 @@ function SingleLineGridList({ tileList = [], clipJump }) {
         </IconButton>
       </div>
       <GridList
-        className={classes.gridList}
+        className="gridList"
         cols={4}
         cellHeight={140}
         style={{ margin: "4px" }}
       >
-        {tileList.map(tile => (
-          <GridListTile
-            key={tile.matchedStr}
-            classes={{ root: classes.listRoot, tile: classes.tile }}
-            onClick={() => handleClick(tile.startTime)}
-          >
+        {tileList.map((tile, i) => (
+          <GridListTile key={i} onClick={() => handleClick(tile.startTime)}>
             <PressMatchedLine
               line={{ wholeStr: tile.wholeStr, matchedStr: tile.matchedStr }}
             />
             <GridListTileBar
-              classes={{
-                root: classes.titleBar,
-                title: classes.title
-              }}
               actionIcon={
-                <Paper classes={{ root: classes.title }}>
-                  {secondsToHMS(tile.startTime)}
-                </Paper>
+                <Paper className="title">{secondsToHMS(tile.startTime)}</Paper>
               }
             />
           </GridListTile>

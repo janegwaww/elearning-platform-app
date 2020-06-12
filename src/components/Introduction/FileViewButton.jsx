@@ -1,5 +1,4 @@
 import React from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -12,38 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import CloseIcon from "@material-ui/icons/Close";
 import HelpIcon from "@material-ui/icons/Help";
 
-const useStyles = makeStyles(theme => ({
-  viewButton: {
-    display: "flex",
-    alignItems: "center"
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500]
-  },
-  helpIcon: {
-    color: "#fc5659",
-    fontSize: 18,
-    margin: 4
-  }
-}));
-
-const ViewButton = withStyles({
-  root: {
-    backgroundColor: "#fc5659",
-    borderRadius: "27px",
-    boxShadow: "none",
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: "#fc5659"
-    }
-  }
-})(Button);
-
 export default function FileViewButton({ vid = "" }) {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -56,16 +24,25 @@ export default function FileViewButton({ vid = "" }) {
 
   return (
     <div>
-      <div className={classes.viewButton}>
-        <ViewButton
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Button
           variant="contained"
           onClick={handleClickOpen}
           color="secondary"
+          style={{
+            backgroundColor: "#fc5659",
+            borderRadius: "27px",
+            boxShadow: "none",
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#fc5659"
+            }
+          }}
         >
           <Typography variant="body2">课件下载（付费）</Typography>
-        </ViewButton>
+        </Button>
         <Tooltip title="付费下载内容">
-          <HelpIcon className={classes.helpIcon} />
+          <HelpIcon style={{ color: "#fc5659", fontSize: 18, margin: 4 }} />
         </Tooltip>
       </div>
       <Dialog
@@ -77,9 +54,14 @@ export default function FileViewButton({ vid = "" }) {
         <DialogTitle id="alert-dialog-title">
           <IconButton
             aria-label="close"
-            className={classes.closeButton}
             onClick={handleClose}
             size="small"
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "8px",
+              color: "#bdc3c7"
+            }}
           >
             <CloseIcon />
           </IconButton>

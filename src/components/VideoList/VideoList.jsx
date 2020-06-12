@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { navigate } from "gatsby";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Typography from "@material-ui/core/Typography";
@@ -10,7 +10,10 @@ import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
+import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
+import { remotePath } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,10 +36,9 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     backgroundColor: "#fff",
     borderRadius: "4px",
-    display: "flex",
-    alignItems: "center",
     padding: "10px 0",
-    width: "100%"
+    width: "100%",
+    overflow: "hidden"
   },
   listHead: {
     display: "flex",
@@ -76,37 +78,58 @@ const useStyles = makeStyles(theme => ({
 function RenderRow({ item, order }) {
   const classes = useStyles();
 
-  const handleListClick = id =>
-    navigate(`/watch/?vid=${id}`, { state: { vid: id } });
-
-  const imagePath = path => `http://api.haetek.com:9191/${path}`;
-
   return order ? (
-    <ListItem divider button onClick={() => handleListClick(item.video_id)}>
-      <div className={classes.listItem2}>
-        <div className={classes.listHeadImg}>
-          <img src={imagePath(item.image_path)} alt={item.video_title} />
-        </div>
-        <div>
-          <Typography>{item.video_title}</Typography>
-          <div className={classes.listTitle}>
-            <PlayCircleOutlineIcon
-              style={{ fontSize: "14px", marginRight: 2 }}
-            />
-            <span>{`${item.view_counts} 观看`}</span>
+    <ListItem divider button style={{ overflow: "hidden" }}>
+      <Link
+        href={`/watch/?vid=${item.video_id}`}
+        color="inherit"
+        underline="none"
+        target="_blank"
+        rel="noopener norefferer"
+      >
+        <Box className={classes.listItem2} width="100%">
+          <div className={classes.listHeadImg}>
+            <img src={remotePath(item.image_path)} alt={item.video_title} />
           </div>
-        </div>
-      </div>
+          <Box>
+            <Tooltip title={item.video_title} placement="top-start">
+              <Typography noWrap align="left" variant="body2">
+                {item.video_title}
+              </Typography>
+            </Tooltip>
+            <div className={classes.listTitle}>
+              <PlayCircleOutlineIcon
+                style={{ fontSize: "14px", marginRight: 2 }}
+              />
+              <span>{`${item.view_counts} 观看`}</span>
+            </div>
+          </Box>
+        </Box>
+      </Link>
     </ListItem>
   ) : (
     <ListItem button>
-      <div
-        className={classes.listItem}
-        onClick={() => handleListClick(item.video_id)}
-      >
-        <PlayCircleOutlineIcon fontSize="small" style={{ margin: "0 6px" }} />
-        {`${item.video_title}`}
-      </div>
+      <Box className={classes.listItem}>
+        <Link
+          href={`/watch/?vid=${item.video_id}`}
+          underline="none"
+          target="_blank"
+          rel="noopener norefferer"
+          color="inherit"
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <PlayCircleOutlineIcon
+              fontSize="small"
+              style={{ margin: "0 6px" }}
+            />
+            <Tooltip title={item.video_title} placement="top-start">
+              <Typography noWrap align="left" display="inline" variant="body2">
+                {`${item.video_title}`}
+              </Typography>
+            </Tooltip>
+          </div>
+        </Link>
+      </Box>
     </ListItem>
   );
 }

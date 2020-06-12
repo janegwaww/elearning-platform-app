@@ -12,6 +12,7 @@ const getUser = () =>
   isBrowser() && window.localStorage.getItem("haetekUser")
     ? JSON.parse(window.localStorage.getItem("haetekUser"))
     : {};
+let wConfirm = () => window.confirm;
 
 // 创建请求方法
 const axiosInstance = (token = "") =>
@@ -43,8 +44,10 @@ const fetchMethod = (token = "") => async (url, params) => {
     const response = await axiosInstance(token).post(url, params);
     return response;
   } catch (error) {
+    if (wConfirm && wConfirm()(error.message)) {
+      wConfirm = null;
+    }
     console.log(error);
-    alert(error.message);
     return Promise.resolve({});
   }
 };
@@ -168,7 +171,8 @@ export const searchPartApis = (token = "") => {
     ["view_file"],
     ["add_subscription", "latest_subscription"],
     ["get_author_information"],
-    ["get_series_details"]
+    ["get_series_details"],
+    ["get_category"]
   ];
   const getParam = [
     "comment",
@@ -177,7 +181,8 @@ export const searchPartApis = (token = "") => {
     "document",
     "subscription",
     "user",
-    "series"
+    "series",
+    "category"
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
