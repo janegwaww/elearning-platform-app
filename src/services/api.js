@@ -39,9 +39,9 @@ const paramFactory = ({
 });
 
 // 封装请求
-const fetchMethod = (token = "") => async (url, params) => {
+const fetchMethod = async (url, params) => {
   try {
-    const response = await axiosInstance(token).post(url, params);
+    const response = await axiosInstance().post(url, params);
     return response;
   } catch (error) {
     if (wConfirm && wConfirm()(error.message)) {
@@ -110,14 +110,14 @@ export const authApis = () => {
   const getParam = pipe(extraParam("user"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod(), getParam)
+    extraApis(fetchMethod, getParam)
   )(modelActions);
 
   return getApis;
 };
 
 // 视频接口封装
-export const videoApis = (token = "") => {
+export const videoApis = () => {
   const modelActions = [
     // 视频验重
     "verify",
@@ -157,13 +157,13 @@ export const videoApis = (token = "") => {
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod(token), getParam)
+    extraApis(fetchMethod, getParam)
   )(modelActions);
 
   return getApis;
 };
 
-export const searchPartApis = (token = "") => {
+export const searchPartApis = () => {
   const modelActionsArr = [
     ["post_comment", "get_comment"],
     ["add_collection"],
@@ -190,7 +190,7 @@ export const searchPartApis = (token = "") => {
   );
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod(token), getParam)
+    extraApis(fetchMethod, getParam)
   )([].concat.apply([], modelActionsArr));
 
   return getApis;
