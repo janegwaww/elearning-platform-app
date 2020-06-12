@@ -54,13 +54,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const duration = ({ video_time }) =>
     video_time && (
       <Box
-        p={0.4}
         style={{
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "44%",
-          right: "2%"
+          top: "46%",
+          right: "2%",
+          padding: "0 4px"
         }}
       >
         <Typography variant="caption" color="primary">
@@ -72,13 +72,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
       <Box
-        p={0.4}
         style={{
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "44%",
-          right: "2%"
+          top: "46%",
+          right: "2%",
+          padding: "0 4px"
         }}
       >
         <Typography variant="caption" color="primary">
@@ -154,7 +154,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Avatar
                         alt={item.user_name}
-                        src={item.head_shot}
+                        src={item.headshot}
                         style={{ width: 28, height: 28, margin: 8 }}
                       />
                       <Typography

@@ -1,10 +1,8 @@
 import { videoApis, searchPartApis } from "./api";
-import { getUser } from "./auth";
 import { pipeThen } from "./utils";
 
-const { token } = getUser();
-const apisVideo = videoApis(token);
-const apisSearch = searchPartApis(token);
+const apisVideo = videoApis();
+const apisSearch = searchPartApis();
 
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
@@ -90,3 +88,6 @@ export const getSeriesInfo = pipeThen(
   errorMessageNotice,
   apisSearch.getSeriesDetails
 );
+
+// 获取频道列表栏
+export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);

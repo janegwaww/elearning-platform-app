@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 8备份 5</title>
+    <title>切片备份 2</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="60" height="60"></rect>
+    </defs>
     <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="编组-8备份-5">
-            <g id="编组-8备份-3">
-                <rect id="矩形" fill-opacity="0" fill="#FFFFFF" x="0" y="0" width="60" height="60"></rect>
-                <g id="编组-6" transform="translate(2.000000, 2.000000)">
-                    <circle id="椭圆形" stroke="#565664" stroke-width="4" cx="28" cy="28" r="26"></circle>
-                    <path d="" id="形状结合" stroke="#9E9EA6" stroke-width="4" fill="#D8D8D8"></path>
-                    <rect id="矩形" fill="#9E9EA6" x="26" y="13" width="4" height="31"></rect>
+        <g id="画板备份" transform="translate(-1102.000000, -193.000000)">
+            <rect id="矩形" fill="#FFFFFF" x="0" y="0" width="1656" height="354"></rect>
+            <g id="编组-5" transform="translate(1102.000000, 193.000000)">
+                <g id="椭圆形备份-2-+-形状结合备份-2-蒙版">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="蒙版" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <path d="M30,2 C45.463973,2 58,14.536027 58,30 C58,45.463973 45.463973,58 30,58 C14.536027,58 2,45.463973 2,30 C2,14.536027 14.536027,2 30,2 Z M30,6 C16.745166,6 6,16.745166 6,30 C6,43.254834 16.745166,54 30,54 C43.254834,54 54,43.254834 54,30 C54,16.745166 43.254834,6 30,6 Z" id="椭圆形备份-2" fill="#2C2C3B" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                    <path d="M30,15 C31.1045695,15 32,15.8954305 32,17 L32,18 L38,18 C39.1045695,18 40,18.8954305 40,20 C40,21.1045695 39.1045695,22 38,22 L32,22 L32,29 L36,29 C38.209139,29 40,30.790861 40,33 L40,39 C40,41.209139 38.209139,43 36,43 L32,43 L32,44 C32,45.1045695 31.1045695,46 30,46 C28.8954305,46 28,45.1045695 28,44 L28,43 L22,43 C20.8954305,43 20,42.1045695 20,41 C20,39.8954305 20.8954305,39 22,39 L28,39 L28,33 L24,33 C21.790861,33 20,31.209139 20,29 L20,22 C20,19.790861 21.790861,18 24,18 L28,18 L28,17 C28,15.8954305 28.8954305,15 30,15 Z M32,39 L36,39 L36,33 L32,33 L32,39 Z M28,29 L28,22 L24,22 L24,29 L28,29 Z" id="形状结合备份-2" fill="#9E9EA6" mask="url(#mask-2)"></path>
                 </g>
             </g>
         </g>

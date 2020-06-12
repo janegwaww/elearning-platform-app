@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ReactPlayer from "react-player";
 import ReactVideo from "./ReactVideo";
+import { remotePath } from "../../services/utils";
 
 class VideoWindow extends Component {
   constructor(props) {
@@ -29,14 +29,8 @@ class VideoWindow extends Component {
     };
   }
 
-  wrapPath = path => `http://api.haetek.com:9191/${path}`;
-
   componentDidMount() {
     window.addEventListener("scroll", () => this.handleScroll(window.scrollY));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", () => this.handleScroll());
   }
 
   componentDidUpdate(prevProps) {
@@ -47,6 +41,10 @@ class VideoWindow extends Component {
     if (info.videoId !== prevProps.info.videoId) {
       /* this.forceUpdate(); */
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", () => this.handleScroll());
   }
 
   handleScroll(event) {
@@ -76,12 +74,13 @@ class VideoWindow extends Component {
         ]}
         tracks={[
           {
-            src: `${this.wrapPath(info.vttPath)}`,
+            src: `${remotePath(info.vttPath)}`,
             label: "captions on",
             kind: "captions",
             default: true
           }
         ]}
+        poster={`${remotePath(info.imagePath)}`}
       />
     ) : null;
   }
