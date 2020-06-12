@@ -9,14 +9,15 @@ import "./ChannelBar.sass";
 function ChannelBar({ cates, index }) {
   return (
     <Box className="channel-bar-paper">
-      <Box pt={3} pb={3}>
+      <Box style={{ paddingTop: 24, paddingBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {cates.map(o => {
             const cn = index && index === o.index ? "slice-action" : "";
+            const href = o.index === "001" ? "/" : `/channel/?ch=${o.index}`;
             return (
               <Link
                 key={o.index}
-                href={`/channel/?ch=${o.index}`}
+                href={href}
                 state={{ index: o.index }}
                 underline="none"
                 color="textPrimary"
