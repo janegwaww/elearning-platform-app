@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Typography, Link } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Box from "@material-ui/core/Box";
 import VideoWindow from "./VideoWindow";
 import VideoSearchWrap from "./VideoSearchWrap";
 import { videoPath } from "../../services/video";
@@ -30,8 +28,6 @@ class VideoPlayer extends Component {
     });
   };
 
-  preventDefault = event => event.preventDefault();
-
   render() {
     const { videoInfo, loading } = this.state;
 
@@ -42,21 +38,11 @@ class VideoPlayer extends Component {
             {videoInfo && videoInfo.title}
           </Typography>
         </div>
-        {loading || !videoInfo.videoPath ? (
-          <Box
-            height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
-            bgcolor="black"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <CircularProgress color="secondary" />
-          </Box>
-        ) : (
-          <VideoSearchWrap vid={this.props.vid}>
-            {timer => <VideoWindow info={videoInfo} timer={timer} />}
-          </VideoSearchWrap>
-        )}
+        <VideoSearchWrap vid={this.props.vid}>
+          {timer => (
+            <VideoWindow info={videoInfo} timer={timer} loading={loading} />
+          )}
+        </VideoSearchWrap>
       </Fragment>
     );
   }

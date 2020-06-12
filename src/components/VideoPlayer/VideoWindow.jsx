@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
 import { remotePath } from "../../services/utils";
 
@@ -29,43 +31,41 @@ class VideoWindow extends Component {
     };
   }
 
-  componentDidMount() {
-    window.addEventListener("scroll", () => this.handleScroll(window.scrollY));
-  }
+  /* componentDidMount() {
+   *   window.addEventListener("scroll", () => this.handleScroll(window.scrollY));
+   * } */
 
   componentDidUpdate(prevProps) {
-    const { timer, info } = this.props;
+    const { timer } = this.props;
     if (timer !== prevProps.timer) {
       this.playerRef.current.seekTo(timer);
     }
-    if (info.videoId !== prevProps.info.videoId) {
-      /* this.forceUpdate(); */
-    }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", () => this.handleScroll());
-  }
+  /* componentWillUnmount() {
+   *   window.removeEventListener("scroll", () => this.handleScroll());
+   * } */
 
-  handleScroll(event) {
-    /* const { enterPip, exitPip } = this.playerRef.current;
-     * if (event >= 400) {
-     *   enterPip && enterPip();
-     * }
-     * if (event < 400) {
-     *   exitPip && exitPip();
-     * } */
-  }
+  /* handleScroll(event) { */
+  /* const { enterPip, exitPip } = this.playerRef.current;
+   * if (event >= 400) {
+   *   enterPip && enterPip();
+   * }
+   * if (event < 400) {
+   *   exitPip && exitPip();
+   * } */
+  /* } */
 
   render() {
-    const { info } = this.props;
+    const { info, loading } = this.props;
 
-    return info.videoPath ? (
+    return loading || info.videoPath ? (
       <ReactVideo
         id="kengine-video-player"
         videoId={info.videoId}
         ref={this.playerRef}
         {...this.videoJsOptions}
+        poster={`${remotePath(info.imagePath)}`}
         sources={[
           {
             src: `${info.videoPath}`,
@@ -80,9 +80,18 @@ class VideoWindow extends Component {
             default: true
           }
         ]}
-        poster={`${remotePath(info.imagePath)}`}
       />
-    ) : null;
+    ) : (
+      <Box
+        height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
+        bgcolor="black"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CircularProgress color="secondary" />
+      </Box>
+    );
   }
 }
 
@@ -91,7 +100,7 @@ VideoWindow.defaultProps = {
 };
 
 VideoWindow.propTypes = {
-  info: PropTypes.object.isRequired,
+  info: PropTypes.objectOf(PropTypes.object).isRequired,
   timer: PropTypes.string
 };
 
