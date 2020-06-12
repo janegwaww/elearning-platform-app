@@ -76,7 +76,7 @@ export default class VideoPage extends Component {
     let scale= 880/1920;
     let num = t_w*scale;
     let num_h = num/16*9;
-    console.log(num/16 ,num_h/9)
+    
     getObj("max-box").style.height =
       document.documentElement.offsetHeight + "px";
 
