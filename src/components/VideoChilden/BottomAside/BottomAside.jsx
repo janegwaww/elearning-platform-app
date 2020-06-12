@@ -1,33 +1,18 @@
 import React, { Component } from "react";
-
-import {PlayArrow,Title,VolumeUp,FontDownload,Replay,
-  Refresh} from  "@material-ui/icons";
-
 import  styles from "./BottomAside.module.css";
 import  sty from '../TopAside/TopAside.module.css';
+import prvg from '../../../assets/img/prve.svg';
+import next from '../../../assets/img/next.svg';
 export default ()=> (
       <ul className={`${styles.ul} ${sty.ul}` }>
   
 
-        <li>
-        <div className={styles.slider}>
-                <div className={styles.left}>
-                  <div>
-                  <Replay />
-                   
-                  </div>
-                  <div>
-                  <Refresh />
-                  
-                  </div>
-                </div>
-              </div>
+        <li className='box box-between box-center'>
+          <img src={prvg} />
+          <img src={next} />
+       
         </li>
-        <li><Title /> </li>
-        <li><PlayArrow /></li>
-        <li><VolumeUp /></li>
         
-        <li><FontDownload /></li>
       </ul>
     );
   

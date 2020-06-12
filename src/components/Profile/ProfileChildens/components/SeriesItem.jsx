@@ -147,6 +147,10 @@ const SeriesItem = (props) => {
               <MenuItem onClick={handleClose}>编辑系列</MenuItem>
               <MenuItem onClick={handleClose}>移动系列</MenuItem>
               <MenuItem onClick={handleClose}>分享</MenuItem>
+              <menuitem onClick={()=>{
+                  
+
+              }}>删除</menuitem>
             </Menu>
           </div>
         ) : (
