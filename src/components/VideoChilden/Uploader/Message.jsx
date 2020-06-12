@@ -60,6 +60,7 @@ const Message = (props) => {
                   props.parent.setState({ promp_info: _data });
                 } else {
                  
+                  
                   get_data('/api/v1/gateway', {
                     "model_name": "video",
                     "model_action": "delete_video",
@@ -83,10 +84,11 @@ const Message = (props) => {
                         sessionStorage.removeItem('file_data');
                       }
                       
-                      props.parent.props.parent.setState({
+                      props.parent.props.parent.props.parent.setState({
                         style:{},
                         styles:{},
-                        video_data:{}
+                        video_data:{},
+                        the_current:{}
                       })
                       setOpen(true)
                       console.log(res)

@@ -66,11 +66,7 @@ export default function SimpleMenu(props) {
         <NewMenuItem onClick={handleClose}>复制</NewMenuItem>
         <NewMenuItem
           onClick={(e) => {
-            console.log(props.parent.state.video_data)
-            if(props.parent.state.video_data.sub_josn){
-              handleClose();
-              return;
-            }
+        
             if (JSON.stringify(props.parent.state.video_data) != "{}") {
               props.parent.setState({
                 uploadStatus: 4,

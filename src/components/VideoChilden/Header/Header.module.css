@@ -1,61 +1,50 @@
 .header {
-  height: 55px;
+  height: 80px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #212122;
+  background-color: #232325 ;
   font-family:PingFangSC-Regular,PingFang SC;
   font-size: 16px;
+  color :#CCCCD1;
 }
-.logo,.save ,.users{
-  color: #fff;
+
+.header span:hover{
+  cursor: default;
 }
-.save{
-    filter: brightness(0.5);
+.shortcut{
+  position: relative;
 }
-.logo span:first-child {
-  display: inline-block;
-  width: 20px;
-  height: 18px;
-  background: rgba(0, 124, 255, 1);
-  border-radius: 4px;
-  text-align: center;
-  line-height: 18px;
-  margin-right: 5px;
+.shortcut:hover .shortcut-code{
+  display: block;
 }
-.header > div {
-  display: flex;
-  align-items: center;
+.shortcut-code{
+  position: absolute;
+  left:100%;
+  top: 0px;
+  z-index:  50;
+  background: rgba(27,27,29,0.8);
+  width:360px;
+  display: none;
+  border-radius: 12px;
+  
 }
-.header .nav>div:nth-child(3){
-    width:64px;
-    height:22px;
-    font-size:16px;
-    font-weight:400;
-    color:rgba(204,204,209,1);
-    line-height:22px; 
+.shortcut-code>div{
+  margin: 20px;
 }
 .header > div > div {
   margin: 0 36px;
 }
-.users{
+/* .users{
     display: flex;
     align-items: center;   
-}
+} */
 
-.users>div{
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
- text-overflow: ellipsis;
- overflow: hidden;
-
-}
-.dialog-updata{
+/* .dialog-updata{
   width:600px;
   
   height: calc(100% - 64px);
   height: 500px;
   overflow-y: auto;
-}
+} */

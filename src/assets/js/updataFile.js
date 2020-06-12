@@ -90,13 +90,7 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
           response: _data,
           request: res,
         };
-        if (_data.err == 0 && _data.result_data.length > 0) {
-          _this.options.pageObj.props.parent.get_url(_data.result_data[0]); //上传成功后将地址传给播放器
-          _this.options.pageObj.setState({
-            files: _data.result_data,
-            status: 3,
-          });
-        }
+       
       }
     };
     xhr.open("POST", this.options.url, true);
@@ -159,9 +153,10 @@ UpdataFile.prototype.init = function() {
     filesArr.push(_files.slice(start, end));
   }
 
+  
   let _formData = new FormData();
-  _formData.append("task_id", md5(_files));
-  _formData.append("name", _files.name);
+  _formData.append("task_id", md5(_files)+Math.random()*1000);
+  _formData.append("title", _files.name);
   _formData.append("video_type", "mp4");
   _formData.append("model_name", "video");
   _formData.append("model_action", "upload");

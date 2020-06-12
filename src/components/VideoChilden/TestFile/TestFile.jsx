@@ -30,7 +30,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 
-
+// 此组件没有用
 const NewSlider = withStyles({
   root: {
     width: "180px",

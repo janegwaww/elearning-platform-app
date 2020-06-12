@@ -17,15 +17,23 @@ import SliderTemplate from "./SliderTemplate/SliderTemplate";
 import HeaderTemplate from "./Header/Header";
 import TopAside from "./TopAside/TopAside";
 import BottomAside from "./BottomAside/BottomAside";
-import VideoChilden from "./VideoChilden";
+
 import "./SliderTemplate/SliderTemplate.css";
 import styles from "../../assets/css/video.module.css";
 import { get_data } from "../../assets/js/request";
 import dateConversion from "../../assets/js/dateConversion";
+import Uploder from "./Uploader/Uploader";
+import videoImg from "../../assets/img/videowindows.svg";
+import videoImg2 from "../../assets/img/videowindows2.svg";
+
+// import viderPlay from '../../assets/img/play.svg';
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      depth_of_field: true, //视频显示边框景深
+      video_w:0,//当前视频的宽度
+      video_h:0,//当前视频的高度
       video_data: {},
       now_current: {},
       the_current: {}, //当前字幕
@@ -37,36 +45,56 @@ export default class VideoPage extends Component {
       video_img_arr: null,
       test_arr: null,
       scaleX: 1,
-      // total_scroll_width: 4070,
+
       is_play_now: false,
 
-      video_bottom_slider:0,
-      a_few_screen:1,//移動幾屏
+      video_bottom_slider: 0,
+      a_few_screen: 1, //移動幾屏
+      sliderbox_width: 0,
+      sliderbox_off_x: 0,
+      thumbbox_width: 0,
+      thumb_off_x: 0,
     };
     this.video_live = null;
     //绑定双击事件
     this.getChildrenMsg = this.getChildrenMsg.bind(this);
     this.get_top_inx = this.get_top_inx.bind(this);
     this.getUpfileUrl = this.getUpfileUrl.bind(this);
-    this.parent_styles = this.parent_styles.bind(this);
+    // this.parent_styles = this.parent_styles.bind(this);
     this.get_image = this.get_image.bind(this);
     this.context_focus = this.context_focus.bind(this);
     this.context_blur = this.context_blur.bind(this);
     this.context_input = this.context_input.bind(this);
     this.now_play = this.now_play.bind(this);
     this.cueing = this.cueing.bind(this);
+    this.video_w_h = this.video_w_h.bind(this)
   }
-  componentDidMount() {
-    this.setState({
-      video_h: getObj("myvideo").clientHeight,
-    });
 
+  video_w_h(){
+    let t_w=document.body.clientWidth;
+    if(t_w<1000){t_w=1000;}
+    let scale= 880/1920;
+    let num = t_w*scale;
+    let num_h = num/16*9;
+    console.log(num/16 ,num_h/9)
     getObj("max-box").style.height =
-      document.documentElement.offsetHeight - 1 + "px";
+      document.documentElement.offsetHeight + "px";
+
+    this.setState({
+      video_w:num,
+      video_h:num_h
+    })
+  }
+
+  componentDidMount() {
+      let _this = this;
+      _this.video_w_h();
+    
     window.onresize = (evnt) => {
-      getObj("max-box").style.height =
-        document.documentElement.offsetHeight - 1 + "px";
+     
+        _this.video_w_h();
     };
+   
 
     // getObj("gatsby-focus-wrapper").clientHeight + "px";
 
@@ -81,10 +109,11 @@ export default class VideoPage extends Component {
         video_data: _data,
       });
 
-      // this.video_live.load();
-      // if(_data.sub_josn){
-      //   this.cueing(_data.video_data:sub_josn);
-      // }
+      this.video_live.load();
+
+      // setTimeout(() => {
+      //   this.cueing(_data.sub_josn);
+      // }, 3000);
     }
 
     document.onkeydown = (ev) => {
@@ -109,119 +138,76 @@ export default class VideoPage extends Component {
     window.onresize = null;
     document.onkeydown = null;
   }
+  // componentWillUpdate(prvestate, nextporps) {
+  //   console.log(prvestate, nextporps);
+  //   // if(this.state.sliderbox_width!=getObj('sliderbox').clientWidth){
+  //   //   this.setState({
+  //   //     sliderbox_width:getObj('sliderbox').clientWidth
+  //   //   })
+  //   // }
+  // }
   cueing(textArr) {
-    let total_time = this.video_live.duration;
+    let total_time = this.state.video_data.video_len;
     let test_arr = [];
-    let total_w = ((total_time * 1000) / 2740) * 110; // getObj('sliderbox').scrollWidth;
+    let total_w = this.state.sliderbox_width;
     let json_sub = textArr;
-    console.log(total_w, total_time);
-    // console.log(total_time*1000/total_w)//每px占的毫秒
+
+    //每px占的毫秒
     for (let i = 0; i < json_sub.length; i++) {
+      let sub_w = (json_sub[i].ed - json_sub[i].bg) / (total_time / total_w);
+
+      let sub_l = 0;
       if (i === 0) {
-        test_arr.push(
-          <div
-            className="test-nodes"
-            key={i}
-            style={{
-              width:
-                (json_sub[i].ed - json_sub[i].bg) *
-                  1000 *
-                  (total_w / (total_time * 1000)) +
-                "px",
-              marginLeft:
-                (total_w / total_time / 1000) * json_sub[i].bg * 1000 + "px",
-            }}
-          >
-            <p
-              onBlur={this.context_blur}
-              suppressContentEditableWarning="true"
-              onFocus={this.context_focus}
-              onInput={this.context_input}
-              data-type="bottom"
-              data-lu="zh"
-              data-inx={i}
-              contentEditable="true"
-              title="点击文字可编辑"
-            >
-              {json_sub[i].cn_sub}
-            </p>
-            {json_sub[i].en_sub ? (
-              <p
-                data-lu="en"
-                onBlur={this.context_blur}
-                onInput={this.context_input}
-                data-type="bottom"
-                suppressContentEditableWarning="true"
-                onFocus={this.context_focus}
-                data-inx={i}
-                contentEditable="true"
-                title="点击文字可编辑"
-              >
-                {json_sub[i].en_sub}
-              </p>
-            ) : (
-              ""
-            )}
-            <span title="播放當前段" data-inx={i} onClick={this.now_play}>
-              <PlayArrow />
-            </span>
-          </div>
-        );
+        sub_l = json_sub[i].bg / (total_time / total_w);
       } else {
-        test_arr.push(
-          <div
-            className="test-nodes"
-            key={i}
-            style={{
-              width:
-                (json_sub[i].ed - json_sub[i].bg) *
-                  1000 *
-                  (total_w / (total_time * 1000)) +
-                "px",
-              marginLeft:
-                (total_w / total_time / 1000) *
-                  (json_sub[i].bg - json_sub[i - 1].ed) *
-                  1000 +
-                1 +
-                "px",
-            }}
+        sub_l = (json_sub[i].bg - json_sub[i - 1].ed) / (total_time / total_w);
+      }
+      console.log("subl", sub_l);
+
+      test_arr.push(
+        <div
+          className="test-nodes"
+          key={i}
+          style={{
+            width: sub_w + "px",
+            marginLeft: sub_l + "px",
+          }}
+        >
+          <p
+            onBlur={this.context_blur}
+            suppressContentEditableWarning="true"
+            onFocus={this.context_focus}
+            onInput={this.context_input}
+            data-type="bottom"
+            data-lu="zh"
+            data-inx={i}
+            contentEditable="true"
+            title="此字段视频循环播放"
           >
+            {json_sub[i].cn_sub}
+          </p>
+          {json_sub[i].en_sub ? (
             <p
-              contentEditable="true"
-              data-lu="zh"
-              data-inx={i}
+              data-lu="en"
+              onBlur={this.context_blur}
               onInput={this.context_input}
               data-type="bottom"
-              onBlur={this.context_blur}
               suppressContentEditableWarning="true"
               onFocus={this.context_focus}
-              title="点击文字可编辑"
+              data-inx={i}
+              contentEditable="true"
+              title="此字段视频循环播放"
             >
-              {json_sub[i].cn_sub}
+              {json_sub[i].en_sub}
             </p>
-            {json_sub[i].en_sub ? (
-              <p
-                data-lu="en"
-                data-inx={i}
-                onBlur={this.context_blur}
-                onInput={this.context_input}
-                data-type="bottom"
-                suppressContentEditableWarning="true"
-                onFocus={this.context_focus}
-                contentEditable="true"
-                title="点击文字可编辑"
-              >
-                {json_sub[i].en_sub}
-              </p>
-            ) : (
-              ""
-            )}
-            <span title="播放當前段" data-inx={i} onClick={this.now_play}>
-              <PlayArrow />
-            </span>
-          </div>
-        );
-      }
+          ) : (
+            ""
+          )}
+          <span title="播放當前段" data-inx={i} onClick={this.now_play}>
+            <PlayArrow />
+          </span>
+        </div>
+      );
     }
 
     this.setState({
@@ -230,6 +216,7 @@ export default class VideoPage extends Component {
   }
   getUpfileUrl(res) {
     //接收组件传递视频数据
+
     let _data = this.state.video_data || {};
     if (res.subtitling) {
       _data.sub_josn = res.subtitling;
@@ -242,6 +229,18 @@ export default class VideoPage extends Component {
     if (_data.video_data) {
       delete _data.video_data;
     }
+
+    if (!_data.video_len && res.video_time) {
+      if (typeof res.video_time == "string") {
+        let _time = res.video_time.split(":");
+        _data.video_len =
+          parseInt(_time[0]) * 3600 +
+          parseInt(_time[1]) * 60 +
+          parseInt(_time[2]);
+      } else {
+        _data.video_len = res.video_time;
+      }
+    }
     this.setState({
       video_data: _data,
     });
@@ -249,139 +248,141 @@ export default class VideoPage extends Component {
     this.video_live.load();
     // this.video_live.play();
   }
-  parent_styles(res) {
-    //获取样式 writing-mode: vertical-rl; writing-mode: tb-lr;
+  // parent_styles(res) {
+  //   //获取样式 writing-mode: vertical-rl; writing-mode: tb-lr;
 
-    this.setState({ style: res });
-    let _styles = this.state.styles || {};
-    let align,
-      textAlignLast,
-      bold,
-      u,
-      i,
-      family,
-      size,
-      vertical,
-      spacing,
-      line,
-      color;
-    if (res.align === 0) {
-      (align = "inherit"), (textAlignLast = "inherit");
-    } else if (res.align === 1) {
-      align = "right";
-    } else if (res.align === 2) {
-      align = "center";
-    } else if (res.align === 3) {
-      align = "left";
-    } else if (res.align === 4) {
-      align = "justify";
-      textAlignLast = "justify";
-    }
-    if (res.bold === -1) {
-      bold = "bold";
-    } else {
-      bold = "normal";
-    }
-    if (res._u === -1) {
-      u = "underline";
-    } else {
-      u = "none";
-    }
-    if (res._i === -1) {
-      i = "italic";
-    } else {
-      i = "normal";
-    }
-    if (res.family) {
-      family = res.family;
-    } else {
-      family = "inherit";
-    }
-    if (!res.size || res.size < 12) {
-      size = "inherit";
-    } else {
-      size = res.size + "px";
-    }
-    if (res.spacing) {
-      spacing = res.spacing + "px";
-    } else {
-      spacing = "normal";
-    }
-    if (res.line) {
-      line = res.line + "px";
-    } else {
-      line = "normal";
-    }
-    if (res.vertical == 2) {
-      // writing-mode: vertical-rl; writing-mode: tb-lr;
-      vertical = "vertical-rl";
-      // vertical1='tb-lr'
-    } else if (res.vertical == 1) {
-      vertical = "vertical-lr";
-    } else {
-      vertical = "horizontal-tb";
-      // vertical1='horizontal-tb'
-    }
-    if (res.color) {
-      color = "#" + res.color;
-    } else {
-      color = "inherit";
-    }
-    this.setState({
-      styles: {
-        color: color,
-        textAlign: align,
-        textAlignLast: textAlignLast,
-        fontWeight: bold,
-        textDecoration: u,
-        fontStyle: i,
-        fontSize: size,
-        fontFamily: family,
-        writingMode: vertical,
-        lineHeight: line,
-        letterSpacing: spacing,
-      },
-    });
-  }
+  //   this.setState({ style: res });
+  //   let _styles = this.state.styles || {};
+  //   let align,
+  //     textAlignLast,
+  //     bold,
+  //     u,
+  //     i,
+  //     family,
+  //     size,
+  //     vertical,
+  //     spacing,
+  //     line,
+  //     color;
+  //   if (res.align === 0) {
+  //     (align = "inherit"), (textAlignLast = "inherit");
+  //   } else if (res.align === 1) {
+  //     align = "right";
+  //   } else if (res.align === 2) {
+  //     align = "center";
+  //   } else if (res.align === 3) {
+  //     align = "left";
+  //   } else if (res.align === 4) {
+  //     align = "justify";
+  //     textAlignLast = "justify";
+  //   }
+  //   if (res.bold === -1) {
+  //     bold = "bold";
+  //   } else {
+  //     bold = "normal";
+  //   }
+  //   if (res._u === -1) {
+  //     u = "underline";
+  //   } else {
+  //     u = "none";
+  //   }
+  //   if (res._i === -1) {
+  //     i = "italic";
+  //   } else {
+  //     i = "normal";
+  //   }
+  //   if (res.family) {
+  //     family = res.family;
+  //   } else {
+  //     family = "inherit";
+  //   }
+  //   if (!res.size || res.size < 12) {
+  //     size = "inherit";
+  //   } else {
+  //     size = res.size + "px";
+  //   }
+  //   if (res.spacing) {
+  //     spacing = res.spacing + "px";
+  //   } else {
+  //     spacing = "normal";
+  //   }
+  //   if (res.line) {
+  //     line = res.line + "px";
+  //   } else {
+  //     line = "normal";
+  //   }
+  //   if (res.vertical == 2) {
+  //     // writing-mode: vertical-rl; writing-mode: tb-lr;
+  //     vertical = "vertical-rl";
+  //     // vertical1='tb-lr'
+  //   } else if (res.vertical == 1) {
+  //     vertical = "vertical-lr";
+  //   } else {
+  //     vertical = "horizontal-tb";
+  //     // vertical1='horizontal-tb'
+  //   }
+  //   if (res.color) {
+  //     color = "#" + res.color;
+  //   } else {
+  //     color = "inherit";
+  //   }
+  //   this.setState({
+  //     styles: {
+  //       color: color,
+  //       textAlign: align,
+  //       textAlignLast: textAlignLast,
+  //       fontWeight: bold,
+  //       textDecoration: u,
+  //       fontStyle: i,
+  //       fontSize: size,
+  //       fontFamily: family,
+  //       writingMode: vertical,
+  //       lineHeight: line,
+  //       letterSpacing: spacing,
+  //     },
+  //   });
+  // }
   get_image(res) {
     //图片集
+    let _data = JSON.parse(JSON.stringify(this.state.video_data));
+    let total_time = _data.video_len;
+    _data.imageArr = res;
 
-    let total_time = this.video_live.duration;
-    this.setState({
-      the_current: {
-        video_len: total_time,
-        time: this.video_live.currentTime,
-      },
-      video_img_arr: res,
-    });
-    // console.log(this.state.video_data.sub_josn)
-    if (this.state.video_data.sub_josn) {
-      this.cueing(this.state.video_data.sub_josn);
-    }
     let _obj = getObj("image-box");
 
     let len = res.length;
     let img_str = "";
     let img_pos = "";
-    let box_w = (total_time * 1000 * 110) / 2740; // getObj("sliderbox").scrollWidth;
-    let img_w = box_w / (total_time - 0.7);
-
-    for (let i = 0; i < len - 2; i++) {
-      if (i == len - 3) {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i + 2] + ") "),
-          (img_pos += i * img_w + "px " + "0px ");
+    let box_w = this.state.sliderbox_width / len; // 每张图的宽度，
+    // let img_w = box_w / (total_time - 0.7);
+    for (let i = 0; i < len; i++) {
+      if (i == len - 1) {
+        (img_str += "url(http://api.haetek.com:9191/" + res[i] + ") "),
+          (img_pos += i * box_w + "px " + "0px ");
       } else {
-        (img_str += "url(http://api.haetek.com:9191/" + res[i + 2] + "), "),
-          (img_pos += i * img_w + "px " + "0px, ");
+        (img_str += "url(http://api.haetek.com:9191/" + res[i] + "), "),
+          (img_pos += i * box_w + "px " + "0px, ");
       }
     }
-    _obj.style["background-image"] = img_str;
-    _obj.style.backgroundPosition = img_pos;
-    _obj.style.backgroundSize = img_w + "px 46px";
+
+    _data.img_pos = img_pos;
+    _data.bg_str = img_str;
+    _data.bg_w = box_w;
+    this.setState({
+      the_current: {
+        video_len: total_time,
+        time: this.video_live.currentTime || 0,
+      },
+      video_img_arr: res,
+      video_data: _data,
+    });
+    sessionStorage.setItem("file_data", JSON.stringify(_data));
   }
   getChildrenMsg(result, msg) {
-    //滑块子件传参滑块位置过来，并且更新字幕
-    // console.log(msg);
+    //时间轴滑块子件传参滑块位置过来，并且更新字幕
+    if (JSON.stringify(this.state.video_data) == "{}") {
+      return;
+    }
     this.video_live.currentTime = msg;
     this.sub_test(msg);
     return;
@@ -553,7 +554,7 @@ export default class VideoPage extends Component {
         _the_data.cn = _video_data.sub_josn[_inx].cn_sub;
       }
     }
-    console.log(_the_data);
+
     this.setState({
       the_current: _the_data,
       video_data: _video_data,
@@ -561,7 +562,7 @@ export default class VideoPage extends Component {
   }
   render() {
     const _this = this;
-    const { video_data } = this.state;
+    const { video_data, depth_of_field } = this.state;
     const on_ply = function() {
       //播放
       if (!_this.state.video_data._path) {
@@ -595,21 +596,48 @@ export default class VideoPage extends Component {
           return;
         }
       }
-     
+
       _data.time = time;
-      
+
       _this.setState({
         the_current: _data,
-        video_bottom_slider:getObj('video-bottom-slider').clientWidth/_this.state.the_current.video_len*time
+        video_bottom_slider:
+          (getObj("video-bottom-slider").clientWidth /
+            _this.state.the_current.video_len) *
+          time,
       });
-      let box_w =parseInt( getStyles('edit-region','width').split('p')[0]);
-      let box_w_off = getObj('sliderbox').clientWidth/_this.state.the_current.video_len*time;
-     
-       let _num =Math.floor( box_w_off/box_w );
-    
-      
-        getObj('sliderbox').style.transform='translate(-'+box_w*_num+'px)';
-      
+      let box_w = getObj("edit-region").clientWidth; //屏幕的宽度
+
+      let box_w_off =
+        (_this.state.sliderbox_width / _this.state.the_current.video_len) *
+        time; //将要偏移的位置
+      let sliderbox_x = _this.state.sliderbox_off_x; //已经偏移的
+      if (sliderbox_x != Math.abs(getStyles("sliderbox", "transform"))) {
+        sliderbox_x = Math.abs(getStyles("sliderbox", "transform"));
+      }
+      let sliderbox_width = _this.state.sliderbox_width;
+      if (sliderbox_width != getObj("sliderbox").clientWidth) {
+        getObj("thumb").style.width =
+          getWidth("edit-region", "sliderbox", "thumbbox") *
+            _this.state.scaleX +
+          "px";
+        sliderbox_width = getObj("sliderbox").clientWidth;
+      }
+      console.log(box_w_off);
+      console.log(sliderbox_x);
+      if (sliderbox_x + box_w > box_w_off) {
+        box_w_off = sliderbox_x;
+      }
+
+      console.log(box_w_off);
+      // if (_this.state.sliderbox_off_x + box_w < box_w_off) {
+      //   //     // 已经偏移的+上屏宽小于将要偏移的
+      //   box_w_off = _this.state.sliderbox_off_x - box_w;
+      // } else if (_this.state.sliderbox_off_x > box_w + box_w_off) {
+      // } else {
+      //   box_w_off = _this.state.sliderbox_off_x;
+      // }
+
       _this.sub_test(time);
     };
     const on_end = function() {
@@ -642,20 +670,37 @@ export default class VideoPage extends Component {
         <header className={styles.elHeader}>
           <HeaderTemplate parent={this} />
         </header>
-        <main className={`${styles.elMain} ${styles.top}`}>
+        <main className={`${styles.elMain} ${styles.top}`} style={{height:this.state.video_h+140+"px",minHeight:this.state.video_h+140+"px"}}>
           <section className={styles.elContainer}>
-            <aside className={styles.elAside}>
+            {/** <aside className={styles.elAside}>
               <TopAside parent={this} />
             </aside>
+             */}
             <main className={styles.elMain}>
               <div>
-                <VideoChilden topInx={this.state.top_inx || 1} parent={this} />
+                <Uploder parent={this} />
               </div>
               <div>
                 <section>
-                  <div className={styles.video} id="myvideo">
+                  <div className={styles.video} id="myvideo" style = {{width:this.state.video_w+'px',height:this.state.video_h+'px'}}>
+                    {depth_of_field ? (
+                      <main>
+                        <div className="all-width all-height">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <div></div>
+                      </main>
+                    ) : (
+                      <i></i>
+                    )}
+
                     <video
-                      poster="http://seeker.haetek.com/houseonline/images/271581231610pic_hd13.png"
+                     
                       height={this.state.video_h}
                       ref={(node) => (this.video_live = node)}
                       onTimeUpdate={time_date}
@@ -706,48 +751,76 @@ export default class VideoPage extends Component {
                       ""
                     )}
                   </div>
-                  
-                  <p>
-                    <span>
+                    <div style={{height:20,backgroundColor:'#565663'}}></div>
+                  <main className="box box-align-center box-between fn-size-14">
+                    <div className='play-time'>
+                      <span className="fn-color-F2F2F5">
+                        {_this.state.the_current
+                          ? dateConversion(_this.state.the_current.time)
+                          : 0}
+                      </span>
+                      <span className="fn-color-878791">
+                        /
+                        {_this.state.video_data
+                          ? dateConversion(
+                              _this.state.video_data.video_len || 0
+                            )
+                          : 0}
+                      </span>
+                    </div>
+                    <div className='paly-on-off'>
                       {this.state.status ? (
                         <Pause onClick={on_pause} />
                       ) : (
                         <PlayArrow onClick={on_ply} />
                       )}
-                    </span>
-                    <span>
-                      {_this.state.the_current
-                        ? dateConversion(_this.state.the_current.time)
-                        : 0}
-                      /
-                      {_this.state.the_current
-                        ? dateConversion(_this.state.the_current.video_len)
-                        : 0}
-                    </span>
-                  </p>
-                  {this.state.the_current ? (
-                    <p
+                    </div>
+
+                    <div>
+                      {!depth_of_field ? (
+                        <img
+                          src={videoImg}
+                          onClick={()=>{this.setState({
+                            depth_of_field: !depth_of_field,
+                          })}}
+                        />
+                      ) : (
+                        <img
+                          src={videoImg2}
+                          onClick={()=>{this.setState({
+                            depth_of_field: !depth_of_field,
+                          })}}
+                        />
+                      )}
+                    </div>
+                  </main>
+
+                  {/**   <p
                       className="all-width"
-                      id='video-bottom-slider'
+                      id="video-bottom-slider"
                       style={{
-                       
                         height: 5,
                         backgroundColor: "#ccc",
                       }}
                     >
-                    <span style={{
-                      display: "inline-block",
-                      position: "absolute",
-                      top:0,
-                      left:0,
-                      backgroundColor:'red',
-                      // width:12,
-                      height:5,
-                      transition:'all 0.3s',
-                      width:this.state.video_bottom_slider-10<0?0+'px':this.state.video_bottom_slider-10+'px'
-                    }}></span>
                       <span
-                      id="video-bottom-slider-block"
+                        style={{
+                          display: "inline-block",
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          backgroundColor: "red",
+                          // width:12,
+                          height: 5,
+                          transition: "all 0.3s",
+                          width:
+                            this.state.video_bottom_slider - 10 < 0
+                              ? 0 + "px"
+                              : this.state.video_bottom_slider - 10 + "px",
+                        }}
+                      ></span>
+                      <span
+                        id="video-bottom-slider-block"
                         style={{
                           display: "inline-block",
                           width: 10,
@@ -755,23 +828,34 @@ export default class VideoPage extends Component {
                           borderRadius: "50%",
                           backgroundColor: "green",
                           position: "absolute",
-                          top:'50%',
-                          transform: 'translateY(-50%)',
-                          transition:'all 0.3s',
-                          left:this.state.video_bottom_slider-10+'px',
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          transition: "all 0.3s",
+                          left: this.state.video_bottom_slider - 10 + "px",
+                        }}
+                        onMouseDown={(ev) => {
+                          ev.stopPropagation();
+                          ev.preventDefault();
+                          console.log(ev);
+                          document.onmousemove = (e) => {
+                            console.log(getPage(e).offsetLeft);
+                            e.stopPropagation();
+                            e.preventDefault();
+                          };
+                          document.onmouseup = (evt) => {
+                            document.onmousemove = null;
+                          };
                         }}
                       ></span>
                     </p>
-                  ) : (
-                    ""
-                  )}
+                 */}
                 </section>
               </div>
             </main>
           </section>
         </main>
 
-        <footer className={`${styles.elFooter} ${styles.bottom}`}>
+        <footer className={`${styles.elFooter} ${styles.bottom}`} style={{height:'calc(100% - '+(this.state.video_h+220)+'px)'}}>
           <section className={styles.elContainer}>
             <aside className={styles.elAside}>
               <BottomAside />
@@ -790,21 +874,38 @@ export default class VideoPage extends Component {
                         getWidth("edit-region", "sliderbox", "thumbbox") *
                         this.state.scaleX;
                       getObj("thumb").style.width = _w + "px";
-                      let x = getStyles("thumb", "transform"); //当前的偏移量
-                      let barX = x - getObj("edit-region").clientWidth / 2 - 10; //将要移动的量
-                      let barMax = getObj("thumbbox").clientWidth - _w; //滚动条可以位移的位置
-                      if (barX <= 0) {
-                        barX = 0;
+                      let x = getObj("edit-region").clientWidth / 2;
+                      if (
+                        this.state.sliderbox_width !=
+                        getObj("sliderbox").clientWidth
+                      ) {
+                        this.setState({
+                          sliderbox_width: getObj("mark").clientWidth,
+                        });
                       }
-                      getObj("thumb").style.transform =
-                        "translateX(" + barX + "px)";
-                      let contentMax = //sliderbox 可以移的位置
-                        getObj("sliderbox").clientWidth -
-                        getObj("edit-region").clientWidth;
 
-                      let contentX = (barX / barMax) * contentMax;
-                      getObj("sliderbox").style.transform =
-                        "translateX(-" + contentX + "px)";
+                      let sliderbox_x = this.state.sliderbox_off_x; //当前的偏移量
+                      if (
+                        sliderbox_x !=
+                        Math.abs(getStyles("sliderbox", "transform"))
+                      ) {
+                        sliderbox_x = Math.abs(
+                          getStyles("sliderbox", "transform")
+                        );
+                      }
+                      if (sliderbox_x - x <= 0) {
+                        sliderbox_x = 0;
+                      } else {
+                        sliderbox_x = sliderbox_x - x;
+                      }
+                      let thumb_x =
+                        (sliderbox_x * this.state.thumbbox_width) /
+                        this.state.sliderbox_width;
+
+                      this.setState({
+                        sliderbox_off_x: Math.abs(sliderbox_x),
+                        thumb_off_x: thumb_x,
+                      });
                     }}
                   >
                     <SkipPrevious />
@@ -812,34 +913,64 @@ export default class VideoPage extends Component {
                   <div
                     className={`${styles.btn} ${styles.btnNext}`}
                     onClick={(ev) => {
+                      console.log(1);
                       let _w =
                         getWidth("edit-region", "sliderbox", "thumbbox") *
                         this.state.scaleX;
+
                       getObj("thumb").style.width = _w + "px";
 
                       // edit-region, sliderbox,thumbbox,thumb
-                      let x = getStyles("thumb", "transform"); //当前的偏移量
-                      let barX = x + getObj("edit-region").clientWidth / 2 - 10; //将要移动的量
-
-                      let barMax = getObj("thumbbox").clientWidth - _w; //滚动条可以位移的位置
-                      if (barX > barMax) {
-                        barX = barMax;
+                      if (
+                        this.state.sliderbox_width !=
+                        getObj("sliderbox").clientWidth
+                      ) {
+                        this.setState({
+                          sliderbox_width: getObj("sliderbox").clientWidth,
+                        });
                       }
-                      getObj("thumb").style.transform =
-                        "translateX(" + barX + "px)";
-                      let contentMax = //sliderbox 可以移的位置
-                        getObj("sliderbox").clientWidth -
-                        getObj("edit-region").clientWidth;
 
-                      let contentX = (barX / barMax) * contentMax;
-                      getObj("sliderbox").style.transform =
-                        "translateX(-" + contentX + "px)";
+                      let x = getObj("edit-region").clientWidth / 2;
+                      let sliderbox_x = this.state.sliderbox_off_x; // getStyles("sliderbox", "transform");
+
+                      if (
+                        sliderbox_x !=
+                        Math.abs(getStyles("sliderbox", "transform"))
+                      ) {
+                        sliderbox_x = Math.abs(
+                          getStyles("sliderbox", "transform")
+                        );
+                      }
+
+                      if (
+                        sliderbox_x + x >
+                        this.state.sliderbox_width - 2 * x
+                      ) {
+                        sliderbox_x = 0 - (this.state.sliderbox_width - 2 * x);
+                      } else {
+                        sliderbox_x = sliderbox_x + x;
+                      }
+
+                      let thumb_x =
+                        (sliderbox_x * this.state.thumbbox_width) /
+                        this.state.sliderbox_width;
+
+                      this.setState({
+                        sliderbox_off_x: Math.abs(sliderbox_x),
+                        thumb_off_x: thumb_x,
+                      });
                     }}
                   >
                     <SkipNext />
                   </div>
                   <section
-                    style={{ height: "100%", position: "absolute" }}
+                    style={{
+                      height: "100%",
+                      position: "absolute",
+                      width: this.state.sliderbox_width + "px",
+                      transform:
+                        "translate(-" + this.state.sliderbox_off_x + "px)",
+                    }}
                     id="sliderbox"
                   >
                     <div className={`${styles.slider} ${styles.clearfix}`}>
@@ -847,9 +978,9 @@ export default class VideoPage extends Component {
                         value={this.state.the_current.time || 0}
                         parent={this}
                         length={
-                          this.state.the_current
-                            ? this.state.the_current.video_len
-                            : 0
+                          (this.state.video_data &&
+                            this.state.video_data.video_len) ||
+                          100
                         }
                       />
                     </div>
@@ -858,6 +989,17 @@ export default class VideoPage extends Component {
                     <div
                       className={styles.videoImage}
                       id="image-box"
+                      style={{
+                        backgroundImage: this.state.video_data.bg_str
+                          ? this.state.video_data.bg_str
+                          : "",
+                        backgroundPosition: this.state.video_data.img_pos
+                          ? this.state.video_data.img_pos
+                          : "",
+                        backgroundSize: this.state.video_data.bg_w
+                          ? this.state.video_data.bg_w + "px 100%"
+                          : "",
+                      }}
                       onMouseOver={(e) => {
                         let _obj = getObj("new-menu");
 
@@ -886,15 +1028,19 @@ export default class VideoPage extends Component {
                   </section>
                 </main>
 
-                <footer className={styles.elFooter} style={{ height: "24px" }}>
+                <footer className={styles.elFooter} style={{ height: "14px" }}>
                   <div className={styles.bottomRight}>
                     <div className={styles.scroller} id="thumbbox">
                       <div
                         className={styles.scrollThumb}
                         id="thumb"
+                        style={{
+                          transform:
+                            "translate(" + this.state.thumb_off_x + "px)",
+                        }}
                         onMouseDown={(evt) => {
-                          // evt.stopPropagation();
-                          // evt.preventDefault();
+                          evt.stopPropagation();
+                          evt.preventDefault();
                           // getObj('sliderbox').style.width=parseFloat( getStyles('mark','width').split('p'))*this.state.scaleX+'px';
                           // console.log(getStyles('mark','width').split('p'))
                           //  getObj('sliderbox').style.width=getObj('sliderbox').scrollWidth+'px';
@@ -911,6 +1057,8 @@ export default class VideoPage extends Component {
                             getPage(evt).pageX -
                             getStyles("thumb", "transform");
                           document.onmousemove = function(e) {
+                            e.stopPropagation();
+                            e.preventDefault();
                             let barX = getPage(e).pageX - x;
 
                             barX = barX < 0 ? 0 : barX;
@@ -937,120 +1085,18 @@ export default class VideoPage extends Component {
                             getObj("sliderbox").style.transform =
                               "translateX(-" + contentX + "px)";
                           };
-                          document.onmouseup = function() {
+                          document.onmouseup = function(ev) {
+                            ev.stopPropagation();
+                            ev.preventDefault();
                             document.onmousemove = null;
                           };
                         }}
                       ></div>
                     </div>
-                    <div className={styles.perBtns}>
-                      <Grid container>
-                        <Grid
-                          item
-                          style={{
-                            overflow: "hidden",
-                            width: "20px",
-                            height: "16px",
-                            margin: "0 5px",
-                            transform: "translate(-3px,8px)",
-                          }}
-                        >
-                          <PhotoSizeSelectActual
-                            style={{
-                              color: "#25262c",
-                              backgroundColor: "white",
-                              transform: "translate(-7px, -3px) scale(1.2)",
-                            }}
-                          />
-                        </Grid>
-                        <Grid
-                          item
-                          xs
-                          style={{
-                            transform: "translate(0px, 4px)",
-                            width: "calc(100% - 54px)",
-                          }}
-                        >
-                          <Slider
-                            value={_this.state.scaleX}
-                            step={0.01}
-                            min={1}
-                            max={3}
-                            onChange={(event, value) => {
-                              getObj("mark").style.left =
-                                (getStyles("mark", "width").split("p")[0] *
-                                  (value - 1)) /
-                                  2 +
-                                "px";
-                              getObj("mark").style.transform =
-                                "scaleX(" + value + ")";
-
-                              // "scaleX(" + value + ") ";
-                              // translateX("+getStyles('mark','width').split('p')[0]*(value-1)/4.925+'px)
-
-                              getObj("image-box").style.transform =
-                                "scale(" + value + ")";
-                              getObj("image-box").style.left =
-                                (getStyles("mark", "width").split("p")[0] *
-                                  (value - 1)) /
-                                  2 +
-                                "px";
-                              _this.setState({
-                                scaleX: value,
-                              });
-                            }}
-                          />
-                        </Grid>
-
-                        <Grid
-                          item
-                          style={{
-                            overflow: "hidden",
-                            margin: "0 5px",
-                            transform: "translate(0px, -2px)",
-                          }}
-                        >
-                          <PhotoSizeSelectActual
-                            style={{
-                              color: "#25262c",
-                              backgroundColor: "white",
-                              transform: "translate(0px, 5px) scale(2)",
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </div>
                   </div>
                 </footer>
-
-                {/*
-                
-                  <div className={styles.videoImg}>图片</div>
-                  <div className={styles.videoImage}>
-                    <Image />
-                  </div>
-                    */}
               </section>
             </main>
-
-            {/*<header className={styles.elHeader}>
-              
-            </header>
-
-            <main className={styles.elMain}>
-              <section className={styles.elContainer}>
-                <aside className={styles.elAside}>
-                  <BottomAside />
-                </aside>
-
-                <main className={styles.elMain}>
-                 
-                </main>
-              </section>
-            </main>
-            <footer className={styles.elFooter}>
-              
-                  </footer>*/}
           </section>
         </footer>
       </div>
