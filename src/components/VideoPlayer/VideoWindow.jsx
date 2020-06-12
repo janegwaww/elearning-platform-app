@@ -80,6 +80,7 @@ class VideoWindow extends Component {
             default: true
           }
         ]}
+        poster={`${remotePath(info.imagePath)}`}
       />
     ) : null;
   }
