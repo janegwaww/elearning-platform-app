@@ -90,3 +90,6 @@ export const getSeriesInfo = pipeThen(
   errorMessageNotice,
   apisSearch.getSeriesDetails
 );
+
+// 获取频道列表栏
+export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);

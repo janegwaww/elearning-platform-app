@@ -171,7 +171,8 @@ export const searchPartApis = (token = "") => {
     ["view_file"],
     ["add_subscription", "latest_subscription"],
     ["get_author_information"],
-    ["get_series_details"]
+    ["get_series_details"],
+    ["get_category"]
   ];
   const getParam = [
     "comment",
@@ -180,7 +181,8 @@ export const searchPartApis = (token = "") => {
     "document",
     "subscription",
     "user",
-    "series"
+    "series",
+    "category"
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
