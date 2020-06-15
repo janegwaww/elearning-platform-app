@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Box from "@material-ui/core/Box";
+import { withSnackbar } from "notistack";
 import HomeTab from "./HomeTab";
 import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
@@ -9,50 +12,73 @@ class Home extends Component {
     super(props);
     this.state = {
       hotVideos: [],
-      recommdVideos: [],
-      loading2: true,
-      loading3: true
+      loading: true,
+      circle: false,
+      page: 1
     };
   }
 
-  componentDidMount() {
-    this.fetchHotVideo();
-    /* this.fetchRecommdVideos(); */
+  isBottom(el) {
+    return Math.floor(el.getBoundingClientRect().bottom) <= window.innerHeight;
   }
 
-  fetchHotVideo = () => {
-    getHotVideos({ max_size: 16, page: 1 }).then(data =>
-      this.setState({ hotVideos: data, loading2: false })
-    );
+  trackScrolling = e => {
+    const wrappedElement = document.getElementById("page-footer");
+    const { hotVideos, loading, page } = this.state;
+    if (this.isBottom(wrappedElement)) {
+      this.setState({ circle: true });
+      setTimeout(() => {
+        this.setState({ circle: false });
+        hotVideos.length <= 1000 && !loading && this.fetchHotVideo(page);
+      }, 1500);
+    }
   };
 
-  fetchRecommdVideos = () => {
-    // 暂时没有接口
-    /* getRecommendVideos({}).then(data =>
-     *   this.setState({ recommdVideos: data, loading3: false })
-     * ); */
+  componentDidMount() {
+    this.fetchHotVideo(1);
+    document.addEventListener("scroll", this.trackScrolling);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.trackScrolling);
+  }
+
+  fetchHotVideo = (page = 1) => {
+    this.setState({ loading: true });
+    getHotVideos({ max_size: 16, page }).then(data => {
+      if (data.length > 0) {
+        this.setState(prev => ({
+          hotVideos: prev.hotVideos.concat(data),
+          page: prev.page + 1
+        }));
+      } else {
+        this.props.enqueueSnackbar("没有更多数据了", { variant: "info" });
+      }
+      this.setState({ loading: false });
+    });
   };
 
   render() {
-    const {
-      hotVideos,
-      loading2,
-      loading3
-      /* recommdVideos */
-    } = this.state;
+    const { hotVideos, loading, circle } = this.state;
 
     return (
       <Fragment>
         <ChannelBar index="000" />
         <br />
         <div style={{ minHeight: "90vh" }}>
-          <GridCards loading={loading2} itemCount={16} items={hotVideos} />
+          <GridCards
+            loading={loading}
+            itemCount={hotVideos.length}
+            items={hotVideos}
+          />
         </div>
         <br />
-        <br />
+        <Box display="flex" justifyContent="center" p={1}>
+          {circle ? <CircularProgress color="secondary" /> : null}
+        </Box>
       </Fragment>
     );
   }
 }
 
-export default Home;
+export default withSnackbar(Home);

@@ -43,6 +43,7 @@
     "moment": "^2.24.0",
     "netlify-cms-app": "^2.11.13",
     "node-sass": "^4.13.1",
+    "notistack": "^0.9.17",
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.0",
