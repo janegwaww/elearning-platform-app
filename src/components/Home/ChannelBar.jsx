@@ -95,7 +95,7 @@ ChannelBar.defaultProps = {
     },
     {
       name: "金融",
-      index: "economics",
+      index: "finance",
       iconImage: "../icons/slices/slice7.svg",
       actionIconImage: "../icons/slices/slice7_action.svg"
     },

@@ -9,44 +9,37 @@ class Home extends Component {
     super(props);
     this.state = {
       hotVideos: [],
-      recommdVideos: [],
-      loading2: true,
-      loading3: true
+      loading: true
     };
   }
 
   componentDidMount() {
     this.fetchHotVideo();
-    /* this.fetchRecommdVideos(); */
   }
 
   fetchHotVideo = () => {
+    this.setState({ loading: true });
     getHotVideos({ max_size: 16, page: 1 }).then(data =>
-      this.setState({ hotVideos: data, loading2: false })
+      this.setState({
+        hotVideos: data,
+        loading: false
+      })
     );
   };
 
-  fetchRecommdVideos = () => {
-    // 暂时没有接口
-    /* getRecommendVideos({}).then(data =>
-     *   this.setState({ recommdVideos: data, loading3: false })
-     * ); */
-  };
-
   render() {
-    const {
-      hotVideos,
-      loading2,
-      loading3
-      /* recommdVideos */
-    } = this.state;
+    const { hotVideos, loading } = this.state;
 
     return (
       <Fragment>
         <ChannelBar index="000" />
         <br />
         <div style={{ minHeight: "90vh" }}>
-          <GridCards loading={loading2} itemCount={16} items={hotVideos} />
+          <GridCards
+            loading={loading}
+            itemCount={hotVideos.length}
+            items={hotVideos}
+          />
         </div>
         <br />
         <br />

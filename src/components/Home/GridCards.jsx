@@ -11,7 +11,6 @@ import Bull from "../Search/Bull";
 import { secondsToMouth } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
-  const imagePath = path => `http://api.haetek.com:9191/${path}`;
   const [list, setList] = useState([]);
 
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);

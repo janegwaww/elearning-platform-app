@@ -15,9 +15,7 @@ export default class MainLayout extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div id="back-to-top-anchor" style={{ height: 0, width: 0 }}>
-          scolltotop
-        </div>
+        <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
         <NavBar />
         <div className="layout-container">
           <Helmet>
