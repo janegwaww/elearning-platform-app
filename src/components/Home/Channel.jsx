@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { navigate } from "gatsby";
+/* import { navigate } from "gatsby"; */
 import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
@@ -22,7 +22,7 @@ export default function Channel() {
     if (ch) {
       fetchSubData(ch);
     } else {
-      navigate("/");
+      /* navigate("/"); */
     }
   }, [ch]);
 

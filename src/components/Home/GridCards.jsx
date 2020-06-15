@@ -8,10 +8,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Bull from "../Search/Bull";
-import { secondsToMouth } from "../../services/utils";
+import { secondsToMouth, remotePath } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
-  const imagePath = path => `http://api.haetek.com:9191/${path}`;
   const [list, setList] = useState([]);
 
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
@@ -93,7 +92,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   return (
     <Grid container wrap="wrap" spacing={2}>
-      {(loading ? Array.from(new Array(itemCount)) : list).map(
+      {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
           <Grid item xs={3} key={index}>
             <Box
@@ -116,7 +115,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   <img
                     style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
-                    src={imagePath(item.image_path)}
+                    src={remotePath(item.image_path)}
                   />
                   {isSeries(item)}
                   {duration(item)}

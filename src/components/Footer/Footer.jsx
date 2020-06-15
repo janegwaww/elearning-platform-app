@@ -55,7 +55,7 @@ class Footer extends Component {
     } = this.props;
 
     return (
-      <footer className="footer">
+      <footer className="footer" id="page-footer">
         <CssBaseline />
         <div className="footer-above">
           <Container fixed>
