@@ -92,7 +92,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   return (
     <Grid container wrap="wrap" spacing={2}>
-      {(loading ? Array.from(new Array(itemCount)) : list).map(
+      {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
           <Grid item xs={3} key={index}>
             <Box
