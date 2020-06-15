@@ -8,7 +8,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Bull from "../Search/Bull";
-import { secondsToMouth } from "../../services/utils";
+import { secondsToMouth, remotePath } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const [list, setList] = useState([]);
@@ -115,7 +115,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   <img
                     style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
-                    src={imagePath(item.image_path)}
+                    src={remotePath(item.image_path)}
                   />
                   {isSeries(item)}
                   {duration(item)}
