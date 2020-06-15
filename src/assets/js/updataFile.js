@@ -1,16 +1,18 @@
 import { getUser } from "../../services/auth";
 import md5 from "md5";
-import { render } from "react-dom";
+
 
 function UpdataFile(options,file) {
   this.options = options;
   this.current = 0; //当前的上传片数
   this.totalConud = 1; //上传总片数
   this.size = 0;
-  this.progress = null;
-  this.upload = null;
-  this.error = null;
-  this.onchange = null;
+  this.progress = null;//进度
+  this.upload = null;//成功
+  this.error = null;//失败
+  this.onchange = null;//监听
+  this.stop=null;//停止，暂停 未写
+  this.start=null;//续传 未写
   this.files=file||null;
 }
 UpdataFile.prototype.on = function(attribute, c_b) {
@@ -58,7 +60,7 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
       xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
     this.xhr = xhr;
-    xhr.onload = function(res) {
+    xhr.onload = function(res) {//上传成功
       if (_this.current == _this.totalConud - 1) {
         _this.onload = {
           chunks: _this.totalConud,
@@ -66,14 +68,13 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
           request: res,
           response: JSON.parse(xhr.response),
         };
-
         return;
       }
       _this.current += 1;
       _this.size = _this.current * _this.options.shardSize;
       _this.upFile(formData, filesArr);
     };
-    xhr.onerror = function(err) {
+    xhr.onerror = function(err) {//网络失败
       _this.error = {
         chunk: _this.current + 1,
         chunks: _this.totalConud,
@@ -90,11 +91,10 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
           response: _data,
           request: res,
         };
-       
       }
     };
     xhr.open("POST", this.options.url, true);
-    xhr.upload.onprogress = function(res) {
+    xhr.upload.onprogress = function(res) {//进度
       //进度
       let _size = _this.current * _this.options.shardSize + res.loaded;
       let _progress = parseInt((_size / _this.options.filesSize) * 100);

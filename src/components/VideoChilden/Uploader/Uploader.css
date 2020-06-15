@@ -45,6 +45,7 @@
 #video-test {
   white-space: nowrap;
   height: auto !important;
+  position: relative;
 }
 #video-test .test-nodes {
   display: inline-block;
@@ -53,17 +54,19 @@
   padding: 5px;
   vertical-align: top;
   overflow-x: hidden;
-  max-height: 45px;
-  overflow-y: auto;
-  position: relative;
-  padding-top: 20px;
+  /* max-height: 45px; */
+  /* overflow-y: auto; */
+ position: absolute;
+ top:50%;
+ 
+  /* padding-top: 20px; */
 }
-#video-test .test-nodes span {
+/* #video-test .test-nodes span {
   display: none;
   position: absolute;
   top: 0px;
   left: 20px;
-}
+} */
 #video-test .test-nodes:hover span {
   display: block;
 }

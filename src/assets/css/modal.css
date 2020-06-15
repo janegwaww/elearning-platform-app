@@ -8,6 +8,7 @@
     border-radius: 6px;
     max-width: 300px;
     font-size: 14px;
+    z-index: 20000;
 }
 .alert div{
     position: relative;

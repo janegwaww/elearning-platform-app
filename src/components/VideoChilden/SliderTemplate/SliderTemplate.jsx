@@ -27,26 +27,28 @@ class SliderTemplate extends React.Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-
+    console.log(nextProps)
     if(nextProps.length!=this.state.leng||this.state.total_w<=0){//视频的时长不一样时触发
-      
+    
       let frames = Math.floor(nextProps.length / 3);
+   
       let frames_num = Math.ceil(((nextProps.length % 3) / 3) * 10);
       let total_w = 110 * frames + frames_num * 11;
+      console.log(frames,frames_num,total_w)
       this.setState({
         total_w:total_w,
         leng:nextProps.length
       })
       nextProps.parent.setState({
         sliderbox_width:total_w,
-        thumbbox_width: getObj("thumbbox").clientWidth,
+        // thumbbox_width: getObj("thumbbox").clientWidth,
       })
     }
       if (nextProps.value != this.state.time) {//当前播放时间不一样时
-        let frames = Math.floor(nextProps.length / 3);
-        let frames_num = Math.ceil(((nextProps.length % 3) / 3) * 10);
-        let total_w = 110 * frames + frames_num * 11;
-        let value = Math.ceil(nextProps.value / (nextProps.length / total_w));
+        // let frames = Math.floor(nextProps.length / 3);
+        // let frames_num = Math.ceil(((nextProps.length % 3) / 3) * 10);
+        // let total_w = 110 * frames + frames_num * 11;
+        let value = Math.ceil(nextProps.value / (nextProps.length / this.state.total_w));
         this.setState({
           time: nextProps.value,
           value: value,
@@ -111,7 +113,7 @@ class SliderTemplate extends React.Component {
     );
 
     return (
-      <div className="mainedit">
+      <div className="mainedit v">
         <div
           className="mark box view-overflow"
           id="mark"
@@ -123,7 +125,7 @@ class SliderTemplate extends React.Component {
             
             // 页面的位置加页面偏移的位置就是移动的位置
             let barX =
-              getPage(e).pageX - 70 - getStyles("sliderbox", "transform");
+              getPage(e).pageX - 132 - getStyles("sliderbox", "transform");
             barX = barX < 0 ? 0 : barX;
             barX = barX > total_x ? total_x : barX;
             this.props.parent.video_live.pause(); //拖动滑块时暂停播放

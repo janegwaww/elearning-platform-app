@@ -1,1 +1,9 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1559544754315" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3622" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M928.581818 709.818182L577.163636 979.781818c-39.563636 25.6-90.763636 25.6-128 0L95.418182 709.818182C65.163636 686.545455 46.545455 651.636364 46.545455 614.4V114.036364C46.545455 51.2 97.745455 0 160.581818 0h702.836364C926.254545 0 977.454545 51.2 977.454545 114.036364v500.363636c0 37.236364-18.618182 72.145455-48.872727 95.418182z" fill="#14e2aa" p-id="3623"></path><path d="M314.181818 197.818182h93.090909v418.909091h-93.090909zM616.727273 197.818182h93.090909v418.909091h-93.090909z" fill="#FFFFFF" p-id="3624"></path></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="16px" viewBox="0 0 15 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>形状结合备份 6</title>
+    <g id="04-新建视频" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="04-拖拽视频" transform="translate(-713.000000, -739.000000)" fill="#007CFF">
+            <path d="M725,749.467 L725,748.467 L721,748.467 L721,739.001 L728,746.468441 L728,754.467 L713,754.467 L713,746.48175 L720,739.002 L720,748.467 L716,748.467 L716,749.467 L725,749.467 Z" id="形状结合备份-6" transform="translate(720.500000, 746.733500) scale(1, -1) translate(-720.500000, -746.733500) "></path>
+        </g>
+    </g>
+</svg>
