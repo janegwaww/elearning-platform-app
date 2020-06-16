@@ -132,3 +132,6 @@ export const subscribeAuth = pipeThen(
   errorMessageNotice,
   apisSearch.addSubscription
 );
+
+// 获取课件信息
+export const getVideoDocument = pipeThen(getResultData, apisSearch.viewFile);

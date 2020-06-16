@@ -13,22 +13,24 @@ import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
-import { remotePath } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     maxWidth: 300,
-    marginTop: "20px",
+    marginTop: "10px",
     backgroundColor: theme.palette.background.paper
   },
   fixedList: {
     backgroundColor: "#f2f2f5",
     borderRadius: "12px",
     width: "100%",
-    maxWidth: 360
+    maxWidth: 360,
     /* overflow: "auto", */
     /* maxHeight: 500 */
+    "& .MuiListItem-root:last-child": {
+      borderBottom: "none"
+    }
   },
   fixedListVert: {
     backgroundColor: "#fff"
@@ -89,7 +91,7 @@ function RenderRow({ item, order }) {
       >
         <Box className={classes.listItem2} width="100%">
           <div className={classes.listHeadImg}>
-            <img src={remotePath(item.image_path)} alt={item.video_title} />
+            <img src={`${item.image_path}`} alt={item.video_title} />
           </div>
           <Box>
             <Tooltip title={item.video_title} placement="top-start">
@@ -167,7 +169,7 @@ export default function VideoList({ vid, type }) {
     <div className={classes.root}>
       <div className={classes.listHead}>
         <Typography className={classes.listHead1}>
-          {listName[type]}{" "}
+          {listName[type]}
           {/* <span
                 style={{ color: "#878791", fontSize: "12px" }}
                 >{`1/${series.length}`}</span> */}

@@ -59,13 +59,13 @@ class VideoWindow extends Component {
   render() {
     const { info, loading } = this.props;
 
-    return loading || info.videoPath ? (
+    return !loading && info.videoPath ? (
       <ReactVideo
         id="kengine-video-player"
         videoId={info.videoId}
         ref={this.playerRef}
         {...this.videoJsOptions}
-        poster={`${remotePath(info.imagePath)}`}
+        poster={`${info.imagePath}`}
         sources={[
           {
             src: `${info.videoPath}`,
