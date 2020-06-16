@@ -70,7 +70,16 @@ const NewBtn2 = withStyles({
     },
   },
 })(NewBtn);
-
+let myFile = new UpdataFile(
+  {
+    headers:{key:'Authorization',
+    value:"Bearer " + (getUser().token || "")},
+    url: "http://api.haetek.com:9191/api/v1/gateway",
+    shardSize: 10 * 1024 * 1024, //一个分片大小
+    fileId: "newFile",
+  }
+  
+);
 export default class UploadVideos extends Component {
   constructor(props) {
     super(props);
@@ -106,6 +115,7 @@ export default class UploadVideos extends Component {
     }
     if (sessionStorage.getItem("file_data")) {
       let _data = JSON.parse(sessionStorage.getItem("file_data"));
+     
       this.setState({
         status: 3,
         files: _data,
@@ -181,7 +191,7 @@ export default class UploadVideos extends Component {
         }
         if (res.result_data[0] && res.result_data[0].subtitling) {
            let _data = JSON.parse(JSON.stringify(_this.state.files));
-            _data.sun_json = res.result_data[0].subtitling;
+            _data.sub_josn = res.result_data[0].subtitling;
           _this.setState({ status: 3, lang_value: "",files:_data });
           // sessionStorage.setItem('file_data',_data);
           _this.props.parent.getUpfileUrl(res.result_data[0]);
@@ -229,91 +239,102 @@ export default class UploadVideos extends Component {
                     is_drop: false,
                   });
 
-                  // var files = event.dataTransfer.files[0];
-                  // if (files.type.split("/")[1] != "mp4") {
-                  //   _this.setState({
-                  //     promp_info: {
-                  //       type: 1,
-                  //       open: true,
-                  //       msg: "暂只支持mp4格式的视频，其他类型视频暂不支持！",
-                  //       title: "温馨提示",
-                  //     },
-                  //   });
-                  //   return;
-                  // }
-                  // if (!isLoggedIn()) {
-                  //   _this.setState({
-                  //     promp_info: {
-                  //       type: 1,
-                  //       open: true,
-                  //       msg: "您还没有登录，是否跳转到登录页面",
-                  //       title: "温馨提示",
-                  //     },
-                  //   });
-                  //   return false;
-                  // }
-                  // get_data("api/v1/gateway", {
-                  //   model_name: "user",
-                  //   model_action: "is_login",
-                  //   extra_data: {},
-                  //   model_type: "",
-                  // }).then((res) => {
-                  //   if (res.err === 0 && res.errmsg == "OK") {
-                  //     _this.setState({ status: 2, fileName: files.name });
-                  //     let myFile = new UpdataFile(
-                  //       {
-                  //         pageObj: _this,
-                  //         url: "http://api.haetek.com:9191/api/v1/gateway",
-                  //         filesSize: files.size,
-                  //         shardSize: 10 * 1024 * 1024, //一个分片大小
-                  //       },
-                  //       files
-                  //     );
-                  //     myFile.init();
-                  //     myFile.on("progress", function(res) {
-                  //       //监听文件上传进程
-                  //       _this.setState({
-                  //         progress: res.size,
-                  //       });
-                  //     });
-                  //     myFile.on("onchange", function(res) {
-                  //       console.log("onchange", res);
-                  //     });
-                  //     myFile.on("onload", function(res) {
-                  //       let _data = res.response;
-                  //       if (_data.err === -1) {
-                  //         new Modal().alert(
-                  //           "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
-                  //           "error",
-                  //           5000
-                  //         );
-                  //         setTimeout(() => {
-                  //           _this.setState({ status: 1, progress: 0 });
-                  //         }, 5000);
-                  //       }
-                  //       console.log("onload", res);
-                  //     });
-                  //     myFile.on("error", function(res) {
-                  //       console.log("error", res);
-                  //     });
-                  //   } else {
-                  //     let _data = this.state.promp_info;
-                  //     localStorage.removeItem("haetekUser");
-                  //     _data.type = 3;
-                  //     _data.open = true;
-                  //     _data.msg = "登录超时，正在为你跳转登录页...";
-                  //     _this.setState({
-                  //       promp_info: _data,
-                  //     });
-                  //     setTimeout(() => {
-                  //       _data.open = false;
-                  //       _this.setState({
-                  //         promp_info: _data,
-                  //       });
-                  //       navigate(`/users/login`);
-                  //     }, 3000);
-                  //   }
-                  // });
+                  var files = event.dataTransfer.files[0];
+                  if (files.type.split("/")[1] != "mp4") {
+                    _this.setState({
+                      promp_info: {
+                        type: 1,
+                        open: true,
+                        msg: "暂只支持mp4格式的视频，其他类型视频暂不支持！",
+                        title: "温馨提示",
+                      },
+                    });
+                    return;
+                  }
+                  if (!isLoggedIn()) {
+                    _this.setState({
+                      promp_info: {
+                        type: 1,
+                        open: true,
+                        msg: "您还没有登录，是否跳转到登录页面",
+                        title: "温馨提示",
+                      },
+                    });
+                    return false;
+                  }
+                  get_data("api/v1/gateway", {
+                    model_name: "user",
+                    model_action: "is_login",
+                    extra_data: {},
+                    model_type: "",
+                  }).then((res) => {
+                    if (res.err === 0 && res.errmsg == "OK") {
+                      _this.setState({ status: 2, fileName: files.name });
+                      
+                      myFile.init(files);
+                      myFile.on("progress", function(res) {
+                        //监听文件上传进程
+                        console.log(res)
+                        _this.setState({
+                          progress: res.size,
+                        });
+                      });
+                      myFile.on("onchange", function(res) {
+                        console.log("onchange", res);
+                      });
+                      myFile.on("onload", function(res) {
+                        let _data = res.response;
+                        console.log(_data)
+                        if (_data.err === -1) {
+                          new Modal().alert(
+                            "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
+                            "error",
+                            5000
+                          );
+                          setTimeout(() => {
+                            _this.setState({ status: 1, progress: 0 });
+                          }, 5000);
+                        }
+                        if (_data.err === 0 && _data.result_data.length > 0) {
+                          new Modal().alert("上传成功", "success", 3000);
+                          _this.setState({
+                            files: _data.result_data[0],
+                            status: 3,
+                          });
+                          sessionStorage.setItem(
+                            "file_data",
+                            JSON.stringify(_data.result_data[0])
+                          );
+                          _this.props.parent.getUpfileUrl(_data.result_data[0]); //上传给父级
+                          _this.get_image(); //获取缩略图
+                        }
+                       
+                      });
+                      myFile.on("error", function(res) {
+                       
+                    _this.setState({
+                      status: 4,
+                    });
+                    new Modal().alert("上传失败,网络错误!", "error", 3000);
+                      });
+                    } else {
+                      let _data = this.state.promp_info;
+                      localStorage.removeItem("haetekUser");
+                      _data.type = 3;
+                      _data.open = true;
+                      _data.msg = "登录超时，正在为你跳转登录页...";
+                      _this.setState({
+                        promp_info: _data,
+                      });
+                      setTimeout(() => {
+                        _data.open = false;
+                        _this.setState({
+                          promp_info: _data,
+                        });
+                        navigate(`/users/login`);
+                      }, 3000);
+                    }
+                  });
                   return false;
                 }}
                 onDragEnter={(ev) => {
@@ -423,19 +444,22 @@ export default class UploadVideos extends Component {
                     status: 2,
                     fileName: e.target.files[0].name,
                   });
-                  let myFile = new UpdataFile({
-                    fileId: "newFile",
-                    url: "http://api.haetek.com:9191/api/v1/gateway",
-                    filesSize: e.target.files[0].size,
-                    shardSize: 10 * 1024 * 1024, //一个分片大小
-                  });
+                  // let myFile = new UpdataFile({
+                    
+                  //   url: "http://api.haetek.com:9191/api/v1/gateway",
+                  //   filesSize: e.target.files[0].size,
+                  //   shardSize: 10 * 1024 * 1024, //一个分片大小
+                  // });
                   myFile.init();
+                  
                   myFile.on("progress", function(res) {
+                   
                     //监听文件上传进程
                     _this.setState({
                       progress: res.size,
                     });
                   });
+                 
                   // myFile.on("onchange", function(res) {
                   //   console.log("onchange", res.response);
                   //   let _data = res.response;
@@ -599,20 +623,21 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成，请稍后..</p>
-                        
+                        <p>正在生成，请稍后..</p> 
                       </div>
                     )}
                   </div>
                 </div>
               </div>
             </section>
-            {status === 3 && !this.props.parent.state.is_edit && !files.sun_json && (
+            {status === 3 && !this.props.parent.state.is_edit && !files.sub_josn && (
               <div className="box box-center" style={{ marginTop: 100 }}>
-                <NewBtn2 disabled={status != 3}>直接发布作品</NewBtn2>
+                <NewBtn2 disabled={status != 3} onClick={()=>{
+                  navigate(`/video/uppage`);
+                }}>直接发布作品</NewBtn2>
               </div>
             )}
-            {status === 3 && this.props.parent.state.is_edit && !files.sun_json && (
+            {status === 3 && this.props.parent.state.is_edit && !files.sub_josn && (
               <div className="box box-center" style={{ marginTop: 100 }}>
                 <NewBtn2 onClick={()=>{
                   this.setState({

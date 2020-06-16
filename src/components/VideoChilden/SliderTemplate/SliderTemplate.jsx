@@ -27,27 +27,25 @@ class SliderTemplate extends React.Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+   
     if(nextProps.length!=this.state.leng||this.state.total_w<=0){//视频的时长不一样时触发
     
       let frames = Math.floor(nextProps.length / 3);
    
       let frames_num = Math.ceil(((nextProps.length % 3) / 3) * 10);
       let total_w = 110 * frames + frames_num * 11;
-      console.log(frames,frames_num,total_w)
+     
       this.setState({
         total_w:total_w,
         leng:nextProps.length
       })
       nextProps.parent.setState({
         sliderbox_width:total_w,
-        // thumbbox_width: getObj("thumbbox").clientWidth,
+        
       })
     }
       if (nextProps.value != this.state.time) {//当前播放时间不一样时
-        // let frames = Math.floor(nextProps.length / 3);
-        // let frames_num = Math.ceil(((nextProps.length % 3) / 3) * 10);
-        // let total_w = 110 * frames + frames_num * 11;
+
         let value = Math.ceil(nextProps.value / (nextProps.length / this.state.total_w));
         this.setState({
           time: nextProps.value,
@@ -56,21 +54,21 @@ class SliderTemplate extends React.Component {
       }
     return true;
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  // shouldComponentUpdate(nextProps, nextState) {
 
 
     
-    // console.log(nextProps, nextState);
-    //   console.log(getObj('mark').clientWidth)
+  //   // console.log(nextProps, nextState);
+  //   //   console.log(getObj('mark').clientWidth)
     
-    return true;
-  }
+  //   return true;
+  // }
   render() {
     let _this = this;
     let lists = [];
     let lists_min = [];
     let leng = this.state.leng || 100;
-    // let vlaue = this.state.value;
+ 
     let frames = Math.floor(leng / 3);
     let frames_num = Math.ceil(((leng % 3) / 3) * 10);
     for (let i = 0; i < frames_num; i++) {
@@ -143,7 +141,7 @@ class SliderTemplate extends React.Component {
           <div
             className="pointer"
             id="pointer"
-            style={{ left: this.state.value + "px" }}
+            style={{ left: this.state.value + 'px' }}
             onMouseDown={(e) => {
               e.stopPropagation();
               e.preventDefault();

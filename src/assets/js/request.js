@@ -26,6 +26,7 @@ export const get_data = function(url, data, method, header) {
       .catch((err) => {
         console.log(err);
         reject(err);
+        
         // new Modal().alert('网络错误','error')
       });
   });
