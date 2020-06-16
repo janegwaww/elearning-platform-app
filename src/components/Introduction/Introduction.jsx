@@ -108,25 +108,25 @@ export default function Introduction({ vid = "" }) {
           {renderMenu}
         </div>
       </div>
-      <Divider />
-      <CardContent>
-        <Collapse in={checked} collapsedHeight={60}>
+      {/* <Divider /> */}
+      {/* <CardContent>
+          <Collapse in={checked} collapsedHeight={60}>
           <Paper elevation={4} style={{ boxShadow: "none" }}>
-            <Typography variant="body2" component="p">
-              {intro.description}
-            </Typography>
+          <Typography variant="body2" component="p">
+          {intro.description}
+          </Typography>
           </Paper>
-        </Collapse>
-      </CardContent>
-      <ChipArray chips={intro.category} />
-      <CardActions>
-        <Button size="small" color="secondary" onClick={handleChange}>
+          </Collapse>
+          </CardContent>
+          <ChipArray chips={intro.category} />
+          <CardActions>
+          <Button size="small" color="secondary" onClick={handleChange}>
           <Typography variant="body2">
-            {checked ? "收起" : "查看更多"}
+          {checked ? "收起" : "查看更多"}
           </Typography>
           <ExpandIcon />
-        </Button>
-      </CardActions>
+          </Button>
+          </CardActions> */}
     </Card>
   );
 }
