@@ -65,7 +65,7 @@ class VideoWindow extends Component {
         videoId={info.videoId}
         ref={this.playerRef}
         {...this.videoJsOptions}
-        poster={`${remotePath(info.imagePath)}`}
+        poster={`${info.imagePath}`}
         sources={[
           {
             src: `${info.videoPath}`,

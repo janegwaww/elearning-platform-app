@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
-import { navigate, Link } from "gatsby";
+import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import Link from "@material-ui/core/Link";
 import Bull from "./Bull";
-import { secondsToDate, remotePath } from "../../services/utils";
+import { secondsToDate } from "../../services/utils";
 
 const imagePick = path =>
   path ? (
     <img
-      src={remotePath(path)}
+      src={`${path}`}
       style={{ height: "100%", width: "246px" }}
       alt={path}
     />
@@ -42,9 +43,11 @@ const titleItem = (pay, title, time, id) =>
     >
       {isPay(pay)}
       <Link
-        to={`/watch/?vid=${id}`}
-        state={{ vid: id }}
+        href={`/watch/?vid=${id}`}
+        color="textPrimary"
         style={{ flexGrow: 1 }}
+        target="_blank"
+        rel="noopener norefferer"
       >
         <Typography variant="h6">{title}</Typography>
       </Link>
@@ -64,9 +67,10 @@ const authTitleItem = (pay, title, time, id, uid) =>
     >
       {isPay(pay)}
       <Link
-        to={`/excellentcreator/creator/?cid=${uid}`}
-        state={{ cid: uid }}
+        href={`/excellentcreator/creator/?cid=${uid}`}
         style={{ flexGrow: 1 }}
+        target="_blank"
+        rel="noopener norefferer"
       >
         <Typography variant="h6">{title}</Typography>
       </Link>
@@ -85,9 +89,10 @@ const seriesTitleItem = (pay, title, time, id) =>
     >
       {isPay(pay)}
       <Link
-        to={`/series/?sid=${id}`}
-        state={{ sid: id }}
+        href={`/series/?sid=${id}`}
         style={{ flexGrow: 1 }}
+        target="_blank"
+        rel="noopener norefferer"
       >
         <Typography variant="h6">{title}</Typography>
       </Link>
@@ -106,9 +111,10 @@ const docTitleItem = (pay, title, time, id) =>
     >
       {isPay(pay)}
       <Link
-        to={`/document/?did=${id}`}
-        state={{ did: id }}
+        href={`/document/?did=${id}`}
         style={{ flexGrow: 1 }}
+        target="_blank"
+        rel="noopener norefferer"
       >
         <Typography variant="h6">{title}</Typography>
       </Link>
@@ -145,7 +151,11 @@ const authAvatar = headshot =>
 const userAvatar = (name, headshot, id, view, comment, like) =>
   name ? (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <Link to={`/excellentcreator/creator/?cid=${id}`} state={{ cid: id }}>
+      <Link
+        href={`/excellentcreator/creator/?cid=${id}`}
+        target="_blank"
+        rel="noopener norefferer"
+      >
         <Avatar
           src={headshot}
           alt={name}
