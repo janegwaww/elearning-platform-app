@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+/* import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+ * import ExpandLessIcon from "@material-ui/icons/ExpandLess"; */
 import {
   Card,
   CardActions,
@@ -18,10 +18,10 @@ import {
 import FileViewButton from "./FileViewButton";
 import { getVideoIntro } from "../../services/video";
 import UserFeedback from "./UserFeedback";
-import ChipArray from "./ChipArray";
+/* import ChipArray from "./ChipArray"; */
 
 export default function Introduction({ vid = "" }) {
-  const [checked, setChecked] = useState(false);
+  /* const [checked, setChecked] = useState(false); */
   const [intro, setIntro] = useState({
     likeCounts: 0,
     viewCounts: 0,
@@ -37,20 +37,22 @@ export default function Introduction({ vid = "" }) {
     });
   };
 
-  const handleChange = () => {
-    setChecked(prev => !prev);
-  };
+  /* const handleChange = () => {
+   *   setChecked(prev => !prev);
+   * }; */
 
   useEffect(() => {
-    fetchIntroduction();
+    if (vid) {
+      fetchIntroduction();
+    }
   }, [vid]);
 
-  const ExpandIcon = () =>
-    checked ? (
-      <ExpandLessIcon fontSize="small" />
-    ) : (
-      <ExpandMoreIcon fontSize="small" />
-    );
+  /* const ExpandIcon = () =>
+   *   checked ? (
+   *     <ExpandLessIcon fontSize="small" />
+   *   ) : (
+   *     <ExpandMoreIcon fontSize="small" />
+   *   ); */
 
   const handleMenuOpen = event => {
     setAnchorEl(event.currentTarget);

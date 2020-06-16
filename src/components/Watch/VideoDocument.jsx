@@ -31,7 +31,9 @@ export default function VideoDocument({ vid }) {
   };
 
   useEffect(() => {
-    fetchDoc();
+    if (vid) {
+      fetchDoc();
+    }
   }, [vid]);
 
   return (
