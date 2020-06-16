@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Pagination from "@material-ui/lab/Pagination";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import SearchCard from "./SearchCard";
 import { searchGlobal } from "../../services/home";
 
@@ -23,18 +23,21 @@ const useStyles = makeStyles(theme => ({
   searchResult: {
     minHeight: "90vh"
   },
-  pagination: {
-    justifyContent: "center",
-    backgroundColor: "transparent"
+  buttonGrounp: {
+    padding: "8px 0",
+    "& button": {
+      borderRadius: "20px",
+      padding: "4px 8px",
+      "&:not(:last-child)": {
+        marginRight: "20px"
+      }
+    },
+    "& button.action": {
+      backgroundColor: "#007cff",
+      color: "#fff"
+    }
   }
 }));
-
-const iterateItems = (arr = [], loading) => {
-  // iterate there
-  return (loading ? Array.from({ length: 12 }) : arr).map((o, i) => (
-    <SearchCard card={o} key={i} />
-  ));
-};
 
 export default function Search({ input }) {
   const classes = useStyles();
@@ -68,38 +71,70 @@ export default function Search({ input }) {
   };
 
   useEffect(() => {
-    fetchSearchResult({});
-  }, [, input, type]);
+    if (input) {
+      fetchSearchResult({});
+    }
+  }, [input, type]);
+
+  const iterateItems = (arr = [], loading) => {
+    // iterate there
+    return (loading ? Array.from({ length: 12 }) : arr).map((o, i) => (
+      <SearchCard card={o} key={i} />
+    ));
+  };
 
   return (
     <div className={classes.root}>
-      <Typography>{`${count}个${input}相关的`}</Typography>
+      <Box height={40} />
+      <Typography>
+        {`${count}个`}
+        <span style={{ color: "#007cff" }}>{input}</span>相关的
+      </Typography>
       <br />
       <Divider />
-      <ButtonGroup
-        variant="text"
-        color="secondary"
-        aria-label="text primary button group"
-      >
-        <Button onClick={() => handleTypeClick("all")}>全部</Button>
-        <Button onClick={() => handleTypeClick("video")}>单个视频</Button>
-        <Button onClick={() => handleTypeClick("series")}>系列视频</Button>
-        <Button onClick={() => handleTypeClick("user")}>用户</Button>
-        <Button onClick={() => handleTypeClick("document")}>课件</Button>
-      </ButtonGroup>
+      <Box className={classes.buttonGrounp}>
+        <Button
+          size="small"
+          className={type === "all" && "action"}
+          onClick={() => handleTypeClick("all")}
+        >
+          全部
+        </Button>
+        <Button
+          size="small"
+          className={type === "video" && "action"}
+          onClick={() => handleTypeClick("video")}
+        >
+          单个视频
+        </Button>
+        <Button
+          size="small"
+          className={type === "series" && "action"}
+          onClick={() => handleTypeClick("series")}
+        >
+          系列视频
+        </Button>
+        <Button
+          size="small"
+          className={type === "user" && "action"}
+          onClick={() => handleTypeClick("user")}
+        >
+          用户
+        </Button>
+        <Button
+          size="small"
+          className={type === "document" && "action"}
+          onClick={() => handleTypeClick("document")}
+        >
+          课件
+        </Button>
+      </Box>
       <Divider />
       <br />
       <div className={classes.searchResult}>
         {iterateItems(result, loading)}
       </div>
       <br />
-      <Pagination
-        count={Math.ceil(count / 12)}
-        variant="outlined"
-        shape="rounded"
-        classes={{ ul: classes.pagination }}
-        onChange={handlePage}
-      />
     </div>
   );
 }

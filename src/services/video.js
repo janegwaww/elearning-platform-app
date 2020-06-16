@@ -1,15 +1,13 @@
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
-import { getUser } from "./auth";
 
-const { token } = getUser();
-const apisVideo = videoApis(token);
-const apisSearch = searchPartApis(token);
+const apisVideo = videoApis();
+const apisSearch = searchPartApis();
 
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (data.err != 0) {
+  if (![0, "0"].includes(data.err)) {
     alert(data.errmsg);
   }
   return Promise.resolve(odata);
@@ -34,8 +32,9 @@ const getSubtitleFrontParam = (arr = []) =>
     wholeStr: i.whole_str
   }));
 
-const subtitleFront = ({ match_frame = [] }) =>
-  Promise.resolve(getSubtitleFrontParam(match_frame));
+const subtitleFront = ({ match_frame = [] }) => {
+  return Promise.resolve(getSubtitleFrontParam(match_frame));
+};
 
 export const subtitles = pipeThen(
   subtitleFront,
@@ -133,3 +132,6 @@ export const subscribeAuth = pipeThen(
   errorMessageNotice,
   apisSearch.addSubscription
 );
+
+// 获取课件信息
+export const getVideoDocument = pipeThen(getResultData, apisSearch.viewFile);

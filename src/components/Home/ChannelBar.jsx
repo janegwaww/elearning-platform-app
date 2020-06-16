@@ -13,7 +13,7 @@ function ChannelBar({ cates, index }) {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {cates.map(o => {
             const cn = index && index === o.index ? "slice-action" : "";
-            const href = o.index === "001" ? "/" : `/channel/?ch=${o.index}`;
+            const href = o.index === "000" ? "/" : `/channel/?ch=${o.index}`;
             return (
               <Link
                 key={o.index}
@@ -58,86 +58,86 @@ ChannelBar.defaultProps = {
   cates: [
     {
       name: "热门",
-      index: "001",
+      index: "000",
       iconImage: "../icons/slices/slice1.svg",
       actionIconImage: "../icons/slices/slice1_action.svg"
     },
     {
       name: "数学",
-      index: "002",
+      index: "maths",
       iconImage: "../icons/slices/slice2.svg",
       actionIconImage: "../icons/slices/slice2_action.svg"
     },
 
     {
       name: "人工智能",
-      index: "003",
+      index: "AI",
       iconImage: "../icons/slices/slice3.svg",
       actionIconImage: "../icons/slices/slice3_action.svg"
     },
     {
       name: "物理",
-      index: "004",
+      index: "physics",
       iconImage: "../icons/slices/slice4.svg",
       actionIconImage: "../icons/slices/slice4_action.svg"
     },
     {
       name: "历史",
-      index: "005",
+      index: "history",
       iconImage: "../icons/slices/slice5.svg",
       actionIconImage: "../icons/slices/slice5_action.svg"
     },
     {
       name: "心理学",
-      index: "006",
+      index: "psychology",
       iconImage: "../icons/slices/slice6.svg",
       actionIconImage: "../icons/slices/slice6_action.svg"
     },
     {
       name: "金融",
-      index: "007",
+      index: "finance",
       iconImage: "../icons/slices/slice7.svg",
       actionIconImage: "../icons/slices/slice7_action.svg"
     },
     {
       name: "软件工程",
-      index: "008",
+      index: "SE",
       iconImage: "../icons/slices/slice8.svg",
       actionIconImage: "../icons/slices/slice8_action.svg"
     },
     {
       name: "哲学",
-      index: "009",
+      index: "philosophy",
       iconImage: "../icons/slices/slice9.svg",
       actionIconImage: "../icons/slices/slice9_action.svg"
     },
     {
       name: "经济",
-      index: "010",
+      index: "economics",
       iconImage: "../icons/slices/slice10.svg",
       actionIconImage: "../icons/slices/slice10_action.svg"
     },
     {
       name: "艺术",
-      index: "011",
+      index: "art",
       iconImage: "../icons/slices/slice11.svg",
       actionIconImage: "../icons/slices/slice11_action.svg"
     },
     {
       name: "管理",
-      index: "012",
+      index: "management",
       iconImage: "../icons/slices/slice12.svg",
       actionIconImage: "../icons/slices/slice12_action.svg"
     },
     {
       name: "自动化",
-      index: "013",
+      index: "automation",
       iconImage: "../icons/slices/slice13.svg",
       actionIconImage: "../icons/slices/slice13_action.svg"
     },
     {
       name: "机械工业",
-      index: "014",
+      index: "mechanical_industry",
       iconImage: "../icons/slices/slice14.svg",
       actionIconImage: "../icons/slices/slice14_action.svg"
     }

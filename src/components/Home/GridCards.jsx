@@ -11,7 +11,6 @@ import Bull from "../Search/Bull";
 import { secondsToMouth } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
-  const imagePath = path => `http://api.haetek.com:9191/${path}`;
   const [list, setList] = useState([]);
 
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
@@ -54,13 +53,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const duration = ({ video_time }) =>
     video_time && (
       <Box
-        p={0.4}
         style={{
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "44%",
-          right: "2%"
+          top: "46%",
+          right: "2%",
+          padding: "0 4px"
         }}
       >
         <Typography variant="caption" color="primary">
@@ -72,13 +71,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
       <Box
-        p={0.4}
         style={{
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "44%",
-          right: "2%"
+          top: "46%",
+          right: "2%",
+          padding: "0 4px"
         }}
       >
         <Typography variant="caption" color="primary">
@@ -93,7 +92,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   return (
     <Grid container wrap="wrap" spacing={2}>
-      {(loading ? Array.from(new Array(itemCount)) : list).map(
+      {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
           <Grid item xs={3} key={index}>
             <Box
@@ -109,14 +108,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Link
                   href={handleLink(item).to}
-                  state={handleLink(item).state}
                   target="_blank"
                   rel="noopener norefferer"
                 >
                   <img
                     style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
-                    src={imagePath(item.image_path)}
+                    src={`${item.image_path}`}
                   />
                   {isSeries(item)}
                   {duration(item)}
@@ -130,7 +128,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 <Box p={2}>
                   <Link
                     href={handleLink(item).to}
-                    state={handleLink(item).state}
                     color="textPrimary"
                     target="_blank"
                     rel="noopener norefferer"
@@ -149,12 +146,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
                   <Link
                     href={`/excellentcreator/creator/?cid=${item.user_id}`}
-                    state={{ cid: item.user_id }}
+                    target="_blank"
+                    rel="noopener norefferer"
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Avatar
                         alt={item.user_name}
-                        src={item.head_shot}
+                        src={`${item.headshot}`}
                         style={{ width: 28, height: 28, margin: 8 }}
                       />
                       <Typography

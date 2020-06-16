@@ -2,9 +2,7 @@ import { authApis } from "./api";
 import { pipeThen } from "./utils";
 
 const apis = authApis();
-
 const isBrowser = () => typeof window !== "undefined";
-
 // 获取用户
 export const getUser = () =>
   isBrowser() && window.localStorage.getItem("haetekUser")

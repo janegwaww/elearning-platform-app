@@ -1,10 +1,8 @@
 import { videoApis, searchPartApis } from "./api";
-import { getUser } from "./auth";
 import { pipeThen } from "./utils";
 
-const { token } = getUser();
-const apisVideo = videoApis(token);
-const apisSearch = searchPartApis(token);
+const apisVideo = videoApis();
+const apisSearch = searchPartApis();
 
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;

@@ -9,26 +9,27 @@ class VideoPlayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoInfo: {}
+      videoInfo: {},
+      loading: false
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.vid !== prevProps.vid) {
-      this.fetchVideo(this.props.vid);
+      this.props.vid && this.fetchVideo(this.props.vid);
     }
   }
 
-  fetchVideo = vid =>
+  fetchVideo = vid => {
+    this.setState({ loading: true });
     videoPath({ video_id: vid }).then(data => {
-      this.setState({ videoInfo: data });
+      this.setState({ videoInfo: data, loading: false });
       this.props.handleVideoInfo(data.data);
     });
-
-  preventDefault = event => event.preventDefault();
+  };
 
   render() {
-    const { videoInfo } = this.state;
+    const { videoInfo, loading } = this.state;
 
     return (
       <Fragment>
@@ -36,23 +37,11 @@ class VideoPlayer extends Component {
           <Typography variant="h6" gutterBottom>
             {videoInfo && videoInfo.title}
           </Typography>
-          {/* <Typography variant="subtitle2" gutterBottom>
-              来自频道
-              {videoInfo.category &&
-              videoInfo.category.map(o => (
-              <Link
-              href="#"
-              color="secondary"
-              onClick={this.preventDefault}
-              key={o}
-              >
-              {`@${o}`}
-              </Link>
-              ))}
-              </Typography> */}
         </div>
         <VideoSearchWrap vid={this.props.vid}>
-          {timer => <VideoWindow info={videoInfo} timer={timer} />}
+          {timer => (
+            <VideoWindow info={videoInfo} timer={timer} loading={loading} />
+          )}
         </VideoSearchWrap>
       </Fragment>
     );
