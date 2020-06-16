@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
-import { remotePath } from "../../services/utils";
 
 class VideoWindow extends Component {
   constructor(props) {
@@ -74,7 +73,7 @@ class VideoWindow extends Component {
         ]}
         tracks={[
           {
-            src: `${remotePath(info.vttPath)}`,
+            src: `${info.vttPath}`,
             label: "captions on",
             kind: "captions",
             default: true
