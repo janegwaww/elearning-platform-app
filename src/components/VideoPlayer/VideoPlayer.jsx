@@ -16,7 +16,7 @@ class VideoPlayer extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.vid !== prevProps.vid) {
-      this.fetchVideo(this.props.vid);
+      this.props.vid && this.fetchVideo(this.props.vid);
     }
   }
 

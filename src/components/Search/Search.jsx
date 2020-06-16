@@ -71,7 +71,9 @@ export default function Search({ input }) {
   };
 
   useEffect(() => {
-    fetchSearchResult({});
+    if (input) {
+      fetchSearchResult({});
+    }
   }, [input, type]);
 
   const iterateItems = (arr = [], loading) => {

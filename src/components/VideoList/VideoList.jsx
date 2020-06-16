@@ -162,7 +162,9 @@ export default function VideoList({ vid, type }) {
   };
 
   useEffect(() => {
-    fetchData({});
+    if (vid) {
+      fetchData({});
+    }
   }, [vid]);
 
   return series.length === 0 ? null : (
