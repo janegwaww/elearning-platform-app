@@ -8,7 +8,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Bull from "../Search/Bull";
-import { secondsToMouth, remotePath } from "../../services/utils";
+import { secondsToMouth } from "../../services/utils";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const [list, setList] = useState([]);
@@ -108,14 +108,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Link
                   href={handleLink(item).to}
-                  state={handleLink(item).state}
                   target="_blank"
                   rel="noopener norefferer"
                 >
                   <img
                     style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
-                    src={remotePath(item.image_path)}
+                    src={`${item.image_path}`}
                   />
                   {isSeries(item)}
                   {duration(item)}
@@ -129,7 +128,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 <Box p={2}>
                   <Link
                     href={handleLink(item).to}
-                    state={handleLink(item).state}
                     color="textPrimary"
                     target="_blank"
                     rel="noopener norefferer"
@@ -148,12 +146,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
                   <Link
                     href={`/excellentcreator/creator/?cid=${item.user_id}`}
-                    state={{ cid: item.user_id }}
+                    target="_blank"
+                    rel="noopener norefferer"
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Avatar
                         alt={item.user_name}
-                        src={item.headshot}
+                        src={`${item.headshot}`}
                         style={{ width: 28, height: 28, margin: 8 }}
                       />
                       <Typography

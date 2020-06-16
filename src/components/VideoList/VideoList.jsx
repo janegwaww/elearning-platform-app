@@ -13,7 +13,6 @@ import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
-import { remotePath } from "../../services/utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -89,7 +88,7 @@ function RenderRow({ item, order }) {
       >
         <Box className={classes.listItem2} width="100%">
           <div className={classes.listHeadImg}>
-            <img src={remotePath(item.image_path)} alt={item.video_title} />
+            <img src={`${item.image_path}`} alt={item.video_title} />
           </div>
           <Box>
             <Tooltip title={item.video_title} placement="top-start">
