@@ -84,10 +84,13 @@ class VideoWindow extends Component {
     ) : (
       <Box
         height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
-        bgcolor="black"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        style={{
+          minHeight: 200,
+          backgroundColor: "black",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
       >
         <CircularProgress color="secondary" />
       </Box>
