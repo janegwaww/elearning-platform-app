@@ -73,7 +73,7 @@ class Home extends Component {
           />
         </div>
         <br />
-        <Box display="flex" justifyContent="center" p={1}>
+        <Box style={{ display: "flex", justifyContent: "center" }}>
           {circle ? <CircularProgress color="secondary" /> : null}
         </Box>
       </Fragment>

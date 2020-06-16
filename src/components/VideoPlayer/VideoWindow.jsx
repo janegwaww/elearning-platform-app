@@ -59,7 +59,7 @@ class VideoWindow extends Component {
   render() {
     const { info, loading } = this.props;
 
-    return loading || info.videoPath ? (
+    return !loading && info.videoPath ? (
       <ReactVideo
         id="kengine-video-player"
         videoId={info.videoId}
