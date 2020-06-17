@@ -52,7 +52,7 @@ export default function PrimarySearchAppBar() {
 
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
-    navigate("/search/", { state: { searchValue: value } });
+    value && navigate("/search/", { state: { searchValue: value } });
   };
 
   const menuId = "primary-search-account-menu";

@@ -9,25 +9,6 @@ class VideoWindow extends Component {
     super(props);
     this.state = {};
     this.playerRef = React.createRef(null);
-    this.videoJsOptions = {
-      controls: true,
-      preload: "auto",
-      breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900
-      },
-      responsive: true,
-      fluid: true,
-      textTrackSettings: true,
-      html5: {
-        nativeTextTracks: false
-      }
-    };
   }
 
   /* componentDidMount() {
@@ -60,10 +41,8 @@ class VideoWindow extends Component {
 
     return !loading && info.videoPath ? (
       <ReactVideo
-        id="kengine-video-player"
         videoId={info.videoId}
         ref={this.playerRef}
-        {...this.videoJsOptions}
         poster={`${info.imagePath}`}
         sources={[
           {
