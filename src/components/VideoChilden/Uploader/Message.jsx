@@ -59,39 +59,35 @@ const Message = (props) => {
                   _data.open = false;
                   props.parent.setState({ promp_info: _data });
                 } else {
-                 
-                  
+
                   get_data('/api/v1/gateway', {
                     "model_name": "video",
                     "model_action": "delete_video",
                     "extra_data": {
-                    "video_id":[ props.parent.state.files[0].video_id]
+                    "video_id":[ props.parent.state.files.video_id]
                     },
-                    
                     }).then(res=>{
-                      getObj('image-box').style.backgroundImage='';
-                      getObj('video-test').innerHTML='';
+                      
                       promp_info.open = false;
+
                       props.parent.setState({
                         status: 1,
                         progress: 0,
                         promp_info: promp_info,
-                        files: [],
-                        the_current:{}
-                      
+                        files: null,
                       });
                       if(sessionStorage.getItem('file_data')){
                         sessionStorage.removeItem('file_data');
                       }
-                      
-                      props.parent.props.parent.props.parent.setState({
-                        style:{},
-                        styles:{},
+                      props.parent.props.parent.setState({
                         video_data:{},
-                        the_current:{}
+                        the_current:{},
+                        is_edit:false,
                       })
+
+                    
                       setOpen(true)
-                      console.log(res)
+                      
                     })
                     return
                   

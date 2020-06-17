@@ -45,28 +45,57 @@
 #video-test {
   white-space: nowrap;
   height: auto !important;
+  position: relative;
 }
 #video-test .test-nodes {
   display: inline-block;
   background-color: #1b1b1d;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 5px;
   vertical-align: top;
-  overflow-x: hidden;
-  max-height: 45px;
-  overflow-y: auto;
-  position: relative;
-  padding-top: 20px;
+ position: absolute;
+ top:50%;
+ 
 }
-#video-test .test-nodes span {
+#video-test .test-nodes.active{
+  background:rgba(31,43,59,1);
+  border:1px solid rgba(0,124,255,1);
+}
+#video-test .test-nodes div{
+  display: none;
+  position: relative;
+
+
+} 
+#video-test .test-nodes div span{
+ 
+  position: absolute;
+  left: 50%;
+  bottom:0;
+  transform: translate(-50%,150%);
+  
+}
+/* #video-test .test-nodes:hover div {
+  display: block;
+  cursor: pointer;
+} */
+#video-test .test-nodes div span{
+  
+  background:#007CFF;
+  color:#fff;
+  padding:5px 20px;
+  border-radius:4px;
+  cursor: default;
+}
+/* #video-test .test-nodes span {
   display: none;
   position: absolute;
   top: 0px;
   left: 20px;
-}
-#video-test .test-nodes:hover span {
+} */
+/* #video-test .test-nodes:hover span {
   display: block;
-}
+} */
 #video-test .test-nodes p {
   white-space: nowrap;
   overflow: hidden;

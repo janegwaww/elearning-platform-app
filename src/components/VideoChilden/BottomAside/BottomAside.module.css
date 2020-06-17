@@ -1,12 +1,30 @@
  .ul li{
     width:132px;
     height: 40px;
-    border-bottom:1px solid #0C0C0D;
+   
     padding: 13px 40px;
 }
-.ul li img{
+.ul li:nth-child(1){
+  border-bottom:1px solid #0C0C0D;
+}
+.ul li:nth-child(1) img{
   width:16px;
   height: 12px;
-}
-
  
+}
+.ul li:nth-child(2){
+  margin-top: 30px;
+  height: 60px;
+}
+.ul li:nth-child(2) img{
+  height: 36px;
+  width: 52px;
+}
+.ul li:nth-child(3) {
+  margin-top: 30px;
+height: 120px;
+}
+.ul li:nth-child(3) img{
+  width:52px;
+  height: 36px;
+}

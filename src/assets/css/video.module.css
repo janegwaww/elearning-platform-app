@@ -65,9 +65,10 @@
   /* height: 60%; */
   padding:20px 0 ;
 }
-/* .el-footer.bottom {
-  height: 40%;
-} */
+/* .el-footer.bottom { 
+   overflow-y: auto;
+  overflow-x: hidden; 
+ } */
 .el-main.top,
 .el-footer.bottom {
   position: relative;
@@ -119,6 +120,7 @@
   padding-top: 20px;
   background-color: #232325 ;
   border-radius: 12px 0 0 12px;
+  
 }
 
 .top .el-main > div:first-child > div {
@@ -255,25 +257,30 @@ height: 40px;
 } 
 
 /* 编辑区 */
-.video-img,.video-image {
- 
-  height: 46px;
-  margin-top: 12px;
+.video-img
+ {
+   margin-top: 30px;
+ min-height: 120px;
+  display: flex;
+  align-items: center ;
+  background:rgba(43,44,46,1);
 }
 .video-image {
-  background-color: rgba(126, 123, 123, 1);
+  height: 60px;
+  margin-top: 31px;
+  /* background-color: rgba(126, 123, 123, 1); */
   display: flex;
   align-items: center ;
   background-repeat: no-repeat;
 }
 
-.video-image .new-menu{
+/* .video-image .new-menu{
   display: none;
 
   width:70px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-}
+} */
 .video-img .test-nodes{
   display: inline-block;
 }
@@ -282,9 +289,9 @@ height: 40px;
   overflow: hidden;
 }
 .video-test span {
-  min-width: 110px;
-  margin-right: 20px;
-   background-color: rgb(83, 83, 83); 
+  /* min-width: 110px; */
+  /* margin-right: 20px;
+   background-color: rgb(83, 83, 83);  */
 }
 .video-test p:hover ,.video-test span:hover{
   cursor: pointer;
@@ -292,10 +299,16 @@ height: 40px;
 
 .video .video-test span{
   margin: 0;
- 
+  border:1px solid rgba(0,124,255,1);
+  background:rgba(0,0,0,0.3);
+  border-radius: 4px;
+  padding:3px 5px;
 }
 .video .subtitles{
 width: 100%;
+}
+.bottom .transition{
+  background: url('../img/transition.svg') no-repeat center center;
 }
 .clearfix::after {
   content: "";
@@ -345,15 +358,20 @@ width: 100%;
 
 .btn{
   position: absolute;
-  top:50px;
-  width:30px;
+  top:40px;
+  width:18px;
   height: 30px;
   z-index: 50;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
 }
 
 .btn-prve{
-  left:0
+  left:0;
+  background-image: url('../img/prve2.svg');
 }
 .btn-next{
   right: 0;
+  background-image: url('../img/next2.svg');
 }
