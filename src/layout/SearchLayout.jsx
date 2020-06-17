@@ -31,7 +31,7 @@ export default function SearchLayout({ children, searchValue }) {
 
   const handleSearch = e => {
     const { value } = document.getElementById("search-page-input");
-    setInput(value);
+    value && setInput(value);
   };
 
   useEffect(() => {
