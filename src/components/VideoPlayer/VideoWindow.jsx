@@ -3,32 +3,12 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
-import { remotePath } from "../../services/utils";
 
 class VideoWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {};
     this.playerRef = React.createRef(null);
-    this.videoJsOptions = {
-      controls: true,
-      preload: "auto",
-      breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900
-      },
-      responsive: true,
-      fluid: true,
-      textTrackSettings: true,
-      html5: {
-        nativeTextTracks: false
-      }
-    };
   }
 
   /* componentDidMount() {
@@ -61,10 +41,8 @@ class VideoWindow extends Component {
 
     return !loading && info.videoPath ? (
       <ReactVideo
-        id="kengine-video-player"
         videoId={info.videoId}
         ref={this.playerRef}
-        {...this.videoJsOptions}
         poster={`${info.imagePath}`}
         sources={[
           {
@@ -74,7 +52,7 @@ class VideoWindow extends Component {
         ]}
         tracks={[
           {
-            src: `${remotePath(info.vttPath)}`,
+            src: `${info.vttPath}`,
             label: "captions on",
             kind: "captions",
             default: true
@@ -84,10 +62,13 @@ class VideoWindow extends Component {
     ) : (
       <Box
         height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
-        bgcolor="black"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        style={{
+          minHeight: 200,
+          backgroundColor: "black",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
       >
         <CircularProgress color="secondary" />
       </Box>
