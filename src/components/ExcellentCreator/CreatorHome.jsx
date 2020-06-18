@@ -12,6 +12,7 @@ import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import GridCards from "../Home/GridCards";
+import SearchLoading from "../Loading/SearchLoading";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
 
@@ -188,6 +189,7 @@ export default class CreatorHome extends Component {
               />
             </div>
           </Container>
+          <SearchLoading loading={loading} />
         </div>
       </Layout>
     );

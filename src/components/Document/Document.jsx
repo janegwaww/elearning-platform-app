@@ -7,6 +7,7 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
+import SearchLoading from "../Loading/SearchLoading";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 
@@ -71,11 +72,14 @@ const ExpansionPanelDetails = withStyles(theme => ({
 export default function Document({ did }) {
   const classes = useStyles();
   const [detail, setDetail] = useState({});
-  const [expanded, setExpanded] = React.useState("panel1");
+  const [expanded, setExpanded] = useState("panel1");
+  const [loading, setLoading] = useState("false");
 
   const fetchDocumentInfo = () => {
+    setLoading(true);
     getDocumentDetail({ file_id: did }).then(data => {
       setDetail(data);
+      setLoading(false);
     });
   };
 
@@ -195,6 +199,7 @@ export default function Document({ did }) {
         </Button>
       </div>
       <br />
+      <SearchLoading loading={loading} />
     </Fragment>
   );
 }
