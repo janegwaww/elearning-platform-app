@@ -260,7 +260,7 @@ const Setpage = (props) => {
               <Grid item xs={10}>
 
                 <div 
-                style = {{backgroundImage:"url(http://api.haetek.com:9191/"+newheaderurl+')'}}
+                style = {{backgroundImage:"url("+newheaderurl+')'}}
                   className={`text-center bg-not fn-color-white box box-center ${classes.usersimg}`}
                   onClick={() => {
                     setUphead(true);

@@ -38,7 +38,7 @@ const SeriesItem = (props) => {
           <img
             src={
               props.info
-                ? "http://api.haetek.com:9191/" + props.info.image_path
+                ?  props.info.image_path
                 : ""
             }
             className="all-height all-width"

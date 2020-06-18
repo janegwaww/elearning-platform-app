@@ -47,26 +47,30 @@
   height: auto !important;
   position: relative;
 }
-#video-test .test-nodes {
+#video-test .test-nodes{
   display: inline-block;
-  background-color: #1b1b1d;
-  border-radius: 4px;
-  padding: 5px;
+  
+  
   vertical-align: top;
  position: absolute;
  top:50%;
  
 }
-#video-test .test-nodes.active{
+#video-test .test-nodes>div{
+  background-color: #1b1b1d;
+  border-radius: 4px;
+  padding: 5px;
+}
+#video-test .test-nodes>div.active{
   background:rgba(31,43,59,1);
   border:1px solid rgba(0,124,255,1);
 }
-#video-test .test-nodes div{
+/* #video-test .test-nodes div{
   display: none;
   position: relative;
 
 
-} 
+}  */
 #video-test .test-nodes div span{
  
   position: absolute;

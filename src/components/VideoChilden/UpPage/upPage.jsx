@@ -431,7 +431,7 @@ export default function VideoIndex(props) {
                         className="file"
                         style={{
                           backgroundImage:
-                            "url(http://api.haetek.com:9191/" + videoImg + ")",
+                            "url(" + videoImg + ")",
                           marginRight: 10,
                         }}
                       ></div>
@@ -556,7 +556,7 @@ export default function VideoIndex(props) {
                                   className="file"
                                   style={{
                                     backgroundImage:
-                                      "url(http://api.haetek.com:9191/" +
+                                      "url(" +
                                       seriesImg +
                                       ")",
                                     marginRight: 10,

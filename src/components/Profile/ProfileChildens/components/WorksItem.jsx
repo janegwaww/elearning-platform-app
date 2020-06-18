@@ -25,7 +25,7 @@ const stop_run=(prevValue,nextValue)=>{
     <div className="zero-edges">
       <div className="all-width view-overflow">
         <img
-          src={props.info&&"http://api.haetek.com:9191/" + props.info.image_path}
+          src={props.info&& props.info.image_path}
           className="all-width"
           tyle={{ height: "164px" }}
         />

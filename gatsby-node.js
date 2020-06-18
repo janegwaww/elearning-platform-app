@@ -167,6 +167,7 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
     actions.setWebpackConfig({
       module: {
         rules: [
+         
           {
             test: /webuploader/,
             use: loaders.null(),

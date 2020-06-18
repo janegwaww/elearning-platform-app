@@ -16,19 +16,19 @@ import {
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
-import { LibraryAdd } from "@material-ui/icons";
+
 import { withStyles } from "@material-ui/core/styles";
 import { get_data } from "../../../assets/js/request";
 
-import UpdataFile from "../../../assets/js/updataFile";
 import Message from "./Message";
-
+import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import { getObj, isGoLogin } from "../../../assets/js/totls";
+import { getObj } from "../../../assets/js/totls";
 // import md5 from "md5";
 import Modal from "../../../assets/js/modal";
 import dropupload from "../../../assets/img/dropupload.svg";
+
 const NewLinearProgress = withStyles({
   root: {
     height: "10px",
@@ -70,23 +70,14 @@ const NewBtn2 = withStyles({
     },
   },
 })(NewBtn);
-let myFile = new UpdataFile(
-  {
-    headers:{key:'Authorization',
-    value:"Bearer " + (getUser().token || "")},
-    url: "http://api.haetek.com:9191/api/v1/gateway",
-    shardSize: 10 * 1024 * 1024, //一个分片大小
-    fileId: "newFile",
-  }
-  
-);
+
 export default class UploadVideos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       fileName: "",
       // fileName_chunk: "",
-      progress: 0,
+      progress: 1,
       updata_msg: null,
       status: 1, //2.正在上传，3.上传完成成功,4.上传完成失败，5.正在生成字幕
       // is_suc:false,//上传完成后，true上传成功，
@@ -102,6 +93,7 @@ export default class UploadVideos extends Component {
       lang_value: "", //语言
       lang_open: false,
     };
+    this.myFile = null;
 
     this.new_subtitles = this.new_subtitles.bind(this);
     this.query_subtitles = this.query_subtitles.bind(this);
@@ -113,9 +105,18 @@ export default class UploadVideos extends Component {
         user_info: getUser(),
       });
     }
+    this.myFile = new UpdataFile({
+      headers: {
+        key: "Authorization",
+        value: "Bearer " + (getUser().token || ""),
+      },
+      url: "http://api.haetek.com:9191/api/v1/gateway",
+      shardSize: 10 * 1024 * 1024, //一个分片大小
+      fileId: "newFile",
+    });
     if (sessionStorage.getItem("file_data")) {
       let _data = JSON.parse(sessionStorage.getItem("file_data"));
-     
+
       this.setState({
         status: 3,
         files: _data,
@@ -151,7 +152,7 @@ export default class UploadVideos extends Component {
 
   new_subtitles(str) {
     //获取新的字幕
-  
+
     let _this = this;
     let _data = {
       model_name: "video",
@@ -190,9 +191,9 @@ export default class UploadVideos extends Component {
           return;
         }
         if (res.result_data[0] && res.result_data[0].subtitling) {
-           let _data = JSON.parse(JSON.stringify(_this.state.files));
-            _data.sub_josn = res.result_data[0].subtitling;
-          _this.setState({ status: 3, lang_value: "",files:_data });
+          let _data = JSON.parse(JSON.stringify(_this.state.files));
+          _data.sub_josn = res.result_data[0].subtitling;
+          _this.setState({ status: 3, lang_value: "", files: _data });
           // sessionStorage.setItem('file_data',_data);
           _this.props.parent.getUpfileUrl(res.result_data[0]);
 
@@ -270,21 +271,32 @@ export default class UploadVideos extends Component {
                   }).then((res) => {
                     if (res.err === 0 && res.errmsg == "OK") {
                       _this.setState({ status: 2, fileName: files.name });
-                      
-                      myFile.init(files);
-                      myFile.on("progress", function(res) {
+                      console.log(this.myFile);
+                      this.myFile.init(files);
+                      this.myFile.on("progress", function(res) {
                         //监听文件上传进程
-                        console.log(res)
+                        console.log(res);
                         _this.setState({
                           progress: res.size,
                         });
                       });
-                      myFile.on("onchange", function(res) {
-                        console.log("onchange", res);
-                      });
-                      myFile.on("onload", function(res) {
+                      this.myFile.on("onchange", function(res) {
                         let _data = res.response;
-                        console.log(_data)
+                    if (_data.err === -1) {
+                      new Modal().alert(
+                        "此视频已存在，暂不支持多人同时此视频，请谅解！",
+                        "error",
+                        5000
+                      );
+                      setTimeout(() => {
+                        _this.setState({ status: 1, progress: 1 });
+                      }, 5000);
+                      _this.myFile.stop();
+                    }
+                      });
+                      this.myFile.on("onload", function(res) {
+                        let _data = res.response;
+                        console.log(_data);
                         if (_data.err === -1) {
                           new Modal().alert(
                             "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
@@ -308,14 +320,12 @@ export default class UploadVideos extends Component {
                           _this.props.parent.getUpfileUrl(_data.result_data[0]); //上传给父级
                           _this.get_image(); //获取缩略图
                         }
-                       
                       });
-                      myFile.on("error", function(res) {
-                       
-                    _this.setState({
-                      status: 4,
-                    });
-                    new Modal().alert("上传失败,网络错误!", "error", 3000);
+                      this.myFile.on("error", function(res) {
+                        _this.setState({
+                          status: 4,
+                        });
+                        new Modal().alert("上传失败,网络错误!", "error", 3000);
                       });
                     } else {
                       let _data = this.state.promp_info;
@@ -444,44 +454,44 @@ export default class UploadVideos extends Component {
                     status: 2,
                     fileName: e.target.files[0].name,
                   });
-                  // let myFile = new UpdataFile({
-                    
-                  //   url: "http://api.haetek.com:9191/api/v1/gateway",
-                  //   filesSize: e.target.files[0].size,
-                  //   shardSize: 10 * 1024 * 1024, //一个分片大小
-                  // });
-                  myFile.init();
-                  
-                  myFile.on("progress", function(res) {
-                   
+                  console.log(this.myFile);
+                  this.myFile.init();
+
+                  this.myFile.on("progress", function(res) {
                     //监听文件上传进程
+                    
                     _this.setState({
                       progress: res.size,
                     });
                   });
-                 
-                  // myFile.on("onchange", function(res) {
-                  //   console.log("onchange", res.response);
-                  //   let _data = res.response;
-                  //   if (_data.err == 0 && _data.result_data.length > 0) {
-                  //     _this.props.parent.get_url(_data.result_data[0]); //上传成功后将地址传给播放器
-                  //     _this.setState({
-                  //       files: _data.result_data,
 
-                  //     });
-                  //   }
-                  // });
-                  myFile.on("onload", function(res) {
+                  this.myFile.on("onchange", function(res) {
+                   
                     let _data = res.response;
-                    console.log("onload", _data);
                     if (_data.err === -1) {
                       new Modal().alert(
-                        "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
+                        "此视频已存在，暂不支持多人同时此视频，请谅解！",
                         "error",
                         5000
                       );
                       setTimeout(() => {
-                        _this.setState({ status: 1, progress: 0 });
+                        _this.setState({ status: 1, progress: 1 });
+                      }, 5000);
+                      _this.myFile.stop();
+                    }
+                   
+                  });
+                  this.myFile.on("onload", function(res) {
+                    let _data = res.response;
+                    console.log("onload", _data);
+                    if (_data.err === -1) {
+                      new Modal().alert(
+                        "此视频已存在，暂不支持多人同时此视频，请谅解！",
+                        "error",
+                        5000
+                      );
+                      setTimeout(() => {
+                        _this.setState({ status: 1, progress: 1 });
                       }, 5000);
                     }
                     if (_data.err === 0 && _data.result_data.length > 0) {
@@ -498,12 +508,12 @@ export default class UploadVideos extends Component {
                       _this.get_image(); //获取缩略图
                     }
                   });
-                  myFile.on("error", function(res) {
+                  this.myFile.on("error", function(res) {
                     _this.setState({
                       status: 4,
                     });
                     new Modal().alert("上传失败,网络错误!", "error", 3000);
-                    console.log("error", res.response);
+                    // console.log("error", res.response);
                   });
                 }}
               />
@@ -535,11 +545,7 @@ export default class UploadVideos extends Component {
                     width: 240,
                     borderRadius: 12,
                     border: "1px solid green",
-                    backgroundImage:
-                      files &&
-                      "url(http://api.haetek.com:9191/" +
-                        files.image_path +
-                        ")",
+                    backgroundImage: files && "url(" + files.image_path + ")",
                   }}
                 >
                   {" "}
@@ -553,20 +559,31 @@ export default class UploadVideos extends Component {
                   className="box box-between all-height"
                 >
                   <p className="text-left">{files ? files.title : fileName}</p>
-
+                  <p>
+                    <button
+                      onClick={() => {
+                        console.log(this.myFile);
+                        this.myFile.stop();
+                        this.setState({ status: 4 });
+                      }}
+                    >
+                      暂停
+                    </button>
+                  </p>
                   <div>
                     {status === 2 && (
                       <div>
                         <NewLinearProgress
                           variant="determinate"
-                          value={this.state.progress}
+                          value={this.state.progress - 1}
                         ></NewLinearProgress>
                         <div className="box box-align-center box-between">
-                          <span>{this.state.progress + "%"}</span>{" "}
+                          <span>{this.state.progress - 1 + "%"}</span>{" "}
                           <span className="fn-color-007CFF">会员加1.5M/S</span>
                         </div>
                       </div>
                     )}
+
                     {status === 3 && (
                       <div className="box box-between box-align-center">
                         {this.props.parent.state.is_edit ? (
@@ -609,10 +626,13 @@ export default class UploadVideos extends Component {
                           <span
                             className="fn-color-FE4240"
                             onClick={() => {
+                              console.log(this.myFile)
+                              this.myFile.start();
                               _this.setState({
-                                status: 1,
+                                status: 2,
                               });
                             }}
+                            
                           >
                             网络错误点击继续
                           </span>
@@ -623,29 +643,42 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成，请稍后..</p> 
+                        <p>正在生成，请稍后..</p>
                       </div>
                     )}
                   </div>
                 </div>
               </div>
             </section>
-            {status === 3 && !this.props.parent.state.is_edit && !files.sub_josn && (
-              <div className="box box-center" style={{ marginTop: 100 }}>
-                <NewBtn2 disabled={status != 3} onClick={()=>{
-                  navigate(`/video/uppage`);
-                }}>直接发布作品</NewBtn2>
-              </div>
-            )}
-            {status === 3 && this.props.parent.state.is_edit && !files.sub_josn && (
-              <div className="box box-center" style={{ marginTop: 100 }}>
-                <NewBtn2 onClick={()=>{
-                  this.setState({
-                    lang_open:true
-                  })
-                }}>智能生成语音字幕</NewBtn2>
-              </div>
-            )}
+            {status === 3 &&
+              !this.props.parent.state.is_edit &&
+              !files.sub_josn && (
+                <div className="box box-center" style={{ marginTop: 100 }}>
+                  <NewBtn2
+                    disabled={status != 3}
+                    onClick={() => {
+                      navigate(`/video/uppage`);
+                    }}
+                  >
+                    直接发布作品
+                  </NewBtn2>
+                </div>
+              )}
+            {status === 3 &&
+              this.props.parent.state.is_edit &&
+              !files.sub_josn && (
+                <div className="box box-center" style={{ marginTop: 100 }}>
+                  <NewBtn2
+                    onClick={() => {
+                      this.setState({
+                        lang_open: true,
+                      });
+                    }}
+                  >
+                    智能生成语音字幕
+                  </NewBtn2>
+                </div>
+              )}
           </div>
         ) : (
           <i></i>
@@ -684,8 +717,11 @@ export default class UploadVideos extends Component {
               variant="contained"
               color="primary"
               onClick={() => {
-                if(!this.state.lang_value){new Modal().alert("请选择视频的语言",'error',3000); return};
-                _this.setState({ lang_open: false,status:5 });
+                if (!this.state.lang_value) {
+                  new Modal().alert("请选择视频的语言", "error", 3000);
+                  return;
+                }
+                _this.setState({ lang_open: false, status: 5 });
                 _this.new_subtitles();
               }}
             >
