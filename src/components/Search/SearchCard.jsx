@@ -115,10 +115,13 @@ const docTitleItem = (pay, title, time, id) =>
       <Link
         href={`/document/?did=${id}`}
         style={{ flexGrow: 1 }}
+        color="textPrimary"
         target="_blank"
         rel="noopener norefferer"
       >
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="subtitle1" noWrap>
+          {title}
+        </Typography>
       </Link>
       {uploadTime(time)}
     </div>

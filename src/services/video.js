@@ -133,5 +133,15 @@ export const subscribeAuth = pipeThen(
   apisSearch.addSubscription
 );
 
-// 获取课件信息
-export const getVideoDocument = pipeThen(getResultData, apisSearch.viewFile);
+// 获取进阶列表
+export const getVideoDocument = pipeThen(
+  getResultData,
+  apisSearch.viewAdvanced
+);
+
+// 获取课件详情
+export const getDocumentDetail = pipeThen(
+  getResultDataFirst,
+  getResultData,
+  apisSearch.viewAdvancedInfo
+);
