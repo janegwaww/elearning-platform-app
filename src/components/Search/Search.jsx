@@ -5,6 +5,8 @@ import Divider from "@material-ui/core/Divider";
 import Pagination from "@material-ui/lab/Pagination";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import SearchCard from "./SearchCard";
 import { searchGlobal } from "../../services/home";
 
@@ -36,6 +38,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "#007cff",
       color: "#fff"
     }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: theme.palette.secondary.main
   }
 }));
 
@@ -135,6 +141,9 @@ export default function Search({ input }) {
         {iterateItems(result, loading)}
       </div>
       <br />
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
