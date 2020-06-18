@@ -26,6 +26,8 @@ export default function VideoDocument({ vid }) {
 
   const fetchDoc = () => {
     getVideoDocument({
+      max_size: 3,
+      page: 1,
       video_id: vid
     }).then(data => setFiles(data));
   };
@@ -74,7 +76,7 @@ export default function VideoDocument({ vid }) {
                       <Typography
                         variant="caption"
                         color="textSecondary"
-                      >{`${o.price}人购买`}</Typography>
+                      >{`${o.pay_counts}人购买`}</Typography>
                     </Box>
                   </Box>
                 </Link>
