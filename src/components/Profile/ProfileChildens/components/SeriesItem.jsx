@@ -21,7 +21,7 @@ const stop_run = (prevValue, nextValue) => {
 
 const SeriesItem = (props) => {
   // inx,onEvent,info,parent,series
-  // console.log(props);
+  console.log(props);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [modalMsg, setModalMsg] = React.useState({
@@ -42,8 +42,8 @@ const SeriesItem = (props) => {
       <div className="box all-height fn-size-12" style={{ maxWidth: "832px" }}>
         <div
           style={{
-            width: 257,
-            height: 164,
+            width: 240,
+            height: 135,
             marginRight: 20,
             position: "relative",
           }}
@@ -52,7 +52,6 @@ const SeriesItem = (props) => {
             src={props.info ? props.info.image_path : ""}
             className="all-height all-width"
           />
-
           <p className="profile-time fn-color-white fn-size-12">
             {!props.series && props.info
               ? props.info.video_time
@@ -66,75 +65,52 @@ const SeriesItem = (props) => {
             {props.info ? props.info.title || props.info.series_title : "标题"}
           </p>
           <p className="fn-color-878791 ">
-            {props.info ? get_date(props.info.update_time, ".", 1) : ""}
+            {props.info
+              ? get_date(
+                  props.info.update_time || props.info.upload_time,
+                  ".",
+                  1
+                )
+              : ""}
           </p>
-          {props.series ? (
-            <div>
-              <p>{props.info ? props.info.description : ""}</p>
-              <div className="fn-color-565663 profile-point">
-                <span>
-                  <Details />
-                  &nbsp;&nbsp;
-                  {props.info ? props.info.view_counts : 0}
-                </span>
-                <span>
-                  <FavoriteBorder />
-                  &nbsp;&nbsp;
-                  {(props.info && props.info.like_counts) || 0}
-                </span>
-                <span>
-                  <ChatBubbleOutlineOutlined />
-                  &nbsp;&nbsp;
-                  {(props.info && props.info.comment_counts) || 0}
-                </span>
+          <p>{props.info ? props.info.description : ""}</p>
+
+          <div>
+            {props.info && props.info.state == -1 && (
+              <div>
+                <p className="fn-color-878791 ">未通过</p>
               </div>
-            </div>
-          ) : (
-            <div>
-              {props.info && props.info.state == -1 ? (
-                <div>
-                  <p></p>
-                  <p className="fn-color-878791 ">未通过</p>
-                </div>
-              ) : (
-                <div>
-                  {props.info && props.info.state == 1 ? (
-                    <div>
-                      <p></p>
-                      <p className="fn-color-007CFF">审核中</p>
-                    </div>
-                  ) : (
-                    <div>
-                      {props.info && props.info.state >= 2 ? (
-                        <div>
-                          <p className="fn-color-878791">已通过</p>
-                          <div className="fn-color-565663 profile-point">
-                            <span>
-                              <Details />
-                              &nbsp;&nbsp;
-                              {props.info ? props.info.view_counts : 0}
-                            </span>
-                            <span>
-                              <FavoriteBorder />
-                              &nbsp;&nbsp;
-                              {(props.info && props.info.like_counts) || 0}
-                            </span>
-                            <span>
-                              <ChatBubbleOutlineOutlined />
-                              &nbsp;&nbsp;
-                              {(props.info && props.info.comment_counts) || 0}
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+            )}
+
+            {props.info && props.info.state == 1 && (
+              <div>
+                <p className="fn-color-007CFF">审核中</p>
+              </div>
+            )}
+            {props.info && props.info.state >= 2 && (
+              <div>
+                <p className="fn-color-878791">已通过</p>
+              </div>
+            )}
+          </div>
+        
+          <div className="fn-color-565663 profile-point">
+            <span>
+              <Details />
+               &nbsp;&nbsp;
+              {props.info ? props.info.view_counts : 0}
+            </span>
+            <span>
+              <FavoriteBorder />
+              &nbsp;&nbsp;
+              {(props.info && props.info.like_counts) || 0}
+            </span>
+            <span>
+              <ChatBubbleOutlineOutlined />
+              &nbsp;&nbsp;
+              {(props.info && props.info.comment_counts) || 0}
+            </span>
+          </div>
         </div>
       </div>
       <div>

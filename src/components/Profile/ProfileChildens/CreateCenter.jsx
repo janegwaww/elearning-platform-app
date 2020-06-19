@@ -6,13 +6,14 @@ import WorksItem from "./components/WorksItem";
 import Grid from "@material-ui/core/Grid";
 import Management from "./components/management";
 import { get_data, get_alldata } from "../../../assets/js/request";
+
 class CreateCenter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pagedata: null,
       page_id: props.parent.state.nowPage.childpage_id,
-      item_id:1//普通/2系列
+      item_type:'video'//普通/2系列
 
     };
     this.update_data = this.update_data.bind(this);
@@ -25,7 +26,7 @@ class CreateCenter extends React.Component {
         model_name: "video",
         model_action: "get_video",
         extra_data: {
-          type: "video", //"series"
+          type: this.state.item_type, //"series"
         },
       };
     }else{
@@ -34,9 +35,7 @@ class CreateCenter extends React.Component {
    
     get_data("api/v1/gateway", _data).then((res) => {
       console.log(res)
-      
       if (res.err == 0) {
-      
         this.setState({
           pagedata: res.result_data,
         });
@@ -61,7 +60,6 @@ class CreateCenter extends React.Component {
    
   }
   render() {
-    
     return (
       <div className="view-scroll all-height">
       {this.state.page_id===0?(
@@ -88,7 +86,7 @@ class CreateCenter extends React.Component {
                   }
                   
                 this.update_data(_data);
-                this.setState({item_id:num})
+                this.setState({item_type:num ==1?'video':num==2?'series':'draft'})
                 
                 }}
               />
@@ -96,9 +94,9 @@ class CreateCenter extends React.Component {
              {/*{this.state.item_id==1?( <div>**/}
               {
                 this.state.pagedata&&this.state.pagedata.length>0?(
-                  this.state.pagedata.map((option,inx)=>(<SeriesItem parent={this} info={option} inx={inx} key={inx} series={this.state.item_id==1?false:true} />))
+                  this.state.pagedata.map((option,inx)=>(<SeriesItem parent={this} info={option} inx={inx} key={inx} series={this.state.item_type} />))
                  
-                    ):('')}
+                    ):(<div>暂时还没有数据哦</div>)}
               
            {/* </div>):(
               <Grid container spacing={4} className="gid">
