@@ -321,7 +321,7 @@ export default function SearchCard({ card = {} }) {
     pay: obj.is_pay,
     title: obj.file_name,
     time: obj.time,
-    id: obj.document_id,
+    id: obj.file_id,
     download: obj.download_counts
   });
 

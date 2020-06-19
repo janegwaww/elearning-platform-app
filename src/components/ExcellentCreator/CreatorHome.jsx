@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     gridTemplateColumns: "66px 600px",
     gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 10px"
+    gap: "2px 20px"
   },
   subButton: {
     backgroundColor: "#fc5659",
@@ -78,12 +78,31 @@ const CreatorAvatar = ({ auth }) => {
       <Grid container>
         <Grid item xs={9}>
           <div className={classes.authAvatar}>
-            <div style={{ gridColumn: 1, gridRow: "1/5" }}>
-              <Avatar
-                src={headshot}
-                alt={user_name}
-                style={{ width: 66, height: 66 }}
-              />
+            <div
+              style={{
+                gridColumn: 1,
+                gridRow: "1/5"
+              }}
+            >
+              <div
+                style={{
+                  padding: 10,
+                  marginTop: -40,
+                  borderRadius: 50,
+                  height: 80,
+                  width: 80,
+                  backgroundColor: "#fff",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Avatar
+                  src={headshot}
+                  alt={user_name}
+                  style={{ width: 66, height: 66 }}
+                />
+              </div>
             </div>
             <Typography variant="body2">{user_name}</Typography>
             <Typography
@@ -159,7 +178,8 @@ export default class CreatorHome extends Component {
       list: [],
       loading: true,
       cid: "",
-      value: 0
+      value: 0,
+      listStack: []
     };
   }
 
@@ -172,18 +192,50 @@ export default class CreatorHome extends Component {
   }
 
   handlePage = (event, page) => {
-    this.fetchData(this.state.cid);
+    const { value } = this.state;
+    const arr = [];
+    this.state.listStack.map(o => {
+      if (value === 0) {
+        arr.push(o);
+      }
+      if (o.type === "video" && value === 1) {
+        arr.push(o);
+      }
+      if (o.type === "series" && value === 2) {
+        arr.push(o);
+      }
+    });
+    const arrfil = arr.splice((page - 1) * 16, 16);
+    this.setState({ list: arrfil });
   };
 
   fetchData = id => {
     this.setState({ loading: true });
     getCreatorInfo({ author_id: id }).then(data => {
-      this.setState({ auth: data.auth, list: data.list, loading: false });
+      this.setState({
+        auth: data.auth,
+        list: data.list.slice(0, 16),
+        loading: false,
+        listStack: data.list
+      });
     });
   };
 
   handleTabChange = (event, newValue) => {
-    this.setState({ value: newValue });
+    const arr = [];
+    this.state.listStack.map(o => {
+      if (newValue === 0) {
+        arr.push(o);
+      }
+      if (o.type === "video" && newValue === 1) {
+        arr.push(o);
+      }
+      if (o.type === "series" && newValue === 2) {
+        arr.push(o);
+      }
+    });
+    arr.slice(0, 16);
+    this.setState({ value: newValue, list: arr });
   };
 
   render() {
@@ -207,11 +259,11 @@ export default class CreatorHome extends Component {
                   <img
                     src={background}
                     height={300}
-                    width="100%"
+                    width="auto"
                     alt={background}
                   />
                 </div>
-                <div style={{ height: 158 }}>
+                <div style={{ height: 158, paddingTop: 10 }}>
                   <CreatorAvatar auth={auth} />
                 </div>
               </div>
