@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/Styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
@@ -15,29 +14,7 @@ import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
 import { getIdFromHref, secondsToDate } from "../../services/utils";
-
-const useStyles = makeStyles(theme => ({
-  buttonGroup: {
-    padding: "8px 0",
-    "& button": {
-      borderRadius: "20px",
-      padding: "4px 8px",
-      "&:not(:last-child)": {
-        marginRight: "20px"
-      }
-    },
-    "& button.action": {
-      backgroundColor: "#007cff",
-      color: "#fff"
-    }
-  },
-  inputBase: {
-    backgroundColor: "#f2f2f5",
-    borderRadius: 20,
-    paddingLeft: 20,
-    width: "calc(10% + 10px)"
-  }
-}));
+import "./SeriesStyles.sass";
 
 const headCard = ({
   image_path,
@@ -111,7 +88,6 @@ const headCard = ({
 );
 
 export default function Series() {
-  const classes = useStyles();
   const [loading, setLoading] = useState("true");
   const [series, setSeries] = useState([]);
   const [seriesStack, setSeriesStack] = useState([]);
@@ -166,7 +142,7 @@ export default function Series() {
   }, [sid]);
 
   return (
-    <div>
+    <div className="series-component">
       <br />
       <br />
       <Typography>
@@ -179,7 +155,7 @@ export default function Series() {
       <br />
 
       <Divider />
-      <Box className={classes.buttonGroup}>
+      <Box className="buttonGroup">
         <Button
           size="small"
           className={type === "all" && "action"}
@@ -203,7 +179,7 @@ export default function Series() {
         </Button>
         <InputBase
           id="series_local_search_input"
-          classes={{ root: classes.inputBase }}
+          className="inputBase"
           placeholder="页面搜索"
           type="text"
           endAdornment={

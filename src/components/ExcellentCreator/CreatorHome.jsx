@@ -2,12 +2,15 @@ import React, { Component, Fragment } from "react";
 import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
-import Pagination from "@material-ui/lab/Pagination";
+import MuiPagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
 import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
@@ -34,8 +37,27 @@ const useStyles = makeStyles(theme => ({
     padding: "4px 6px",
     borderRadius: 4,
     color: "#fff"
+  },
+  pagination: {
+    backgroundColor: "#fff"
+  },
+  pul: {
+    justifyContent: "center"
   }
 }));
+
+const Pagination = ({ num, handlePage }) => {
+  const classes = useStyles();
+  return (
+    <MuiPagination
+      count={Math.ceil(num / 16)}
+      variant="outlined"
+      shape="rounded"
+      onChange={handlePage}
+      classes={{ root: classes.pagination, ul: classes.pul }}
+    />
+  );
+};
 
 const CreatorAvatar = ({ auth }) => {
   const classes = useStyles();
@@ -78,16 +100,22 @@ const CreatorAvatar = ({ auth }) => {
         <Grid item xs={3}>
           <Typography variant="subtitle1">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>订阅</span>
-              <span>订阅者</span>
-              <span>获赞数</span>
-              <span>播放量</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>{description_counts}</span>
-              <span>{fans_counts}</span>
-              <span>{like_counts}</span>
-              <span>{view_counts}</span>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>订阅</span>
+                <span>{description_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>订阅者</span>
+                <span>{fans_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>获赞数</span>
+                <span>{like_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>播放量</span>
+                <span>{view_counts}</span>
+              </Box>
             </div>
           </Typography>
           <div
@@ -107,24 +135,44 @@ const CreatorAvatar = ({ auth }) => {
   );
 };
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+}
+
 export default class CreatorHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: {},
       list: [],
-      loading: true
+      loading: true,
+      cid: "",
+      value: 0
     };
   }
 
   componentDidMount() {
     const { cid } = getIdFromHref();
-    if (!cid) navigate("/");
-    this.fetchData(cid);
+    if (cid) {
+      this.fetchData(cid);
+      this.setState({ cid });
+    }
   }
 
   handlePage = (event, page) => {
-    this.fetchData();
+    this.fetchData(this.state.cid);
   };
 
   fetchData = id => {
@@ -134,8 +182,12 @@ export default class CreatorHome extends Component {
     });
   };
 
+  handleTabChange = (event, newValue) => {
+    this.setState({ value: newValue });
+  };
+
   render() {
-    const { auth, list, loading } = this.state;
+    const { auth, list, loading, value } = this.state;
     const { background } = auth;
 
     return (
@@ -163,30 +215,32 @@ export default class CreatorHome extends Component {
                   <CreatorAvatar auth={auth} />
                 </div>
               </div>
-              <HomeTab
-                tabs={[
-                  {
-                    label: "上传的作品",
-                    tabContent: () => (
-                      <div style={{}}>
-                        <GridCards
-                          itemCount={16}
-                          loading={loading}
-                          items={list}
-                        />
-                        <br />
-                        <Pagination
-                          count={Math.ceil(list.length / 16)}
-                          variant="outlined"
-                          shape="rounded"
-                          style={{ backgroundColor: "#fff" }}
-                          onChange={this.handlePage}
-                        />
-                      </div>
-                    )
-                  }
-                ]}
-              />
+              <br />
+
+              <div>
+                <Tabs onChange={this.handleTabChange} value={value}>
+                  <Tab label="全部" />
+                  <Tab label="视频" />
+                  <Tab label="系列" />
+                </Tabs>
+                <TabPanel value={value} index={0}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                  <Pagination num={list.length} hanlePage={this.hanlePage} />
+                </TabPanel>
+
+                <TabPanel value={value} index={1}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                  <Pagination num={list.length} handlePage={this.handlePage} />
+                </TabPanel>
+
+                <TabPanel value={value} index={2}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                  <Pagination num={list.length} hanlePage={this.handlePage} />
+                </TabPanel>
+              </div>
             </div>
           </Container>
           <SearchLoading loading={loading} />

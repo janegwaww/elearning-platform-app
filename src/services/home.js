@@ -12,7 +12,8 @@ const errorMessageNotice = (odata = {}) => {
   return Promise.resolve(odata);
 };
 
-const getResultData = ({ data = {} }) => Promise.resolve(data.result_data);
+const getResultData = ({ data = {} }) =>
+  Promise.resolve(data.result_data || []);
 
 const getFirstResultData = ([data = {}]) => Promise.resolve(data);
 
