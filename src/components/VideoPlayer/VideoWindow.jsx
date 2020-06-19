@@ -11,30 +11,12 @@ class VideoWindow extends Component {
     this.playerRef = React.createRef(null);
   }
 
-  /* componentDidMount() {
-   *   window.addEventListener("scroll", () => this.handleScroll(window.scrollY));
-   * } */
-
   componentDidUpdate(prevProps) {
     const { timer } = this.props;
     if (timer !== prevProps.timer) {
       this.playerRef.current.seekTo(timer);
     }
   }
-
-  /* componentWillUnmount() {
-   *   window.removeEventListener("scroll", () => this.handleScroll());
-   * } */
-
-  /* handleScroll(event) { */
-  /* const { enterPip, exitPip } = this.playerRef.current;
-   * if (event >= 400) {
-   *   enterPip && enterPip();
-   * }
-   * if (event < 400) {
-   *   exitPip && exitPip();
-   * } */
-  /* } */
 
   render() {
     const { info, loading } = this.props;
@@ -63,7 +45,7 @@ class VideoWindow extends Component {
       <Box
         height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
         style={{
-          minHeight: 200,
+          minHeight: 400,
           backgroundColor: "black",
           display: "flex",
           alignItems: "center",
@@ -81,7 +63,7 @@ VideoWindow.defaultProps = {
 };
 
 VideoWindow.propTypes = {
-  info: PropTypes.objectOf(PropTypes.object).isRequired,
+  info: PropTypes.object.isRequired,
   timer: PropTypes.string
 };
 
