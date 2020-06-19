@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
   },
   pul: {
     justifyContent: "center"
+  },
+  panel: {
+    minHeight: "80vh"
   }
 }));
 
@@ -156,6 +159,7 @@ const CreatorAvatar = ({ auth }) => {
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+  const classes = useStyles();
 
   return (
     <div
@@ -163,6 +167,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      className={classes.panel}
       {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
@@ -278,20 +283,19 @@ export default class CreatorHome extends Component {
                 <TabPanel value={value} index={0}>
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
-                  <Pagination num={list.length} hanlePage={this.hanlePage} />
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
-                  <Pagination num={list.length} handlePage={this.handlePage} />
                 </TabPanel>
 
                 <TabPanel value={value} index={2}>
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
-                  <Pagination num={list.length} hanlePage={this.handlePage} />
                 </TabPanel>
+                <Pagination num={list.length} hanlePage={this.handlePage} />
+                <br />
               </div>
             </div>
           </Container>

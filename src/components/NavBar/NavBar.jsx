@@ -21,6 +21,7 @@ import {
   ButtonBase
 } from "@material-ui/core";
 import { isLoggedIn, logout, getUser } from "../../services/auth";
+import logo from "../../../static/logos/Logo.png";
 import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
@@ -152,7 +153,7 @@ export default function PrimarySearchAppBar() {
         <Container fixed>
           <Toolbar>
             <IconButton onClick={() => navigate("/")}>
-              <img src="../logos/Logo.png" />
+              <img src={logo} />
             </IconButton>
             <div className={classes.menus}>
               <Link
