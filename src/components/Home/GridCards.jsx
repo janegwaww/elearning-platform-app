@@ -57,7 +57,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "46%",
+          top: "calc(160px * 0.83)",
           right: "2%",
           padding: "0 4px"
         }}
@@ -75,7 +75,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "46%",
+          top: "calc(160px * 0.83)",
           right: "2%",
           padding: "0 4px"
         }}
@@ -168,7 +168,10 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   ) : null}
 
                   <div>
-                    {(item.view_counts || item.like_counts || item.time) && (
+                    {(item.view_counts ||
+                      item.like_counts ||
+                      item.time ||
+                      item.upload_time) && (
                       <Typography variant="caption" color="textSecondary">
                         {item.view_counts} 观看
                         <Bull />

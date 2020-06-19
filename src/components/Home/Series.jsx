@@ -43,10 +43,13 @@ const headCard = ({
       />
     </div>
     <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      style={{ gridColumn: 2, gridRow: 1 }}
+      style={{
+        gridColumn: 2,
+        gridRow: 1,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      }}
     >
       <Typography>{title}</Typography>
       <Typography color="textSecondary" variant="caption">
@@ -129,7 +132,7 @@ export default function Series() {
       }
     });
     setSeries(arr);
-    setType("none");
+    setType("all");
   };
 
   useEffect(() => {
