@@ -33,18 +33,9 @@
 .shortcut-code>div{
   margin: 20px;
 }
+.shortcut-code>div svg{
+  vertical-align: middle;
+}
 .header > div > div {
   margin: 0 36px;
 }
-/* .users{
-    display: flex;
-    align-items: center;   
-} */
-
-/* .dialog-updata{
-  width:600px;
-  
-  height: calc(100% - 64px);
-  height: 500px;
-  overflow-y: auto;
-} */

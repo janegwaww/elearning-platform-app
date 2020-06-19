@@ -98,6 +98,7 @@ export default class UploadVideos extends Component {
     this.new_subtitles = this.new_subtitles.bind(this);
     this.query_subtitles = this.query_subtitles.bind(this);
     this.get_image = this.get_image.bind(this);
+    this.btn_del = this.btn_del.bind(this);
   }
   componentDidMount() {
     if (getUser().name) {
@@ -125,14 +126,19 @@ export default class UploadVideos extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.parent.state.uploadStatus === 4) {
-    //   this.setState({
-    //     status: 4,
-    //   });
-    //   nextProps.parent.props.parent.setState({
-    //     uploadStatus: 0,
-    //   });
-    // }
+    if (nextProps.is_del) {
+      this.btn_del();
+    }
+  }
+  btn_del() {
+    this.setState({
+      promp_info: {
+        type: 2,
+        open: true,
+        msg: "您将删除视频，删除后将无法恢复，是否确定要删除？",
+        title: "温馨提示",
+      },
+    });
   }
   get_image() {
     get_data("api/v1/gateway", {
@@ -186,10 +192,12 @@ export default class UploadVideos extends Component {
 
     get_data("api/v1/gateway", _data, "post")
       .then((res) => {
+        console.log(res.errmsg)
         if (res.err == 4104) {
           navigate(`users/login`);
           return;
         }
+        
         if (res.result_data[0] && res.result_data[0].subtitling) {
           let _data = JSON.parse(JSON.stringify(_this.state.files));
           _data.sub_josn = res.result_data[0].subtitling;
@@ -205,6 +213,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
+        this.setState({status:3})
+        new Modal().alert('生成字幕失败','error',4000)
         console.log(err);
       });
   }
@@ -255,7 +265,7 @@ export default class UploadVideos extends Component {
                   if (!isLoggedIn()) {
                     _this.setState({
                       promp_info: {
-                        type: 1,
+                        type: 3,
                         open: true,
                         msg: "您还没有登录，是否跳转到登录页面",
                         title: "温馨提示",
@@ -271,32 +281,32 @@ export default class UploadVideos extends Component {
                   }).then((res) => {
                     if (res.err === 0 && res.errmsg == "OK") {
                       _this.setState({ status: 2, fileName: files.name });
-                      console.log(this.myFile);
+
                       this.myFile.init(files);
                       this.myFile.on("progress", function(res) {
                         //监听文件上传进程
-                        console.log(res);
+
                         _this.setState({
                           progress: res.size,
                         });
                       });
                       this.myFile.on("onchange", function(res) {
                         let _data = res.response;
-                    if (_data.err === -1) {
-                      new Modal().alert(
-                        "此视频已存在，暂不支持多人同时此视频，请谅解！",
-                        "error",
-                        5000
-                      );
-                      setTimeout(() => {
-                        _this.setState({ status: 1, progress: 1 });
-                      }, 5000);
-                      _this.myFile.stop();
-                    }
+                        if (_data.err === -1) {
+                          new Modal().alert(
+                            "此视频已存在，暂不支持多人同时此视频，请谅解！",
+                            "error",
+                            5000
+                          );
+                          setTimeout(() => {
+                            _this.setState({ status: 1, progress: 1 });
+                          }, 5000);
+                          _this.myFile.stop();
+                        }
                       });
                       this.myFile.on("onload", function(res) {
                         let _data = res.response;
-                        console.log(_data);
+
                         if (_data.err === -1) {
                           new Modal().alert(
                             "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
@@ -371,7 +381,7 @@ export default class UploadVideos extends Component {
                   if (!isLoggedIn()) {
                     _this.setState({
                       promp_info: {
-                        type: 1,
+                        type: 3,
                         open: true,
                         msg: "您还没有登录，是否跳转到登录页面",
                         title: "温馨提示",
@@ -454,19 +464,18 @@ export default class UploadVideos extends Component {
                     status: 2,
                     fileName: e.target.files[0].name,
                   });
-                  console.log(this.myFile);
+                  
                   this.myFile.init();
 
                   this.myFile.on("progress", function(res) {
                     //监听文件上传进程
-                    
+
                     _this.setState({
                       progress: res.size,
                     });
                   });
 
                   this.myFile.on("onchange", function(res) {
-                   
                     let _data = res.response;
                     if (_data.err === -1) {
                       new Modal().alert(
@@ -479,11 +488,10 @@ export default class UploadVideos extends Component {
                       }, 5000);
                       _this.myFile.stop();
                     }
-                   
                   });
                   this.myFile.on("onload", function(res) {
                     let _data = res.response;
-                    console.log("onload", _data);
+
                     if (_data.err === -1) {
                       new Modal().alert(
                         "此视频已存在，暂不支持多人同时此视频，请谅解！",
@@ -524,10 +532,22 @@ export default class UploadVideos extends Component {
         )}
         {status >= 2 ? (
           <div style={{ paddingTop: 20 }} className="all-width">
-            <section className="all-width">
+            <section
+              className={`all-width ${this.props.parent.state.is_select?'active':''}`}
+              onClick={() => {
+              
+                this.props.parent.setState({
+                  is_select:!this.props.parent.state.is_select
+                })
+
+              }}
+            >
               <div
                 className="box all-width "
-                style={{ height: 135 }}
+                style={{
+                  height:
+                    (((240 / 1920) * this.props.parent.state.t_w) / 16) * 9,
+                }}
                 draggable={this.props.parent.state.is_edit ? false : true}
                 onDrag={(event) => {
                   event.preventDefault();
@@ -542,7 +562,8 @@ export default class UploadVideos extends Component {
                 <div
                   className="all-height view-overflow bg-image"
                   style={{
-                    width: 240,
+                    width: (240 / 1920) * this.props.parent.state.t_w,
+
                     borderRadius: 12,
                     border: "1px solid green",
                     backgroundImage: files && "url(" + files.image_path + ")",
@@ -552,24 +573,17 @@ export default class UploadVideos extends Component {
                 </div>
                 <div
                   style={{
-                    width: "calc(100% - 240px)",
+                    width:
+                      "calc(100% - " +
+                      (240 / 1920) * this.props.parent.state.t_w +
+                      "px)",
                     marginLeft: 20,
                     flexDirection: "column",
                   }}
                   className="box box-between all-height"
                 >
                   <p className="text-left">{files ? files.title : fileName}</p>
-                  <p>
-                    <button
-                      onClick={() => {
-                        console.log(this.myFile);
-                        this.myFile.stop();
-                        this.setState({ status: 4 });
-                      }}
-                    >
-                      暂停
-                    </button>
-                  </p>
+
                   <div>
                     {status === 2 && (
                       <div>
@@ -590,7 +604,10 @@ export default class UploadVideos extends Component {
                           <p>约{Math.round(files.video_size)}M</p>
                         ) : (
                           <NewBtn
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              // this.get_image();
                               this.props.parent.show_edit();
                             }}
                           >
@@ -598,16 +615,10 @@ export default class UploadVideos extends Component {
                           </NewBtn>
                         )}
                         <NewBtn
-                          onClick={() => {
-                            _this.setState({
-                              promp_info: {
-                                type: 2,
-                                open: true,
-                                msg:
-                                  "您将删除视频，删除后将无法恢复，是否确定要删除？",
-                                title: "温馨提示",
-                              },
-                            });
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            this.btn_del();
                           }}
                         >
                           删除
@@ -622,17 +633,16 @@ export default class UploadVideos extends Component {
                           value={this.state.progress}
                         ></ErrorLinearProgress>
                         <div className="box box-align-center box-between">
-                          <span>{this.state.progress + "%"}</span>
+                          <span>{this.state.progress - 1 + "%"}</span>
                           <span
                             className="fn-color-FE4240"
                             onClick={() => {
-                              console.log(this.myFile)
+                              console.log(this.myFile);
                               this.myFile.start();
                               _this.setState({
                                 status: 2,
                               });
                             }}
-                            
                           >
                             网络错误点击继续
                           </span>

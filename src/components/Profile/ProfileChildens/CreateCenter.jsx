@@ -32,7 +32,8 @@ class CreateCenter extends React.Component {
       _data=data;
     };
    
-    get_data("/api/v1/gateway", _data).then((res) => {
+    get_data("api/v1/gateway", _data).then((res) => {
+      console.log(res)
       
       if (res.err == 0) {
       

@@ -59,6 +59,9 @@
 #video-test .test-nodes>div{
   background-color: #1b1b1d;
   border-radius: 4px;
+  /* padding: 5px; */
+}
+#video-test .test-nodes>div p{
   padding: 5px;
 }
 #video-test .test-nodes>div.active{
@@ -71,6 +74,10 @@
 
 
 }  */
+.active{
+  background:rgba(31,43,59,1);
+  border:1px solid rgba(0,124,255,1);
+}
 #video-test .test-nodes div span{
  
   position: absolute;

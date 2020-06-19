@@ -163,6 +163,9 @@ const userStyles = makeStyles((them) => ({
 
       "& span": {
         position: "relative",
+        '&:hover span':{
+          display:'block'
+        },
 
         "& span": {
           display: "none",
@@ -212,7 +215,7 @@ export default function VideoIndex(props) {
   });
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  const [videosign, setVideosign] = React.useState([]); //视频标签
+  // const [videosign, setVideosign] = React.useState([]); //视频标签
 
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
@@ -223,7 +226,7 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState([]); //附件
 
-  const [signs, setSigns] = useState([]); //标签
+  // const [signs, setSigns] = useState([]); //标签
   const [currencies, setCurrencies] = useState([]); //系列
   const snackbarClose = () => {
     //关闭提示
@@ -251,6 +254,7 @@ export default function VideoIndex(props) {
       //   model_action: "get_category",
       // },
     ]).then((res) => {
+      console.log(res)
       setCurrencies(res[0].result_data);
 
       // if (
@@ -594,6 +598,7 @@ export default function VideoIndex(props) {
                             variant="contained"
                             onClick={() => {
                               let _data = currencies;
+
                               if (!newseries) {
                                 setOpenSnackbar({
                                   open: true,
@@ -624,18 +629,20 @@ export default function VideoIndex(props) {
                               //   });
                               //   return;
                               // }
-                              if (_data[_data.length - 1].type) {
-                                _data[_data.length - 1] = {
-                                  title: newseries,
-                                  label: newseries,
-                                  type: "new",
-                                };
-                              } else {
+                              if(_data.length===0||!_data[_data.length-1].type){
+
                                 _data.push({
                                   title: newseries,
                                   label: newseries,
                                   type: "new",
                                 });
+
+                              }else{
+                                _data[_data.length - 1] = {
+                                  title: newseries,
+                                  label: newseries,
+                                  type: "new",
+                                };
                               }
 
                               setCurrencies(_data);
@@ -655,9 +662,9 @@ export default function VideoIndex(props) {
               <div className="box item">
                 <label>上传附件：</label>
                 <div>
-                  <p style={{ marginBottom: 20 }}>
+                  {/*<p style={{ marginBottom: 20 }}>
                     视频相对应的的课件（以.pdf结尾的文件）
-                  </p>
+                          </p>*/}
 
                   {adjunct && adjunct.length > 0
                     ? adjunct.map((option, inx) => (
@@ -731,7 +738,7 @@ export default function VideoIndex(props) {
                 </div>
               </div>
 
-              <div className="box-center">
+              <div className= " box box-center">
                 <Button
                   className={`${classes.btn} ${classes.btn1}`}
                   onClick={() => {
@@ -775,7 +782,7 @@ export default function VideoIndex(props) {
                         .video_id,
                       title: videoTitle,
                       description: videodescription,
-                      category: videosign,
+                      // category: videosign,
                     };
                     if (videoImg) {
                       _data.image_path = videoImg;
@@ -842,7 +849,7 @@ export default function VideoIndex(props) {
                   onClick={() => {
                     setVideoTitle("");
                     setVideodescription("");
-                    setVideosign([]);
+                    // setVideosign([]);
                     // setVideoImg("");
                     setCurrency("");
                     setNewseries("");

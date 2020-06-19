@@ -17,8 +17,8 @@ import { getUser } from "../../../services/auth";
 import Modal from "../../../assets/js/modal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
-// import Logo from '../../../assets/img/Logo.png';
-// import { Home, Subtitles } from "@material-ui/icons";
+
+import { ArrowBack, ArrowForward } from "@material-ui/icons";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -86,57 +86,15 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
-      // "Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,  0,100,100, 0, 0,1,1,0,2,10,10,10,0";
-      //Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-
       let _video_data = _this.props.parent.state.video_data;
-      // if (JSON.stringify(_video_data) === "{}") {
-      //   return;
-      // }
-
-      // let _styles = _this.props.parent.state.style;
-      // if (JSON.stringify(_styles) == "{}") {
-      //   return;
-      // }
-      // let bold = _styles.bold,
-      //   i = _styles._i,
-      //   u = _styles._u,
-      //   fontName = _styles.family,
-      //   color = _styles.color ? "&H" + _styles.color.substring(1) : "",
-      //   size = parseInt(_styles.size),
-      //   spacing = _styles.spacing,
-      //   name = "MD",
-      //   line = _styles.line,
-      //   alignment = _styles.align > 3 ? 0 : _styles.align;
-      // console.log(_styles);
-      // let style = 'Style:Default,Arial,'+_styles.fontSize+',&H'+_styles.color.substring(1)+',&Hffffff,&H0,&H0,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,0\n'
-      // let style =
-      //   "Style:" +
-      //   name +
-      //   "," +
-      //   fontName +
-      //   "," +
-      //   size +
-      //   "," +
-      //   color +
-      //   ",&Hffffff,&H0,&H0," +
-      //   bold +
-      //   "," +
-      //   i +
-      //   "," +
-      //   u +
-      //   ",0,100,100," +
-      //   spacing +
-      //   ",0,1,1,0," +
-      //   alignment +
-      //   ",10,10,10,0";
+      
       let r_data = {
         model_name: "video",
         model_action: "update_subtitle",
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-          // style: style,//暂时屏蔽
+         
           lang: "en",
         },
         model_type: "",
@@ -149,7 +107,7 @@ export default class Header extends Component {
         }
       });
     };
-    // console.log(this.props);
+
     return (
       <header className={`box box-align-center ${styles.header}`}>
         <div className={`box box-align-center ${styles.nav}`}>
@@ -180,6 +138,10 @@ export default class Header extends Component {
               </div>
               <div className="box box-align-center box-between ">
                 <div>回退/ 前进</div>
+                <div><ArrowBack />/<ArrowForward /></div>
+              </div>
+              <div className="box box-align-center box-between ">
+                <div>跳转到开始</div>
                 <div>Home</div>
               </div>
               <div className="box box-align-center box-between ">

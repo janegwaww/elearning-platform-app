@@ -47,6 +47,9 @@ class SliderTemplate extends React.Component {
       if (nextProps.value != this.state.time) {//当前播放时间不一样时
 
         let value = Math.ceil(nextProps.value / (nextProps.length / this.state.total_w));
+        if(value>this.state.total_w){
+          value=this.state.total_w;
+        }
         this.setState({
           time: nextProps.value,
           value: value,

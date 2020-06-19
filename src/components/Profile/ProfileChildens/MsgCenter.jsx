@@ -16,7 +16,7 @@ class MsgCenter extends React.Component {
   }
 
   update_data(data) {
-    get_data("/api/v1/gateway", data).then((res) => {
+    get_data("api/v1/gateway", data).then((res) => {
       console.log(res.result_data);
       if (res.err == 0) {
         this.setState({
@@ -59,7 +59,7 @@ class MsgCenter extends React.Component {
   render() {
     return (
       
-      <section className="all-height viev-scroll">
+      <section className="all-height viev-scroll profile-padding">
         
         <div className="box box-align-center box-between">
           <nav>
