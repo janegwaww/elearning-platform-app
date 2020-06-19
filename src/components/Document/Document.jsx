@@ -55,7 +55,7 @@ export default function Document({ did }) {
               {detail.description}
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
-              文件格式
+              文件格式：
               {detail.file_type}
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
@@ -127,7 +127,7 @@ export default function Document({ did }) {
         <Box>
           <Title name="课件预览" />
           <br />
-          <Box height={600} bgcolor="#d8d8d8" p={1}>
+          <Box style={{ height: 600, backgroundColor: "#d8d8d8", padding: 8 }}>
             <img src={`${detail.preview_path}`} width={400} />
           </Box>
         </Box>

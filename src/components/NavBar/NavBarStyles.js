@@ -93,7 +93,9 @@ const useStyles = makeStyles(theme => ({
     display: "none",
     alignItems: "center",
     [theme.breakpoints.up("md")]: {
-      display: "flex"
+      display: "flex",
+      flexGrow: 1,
+      justifyContent: "space-evenly"
     }
   }
 }));
