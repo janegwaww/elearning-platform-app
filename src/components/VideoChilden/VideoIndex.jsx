@@ -469,9 +469,15 @@ export default class VideoPage extends Component {
     let cran_moiti = (this.state.t_w - 132) / 2;
 
     if (now_x > now_off + cran_moiti) {
-      this.setState({
-        sliderbox_off_x: now_off + (now_x - now_off - cran_moiti),
-      });
+      if( now_off + (now_x - now_off - cran_moiti)>(this.state.sliderbox_width-(this.state.t_w-132))){
+        this.setState({
+          sliderbox_off_x: this.state.sliderbox_width-(this.state.t_w-132)
+        });
+      }else{
+        this.setState({
+          sliderbox_off_x: now_off + (now_x - now_off - cran_moiti),
+        });
+      }  
     }
     if (now_x < now_off + cran_moiti) {
       if (now_off - (now_off + cran_moiti - now_x) < 0) {

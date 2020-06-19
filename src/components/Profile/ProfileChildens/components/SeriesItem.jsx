@@ -14,7 +14,7 @@ import { get_data } from "../../../../assets/js/request";
 import { ModalDialog } from "./Modal";
 import Modal from "../../../../assets/js/modal";
 // 系列横向item
-console.log(Modal);
+// console.log(Modal);
 const stop_run = (prevValue, nextValue) => {
   // return prevValue.series===nextValue.series
 };
