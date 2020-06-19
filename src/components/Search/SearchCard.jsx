@@ -243,31 +243,45 @@ const docContainer = (...fns) => ({
   id,
   uid,
   name,
-  download
+  download,
+  path
 }) => (
   <div
     style={{
+      gap: "10px 20px",
+      padding: "15px 0",
       display: "grid",
-      height: 98,
+      height: 160,
       borderTop: "1px solid #f2f2f5",
       borderBottom: "1px solid #f2f2f5",
       margin: "20px 0",
-      gridTemplateColumns: "auto",
-      gridTemplateRows: "repeat(2,1fr)"
+      gridTemplateColumns: "246px auto",
+      gridTemplateRows: "repeat(5,1fr)"
     }}
   >
-    <div style={{ gridColumn: 1, gridRow: 1 }}>
-      {fns[0](pay, title, time, id, name, download)}
-    </div>
     <div
       style={{
         gridColumn: 1,
-        gridRow: 2,
+        gridRow: "1 / 6",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      {fns[0](path)}
+    </div>
+    <div stye={{ gridColumn: 2, gridRow: 1 }}>
+      {fns[1](pay, title, time, id, name, download)}
+    </div>
+    <div
+      style={{
+        gridColumn: 2,
+        gridRow: 5,
         display: "flex",
         alignItems: "center"
       }}
     >
-      {fns[1](name, "", uid, download)}
+      {fns[2](name, "", uid, download)}
       <Typography
         variant="caption"
         color="textSecondary"
@@ -303,28 +317,13 @@ export default function SearchCard({ card = {} }) {
     fans: obj.fans_counts
   });
   const dtrans = (obj = {}) => ({
+    path: obj.image_path,
     pay: obj.is_pay,
     title: obj.file_name,
     time: obj.time,
     id: obj.document_id,
     download: obj.download_counts
   });
-
-  const handleVideoClick = id => {
-    id && navigate(`/watch/?vid=${id}`, { state: { vid: id } });
-  };
-
-  const handleAuthClick = id => {
-    id && navigate(`/creator/?cid=${id}`, { state: { cid: id } });
-  };
-
-  const handleDocumentClick = id => {
-    id && navigate(`/document/?did=${id}`, { state: { did: id } });
-  };
-
-  const handleSeriesClick = id => {
-    id && navigate(`/series/?sid=${id}`, { state: { sid: id } });
-  };
 
   const videoCard = videoContainer(
     imagePick,
@@ -350,7 +349,11 @@ export default function SearchCard({ card = {} }) {
     userAvatar
   )(vtrans(data));
 
-  const docCard = docContainer(docTitleItem, userAvatar)(dtrans(data));
+  const docCard = docContainer(
+    imagePick,
+    docTitleItem,
+    userAvatar
+  )(dtrans(data));
 
   const chosenCard = sour =>
     ({

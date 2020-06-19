@@ -144,26 +144,28 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     </Tooltip>
                   </Link>
 
-                  <Link
-                    href={`/excellentcreator/creator/?cid=${item.user_id}`}
-                    target="_blank"
-                    rel="noopener norefferer"
-                  >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Avatar
-                        alt={item.user_name}
-                        src={`${item.headshot}`}
-                        style={{ width: 28, height: 28, margin: 8 }}
-                      />
-                      <Typography
-                        display="block"
-                        variant="caption"
-                        color="textSecondary"
-                      >
-                        {item.user_name}
-                      </Typography>
-                    </div>
-                  </Link>
+                  {item.headshot ? (
+                    <Link
+                      href={`/excellentcreator/creator/?cid=${item.user_id}`}
+                      target="_blank"
+                      rel="noopener norefferer"
+                    >
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <Avatar
+                          alt={item.user_name}
+                          src={`${item.headshot}`}
+                          style={{ width: 28, height: 28, margin: 8 }}
+                        />
+                        <Typography
+                          display="block"
+                          variant="caption"
+                          color="textSecondary"
+                        >
+                          {item.user_name}
+                        </Typography>
+                      </div>
+                    </Link>
+                  ) : null}
 
                   <div>
                     {(item.view_counts || item.like_counts || item.time) && (
