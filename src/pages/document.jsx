@@ -33,7 +33,7 @@ class DocumentPage extends Component {
       <Layout>
         <div
           className="subscription-container"
-          style={{ width: "100%", backgroundColor: "#bdc3c7" }}
+          style={{ width: "100%", backgroundColor: "#f2f2f5" }}
         >
           <Helmet title={`document | ${config.siteTitle}`} />
           <Container fixed>
