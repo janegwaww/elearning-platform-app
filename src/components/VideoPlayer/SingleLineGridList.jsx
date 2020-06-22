@@ -8,7 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { secondsToHMS } from "../../services/utils";
-import "./SingleLineGridListStyles.sass";
+import "./singleLineGridListStyles.sass";
 
 function SingleLineGridList({ tileList = [], clipJump }) {
   const [show, setShow] = useState(false);
@@ -42,7 +42,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
         className="content"
         id="grid-tile-content"
         dangerouslySetInnerHTML={{ __html: wrapStr(line) }}
-      ></div>
+      />
     );
   };
 

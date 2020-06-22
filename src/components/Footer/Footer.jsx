@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import wechatQrcode from "../../../static/images/wechat-qrcode.jpg";
-import logo from "../../../static/logos/logo.png";
+import logo from "../../../static/logos/Logo.png";
 import "./Footer.sass";
 
 const QrCodeImg = () => (
