@@ -153,7 +153,7 @@ export default function PrimarySearchAppBar() {
         <Container fixed>
           <Toolbar>
             <IconButton onClick={() => navigate("/")}>
-              <img src={logo} />
+              <img src={logo} alt="logo" />
             </IconButton>
             <div className={classes.menus}>
               <Link

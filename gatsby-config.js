@@ -28,13 +28,13 @@ module.exports = {
         path: `${__dirname}/static/`
       }
     },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "posts",
-        path: `${__dirname}/content/`
-      }
-    },
+    // {
+    //   resolve: "gatsby-source-filesystem",
+    //   options: {
+    //     name: "posts",
+    //     path: `${__dirname}/content/`
+    //   }
+    // },
     {
       resolve: "gatsby-transformer-remark",
       options: {

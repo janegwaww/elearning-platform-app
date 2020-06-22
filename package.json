@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-starter-advanced",
-  "description": "GatsbyJS starter that includes examples for advanced use cases.",
+  "name": "elearning-platform-app",
+  "description": "learning platform",
   "version": "1.1.0",
-  "author": "Ruben Harutyunyan <vagr9k@gmail.com>",
+  "author": "haetek CO.",
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
@@ -42,7 +42,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "netlify-cms-app": "^2.11.13",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "notistack": "^0.9.17",
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",
