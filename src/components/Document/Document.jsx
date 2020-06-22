@@ -6,6 +6,7 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 import SearchLoading from "../Loading/SearchLoading";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
@@ -18,18 +19,20 @@ export default function Document({ did }) {
 
   const fetchDocumentInfo = () => {
     setLoading(true);
-    getDocumentDetail({ file_id: did }).then(data => {
+    getDocumentDetail({ file_id: did }).then((data) => {
       setDetail(data);
       setLoading(false);
     });
   };
 
-  const handleChange = panel => (event, newExpanded) => {
+  const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
   useEffect(() => {
-    did && fetchDocumentInfo();
+    if (did) {
+      fetchDocumentInfo();
+    }
   }, [did]);
 
   const Title = ({ name }) => (
@@ -69,6 +72,20 @@ export default function Document({ did }) {
             <Typography color="textSecondary" variant="body2" gutterBottom>
               价格：
               <span style={{ color: "#fc5659" }}>{`￥${detail.price}`}</span>
+              <div style={{ marginRight: "40px", display: "inline" }} />
+              <Link
+                href={`http://api.haetek.com:9191/static/document/欧拉公式.pdf`}
+                underline="none"
+                target="_blank"
+                rel="noopener norefferer"
+                style={{
+                  backgroundColor: "#fc5659",
+                  borderRadius: 20,
+                  padding: "6px 8px",
+                }}
+              >
+                查看
+              </Link>
             </Typography>
           </Box>
         </Box>
@@ -128,7 +145,11 @@ export default function Document({ did }) {
           <Title name="课件预览" />
           <br />
           <Box style={{ height: 600, backgroundColor: "#d8d8d8", padding: 8 }}>
-            <img src={`${detail.preview_path}`} width={400} />
+            <img
+              src={`${detail.preview_path}`}
+              width={400}
+              alt={`${detail.preview_path}`}
+            />
           </Box>
         </Box>
         <br />
