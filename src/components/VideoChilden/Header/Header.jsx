@@ -58,7 +58,6 @@ export default class Header extends Component {
     } else {
       navigate(`/users/login`);
     }
-    localStorage.removeItem('file_data')
   }
   
  
