@@ -26,7 +26,7 @@ import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import { getObj } from "../../../assets/js/totls";
 // import md5 from "md5";
-import Modal from "../../../assets/js/modal";
+import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
 
 const NewLinearProgress = withStyles({
@@ -214,7 +214,7 @@ export default class UploadVideos extends Component {
       })
       .catch((err) => {
         this.setState({status:3})
-        new Modal().alert('生成字幕失败','error',4000)
+        new CustomModal().alert('生成字幕失败','error',4000)
         console.log(err);
       });
   }
@@ -293,7 +293,7 @@ export default class UploadVideos extends Component {
                       this.myFile.on("onchange", function(res) {
                         let _data = res.response;
                         if (_data.err === -1) {
-                          new Modal().alert(
+                          new CustomModal().alert(
                             "此视频已存在，暂不支持多人同时此视频，请谅解！",
                             "error",
                             5000
@@ -308,7 +308,7 @@ export default class UploadVideos extends Component {
                         let _data = res.response;
 
                         if (_data.err === -1) {
-                          new Modal().alert(
+                          new CustomModal().alert(
                             "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
                             "error",
                             5000
@@ -318,7 +318,7 @@ export default class UploadVideos extends Component {
                           }, 5000);
                         }
                         if (_data.err === 0 && _data.result_data.length > 0) {
-                          new Modal().alert("上传成功", "success", 3000);
+                          new CustomModal().alert("上传成功", "success", 3000);
                           _this.setState({
                             files: _data.result_data[0],
                             status: 3,
@@ -335,7 +335,7 @@ export default class UploadVideos extends Component {
                         _this.setState({
                           status: 4,
                         });
-                        new Modal().alert("上传失败,网络错误!", "error", 3000);
+                        new CustomModal().alert("上传失败,网络错误!", "error", 3000);
                       });
                     } else {
                       let _data = this.state.promp_info;
@@ -478,7 +478,7 @@ export default class UploadVideos extends Component {
                   this.myFile.on("onchange", function(res) {
                     let _data = res.response;
                     if (_data.err === -1) {
-                      new Modal().alert(
+                      new CustomModal().alert(
                         "此视频已存在，暂不支持多人同时此视频，请谅解！",
                         "error",
                         5000
@@ -493,7 +493,7 @@ export default class UploadVideos extends Component {
                     let _data = res.response;
 
                     if (_data.err === -1) {
-                      new Modal().alert(
+                      new CustomModal().alert(
                         "此视频已存在，暂不支持多人同时此视频，请谅解！",
                         "error",
                         5000
@@ -503,7 +503,7 @@ export default class UploadVideos extends Component {
                       }, 5000);
                     }
                     if (_data.err === 0 && _data.result_data.length > 0) {
-                      new Modal().alert("上传成功", "success", 3000);
+                      new CustomModal().alert("上传成功", "success", 3000);
                       _this.setState({
                         files: _data.result_data[0],
                         status: 3,
@@ -520,7 +520,7 @@ export default class UploadVideos extends Component {
                     _this.setState({
                       status: 4,
                     });
-                    new Modal().alert("上传失败,网络错误!", "error", 3000);
+                    new CustomModal().alert("上传失败,网络错误!", "error", 3000);
                     // console.log("error", res.response);
                   });
                 }}
@@ -728,7 +728,7 @@ export default class UploadVideos extends Component {
               color="primary"
               onClick={() => {
                 if (!this.state.lang_value) {
-                  new Modal().alert("请选择视频的语言", "error", 3000);
+                  new CustomModal().alert("请选择视频的语言", "error", 3000);
                   return;
                 }
                 _this.setState({ lang_open: false, status: 5 });

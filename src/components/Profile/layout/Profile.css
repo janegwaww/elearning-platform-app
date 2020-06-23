@@ -13,10 +13,17 @@
   border-radius:6px;
   background:#bdbdbd;
 }
-.ul {
+.profile-main .ul {
   list-style: none;
+  margin: 0;
 }
-.ul li:hover {
+.profile-main .ul li{
+  margin: 16px 0;
+}
+.profile-main .ul li svg{
+  margin-right:10px ;
+}
+.profile-main .ul li:hover {
   cursor: pointer;
 }
 .profile-margin {
@@ -68,7 +75,7 @@
 .profile-point span:first-child svg {
   transform: rotate(-90deg);
 }
-.profile-point svg {
+.profile-point svg ,.ul svg{
   vertical-align: middle;
 }
 .profile-time {
@@ -84,7 +91,8 @@
   margin-top: 30px;
 }
 .profile-bottom {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
+  border-bottom:30px solid #F9F9F9;
 }
 .profile-right {
   margin-right: 40px;
@@ -111,3 +119,11 @@
   color:'#878791';
   background-color:'#F2F2F5';
 } */
+
+
+.edit-phone .MuiInput-underline:after{
+  border-bottom: 2px solid rgb(77, 144, 254); 
+}
+.MuiStepIcon-root.MuiStepIcon-completed{
+color:#007CFF ;
+}

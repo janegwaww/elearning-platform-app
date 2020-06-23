@@ -8,13 +8,15 @@ import { Container, Avatar, MenuList, MenuItem } from "@material-ui/core";
 import {
   Telegram,
   NotificationsNone,
+  OndemandVideo,
+
   LiveTv,
   ReportProblem,
   AccountBalanceWalletTwoTone,
   PermIdentity,
   LocationCity,
 } from "@material-ui/icons";
-import "./layout/profile.css";
+import "./layout/Profile.css";
 
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
@@ -63,12 +65,14 @@ class Profile extends React.Component {
         });
     };
     //请求用户信息
-    get_data("/api/v1/gateway", 
+    get_data("api/v1/gateway", 
       { model_name: "user", model_action: "get_information" }).then(res=>{
         if(res.err==0&&res.errmsg=='OK'){
+          
           this.setState({
             userinfo:res.result_data[0]
           })
+          sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
         }
       })
   }
@@ -121,7 +125,7 @@ class Profile extends React.Component {
         <Helmet title={`${config.siteTitle}`} />
         <Container fixed className="all-height">
           <section className="ma-container all-height">
-            <aside className="ma-aside profile-left">
+            <aside className="ma-aside profile-left all-height bg-white">
               {this.state.nowPage.parent_id > 1 ? (
                 <div
                   className="profile-bottom profile-padding bg-white text-center"
@@ -199,7 +203,7 @@ class Profile extends React.Component {
                   data-defaultpage="作品管理"
                   onClick={this.pageRoute}
                 >
-                  <LiveTv />
+                  <OndemandVideo />
                   创作中心
                   <AdiseMenu
                     menus={["作品管理", "申诉管理"]}

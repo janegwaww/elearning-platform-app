@@ -83,8 +83,14 @@ export default class VideoPage extends Component {
     if (t_w < 1000) {
       t_w = 1000;
     }
+    
+    
     let scale = 880 / 1920;
+   
     let num = t_w * scale;
+    if(num>580){
+      num=580
+    }
     let num_h = (num / 16) * 9;
 
     getObj("max-box").style.height =
@@ -645,8 +651,8 @@ export default class VideoPage extends Component {
         <main
           className={`${styles.elMain} ${styles.top}`}
           style={{
-            height: this.state.video_h + 140 + "px",
-            minHeight: this.state.video_h + 140 + "px",
+            height: this.state.video_h + 120 + "px",
+            minHeight: this.state.video_h + 120 + "px",
           }}
         >
           <section className={styles.elContainer}>
@@ -735,7 +741,7 @@ export default class VideoPage extends Component {
                       ""
                     )}
                   </div>
-                  <div style={{ height: 20, backgroundColor: "#565663" }}></div>
+                 {/**  <div style={{ height: 20, backgroundColor: "#565663" }}></div>*/}
                   <main className="box box-align-center box-between fn-size-14">
                     <div className="play-time">
                       <span className="fn-color-F2F2F5">
@@ -791,7 +797,7 @@ export default class VideoPage extends Component {
         <footer
           className={`${styles.elFooter} ${styles.bottom}`}
           style={{
-            height: "calc(100% - " + (this.state.video_h + 220) + "px)",
+            height: "calc(100% - " + (this.state.video_h + 200) + "px)",
           }}
         >
           <section className={styles.elContainer}>

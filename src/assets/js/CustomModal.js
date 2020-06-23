@@ -1,9 +1,9 @@
 import "../css/modal.css";
-function Modal() {
+function CustomModal() {
   this.body = document.body || document.querySelector("body");
   this.obj = document.createElement("div");
 }
-Modal.prototype.alert = function(option) {
+CustomModal.prototype.alert = function(option) {
   //argument多参时，第1个为显示的信息，第二个为类型，如成功success，失败error
   //argument为一个参时，判断是字符还是对像，字符为信息，默认类型。对像时modal的各参就是对像属性
 
@@ -36,4 +36,4 @@ Modal.prototype.alert = function(option) {
   
 };
 
-export default Modal;
+export default CustomModal;

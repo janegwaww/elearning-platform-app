@@ -6,7 +6,7 @@ import {
   Button,
   Avatar,
   Snackbar,
-
+  Modal
 } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -14,11 +14,11 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { get_data } from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 
-import Modal from "../../../assets/js/modal";
+import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
 
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import { ArrowBack, ArrowForward,Autorenew } from "@material-ui/icons";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -46,6 +46,7 @@ export default class Header extends Component {
       open_updata: false,
       open: false,
       files: props.parent.state.video_data,
+      is_modal:false,
     };
     this.btn_user = this.btn_user.bind(this);
   }
@@ -55,18 +56,12 @@ export default class Header extends Component {
         user_info: getUser(),
       });
     } else {
-      navigate("/users/login");
+      navigate(`/users/login`);
     }
+    localStorage.removeItem('file_data')
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (
-  //     JSON.stringify(nextProps.parent.state.video_data) !=
-  //     JSON.stringify(nextState.files)
-  //   ) {
-  //     return true;
-  //   }
-  // }
-
+  
+ 
   btn_user = function(info) {
     if (!getUser().name) {
       sessionStorage.setItem("no_login_page", window.location.href);
@@ -100,16 +95,27 @@ export default class Header extends Component {
         model_type: "",
       };
       get_data("api/v1/gateway", r_data, "post").then((res) => {
-        console.log(res);
+        
         if(res.err==0&&res.errmsg=='OK'){
-          _this.setState({ open: true });
-          setTimeout(()=>{ navigate("/video/uppage");},3000)
+          _this.setState({ open: true});
+          setTimeout(()=>{ 
+            navigate("/video/uppage");
+            _this.setState({is_modal:false})
+          },3000)
+        }else{
+          _this.setState({is_modal:false})
         }
+        
+      }).catch(err=>{
+        _this.setState({is_modal:false})
       });
     };
 
     return (
       <header className={`box box-align-center ${styles.header}`}>
+
+
+     
         <div className={`box box-align-center ${styles.nav}`}>
           <div className={styles.logo}>
             <img src="../logos/Logo.png" />
@@ -170,11 +176,11 @@ export default class Header extends Component {
                 if (
                   JSON.stringify(this.props.parent.state.video_data) === "{}"
                 ) {
-                  new Modal().alert("亲！还没有添加文件呢！", "error");
+                  new CustomModal().alert("亲！还没有添加文件呢！", "error");
                   return;
                 }
                 if (!getUser().name) {
-                  new Modal().alert(
+                  new CustomModal().alert(
                     "亲！还没有登录呢，正在为你跳转登录页...",
                     "error"
                   );
@@ -183,8 +189,11 @@ export default class Header extends Component {
                   }, 5000);
                 }
                 if (this.props.parent.state.video_data.sub_josn) {
-                  console.log(123)
+                  this.setState({
+                    is_modal:true
+                  })
                   btn_save();
+                  
                 } else {
                   sessionStorage.setItem(
                     "file_data",
@@ -221,7 +230,7 @@ export default class Header extends Component {
             )}
           </div>
         </div>
-
+            
        <Snackbar
           anchorOrigin={{
             vertical: "top",
@@ -236,6 +245,17 @@ export default class Header extends Component {
         保存成功
       </Alert>
       </Snackbar>
+      <Modal
+      open={this.state.is_modal}
+     
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <div className={styles.modalLogin}>
+      <Autorenew />
+      
+      </div>
+    </Modal>
       </header>
     );
   }

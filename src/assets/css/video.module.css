@@ -103,13 +103,13 @@
  
 }
 .top .el-main > div:first-child {
-  width: 40%;
+  width: 50%;
   overflow-y:auto;
   overflow-x: hidden;
   border-radius: 0 12px 12px 0;
 }
 .top .el-main > div:last-child {
-  width: 60%;
+  width: 50%;
  
 }
 .top .el-main > div:last-child section{

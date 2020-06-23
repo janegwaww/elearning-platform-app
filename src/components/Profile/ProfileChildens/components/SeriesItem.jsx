@@ -12,9 +12,10 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { get_date } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
 import { ModalDialog } from "./Modal";
-import Modal from "../../../../assets/js/modal";
+import CustomModal from "../../../../assets/js/CustomModal";
 // 系列横向item
-// console.log(Modal);
+
+console.log(CustomModal)
 const stop_run = (prevValue, nextValue) => {
   // return prevValue.series===nextValue.series
 };
@@ -201,7 +202,10 @@ const SeriesItem = (props) => {
               },
             }).then((res) => {
               if (res.err === 0) {
-                new Modal().aleat("删除成功", "success", 5000);
+                new CustomModal().alert("删除成功", "success", 5000);
+                setModalMsg({
+                  open: false,
+                });
               }
             });
           }

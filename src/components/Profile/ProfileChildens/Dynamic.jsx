@@ -65,7 +65,7 @@ class Dynamic extends React.Component {
   render() {
     return (
       <section className="bg-white profile-padding all-height view-scroll">
-        <nav className="profile-bottom">
+        <nav >
           <ProNavbar
             list={[this.props.parent.state.nowPage.childPage]}
             parent={this}

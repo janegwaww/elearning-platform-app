@@ -25,7 +25,7 @@ class ProfileIndex extends React.Component {
   componentWillMount() {
   
     let _this = this;
-    get_alldata("/api/v1/gateway", [
+    get_alldata("api/v1/gateway", [
      // { model_name: "user", model_action: "get_information" }, //用户信息，
       { model_name: "data", model_action: "get_data" }, //数据中心
       {

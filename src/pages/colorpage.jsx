@@ -1,7 +1,7 @@
 import React from "react";
 import "../assets/css/tootls.css";
 import "../assets/css/container.css";
-import Modal from "../assets/js/modal";
+import CustomModal from "../assets/js/CustomModal";
 import { get_data } from "../assets/js/request";
 
 import "../assets/css/color.css";
@@ -160,15 +160,15 @@ export default class ColorPage extends React.Component {
                 ev.stopPropagation();
                 ev.preventDefault();
                 if (this.state.one.length != 3) {
-                  new Modal().alert("请输入0.0 合法的颜色1", "error");
+                  new CustomModal().alert("请输入0.0 合法的颜色1", "error");
                   return;
                 }
                 if (this.state.two.length != 3) {
-                  new Modal().alert("请输入0.5分 合法的颜色", "error");
+                  new CustomModal().alert("请输入0.5分 合法的颜色", "error");
                   return;
                 }
                 if (this.state.thiree.length != 3) {
-                  new Modal().alert("请输入1.0 合法的颜色", "error");
+                  new CustomModal().alert("请输入1.0 合法的颜色", "error");
                   return;
                 }
                 let _data = {
@@ -226,7 +226,7 @@ export default class ColorPage extends React.Component {
                     });
                   }
                   else{
-                      new Modal().alert('网络错误','error')
+                      new CustomModal().alert('网络错误','error')
                   }
                 });
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getUser } from "../../services/auth";
-import Modal from './modal';
+import CustomModal from './CustomModal';
 const _path = __dirname;
 const request_url = "http://api.haetek.com:9191/"; //'http://192.168.0.200:9191/';//'http://seeker.haetek.com:9191/';//'
 
@@ -27,7 +27,7 @@ export const get_data = function(url, data, method, header) {
         console.log(err);
         reject(err);
         
-        // new Modal().alert('网络错误','error')
+        // new CustomModal().alert('网络错误','error')
       });
   });
 };
@@ -76,7 +76,7 @@ export const get_alldata = function(url_lists, data_list, methods) {
         axios.spread(function(err, ...error) {
           // console.log(arguments)
           reject(arguments);
-          // new Modal().alert('网络错误','error')
+          // new CustomModal().alert('网络错误','error')
         })
       );
   });

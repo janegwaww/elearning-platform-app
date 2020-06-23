@@ -4,7 +4,7 @@ import SeriesItem from "./components/SeriesItem";
 import WorksItem from "./components/WorksItem";
 
 import Grid from "@material-ui/core/Grid";
-import Management from "./components/management";
+import Management from "./components/Management";
 import { get_data, get_alldata } from "../../../assets/js/request";
 
 class CreateCenter extends React.Component {
@@ -63,7 +63,7 @@ class CreateCenter extends React.Component {
     return (
       <div className="view-scroll all-height">
       {this.state.page_id===0?(
-        <section className="bg-white profile-padding ">
+        <section className="bg-white profile-padding all-height ">
           <main>
             <div>
               <ProNavbar
@@ -114,7 +114,7 @@ class CreateCenter extends React.Component {
           </main>
         </section>
         ):(
-        <section className="bg-white profile-padding profile-top">
+        <section className="bg-white profile-padding  all-height">
          
           <div>
             <ProNavbar list={["申诉管理"]} parent={this} />

@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { MoreHoriz } from "@material-ui/icons";
-import Modal from '../../../assets/js/modal';
+import Modal from '../../../assets/js/CustomModal';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginRight: theme.spacing(2),
