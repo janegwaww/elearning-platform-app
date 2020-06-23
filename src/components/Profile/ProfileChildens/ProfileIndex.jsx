@@ -1,6 +1,6 @@
 import React from "react";
 import BannerOne from "../../../assets/img/profile.png";
-import { Avatar, Grid } from "@material-ui/core";
+import { Avatar, Grid ,Link} from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
 import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
@@ -16,7 +16,7 @@ class ProfileIndex extends React.Component {
       userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
       userWorks: null, //我的作品
-      ordinaryOrSeries:false,//系列与普通
+      video_type:'video',//系列与普通
       userCollection: null, //我的收藏
       isHistory:false,//收藏与历史
       // historyData: null, //历史记录
@@ -62,9 +62,8 @@ class ProfileIndex extends React.Component {
 
   render() {
     let _this = this;
-
     return (
-      <section className=" view-scroll all-height">
+      <section className=" view-scroll all-height all-width">
          <main className="all-width">
           <img
             src={this.state.userInfo ? this.state.userInfo.background : ""}
@@ -242,7 +241,7 @@ class ProfileIndex extends React.Component {
           <div style={{ margin: "30px 0" }}>
             <Navbar
               parent={_this}
-              lists={["普通", "系列"]}
+              lists={["普通", "系列",'草稿箱']}
               onEvent={(num) => {
                 let _data = {
                   model_name: "video",
@@ -255,12 +254,15 @@ class ProfileIndex extends React.Component {
                   _data.extra_data.type = "series";
                  
                 }
+                if(num == 2){
+                  _data.extra_data.type='draft'
+                }
                 get_data("/api/v1/gateway", _data).then((res) => {
                  
                   if (res.err == 0) {
                     _this.setState({
                       userWorks: res.result_data,
-                      ordinaryOrSeries:!this.state.ordinaryOrSeries
+                      video_type:_data.extra_data.type
                     });
                   }
                 });
@@ -269,9 +271,12 @@ class ProfileIndex extends React.Component {
           </div>
           <div>
             <div>
+            
               {this.state.userWorks&&this.state.userWorks.length>0 ? (
                 this.state.userWorks.map((option, inx) => (
-                  <SeriesItem parent={this} info={option} inx={inx} key={inx} series={this.state.ordinaryOrSeries} />
+               
+                    <SeriesItem parent={this} info={option} inx={inx} key={inx} series={this.state.video_type} />
+                 
                 ))
               ) : (
                 <div>亲，暂时你还没有作品哦，现在去添加么？</div>
@@ -301,10 +306,10 @@ class ProfileIndex extends React.Component {
                       model_action: "get_collection",
                     };
                   }
-                  
                   get_data("/api/v1/gateway", _data).then((res) => {
                     
                     if (res.err == 0) {
+                     
                       this.setState({
                         userCollection: res.result_data,
                         isHistory:!this.state.isHistory

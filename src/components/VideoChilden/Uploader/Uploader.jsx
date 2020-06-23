@@ -101,6 +101,7 @@ export default class UploadVideos extends Component {
     this.btn_del = this.btn_del.bind(this);
   }
   componentDidMount() {
+    console.log(this.props.parent.props.location.href);
     if (getUser().name) {
       this.setState({
         user_info: getUser(),
@@ -115,7 +116,46 @@ export default class UploadVideos extends Component {
       shardSize: 10 * 1024 * 1024, //一个分片大小
       fileId: "newFile",
     });
-    if (sessionStorage.getItem("file_data")) {
+    let _id = this.props.parent.props.location.href.split("=")[1];
+    if (_id) {
+      get_data("api/v1/gateway", {
+        model_name: "video",
+        model_action: "update_subtitle_again",
+        extra_data: {
+          video_id: _id,
+        },
+        model_type: "",
+      }).then((res) => {
+        if (res.err === 0) {
+          let _data = {
+            image_path: res.result_data[0].image_path,
+            title: res.result_data[0].title,
+            video_id: res.result_data[0].video_id,
+            video_path: res.result_data[0].video_path,
+            video_size: res.result_data[0].video_size,
+            video_time: res.result_data[0].video_time,
+          };
+          if(res.result_data[0].subtitle){
+            _data.sub_josn=res.result_data[0].subtitle
+          }
+          if(res.result_data[0].description){
+            _data.description=res.result_data[0].description
+          }
+          if(res.result_data[0].series_id){
+            _data.series_id=res.result_data[0].series_id
+          }
+          this.setState({
+            status: 3,
+            files: _data,
+          });
+          sessionStorage.setItem('file_data',_data)
+          this.props.parent.getUpfileUrl(_data);
+          this.get_image(_id);
+        }
+        console.log(res);
+      });
+      console.log(_id);
+    } else if (sessionStorage.getItem("file_data")) {
       let _data = JSON.parse(sessionStorage.getItem("file_data"));
 
       this.setState({
@@ -140,13 +180,13 @@ export default class UploadVideos extends Component {
       },
     });
   }
-  get_image() {
+  get_image(id) {
     get_data("api/v1/gateway", {
       //生成图片
       model_name: "video",
       model_action: "generate_thumbnail",
       extra_data: {
-        video_id: this.state.files._id || this.state.files.video_id,
+        video_id: this.state.files._id || this.state.files.video_id ||id,
       },
       model_type: "",
     }).then((res) => {
@@ -192,12 +232,12 @@ export default class UploadVideos extends Component {
 
     get_data("api/v1/gateway", _data, "post")
       .then((res) => {
-        console.log(res.errmsg)
+        console.log(res.errmsg);
         if (res.err == 4104) {
           navigate(`users/login`);
           return;
         }
-        
+
         if (res.result_data[0] && res.result_data[0].subtitling) {
           let _data = JSON.parse(JSON.stringify(_this.state.files));
           _data.sub_josn = res.result_data[0].subtitling;
@@ -213,8 +253,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
-        this.setState({status:3})
-        new CustomModal().alert('生成字幕失败','error',4000)
+        this.setState({ status: 3 });
+        new CustomModal().alert("生成字幕失败", "error", 4000);
         console.log(err);
       });
   }
@@ -335,7 +375,11 @@ export default class UploadVideos extends Component {
                         _this.setState({
                           status: 4,
                         });
-                        new CustomModal().alert("上传失败,网络错误!", "error", 3000);
+                        new CustomModal().alert(
+                          "上传失败,网络错误!",
+                          "error",
+                          3000
+                        );
                       });
                     } else {
                       let _data = this.state.promp_info;
@@ -464,7 +508,7 @@ export default class UploadVideos extends Component {
                     status: 2,
                     fileName: e.target.files[0].name,
                   });
-                  
+
                   this.myFile.init();
 
                   this.myFile.on("progress", function(res) {
@@ -520,7 +564,11 @@ export default class UploadVideos extends Component {
                     _this.setState({
                       status: 4,
                     });
-                    new CustomModal().alert("上传失败,网络错误!", "error", 3000);
+                    new CustomModal().alert(
+                      "上传失败,网络错误!",
+                      "error",
+                      3000
+                    );
                     // console.log("error", res.response);
                   });
                 }}
@@ -533,13 +581,13 @@ export default class UploadVideos extends Component {
         {status >= 2 ? (
           <div style={{ paddingTop: 20 }} className="all-width">
             <section
-              className={`all-width ${this.props.parent.state.is_select?'active':''}`}
+              className={`all-width ${
+                this.props.parent.state.is_select ? "active" : ""
+              }`}
               onClick={() => {
-              
                 this.props.parent.setState({
-                  is_select:!this.props.parent.state.is_select
-                })
-
+                  is_select: !this.props.parent.state.is_select,
+                });
               }}
             >
               <div
@@ -611,7 +659,7 @@ export default class UploadVideos extends Component {
                               this.props.parent.show_edit();
                             }}
                           >
-                            添加素材到视频编辑区
+                            视频编辑及字幕生成
                           </NewBtn>
                         )}
                         <NewBtn
@@ -637,7 +685,6 @@ export default class UploadVideos extends Component {
                           <span
                             className="fn-color-FE4240"
                             onClick={() => {
-                              
                               this.myFile.start();
                               _this.setState({
                                 status: 2,

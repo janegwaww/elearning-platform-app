@@ -269,7 +269,7 @@ export default class VideoPage extends Component {
     //接收组件传递视频数据
     let _data = this.state.video_data || {};
     if (JSON.stringify(_data) == "{}") {
-      if (!res.video_len) {
+      if (!res.video_len&&res.video_time) {
         let _time = res.video_time.split(":");
         res.video_len =
           parseInt(_time[0]) * 3600 +
@@ -286,7 +286,7 @@ export default class VideoPage extends Component {
     this.setState({
       video_data: _data,
     });
-
+console.log('data',_data)
     sessionStorage.setItem("file_data", JSON.stringify(_data));
     if (this.video_live) {
       this.video_live.load();

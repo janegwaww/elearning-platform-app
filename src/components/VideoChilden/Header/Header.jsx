@@ -2,15 +2,10 @@ import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
 
-import {
-  Button,
-  Avatar,
-  Snackbar,
-  Modal
-} from "@material-ui/core";
+import { Button, Avatar, Snackbar, Modal } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from "@material-ui/lab/Alert";
 import { get_data } from "../../../assets/js/request";
 import { getUser } from "../../../services/auth";
 
@@ -18,7 +13,7 @@ import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
 
-import { ArrowBack, ArrowForward,Autorenew } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, Autorenew } from "@material-ui/icons";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -46,7 +41,7 @@ export default class Header extends Component {
       open_updata: false,
       open: false,
       files: props.parent.state.video_data,
-      is_modal:false,
+      is_modal: false,
     };
     this.btn_user = this.btn_user.bind(this);
   }
@@ -58,10 +53,8 @@ export default class Header extends Component {
     } else {
       navigate(`/users/login`);
     }
-    
   }
-  
- 
+
   btn_user = function(info) {
     if (!getUser().name) {
       sessionStorage.setItem("no_login_page", window.location.href);
@@ -82,40 +75,37 @@ export default class Header extends Component {
 
     const btn_save = function(el) {
       let _video_data = _this.props.parent.state.video_data;
-      
+
       let r_data = {
         model_name: "video",
         model_action: "update_subtitle",
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-         
+
           lang: "en",
         },
         model_type: "",
       };
-      get_data("api/v1/gateway", r_data, "post").then((res) => {
-        
-        if(res.err==0&&res.errmsg=='OK'){
-          _this.setState({ open: true});
-          setTimeout(()=>{ 
-            navigate("/video/uppage");
-            _this.setState({is_modal:false})
-          },3000)
-        }else{
-          _this.setState({is_modal:false})
-        }
-        
-      }).catch(err=>{
-        _this.setState({is_modal:false})
-      });
+      get_data("api/v1/gateway", r_data, "post")
+        .then((res) => {
+          if (res.err == 0 && res.errmsg == "OK") {
+            _this.setState({ open: true });
+            setTimeout(() => {
+              navigate("/video/uppage");
+              _this.setState({ is_modal: false });
+            }, 3000);
+          } else {
+            _this.setState({ is_modal: false });
+          }
+        })
+        .catch((err) => {
+          _this.setState({ is_modal: false });
+        });
     };
 
     return (
       <header className={`box box-align-center ${styles.header}`}>
-
-
-     
         <div className={`box box-align-center ${styles.nav}`}>
           <div className={styles.logo}>
             <img src="../logos/Logo.png" />
@@ -144,7 +134,9 @@ export default class Header extends Component {
               </div>
               <div className="box box-align-center box-between ">
                 <div>回退/ 前进</div>
-                <div><ArrowBack />/<ArrowForward /></div>
+                <div>
+                  <ArrowBack />/<ArrowForward />
+                </div>
               </div>
               <div className="box box-align-center box-between ">
                 <div>跳转到开始</div>
@@ -190,10 +182,9 @@ export default class Header extends Component {
                 }
                 if (this.props.parent.state.video_data.sub_josn) {
                   this.setState({
-                    is_modal:true
-                  })
+                    is_modal: true,
+                  });
                   btn_save();
-                  
                 } else {
                   sessionStorage.setItem(
                     "file_data",
@@ -230,8 +221,8 @@ export default class Header extends Component {
             )}
           </div>
         </div>
-            
-       <Snackbar
+
+        <Snackbar
           anchorOrigin={{
             vertical: "top",
             horizontal: "center",
@@ -241,21 +232,19 @@ export default class Header extends Component {
           onClose={handleClose}
           message=""
         >
-        <Alert onClose={handleClose} severity="success">
-        保存成功
-      </Alert>
-      </Snackbar>
-      <Modal
-      open={this.state.is_modal}
-     
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-    >
-      <div className={styles.modalLogin}>
-      <Autorenew />
-      
-      </div>
-    </Modal>
+          <Alert onClose={handleClose} severity="success">
+            保存成功
+          </Alert>
+        </Snackbar>
+        <Modal
+          open={this.state.is_modal}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div className={styles.modalLogin}>
+            <Autorenew />
+          </div>
+        </Modal>
       </header>
     );
   }

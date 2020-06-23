@@ -4,23 +4,13 @@ import Layout from "./layout";
 import config from "../../../data/SiteConfig";
 
 import { navigate } from "@reach/router";
-import { Container, Avatar, MenuList, MenuItem } from "@material-ui/core";
-import {
-  Telegram,
-  NotificationsNone,
-  OndemandVideo,
-
-  LiveTv,
-  ReportProblem,
-  AccountBalanceWalletTwoTone,
-  PermIdentity,
-  LocationCity,
-} from "@material-ui/icons";
+import { Container, Avatar } from "@material-ui/core";
+import { Telegram, NotificationsNone, OndemandVideo,PermIdentity} from "@material-ui/icons";
 import "./layout/Profile.css";
 
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
-import { get_data, get_alldata } from "../../assets/js/request";
+import { get_data } from "../../assets/js/request";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -34,7 +24,8 @@ class Profile extends React.Component {
         childPage: "",
         childpage_id: 0,
       },
-      menuOpen: {//打开
+      menuOpen: {
+        //打开
         Dynamic: false, //动态
         MsgCenter: false, //作息中心
         CreateCenter: false, //作品管理
@@ -47,7 +38,7 @@ class Profile extends React.Component {
     if (sessionStorage.getItem("now_page")) {
       let _now_page = JSON.parse(sessionStorage.getItem("now_page"));
       let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
-     
+
       switch (_now_page.parent_id) {
         case 2:
           _menu_open.MsgCenter = true;
@@ -59,22 +50,23 @@ class Profile extends React.Component {
           _menu_open.Dynamic = true;
           break;
       }
-        this.setState({
-          nowPage: _now_page,
-          menuOpen:_menu_open
-        });
-    };
+      this.setState({
+        nowPage: _now_page,
+        menuOpen: _menu_open,
+      });
+    }
     //请求用户信息
-    get_data("api/v1/gateway", 
-      { model_name: "user", model_action: "get_information" }).then(res=>{
-        if(res.err==0&&res.errmsg=='OK'){
-          
-          this.setState({
-            userinfo:res.result_data[0]
-          })
-          sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
-        }
-      })
+    get_data("api/v1/gateway", {
+      model_name: "user",
+      model_action: "get_information",
+    }).then((res) => {
+      if (res.err == 0 && res.errmsg == "OK") {
+        this.setState({
+          userinfo: res.result_data[0],
+        });
+        sessionStorage.setItem("user_info", JSON.stringify(res.result_data[0]));
+      }
+    });
   }
 
   // componentWillReceiveProps(nextProps){
@@ -87,8 +79,8 @@ class Profile extends React.Component {
   // }
   pageRoute(event) {
     let _data = event.target.dataset;
-    if(this.state.nowPage.parent_id===parseInt(_data.id)){
-      return
+    if (this.state.nowPage.parent_id === parseInt(_data.id)) {
+      return;
     }
     let _menuOpen = JSON.parse(JSON.stringify(this.state.menuOpen));
     if (!_data.page) {
@@ -109,13 +101,15 @@ class Profile extends React.Component {
         childpage_id: 0,
       },
     });
-    sessionStorage.setItem('now_page',JSON.stringify( {
-      parent: _data.page,
-      parent_id: parseInt(_data.id),
-      childPage: _data.defaultpage || "",
-      childpage_id: 0,
-    }))
- 
+    sessionStorage.setItem(
+      "now_page",
+      JSON.stringify({
+        parent: _data.page,
+        parent_id: parseInt(_data.id),
+        childPage: _data.defaultpage || "",
+        childpage_id: 0,
+      })
+    );
   }
   render() {
     const { menuOpen } = this.state;
@@ -123,8 +117,8 @@ class Profile extends React.Component {
     return (
       <Layout>
         <Helmet title={`${config.siteTitle}`} />
-        <Container fixed className="all-height">
-          <section className="ma-container all-height">
+        <Container fixed className="all-height all-width">
+          <section className="ma-container all-height all-width">
             <aside className="ma-aside profile-left all-height bg-white">
               {this.state.nowPage.parent_id > 1 ? (
                 <div
@@ -158,6 +152,23 @@ class Profile extends React.Component {
                 ""
               )}
               <ul className="ul bg-white">
+                <li
+                  data-page="ProfileIndex"
+                  data-id="1"
+                  onClick={this.pageRoute}
+                  onClick={this.pageRoute}
+                >
+                  <PermIdentity />
+                  个人中心
+                  {/**  <AdiseMenu
+                menus={["我的订阅", "我的收藏", "历史记录"]}
+                parent={this}
+                info={this.state.nowPage}
+                open={menuOpen.Dynamic}
+                id={"dynamic-menu"}
+              /> */}
+                </li>
+
                 <li
                   aria-label="more"
                   aria-controls="dynamic-menu"
@@ -232,7 +243,7 @@ class Profile extends React.Component {
                  */}
               </ul>
             </aside>
-            <main className="ma-main all-width">
+            <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
               <PageRouter num={this.state.nowPage.parent_id} parent={this} />
             </main>
           </section>

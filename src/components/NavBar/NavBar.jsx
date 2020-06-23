@@ -149,8 +149,8 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow} >
-      <AppBar position="fixed" style={{height:80}}>
-        <Container fixed className='12365487'>
+      <AppBar position="fixed">
+        <Container fixed >
           <Toolbar>
             <IconButton onClick={() => navigate("/")}>
               <img src={logo} alt="logo" />
