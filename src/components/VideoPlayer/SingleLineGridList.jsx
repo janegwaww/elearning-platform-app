@@ -17,7 +17,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
 
   const handleOpen = () => setShow(true);
 
-  const handleClick = time => {
+  const handleClick = (time) => {
     if (typeof clipJump === "function") {
       clipJump(time);
     }
@@ -53,7 +53,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
     >
       <div className="head">
         <Typography variant="body2">
-          {`共为你找到${getCount()}个结果`}
+          {`为您找到的前${getCount()}个结果`}
         </Typography>
         <IconButton size="small" onClick={handleClose}>
           <CloseIcon style={{ color: "#9e9ea6" }} fontSize="inherit" />

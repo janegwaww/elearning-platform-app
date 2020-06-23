@@ -5,16 +5,18 @@ import {
   Paper,
   InputBase,
   InputAdornment,
-  ButtonBase
+  ButtonBase,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
+import { useSnackbar } from "notistack";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
 import { getIdFromHref } from "../../services/utils";
 import "./VideoSearchWrapStyles.sass";
 
-const VideoSearchWrap = ({ children, vid }) => {
+const VideoSearchWrap = ({ children, vid, path }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState("");
@@ -32,24 +34,28 @@ const VideoSearchWrap = ({ children, vid }) => {
   };
 
   const handleSearchClick = () => {
-    setShowButton(false);
+    if (path) {
+      setShowButton(false);
+    } else {
+      enqueueSnackbar("本视频没有字募～", { variant: "info" });
+    }
   };
 
-  const handleInputClick = e => {
+  const handleInputClick = (e) => {
     e.preventDefault();
-    subtitles({ query_string: input, video_id: [vid] }).then(data => {
+    subtitles({ query_string: input, video_id: [vid] }).then((data) => {
       setGridList(data);
     });
   };
 
-  const handleJump = time => {
+  const handleJump = (time) => {
     setTimer(time);
   };
 
   useEffect(() => {
     setTimeout(() => {
       verifyTimer();
-    }, 1000);
+    }, 1200);
   }, []);
 
   return (
@@ -72,7 +78,7 @@ const VideoSearchWrap = ({ children, vid }) => {
               placeholder="支持对整段视频的字幕或语义定位搜索"
               type="text"
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <ButtonBase onClick={() => setInput("")}>

@@ -19,34 +19,34 @@ import SearchLoading from "../Loading/SearchLoading";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   authAvatar: {
     display: "grid",
     gridTemplateColumns: "66px 600px",
     gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 20px"
+    gap: "2px 20px",
   },
   subButton: {
     backgroundColor: "#fc5659",
     padding: "4px 6px",
     borderRadius: 4,
-    color: "#fff"
+    color: "#fff",
   },
   mesButton: {
     backgroundColor: "#fdc44f",
     padding: "4px 6px",
     borderRadius: 4,
-    color: "#fff"
+    color: "#fff",
   },
   pagination: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   pul: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   panel: {
-    minHeight: "80vh"
-  }
+    minHeight: "80vh",
+  },
 }));
 
 const Pagination = ({ num, handlePage }) => {
@@ -73,7 +73,7 @@ const CreatorAvatar = ({ auth }) => {
     fans_counts = 0,
     like_counts = 0,
     view_counts = 0,
-    user_id
+    user_id,
   } = auth;
 
   return (
@@ -84,7 +84,7 @@ const CreatorAvatar = ({ auth }) => {
             <div
               style={{
                 gridColumn: 1,
-                gridRow: "1/5"
+                gridRow: "1/5",
               }}
             >
               <div
@@ -97,7 +97,7 @@ const CreatorAvatar = ({ auth }) => {
                   backgroundColor: "#fff",
                   display: "flex",
                   justifyContent: "center",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
                 <Avatar
@@ -145,7 +145,7 @@ const CreatorAvatar = ({ auth }) => {
               display: "flex",
               justifyContent: "space-evenly",
               padding: "8px 0",
-              display: "none"
+              display: "none",
             }}
           >
             <ButtonBase className={classes.subButton}>+订阅</ButtonBase>
@@ -184,7 +184,7 @@ export default class CreatorHome extends Component {
       loading: true,
       cid: "",
       value: 0,
-      listStack: []
+      listStack: [],
     };
   }
 
@@ -196,50 +196,42 @@ export default class CreatorHome extends Component {
     }
   }
 
-  handlePage = (event, page) => {
-    const { value } = this.state;
+  filterData = (val) => {
     const arr = [];
-    this.state.listStack.map(o => {
-      if (value === 0) {
+    this.state.listStack.map((o) => {
+      if (val === 0) {
         arr.push(o);
       }
-      if (o.type === "video" && value === 1) {
+      if (o.type === "video" && val === 1) {
         arr.push(o);
       }
-      if (o.type === "series" && value === 2) {
+      if (o.type === "series" && val === 2) {
         arr.push(o);
       }
     });
-    const arrfil = arr.splice((page - 1) * 16, 16);
+    return arr;
+  };
+
+  handlePage = (event, page) => {
+    const { value } = this.state;
+    const arrfil = this.filterData(value).splice((page - 1) * 16, 16);
     this.setState({ list: arrfil });
   };
 
-  fetchData = id => {
+  fetchData = (id) => {
     this.setState({ loading: true });
-    getCreatorInfo({ author_id: id }).then(data => {
+    getCreatorInfo({ author_id: id }).then((data) => {
       this.setState({
         auth: data.auth,
         list: data.list.slice(0, 16),
         loading: false,
-        listStack: data.list
+        listStack: data.list,
       });
     });
   };
 
   handleTabChange = (event, newValue) => {
-    const arr = [];
-    this.state.listStack.map(o => {
-      if (newValue === 0) {
-        arr.push(o);
-      }
-      if (o.type === "video" && newValue === 1) {
-        arr.push(o);
-      }
-      if (o.type === "series" && newValue === 2) {
-        arr.push(o);
-      }
-    });
-    arr.slice(0, 16);
+    const arr = this.filterData(newValue).slice(0, 16);
     this.setState({ value: newValue, list: arr });
   };
 
@@ -257,7 +249,7 @@ export default class CreatorHome extends Component {
                 style={{
                   border: "1px solid #f2f2f5",
                   borderRadius: "12px",
-                  overflow: "hidden"
+                  overflow: "hidden",
                 }}
               >
                 <div>

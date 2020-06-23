@@ -35,11 +35,11 @@ export default function FileViewButton({ vid = "" }) {
             boxShadow: "none",
             color: "#fff",
             "&:hover": {
-              backgroundColor: "#fc5659"
-            }
+              backgroundColor: "#fc5659",
+            },
           }}
         >
-          <Typography variant="body2">课件下载（付费）</Typography>
+          <Typography variant="body2">视频附件下载（付费）</Typography>
         </Button>
         <Tooltip title="付费下载内容">
           <HelpIcon style={{ color: "#fc5659", fontSize: 18, margin: 4 }} />
@@ -60,7 +60,7 @@ export default function FileViewButton({ vid = "" }) {
               position: "absolute",
               right: "8px",
               top: "8px",
-              color: "#bdc3c7"
+              color: "#bdc3c7",
             }}
           >
             <CloseIcon />
