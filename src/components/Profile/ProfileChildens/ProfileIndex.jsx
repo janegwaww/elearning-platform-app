@@ -10,7 +10,7 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 
 class ProfileIndex extends React.Component {
   constructor(props) {
-    console.log(props)
+
     super(props);
     this.state = {
       userInfo: props.parent.state.userinfo, //用户信息
@@ -22,7 +22,7 @@ class ProfileIndex extends React.Component {
       // historyData: null, //历史记录
     };
   }
-  componentWillMount() {
+  componentDidMount() {
   
     let _this = this;
     get_alldata("api/v1/gateway", [

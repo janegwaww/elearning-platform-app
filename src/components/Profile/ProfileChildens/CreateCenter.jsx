@@ -42,7 +42,7 @@ class CreateCenter extends React.Component {
       }
     });
   }
-  componentWillMount() {
+  componentDidMount() {
     
     this.update_data();
   }

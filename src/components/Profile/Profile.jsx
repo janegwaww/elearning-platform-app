@@ -43,7 +43,7 @@ class Profile extends React.Component {
     };
     this.pageRoute = this.pageRoute.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     if (sessionStorage.getItem("now_page")) {
       let _now_page = JSON.parse(sessionStorage.getItem("now_page"));
       let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));

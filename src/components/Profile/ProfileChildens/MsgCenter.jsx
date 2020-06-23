@@ -26,7 +26,7 @@ class MsgCenter extends React.Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
    
   }
   componentWillReceiveProps(nextProps) {

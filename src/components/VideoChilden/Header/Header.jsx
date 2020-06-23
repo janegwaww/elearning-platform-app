@@ -50,7 +50,7 @@ export default class Header extends Component {
     };
     this.btn_user = this.btn_user.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     if (getUser().name) {
       this.setState({
         user_info: getUser(),
@@ -58,6 +58,7 @@ export default class Header extends Component {
     } else {
       navigate(`/users/login`);
     }
+    
   }
   
  

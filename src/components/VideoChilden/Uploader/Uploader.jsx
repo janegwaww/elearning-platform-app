@@ -637,7 +637,7 @@ export default class UploadVideos extends Component {
                           <span
                             className="fn-color-FE4240"
                             onClick={() => {
-                              console.log(this.myFile);
+                              
                               this.myFile.start();
                               _this.setState({
                                 status: 2,
