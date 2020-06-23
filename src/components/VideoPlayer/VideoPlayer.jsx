@@ -10,7 +10,7 @@ class VideoPlayer extends Component {
     super(props);
     this.state = {
       videoInfo: {},
-      loading: false
+      loading: false,
     };
   }
 
@@ -20,9 +20,9 @@ class VideoPlayer extends Component {
     }
   }
 
-  fetchVideo = vid => {
+  fetchVideo = (vid) => {
     this.setState({ loading: true });
-    videoPath({ video_id: vid }).then(data => {
+    videoPath({ video_id: vid }).then((data) => {
       this.setState({ videoInfo: data, loading: false });
       this.props.handleVideoInfo(data.data);
     });
@@ -38,8 +38,8 @@ class VideoPlayer extends Component {
             {videoInfo && videoInfo.title}
           </Typography>
         </div>
-        <VideoSearchWrap vid={this.props.vid}>
-          {timer => (
+        <VideoSearchWrap vid={this.props.vid} path={videoInfo.vttPath}>
+          {(timer) => (
             <VideoWindow info={videoInfo} timer={timer} loading={loading} />
           )}
         </VideoSearchWrap>
@@ -49,7 +49,7 @@ class VideoPlayer extends Component {
 }
 
 VideoPlayer.propTypes = {
-  vid: PropTypes.string.isRequired
+  vid: PropTypes.string.isRequired,
 };
 
 export default VideoPlayer;
