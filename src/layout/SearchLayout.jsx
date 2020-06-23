@@ -29,7 +29,7 @@ export default function SearchLayout({ children, searchValue }) {
   const { headshot, name } = getUser();
   const isLogin = isLoggedIn();
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     const { value } = document.getElementById("search-page-input");
     value && setInput(value);
   };
@@ -49,18 +49,8 @@ export default function SearchLayout({ children, searchValue }) {
           <Container>
             <div className="h-toolbar">
               <nav>
-                <Link href="/">
-                  知擎首页
-                </Link>
-                <Link href="/channel/?ch=maths">
-                  频道
-                </Link>
-                <Link href="/excellentcreator/">
-                  优秀创作者
-                </Link>
-                <Link href="#">
-                  下载APP
-                </Link>
+                <Link href="/">知擎首页</Link>
+                <Link href="#">下载APP</Link>
               </nav>
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
@@ -83,7 +73,7 @@ export default function SearchLayout({ children, searchValue }) {
                     borderRadius: "20px",
                     marginLeft: "20px",
                     backgroundColor: "#007cff",
-                    color: "#fff"
+                    color: "#fff",
                   }}
                 >
                   <Typography>投稿</Typography>
@@ -106,7 +96,7 @@ export default function SearchLayout({ children, searchValue }) {
                 placeholder="搜索知识..."
                 id="search-page-input"
                 type="text"
-                onChange={e => setRefInput(e.target.value)}
+                onChange={(e) => setRefInput(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button

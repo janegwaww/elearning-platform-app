@@ -8,11 +8,13 @@
   .title
     grid-column: 1
     grid-row: 1
-    width: 68px
+    width: 66px
 
   .content
     grid-column: 2
     grid-row: 2
+    & > p:not(:last-child)
+      margin-bottom: 20px
 
   .expansionpanel
     background-color: inherit
@@ -27,9 +29,11 @@
   .expansionpanelsummary
     margin-bottom: -1px !important
     min-height: 40px !important
+    justify-content: flex-start !important
     &.Mui-expanded
       min-height: 40px !important
     & .MuiExpansionPanelSummary-content
+      flex-grow: 0
       &.Mui-expanded
         margin: 12px 0
 

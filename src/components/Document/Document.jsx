@@ -5,7 +5,7 @@ import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import Link from "@material-ui/core/Link";
 import SearchLoading from "../Loading/SearchLoading";
 import { getDocumentDetail } from "../../services/video";
@@ -14,8 +14,9 @@ import "./DocumentStyles.sass";
 
 export default function Document({ did }) {
   const [detail, setDetail] = useState({});
-  const [expanded, setExpanded] = useState("panel1");
+  const [expanded, setExpanded] = useState("");
   const [loading, setLoading] = useState("false");
+  const [isPay, setIsPay] = useState(false);
 
   const fetchDocumentInfo = () => {
     setLoading(true);
@@ -46,47 +47,68 @@ export default function Document({ did }) {
     <Fragment>
       <div className="document-component">
         <br />
+        <br />
         <Box className="menuBox">
           <Title name="课件详情" />
           <Box className="content">
             <Typography color="textSecondary" variant="body2" gutterBottom>
               课件名称：
-              {detail.file_name}
+              <span style={{ color: "#2c2c3b" }}>{detail.file_name}</span>
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
               内容简介：
-              {detail.description}
+              <span style={{ color: "#2c2c3b" }}>{detail.description}</span>
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
               文件格式：
-              {detail.file_type}
+              <span style={{ color: "#2c2c3b" }}>{detail.file_type}</span>
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
               文件大小：
-              {detail.file_size}
+              <span style={{ color: "#2c2c3b" }}>{detail.file_size}</span>
             </Typography>
             <Typography color="textSecondary" variant="body2" gutterBottom>
               上传时间：
-              {secondsToDate(detail.upload_time)}
+              <span style={{ color: "#2c2c3b" }}>
+                {secondsToDate(detail.upload_time)}
+              </span>
             </Typography>
-            <Typography color="textSecondary" variant="body2" gutterBottom>
-              价格：
-              <span style={{ color: "#fc5659" }}>{`￥${detail.price}`}</span>
-              <div style={{ marginRight: "40px", display: "inline" }} />
-              <Link
-                href={`http://api.haetek.com:9191/static/document/欧拉公式.pdf`}
-                underline="none"
-                target="_blank"
-                rel="noopener norefferer"
-                style={{
-                  backgroundColor: "#fc5659",
-                  borderRadius: 20,
-                  padding: "6px 8px",
-                }}
-              >
-                查看
-              </Link>
-            </Typography>
+            <div style={{ display: "flex" }}>
+              <Typography color="textSecondary" variant="body2" gutterBottom>
+                价格：
+                <span style={{ color: "#fc5659" }}>{`￥${detail.price}`}</span>
+              </Typography>
+              <div style={{ marginRight: "120px", display: "inline" }} />
+              {isPay ? (
+                <Link
+                  href={`http://api.haetek.com:9191/static/document/欧拉公式.pdf`}
+                  underline="none"
+                  target="_blank"
+                  rel="noopener norefferer"
+                  color="primary"
+                  style={{
+                    backgroundColor: "#fc5659",
+                    borderRadius: 20,
+                    padding: "6px 14px",
+                  }}
+                >
+                  查看
+                </Link>
+              ) : (
+                <ButtonBase
+                  onClick={() => setIsPay(true)}
+                  size="small"
+                  style={{
+                    backgroundColor: "#fc5659",
+                    borderRadius: 20,
+                    color: "#fff",
+                    padding: "6px 14px",
+                  }}
+                >
+                  立即解锁
+                </ButtonBase>
+              )}
+            </div>
           </Box>
         </Box>
         <br />
@@ -144,24 +166,31 @@ export default function Document({ did }) {
         <Box>
           <Title name="课件预览" />
           <br />
-          <Box style={{ height: 600, backgroundColor: "#d8d8d8", padding: 8 }}>
+          <Box
+            style={{
+              height: 600,
+              backgroundColor: "#d8d8d8",
+              padding: 8,
+              overflowY: "scroll",
+            }}
+          >
             <img
               src={`${detail.preview_path}`}
-              width={400}
+              width={800}
               alt={`${detail.preview_path}`}
             />
           </Box>
         </Box>
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ borderRadius: 24 }}
-            onClick={() => window.history.back()}
-          >
-            返回
-          </Button>
+          {/* <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ borderRadius: 24 }}
+                      onClick={() => window.history.back()}
+                      >
+                      返回
+                      </Button> */}
         </div>
         <br />
         <SearchLoading loading={loading} />
