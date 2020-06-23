@@ -55,6 +55,7 @@ public/
 .node_modules/
 public.zip
 publicbar/
+package-lock.json
 
 
 # Gatsby context

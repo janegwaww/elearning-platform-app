@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import clsx from "clsx";
 import {
   Button,
@@ -11,6 +11,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
 import { subtitles } from "../../services/video";
+import { getIdFromHref } from "../../services/utils";
 import "./VideoSearchWrapStyles.sass";
 
 const VideoSearchWrap = ({ children, vid }) => {
@@ -18,6 +19,13 @@ const VideoSearchWrap = ({ children, vid }) => {
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState("");
   const [input, setInput] = useState("");
+
+  const verifyTimer = () => {
+    const { time } = getIdFromHref();
+    if (time) {
+      setTimer(time);
+    }
+  };
 
   const closeSearchInput = () => {
     setShowButton(true);
@@ -37,6 +45,12 @@ const VideoSearchWrap = ({ children, vid }) => {
   const handleJump = time => {
     setTimer(time);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      verifyTimer();
+    }, 1000);
+  }, []);
 
   return (
     <Fragment>

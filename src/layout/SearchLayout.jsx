@@ -49,16 +49,16 @@ export default function SearchLayout({ children, searchValue }) {
           <Container>
             <div className="h-toolbar">
               <nav>
-                <Link underline="none" href="/">
+                <Link href="/">
                   知擎首页
                 </Link>
-                <Link underline="none" href="/channel/?ch=maths">
+                <Link href="/channel/?ch=maths">
                   频道
                 </Link>
-                <Link underline="none" href="/excellentcreator/">
+                <Link href="/excellentcreator/">
                   优秀创作者
                 </Link>
-                <Link underline="none" href="#">
+                <Link href="#">
                   下载APP
                 </Link>
               </nav>

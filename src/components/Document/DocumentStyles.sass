@@ -1,0 +1,38 @@
+.document-component
+  .menuBox
+    display: grid
+    grid-template-columns: 68px auto
+    grid-template-row: 50px auto
+    gap: 10px
+
+  .title
+    grid-column: 1
+    grid-row: 1
+    width: 68px
+
+  .content
+    grid-column: 2
+    grid-row: 2
+
+  .expansionpanel
+    background-color: inherit
+    box-shadow: none
+    &:not(:last-child)
+      border-bottom: 0
+    &:before
+      display: none
+    &.Mui-expanded
+      margin: auto
+
+  .expansionpanelsummary
+    margin-bottom: -1px !important
+    min-height: 40px !important
+    &.Mui-expanded
+      min-height: 40px !important
+    & .MuiExpansionPanelSummary-content
+      &.Mui-expanded
+        margin: 12px 0
+
+  .expansionpaneldetails
+    padding: 16px
+    display: block

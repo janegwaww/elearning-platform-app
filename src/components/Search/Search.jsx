@@ -2,28 +2,27 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Pagination from "@material-ui/lab/Pagination";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import SearchCard from "./SearchCard";
+import SearchLoading from "../Loading/SearchLoading";
+import Pagination from "../Pagination/Pagination";
 import { searchGlobal } from "../../services/home";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "white",
-    paddingTop: 35
+    backgroundColor: theme.palette.primary.main,
+    paddingTop: 35,
   },
   ul: {
     listStyleType: "none",
     "& > li": {
       display: "inline-block",
-      marginRight: 10
-    }
+      marginRight: 10,
+    },
   },
   searchResult: {
-    minHeight: "90vh"
+    minHeight: "90vh",
   },
   buttonGrounp: {
     padding: "8px 0",
@@ -31,18 +30,14 @@ const useStyles = makeStyles(theme => ({
       borderRadius: "20px",
       padding: "4px 8px",
       "&:not(:last-child)": {
-        marginRight: "20px"
-      }
+        marginRight: "20px",
+      },
     },
     "& button.action": {
       backgroundColor: "#007cff",
-      color: "#fff"
-    }
+      color: "#fff",
+    },
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: theme.palette.secondary.main
-  }
 }));
 
 export default function Search({ input }) {
@@ -59,8 +54,8 @@ export default function Search({ input }) {
       video_ids: [],
       max_size: 12,
       type,
-      page
-    }).then(data => {
+      page,
+    }).then((data) => {
       setResult(data.resultData);
       setCount(data.count);
       setLoading(false);
@@ -72,7 +67,7 @@ export default function Search({ input }) {
     fetchSearchResult({ page });
   };
 
-  const handleTypeClick = cate => {
+  const handleTypeClick = (cate) => {
     setType(cate);
   };
 
@@ -82,11 +77,9 @@ export default function Search({ input }) {
     }
   }, [input, type]);
 
-  const iterateItems = (arr = [], loading) => {
+  const iterateItems = (arr = []) => {
     // iterate there
-    return (loading ? Array.from({ length: 12 }) : arr).map((o, i) => (
-      <SearchCard card={o} key={i} />
-    ));
+    return arr.map((o, i) => <SearchCard card={o} key={i} />);
   };
 
   return (
@@ -137,13 +130,10 @@ export default function Search({ input }) {
       </Box>
       <Divider />
       <br />
-      <div className={classes.searchResult}>
-        {iterateItems(result, loading)}
-      </div>
+      <div className={classes.searchResult}>{iterateItems(result)}</div>
       <br />
-      <Backdrop className={classes.backdrop} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Pagination total={count} handlePage={handlePage} />
+      <SearchLoading loading={loading} />
     </div>
   );
 }

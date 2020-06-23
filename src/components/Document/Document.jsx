@@ -1,33 +1,42 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/Styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
-const useStyles = makeStyles(theme => ({
-  menuBox: {
-    display: "grid",
-    gridTemplateColumns: "68px auto",
-    gridTemplateRow: "50px auto",
-    gap: "10px"
-  },
-  title: {
-    gridColumn: 1,
-    gridRow: 1,
-    width: 68
-  },
-  content: {
-    gridColumn: 2,
-    gridRow: 2
-  }
-}));
+import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
+import SearchLoading from "../Loading/SearchLoading";
+import { getDocumentDetail } from "../../services/video";
+import { secondsToDate } from "../../services/utils";
+import "./DocumentStyles.sass";
 
 export default function Document({ did }) {
-  const classes = useStyles();
+  const [detail, setDetail] = useState({});
+  const [expanded, setExpanded] = useState("panel1");
+  const [loading, setLoading] = useState("false");
 
-  useEffect(() => {}, []);
+  const fetchDocumentInfo = () => {
+    setLoading(true);
+    getDocumentDetail({ file_id: did }).then((data) => {
+      setDetail(data);
+      setLoading(false);
+    });
+  };
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  useEffect(() => {
+    if (did) {
+      fetchDocumentInfo();
+    }
+  }, [did]);
 
   const Title = ({ name }) => (
-    <div className={classes.title}>
+    <div className="title">
       <Typography>{name}</Typography>
       <div style={{ borderBottom: "2px solid #007CFF" }} />
     </div>
@@ -35,47 +44,128 @@ export default function Document({ did }) {
 
   return (
     <Fragment>
-      <br />
-      <Box className={classes.menuBox}>
-        <Title name="课件详情" />
-        <Box className={classes.content}>
-          <Typography color="textSecondary" variant="body2">
-            课件名称：
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            内容简介：
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            文件格式：
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            文件大小：
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            上传时间：
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            价格：
-          </Typography>
-        </Box>
-      </Box>
-      <br />
-      <Box className={classes.menuBox}>
-        <Title name="作者简介" />
-        <Box className={classes.content}></Box>
-      </Box>
-      <br />
-      <Box className={classes.menuBox}>
-        <Title name="课件目录" />
-        <Box className={classes.content}></Box>
-      </Box>
-      <br />
-      <Box>
-        <Title name="课件预览" />
+      <div className="document-component">
         <br />
-        <Box height={600} bgcolor="#d8d8d8"></Box>
-      </Box>
-      <br />
+        <Box className="menuBox">
+          <Title name="课件详情" />
+          <Box className="content">
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              课件名称：
+              {detail.file_name}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              内容简介：
+              {detail.description}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              文件格式：
+              {detail.file_type}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              文件大小：
+              {detail.file_size}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              上传时间：
+              {secondsToDate(detail.upload_time)}
+            </Typography>
+            <Typography color="textSecondary" variant="body2" gutterBottom>
+              价格：
+              <span style={{ color: "#fc5659" }}>{`￥${detail.price}`}</span>
+              <div style={{ marginRight: "40px", display: "inline" }} />
+              <Link
+                href={`http://api.haetek.com:9191/static/document/欧拉公式.pdf`}
+                underline="none"
+                target="_blank"
+                rel="noopener norefferer"
+                style={{
+                  backgroundColor: "#fc5659",
+                  borderRadius: 20,
+                  padding: "6px 8px",
+                }}
+              >
+                查看
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+        <br />
+
+        <Box className="menuBox">
+          <Title name="作者简介" />
+          <Box className="content">
+            <Typography gutterBottom noWrap>
+              {detail.author_info && detail.author_info.name}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              {detail.author_info && detail.author_info.introduction}
+            </Typography>
+          </Box>
+        </Box>
+        <br />
+
+        <Box className="menuBox">
+          <Title name="课件目录" />
+          <Box className="content">
+            {detail.catalogue &&
+              detail.catalogue.map((o, i) => (
+                <MuiExpansionPanel
+                  square
+                  expanded={expanded === `panel${i + 1}`}
+                  onChange={handleChange(`panel${i + 1}`)}
+                  key={i}
+                  className="expansionpanel"
+                >
+                  <MuiExpansionPanelSummary
+                    aria-controls="panel1d-content"
+                    id="panel1d-header"
+                    expandIcon={<ExpandMoreIcon />}
+                    className="expansionpanelsummary"
+                  >
+                    <Typography>{Object.keys(o)[0]}</Typography>
+                  </MuiExpansionPanelSummary>
+                  <MuiExpansionPanelDetails className="expansionpaneldetails">
+                    {Object.values(o)[0].map((o, i) => (
+                      <Typography
+                        key={i}
+                        gutterBottom
+                        style={{ paddingLeft: 20 }}
+                      >
+                        {Object.keys(o)[0]}
+                      </Typography>
+                    ))}
+                  </MuiExpansionPanelDetails>
+                </MuiExpansionPanel>
+              ))}
+          </Box>
+        </Box>
+        <br />
+
+        <Box>
+          <Title name="课件预览" />
+          <br />
+          <Box style={{ height: 600, backgroundColor: "#d8d8d8", padding: 8 }}>
+            <img
+              src={`${detail.preview_path}`}
+              width={400}
+              alt={`${detail.preview_path}`}
+            />
+          </Box>
+        </Box>
+        <br />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ borderRadius: 24 }}
+            onClick={() => window.history.back()}
+          >
+            返回
+          </Button>
+        </div>
+        <br />
+        <SearchLoading loading={loading} />
+      </div>
     </Fragment>
   );
 }

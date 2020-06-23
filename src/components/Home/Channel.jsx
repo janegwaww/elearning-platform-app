@@ -4,6 +4,7 @@ import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
+import SearchLoading from "../Loading/SearchLoading";
 
 export default function Channel() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ export default function Channel() {
         <br />
         <br />
       </div>
+      <SearchLoading loading={loading} />
     </Fragment>
   );
 }

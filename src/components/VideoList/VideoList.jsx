@@ -14,12 +14,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 300,
     marginTop: "10px",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   fixedList: {
     backgroundColor: "#f2f2f5",
@@ -29,27 +29,27 @@ const useStyles = makeStyles(theme => ({
     /* overflow: "auto", */
     /* maxHeight: 500 */
     "& .MuiListItem-root:last-child": {
-      borderBottom: "none"
-    }
+      borderBottom: "none",
+    },
   },
   fixedListVert: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   listItem: {
     backgroundColor: "#fff",
     borderRadius: "4px",
     padding: "10px 0",
     width: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   listHead: {
     display: "flex",
     alignItems: "center",
-    padding: "6px 0"
+    padding: "6px 0",
   },
   listHead1: {
     flexGrow: 1,
-    color: "#2C2C3B"
+    color: "#2C2C3B",
   },
   listHeadImg: {
     height: "68px",
@@ -59,22 +59,23 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
     "& img": {
       width: "100%",
-      height: "100%"
-    }
+      height: "100%",
+    },
   },
   listItem2: {
     width: "100%",
     display: "flex",
     alignItems: "flex-start",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   listTitle: {
     display: "flex",
     color: "#878791",
     fontSize: "12px",
     alignItems: "center",
-    marginTop: "6px"
-  }
+    marginTop: "6px",
+    justifyContent: "left",
+  },
 }));
 
 function RenderRow({ item, order }) {
@@ -88,12 +89,13 @@ function RenderRow({ item, order }) {
         underline="none"
         target="_blank"
         rel="noopener norefferer"
+        style={{ width: "100%" }}
       >
-        <Box className={classes.listItem2} width="100%">
+        <Box className={classes.listItem2}>
           <div className={classes.listHeadImg}>
             <img src={`${item.image_path}`} alt={item.video_title} />
           </div>
-          <Box>
+          <Box width="calc(100% - 110px)">
             <Tooltip title={item.video_title} placement="top-start">
               <Typography noWrap align="left" variant="body2">
                 {item.video_title}
@@ -103,7 +105,7 @@ function RenderRow({ item, order }) {
               <PlayCircleOutlineIcon
                 style={{ fontSize: "14px", marginRight: 2 }}
               />
-              <span>{`${item.view_counts} 观看`}</span>
+              <Typography variant="caption">{`${item.view_counts} 观看`}</Typography>
             </div>
           </Box>
         </Box>
@@ -147,14 +149,14 @@ export default function VideoList({ vid, type }) {
       video_id: vid,
       related_type: type,
       max_size: 10,
-      page
+      page,
     };
     switch (type) {
       case "series":
-        getRelativeVideos(param).then(data => setSeries(data));
+        getRelativeVideos(param).then((data) => setSeries(data));
         break;
       case "recommend":
-        getRecommendVideos(param).then(data => setSeries(data));
+        getRecommendVideos(param).then((data) => setSeries(data));
         break;
       default:
         console.log("no type");
@@ -186,7 +188,7 @@ export default function VideoList({ vid, type }) {
       <List
         className={clsx(classes.fixedList, verticle && classes.fixedListVert)}
       >
-        {series.map(o => (
+        {series.map((o) => (
           <RenderRow item={o} order={verticle} key={o.video_id} />
         ))}
       </List>

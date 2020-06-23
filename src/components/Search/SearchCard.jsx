@@ -1,13 +1,12 @@
 import React, { Fragment } from "react";
-import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Link from "@material-ui/core/Link";
 import Bull from "./Bull";
-import { secondsToDate } from "../../services/utils";
+import { secondsToDate, secondsToHMS } from "../../services/utils";
 
-const imagePick = path =>
+const imagePick = (path) =>
   path ? (
     <img
       src={`${path}`}
@@ -16,7 +15,7 @@ const imagePick = path =>
     />
   ) : null;
 
-const isPay = pay =>
+const isPay = (pay) =>
   pay ? (
     <Chip
       size="small"
@@ -25,7 +24,7 @@ const isPay = pay =>
     />
   ) : null;
 
-const uploadTime = time =>
+const uploadTime = (time) =>
   time ? (
     <Typography variant="caption" color="textSecondary">
       {`${secondsToDate(time)} 发布`}
@@ -38,7 +37,7 @@ const titleItem = (pay, title, time, id) =>
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       {isPay(pay)}
@@ -64,7 +63,7 @@ const authTitleItem = (pay, title, time, id, uid) =>
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       {isPay(pay)}
@@ -86,7 +85,7 @@ const seriesTitleItem = (pay, title, time, id) =>
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       {isPay(pay)}
@@ -108,23 +107,26 @@ const docTitleItem = (pay, title, time, id) =>
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       {isPay(pay)}
       <Link
         href={`/document/?did=${id}`}
         style={{ flexGrow: 1 }}
+        color="textPrimary"
         target="_blank"
         rel="noopener norefferer"
       >
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="subtitle1" noWrap>
+          {title}
+        </Typography>
       </Link>
       {uploadTime(time)}
     </div>
   ) : null;
 
-const descriptionItem = description =>
+const descriptionItem = (description) =>
   description ? (
     <Typography variant="body2" color="textSecondary">
       {description}
@@ -145,7 +147,7 @@ const userViews = (view, comment, like) => {
   ) : null;
 };
 
-const authAvatar = headshot =>
+const authAvatar = (headshot) =>
   headshot ? (
     <Avatar src={headshot} alt={headshot} style={{ width: 130, height: 130 }} />
   ) : null;
@@ -170,11 +172,27 @@ const userAvatar = (name, headshot, id, view, comment, like) =>
     </div>
   ) : null;
 
-const subtitle = sub => (
-  <Typography variant="body2" color="textSecondary">
-    {sub}
-  </Typography>
-);
+const subtitle = ({ start_time, whole_str, matched_str, type, id }) => {
+  const createMarkup = () => ({
+    __html: `【${secondsToHMS(start_time)}】 "${whole_str.replace(
+      matched_str,
+      `<span style='color: #007cff'>${matched_str}</span>`
+    )}"`,
+  });
+  return type === "subtitle" ? (
+    <Link
+      href={`/watch/?vid=${id}&&time=${start_time}`}
+      target="_blank"
+      rel="noopener norefferer"
+    >
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        dangerouslySetInnerHTML={createMarkup()}
+      ></Typography>
+    </Link>
+  ) : null;
+};
 
 const fans = (vi, fa) =>
   fa || vi ? (
@@ -192,46 +210,50 @@ const videoContainer = (...fns) => ({
   time,
   id,
   des,
-  sub,
   name,
   headshot,
   uid,
   view,
   comment,
-  like
-}) => (
-  <div
-    style={{
-      display: "grid",
-      height: 148,
-      margin: "20px 0",
-      gridTemplateColumns: "246px auto",
-      gridTemplateRows: "repeat(5,1fr)",
-      gap: "10px 20px",
-      gridAutoFlow: "row"
-    }}
-  >
+  like,
+  match_frame = {},
+}) => {
+  return (
     <div
       style={{
-        gridColumn: 1,
-        gridRow: "1 / 6",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
+        display: "grid",
+        height: 148,
+        margin: "20px 0",
+        gridTemplateColumns: "246px auto",
+        gridTemplateRows: "repeat(5,1fr)",
+        gap: "10px 20px",
+        gridAutoFlow: "row",
       }}
     >
-      {fns[0](path)}
+      <div
+        style={{
+          gridColumn: 1,
+          gridRow: "1 / 6",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {fns[0](path)}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 1 }}>
+        {fns[1](pay, title, time, id, uid)}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>{fns[2](des)}</div>
+      <div style={{ gridColumn: 2, gridRow: 4 }}>
+        {fns[3]({ ...match_frame, id })}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 5 }}>
+        {fns[4](name, headshot, uid, view, comment, like)}
+      </div>
     </div>
-    <div style={{ gridColumn: 2, gridRow: 1 }}>
-      {fns[1](pay, title, time, id, uid)}
-    </div>
-    <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>{fns[2](des)}</div>
-    <div style={{ gridColumn: 2, gridRow: 4 }}>{fns[3](sub)}</div>
-    <div style={{ gridColumn: 2, gridRow: 5 }}>
-      {fns[4](name, headshot, uid, view, comment, like)}
-    </div>
-  </div>
-);
+  );
+};
 
 const docContainer = (...fns) => ({
   pay,
@@ -240,31 +262,45 @@ const docContainer = (...fns) => ({
   id,
   uid,
   name,
-  download
+  download,
+  path,
 }) => (
   <div
     style={{
+      gap: "10px 20px",
+      padding: "15px 0",
       display: "grid",
-      height: 98,
+      height: 160,
       borderTop: "1px solid #f2f2f5",
       borderBottom: "1px solid #f2f2f5",
       margin: "20px 0",
-      gridTemplateColumns: "auto",
-      gridTemplateRows: "repeat(2,1fr)"
+      gridTemplateColumns: "246px auto",
+      gridTemplateRows: "repeat(5,1fr)",
     }}
   >
-    <div style={{ gridColumn: 1, gridRow: 1 }}>
-      {fns[0](pay, title, time, id, name, download)}
-    </div>
     <div
       style={{
         gridColumn: 1,
-        gridRow: 2,
+        gridRow: "1 / 6",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {fns[1](name, "", uid, download)}
+      {fns[0](path)}
+    </div>
+    <div stye={{ gridColumn: 2, gridRow: 1 }}>
+      {fns[1](pay, title, time, id, name, download)}
+    </div>
+    <div
+      style={{
+        gridColumn: 2,
+        gridRow: 5,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {fns[2](name, "", uid, download)}
       <Typography
         variant="caption"
         color="textSecondary"
@@ -275,6 +311,7 @@ const docContainer = (...fns) => ({
 
 export default function SearchCard({ card = {} }) {
   const { data, match_frame, source } = card;
+
   const vtrans = (obj = {}) => ({
     path: obj.image_path,
     pay: obj.is_pay,
@@ -287,7 +324,7 @@ export default function SearchCard({ card = {} }) {
     uid: obj.user_id,
     view: obj.view_counts,
     comment: obj.comment_counts,
-    like: obj.like_counts
+    like: obj.like_counts,
   });
   const atrans = (obj = {}) => ({
     path: obj.headshot,
@@ -297,31 +334,16 @@ export default function SearchCard({ card = {} }) {
     uid: obj.user_id,
     des: obj.introduction,
     videos: obj.video_counts,
-    fans: obj.fans_counts
+    fans: obj.fans_counts,
   });
   const dtrans = (obj = {}) => ({
+    path: obj.image_path,
     pay: obj.is_pay,
     title: obj.file_name,
     time: obj.time,
-    id: obj.document_id,
-    download: obj.download_counts
+    id: obj.file_id,
+    download: obj.download_counts,
   });
-
-  const handleVideoClick = id => {
-    id && navigate(`/watch/?vid=${id}`, { state: { vid: id } });
-  };
-
-  const handleAuthClick = id => {
-    id && navigate(`/creator/?cid=${id}`, { state: { cid: id } });
-  };
-
-  const handleDocumentClick = id => {
-    id && navigate(`/document/?did=${id}`, { state: { did: id } });
-  };
-
-  const handleSeriesClick = id => {
-    id && navigate(`/series/?sid=${id}`, { state: { sid: id } });
-  };
 
   const videoCard = videoContainer(
     imagePick,
@@ -329,7 +351,7 @@ export default function SearchCard({ card = {} }) {
     descriptionItem,
     subtitle,
     userAvatar
-  )(vtrans(data));
+  )({ ...vtrans(data), match_frame });
 
   const authCard = videoContainer(
     authAvatar,
@@ -347,14 +369,18 @@ export default function SearchCard({ card = {} }) {
     userAvatar
   )(vtrans(data));
 
-  const docCard = docContainer(docTitleItem, userAvatar)(dtrans(data));
+  const docCard = docContainer(
+    imagePick,
+    docTitleItem,
+    userAvatar
+  )(dtrans(data));
 
-  const chosenCard = sour =>
+  const chosenCard = (sour) =>
     ({
       video: videoCard,
       series: seriesCard,
       user: authCard,
-      document: docCard
+      document: docCard,
     }[sour]);
   return <Fragment>{chosenCard(source)}</Fragment>;
 }

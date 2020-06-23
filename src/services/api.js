@@ -168,7 +168,7 @@ export const searchPartApis = () => {
     ["post_comment", "get_comment"],
     ["add_collection"],
     ["give_like"],
-    ["view_file"],
+    ["view_file", "view_advanced", "view_advanced_info"],
     ["add_subscription", "latest_subscription"],
     ["get_author_information"],
     ["get_series_details"],

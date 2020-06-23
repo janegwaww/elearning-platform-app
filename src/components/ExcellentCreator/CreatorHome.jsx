@@ -2,16 +2,20 @@ import React, { Component, Fragment } from "react";
 import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
-import Pagination from "@material-ui/lab/Pagination";
+import MuiPagination from "@material-ui/lab/Pagination";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Box from "@material-ui/core/Box";
 import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import GridCards from "../Home/GridCards";
+import SearchLoading from "../Loading/SearchLoading";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
 
@@ -20,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     display: "grid",
     gridTemplateColumns: "66px 600px",
     gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 10px"
+    gap: "2px 20px"
   },
   subButton: {
     backgroundColor: "#fc5659",
@@ -33,8 +37,30 @@ const useStyles = makeStyles(theme => ({
     padding: "4px 6px",
     borderRadius: 4,
     color: "#fff"
+  },
+  pagination: {
+    backgroundColor: "#fff"
+  },
+  pul: {
+    justifyContent: "center"
+  },
+  panel: {
+    minHeight: "80vh"
   }
 }));
+
+const Pagination = ({ num, handlePage }) => {
+  const classes = useStyles();
+  return (
+    <MuiPagination
+      count={Math.ceil(num / 16)}
+      variant="outlined"
+      shape="rounded"
+      onChange={handlePage}
+      classes={{ root: classes.pagination, ul: classes.pul }}
+    />
+  );
+};
 
 const CreatorAvatar = ({ auth }) => {
   const classes = useStyles();
@@ -55,12 +81,31 @@ const CreatorAvatar = ({ auth }) => {
       <Grid container>
         <Grid item xs={9}>
           <div className={classes.authAvatar}>
-            <div style={{ gridColumn: 1, gridRow: "1/5" }}>
-              <Avatar
-                src={headshot}
-                alt={user_name}
-                style={{ width: 66, height: 66 }}
-              />
+            <div
+              style={{
+                gridColumn: 1,
+                gridRow: "1/5"
+              }}
+            >
+              <div
+                style={{
+                  padding: 10,
+                  marginTop: -40,
+                  borderRadius: 50,
+                  height: 80,
+                  width: 80,
+                  backgroundColor: "#fff",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Avatar
+                  src={headshot}
+                  alt={user_name}
+                  style={{ width: 66, height: 66 }}
+                />
+              </div>
             </div>
             <Typography variant="body2">{user_name}</Typography>
             <Typography
@@ -77,16 +122,22 @@ const CreatorAvatar = ({ auth }) => {
         <Grid item xs={3}>
           <Typography variant="subtitle1">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>订阅</span>
-              <span>订阅者</span>
-              <span>获赞数</span>
-              <span>播放量</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>{description_counts}</span>
-              <span>{fans_counts}</span>
-              <span>{like_counts}</span>
-              <span>{view_counts}</span>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>订阅</span>
+                <span>{description_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>订阅者</span>
+                <span>{fans_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>获赞数</span>
+                <span>{like_counts}</span>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <span>播放量</span>
+                <span>{view_counts}</span>
+              </Box>
             </div>
           </Typography>
           <div
@@ -106,35 +157,94 @@ const CreatorAvatar = ({ auth }) => {
   );
 };
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  const classes = useStyles();
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      className={classes.panel}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+}
+
 export default class CreatorHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: {},
       list: [],
-      loading: true
+      loading: true,
+      cid: "",
+      value: 0,
+      listStack: []
     };
   }
 
   componentDidMount() {
     const { cid } = getIdFromHref();
-    if (!cid) navigate("/");
-    this.fetchData(cid);
+    if (cid) {
+      this.fetchData(cid);
+      this.setState({ cid });
+    }
   }
 
   handlePage = (event, page) => {
-    this.fetchData();
+    const { value } = this.state;
+    const arr = [];
+    this.state.listStack.map(o => {
+      if (value === 0) {
+        arr.push(o);
+      }
+      if (o.type === "video" && value === 1) {
+        arr.push(o);
+      }
+      if (o.type === "series" && value === 2) {
+        arr.push(o);
+      }
+    });
+    const arrfil = arr.splice((page - 1) * 16, 16);
+    this.setState({ list: arrfil });
   };
 
   fetchData = id => {
     this.setState({ loading: true });
     getCreatorInfo({ author_id: id }).then(data => {
-      this.setState({ auth: data.auth, list: data.list, loading: false });
+      this.setState({
+        auth: data.auth,
+        list: data.list.slice(0, 16),
+        loading: false,
+        listStack: data.list
+      });
     });
   };
 
+  handleTabChange = (event, newValue) => {
+    const arr = [];
+    this.state.listStack.map(o => {
+      if (newValue === 0) {
+        arr.push(o);
+      }
+      if (o.type === "video" && newValue === 1) {
+        arr.push(o);
+      }
+      if (o.type === "series" && newValue === 2) {
+        arr.push(o);
+      }
+    });
+    arr.slice(0, 16);
+    this.setState({ value: newValue, list: arr });
+  };
+
   render() {
-    const { auth, list, loading } = this.state;
+    const { auth, list, loading, value } = this.state;
     const { background } = auth;
 
     return (
@@ -154,40 +264,42 @@ export default class CreatorHome extends Component {
                   <img
                     src={background}
                     height={300}
-                    width="100%"
+                    width="auto"
                     alt={background}
                   />
                 </div>
-                <div style={{ height: 158 }}>
+                <div style={{ height: 158, paddingTop: 10 }}>
                   <CreatorAvatar auth={auth} />
                 </div>
               </div>
-              <HomeTab
-                tabs={[
-                  {
-                    label: "上传的作品",
-                    tabContent: () => (
-                      <div style={{}}>
-                        <GridCards
-                          itemCount={16}
-                          loading={loading}
-                          items={list}
-                        />
-                        <br />
-                        <Pagination
-                          count={Math.ceil(list.length / 16)}
-                          variant="outlined"
-                          shape="rounded"
-                          style={{ backgroundColor: "#fff" }}
-                          onChange={this.handlePage}
-                        />
-                      </div>
-                    )
-                  }
-                ]}
-              />
+              <br />
+
+              <div>
+                <Tabs onChange={this.handleTabChange} value={value}>
+                  <Tab label="全部" />
+                  <Tab label="视频" />
+                  <Tab label="系列" />
+                </Tabs>
+                <TabPanel value={value} index={0}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                </TabPanel>
+
+                <TabPanel value={value} index={1}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                </TabPanel>
+
+                <TabPanel value={value} index={2}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                </TabPanel>
+                <Pagination num={list.length} hanlePage={this.handlePage} />
+                <br />
+              </div>
             </div>
           </Container>
+          <SearchLoading loading={loading} />
         </div>
       </Layout>
     );
