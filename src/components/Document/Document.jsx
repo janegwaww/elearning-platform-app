@@ -46,6 +46,7 @@ export default function Document({ did }) {
     <Fragment>
       <div className="document-component">
         <br />
+        <br />
         <Box className="menuBox">
           <Title name="课件详情" />
           <Box className="content">
