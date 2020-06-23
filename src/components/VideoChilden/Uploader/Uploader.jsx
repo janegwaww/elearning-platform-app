@@ -700,7 +700,7 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成，请稍后..</p>
+                        <p>正在生成字幕，请稍后 {files.video_len*60/210}分钟..</p>
                       </div>
                     )}
                   </div>
