@@ -67,7 +67,7 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <ChannelBar index="000" />
+        <ChannelBar id="hots" />
         <br />
         <div style={{ minHeight: "90vh" }}>
           <GridCards
