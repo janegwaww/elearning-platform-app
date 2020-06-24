@@ -348,7 +348,8 @@ export default class UploadVideos extends Component {
                     model_type: "",
                   }).then((res) => {
                     if (res.err === 0 && res.errmsg == "OK") {
-                      _this.setState({ status: 2, fileName: files.name });
+                      
+                      _this.setState({ status: 2, fileName: files.name.split('.')[0] });
 
                       this.myFile.init(files);
                       this.myFile.on("progress", function(res) {
@@ -534,7 +535,7 @@ export default class UploadVideos extends Component {
                   }
                   _this.setState({
                     status: 2,
-                    fileName: e.target.files[0].name,
+                    fileName: e.target.files[0].name.split('.')[0],
                   });
 
                   this.myFile.init();
@@ -728,7 +729,7 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成字幕，请稍后{Math.ceil(files.video_len*60/210/60)-2}--{Math.ceil( files.video_len*60/210/60)+3}分钟..</p>
+                        <p>正在生成字幕，请稍后{Math.ceil(files.video_len*60/210/60)-2<=0?Math.ceil(files.video_len*60/210/60):Math.ceil(files.video_len*60/210/60)-2}--{Math.ceil( files.video_len*60/210/60)+3}分钟..</p>
                       </div>
                     )}
                   </div>

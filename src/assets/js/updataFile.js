@@ -175,7 +175,7 @@ UpdataFile.prototype.init = function(file) {
 
   let _formData = new FormData();
   _formData.append("task_id", md5(_files) + Math.random() * 1000);
-  _formData.append("title", _files.name);
+  _formData.append("title", _files.name.split('.')[0]);
   _formData.append("video_type", "mp4");
   _formData.append("model_name", "video");
   _formData.append("model_action", "upload");

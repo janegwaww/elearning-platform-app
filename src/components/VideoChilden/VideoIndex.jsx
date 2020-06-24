@@ -468,7 +468,7 @@ export default class VideoPage extends Component {
     el.target.className = "normal";
     let _data = this.state.the_current || {};
     // _data.inx =parseInt( el.target.dataset.inx);
-    _data.time = this.state.video_data.sub_josn[el.target.dataset.inx].bg;
+    _data.time = this.state.video_data.sub_josn[el.target.dataset.inx].bg+0.01;
     this.setState({
       // top_inx: 2,// 暂时不用文字编辑，屏蔽
       status: false,
@@ -480,7 +480,7 @@ export default class VideoPage extends Component {
     this.video_live.pause();
     this.video_live.currentTime = this.state.video_data.sub_josn[
       el.target.dataset.inx
-    ].bg;
+    ].bg+0.01;
     //计算偏移
     let now_x =
       this.state.video_data.sub_josn[el.target.dataset.inx].bg /

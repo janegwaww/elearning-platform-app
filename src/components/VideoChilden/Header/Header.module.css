@@ -13,6 +13,9 @@
 .header span:hover{
   cursor: default;
 }
+.imdex span:hover{
+  cursor: pointer;
+}
 .shortcut{
   position: relative;
 }

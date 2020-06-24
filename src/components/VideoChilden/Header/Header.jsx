@@ -111,12 +111,12 @@ export default class Header extends Component {
             <img src="../logos/Logo.png" />
           </div>
           <div
-            className="fn-size-16 "
+            className={`fn-size-16 ${styles.imdex}`}
             onClick={() => {
               navigate(`/`);
             }}
           >
-            <span className="box box-align-center">
+            <span className="box box-align-center ">
               <img src={Home} />{" "}
               <span style={{ marginLeft: 12 }}>返回知擎首页</span>
             </span>

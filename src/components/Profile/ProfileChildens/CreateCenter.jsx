@@ -9,7 +9,7 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 
 class CreateCenter extends React.Component {
   constructor(props) {
-    console.log(props)
+    
     super(props);
     this.state = {
       pagedata: null,
@@ -19,21 +19,14 @@ class CreateCenter extends React.Component {
     };
     this.update_data = this.update_data.bind(this);
   }
-  update_data(data) {
-  
-    let _data={};
-    if(!data){
-       _data = {//
+  update_data(_type) {
+    let _data={//
         model_name: "video",
         model_action: "get_video",
         extra_data: {
-          type: this.state.item_type, //"series"
+          type: _type, //"series"
         },
       };
-    }else{
-      _data=data;
-    };
-   
     get_data("api/v1/gateway", _data).then((res) => {
       console.log(res)
       if (res.err == 0) {
@@ -45,14 +38,14 @@ class CreateCenter extends React.Component {
   }
   componentDidMount() {
     
-    this.update_data();
+    this.update_data(this.state.item_type);
   }
 
   componentWillReceiveProps(nextProps) {
     
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
       if (nextProps.parent.state.nowPage.childpage_id === 0) {
-        this.update_data()
+        this.update_data(this.state.item_type)
     }
     this.setState({
       page_id: nextProps.parent.state.nowPage.childpage_id,
@@ -71,24 +64,15 @@ class CreateCenter extends React.Component {
                 list={["普通", "系列",'草稿箱']}
                 parent={this}
                 onEvent={(num) => {
-                  
-                  let _data={
-                    model_name: "video",
-                    model_action: "get_video",
-                    extra_data: {
-                      type: "video", //"series"
-                    },
-                  }
+                  let _type= "video"; 
                   if(num==2){
-                    _data.extra_data.type='series';
+                    _type='series';
                   }
                   if(num==3){
-                    _data.extra_data.type='draft'
+                    _type='draft';
                   }
-                  
-                this.update_data(_data);
-                this.setState({item_type:num ==1?'video':num==2?'series':'draft'})
-                
+                this.setState({item_type:_type})
+                this.update_data(_type);
                 }}
               />
             </div>

@@ -21,6 +21,7 @@ class ProfileIndex extends React.Component {
       isHistory:false,//收藏与历史
       // historyData: null, //历史记录
     };
+    this.update_data = this.update_data.bind(this);
   }
   componentDidMount() {
   
@@ -38,7 +39,7 @@ class ProfileIndex extends React.Component {
       },
       { model_name: "collection", model_action: "get_collection" }, //我的收藏
     ]).then((res) => {
-     console.log(res)
+  
       
       _this.setState({
         // userInfo: res[0].result_data[0],
@@ -48,8 +49,28 @@ class ProfileIndex extends React.Component {
       });
     });
   }
+
+  update_data(_type) {
+    let _data={
+        model_name: "video",
+        model_action: "get_video",
+        extra_data: {
+          type: _type, //"series"
+        },
+      };
+    get_data("api/v1/gateway", _data).then((res) => {
+      console.log(res)
+      if (res.err == 0) {
+        this.setState({
+          userWorks: res.result_data,
+        });
+      }
+    });
+  }
+
+
   componentWillReceiveProps(nextProps){
-    console.log(nextProps)
+
     if(JSON.stringify(nextProps.parent.state.userinfo)!=JSON.stringify(this.state.userinfo)){
       this.setState({
         userInfo:nextProps.parent.state.userinfo
@@ -254,29 +275,17 @@ class ProfileIndex extends React.Component {
               parent={_this}
               lists={["普通", "系列",'草稿箱']}
               onEvent={(num) => {
-                let _data = {
-                  model_name: "video",
-                  model_action: "get_video",
-                  extra_data: {
-                    type: "video",
-                  },
-                };
+                let _type= "video";
                 if (num == 1) {
-                  _data.extra_data.type = "series";
-                 
+                  _type = "series";
                 }
                 if(num == 2){
-                  _data.extra_data.type='draft'
+                  _type='draft';
                 }
-                get_data("api/v1/gateway", _data).then((res) => {
-                 
-                  if (res.err == 0) {
-                    _this.setState({
-                      userWorks: res.result_data,
-                      video_type:_data.extra_data.type
-                    });
-                  }
-                });
+                this.setState({
+                  video_type:_type
+                })
+                this.update_data(_type);
               }}
             />
           </div>

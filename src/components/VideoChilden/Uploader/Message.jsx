@@ -82,14 +82,13 @@ const Message = (props) => {
                     if (sessionStorage.getItem("file_data")) {
                       sessionStorage.removeItem("file_data");
                     }
-                 
                       props.parent.props.parent.setState({
                         video_data: {},
                         the_current: {},
                         is_edit: false,
                         is_del:false
                       });
-                    
+                      props.parent.props.parent.video_live.load();
 
                     setOpen(true);
                   });

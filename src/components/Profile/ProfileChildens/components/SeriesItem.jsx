@@ -228,25 +228,16 @@ const SeriesItem = (props) => {
                       video_id: [props.info.video_id],
                     },
                   };
-
+                  console.log(props)
+                  
                   get_data("api/v1/gateway", _data).then((res) => {
                     //请求
-                    console.log(res);
-                    if (res.err === 0) {
+                    // console.log(res);
+                    if (res.err === 0&&res.errmsg=="OK") {
+                      props.parent.update_data&&props.parent.update_data(props.series)
                       new CustomModal().alert("删除成功", "success", 3000);
                     }
-                    // let _works = JSON.parse(
-                    //   JSON.stringify(props.parent.state.userWorks)
-                    // );
-                    // let _newWorks = [];
-                    // _works.forEach((o, inx) => {
-                    //   if (props.inx != inx) {
-                    //     _newWorks.push(o);
-                    //   }
-                    // });
-                    // props.parent.setState({
-                    //   userWorks: _newWorks,
-                    // });
+                  
                   });
                 }}
               />
