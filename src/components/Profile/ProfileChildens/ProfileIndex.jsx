@@ -234,7 +234,33 @@ class ProfileIndex extends React.Component {
             <div>
               <ProNavbar parent={_this} list={["我的作品"]} />
             </div>
-            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
+            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+              onClick={()=>{
+                let _menu = this.props.parent.state.menuOpen;
+                Object.keys(_menu ).forEach((va) => {
+                  if (_menu [va] && va != 'CreateCenter') {
+                    _menu [va] = false;
+                  }
+                });
+                _menu['CreateCenter']=true;
+                console.log(this.props)
+
+                this.props.parent.setState({
+                  menuOpen:_menu,
+                  nowPage: { parent:'CreateCenter',
+                  parent_id:3,
+                  childPage:'',
+                  chilepage_id:0
+                }
+                })
+                // nowPage: {
+                //   parent: _data.page,
+                //   parent_id: parseInt(_data.id),
+                //   childPage: _data.defaultpage || "",
+                //   childpage_id: 0,
+                // },
+              }}
+            >
               全部作品
             </div>
           </div>
@@ -257,7 +283,7 @@ class ProfileIndex extends React.Component {
                 if(num == 2){
                   _data.extra_data.type='draft'
                 }
-                get_data("/api/v1/gateway", _data).then((res) => {
+                get_data("api/v1/gateway", _data).then((res) => {
                  
                   if (res.err == 0) {
                     _this.setState({
@@ -306,7 +332,7 @@ class ProfileIndex extends React.Component {
                       model_action: "get_collection",
                     };
                   }
-                  get_data("/api/v1/gateway", _data).then((res) => {
+                  get_data("api/v1/gateway", _data).then((res) => {
                     
                     if (res.err == 0) {
                      

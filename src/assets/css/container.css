@@ -57,4 +57,11 @@
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  
+  .view-scroll::-webkit-scrollbar{
+    width:8px;
+    background-color: #EDF6FF;
+  }
+.view-scroll::-webkit-scrollbar-thumb{
+    border-radius:6px;
+    background:#bdbdbd;
+  }

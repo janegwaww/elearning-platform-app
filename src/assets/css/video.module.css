@@ -261,16 +261,16 @@ height: 40px;
  {
    margin-top: 30px;
  min-height: 120px;
-  display: flex;
-  align-items: center ;
+  /* display: flex;
+  align-items: center ; */
   background:rgba(43,44,46,1);
 }
 .video-image {
   height: 60px;
   margin-top: 31px;
   /* background-color: rgba(126, 123, 123, 1); */
-  display: flex;
-  align-items: center ;
+  /* display: flex;
+  align-items: center ; */
   background-repeat: no-repeat;
 }
 

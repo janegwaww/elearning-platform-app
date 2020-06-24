@@ -244,8 +244,11 @@ const SeriesItem = (props) => {
                     },
                   };
 
-                  get_data('/api/v1/gateway',_data).then(res=>{//请求
+                  get_data('api/v1/gateway',_data).then(res=>{//请求
                     console.log(res)
+                    if(res.err===0){
+                      new CustomModal().alert('删除成功','success',3000)
+                    }
                   // let _works = JSON.parse(
                   //   JSON.stringify(props.parent.state.userWorks)
                   // );

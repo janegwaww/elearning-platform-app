@@ -190,15 +190,21 @@ export default class VideoPage extends Component {
     //每px占的毫秒
     for (let i = 0; i < json_sub.length; i++) {
       let sub_w = (json_sub[i].ed - json_sub[i].bg) / (total_time / total_w);
-
-      let sub_l = json_sub[i].bg / (total_time / total_w);
+      let sub_l =0;
+      if(i==0){
+        sub_l = json_sub[i].bg/(total_time / total_w)
+      }else{
+        sub_l = (json_sub[i].bg-json_sub[i-1].ed)/(total_time / total_w)
+      }
+       //json_sub[i].bg / (total_time / total_w);
 
       test_arr.push(
         <div
           key={i}
           style={{
             width: sub_w + "px",
-            transform: "translate(" + sub_l + "px,-50%)",
+            // transform: "translateX(" + sub_l + "px)",
+            marginLeft:sub_l+'px'
           }}
           className="test-nodes"
         >
@@ -249,6 +255,10 @@ export default class VideoPage extends Component {
             data-inx={i}
             style={{
               display: this.state.the_current.inx === i ? "block" : "none",
+              position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    transform: 'translateX(-50%)',
             }}
             onClick={this.now_play}
           >
@@ -454,12 +464,14 @@ console.log('data',_data)
     el.target.className = "normal";
     let _data = this.state.the_current || {};
     // _data.inx =parseInt( el.target.dataset.inx);
-
+    _data.time=this.state.video_data.sub_josn[
+      el.target.dataset.inx
+    ].bg
     this.setState({
       // top_inx: 2,// 暂时不用文字编辑，屏蔽
       status: false,
       is_play_now: false,
-      // the_current: _data,
+      the_current: _data,
       is_now_edit: true,
     });
 
@@ -942,7 +954,8 @@ console.log('data',_data)
 
                     {/*要判断*/}
                     <div
-                      style={{ height: "calc(100% - 40px)", overflowY: "auto" }}
+                      style={{ height: "calc(100% - 40px)", overflowY: "auto",overflowX: 'hidden' }}
+                      className='view-scroll'
                     >
                       {!this.state.is_edit ? (
                         <div
