@@ -77,7 +77,7 @@ class Home extends Component {
           />
         </div>
         <br />
-        <Pagination total={20} handlePage={this.fetchHotVideo} />
+        <Pagination total={hotVideos.length} handlePage={this.fetchHotVideo} />
         {/* <Box style={{ display: "flex", justifyContent: "center" }}>
             {circle ? <CircularProgress color="secondary" /> : null}
             </Box> */}

@@ -425,3 +425,35 @@ POST :common-path
 # }]
 # }
 POST :common-header
+
+# ⑭获取分类信息
+# 前端：
+# {
+# "model_name":"category",
+# "model_action": "get_category",
+# "extra_data": {},
+# "model_type":""
+# }
+# 后端：
+# {
+#     "count": "len(result_data)",
+#     "err": 0,
+#     "err_msg": "OK",
+#     "result_data": [{
+# "id":"AI",
+# "name":"人工智能",
+# "web_icon":"",
+# "icon":"",
+# "web_click_icon":""
+# },
+# {...}
+# ]
+# }
+POST :common-path
+:common-header
+{
+"model_name":"category",
+"model_action": "get_category",
+"extra_data": {},
+"model_type":""
+}
