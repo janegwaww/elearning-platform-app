@@ -11,15 +11,15 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "notistack";
 import SingleLineGridList from "./SingleLineGridList";
-import { subtitles } from "../../services/video";
-import { getIdFromHref } from "../../services/utils";
+import { subtitles, ksearchRecord } from "../../services/video";
+import { getIdFromHref, secondsToHMS } from "../../services/utils";
 import "./VideoSearchWrapStyles.sass";
 
 const VideoSearchWrap = ({ children, vid, path }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
-  const [timer, setTimer] = useState("");
+  const [timer, setTimer] = useState(0);
   const [input, setInput] = useState("");
 
   const verifyTimer = () => {
@@ -50,6 +50,12 @@ const VideoSearchWrap = ({ children, vid, path }) => {
 
   const handleJump = (time) => {
     setTimer(time);
+    // 记录搜索点击用的
+    ksearchRecord({
+      video_id: vid,
+      query_string: input,
+      match_time: secondsToHMS(time),
+    });
   };
 
   useEffect(() => {

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Typography, Link } from "@material-ui/core";
 import VideoWindow from "./VideoWindow";
 import VideoSearchWrap from "./VideoSearchWrap";
-import { videoPath } from "../../services/video";
+import { videoPath, endWatchRecord } from "../../services/video";
+import { secondsToHMS } from "../../services/utils";
 
 class VideoPlayer extends Component {
   constructor(props) {
@@ -12,12 +13,21 @@ class VideoPlayer extends Component {
       videoInfo: {},
       loading: false,
     };
+    this.videoWindowRef = React.createRef();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.vid !== prevProps.vid) {
       this.props.vid && this.fetchVideo(this.props.vid);
     }
+  }
+
+  componentWillUnmount() {
+    // 只用于记录结束播放时间
+    endWatchRecord({
+      video_id: this.props.vid,
+      end_time: secondsToHMS(this.videoWindowRef.current.getCurrentTime()),
+    });
   }
 
   fetchVideo = (vid) => {
@@ -40,7 +50,12 @@ class VideoPlayer extends Component {
         </div>
         <VideoSearchWrap vid={this.props.vid} path={videoInfo.vttPath}>
           {(timer) => (
-            <VideoWindow info={videoInfo} timer={timer} loading={loading} />
+            <VideoWindow
+              info={videoInfo}
+              timer={timer}
+              loading={loading}
+              ref={this.videoWindowRef}
+            />
           )}
         </VideoSearchWrap>
       </Fragment>

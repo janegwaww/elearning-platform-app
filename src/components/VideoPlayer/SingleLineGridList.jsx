@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import { secondsToHMS } from "../../services/utils";
 import "./singleLineGridListStyles.sass";
 
-function SingleLineGridList({ tileList = [], clipJump }) {
+function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -18,9 +18,7 @@ function SingleLineGridList({ tileList = [], clipJump }) {
   const handleOpen = () => setShow(true);
 
   const handleClick = (time) => {
-    if (typeof clipJump === "function") {
-      clipJump(time);
-    }
+    clipJump(time);
   };
 
   const getCount = () => tileList.length;
