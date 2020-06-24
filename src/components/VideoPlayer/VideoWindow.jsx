@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
+import { startWatchRecord } from "../../services/video";
+import { secondsToHMS } from "../../services/utils";
 
 class VideoWindow extends Component {
   constructor(props) {
@@ -11,12 +13,32 @@ class VideoWindow extends Component {
     this.playerRef = React.createRef(null);
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.playerRef.current) {
+        const { player } = this.playerRef.current;
+        player.one("play", (e) => {
+          startWatchRecord({
+            video_id: this.props.info.videoId,
+            start_time: secondsToHMS(this.getCurrentTime()),
+          });
+        });
+      }
+    }, 1000);
+  }
+
   componentDidUpdate(prevProps) {
     const { timer } = this.props;
     if (timer !== prevProps.timer) {
       this.playerRef.current.seekTo(timer);
     }
   }
+
+  getCurrentTime = () => {
+    if (this.playerRef.current) {
+      return this.playerRef.current.seekTo();
+    }
+  };
 
   render() {
     const { info, loading } = this.props;
@@ -29,16 +51,16 @@ class VideoWindow extends Component {
         sources={[
           {
             src: `${info.videoPath}`,
-            type: "video/mp4"
-          }
+            type: "video/mp4",
+          },
         ]}
         tracks={[
           {
             src: `${info.vttPath}`,
             label: "captions on",
             kind: "captions",
-            default: true
-          }
+            default: true,
+          },
         ]}
       />
     ) : (
@@ -49,7 +71,7 @@ class VideoWindow extends Component {
           backgroundColor: "black",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <CircularProgress color="secondary" />
@@ -59,12 +81,12 @@ class VideoWindow extends Component {
 }
 
 VideoWindow.defaultProps = {
-  timer: "0"
+  timer: 0,
 };
 
 VideoWindow.propTypes = {
   info: PropTypes.object.isRequired,
-  timer: PropTypes.string
+  timer: PropTypes.number,
 };
 
 export default VideoWindow;
