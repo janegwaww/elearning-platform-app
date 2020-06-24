@@ -39,7 +39,7 @@ export default function FileViewButton({ vid = "" }) {
             },
           }}
         >
-          <Typography variant="body2">视频附件下载（付费）</Typography>
+          <Typography variant="body2">视频附件下载</Typography>
         </Button>
         <Tooltip title="付费下载内容">
           <HelpIcon style={{ color: "#fc5659", fontSize: 18, margin: 4 }} />
