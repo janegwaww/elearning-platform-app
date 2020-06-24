@@ -48,6 +48,7 @@ export default function Document({ did }) {
       <div className="document-component">
         <br />
         <br />
+        <br />
         <Box className="menuBox">
           <Title name="课件详情" />
           <Box className="content">
@@ -116,12 +117,22 @@ export default function Document({ did }) {
         <Box className="menuBox">
           <Title name="作者简介" />
           <Box className="content">
-            <Typography gutterBottom noWrap>
-              {detail.author_info && detail.author_info.name}
-            </Typography>
-            <Typography color="textSecondary" variant="body2">
-              {detail.author_info && detail.author_info.introduction}
-            </Typography>
+            {detail.author_info &&
+              detail.author_info.map((o) => (
+                <div>
+                  <Typography gutterBottom noWrap>
+                    {o.name}
+                  </Typography>
+                  <Typography
+                    color="textSecondary"
+                    variant="body2"
+                    gutterBottom
+                  >
+                    {o.introduction}
+                  </Typography>
+                  <br />
+                </div>
+              ))}
           </Box>
         </Box>
         <br />
@@ -184,13 +195,13 @@ export default function Document({ did }) {
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* <Button
-                      variant="contained"
-                      color="secondary"
-                      style={{ borderRadius: 24 }}
-                      onClick={() => window.history.back()}
-                      >
-                      返回
-                      </Button> */}
+                variant="contained"
+                color="secondary"
+                style={{ borderRadius: 24 }}
+                onClick={() => window.history.back()}
+                >
+                返回
+                </Button> */}
         </div>
         <br />
         <SearchLoading loading={loading} />

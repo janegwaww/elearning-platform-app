@@ -145,3 +145,10 @@ export const getDocumentDetail = pipeThen(
   getResultData,
   apisSearch.viewAdvancedInfo
 );
+
+// 开始播放调取该接口
+export const startWatchRecord = pipeThen(apisSearch.startWatchHistory);
+// 结束播放调取该接口
+export const endWatchRecord = pipeThen(apisSearch.endWatchHistory);
+// 点击搜索结果调取该接口
+export const ksearchRecord = pipeThen(apisSearch.searchHistory);
