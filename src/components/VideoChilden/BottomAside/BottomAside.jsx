@@ -9,7 +9,7 @@ import encn from "../../../assets/img/encn.png";
 import cn from "../../../assets/img/cn.svg";
 import en from "../../../assets/img/en.svg";
 export default (props) => {
-  const [show, setShow] = React.useState(1);
+ 
   const btn_show = function(ev){
     if(!props.parent.state.video_data.sub_josn){
       return
@@ -18,10 +18,9 @@ export default (props) => {
   if(JSON.stringify(_data)=="{}"){
     _data= ev.target.parentNode.dataset;
   }
-    setShow(parseInt(_data.num));
     props.onEvent&&props.onEvent(_data.num);
   }
-
+ 
   return (
     <ul className={`${styles.ul} ${sty.ul}`}>
       <li className="box box-between box-center">
@@ -32,23 +31,23 @@ export default (props) => {
         <img src={videoImg} />
       </li>
       <li className="box box-center">
-        {show == 1 && (
+        {props.lang == 1 && (
           <div onClick={btn_show} data-num='2'>
             <img src={cnen} />
           </div>
         )}
-        {show == 2 && (
+        {props.lang == 2 && (
           <div>
             <div onClick={btn_show} data-num='1'>
               <img src={cn} style={{ width: 40, height: 28 }} />
             </div>
 
-            <div style={{ marginTop: 30 }} onClick={btn_show} data-num='3'>
+            <div style={{ marginTop: 20 }} onClick={btn_show} data-num='3'>
               <img src={en} style={{ width: 40, height: 28 }} />
             </div>
           </div>
         )}
-        {show == 3 &&(
+        {props.lang == 3 &&(
           <div onClick={btn_show} data-num='2'>
             <img src={encn} />
           </div>

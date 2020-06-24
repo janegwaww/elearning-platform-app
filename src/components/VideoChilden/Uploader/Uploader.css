@@ -46,10 +46,13 @@
   white-space: nowrap;
   height: auto !important;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 #video-test .test-nodes{
   display: inline-block;
-  
+  /* display: flex;
+  align-items: center; */
   
   vertical-align: top;
  /* position: absolute;

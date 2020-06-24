@@ -235,30 +235,15 @@ class ProfileIndex extends React.Component {
               <ProNavbar parent={_this} list={["我的作品"]} />
             </div>
             <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
-              onClick={()=>{
-                let _menu = this.props.parent.state.menuOpen;
-                Object.keys(_menu ).forEach((va) => {
-                  if (_menu [va] && va != 'CreateCenter') {
-                    _menu [va] = false;
-                  }
-                });
-                _menu['CreateCenter']=true;
-                console.log(this.props)
 
-                this.props.parent.setState({
-                  menuOpen:_menu,
-                  nowPage: { parent:'CreateCenter',
-                  parent_id:3,
-                  childPage:'',
-                  chilepage_id:0
-                }
-                })
-                // nowPage: {
-                //   parent: _data.page,
-                //   parent_id: parseInt(_data.id),
-                //   childPage: _data.defaultpage || "",
-                //   childpage_id: 0,
-                // },
+              data-page="CreateCenter"
+              data-id="3"
+              data-defaultpage="作品管理"
+
+              onClick={(evt)=>{
+                evt.stopPropagation();
+                evt.preventDefault();
+                this.props.parent.pageRoute(evt)
               }}
             >
               全部作品
@@ -345,7 +330,16 @@ class ProfileIndex extends React.Component {
                 }}
               />
             </div>
-            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
+            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+            data-page="Dynamic"
+            data-id="4"
+            data-defaultpage="我的订阅"
+            onClick={(evt)=>{
+              evt.stopPropagation();
+              evt.preventDefault();
+              this.props.parent.pageRoute(evt);
+            }}
+            >
               查看更多
             </div>
           </div>

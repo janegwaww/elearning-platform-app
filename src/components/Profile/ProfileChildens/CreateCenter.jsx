@@ -9,6 +9,7 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 
 class CreateCenter extends React.Component {
   constructor(props) {
+    console.log(props)
     super(props);
     this.state = {
       pagedata: null,

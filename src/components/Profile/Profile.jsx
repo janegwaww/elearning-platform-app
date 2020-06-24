@@ -175,13 +175,13 @@ class Profile extends React.Component {
                   aria-haspopup="true"
                   data-page="Dynamic"
                   data-id="4"
-                  data-defaultpage="我的订阅"
+                  data-defaultpage="我的收藏"
                   onClick={this.pageRoute}
                 >
                   <Telegram />
                   动态
                   <AdiseMenu
-                    menus={["我的订阅", "我的收藏", "历史记录"]}
+                    menus={[ "我的收藏", "历史记录"]}
                     parent={this}
                     info={this.state.nowPage}
                     open={menuOpen.Dynamic}
