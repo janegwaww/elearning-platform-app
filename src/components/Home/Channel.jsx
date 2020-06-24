@@ -11,9 +11,9 @@ export default function Channel() {
   const [list, setList] = useState([]);
   const { ch = "001" } = getIdFromHref();
 
-  const fetchSubData = id => {
+  const fetchSubData = (id) => {
     setLoading(true);
-    getChannelList({ category: id }).then(data => {
+    getChannelList({ category: id }).then((data) => {
       setList(data);
       setLoading(false);
     });
@@ -30,7 +30,7 @@ export default function Channel() {
   return (
     <Fragment>
       <div>
-        <ChannelBar index={ch} />
+        <ChannelBar id={ch} />
         <br />
         <div style={{ minHeight: "90vh" }}>
           <GridCards loading={loading} itemCount={16} items={list} />

@@ -1,31 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import { getCategoryList } from "../../services/home";
 import "./ChannelBar.sass";
 
-function ChannelBar({ cates, index }) {
-  return (
+function ChannelBar({ id = "hots" }) {
+  const [cates, setCates] = useState([]);
+
+  const fetchBarIcons = () => {
+    getCategoryList({}).then((data) => {
+      setCates(data);
+    });
+  };
+
+  useEffect(() => {
+    fetchBarIcons();
+  }, []);
+
+  return cates.length ? (
     <Box className="channel-bar-paper">
       <Box style={{ paddingTop: 24, paddingBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {cates.map((o) => {
-            const cn = index && index === o.index ? "slice-action" : "";
-            const href = o.index === "000" ? "/" : `/channel/?ch=${o.index}`;
+            const cn = id && id === o.id ? "slice-action" : "";
+            const href = o.id === "hots" ? "/" : `/channel/?ch=${o.id}`;
             return (
               <Link
-                key={o.index}
+                key={o.id}
                 href={href}
-                state={{ index: o.index }}
+                state={{ id: o.id }}
                 underline="none"
                 color="textPrimary"
               >
                 <Box className={`item ${cn}`}>
                   <div>
                     <img
-                      src={`${o.iconImage}`}
+                      src={`${o.web_icon}`}
                       alt={o.name}
                       width="48"
                       height="48"
@@ -33,7 +45,7 @@ function ChannelBar({ cates, index }) {
                   </div>
                   <div>
                     <img
-                      src={`${o.actionIconImage}`}
+                      src={`${o.web_click_icon}`}
                       alt={o.name}
                       width="48"
                       height="48"
@@ -51,101 +63,7 @@ function ChannelBar({ cates, index }) {
       <Divider />
       <br />
     </Box>
-  );
+  ) : null;
 }
-
-ChannelBar.defaultProps = {
-  cates: [
-    {
-      name: "热门",
-      index: "000",
-      iconImage: "../icons/slices/slice1.svg",
-      actionIconImage: "../icons/slices/slice1_action.svg",
-    },
-    {
-      name: "数学",
-      index: "maths",
-      iconImage: "../icons/slices/slice2.svg",
-      actionIconImage: "../icons/slices/slice2_action.svg",
-    },
-
-    {
-      name: "人工智能",
-      index: "AI",
-      iconImage: "../icons/slices/slice3.svg",
-      actionIconImage: "../icons/slices/slice3_action.svg",
-    },
-    {
-      name: "物理",
-      index: "physics",
-      iconImage: "../icons/slices/slice4.svg",
-      actionIconImage: "../icons/slices/slice4_action.svg",
-    },
-    {
-      name: "历史",
-      index: "history",
-      iconImage: "../icons/slices/slice5.svg",
-      actionIconImage: "../icons/slices/slice5_action.svg",
-    },
-    {
-      name: "心理学",
-      index: "psychology",
-      iconImage: "../icons/slices/slice6.svg",
-      actionIconImage: "../icons/slices/slice6_action.svg",
-    },
-    {
-      name: "金融",
-      index: "finance-economics",
-      iconImage: "../icons/slices/slice7.svg",
-      actionIconImage: "../icons/slices/slice7_action.svg",
-    },
-    {
-      name: "软件工程",
-      index: "SE",
-      iconImage: "../icons/slices/slice8.svg",
-      actionIconImage: "../icons/slices/slice8_action.svg",
-    },
-    {
-      name: "哲学",
-      index: "philosophy",
-      iconImage: "../icons/slices/slice9.svg",
-      actionIconImage: "../icons/slices/slice9_action.svg",
-    },
-    {
-      name: "经济",
-      index: "economics",
-      iconImage: "../icons/slices/slice10.svg",
-      actionIconImage: "../icons/slices/slice10_action.svg",
-    },
-    {
-      name: "艺术",
-      index: "art",
-      iconImage: "../icons/slices/slice11.svg",
-      actionIconImage: "../icons/slices/slice11_action.svg",
-    },
-    {
-      name: "管理",
-      index: "management",
-      iconImage: "../icons/slices/slice12.svg",
-      actionIconImage: "../icons/slices/slice12_action.svg",
-    },
-    {
-      name: "自动化",
-      index: "automation",
-      iconImage: "../icons/slices/slice13.svg",
-      actionIconImage: "../icons/slices/slice13_action.svg",
-    },
-    {
-      name: "机械工业",
-      index: "mechanical_industry",
-      iconImage: "../icons/slices/slice14.svg",
-      actionIconImage: "../icons/slices/slice14_action.svg",
-    },
-  ],
-};
-
-ChannelBar.propTypes = {
-  cates: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default ChannelBar;
