@@ -6,6 +6,7 @@ import HomeTab from "./HomeTab";
 import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
+import Pagination from "../Pagination/Pagination";
 
 class Home extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Home extends Component {
       hotVideos: [],
       loading: true,
       circle: false,
-      page: 1
+      page: 1,
     };
   }
 
@@ -22,7 +23,7 @@ class Home extends Component {
     return Math.floor(el.getBoundingClientRect().bottom) <= window.innerHeight;
   }
 
-  trackScrolling = e => {
+  trackScrolling = (e) => {
     const wrappedElement = document.getElementById("page-footer");
     const { hotVideos, loading, page } = this.state;
     if (this.isBottom(wrappedElement)) {
@@ -36,23 +37,26 @@ class Home extends Component {
 
   componentDidMount() {
     this.fetchHotVideo(1);
-    document.addEventListener("scroll", this.trackScrolling);
+    /* document.addEventListener("scroll", this.trackScrolling); */
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", this.trackScrolling);
+    /* document.removeEventListener("scroll", this.trackScrolling); */
   }
 
-  fetchHotVideo = (page = 1) => {
+  fetchHotVideo = (event, page = 1) => {
     this.setState({ loading: true });
-    getHotVideos({ max_size: 16, page }).then(data => {
+    getHotVideos({ max_size: 16, page }).then((data) => {
+      /* if (data.length > 0) {
+       *   this.setState((prev) => ({
+       *     hotVideos: prev.hotVideos.concat(data),
+       *     page: prev.page + 1,
+       *   }));
+       * } else {
+       *   this.props.enqueueSnackbar("没有更多数据了", { variant: "info" });
+       * } */
       if (data.length > 0) {
-        this.setState(prev => ({
-          hotVideos: prev.hotVideos.concat(data),
-          page: prev.page + 1
-        }));
-      } else {
-        this.props.enqueueSnackbar("没有更多数据了", { variant: "info" });
+        this.setState({ hotVideos: data });
       }
       this.setState({ loading: false });
     });
@@ -73,9 +77,11 @@ class Home extends Component {
           />
         </div>
         <br />
-        <Box style={{ display: "flex", justifyContent: "center" }}>
-          {circle ? <CircularProgress color="secondary" /> : null}
-        </Box>
+        <Pagination total={hotVideos.length} handlePage={this.fetchHotVideo} />
+        {/* <Box style={{ display: "flex", justifyContent: "center" }}>
+            {circle ? <CircularProgress color="secondary" /> : null}
+            </Box> */}
+        <br />
       </Fragment>
     );
   }
