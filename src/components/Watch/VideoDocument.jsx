@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 6,
   },
   list: {
+    paddingTop: 0,
+    paddingBottom: 0,
     "& .MuiListItem-root:last-child": {
       borderBottom: "none",
     },
