@@ -1,17 +1,8 @@
 import React, { Component } from "react";
 
-import { Slider, Grid } from "@material-ui/core";
-
-import {
-  SkipNext,
-  SkipPrevious,
-  PlayArrow,
-  Pause,
-  PhotoSizeSelectActual,
-} from "@material-ui/icons";
+import { PlayArrow, Pause } from "@material-ui/icons";
 
 import { getObj, getPage, getWidth, getStyles } from "../../assets/js/totls";
-import NewMenu from "./Menu/Menu";
 
 import SliderTemplate from "./SliderTemplate/SliderTemplate";
 import HeaderTemplate from "./Header/Header";
@@ -20,12 +11,12 @@ import BottomAside from "./BottomAside/BottomAside";
 
 import "./SliderTemplate/SliderTemplate.css";
 import styles from "../../assets/css/video.module.css";
-import { get_data } from "../../assets/js/request";
+
 import dateConversion from "../../assets/js/dateConversion";
 import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
-import transitionImg from "../../assets/img/transition.svg";
+
 
 // import viderPlay from '../../assets/img/play.svg';
 export default class VideoPage extends Component {
@@ -39,7 +30,7 @@ export default class VideoPage extends Component {
       video_data: {},
       is_edit: false, //true 显示编辑区
       is_now_edit: false, //是否正在编辑
-      lang: 1, //1 中文，2中英文，3英文
+      lang: 2, //1 中文，2中英文，3英文
       // now_current: {},
       the_current: {}, //当前字幕
       status: false, //播放状态
@@ -80,25 +71,29 @@ export default class VideoPage extends Component {
 
   video_w_h() {
     let t_w = document.body.clientWidth;
+    let t_h = document.body.clientHeight;
     if (t_w < 1000) {
       t_w = 1000;
     }
-    
-    
-    let scale = 880 / 1920;
-   
-    let num = t_w * scale;
-    if(num>580){
-      num=580
-    }
-    let num_h = (num / 16) * 9;
+
+    // let scale = 880 / 1920;
+    // let num = t_w * scale;
+    let scale = 370 / 1080;
+    let num = t_h * scale;
+    let num_w = (num / 9) * 16;
+    // if(num>580){
+    //   num=580
+    // }
+    // let num_h = (num / 16) * 9;
 
     getObj("max-box").style.height =
       document.documentElement.offsetHeight + "px";
 
     this.setState({
-      video_w: num,
-      video_h: num_h,
+      // video_w: num,
+      // video_h: num_h,
+      video_w: num_w,
+      video_h: num,
       t_w: t_w,
     });
   }
@@ -190,15 +185,21 @@ export default class VideoPage extends Component {
     //每px占的毫秒
     for (let i = 0; i < json_sub.length; i++) {
       let sub_w = (json_sub[i].ed - json_sub[i].bg) / (total_time / total_w);
-
-      let sub_l = json_sub[i].bg / (total_time / total_w);
+      let sub_l = 0;
+      if (i == 0) {
+        sub_l = json_sub[i].bg / (total_time / total_w);
+      } else {
+        sub_l = (json_sub[i].bg - json_sub[i - 1].ed) / (total_time / total_w);
+      }
+      //json_sub[i].bg / (total_time / total_w);
 
       test_arr.push(
         <div
           key={i}
           style={{
             width: sub_w + "px",
-            transform: "translate(" + sub_l + "px,-50%)",
+            // transform: "translateX(" + sub_l + "px)",
+            marginLeft: sub_l + "px",
           }}
           className="test-nodes"
         >
@@ -224,7 +225,7 @@ export default class VideoPage extends Component {
           {this.state.lang === 3 || this.state.lang === 2 ? (
             <div
               className={this.state.the_current.inx == i ? "active" : ""}
-              style={{ marginTop: 30 }}
+              style={{ marginTop: 20 }}
             >
               {json_sub[i].en_sub && (
                 <p
@@ -249,6 +250,10 @@ export default class VideoPage extends Component {
             data-inx={i}
             style={{
               display: this.state.the_current.inx === i ? "block" : "none",
+              position: "absolute",
+              bottom: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
             onClick={this.now_play}
           >
@@ -269,7 +274,7 @@ export default class VideoPage extends Component {
     //接收组件传递视频数据
     let _data = this.state.video_data || {};
     if (JSON.stringify(_data) == "{}") {
-      if (!res.video_len&&res.video_time) {
+      if (!res.video_len && res.video_time) {
         let _time = res.video_time.split(":");
         res.video_len =
           parseInt(_time[0]) * 3600 +
@@ -281,12 +286,21 @@ export default class VideoPage extends Component {
       if (res.subtitling) {
         //生成字幕
         _data.sub_josn = res.subtitling;
+        if(res.subtitling[0].en_sub){
+          this.setState({
+            lang:2
+          })
+        }else{
+          this.setState({
+            lang:1
+          })
+        }
       }
     }
     this.setState({
       video_data: _data,
     });
-console.log('data',_data)
+
     sessionStorage.setItem("file_data", JSON.stringify(_data));
     if (this.video_live) {
       this.video_live.load();
@@ -454,12 +468,12 @@ console.log('data',_data)
     el.target.className = "normal";
     let _data = this.state.the_current || {};
     // _data.inx =parseInt( el.target.dataset.inx);
-
+    _data.time = this.state.video_data.sub_josn[el.target.dataset.inx].bg;
     this.setState({
       // top_inx: 2,// 暂时不用文字编辑，屏蔽
       status: false,
       is_play_now: false,
-      // the_current: _data,
+      the_current: _data,
       is_now_edit: true,
     });
 
@@ -475,15 +489,18 @@ console.log('data',_data)
     let cran_moiti = (this.state.t_w - 132) / 2;
 
     if (now_x > now_off + cran_moiti) {
-      if( now_off + (now_x - now_off - cran_moiti)>(this.state.sliderbox_width-(this.state.t_w-132))){
+      if (
+        now_off + (now_x - now_off - cran_moiti) >
+        this.state.sliderbox_width - (this.state.t_w - 132)
+      ) {
         this.setState({
-          sliderbox_off_x: this.state.sliderbox_width-(this.state.t_w-132)
+          sliderbox_off_x: this.state.sliderbox_width - (this.state.t_w - 132),
         });
-      }else{
+      } else {
         this.setState({
           sliderbox_off_x: now_off + (now_x - now_off - cran_moiti),
         });
-      }  
+      }
     }
     if (now_x < now_off + cran_moiti) {
       if (now_off - (now_off + cran_moiti - now_x) < 0) {
@@ -522,7 +539,6 @@ console.log('data',_data)
         video_data: _video_data,
       });
     } else {
-     
       if (lang == "zh") {
         if (_the_data.zh !== el.target.innerText) {
           _the_data.zh = el.target.innerText;
@@ -648,13 +664,7 @@ console.log('data',_data)
         <header className={styles.elHeader}>
           <HeaderTemplate parent={this} />
         </header>
-        <main
-          className={`${styles.elMain} ${styles.top}`}
-          style={{
-            height: this.state.video_h + 120 + "px",
-            minHeight: this.state.video_h + 120 + "px",
-          }}
-        >
+        <main className={`${styles.elMain} ${styles.top}`}>
           <section className={styles.elContainer}>
             {/** <aside className={styles.elAside}>
               <TopAside parent={this} />
@@ -666,6 +676,8 @@ console.log('data',_data)
               </div>
               <div>
                 <section>
+                  {/**  
+                    }}*/}
                   <div
                     className={styles.video}
                     id="myvideo"
@@ -741,7 +753,7 @@ console.log('data',_data)
                       ""
                     )}
                   </div>
-                 {/**  <div style={{ height: 20, backgroundColor: "#565663" }}></div>*/}
+                  {/**  <div style={{ height: 20, backgroundColor: "#565663" }}></div>*/}
                   <main className="box box-align-center box-between fn-size-14">
                     <div className="play-time">
                       <span className="fn-color-F2F2F5">
@@ -797,13 +809,14 @@ console.log('data',_data)
         <footer
           className={`${styles.elFooter} ${styles.bottom}`}
           style={{
-            height: "calc(100% - " + (this.state.video_h + 200) + "px)",
+            height: "calc(100% - " + (this.state.video_h + 140) + "px)",
           }}
         >
           <section className={styles.elContainer}>
             <aside className={styles.elAside}>
               <BottomAside
                 parent={this}
+                lang={this.state.lang}
                 onEvent={(ev) => {
                   this.setState({
                     lang: parseInt(ev),
@@ -942,7 +955,12 @@ console.log('data',_data)
 
                     {/*要判断*/}
                     <div
-                      style={{ height: "calc(100% - 40px)", overflowY: "auto" }}
+                      style={{
+                        height: "calc(100% - 40px)",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                      }}
+                      className="view-scroll"
                     >
                       {!this.state.is_edit ? (
                         <div

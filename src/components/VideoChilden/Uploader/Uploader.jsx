@@ -58,8 +58,18 @@ const NewBtn = withStyles({
     height: 32,
     "line-height": 0,
     padding: "6px 30px",
+    "&:hover":{
+      backgroundColor:'#0C0C0D',
+    }
   },
 })(Button);
+const NewDel=withStyles({
+  root:{
+    "&:hover":{
+      backgroundColor:'#FE4240',
+    }
+  }
+})(NewBtn)
 const NewBtn2 = withStyles({
   root: {
     backgroundColor: "#007CFF",
@@ -137,6 +147,17 @@ export default class UploadVideos extends Component {
           };
           if(res.result_data[0].subtitle){
             _data.sub_josn=res.result_data[0].subtitle
+            if(_data.sub_josn[0].en_sub){
+              console.log('is')
+              this.props.parent.setState({
+                lang:2
+              })
+            }else{
+              console.log('not')
+              this.props.parent.setState({
+                lang:1
+              })
+            }
           }
           if(res.result_data[0].description){
             _data.description=res.result_data[0].description
@@ -148,6 +169,13 @@ export default class UploadVideos extends Component {
             status: 3,
             files: _data,
           });
+          if(res.result_data[0].subtitle){
+          
+            this.props.parent.setState({
+              is_edit:true
+            })
+          }
+          
           sessionStorage.setItem('file_data',_data)
           this.props.parent.getUpfileUrl(_data);
           this.get_image(_id);
@@ -662,7 +690,7 @@ export default class UploadVideos extends Component {
                             视频编辑及字幕生成
                           </NewBtn>
                         )}
-                        <NewBtn
+                        <NewDel
                           onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
@@ -670,7 +698,7 @@ export default class UploadVideos extends Component {
                           }}
                         >
                           删除
-                        </NewBtn>
+                        </NewDel>
                       </div>
                     )}
                     {status === 4 && (
@@ -700,7 +728,7 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成字幕，请稍后 {files.video_len*60/210}分钟..</p>
+                        <p>正在生成字幕，请稍后{Math.ceil(files.video_len*60/210/60)-2}--{Math.ceil( files.video_len*60/210/60)+3}分钟..</p>
                       </div>
                     )}
                   </div>
@@ -710,7 +738,7 @@ export default class UploadVideos extends Component {
             {status === 3 &&
               !this.props.parent.state.is_edit &&
               !files.sub_josn && (
-                <div className="box box-center" style={{ marginTop: 100 }}>
+                <div className="box box-center" style={{ marginTop: 40 }}>
                   <NewBtn2
                     disabled={status != 3}
                     onClick={() => {
@@ -724,7 +752,7 @@ export default class UploadVideos extends Component {
             {status === 3 &&
               this.props.parent.state.is_edit &&
               !files.sub_josn && (
-                <div className="box box-center" style={{ marginTop: 100 }}>
+                <div className="box box-center" style={{ marginTop: 40 }}>
                   <NewBtn2
                     onClick={() => {
                       this.setState({

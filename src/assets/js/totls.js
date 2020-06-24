@@ -100,9 +100,12 @@ export const get_date=(timer,sep,num)=>{//时间戳转换
      let _sep = sep||'-';
   if(num==1){
     return _y+_sep+_m+_sep+_d+' '+_h+':'+_min;
+  }else if(num==9){
+    return _y+'年'+_m+'月'+_d+'日';
   }else{
     return _y+_sep+_m+_sep+_d+' '+_h+':'+_min+':'+_s;
   }
+  
 
 }
 

@@ -46,14 +46,18 @@
   white-space: nowrap;
   height: auto !important;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 #video-test .test-nodes{
   display: inline-block;
-  
+  /* display: flex;
+  align-items: center; */
   
   vertical-align: top;
- position: absolute;
- top:50%;
+ /* position: absolute;
+ top:0; */
+ position: relative;
  
 }
 #video-test .test-nodes>div{
@@ -107,10 +111,10 @@
 } */
 #video-test .test-nodes p {
   white-space: normal;
-  /* white-space: nowrap;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 0; */
+  margin: 0;
 }
 #video-test .test-nodes>div p{
   padding: 5px;
@@ -119,9 +123,9 @@
 #video-test .test-nodes p:hover {
   cursor: default;
 }
-#video-test .test-nodes .normal {
-  /* white-space: normal; */
-}
+ #video-test .test-nodes .normal { 
+  white-space: normal; 
+ } 
 .upload-cover input[type="file"]:focus {
   border-color: transparent;
   outline: none;

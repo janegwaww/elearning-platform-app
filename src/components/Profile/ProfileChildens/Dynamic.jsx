@@ -22,17 +22,17 @@ class Dynamic extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
+      // let _data = {
+      //   model_name: "subscription",
+      //   model_action: "get_subscription",
+      // };
+      // if (nextProps.parent.state.nowPage.childpage_id == 1) {
       let _data = {
-        model_name: "subscription",
-        model_action: "get_subscription",
+        model_name: "collection",
+        model_action: "get_collection",
       };
+      // }
       if (nextProps.parent.state.nowPage.childpage_id == 1) {
-        _data = {
-          model_name: "collection",
-          model_action: "get_collection",
-        };
-      }
-      if (nextProps.parent.state.nowPage.childpage_id == 2) {
         _data = {
           model_name: "video_history",
           model_action: "get_history",
@@ -64,19 +64,20 @@ class Dynamic extends React.Component {
   }
   render() {
     return (
-      <section className="bg-white profile-padding all-height view-scroll">
-        <nav >
+      <section className="bg-white profile-padding all-height view-scroll ">
+        <nav>
           <ProNavbar
             list={[this.props.parent.state.nowPage.childPage]}
             parent={this}
           />
         </nav>
-        <main>
+        <main className="profile-margin">
+          {/** 
           {this.state.page_id == 0 ? (
             <div>
               {this.state.pagedata && this.state.pagedata.length > 0
                 ? this.state.pagedata.map((option, inx) => (
-                    <div>
+                    <div key={inx}>
                       <div className="all-width box box-align-start">
                         <Avatar
                           style={{ width: 88, height: 88 }}
@@ -116,8 +117,7 @@ class Dynamic extends React.Component {
                         {this.state.pagedata && this.state.pagedata.length > 0
                           ? this.state.pagedata.map((v,inx) => (
                               <Grid item xs={3} key={JSON.stringify(v)}>
-                                {/** 
-                <WorksItem />*/}
+                              
                               </Grid>
                             ))
                           : ""}
@@ -129,7 +129,8 @@ class Dynamic extends React.Component {
           ) : (
             ""
           )}
-          {this.state.page_id == 1 ? (
+        */}
+          {this.state.page_id == 0 ? (
             <div>
               {/*<div className="all-width box box-align-start">
                 <Avatar
@@ -168,9 +169,14 @@ class Dynamic extends React.Component {
               </div>*/}
               <Grid container spacing={4} className="grid">
                 {this.state.pagedata && this.state.pagedata.length > 0
-                  ? this.state.pagedata.map((v,inx) => (
+                  ? this.state.pagedata.map((v, inx) => (
                       <Grid item xs={3} key={JSON.stringify(v)}>
-                        <WorksItem parent={this} info={v} />
+                        <WorksItem
+                          parent={this}
+                          info={v}
+                          history={false}
+                          inx={this.state.page_id}
+                        />
                       </Grid>
                     ))
                   : ""}
@@ -179,12 +185,18 @@ class Dynamic extends React.Component {
           ) : (
             <div></div>
           )}
-          {this.state.page_id == 2 ? (
+
+          {this.state.page_id == 1 ? (
             <Grid container spacing={4} className="grid">
               {this.state.pagedata && this.state.pagedata.length > 0
-                ? this.state.pagedata.map((v,inx) => (
+                ? this.state.pagedata.map((v, inx) => (
                     <Grid item xs={3} key={JSON.stringify(v)}>
-                      <WorksItem />
+                      <WorksItem
+                        parent={this}
+                        info={v}
+                        history={true}
+                        inx={this.state.page_id}
+                      />
                     </Grid>
                   ))
                 : ""}

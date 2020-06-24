@@ -234,7 +234,18 @@ class ProfileIndex extends React.Component {
             <div>
               <ProNavbar parent={_this} list={["我的作品"]} />
             </div>
-            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
+            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+
+              data-page="CreateCenter"
+              data-id="3"
+              data-defaultpage="作品管理"
+
+              onClick={(evt)=>{
+                evt.stopPropagation();
+                evt.preventDefault();
+                this.props.parent.pageRoute(evt)
+              }}
+            >
               全部作品
             </div>
           </div>
@@ -257,7 +268,7 @@ class ProfileIndex extends React.Component {
                 if(num == 2){
                   _data.extra_data.type='draft'
                 }
-                get_data("/api/v1/gateway", _data).then((res) => {
+                get_data("api/v1/gateway", _data).then((res) => {
                  
                   if (res.err == 0) {
                     _this.setState({
@@ -306,7 +317,7 @@ class ProfileIndex extends React.Component {
                       model_action: "get_collection",
                     };
                   }
-                  get_data("/api/v1/gateway", _data).then((res) => {
+                  get_data("api/v1/gateway", _data).then((res) => {
                     
                     if (res.err == 0) {
                      
@@ -319,7 +330,16 @@ class ProfileIndex extends React.Component {
                 }}
               />
             </div>
-            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
+            <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+            data-page="Dynamic"
+            data-id="4"
+            data-defaultpage="我的订阅"
+            onClick={(evt)=>{
+              evt.stopPropagation();
+              evt.preventDefault();
+              this.props.parent.pageRoute(evt);
+            }}
+            >
               查看更多
             </div>
           </div>

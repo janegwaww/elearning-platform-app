@@ -154,6 +154,9 @@ const userStyles = makeStyles((them) => ({
     },
     "&  .item": {
       marginTop: 22,
+      '& label':{
+        marginRight:20,
+      },
       "& .del": {
         color: "#878791",
         "&:hover": {
@@ -238,6 +241,7 @@ export default function VideoIndex(props) {
     }
     if(sessionStorage.getItem('file_data')){
        let _data = JSON.parse(sessionStorage.getItem('file_data'));
+       console.log(_data)
         setVideoImg(_data.image_path||'');
         setVideoTitle(_data.title||'');
         setVideodescription(_data.description||'');
@@ -357,7 +361,7 @@ export default function VideoIndex(props) {
                   variant="outlined"
                   multiline
                   fullWidth
-                  vlaue={videodescription}
+                  value={videodescription}
                   onChange={(event) => {
                     setVideodescription(event.target.value);
                   }}
@@ -422,7 +426,7 @@ export default function VideoIndex(props) {
                 </span>
               </div>
                       */}
-              <div className="box">
+              <div className="box item">
                 <label>视频封面</label>
                 <section className="all-width">
                   <p>
@@ -459,7 +463,7 @@ export default function VideoIndex(props) {
                 </section>
               </div>
 
-              <div className="box">
+              <div className="box item">
                 <label>系列视频</label>
                 <section style={{ width: "100%" }}>
                   <p>
