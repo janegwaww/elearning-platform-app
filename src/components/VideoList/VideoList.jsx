@@ -82,7 +82,7 @@ function RenderRow({ item, order }) {
   const classes = useStyles();
 
   return order ? (
-    <ListItem divider button style={{ overflow: "hidden" }}>
+    <ListItem divider button style={{ overflow: "hidden" }} disableGutters>
       <Link
         href={`/watch/?vid=${item.video_id}`}
         color="inherit"

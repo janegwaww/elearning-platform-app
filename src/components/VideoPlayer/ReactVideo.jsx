@@ -16,23 +16,20 @@ export default class VideoPlayer extends React.Component {
         medium: 600,
         large: 700,
         xlarge: 800,
-        huge: 900
+        huge: 900,
       },
       responsive: true,
       fluid: true,
       textTrackSettings: true,
       html5: {
-        nativeTextTracks: false
+        nativeTextTracks: false,
       },
       controlBar: {
         volumePanel: {
-          inline: false
-        }
-      }
+          inline: false,
+        },
+      },
     };
-
-    /* this.enterPip = this.enterPip.bind(this);
-     * this.exitPip = this.exitPip.bind(this); */
   }
 
   componentDidMount() {
@@ -54,7 +51,7 @@ export default class VideoPlayer extends React.Component {
     if (sources[0].src !== prevProps.sources[0].src) {
       if (this.player) {
         this.player.src({
-          src: sources[0].src
+          src: sources[0].src,
         });
         const oldtrack = this.player.remoteTextTracks()[0];
         this.player.removeRemoteTextTrack(oldtrack);
@@ -71,25 +68,8 @@ export default class VideoPlayer extends React.Component {
   }
 
   seekTo(seconds) {
-    this.player.currentTime(seconds);
+    return this.player.currentTime(seconds);
   }
-
-  // those methods will be abandoned
-  /* enterPip() {
-     *   this.player.ready(() => {
-     *     if (!this.player.paused() && !this.player.isInPictureInPicture()) {
-     *       this.player.requestPictureInPicture().catch(e => {
-     *         console.log(e);
-     *       });
-     *     }
-     *   });
-     * }
-
-     * exitPip() {
-     *   if (this.player.isInPictureInPicture()) {
-     *     this.player.exitPictureInPicture();
-     *   }
-     * } */
 
   // wrap the player in a div with a `data-vjs-player` attribute
   // so videojs won't create additional wrapper in the DOM
@@ -98,7 +78,7 @@ export default class VideoPlayer extends React.Component {
     return (
       <div data-vjs-player id="kengine-react-video-player">
         <video
-          ref={node => {
+          ref={(node) => {
             this.videoNode = node;
           }}
           className="video-js"
