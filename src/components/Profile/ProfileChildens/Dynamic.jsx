@@ -14,7 +14,7 @@ class Dynamic extends React.Component {
     };
     this.update_data = this.update_data.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     this.update_data({
       model_name: "subscription",
       model_action: "get_subscription",

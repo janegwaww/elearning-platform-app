@@ -61,9 +61,7 @@
   border-radius: 4px;
   /* padding: 5px; */
 }
-#video-test .test-nodes>div p{
-  padding: 5px;
-}
+
 #video-test .test-nodes>div.active{
   background:rgba(31,43,59,1);
   border:1px solid rgba(0,124,255,1);
@@ -108,16 +106,21 @@
   display: block;
 } */
 #video-test .test-nodes p {
-  white-space: nowrap;
+  white-space: normal;
+  /* white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 0;
+  margin: 0; */
 }
+#video-test .test-nodes>div p{
+  padding: 5px;
+}
+
 #video-test .test-nodes p:hover {
   cursor: default;
 }
 #video-test .test-nodes .normal {
-  white-space: normal;
+  /* white-space: normal; */
 }
 .upload-cover input[type="file"]:focus {
   border-color: transparent;

@@ -21,7 +21,7 @@ export default class MainLayout extends React.Component {
             <html lang="en" />
           </Helmet>
          <section className='ma-container is-vertical bg-f9' style={{minHeight:'100vh'}}>
-            <header className='ma-header' style={{height:80}}>
+            <header className='ma-header ' style={{height:64}}>
               <NavBar  />
             </header>
             <main className='ma-main profile-main' style={{height:'1px'}}>

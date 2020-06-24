@@ -237,11 +237,10 @@ export default function VideoIndex(props) {
       setUserinfo(JSON.parse(localStorage.getItem("haetekUser")));
     }
     if(sessionStorage.getItem('file_data')){
-      let _path = JSON.parse(sessionStorage.getItem('file_data')).image_path;
-      if(_path){
-        setVideoImg(_path);
-      }
-      
+       let _data = JSON.parse(sessionStorage.getItem('file_data'));
+        setVideoImg(_data.image_path||'');
+        setVideoTitle(_data.title||'');
+        setVideodescription(_data.description||'');
     }
 
     get_alldata("api/v1/gateway", [

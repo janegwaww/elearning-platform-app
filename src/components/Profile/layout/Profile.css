@@ -53,9 +53,9 @@
   line-height: 16px;
 }
 
-.all-width .view-overflow {
+/* .all-width .view-overflow {
   border-radius: 12px;
-}
+} */
 .box-flex.zero-edges {
   width: 25%;
   margin: 0;
@@ -101,11 +101,16 @@
   margin: 10px;
 }
 .MuiGrid-root.grid{
-  margin: 30px -10px -10px;
+  margin: 0 -10px -10px;
     width: calc(100% + 20px);
 }
  .MuiGrid-root.grid .MuiGrid-item{
   padding: 0 10px;
+  margin-top: 30px;
+ }
+ .zero-edges.all-width{
+  border:1px solid rgb(242, 242, 245);
+  border-radius: 12px;
  }
 /* .btn1{
   background-color:'#007CFF';
