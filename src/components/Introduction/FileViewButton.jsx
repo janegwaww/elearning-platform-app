@@ -56,9 +56,13 @@ export default function FileViewButton({ vid = "" }) {
   };
 
   const handleDownloads = () => {
-    downloadDocs({ file_id: checked }).then((data) => {
-      if (data.length) {
-        data.map((o) => window.open(o.file_path));
+    list.map((o, i) => {
+      if (o.file_id === checked[i]) {
+        const anchor = document.createElement("a");
+        anchor.href = o.file_path;
+        anchor.target = "_blank";
+        anchor.download = o.file_name;
+        anchor.click();
       }
     });
   };
