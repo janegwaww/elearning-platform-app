@@ -244,7 +244,7 @@ class Profile extends React.Component {
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
-              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+             <PageRouter num={this.state.nowPage.parent_id} parent={this} />
             </main>
           </section>
         </Container>

@@ -164,6 +164,13 @@ const SeriesItem = (props) => {
               <MenuItem onClick={handleClose}>编辑系列</MenuItem>
               <MenuItem onClick={handleClose}>移动系列</MenuItem>
               <MenuItem onClick={handleClose}>分享</MenuItem>
+              <MenuItem  onClick={handleClose}>
+                <Link color="inherit"
+                underline="none"
+                href={`/video/?sid=${props.info.video_id}`}
+                target="_blank"
+                rel="noopener norefferer"> 编辑字幕</Link>
+              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <Link
                   color="inherit"
