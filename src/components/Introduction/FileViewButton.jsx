@@ -15,6 +15,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
+import download from "downloadjs";
 import SearchLoading from "../Loading/SearchLoading";
 import { getRelateDocs, downloadDocs } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
@@ -47,7 +48,7 @@ export default function FileViewButton({ vid = "" }) {
   const handleClickOpen = () => {
     setOpen(true);
     if (!list.length) {
-      fetchFileList();
+      fetchFileList(vid);
     }
   };
 
@@ -56,9 +57,14 @@ export default function FileViewButton({ vid = "" }) {
   };
 
   const handleDownloads = () => {
-    downloadDocs({ file_id: checked }).then((data) => {
-      if (data.length) {
-        data.map((o) => window.open(o.file_path));
+    list.map((o, i) => {
+      if (o.file_id === checked[i]) {
+        /* const anchor = document.createElement("a");
+         * anchor.href = o.file_path;
+         * anchor.target = "_blank";
+         * anchor.download = o.file_name;
+         * anchor.click(); */
+        download(`${o.file_path}`, `${o.file_name}`);
       }
     });
   };

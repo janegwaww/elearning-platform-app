@@ -7,6 +7,24 @@ import Link from "../Link/Link";
 import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
 import "./SearchCardStyles.sass";
 
+export const decoratedStr = (who = "", subs = []) => {
+  let result = "";
+  result = subs.reduce((acc, cur) => {
+    const [word, rgb] = cur;
+    acc = acc.replace(RegExp(String.raw`(${word})`), `[${word}]`);
+    return acc;
+  }, who);
+  result = subs.reduce((acc, cur) => {
+    const [word, rgb] = cur;
+    acc = acc.replace(
+      RegExp(String.raw`(\[${word}\])`),
+      `<span style='color: rgb(${rgb.toString()})'>${word}</span>`
+    );
+    return acc;
+  }, result);
+  return result;
+};
+
 const imagePick = (path) =>
   path && (
     <div className="image-pick">
@@ -14,16 +32,22 @@ const imagePick = (path) =>
     </div>
   );
 
-const TitleItem = ({ pay, title, time, href }) => {
+const TitleItem = ({ pay, title, time, href, match = {} }) => {
+  const createMarkup = {
+    __html:
+      match.type === "title" ? decoratedStr(title, match.subtitle_dist) : title,
+  };
   return (
     <div className="title-item">
       {pay && <Chip size="small" label="付费" className="is-pay" />}
       {title && (
         <div style={{ flexGrow: 1 }}>
           <Link href={href}>
-            <Typography variant="subtitle1" noWrap>
-              {title}
-            </Typography>
+            <Typography
+              variant="subtitle1"
+              noWrap
+              dangerouslySetInnerHTML={createMarkup}
+            />
           </Link>
         </div>
       )}
@@ -36,12 +60,23 @@ const TitleItem = ({ pay, title, time, href }) => {
   );
 };
 
-const descriptionItem = (description) =>
-  description && (
-    <Typography variant="body2" color="textSecondary">
-      {description}
-    </Typography>
+const descriptionItem = (description, match = {}) => {
+  const createMarkup = {
+    __html:
+      match.type === "description"
+        ? decoratedStr(description, match.subtitle_dist)
+        : description,
+  };
+  return (
+    description && (
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        dangerouslySetInnerHTML={createMarkup}
+      />
+    )
   );
+};
 
 const authAvatar = (headshot) =>
   headshot && (
@@ -60,7 +95,7 @@ const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
       </Link>
       <Typography variant="caption">{name}</Typography>
       <div style={{ marginRight: 40 }} />
-      {(view || comment || like) && (
+      {!!(view || comment || like) && (
         <div style={{ gridColumn: 2, gridRow: 4 }}>
           <Typography variant="caption" color="textSecondary">
             {`${view}观看`}
@@ -74,12 +109,12 @@ const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
     </div>
   );
 
-const subtitle = ({ start_time, whole_str, matched_str, type, id }) => {
+const subtitle = ({ start_time, whole_str, subtitle_dist, type, id }) => {
   const createMarkup = () => ({
-    __html: `【${secondsToHMS(start_time)}】 "${whole_str.replace(
-      matched_str,
-      `<span style='color: #007cff'>${matched_str}</span>`
-    )}"`,
+    __html: `【${secondsToHMS(start_time)}】 ${decoratedStr(
+      whole_str,
+      subtitle_dist
+    )}`,
   });
   return (
     type === "subtitle" && (
@@ -94,12 +129,10 @@ const subtitle = ({ start_time, whole_str, matched_str, type, id }) => {
   );
 };
 
-const fans = (vi, fa) =>
-  (fa || vi) && (
-    <Typography>
+const fans = (vi) =>
+  !!vi && (
+    <Typography variant="body2" color="textSecondary">
       {`${vi}个视频`}
-      <Bull />
-      {`${fa}订阅`}
     </Typography>
   );
 
@@ -114,10 +147,11 @@ const videoContainer = ({ data = {}, match_frame }) => {
           title={data.title}
           time={data.upload_time}
           href={href}
+          match={match_frame}
         />
       </div>
       <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
-        {descriptionItem(data.description)}
+        {descriptionItem(data.description, match_frame)}
       </div>
       <div style={{ gridColumn: 2, gridRow: 4 }}>
         {subtitle({ ...match_frame, id: data.video_id })}
@@ -140,30 +174,18 @@ const authContainer = ({ data, match_frame }) => {
   const href = `/excellentcreator/creator/?cid=${data.user_id}`;
   return (
     <div className="container">
-      <div className="head">authAvatar(data.headshot)</div>
+      <div className="head">{authAvatar(data.headshot)}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
-          title={data.title}
+          title={data.user_name}
           time={data.upload_time}
           href={href}
         />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
-        {descriptionItem(data.description)}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }}>
-        {/* {subtitle({ ...match_frame, id })} */}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 5 }}>
-        {userAvatar(
-          data.user_name,
-          data.headshot,
-          data.user_id,
-          data.view_counts,
-          data.comment_counts,
-          data.like_counts
-        )}
+      <div style={{ gridColumn: 2, gridRow: 2 }}>{fans(data.video_counts)}</div>
+      <div style={{ gridColumn: 2, gridRow: "3/5" }}>
+        {descriptionItem(data.introduction)}
       </div>
     </div>
   );
@@ -209,16 +231,16 @@ const docContainer = ({ data, match_frame }) => {
       <div className="docHead">{imagePick(data.image_path)}</div>
       <div stye={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
-          title={data.title}
+          title={data.file_name}
           pay={data.is_pay}
-          time={data.upload_time}
+          time={data.time}
           href={href}
         />
       </div>
       <div className="docAvatar">
-        {userAvatar(data.user_name, data.headshot, data.user_id, data.download)}
+        {userAvatar(data.user_name, data.headshot, data.user_id)}
         <Typography variant="caption" color="textSecondary">
-          {`${data.download}次 下载`}
+          {`${data.download_counts}次 下载`}
         </Typography>
       </div>
     </div>
