@@ -87,42 +87,43 @@ export default function Search({ input }) {
       <Box height={40} />
       <Typography>
         {`${count}个`}
-        <span style={{ color: "#007cff" }}>{input}</span>相关的
+        <span style={{ color: "#007cff" }}>{input}</span>
+        相关的
       </Typography>
       <br />
       <Divider />
       <Box className={classes.buttonGrounp}>
         <Button
           size="small"
-          className={type === "all" && "action"}
+          className={`${type === "all" && "action"}`}
           onClick={() => handleTypeClick("all")}
         >
           全部
         </Button>
         <Button
           size="small"
-          className={type === "video" && "action"}
+          className={`${type === "video" && "action"}`}
           onClick={() => handleTypeClick("video")}
         >
           单个视频
         </Button>
         <Button
           size="small"
-          className={type === "series" && "action"}
+          className={`${type === "series" && "action"}`}
           onClick={() => handleTypeClick("series")}
         >
           系列视频
         </Button>
         <Button
           size="small"
-          className={type === "user" && "action"}
+          className={`${type === "user" && "action"}`}
           onClick={() => handleTypeClick("user")}
         >
           用户
         </Button>
         <Button
           size="small"
-          className={type === "document" && "action"}
+          className={`${type === "document" && "action"}`}
           onClick={() => handleTypeClick("document")}
         >
           课件
