@@ -146,6 +146,12 @@ export const getDocumentDetail = pipeThen(
   apisSearch.viewAdvancedInfo
 );
 
+// 获取相关课件
+export const getRelateDocs = pipeThen(getResultData, apisSearch.viewFile);
+
+// 下载课件
+export const downloadDocs = pipeThen(getResultData, apisSearch.downloadFile);
+
 // 开始播放调取该接口
 export const startWatchRecord = pipeThen(apisSearch.startWatchHistory);
 // 结束播放调取该接口

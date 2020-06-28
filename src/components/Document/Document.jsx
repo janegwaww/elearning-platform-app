@@ -185,24 +185,16 @@ export default function Document({ did }) {
               overflowY: "scroll",
             }}
           >
-            <img
-              src={`${detail.preview_path}`}
-              width={800}
-              alt={`${detail.preview_path}`}
-            />
+            <div style={{ margin: "auto", width: "800px" }}>
+              <img
+                src={`${detail.preview_path}`}
+                width={800}
+                alt={`${detail.preview_path}`}
+              />
+            </div>
           </Box>
         </Box>
         <br />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {/* <Button
-                variant="contained"
-                color="secondary"
-                style={{ borderRadius: 24 }}
-                onClick={() => window.history.back()}
-                >
-                返回
-                </Button> */}
-        </div>
         <br />
         <SearchLoading loading={loading} />
       </div>

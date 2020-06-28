@@ -1,165 +1,57 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
-import Link from "@material-ui/core/Link";
 import Bull from "./Bull";
-import { secondsToDate, secondsToHMS } from "../../services/utils";
+import Link from "../Link/Link";
+import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
+import "./SearchCardStyles.sass";
 
 const imagePick = (path) =>
-  path ? (
-    <img
-      src={`${path}`}
-      style={{ height: "100%", width: "246px" }}
-      alt={path}
-    />
-  ) : null;
+  path && (
+    <div className="image-pick">
+      <img src={`${path}`} width="246px" alt={path} height="100%" />
+    </div>
+  );
 
-const isPay = (pay) =>
-  pay ? (
-    <Chip
-      size="small"
-      label="付费"
-      style={{ backgroundColor: "#fc5659", color: "#fff" }}
-    />
-  ) : null;
-
-const uploadTime = (time) =>
-  time ? (
-    <Typography variant="caption" color="textSecondary">
-      {`${secondsToDate(time)} 发布`}
-    </Typography>
-  ) : null;
-
-const titleItem = (pay, title, time, id) =>
-  title ? (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      {isPay(pay)}
-      <Link
-        href={`/watch/?vid=${id}`}
-        color="textPrimary"
-        style={{ flexGrow: 1 }}
-        target="_blank"
-        rel="noopener norefferer"
-      >
-        <Typography variant="subtitle1" noWrap>
-          {title}
+const TitleItem = ({ pay, title, time, href }) => {
+  return (
+    <div className="title-item">
+      {pay && <Chip size="small" label="付费" className="is-pay" />}
+      {title && (
+        <div style={{ flexGrow: 1 }}>
+          <Link href={href}>
+            <Typography variant="subtitle1" noWrap>
+              {title}
+            </Typography>
+          </Link>
+        </div>
+      )}
+      {time && (
+        <Typography variant="caption" color="textSecondary">
+          {`${secondsToDate(time)} 发布`}
         </Typography>
-      </Link>
-      {uploadTime(time)}
+      )}
     </div>
-  ) : null;
-
-// 暂时的处理（重复代码）
-const authTitleItem = (pay, title, time, id, uid) =>
-  title ? (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      {isPay(pay)}
-      <Link
-        href={`/excellentcreator/creator/?cid=${uid}`}
-        style={{ flexGrow: 1 }}
-        target="_blank"
-        rel="noopener norefferer"
-      >
-        <Typography variant="h6">{title}</Typography>
-      </Link>
-      {uploadTime(time)}
-    </div>
-  ) : null;
-// 暂时处理
-const seriesTitleItem = (pay, title, time, id) =>
-  title ? (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      {isPay(pay)}
-      <Link
-        href={`/series/?sid=${id}`}
-        style={{ flexGrow: 1 }}
-        target="_blank"
-        rel="noopener norefferer"
-      >
-        <Typography variant="h6">{title}</Typography>
-      </Link>
-      {uploadTime(time)}
-    </div>
-  ) : null;
-// 暂时处理
-const docTitleItem = (pay, title, time, id) =>
-  title ? (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      {isPay(pay)}
-      <Link
-        href={`/document/?did=${id}`}
-        style={{ flexGrow: 1 }}
-        color="textPrimary"
-        target="_blank"
-        rel="noopener norefferer"
-      >
-        <Typography variant="subtitle1" noWrap>
-          {title}
-        </Typography>
-      </Link>
-      {uploadTime(time)}
-    </div>
-  ) : null;
+  );
+};
 
 const descriptionItem = (description) =>
-  description ? (
+  description && (
     <Typography variant="body2" color="textSecondary">
       {description}
     </Typography>
-  ) : null;
-
-const userViews = (view, comment, like) => {
-  return view || comment || like ? (
-    <div style={{ gridColumn: 2, gridRow: 4 }}>
-      <Typography variant="caption" color="textSecondary">
-        {view}观看
-        <Bull />
-        {comment}回应
-        <Bull />
-        {like}点赞
-      </Typography>
-    </div>
-  ) : null;
-};
+  );
 
 const authAvatar = (headshot) =>
-  headshot ? (
+  headshot && (
     <Avatar src={headshot} alt={headshot} style={{ width: 130, height: 130 }} />
-  ) : null;
+  );
 
-const userAvatar = (name, headshot, id, view, comment, like) =>
-  name ? (
+const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
+  name && (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <Link
-        href={`/excellentcreator/creator/?cid=${id}`}
-        target="_blank"
-        rel="noopener norefferer"
-      >
+      <Link href={`/excellentcreator/creator/?cid=${id}`}>
         <Avatar
           src={headshot}
           alt={name}
@@ -168,9 +60,19 @@ const userAvatar = (name, headshot, id, view, comment, like) =>
       </Link>
       <Typography variant="caption">{name}</Typography>
       <div style={{ marginRight: 40 }} />
-      {userViews(view, comment, like)}
+      {(view || comment || like) && (
+        <div style={{ gridColumn: 2, gridRow: 4 }}>
+          <Typography variant="caption" color="textSecondary">
+            {`${view}观看`}
+            <Bull />
+            {`${comment}回应`}
+            <Bull />
+            {`${like}点赞`}
+          </Typography>
+        </div>
+      )}
     </div>
-  ) : null;
+  );
 
 const subtitle = ({ start_time, whole_str, matched_str, type, id }) => {
   const createMarkup = () => ({
@@ -179,208 +81,160 @@ const subtitle = ({ start_time, whole_str, matched_str, type, id }) => {
       `<span style='color: #007cff'>${matched_str}</span>`
     )}"`,
   });
-  return type === "subtitle" ? (
-    <Link
-      href={`/watch/?vid=${id}&&time=${start_time}`}
-      target="_blank"
-      rel="noopener norefferer"
-    >
-      <Typography
-        variant="body2"
-        color="textSecondary"
-        dangerouslySetInnerHTML={createMarkup()}
-      ></Typography>
-    </Link>
-  ) : null;
+  return (
+    type === "subtitle" && (
+      <Link href={`/watch/?vid=${id}&&time=${start_time}`}>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          dangerouslySetInnerHTML={createMarkup()}
+        />
+      </Link>
+    )
+  );
 };
 
 const fans = (vi, fa) =>
-  fa || vi ? (
+  (fa || vi) && (
     <Typography>
       {`${vi}个视频`}
       <Bull />
       {`${fa}订阅`}
     </Typography>
-  ) : null;
+  );
 
-const videoContainer = (...fns) => ({
-  path,
-  pay,
-  title,
-  time,
-  id,
-  des,
-  name,
-  headshot,
-  uid,
-  view,
-  comment,
-  like,
-  match_frame = {},
-}) => {
+const videoContainer = ({ data = {}, match_frame }) => {
+  const href = `/watch/?vid=${data.video_id}`;
   return (
-    <div
-      style={{
-        display: "grid",
-        height: 148,
-        margin: "20px 0",
-        gridTemplateColumns: "246px auto",
-        gridTemplateRows: "repeat(5,1fr)",
-        gap: "10px 20px",
-        gridAutoFlow: "row",
-      }}
-    >
-      <div
-        style={{
-          gridColumn: 1,
-          gridRow: "1 / 6",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {fns[0](path)}
-      </div>
+    <div className="container">
+      <div className="head">{imagePick(data.image_path)}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
-        {fns[1](pay, title, time, id, uid)}
+        <TitleItem
+          pay={data.is_pay}
+          title={data.title}
+          time={data.upload_time}
+          href={href}
+        />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>{fns[2](des)}</div>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+        {descriptionItem(data.description)}
+      </div>
       <div style={{ gridColumn: 2, gridRow: 4 }}>
-        {fns[3]({ ...match_frame, id })}
+        {subtitle({ ...match_frame, id: data.video_id })}
       </div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
-        {fns[4](name, headshot, uid, view, comment, like)}
+        {userAvatar(
+          data.user_name,
+          data.headshot,
+          data.user_id,
+          data.view_counts,
+          data.comment_counts,
+          data.like_counts
+        )}
       </div>
     </div>
   );
 };
 
-const docContainer = (...fns) => ({
-  pay,
-  title,
-  time,
-  id,
-  uid,
-  name,
-  download,
-  path,
-}) => (
-  <div
-    style={{
-      gap: "10px 20px",
-      padding: "15px 0",
-      display: "grid",
-      height: 160,
-      borderTop: "1px solid #f2f2f5",
-      borderBottom: "1px solid #f2f2f5",
-      margin: "20px 0",
-      gridTemplateColumns: "246px auto",
-      gridTemplateRows: "repeat(5,1fr)",
-    }}
-  >
-    <div
-      style={{
-        gridColumn: 1,
-        gridRow: "1 / 6",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {fns[0](path)}
+const authContainer = ({ data, match_frame }) => {
+  const href = `/excellentcreator/creator/?cid=${data.user_id}`;
+  return (
+    <div className="container">
+      <div className="head">authAvatar(data.headshot)</div>
+      <div style={{ gridColumn: 2, gridRow: 1 }}>
+        <TitleItem
+          pay={data.is_pay}
+          title={data.title}
+          time={data.upload_time}
+          href={href}
+        />
+      </div>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+        {descriptionItem(data.description)}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }}>
+        {/* {subtitle({ ...match_frame, id })} */}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 5 }}>
+        {userAvatar(
+          data.user_name,
+          data.headshot,
+          data.user_id,
+          data.view_counts,
+          data.comment_counts,
+          data.like_counts
+        )}
+      </div>
     </div>
-    <div stye={{ gridColumn: 2, gridRow: 1 }}>
-      {fns[1](pay, title, time, id, name, download)}
+  );
+};
+
+const seriesContainer = ({ data, match_frame }) => {
+  const href = `/series/?sid=${data.series_id}`;
+  return (
+    <div className="container">
+      <div className="head">{imagePick(data.image_path)}</div>
+      <div style={{ gridColumn: 2, gridRow: 1 }}>
+        <TitleItem
+          pay={data.is_pay}
+          title={data.title}
+          time={data.upload_time}
+          href={href}
+        />
+      </div>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+        {descriptionItem(data.description)}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }}>
+        {/* {subtitle({ ...match_frame, id })} */}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 5 }}>
+        {userAvatar(
+          data.user_name,
+          data.headshot,
+          data.user_id,
+          data.view_counts,
+          data.comment_counts,
+          data.like_counts
+        )}
+      </div>
     </div>
-    <div
-      style={{
-        gridColumn: 2,
-        gridRow: 5,
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      {fns[2](name, "", uid, download)}
-      <Typography
-        variant="caption"
-        color="textSecondary"
-      >{`${download}次 下载`}</Typography>
+  );
+};
+
+const docContainer = ({ data, match_frame }) => {
+  const href = `/document/?did=${data.file_id}`;
+  return (
+    <div className="docContainer">
+      <div className="docHead">{imagePick(data.image_path)}</div>
+      <div stye={{ gridColumn: 2, gridRow: 1 }}>
+        <TitleItem
+          title={data.title}
+          pay={data.is_pay}
+          time={data.upload_time}
+          href={href}
+        />
+      </div>
+      <div className="docAvatar">
+        {userAvatar(data.user_name, data.headshot, data.user_id, data.download)}
+        <Typography variant="caption" color="textSecondary">
+          {`${data.download}次 下载`}
+        </Typography>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function SearchCard({ card = {} }) {
-  const { data, match_frame, source } = card;
-
-  const vtrans = (obj = {}) => ({
-    path: obj.image_path,
-    pay: obj.is_pay,
-    title: obj.title,
-    time: obj.upload_time,
-    id: obj.video_id,
-    des: obj.description,
-    name: obj.user_name,
-    headshot: obj.headshot,
-    uid: obj.user_id,
-    view: obj.view_counts,
-    comment: obj.comment_counts,
-    like: obj.like_counts,
-  });
-  const atrans = (obj = {}) => ({
-    path: obj.headshot,
-    pay: obj.is_pay,
-    title: obj.user_name,
-    time: obj.upload_time,
-    uid: obj.user_id,
-    des: obj.introduction,
-    videos: obj.video_counts,
-    fans: obj.fans_counts,
-  });
-  const dtrans = (obj = {}) => ({
-    path: obj.image_path,
-    pay: obj.is_pay,
-    title: obj.file_name,
-    time: obj.time,
-    id: obj.file_id,
-    download: obj.download_counts,
-  });
-
-  const videoCard = videoContainer(
-    imagePick,
-    titleItem,
-    descriptionItem,
-    subtitle,
-    userAvatar
-  )({ ...vtrans(data), match_frame });
-
-  const authCard = videoContainer(
-    authAvatar,
-    authTitleItem,
-    descriptionItem,
-    subtitle,
-    fans
-  )(atrans(data));
-
-  const seriesCard = videoContainer(
-    imagePick,
-    seriesTitleItem,
-    descriptionItem,
-    subtitle,
-    userAvatar
-  )(vtrans(data));
-
-  const docCard = docContainer(
-    imagePick,
-    docTitleItem,
-    userAvatar
-  )(dtrans(data));
-
-  const chosenCard = (sour) =>
+  const chosenCard = ({ source, data, match_frame }) =>
     ({
-      video: videoCard,
-      series: seriesCard,
-      user: authCard,
-      document: docCard,
-    }[sour]);
-  return <Fragment>{chosenCard(source)}</Fragment>;
+      video: videoContainer({ data, match_frame }),
+      series: seriesContainer({ data, match_frame }),
+      user: authContainer({ data, match_frame }),
+      document: docContainer({ data, match_frame }),
+    }[source]);
+
+  const Card = pipe(chosenCard);
+
+  return <div className="global-search-card">{Card(card)}</div>;
 }
