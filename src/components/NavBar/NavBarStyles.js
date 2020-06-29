@@ -2,7 +2,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 0.2
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -67,7 +67,6 @@ const useStyles = makeStyles(theme => ({
   },
   createButton: {
     borderRadius: "20px",
-    marginLeft: "20px",
     backgroundColor: theme.palette.secondary.main,
     color: "#fff",
     "&:hover": {
