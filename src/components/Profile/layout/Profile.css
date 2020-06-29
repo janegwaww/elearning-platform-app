@@ -132,5 +132,5 @@
   border-bottom: 2px solid rgb(77, 144, 254); 
 }
 .MuiStepIcon-root.MuiStepIcon-completed{
-color:#007CFF ;
+color:#007CFF !important;
 }
