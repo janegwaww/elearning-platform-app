@@ -8,21 +8,14 @@ import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
 import "./SearchCardStyles.sass";
 
 export const decoratedStr = (who = "", subs = []) => {
-  let result = "";
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(RegExp(String.raw`(${word})`), `[${word}]`);
-    return acc;
-  }, who);
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(
-      RegExp(String.raw`(\[${word}\])`),
-      `<span style='color: rgb(${rgb.toString()})'>${word}</span>`
-    );
-    return acc;
-  }, result);
-  return result;
+  const explore = (arr, fn) => arr.reduce(fn, "");
+  const concatStr = (acc, cur) => acc.concat(cur[0]);
+  const span = ([c, r]) =>
+    `<span style='color: rgb(${r.toString()})'>${c}</span>`;
+  const concatColorStr = (acc, cur) => acc.concat(span(cur));
+  const subStr = explore(subs, concatStr);
+  const result = explore(subs, concatColorStr);
+  return who.replace(subStr, result);
 };
 
 const imagePick = (path, type) =>
@@ -221,9 +214,7 @@ const seriesContainer = ({ data, match_frame }) => {
       <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
         {descriptionItem(data.description)}
       </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }}>
-        {/* {subtitle({ ...match_frame, id })} */}
-      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }}></div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
         {userAvatar(
           data.user_name,
