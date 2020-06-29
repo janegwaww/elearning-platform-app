@@ -7,28 +7,24 @@ import Link from "../Link/Link";
 import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
 import "./SearchCardStyles.sass";
 
+// 根据后台数据修饰某些字符
 export const decoratedStr = (who = "", subs = []) => {
-  let result = "";
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(RegExp(String.raw`(${word})`), `[${word}]`);
-    return acc;
-  }, who);
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(
-      RegExp(String.raw`(\[${word}\])`),
-      `<span style='color: rgb(${rgb.toString()})'>${word}</span>`
-    );
-    return acc;
-  }, result);
-  return result;
+  const explore = (arr, fn) => arr.reduce(fn, "");
+  const concatStr = (acc, cur) => acc.concat(cur[0]);
+  const span = ([c, r]) =>
+    `<span style='color: rgb(${r.toString()})'>${c}</span>`;
+  const concatColorStr = (acc, cur) => acc.concat(span(cur));
+  const subStr = explore(subs, concatStr);
+  const result = explore(subs, concatColorStr);
+  return who.replace(subStr, result);
 };
 
-const imagePick = (path, type) =>
-  path && (
+const imagePick = (path, href = "/", type) =>
+  !!path && (
     <div className="image-pick">
-      <img src={`${path}`} width="246px" alt={path} height="100%" />
+      <Link href={href}>
+        <img src={`${path}`} width="246px" alt={path} height="100%" />
+      </Link>
       {type === "series" && (
         <div className="series-tag">
           <Typography color="primary" variant="caption">
@@ -92,9 +88,15 @@ const descriptionItem = (description, match = {}) => {
   );
 };
 
-const authAvatar = (headshot) =>
+const authAvatar = (headshot, href = "/") =>
   headshot && (
-    <Avatar src={headshot} alt={headshot} style={{ width: 130, height: 130 }} />
+    <Link href={href}>
+      <Avatar
+        src={headshot}
+        alt={headshot}
+        style={{ width: 130, height: 130 }}
+      />
+    </Link>
   );
 
 const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
@@ -154,7 +156,7 @@ const videoContainer = ({ data = {}, match_frame }) => {
   const href = `/watch/?vid=${data.video_id}`;
   return (
     <div className="container">
-      <div className="head">{imagePick(data.image_path)}</div>
+      <div className="head">{imagePick(data.image_path, href)}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -188,7 +190,7 @@ const authContainer = ({ data, match_frame }) => {
   const href = `/excellentcreator/creator/?cid=${data.user_id}`;
   return (
     <div className="container">
-      <div className="head">{authAvatar(data.headshot)}</div>
+      <div className="head">{authAvatar(data.headshot, href)}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -209,7 +211,7 @@ const seriesContainer = ({ data, match_frame }) => {
   const href = `/series/?sid=${data.series_id}`;
   return (
     <div className="container">
-      <div className="head">{imagePick(data.image_path, "series")}</div>
+      <div className="head">{imagePick(data.image_path, href, "series")}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -221,9 +223,7 @@ const seriesContainer = ({ data, match_frame }) => {
       <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
         {descriptionItem(data.description)}
       </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }}>
-        {/* {subtitle({ ...match_frame, id })} */}
-      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }} />
       <div style={{ gridColumn: 2, gridRow: 5 }}>
         {userAvatar(
           data.user_name,
@@ -242,7 +242,7 @@ const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
     <div className="docContainer">
-      <div className="docHead">{imagePick(data.image_path, "doc")}</div>
+      <div className="docHead">{imagePick(data.image_path, href, "doc")}</div>
       <div stye={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           title={data.file_name}
@@ -269,8 +269,6 @@ export default function SearchCard({ card = {} }) {
       user: authContainer({ data, match_frame }),
       document: docContainer({ data, match_frame }),
     }[source]);
-
   const Card = pipe(chosenCard);
-
   return <div className="global-search-card">{Card(card)}</div>;
 }
