@@ -25,10 +25,24 @@ export const decoratedStr = (who = "", subs = []) => {
   return result;
 };
 
-const imagePick = (path) =>
+const imagePick = (path, type) =>
   path && (
     <div className="image-pick">
       <img src={`${path}`} width="246px" alt={path} height="100%" />
+      {type === "series" && (
+        <div className="series-tag">
+          <Typography color="primary" variant="caption">
+            系列
+          </Typography>
+        </div>
+      )}
+      {type === "doc" && (
+        <div className="doc-tag">
+          <Typography color="primary" variant="caption">
+            课件
+          </Typography>
+        </div>
+      )}
     </div>
   );
 
@@ -195,7 +209,7 @@ const seriesContainer = ({ data, match_frame }) => {
   const href = `/series/?sid=${data.series_id}`;
   return (
     <div className="container">
-      <div className="head">{imagePick(data.image_path)}</div>
+      <div className="head">{imagePick(data.image_path, "series")}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -228,7 +242,7 @@ const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
     <div className="docContainer">
-      <div className="docHead">{imagePick(data.image_path)}</div>
+      <div className="docHead">{imagePick(data.image_path, "doc")}</div>
       <div stye={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           title={data.file_name}
