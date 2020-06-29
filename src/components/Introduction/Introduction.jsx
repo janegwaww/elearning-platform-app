@@ -13,7 +13,7 @@ import {
   Paper,
   Collapse,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import FileViewButton from "./FileViewButton";
 import { getVideoIntro } from "../../services/video";
@@ -27,12 +27,12 @@ export default function Introduction({ vid = "" }) {
     viewCounts: 0,
     collectionCounts: 0,
     description: "",
-    category: [""]
+    category: [""],
   });
   const [anchorEl, setAnchorEl] = useState(null);
 
   const fetchIntroduction = () => {
-    getVideoIntro({ video_id: vid }).then(data => {
+    getVideoIntro({ video_id: vid }).then((data) => {
       setIntro(data);
     });
   };
@@ -54,7 +54,7 @@ export default function Introduction({ vid = "" }) {
    *     <ExpandMoreIcon fontSize="small" />
    *   ); */
 
-  const handleMenuOpen = event => {
+  const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -73,7 +73,7 @@ export default function Introduction({ vid = "" }) {
       transformOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <MenuItem
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault();
           handleMenuClose();
         }}
@@ -89,14 +89,14 @@ export default function Introduction({ vid = "" }) {
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <div style={{ flex: "2 0 auto", display: "flex" }}>
           <UserFeedback backData={intro} />
         </div>
         <div style={{ flex: "0.1 0 auto", display: "flex" }}>
-          <FileViewButton />
+          <FileViewButton vid={vid} />
         </div>
         <div style={{ display: "flex" }}>
           <IconButton

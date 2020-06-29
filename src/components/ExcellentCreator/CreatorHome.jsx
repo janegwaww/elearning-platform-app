@@ -256,7 +256,7 @@ export default class CreatorHome extends Component {
                   <img
                     src={background}
                     height={300}
-                    width="auto"
+                    width="100%"
                     alt={background}
                   />
                 </div>
