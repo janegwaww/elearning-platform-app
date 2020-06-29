@@ -9,8 +9,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import InputBase from "@material-ui/core/InputBase";
 import Link from "@material-ui/core/Link";
-import Avatar from "@material-ui/core/Avatar";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
@@ -18,20 +16,21 @@ import Box from "@material-ui/core/Box";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Footer from "../components/Footer/Footer";
 import ScrollTop from "./ScrollTop";
+import AvatarMenu from "./AvatarMenu";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
-import { isLoggedIn, logout, getUser } from "../services/auth";
 import "./SearchLayoutStyles.sass";
 
-export default function SearchLayout({ children, searchValue }) {
+export default function SearchLayout({ children, searchValue = "" }) {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("");
-  const { headshot, name } = getUser();
-  const isLogin = isLoggedIn();
 
   const handleSearch = (e) => {
     const { value } = document.getElementById("search-page-input");
-    value && setInput(value);
+    if (value) {
+      setInput(value);
+      setRefInput(value);
+    }
   };
 
   useEffect(() => {
@@ -50,21 +49,13 @@ export default function SearchLayout({ children, searchValue }) {
             <div className="h-toolbar">
               <nav>
                 <Link href="/">知擎首页</Link>
-                <Link href="#">下载APP</Link>
+                <Link href="/">下载APP</Link>
               </nav>
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
               </Badge>
-              <Box display="flex" ml={2.5}>
-                {isLogin ? (
-                  <Avatar
-                    src={headshot}
-                    alt={name}
-                    style={{ width: 20, height: 20 }}
-                  />
-                ) : (
-                  <AccountCircle color="primary" />
-                )}
+              <Box display="flex" ml={5} mr={3}>
+                <AvatarMenu />
               </Box>
               <Link href="/video/" underline="none">
                 <Button

@@ -8,27 +8,34 @@ import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
 import "./SearchCardStyles.sass";
 
 export const decoratedStr = (who = "", subs = []) => {
-  let result = "";
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(RegExp(String.raw`(${word})`), `[${word}]`);
-    return acc;
-  }, who);
-  result = subs.reduce((acc, cur) => {
-    const [word, rgb] = cur;
-    acc = acc.replace(
-      RegExp(String.raw`(\[${word}\])`),
-      `<span style='color: rgb(${rgb.toString()})'>${word}</span>`
-    );
-    return acc;
-  }, result);
-  return result;
+  const explore = (arr, fn) => arr.reduce(fn, "");
+  const concatStr = (acc, cur) => acc.concat(cur[0]);
+  const span = ([c, r]) =>
+    `<span style='color: rgb(${r.toString()})'>${c}</span>`;
+  const concatColorStr = (acc, cur) => acc.concat(span(cur));
+  const subStr = explore(subs, concatStr);
+  const result = explore(subs, concatColorStr);
+  return who.replace(subStr, result);
 };
 
-const imagePick = (path) =>
+const imagePick = (path, type) =>
   path && (
     <div className="image-pick">
       <img src={`${path}`} width="246px" alt={path} height="100%" />
+      {type === "series" && (
+        <div className="series-tag">
+          <Typography color="primary" variant="caption">
+            系列
+          </Typography>
+        </div>
+      )}
+      {type === "doc" && (
+        <div className="doc-tag">
+          <Typography color="primary" variant="caption">
+            课件
+          </Typography>
+        </div>
+      )}
     </div>
   );
 
@@ -195,7 +202,7 @@ const seriesContainer = ({ data, match_frame }) => {
   const href = `/series/?sid=${data.series_id}`;
   return (
     <div className="container">
-      <div className="head">{imagePick(data.image_path)}</div>
+      <div className="head">{imagePick(data.image_path, "series")}</div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -207,9 +214,7 @@ const seriesContainer = ({ data, match_frame }) => {
       <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
         {descriptionItem(data.description)}
       </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }}>
-        {/* {subtitle({ ...match_frame, id })} */}
-      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }}></div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
         {userAvatar(
           data.user_name,
@@ -228,7 +233,7 @@ const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
     <div className="docContainer">
-      <div className="docHead">{imagePick(data.image_path)}</div>
+      <div className="docHead">{imagePick(data.image_path, "doc")}</div>
       <div stye={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           title={data.file_name}
