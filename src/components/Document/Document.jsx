@@ -8,26 +8,59 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Link from "@material-ui/core/Link";
 import SearchLoading from "../Loading/SearchLoading";
-import { getDocumentDetail } from "../../services/video";
+import {
+  getDocumentDetail,
+  aliPayment,
+  verifyAliPay,
+} from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
 
 export default function Document({ did }) {
   const [detail, setDetail] = useState({});
   const [expanded, setExpanded] = useState("");
-  const [loading, setLoading] = useState("false");
+  const [loading, setLoading] = useState(false);
   const [isPay, setIsPay] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [paidedHref, setPaidedHref] = useState("");
 
   const fetchDocumentInfo = () => {
     setLoading(true);
     getDocumentDetail({ file_id: did }).then((data) => {
       setDetail(data);
+      setIsPay(!!data.is_pay);
       setLoading(false);
     });
   };
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
+  };
+
+  const verifyIsPaided = (id) => {
+    verifyAliPay({ order_id: id }).then((data) => {
+      const { file_path } = data;
+      if (file_path) {
+        setPaidedHref(file_path);
+        setIsPay(!!file_path);
+      } else {
+        setTimeout(() => {
+          verifyIsPaided(id);
+        }, 1000);
+      }
+      console.log(data);
+    });
+  };
+
+  const paymentClick = () => {
+    const { price } = detail;
+    aliPayment({ price, file_id: did }).then((data) => {
+      if (data.url && data.order_id) {
+        window.open(data.url);
+        setOrderId(data.order_id);
+        verifyIsPaided(data.order_id);
+      }
+    });
   };
 
   useEffect(() => {
@@ -82,7 +115,7 @@ export default function Document({ did }) {
               <div style={{ marginRight: "120px", display: "inline" }} />
               {isPay ? (
                 <Link
-                  href={`http://api.haetek.com:9191/static/document/欧拉公式.pdf`}
+                  href={`${paidedHref}`}
                   underline="none"
                   target="_blank"
                   rel="noopener norefferer"
@@ -97,7 +130,7 @@ export default function Document({ did }) {
                 </Link>
               ) : (
                 <ButtonBase
-                  onClick={() => setIsPay(true)}
+                  onClick={paymentClick}
                   size="small"
                   style={{
                     backgroundColor: "#fc5659",
@@ -119,7 +152,7 @@ export default function Document({ did }) {
           <Box className="content">
             {detail.author_info &&
               detail.author_info.map((o) => (
-                <div>
+                <div key={o.name}>
                   <Typography gutterBottom noWrap>
                     {o.name}
                   </Typography>

@@ -49,7 +49,7 @@ export const getHotAuths = pipeThen(
 // };
 
 export const searchGlobal = pipeThen(
-  getCountResultData,
+  getResultData,
   errorMessageNotice,
   apisVideo.globalSearch
 );

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
-import { withSnackbar } from "notistack";
 import HomeTab from "./HomeTab";
 import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
@@ -14,77 +13,38 @@ class Home extends Component {
     this.state = {
       hotVideos: [],
       loading: true,
-      circle: false,
-      page: 1,
     };
   }
 
-  isBottom(el) {
-    return Math.floor(el.getBoundingClientRect().bottom) <= window.innerHeight;
-  }
-
-  trackScrolling = (e) => {
-    const wrappedElement = document.getElementById("page-footer");
-    const { hotVideos, loading, page } = this.state;
-    if (this.isBottom(wrappedElement)) {
-      this.setState({ circle: true });
-      setTimeout(() => {
-        this.setState({ circle: false });
-        hotVideos.length <= 1000 && !loading && this.fetchHotVideo(page);
-      }, 1500);
-    }
-  };
-
   componentDidMount() {
-    this.fetchHotVideo(1);
-    /* document.addEventListener("scroll", this.trackScrolling); */
+    this.fetchHotVideo({});
   }
 
-  componentWillUnmount() {
-    /* document.removeEventListener("scroll", this.trackScrolling); */
-  }
-
-  fetchHotVideo = (event, page = 1) => {
+  fetchHotVideo = ({ page = 1 }, callback = () => ({})) => {
     this.setState({ loading: true });
     getHotVideos({ max_size: 16, page }).then((data) => {
-      /* if (data.length > 0) {
-       *   this.setState((prev) => ({
-       *     hotVideos: prev.hotVideos.concat(data),
-       *     page: prev.page + 1,
-       *   }));
-       * } else {
-       *   this.props.enqueueSnackbar("没有更多数据了", { variant: "info" });
-       * } */
-      if (data.length > 0) {
-        this.setState({ hotVideos: data });
-      }
+      this.setState({ hotVideos: data });
       this.setState({ loading: false });
+      callback(data);
     });
   };
 
   render() {
-    const { hotVideos, loading, circle } = this.state;
+    const { hotVideos, loading } = this.state;
 
     return (
       <Fragment>
         <ChannelBar id="hots" />
         <br />
-        <div style={{ minHeight: "90vh" }}>
-          <GridCards
-            loading={loading}
-            itemCount={hotVideos.length}
-            items={hotVideos}
-          />
+        <div style={{ minHeight: "50vh" }}>
+          <GridCards loading={loading} itemCount={16} items={hotVideos} />
         </div>
         <br />
-        <Pagination total={hotVideos.length} handlePage={this.fetchHotVideo} />
-        {/* <Box style={{ display: "flex", justifyContent: "center" }}>
-            {circle ? <CircularProgress color="secondary" /> : null}
-            </Box> */}
+        <Pagination fetch={this.fetchHotVideo} />
         <br />
       </Fragment>
     );
   }
 }
 
-export default withSnackbar(Home);
+export default Home;
