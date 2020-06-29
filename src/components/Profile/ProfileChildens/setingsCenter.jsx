@@ -28,7 +28,7 @@ import { getObj } from "../../../assets/js/totls";
 import { get_data } from "../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import CustomModal from '../../../assets/js/CustomModal';
+import CustomModal from "../../../assets/js/CustomModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,9 +95,9 @@ const useStyles = makeStyles((theme) => ({
 const table_data = [
   {
     label: "手机号",
-    value: "12345678921",
+    value: "",
     button_v: "修改手机号",
-    type: "iphone",
+    type: "phone",
     isunite: true,
   },
   {
@@ -123,73 +123,24 @@ const table_data = [
   },
 ];
 
-function getStepContent(step) {
- 
-  switch (step) {
-    case 0:
-      return (
-        <Grid container spacing={3}>
-          <Grid item xs={3}>
-            原手机号
-          </Grid>
-          <Grid item xs={9}>
-            <TextField  className= 'edit-phone' />
-          </Grid>
-          <Grid item xs={3}>
-            验证码
-          </Grid>
-          <Grid item xs={9}>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <TextField  className= 'edit-phone'  />
-              </Grid>
-              <Grid item xs={6}>
-                获取验证码
-              </Grid>
+// function getStepContent(step,phone,time) {
+//   let _phone_code, _phone, _old_phone=phone
+//   switch (step) {
+//     case 0:
+//       return (
+//         <div></div>
+//       );
+//     case 1:
+//       return (
+//         <div></div>
 
-              <Grid item xs={12}>
-                验证过程中会用到短信, 请注意您的手机提示,
-                我们将保护您个人手机号信息
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      );
-    case 1:
-      return (
-        <Grid container spacing={3}>
-          <Grid item xs={3}>
-            原手机号
-          </Grid>
-          <Grid item xs={9}>
-            <TextField   className= 'edit-phone'/>
-          </Grid>
-          <Grid item xs={3}>
-            验证码
-          </Grid>
-          <Grid item xs={9}>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <TextField  className= 'edit-phone' />
-              </Grid>
-              <Grid item xs={6}>
-                获取验证码
-              </Grid>
-
-              <Grid item xs={12}>
-                验证过程中会用到短信, 请注意您的手机提示,
-                我们将保护您个人手机号信息
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      );
-    case 2:
-      return <div>成功</div>;
-    default:
-      return "Unknown step";
-  }
-}
+//       );
+//     case 2:
+//       return <div>成功</div>;
+//     default:
+//       return "Unknown step";
+//   }
+// }
 
 const Setpage = (props) => {
   const classes = useStyles();
@@ -206,14 +157,14 @@ const Setpage = (props) => {
     dialogtitle: "解除绑定",
     dialogmsg: "确定解除绑定吗?",
   });
-  const [userInfo,setUserInfo] = React.useState({});//保存用户信息
+  const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
+  // 基本设置
   const [uphead, setUphead] = React.useState(false); //打开上传头像弹窗
   const [headerfiles, setHeaderfiles] = React.useState(null); //文件
   const [headerUrl, setHeaderUrl] = React.useState(null); //临时路径
   const [minheaderurl, setMinheaderurl] = React.useState(null); //裁切路径
   const [newheaderurl, setNewheaderurl] = React.useState(""); //上传后路径
   let heraderRef = React.useRef(null);
-
   const [upcover, setUpcover] = React.useState(false); //打开上传封面
   const [coverurl, setCoverurl] = React.useState(null); //临时本地路径
   const [coverfile, setCoverfile] = React.useState(null); //将要上传的文件
@@ -232,7 +183,10 @@ const Setpage = (props) => {
       isOpen: false,
     });
   };
-  const [activeStep, setActiveStep] = React.useState(0);
+  // 安全中心
+  const [activeStep, setActiveStep] = React.useState(1);
+  const [bindPhone, setBindPhone] = React.useState("");
+  const [countdown, setCountdown] = React.useState(0); //保存倒计时
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -245,18 +199,19 @@ const Setpage = (props) => {
     props.parent.setState({
       nowPage: _data,
     });
+    setActiveStep(1);
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    setActiveStep(1);
   };
-  React.useEffect (() => {
-    if(sessionStorage.getItem('user_info')){
-      setUserInfo(JSON.parse(sessionStorage.getItem('user_info')));
-     
+  React.useEffect(() => {
+    if (sessionStorage.getItem("user_info")) {
+      setUserInfo(JSON.parse(sessionStorage.getItem("user_info")));
+
+      table_data[0].value = userInfo.mobile;
     }
-   
-  }, [])
+  }, []);
 
   return (
     <section className="all-height view-scroll bg-white profile-padding ">
@@ -267,8 +222,8 @@ const Setpage = (props) => {
       ) : (
         <span></span>
       )}
-      <main className="profile-top fn-size-14">
-        {navbarStatus == 1 ? (
+      <main className="profile-top fn-size-14 all-width">
+        {navbarStatus == 1 && (
           <div className={classes.root}>
             <Grid container spacing={3}>
               <Grid item xs={2} className="text-right">
@@ -276,7 +231,11 @@ const Setpage = (props) => {
               </Grid>
               <Grid item xs={10}>
                 <div
-                  style={{ backgroundImage:newheaderurl? "url(" + newheaderurl + ")":'url('+userInfo.headshot+')' }}
+                  style={{
+                    backgroundImage: newheaderurl
+                      ? "url(" + newheaderurl + ")"
+                      : "url(" + userInfo.headshot + ")",
+                  }}
                   className={`text-center bg-not fn-color-white box box-center ${classes.usersimg}`}
                   onClick={() => {
                     setUphead(true);
@@ -394,7 +353,9 @@ const Setpage = (props) => {
                   style={{
                     width: 640,
                     height: 140,
-                    backgroundImage:newcoverurl? "url(" + newcoverurl + ")":'url('+userInfo.background+')',
+                    backgroundImage: newcoverurl
+                      ? "url(" + newcoverurl + ")"
+                      : "url(" + userInfo.background + ")",
                   }}
                   onClick={() => {
                     setUpcover(true);
@@ -473,7 +434,7 @@ const Setpage = (props) => {
               </Grid>
               <Grid item xs={10}>
                 <TextField
-                  placeholder={userInfo&&userInfo.user_name}
+                  placeholder={userInfo && userInfo.user_name}
                   className={classes.input}
                   onChange={(ev, value) => {
                     setUsername(ev.target.value);
@@ -484,14 +445,13 @@ const Setpage = (props) => {
                 ID号:
               </Grid>
               <Grid item xs={10}>
-                {userInfo&&userInfo.user_id}
+                {userInfo && userInfo.user_id}
               </Grid>
 
               <Grid item xs={2} className="text-right">
                 性别:
               </Grid>
               <Grid item xs={10}>
-        
                 <RadioGroup
                   className={classes.radioRoot}
                   onChange={(ev) => {
@@ -506,7 +466,6 @@ const Setpage = (props) => {
                     label="保密"
                   />
                 </RadioGroup>
-            
               </Grid>
               <Grid item xs={2} className="text-right">
                 出生日期:
@@ -514,14 +473,12 @@ const Setpage = (props) => {
               <Grid item xs={10}>
                 <TextField
                   type="date"
-                  defaultValue='1965-20-23'
+                  defaultValue="1965-20-23"
                   className={classes.input}
                   onChange={(ev, value) => {
                     setBirth(ev.target.value);
-                    
                   }}
                 />
-
               </Grid>
               <Grid item xs={2} className="text-right">
                 我的简介:
@@ -531,9 +488,10 @@ const Setpage = (props) => {
                   id="outlined-multiline-static"
                   fullWidth
                   multiline
-                  placeholder={userInfo&&userInfo.introduction||'个人描述'}
+                  placeholder={
+                    (userInfo && userInfo.introduction) || "个人描述"
+                  }
                   rows={5}
-               
                   variant="outlined"
                   className={classes.input}
                   onChange={(ev) => {
@@ -554,32 +512,30 @@ const Setpage = (props) => {
                       model_action: "change_information",
                       extra_data: {
                         app_background: userInfo.app_background,
-                        background: newcoverurl||userInfo.background,
-                        headshot: newheaderurl||userInfo.headshot,
-                        user_name: username||userInfo.user_name,
-                        gender: sex||userInfo.gender,
-                        birthday: birth||userInfo.birthday,
-                        introduction: userdescribe||userInfo.introduction,
+                        background: newcoverurl || userInfo.background,
+                        headshot: newheaderurl || userInfo.headshot,
+                        user_name: username || userInfo.user_name,
+                        gender: sex || userInfo.gender,
+                        birthday: birth || userInfo.birthday,
+                        introduction: userdescribe || userInfo.introduction,
                       },
                       model_type: "",
                     };
 
                     get_data("api/v1/gateway", _data).then((res) => {
-                      console.log(props)
-                      if(res.err==0){
-                        
-                        new CustomModal().alert(res.errmsg,'success','5000');
-                       
-                      }else{
-                        new CustomModal().alert('修改失败','error','3000')
+                      console.log(props);
+                      if (res.err == 0) {
+                        new CustomModal().alert(res.errmsg, "success", "5000");
+                      } else {
+                        new CustomModal().alert("修改失败", "error", "3000");
                       }
-                      // get_data("api/v1/gateway", 
+                      // get_data("api/v1/gateway",
                       // { model_name: "user", model_action: "get_information" }).then(res=>{
                       //   props.parent.setState({
                       //     userinfo:res.result_data[0]
                       //   })
                       //   sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
-                       
+
                       // })
                     });
                   }}
@@ -589,30 +545,28 @@ const Setpage = (props) => {
               </Grid>
             </Grid>
           </div>
-        ) : (
-          <div></div>
         )}
-        {navbarStatus == 2 ? (
-          <div>
+        {navbarStatus == 2 && (
+          <div className="all-width">
             {table_data.map((option, inx) => (
               <Grid
                 container
-                spacing={10}
                 key={option.label}
                 className="fn-color-2C2C3B fn-size-14"
+                style={{ margin: "40px 0" }}
               >
-                <Grid item xs={2} className="fn-color-878791">
+                <Grid item xs={3} className="fn-color-878791">
                   {option.label}:
                 </Grid>
-                <Grid item xs={7}>
-                  {option.value}
+                <Grid item xs={6}>
+                  {option.type == "phone" ? userInfo.mobile : option.value}
                 </Grid>
-                <Grid item xs={3} className="text-right">
+                <Grid item xs={3}>
                   <Button
                     className={
                       option.isunite && inx > 0
-                        ? `${classes.btn1} ${classes.btn2}`
-                        : classes.btn1
+                        ? `${classes.btn1} ${classes.btn2} all-width`
+                        : `${classes.btn1} all-width`
                     }
                     variant="outlined"
                     color="secondary"
@@ -664,10 +618,8 @@ const Setpage = (props) => {
               </Grid>
             ))}
           </div>
-        ) : (
-          <div></div>
         )}
-        {navbarStatus == 3 ? (
+        {navbarStatus == 3 && (
           <div>
             <nav>
               <Navbar
@@ -749,40 +701,286 @@ const Setpage = (props) => {
               </Button>
             </div>
           </div>
-        ) : (
-          <div></div>
         )}
 
-        {navbarStatus == 4 ? (
+        {navbarStatus == 4 && (
           <div>
             <nav>
               <ProNavbar list={navBarList} parent={props} onEvent={onEvent} />
             </nav>
+            <div className="profile-top">
+              <div className="box ">
+                <div
+                  className="box box-between text-center"
+                  style={{
+                    flexDirection: "column",
+                    minWidth: "30%",
+                    minHeight: 176,
+                  }}
+                >
+                  <div>身份验证</div>
+                  <div>绑定手机</div>
+                  <div>绑定成功</div>
+                </div>
+                <div style={{ minWidth: "70%" }} className="all-height">
+                  {activeStep == 1 && (
+                    <div className="all-width">
+                      <Grid container spacing={1} className="all-width">
+                        <Grid item xs={3}>
+                          原手机号:
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            className="edit-phone all-width"
+                            placeholder={userInfo.mobile}
+                            onChange={(evt) => {
+                              _phone = evt.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}></Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        spacing={1}
+                        className="all-width"
+                        style={{ paddingTop: 20 }}
+                      >
+                        <Grid item xs={3}>
+                          验证码:
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            className="edit-phone all-width"
+                            placeholder="验证码"
+                            onChange={(evt) => {
+                              _phone = evt.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <span className="fn-color-007CFF">获取验证码</span>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={3} className="all-width">
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={9}>
+                          注册过程中会用到短信, 请注意您的手机提示,
+                          我们将保护您个人手机号信息
+                        </Grid>
+                      </Grid>
+                    </div>
+                  )}
+                  {activeStep == 2 && (
+                    <div className="all-width">
+                      <Grid container spacing={1} className="all-width">
+                        <Grid item xs={3}>
+                          新手机号:
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            className="edit-phone all-width"
+                            placeholder={userInfo.mobile}
+                            onChange={(evt) => {
+                              _phone = evt.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}></Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        spacing={1}
+                        className="all-width"
+                        style={{ paddingTop: 20 }}
+                      >
+                        <Grid item xs={3}>
+                          验证码:
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            className="edit-phone all-width"
+                            placeholder="验证码"
+                            onChange={(evt) => {
+                              _phone = evt.target.value;
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <span className="fn-color-007CFF">获取验证码</span>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={3} className="all-width">
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={9}>
+                          注册过程中会用到短信, 请注意您的手机提示,
+                          我们将保护您个人手机号信息
+                        </Grid>
+                      </Grid>
+                    </div>
+                  )}
+                  {activeStep >= 3 && (
+                    <div
+                      className="all-width all-height box box-align-center"
+                      style={{ minHeight: "calc(176px - 56px)" }}
+                    >
+                    <div style={{width:'50%',height:'100%'}} className='box box-center all-height'>完成</div>
+                     <div style={{width:'50%',height:'100%'}}></div>
+                    </div>
+                  )}
+                  <Grid
+                    container
+                    spacing={3}
+                    className="all-width"
+                    style={{ paddingTop: 20 }}
+                  >
+                    {activeStep >= 3 ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleBack}
+                      >
+                        完成
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                      >
+                        下一步
+                      </Button>
+                    )}
+                    &nbsp;&nbsp;
+                    <Button variant="contained" onClick={handleBack}>
+                      取消
+                    </Button>
+                  </Grid>
+                </div>
+              </div>
 
-            <div>
+              {/** 
               <Stepper orientation="vertical" activeStep={activeStep}>
                 {["身份验证", "绑定手机", "绑定成功"].map((label, inx) => (
                   <Step key={label}>
                     <StepLabel>{label}</StepLabel>
                     <StepContent>
                       <div>
-                        {getStepContent(inx)}
+                        {activeStep == 0 && (
+                          <Grid container spacing={3}>
+                            <Grid item xs={3}>
+                              原手机号
+                            </Grid>
+                            <Grid item xs={9}>
+                              <TextField
+                                className="edit-phone"
+                                placeholder={userInfo.mobile}
+                                onChange={(evt) => {
+                                  _phone = evt.target.value;
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              验证码
+                            </Grid>
+                            <Grid item xs={9}>
+                              <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                  <TextField
+                                    className="edit-phone"
+                                    onChange={(evt) => {
+                                      _phone_code = evt.target.value;
+                                    }}
+                                  />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <span
+                                    onClick={() => {
+                                      if (!_phone || phone.length != 11) {
+                                        new CustomModal().alert(
+                                          "手机号不正确！输入正确的手机号！"
+                                        );
+                                        return;
+                                      }
+
+                                      // get_data("api/v1/gateway", {
+                                      //   model_name: "user",
+                                      //   model_action: "generate_code",
+                                      //   extra_data: {
+                                      //     mobile: phone,
+                                      //     type: "bind",
+                                      //   },
+                                      // }).then(res=>{
+                                      //   console.log(res)
+                                      // })
+                                    }}
+                                  >
+                                    获取验证码
+                                  </span>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                  验证过程中会用到短信, 请注意您的手机提示,
+                                  我们将保护您个人手机号信息
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        )}
+
+                        {activeStep == 1 && (
+                          <Grid container spacing={3}>
+                            <Grid item xs={3}>
+                              原手机号
+                            </Grid>
+                            <Grid item xs={9}>
+                              <TextField className="edit-phone" />
+                            </Grid>
+                            <Grid item xs={3}>
+                              验证码
+                            </Grid>
+                            <Grid item xs={9}>
+                              <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                  <TextField className="edit-phone" />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  获取验证码
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                  验证过程中会用到短信, 请注意您的手机提示,
+                                  我们将保护您个人手机号信息
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        )}
+                        {activeStep == 2 && (
+                          <Grid container spacing={3}>
+                            <Grid item xs={3}> </Grid>
+                            <Grid item xs={9}>
+                              成功
+                            </Grid>
+                           
+                          </Grid>
+                        )}
+
                         <Grid container spacing={3}>
                           <Grid item xs={3}></Grid>
                           <Grid item xs={9}>
-                            <Button onClick={handleNext}>下一步</Button>{" "}
-                            <Button onClick={handleBack}>取消</Button>
+                          {activeStep>=2?(<Button variant="contained" color="primary" onClick={handleBack}>完成</Button>):(<Button variant="contained" color="primary" onClick={handleNext}>下一步</Button>)}
+                            &nbsp;&nbsp;
+                            <Button variant="contained" onClick={handleBack}>取消</Button>
                           </Grid>
                         </Grid>
                       </div>
                     </StepContent>
                   </Step>
                 ))}
-              </Stepper>
+              </Stepper>*/}
             </div>
           </div>
-        ) : (
-          <span></span>
         )}
       </main>
       <ProfileDialog parent={props} info={untieData} onEvent={untie_click} />

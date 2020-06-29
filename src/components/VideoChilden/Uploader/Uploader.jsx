@@ -111,7 +111,7 @@ export default class UploadVideos extends Component {
     this.btn_del = this.btn_del.bind(this);
   }
   componentDidMount() {
-    console.log(this.props.parent.props.location.href);
+    // console.log(this.props.parent.props.location.href);
     if (getUser().name) {
       this.setState({
         user_info: getUser(),
@@ -148,12 +148,12 @@ export default class UploadVideos extends Component {
           if(res.result_data[0].subtitle){
             _data.sub_josn=res.result_data[0].subtitle
             if(_data.sub_josn[0].en_sub){
-              console.log('is')
+             
               this.props.parent.setState({
                 lang:2
               })
             }else{
-              console.log('not')
+              
               this.props.parent.setState({
                 lang:1
               })
@@ -180,9 +180,9 @@ export default class UploadVideos extends Component {
           this.props.parent.getUpfileUrl(_data);
           this.get_image(_id);
         }
-        console.log(res);
+        // console.log(res);
       });
-      console.log(_id);
+      // console.log(_id);
     } else if (sessionStorage.getItem("file_data")) {
       let _data = JSON.parse(sessionStorage.getItem("file_data"));
 

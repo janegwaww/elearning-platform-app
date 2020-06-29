@@ -27,6 +27,7 @@ const return_dom = (parent,num) => {
       return <CreateCenter parent={parent}/>;
     case 4:
       // 动态
+      
       return <Dynamic parent={parent}/>;
     case 5:
       return <SetPage parent={parent}/>;

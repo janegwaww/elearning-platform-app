@@ -102,14 +102,16 @@ class ProfileIndex extends React.Component {
             onClick={() => {
               event.stopPropagation();
               event.preventDefault();
+              let _page = {
+                childPage: "",
+                chilepage_id: 0,
+                parent: "SetingsCenter",
+                parent_id: 5,
+              }
               this.props.parent.setState({
-                nowPage: {
-                  childPage: "",
-                  chilepage_id: 0,
-                  parent: "SetingsCenter",
-                  parent_id: 5,
-                },
+                nowPage:_page,
               });
+              sessionStorage.setItem('now_page',JSON.stringify(_page));
             }}
           >
             <Settings />

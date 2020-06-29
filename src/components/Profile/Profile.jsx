@@ -188,7 +188,7 @@ class Profile extends React.Component {
                     id={"dynamic-menu"}
                   />
                 </li>
-                <li
+               {/**  <li
                   aria-controls="message-menu"
                   onClick={this.pageRoute}
                   data-page="MsgCenter"
@@ -204,7 +204,7 @@ class Profile extends React.Component {
                     id={"message-menu"}
                   />
                 </li>
-
+*/}
                 <li
                   aria-label="more"
                   aria-controls="create-menu"
@@ -244,7 +244,7 @@ class Profile extends React.Component {
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
-              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+             <PageRouter num={this.state.nowPage.parent_id} parent={this} />
             </main>
           </section>
         </Container>
