@@ -18,6 +18,7 @@ import Box from "@material-ui/core/Box";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Footer from "../components/Footer/Footer";
 import ScrollTop from "./ScrollTop";
+import AvatarMenu from "./AvatarMenu";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
 import { isLoggedIn, logout, getUser } from "../services/auth";
@@ -55,16 +56,8 @@ export default function SearchLayout({ children, searchValue }) {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
               </Badge>
-              <Box display="flex" ml={2.5}>
-                {isLogin ? (
-                  <Avatar
-                    src={headshot}
-                    alt={name}
-                    style={{ width: 20, height: 20 }}
-                  />
-                ) : (
-                  <AccountCircle color="primary" />
-                )}
+              <Box display="flex" ml={5} mr={3}>
+                <AvatarMenu />
               </Box>
               <Link href="/video/" underline="none">
                 <Button

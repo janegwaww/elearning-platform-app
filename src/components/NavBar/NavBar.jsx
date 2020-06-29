@@ -1,7 +1,6 @@
 import React from "react";
 import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Container from "@material-ui/core/Container";
@@ -15,92 +14,34 @@ import {
   IconButton,
   AppBar,
   Button,
-  Avatar,
   InputAdornment,
   Link,
-  ButtonBase
+  ButtonBase,
+  Box,
 } from "@material-ui/core";
-import { isLoggedIn, logout, getUser } from "../../services/auth";
+import AvatarMenu from "../../layout/AvatarMenu";
 import logo from "../../../static/logos/Logo.png";
 import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isLogin = isLoggedIn();
-  const { headshot, name } = getUser();
-
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = event => {
+  const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
-    value && navigate("/search/", { state: { searchValue: value } });
+    if (value) {
+      navigate("/search/", { state: { searchValue: value } });
+    }
   };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-      classes={{ list: classes.list }}
-    >
-      {isLogin ? (
-        <MenuItem
-          onClick={e => {
-            e.preventDefault();
-            navigate(`/users/profile/`);
-            handleMenuClose();
-          }}
-        >
-          Profile
-        </MenuItem>
-      ) : null}
-      {isLogin ? (
-        <MenuItem
-          onClick={e => {
-            e.preventDefault();
-            logout(() => ({}));
-            handleMenuClose();
-          }}
-        >
-          Logout
-        </MenuItem>
-      ) : (
-        <MenuItem
-          onClick={e => {
-            e.preventDefault();
-            navigate(`/users/login`);
-          }}
-        >
-          LogIn
-        </MenuItem>
-      )}
-    </Menu>
-  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -130,19 +71,11 @@ export default function PrimarySearchAppBar() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-          onClick={() => navigate("/profile/")}
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+      <MenuItem>
+        <Box display="flex" justifyContent="center" width="100%">
+          <AvatarMenu />
+        </Box>
       </MenuItem>
     </Menu>
   );
@@ -178,7 +111,7 @@ export default function PrimarySearchAppBar() {
                 placeholder="搜索..."
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput
+                  input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
                 id="navbar-search-input"
@@ -200,29 +133,14 @@ export default function PrimarySearchAppBar() {
               <IconButton
                 aria-label="show 17 new notifications"
                 color="inherit"
+                style={{ marginRight: 20 }}
               >
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                {isLogin ? (
-                  <Avatar
-                    src={headshot}
-                    alt={name}
-                    style={{ width: 30, height: 30 }}
-                  />
-                ) : (
-                  <AccountCircle />
-                )}
-              </IconButton>
+              <AvatarMenu />
+              <div style={{ marginRight: 30 }} />
             </div>
             <div>
               <Button
@@ -246,9 +164,7 @@ export default function PrimarySearchAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-
       {renderMobileMenu}
-      {renderMenu}
     </div>
   );
 }
