@@ -58,18 +58,18 @@ const NewBtn = withStyles({
     height: 32,
     "line-height": 0,
     padding: "6px 30px",
-    "&:hover":{
-      backgroundColor:'#0C0C0D',
-    }
+    "&:hover": {
+      backgroundColor: "#0C0C0D",
+    },
   },
 })(Button);
-const NewDel=withStyles({
-  root:{
-    "&:hover":{
-      backgroundColor:'#FE4240',
-    }
-  }
-})(NewBtn)
+const NewDel = withStyles({
+  root: {
+    "&:hover": {
+      backgroundColor: "#FE4240",
+    },
+  },
+})(NewBtn);
 const NewBtn2 = withStyles({
   root: {
     backgroundColor: "#007CFF",
@@ -107,6 +107,7 @@ export default class UploadVideos extends Component {
 
     this.new_subtitles = this.new_subtitles.bind(this);
     this.query_subtitles = this.query_subtitles.bind(this);
+    this.reset_subtitles = this.reset_subtitles.bind(this);
     this.get_image = this.get_image.bind(this);
     this.btn_del = this.btn_del.bind(this);
   }
@@ -145,38 +146,35 @@ export default class UploadVideos extends Component {
             video_size: res.result_data[0].video_size,
             video_time: res.result_data[0].video_time,
           };
-          if(res.result_data[0].subtitle){
-            _data.sub_josn=res.result_data[0].subtitle
-            if(_data.sub_josn[0].en_sub){
-             
+          if (res.result_data[0].subtitle) {
+            _data.sub_josn = res.result_data[0].subtitle;
+            if (_data.sub_josn[0].en_sub) {
               this.props.parent.setState({
-                lang:2
-              })
-            }else{
-              
+                lang: 2,
+              });
+            } else {
               this.props.parent.setState({
-                lang:1
-              })
+                lang: 1,
+              });
             }
           }
-          if(res.result_data[0].description){
-            _data.description=res.result_data[0].description
+          if (res.result_data[0].description) {
+            _data.description = res.result_data[0].description;
           }
-          if(res.result_data[0].series_id){
-            _data.series_id=res.result_data[0].series_id
+          if (res.result_data[0].series_id) {
+            _data.series_id = res.result_data[0].series_id;
           }
           this.setState({
             status: 3,
             files: _data,
           });
-          if(res.result_data[0].subtitle){
-          
+          if (res.result_data[0].subtitle) {
             this.props.parent.setState({
-              is_edit:true
-            })
+              is_edit: true,
+            });
           }
-          
-          sessionStorage.setItem('file_data',_data)
+
+          sessionStorage.setItem("file_data", _data);
           this.props.parent.getUpfileUrl(_data);
           this.get_image(_id);
         }
@@ -214,7 +212,7 @@ export default class UploadVideos extends Component {
       model_name: "video",
       model_action: "generate_thumbnail",
       extra_data: {
-        video_id: this.state.files._id || this.state.files.video_id ||id,
+        video_id: this.state.files._id || this.state.files.video_id || id,
       },
       model_type: "",
     }).then((res) => {
@@ -226,7 +224,6 @@ export default class UploadVideos extends Component {
 
   new_subtitles(str) {
     //获取新的字幕
-
     let _this = this;
     let _data = {
       model_name: "video",
@@ -236,15 +233,51 @@ export default class UploadVideos extends Component {
         task_id: this.state.files._id || this.state.files.video_id,
         lang: this.state.lang_value,
       },
-      model_type: "",
+      
     };
     this.setState({
       status: 5,
     });
 
     get_data("api/v1/gateway", _data, "post").then((res) => {
-      _this.query_subtitles(); //查询是否生成字幕
+      
+      if(res.err===0){
+        setTimeout(()=>{
+          this.query_subtitles()//查询是否生成字幕
+        },Math.ceil((this.state.files.video_len * 60) / 210 )*1000)
+      //  _this.query_subtitles(); //查询是否生成字幕
+      }else{
+        new CustomModal().alert('生成字幕失败','error',4000);
+        this.setState({
+          status: 3,
+        });
+      }
+     
       // console.log("成功", res);
+    });
+  }
+  reset_subtitles() {
+    let _data = {
+      model_name: "video",
+      model_action: "reset_subtitle",
+      extra_data: {
+        video_id: this.state.files._id || this.state.files.video_id,
+        lang: this.state.lang_value,
+      },
+     
+    };
+    get_data("api/v1/gateway", _data).then((res) => {
+      if(res.err===0){
+        setTimeout(()=>{
+          this.query_subtitles()//查询是否生成字幕
+        },Math.ceil((this.state.files.video_len * 60) / 210 )*1000)
+      }else{
+        new CustomModal().alert('生成字幕失败','error',4000);
+        this.setState({
+          status: 3,
+        });
+      }
+      
     });
   }
   query_subtitles() {
@@ -260,7 +293,6 @@ export default class UploadVideos extends Component {
 
     get_data("api/v1/gateway", _data, "post")
       .then((res) => {
-        console.log(res.errmsg);
         if (res.err == 4104) {
           navigate(`users/login`);
           return;
@@ -283,7 +315,7 @@ export default class UploadVideos extends Component {
       .catch((err) => {
         this.setState({ status: 3 });
         new CustomModal().alert("生成字幕失败", "error", 4000);
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -303,7 +335,7 @@ export default class UploadVideos extends Component {
         <div className="nav-tabs ">
           <p>我的视频</p>
         </div>
-        {_this.state.status === 1 ? (
+        {status === 1 && (
           <div className="lists">
             <section
               className="box  box-center all-width"
@@ -348,8 +380,10 @@ export default class UploadVideos extends Component {
                     model_type: "",
                   }).then((res) => {
                     if (res.err === 0 && res.errmsg == "OK") {
-                      
-                      _this.setState({ status: 2, fileName: files.name.split('.')[0] });
+                      _this.setState({
+                        status: 2,
+                        fileName: files.name.split(".")[0],
+                      });
 
                       this.myFile.init(files);
                       this.myFile.on("progress", function(res) {
@@ -535,7 +569,7 @@ export default class UploadVideos extends Component {
                   }
                   _this.setState({
                     status: 2,
-                    fileName: e.target.files[0].name.split('.')[0],
+                    fileName: e.target.files[0].name.split(".")[0],
                   });
 
                   this.myFile.init();
@@ -604,10 +638,8 @@ export default class UploadVideos extends Component {
               />
             </section>
           </div>
-        ) : (
-          <div></div>
         )}
-        {status >= 2 ? (
+        {status >= 2 && (
           <div style={{ paddingTop: 20 }} className="all-width">
             <section
               className={`all-width ${
@@ -729,7 +761,14 @@ export default class UploadVideos extends Component {
                     {status === 5 && (
                       <div>
                         <LinearProgress color="secondary" />
-                        <p>正在生成字幕，请稍后{Math.ceil(files.video_len*60/210/60)-2<=0?Math.ceil(files.video_len*60/210/60):Math.ceil(files.video_len*60/210/60)-2}--{Math.ceil( files.video_len*60/210/60)+3}分钟..</p>
+                        <p>
+                          正在生成字幕，请稍后
+                          {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
+                            ? Math.ceil((files.video_len * 60) / 210 / 60)
+                            : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
+                          ~{Math.ceil((files.video_len * 60) / 210 / 60) + 3}
+                          分钟..
+                        </p>
                       </div>
                     )}
                   </div>
@@ -750,24 +789,20 @@ export default class UploadVideos extends Component {
                   </NewBtn2>
                 </div>
               )}
-            {status === 3 &&
-              this.props.parent.state.is_edit &&
-              !files.sub_josn && (
-                <div className="box box-center" style={{ marginTop: 40 }}>
-                  <NewBtn2
-                    onClick={() => {
-                      this.setState({
-                        lang_open: true,
-                      });
-                    }}
-                  >
-                    智能生成语音字幕
-                  </NewBtn2>
-                </div>
-              )}
+            {status === 3 && this.props.parent.state.is_edit && (
+              <div className="box box-center" style={{ marginTop: 40 }}>
+                <NewBtn2
+                  onClick={() => {
+                    this.setState({
+                      lang_open: true,
+                    });
+                  }}
+                >
+                  {!files.sub_josn ? "智能生成语音字幕" : "重新提取字幕"}
+                </NewBtn2>
+              </div>
+            )}
           </div>
-        ) : (
-          <i></i>
         )}
         {/**弹窗 */}
 
@@ -808,7 +843,14 @@ export default class UploadVideos extends Component {
                   return;
                 }
                 _this.setState({ lang_open: false, status: 5 });
-                _this.new_subtitles();
+                if(files.sub_josn){
+                  _this.reset_subtitles();//重新生成字幕
+                  
+                }else{
+                  _this.new_subtitles();//生成新的字幕
+                  
+                }
+               
               }}
             >
               确定

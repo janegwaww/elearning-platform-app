@@ -117,9 +117,9 @@ class Profile extends React.Component {
     return (
       <Layout>
         <Helmet title={`${config.siteTitle}`} />
-        <Container fixed className="all-height all-width">
-          <section className="ma-container all-height all-width">
-            <aside className="ma-aside profile-left all-height bg-white">
+        <Container className="all-height all-width ">
+          <section className="ma-container all-height all-width profile-height">
+            <aside className="ma-aside profile-left all-height bg-white ">
               {this.state.nowPage.parent_id > 1 ? (
                 <div
                   className="profile-bottom profile-padding bg-white text-center"

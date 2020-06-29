@@ -6,6 +6,8 @@ import {
   CameraAltOutlined,
   AddCircleOutlined,
   BrokenImageOutlined,
+  Check,
+  CheckCircleOutline,
 } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,6 +31,8 @@ import { get_data } from "../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../assets/js/CustomModal";
+import { set } from "lodash";
+import { get } from "jquery";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,6 +81,10 @@ const useStyles = makeStyles((theme) => ({
     width: 180,
     height: 40,
     borderRadius: 20,
+  },
+  btn4: {
+    backgroundColor: "#F2F2F5",
+    color: "#878791",
   },
 
   radioRoot: {
@@ -185,12 +193,119 @@ const Setpage = (props) => {
   };
   // 安全中心
   const [activeStep, setActiveStep] = React.useState(1);
-  const [bindPhone, setBindPhone] = React.useState("");
+  const [bindPhone, setBindPhone] = React.useState(""); //旧手机号/新手机号
+  const [bindCode, setBindCode] = React.useState(""); //验证码
+  const [token, setToken] = React.useState("");
   const [countdown, setCountdown] = React.useState(0); //保存倒计时
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
 
+  const handleNext = () => {
+    let _phone = bindPhone;
+    let _code = bindCode;
+    let _data = null;
+    console.log(activeStep);
+    if (activeStep === 1 && !_phone) {
+      _phone = userInfo.mobile;
+    }
+    if (!_phone || _phone.length != 11) {
+      new CustomModal().alert("输入合法的手机号", "error", 3000);
+      return;
+    }
+    if (!_code || _code.length != 4) {
+      new CustomModal().alert("输入合法的验证码", "error", 3000);
+      return;
+    }
+    if (activeStep === 1) {
+      _data = {
+        model_name: "user",
+        model_action: "verify_mobile",
+        extra_data: {
+          mobile: _phone,
+          code: _code,
+        },
+      };
+    }
+    if (activeStep === 2) {
+      _data = {
+        model_name: "user",
+        model_action: "change_mobile",
+        extra_data: {
+          new_mobile: _phone,
+          code: _code,
+          token: token,
+        },
+      };
+    }
+
+    get_data("api/v1/gateway", _data).then((res) => {
+      if (res.err === 0) {
+        if (activeStep === 1) {
+          setToken(res.result_data[0].token);
+          setBindPhone("");
+          setBindCode("");
+          new CustomModal().alert("验证成功", "success", 3000);
+        }
+        if (activeStep === 2) {
+          setBindPhone("");
+          setBindCode("");
+          new CustomModal().alert("绑定成功", "success", 3000);
+        }
+        setTimeout(() => {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          setCountdown(0);
+        }, 3000);
+      } else {
+        new CustomModal().alert(res.errmsg, "error", 3000);
+      }
+    });
+  };
+  const time_remaining = () => {
+    setTimeout(() => {
+      let _num = 0;
+      setCountdown((prevActiveStep) => {
+        _num = prevActiveStep;
+        return prevActiveStep - 1;
+      });
+      if (_num <= 0) {
+        return;
+      }
+      time_remaining();
+    }, 1000);
+  };
+  const get_code = (_type) => {
+    let _phone = bindPhone;
+    if (activeStep === 1) {
+      if (!_phone) {
+        _phone = userInfo.mobile;
+      }
+    }
+    if (!_phone || _phone.length != 11) {
+      new CustomModal().alert("输入合法的手机号", "error", 3000);
+      return;
+    }
+
+    get_data("api/v1/gateway", {
+      model_name: "user",
+      model_action: "generate_code",
+      extra_data: {
+        mobile: _phone, // # 手机号码
+        type: _type, ///"bind" # 登陆/更改/绑定
+      },
+    }).then((res) => {
+      if (res.err === 0) {
+        new CustomModal().alert(
+          "请留意手机，验证码60秒内有效",
+          "success",
+          3000
+        );
+        setCountdown(60);
+        setTimeout(() => {
+          time_remaining();
+        }, 1000);
+      } else {
+        new CustomModal().alert("获取验证码失败", "error", 3000);
+      }
+    });
+  };
   const handleBack = () => {
     setNavBarList(["基本设置", "安全中心", "帮助/反馈"]);
     setNavbarStatus(2);
@@ -207,9 +322,12 @@ const Setpage = (props) => {
   };
   React.useEffect(() => {
     if (sessionStorage.getItem("user_info")) {
-      setUserInfo(JSON.parse(sessionStorage.getItem("user_info")));
+      let _data = JSON.parse(sessionStorage.getItem("user_info"));
+      setUserInfo(_data);
 
-      table_data[0].value = userInfo.mobile;
+      setSex(_data.gender);
+      setBirth(_data.birthday);
+      table_data[0].value = _data.mobile;
     }
   }, []);
 
@@ -454,6 +572,7 @@ const Setpage = (props) => {
               <Grid item xs={10}>
                 <RadioGroup
                   className={classes.radioRoot}
+                  value={sex}
                   onChange={(ev) => {
                     setSex(ev.target.value);
                   }}
@@ -473,7 +592,7 @@ const Setpage = (props) => {
               <Grid item xs={10}>
                 <TextField
                   type="date"
-                  defaultValue="1965-20-23"
+                  value={birth}
                   className={classes.input}
                   onChange={(ev, value) => {
                     setBirth(ev.target.value);
@@ -709,20 +828,29 @@ const Setpage = (props) => {
               <ProNavbar list={navBarList} parent={props} onEvent={onEvent} />
             </nav>
             <div className="profile-top">
-              <div className="box ">
+              <div className="box " style={{ transform: "translateX(72px)" }}>
                 <div
-                  className="box box-between text-center"
+                  className="box box-between profile-setting-phone"
                   style={{
                     flexDirection: "column",
-                    minWidth: "30%",
+                    minWidth: 100,
                     minHeight: 176,
                   }}
                 >
-                  <div>身份验证</div>
-                  <div>绑定手机</div>
-                  <div>绑定成功</div>
+                  <div className="profile-step">
+                    <span className={activeStep < 1 ? "active" : ""}>1</span>
+                    身份验证 {activeStep > 1 && <Check />}
+                  </div>
+                  <div className="profile-step">
+                    <span className={activeStep < 2 ? "active" : ""}>2</span>
+                    绑定手机{activeStep > 2 && <Check />}
+                  </div>
+                  <div className="profile-step">
+                    <span className={activeStep < 3 ? "active" : ""}>3</span>
+                    绑定成功{activeStep > 3 && <Check />}
+                  </div>
                 </div>
-                <div style={{ minWidth: "70%" }} className="all-height">
+                <div className="all-height">
                   {activeStep == 1 && (
                     <div className="all-width">
                       <Grid container spacing={1} className="all-width">
@@ -734,7 +862,7 @@ const Setpage = (props) => {
                             className="edit-phone all-width"
                             placeholder={userInfo.mobile}
                             onChange={(evt) => {
-                              _phone = evt.target.value;
+                              setBindPhone(evt.target.value);
                             }}
                           />
                         </Grid>
@@ -754,12 +882,25 @@ const Setpage = (props) => {
                             className="edit-phone all-width"
                             placeholder="验证码"
                             onChange={(evt) => {
-                              _phone = evt.target.value;
+                              setBindCode(evt.target.value);
                             }}
                           />
                         </Grid>
                         <Grid item xs={3}>
-                          <span className="fn-color-007CFF">获取验证码</span>
+                          {countdown > 0 ? (
+                            <span className="fn-color-9E9EA6">
+                              ({countdown}s)后重新获取
+                            </span>
+                          ) : (
+                            <span
+                              className="fn-color-007CFF"
+                              onClick={() => {
+                                get_code("update");
+                              }}
+                            >
+                              获取验证码
+                            </span>
+                          )}
                         </Grid>
                       </Grid>
                       <Grid container spacing={3} className="all-width">
@@ -780,9 +921,10 @@ const Setpage = (props) => {
                         <Grid item xs={6}>
                           <TextField
                             className="edit-phone all-width"
-                            placeholder={userInfo.mobile}
+                            placeholder="新手机号"
+                            value={bindPhone}
                             onChange={(evt) => {
-                              _phone = evt.target.value;
+                              setBindPhone(evt.target.value);
                             }}
                           />
                         </Grid>
@@ -801,13 +943,27 @@ const Setpage = (props) => {
                           <TextField
                             className="edit-phone all-width"
                             placeholder="验证码"
+                            value={bindCode}
                             onChange={(evt) => {
-                              _phone = evt.target.value;
+                              setBindCode(evt.target.value);
                             }}
                           />
                         </Grid>
                         <Grid item xs={3}>
-                          <span className="fn-color-007CFF">获取验证码</span>
+                          {countdown > 0 ? (
+                            <span className="fn-color-9E9EA6">
+                              ({countdown}s)后重新获取
+                            </span>
+                          ) : (
+                            <span
+                              className="fn-color-007CFF"
+                              onClick={() => {
+                                get_code("bind");
+                              }}
+                            >
+                              获取验证码
+                            </span>
+                          )}
                         </Grid>
                       </Grid>
                       <Grid container spacing={3} className="all-width">
@@ -824,38 +980,45 @@ const Setpage = (props) => {
                       className="all-width all-height box box-align-center"
                       style={{ minHeight: "calc(176px - 56px)" }}
                     >
-                    <div style={{width:'50%',height:'100%'}} className='box box-center all-height'>完成</div>
-                     <div style={{width:'50%',height:'100%'}}></div>
+                      <div className=" all-height fn-color-007CFF text-center">
+                        <div>
+                          {" "}
+                          <CheckCircleOutline
+                            style={{ width: 50, height: 50 }}
+                          />{" "}
+                        </div>
+                        <div style={{ margin: "20px 0" }}>绑定成功</div>
+                        <div className="fn-color-9E9EA6">
+                          10s后自动跳转到当前页面
+                        </div>
+                      </div>
                     </div>
                   )}
-                  <Grid
-                    container
-                    spacing={3}
-                    className="all-width"
-                    style={{ paddingTop: 20 }}
-                  >
-                    {activeStep >= 3 ? (
+                  {activeStep < 3 && (
+                    <Grid
+                      container
+                      spacing={3}
+                      className="all-width"
+                      style={{ paddingTop: 20 }}
+                    >
                       <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleBack}
-                      >
-                        完成
-                      </Button>
-                    ) : (
-                      <Button
+                        className={classes.btn}
                         variant="contained"
                         color="primary"
                         onClick={handleNext}
                       >
                         下一步
                       </Button>
-                    )}
-                    &nbsp;&nbsp;
-                    <Button variant="contained" onClick={handleBack}>
-                      取消
-                    </Button>
-                  </Grid>
+                      &nbsp;&nbsp;
+                      <Button
+                        className={`${classes.btn} ${classes.btn4}`}
+                        variant="contained"
+                        onClick={handleBack}
+                      >
+                        取消
+                      </Button>
+                    </Grid>
+                  )}
                 </div>
               </div>
 

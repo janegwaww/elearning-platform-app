@@ -32,6 +32,9 @@
 .profile-padding {
   padding: 40px;
 }
+.profile-height{
+  min-height: calc(100vh - 331px);
+}
 .profile-margin .box-flex,
 .box-fle.zero-edges {
   margin: 0 10px;
@@ -131,6 +134,38 @@
 .edit-phone .MuiInput-underline:after{
   border-bottom: 2px solid rgb(77, 144, 254); 
 }
-.MuiStepIcon-root.MuiStepIcon-completed{
+/* .MuiStepIcon-root.MuiStepIcon-completed{
 color:#007CFF !important;
+} */
+.profile-setting-phone{
+  border-left: 1px dashed #007CFF;
+  /* transform: translateX(72px); */
+  margin-right:120px ;
+  
+}
+.profile-step span{
+  /* height: 33%; */
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #007CFF;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 20px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.profile-step .active{
+  background-color: #BADCFF;
+  border:none;
+}
+.profile-step svg{
+  vertical-align: middle;
+  color:#04A59B;
+  width:14px;
+  height: 10px;
+}
+.profile-step:not(:last-child){
+  /* border-left: 1px dashed #007CFF; */
 }

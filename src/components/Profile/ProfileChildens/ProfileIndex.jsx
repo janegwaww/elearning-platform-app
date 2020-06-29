@@ -147,7 +147,7 @@ class ProfileIndex extends React.Component {
               </p>
             </div>
           </div>
-          <div
+         {/**<div
             className="box box-align-end text-center"
             style={{ minWidth: 165 }}
           >
@@ -166,6 +166,7 @@ class ProfileIndex extends React.Component {
               </p>
             </div>
           </div>
+           */} 
         </main>
         <main
           style={{ height: "250px" }}
@@ -183,7 +184,7 @@ class ProfileIndex extends React.Component {
             className="box box-align-center text-center fn-size-14 fn-color-878791"
             style={{ marginTop: "30px" }}
           >
-            <div className="box-flex bg-EDF6FF">
+           {/**  <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">订阅量</p>
               <p className="fn-size-20 fn-color-007CFF">
                 {_this.state.userData
@@ -193,7 +194,7 @@ class ProfileIndex extends React.Component {
               <p className="zero-edges">
                 昨日 <span className="fn-color-02BB17">+200</span>
               </p>
-            </div>
+            </div>*/}
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">视频播放量</p>
               <p className="fn-size-20 fn-color-007CFF">
@@ -241,7 +242,7 @@ class ProfileIndex extends React.Component {
                 昨日 <span className="fn-color-F86B6B">-10</span>
               </p>
             </div>
-            <div className="box-flex bg-EDF6FF">
+            {/**<div className="box-flex bg-EDF6FF">
               <p className="zero-edges">评论数</p>
               <p className="fn-size-20 fn-color-007CFF">
                 {_this.state.userData ? _this.state.userData.comment_counts : 0}
@@ -249,7 +250,7 @@ class ProfileIndex extends React.Component {
               <p className="zero-edges">
                 昨日 <span className="fn-color-F86B6B">-10</span>
               </p>
-            </div>
+            </div>*/}
           </div>
         </main>
         <main className="all-width bg-white profile-margin profile-padding">

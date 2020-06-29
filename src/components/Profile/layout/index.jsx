@@ -20,11 +20,13 @@ export default class MainLayout extends React.Component {
             
             <html lang="en" />
           </Helmet>
-         <section className='ma-container is-vertical bg-f9' style={{minHeight:'100vh'}}>
-            <header className='ma-header ' style={{height:64}}>
+         <section className=' bg-f9' style={{minHeight:'100vh'}}>
+         
+            <header  style={{height:64}}>
+          
               <NavBar  />
             </header>
-            <main className='ma-main profile-main' style={{height:'1px'}}>
+            <main className='profile-main ma-main' style={{minHeight:'calc(100vh - 331px)',height:'calc(100% - 331px'}} >
          
               {children}
               
@@ -32,9 +34,9 @@ export default class MainLayout extends React.Component {
               <ScrollTop />
             </main>
             
-            <footer className='ma-footer'>
-              <Footer config={config} />
-            </footer>
+            <Footer config={config} />
+             
+            
          
          </section>
     </ThemeProvider>
