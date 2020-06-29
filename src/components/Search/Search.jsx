@@ -47,7 +47,7 @@ export default function Search({ input }) {
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
 
-  const fetchSearchResult = ({ page = 1 }) => {
+  const fetchSearchResult = ({ page = 1 }, callback = () => ({})) => {
     setLoading(true);
     searchGlobal({
       query_string: input,
@@ -56,15 +56,11 @@ export default function Search({ input }) {
       type,
       page,
     }).then((data) => {
-      setResult(data.resultData);
-      setCount(data.count);
+      setResult(data);
+      setCount(data.length);
       setLoading(false);
+      callback(data);
     });
-  };
-
-  const handlePage = (event, page) => {
-    event.preventDefault();
-    fetchSearchResult({ page });
   };
 
   const handleTypeClick = (cate) => {
@@ -133,7 +129,7 @@ export default function Search({ input }) {
       <br />
       <div className={classes.searchResult}>{iterateItems(result)}</div>
       <br />
-      <Pagination total={count} handlePage={handlePage} />
+      <Pagination fetch={fetchSearchResult} />
       <SearchLoading loading={loading} />
     </div>
   );
