@@ -173,7 +173,8 @@ export const searchPartApis = () => {
     ["get_author_information"],
     ["get_series_details"],
     ["get_category"],
-    ["start_watch_history", "end_watch_history", "search_history"]
+    ["start_watch_history", "end_watch_history", "search_history"],
+    ["payment", "query_trade_result"]
   ];
   const getParam = [
     "comment",
@@ -184,7 +185,8 @@ export const searchPartApis = () => {
     "user",
     "series",
     "category",
-    "video_history"
+    "video_history",
+    "pay"
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
