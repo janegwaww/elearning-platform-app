@@ -197,11 +197,12 @@ const authContainer = ({ data, match_frame }) => {
           title={data.user_name}
           time={data.upload_time}
           href={href}
+          match={match_frame}
         />
       </div>
       <div style={{ gridColumn: 2, gridRow: 2 }}>{fans(data.video_counts)}</div>
       <div style={{ gridColumn: 2, gridRow: "3/5" }}>
-        {descriptionItem(data.introduction)}
+        {descriptionItem(data.introduction, match_frame)}
       </div>
     </div>
   );
@@ -218,10 +219,11 @@ const seriesContainer = ({ data, match_frame }) => {
           title={data.title}
           time={data.upload_time}
           href={href}
+          match={match_frame}
         />
       </div>
       <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
-        {descriptionItem(data.description)}
+        {descriptionItem(data.description, match_frame)}
       </div>
       <div style={{ gridColumn: 2, gridRow: 4 }} />
       <div style={{ gridColumn: 2, gridRow: 5 }}>
@@ -249,6 +251,7 @@ const docContainer = ({ data, match_frame }) => {
           pay={data.is_pay}
           time={data.time}
           href={href}
+          mathc={match_frame}
         />
       </div>
       <div className="docAvatar">
