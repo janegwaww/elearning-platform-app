@@ -158,3 +158,17 @@ export const startWatchRecord = pipeThen(apisSearch.startWatchHistory);
 export const endWatchRecord = pipeThen(apisSearch.endWatchHistory);
 // 点击搜索结果调取该接口
 export const ksearchRecord = pipeThen(apisSearch.searchHistory);
+
+// 支付宝创建订单
+export const aliPayment = pipeThen(
+  getResultDataFirst,
+  getResultData,
+  apisSearch.payment
+);
+
+// 校验支付宝订单
+export const verifyAliPay = pipeThen(
+  getResultDataFirst,
+  getResultData,
+  apisSearch.queryTradeResult
+);
