@@ -111,9 +111,8 @@ export const likeTheVideo = pipeThen(
 );
 
 // -------获取相关视频---------
-const seriesVideoData = data => Promise.resolve(data.video_data || []);
+// const seriesVideoData = data => Promise.resolve(data.video_data || []);
 export const getRelativeVideos = pipeThen(
-  seriesVideoData,
   getResultDataFirst,
   getResultData,
   apisVideo.getRelatedVideo

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Typography from "@material-ui/core/Typography";
@@ -12,6 +11,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
+import Link from "../Link/Link";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,14 +83,7 @@ function RenderRow({ item, order }) {
 
   return order ? (
     <ListItem divider button style={{ overflow: "hidden" }} disableGutters>
-      <Link
-        href={`/watch/?vid=${item.video_id}`}
-        color="inherit"
-        underline="none"
-        target="_blank"
-        rel="noopener norefferer"
-        style={{ width: "100%" }}
-      >
+      <Link href={`/watch/?vid=${item.video_id}`} style={{ width: "100%" }}>
         <Box className={classes.listItem2}>
           <div className={classes.listHeadImg}>
             <img src={`${item.image_path}`} alt={item.video_title} />
@@ -114,13 +107,7 @@ function RenderRow({ item, order }) {
   ) : (
     <ListItem button>
       <Box className={classes.listItem}>
-        <Link
-          href={`/watch/?vid=${item.video_id}`}
-          underline="none"
-          target="_blank"
-          rel="noopener norefferer"
-          color="inherit"
-        >
+        <Link href={`/watch/?vid=${item.video_id}`}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <PlayCircleOutlineIcon
               fontSize="small"
@@ -140,9 +127,9 @@ function RenderRow({ item, order }) {
 
 export default function VideoList({ vid, type }) {
   const classes = useStyles();
-  const listName = { series: "系列视频", recommend: "推荐视频" };
   const [series, setSeries] = useState([]);
   const [verticle, setVerticle] = useState(true);
+  const [seriesId, setSeriesId] = useState("");
 
   const fetchData = ({ page = 1 }) => {
     const param = {
@@ -153,7 +140,10 @@ export default function VideoList({ vid, type }) {
     };
     switch (type) {
       case "series":
-        getRelativeVideos(param).then((data) => setSeries(data));
+        getRelativeVideos(param).then((data = {}) => {
+          setSeries(data.video_data || []);
+          setSeriesId(data.series_id);
+        });
         break;
       case "recommend":
         getRecommendVideos(param).then((data) => setSeries(data));
@@ -161,6 +151,15 @@ export default function VideoList({ vid, type }) {
       default:
         console.log("no type");
     }
+  };
+
+  const listName = {
+    series: (
+      <Link href={`/series/?sid=${seriesId}`} underline="always">
+        <Typography>系列视频</Typography>
+      </Link>
+    ),
+    recommend: <Typography>推荐视频</Typography>,
   };
 
   useEffect(() => {
@@ -172,12 +171,7 @@ export default function VideoList({ vid, type }) {
   return series.length === 0 ? null : (
     <div className={classes.root}>
       <div className={classes.listHead}>
-        <Typography className={classes.listHead1}>
-          {listName[type]}
-          {/* <span
-                style={{ color: "#878791", fontSize: "12px" }}
-                >{`1/${series.length}`}</span> */}
-        </Typography>
+        <div className={classes.listHead1}>{listName[type]}</div>
         <IconButton size="small" onClick={() => setVerticle(false)}>
           <ListIcon fontSize="inherit" />
         </IconButton>

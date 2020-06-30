@@ -16,36 +16,22 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import FileViewButton from "./FileViewButton";
-import { getVideoIntro } from "../../services/video";
 import UserFeedback from "./UserFeedback";
 /* import ChipArray from "./ChipArray"; */
+import "./IntroductionStyles.sass";
 
-export default function Introduction({ vid = "" }) {
-  /* const [checked, setChecked] = useState(false); */
-  const [intro, setIntro] = useState({
-    likeCounts: 0,
-    viewCounts: 0,
-    collectionCounts: 0,
-    description: "",
-    category: [""],
-  });
+export default function Introduction({ intros }) {
+  const [intro, setIntro] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const fetchIntroduction = () => {
-    getVideoIntro({ video_id: vid }).then((data) => {
-      setIntro(data);
-    });
-  };
+  /* const [checked, setChecked] = useState(false); */
 
   /* const handleChange = () => {
    *   setChecked(prev => !prev);
    * }; */
 
   useEffect(() => {
-    if (vid) {
-      fetchIntroduction();
-    }
-  }, [vid]);
+    setIntro(intros);
+  }, [intros.video_id]);
 
   /* const ExpandIcon = () =>
    *   checked ? (
@@ -85,18 +71,12 @@ export default function Introduction({ vid = "" }) {
 
   return (
     <Card style={{ boxShadow: "none" }}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="user-introduction">
         <div style={{ flex: "2 0 auto", display: "flex" }}>
           <UserFeedback backData={intro} />
         </div>
         <div style={{ flex: "0.1 0 auto", display: "flex" }}>
-          <FileViewButton vid={vid} />
+          <FileViewButton vid={intro.video_id} />
         </div>
         <div style={{ display: "flex" }}>
           <IconButton

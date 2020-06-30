@@ -18,6 +18,7 @@ import GridCards from "../Home/GridCards";
 import SearchLoading from "../Loading/SearchLoading";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
 
 const useStyles = makeStyles((theme) => ({
   authAvatar: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   panel: {
-    minHeight: "80vh",
+    minHeight: "60vh",
   },
 }));
 
@@ -167,7 +168,6 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      className={classes.panel}
       {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
@@ -266,7 +266,7 @@ export default class CreatorHome extends Component {
               </div>
               <br />
 
-              <div>
+              <div style={{ minHeight: "60vh" }}>
                 <Tabs onChange={this.handleTabChange} value={value}>
                   <Tab label="全部" />
                   <Tab label="视频" />
@@ -286,9 +286,10 @@ export default class CreatorHome extends Component {
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
                 </TabPanel>
-                <Pagination num={list.length} hanlePage={this.handlePage} />
-                <br />
+                <EmptyNotice empty={!(list.length || loading)} />
               </div>
+              <Pagination num={list.length} hanlePage={this.handlePage} />
+              <br />
             </div>
           </Container>
           <SearchLoading loading={loading} />
