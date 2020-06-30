@@ -17,8 +17,7 @@ import { getIdFromHref } from "../../services/utils";
 const IntroductionText = ({ text }) => {
   return (
     <Paper elevation={4} style={{ boxShadow: "none", padding: "20px 0" }}>
-      <Typography variant="subtitle1">课程简介:</Typography>
-      <br />
+      {/* <Typography variant="subtitle1">课程简介:</Typography> */}
       <Typography variant="body2" component="p">
         {text.description}
       </Typography>
@@ -33,7 +32,7 @@ class Watch extends Component {
     super(props);
     this.state = {
       vid: "",
-      avatar: {}
+      avatar: {},
     };
   }
 
@@ -56,7 +55,7 @@ class Watch extends Component {
     this.setState({ vid });
   };
 
-  handleVideoInfo = data => {
+  handleVideoInfo = (data) => {
     this.setState({ avatar: data });
   };
 
@@ -68,7 +67,7 @@ class Watch extends Component {
         <Grid container style={{ marginTop: 18 }} spacing={3}>
           <Grid item xs={9}>
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
-            <LazyIntroduction vid={vid} />
+            <LazyIntroduction intros={avatar} />
             <Divider />
             <LazyPersonAvatar auth={avatar} />
             <IntroductionText text={avatar} />
