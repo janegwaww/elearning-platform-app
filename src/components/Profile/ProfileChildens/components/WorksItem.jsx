@@ -10,7 +10,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   //inx,onEvent,info,parent,history
-
+ 
   return (
     <div
       className="zero-edges all-width view-overflow all-height"
@@ -31,17 +31,17 @@ const WorksItem = (props) => {
         >
           <img src={props.info.image_path} className='all-width all-height' style={{height:136}} />  
         </Link>
-        {props.history && (
+        {props.history==2 && (
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
         )}
-        {!props.history && props.info.type == "video" && (
+        {props.history==1 && props.info.type == "video" && (
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
         )}
-        {!props.history && props.info.type == "series" && (
+        {props.history==1 && props.info.type == "series" && (
           <span
             style={{
               position: "absolute",
@@ -66,9 +66,9 @@ const WorksItem = (props) => {
         className="box box-between"
       >
         <p className="fn-color-2C2C3B zero-edges textview-overflow two">
-          {props.info && props.info.title}
+          {props.info && props.info.title||props.info.video_title}
         </p>
-        {!props.history && (
+        {props.history==1 && (
           <div
             className="box box-align-center box-between "
             style={{ paddingTop: 10 }}
@@ -84,7 +84,7 @@ const WorksItem = (props) => {
             </div>
           </div>
         )}
-        {props.history && (
+        {props.history==2 && (
           <div
             className="box box-align-center box-between "
             style={{ paddingTop: 10 }}
@@ -96,6 +96,20 @@ const WorksItem = (props) => {
             </p>
             <div>
               <Delete />
+            </div>
+          </div>
+        )}
+        {props.history==3 && (
+          <div
+            className="box box-align-center box-between "
+            style={{ paddingTop: 10 }}
+          >
+            <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
+              102观看●05月29日 发布
+          
+            </p>
+            <div>
+              <MoreHorizOutlined />
             </div>
           </div>
         )}

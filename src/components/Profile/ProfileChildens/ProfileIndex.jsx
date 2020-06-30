@@ -18,7 +18,7 @@ class ProfileIndex extends React.Component {
       userWorks: null, //我的作品
       video_type:'video',//系列与普通
       userCollection: null, //我的收藏
-      isHistory:false,//收藏与历史
+      page_type:1,//收藏与历史
       // historyData: null, //历史记录
     };
     this.update_data = this.update_data.bind(this);
@@ -329,13 +329,14 @@ class ProfileIndex extends React.Component {
                       model_action: "get_collection",
                     };
                   }
+                
                   get_data("api/v1/gateway", _data).then((res) => {
                     
                     if (res.err == 0) {
                      
                       this.setState({
                         userCollection: res.result_data,
-                        isHistory:!this.state.isHistory
+                        page_type:num
                       });
                     }
                   });
@@ -363,7 +364,7 @@ class ProfileIndex extends React.Component {
             {this.state.userCollection &&this.state.userCollection.length>0? (
               this.state.userCollection.map((option, inx) => (
                 <Grid item xs={3} key={inx} >
-                  <WorksItem parent={this} inx={inx} info={option} history={_this.state.isHistory} />
+                  <WorksItem parent={this} inx={inx} info={option} history={_this.state.page_type} />
                 </Grid>
               ))
             ) : (
