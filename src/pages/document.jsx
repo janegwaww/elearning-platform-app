@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import Container from "@material-ui/core/Container";
 import Layout from "../layout";
 import Document from "../components/Document/Document";
 import config from "../../data/SiteConfig";
 import { getIdFromHref } from "../services/utils";
+import Container from "../components/Container/KeContainer";
 
 class DocumentPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      did: ""
+      did: "",
     };
   }
 
@@ -36,7 +36,7 @@ class DocumentPage extends Component {
           style={{ width: "100%", backgroundColor: "#f2f2f5" }}
         >
           <Helmet title={`document | ${config.siteTitle}`} />
-          <Container fixed>
+          <Container>
             <Document did={did} {...this.props} />
           </Container>
         </div>

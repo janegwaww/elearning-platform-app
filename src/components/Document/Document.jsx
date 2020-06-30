@@ -54,13 +54,15 @@ export default function Document({ did }) {
 
   const paymentClick = () => {
     const { price } = detail;
-    aliPayment({ price, file_id: did }).then((data) => {
-      if (data.url && data.order_id) {
-        window.open(data.url);
-        setOrderId(data.order_id);
-        verifyIsPaided(data.order_id);
+    aliPayment({ price, file_id: did, url: window.location.href }).then(
+      (data) => {
+        if (data.url && data.order_id) {
+          window.open(data.url);
+          setOrderId(data.order_id);
+          verifyIsPaided(data.order_id);
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {

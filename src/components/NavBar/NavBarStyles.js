@@ -2,7 +2,10 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 0.2
+    flexGrow: 0.4
+  },
+  toolbar: {
+    padding: 0
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -93,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     [theme.breakpoints.up("md")]: {
       display: "flex",
-      flexGrow: 1,
+      flexGrow: 0.6,
       justifyContent: "space-evenly"
     }
   }
