@@ -24,7 +24,7 @@ const stop_run = (prevValue, nextValue) => {
 
 const SeriesItem = (props) => {
   // inx,onEvent,info,parent,series
-  console.log(props);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [modalMsg, setModalMsg] = React.useState({
@@ -45,7 +45,27 @@ const SeriesItem = (props) => {
     setAnchorEl(null);
   };
   return (
-    <div className="box box-between box-align-center profile-top">
+    <div
+      className="box box-between box-align-center profile-top"
+     
+      onClick={(event) => {
+        if (props.series == "series") {
+          event.stopPropagation();
+          event.preventDefault();
+          if (props.onEvent) {
+            props.onEvent(props.info.series_id);
+          } else {
+            props.parent.props.parent.pageRoute(event, {
+              page: "CreateCenter",
+              id: 3,
+              defaultpage: "作品管理",
+              inx: 3,
+              series_id: props.info.series_id,
+            });
+          }
+        }
+      }}
+    >
       <div
         className="box  fn-size-12"
         style={{
@@ -63,42 +83,65 @@ const SeriesItem = (props) => {
             position: "relative",
           }}
         >
-          <img
-            src={props.info ? props.info.image_path : ""}
-            className="all-height all-width"
-          />
+          <Link
+            color="inherit"
+            underline="none"
+            href={
+              props.series == "video"
+                ? `/watch/?vid=${props.info.video_id}`
+                : undefined
+            }
+            target={props.series == "video" ? "_blank" : "_self"}
+          >
+            <img
+              src={props.info ? props.info.image_path : ""}
+              className="all-height all-width"
+            />
 
-          <p className="profile-time fn-color-white fn-size-12">
-            {!props.series && props.info
-              ? props.info.video_time
-              : props.info && props.info.video_data
-              ? "共" + props.info.video_data.length + "集"
-              : ""}
-          </p>
+            <p className="profile-time fn-color-white fn-size-12">
+              {!props.series && props.info
+                ? props.info.video_time
+                : props.info && props.info.video_data
+                ? "共" + props.info.video_data.length + "集"
+                : ""}
+            </p>
+          </Link>
         </div>
+
         <div
           style={{ width: "calc(100% - 280px)", flexDirection: "column" }}
           className="box box-between"
         >
           <div>
-            <div className="fn-color-2C2C3B fn-size-16 zero-edges all-wdith text-overflow">
-              {props.info
-                ? props.info.title || props.info.series_title
-                : "标题"}
-            </div>
-            <p className="fn-color-878791 all-width ">
-              {props.info
-                ? "发布于  " +
-                  get_date(
-                    props.info.update_time || props.info.upload_time,
-                    ".",
-                    9
-                  )
-                : ""}
-            </p>
-            <div className="all-width textview-overflow two">
-              {props.info ? props.info.description : ""}
-            </div>
+            <Link
+              color="inherit"
+              underline="none"
+              href={
+                props.series == "video"
+                  ? `/watch/?vid=${props.info.video_id}`
+                  : undefined
+              }
+              target={props.series == "video" ? "_blank" : "_self"}
+            >
+              <div className="fn-color-2C2C3B fn-size-16 zero-edges text-overflow">
+                {props.info
+                  ? props.info.title || props.info.series_title
+                  : "标题"}
+              </div>
+              <p className="fn-color-878791 all-width ">
+                {props.info
+                  ? "发布于  " +
+                    get_date(
+                      props.info.update_time || props.info.upload_time,
+                      ".",
+                      9
+                    )
+                  : ""}
+              </p>
+              <div className="all-width textview-overflow two">
+                {props.info ? props.info.description : ""}
+              </div>
+            </Link>
           </div>
           <div className="alll-width">
             <div className="alll-width">
@@ -164,23 +207,19 @@ const SeriesItem = (props) => {
               <MenuItem onClick={handleClose}>编辑系列</MenuItem>
               <MenuItem onClick={handleClose}>移动系列</MenuItem>
               <MenuItem onClick={handleClose}>分享</MenuItem>
-              <MenuItem  onClick={handleClose}>
-                <Link color="inherit"
-                underline="none"
-                href={`/video/?sid=${props.info.video_id}`}
-                target="_blank"
-                rel="noopener norefferer"> 编辑字幕</Link>
-              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <Link
                   color="inherit"
                   underline="none"
-                  href={`/watch/?vid=${props.info.video_id}`}
+                  href={`/video/?sid=${props.info.video_id}`}
                   target="_blank"
+                  rel="noopener norefferer"
                 >
-                  详情
+                  {" "}
+                  编辑字幕
                 </Link>
               </MenuItem>
+
               <MenuItem
                 onClick={() => {
                   setModalMsg({
@@ -199,14 +238,6 @@ const SeriesItem = (props) => {
         )}
         {props.series == "series" && (
           <div className="text-right">
-            <Link
-              color="inherit"
-              underline="none"
-              href={`/series/?sid=${props.info.series_id}`}
-              target="_blank"
-            >
-              详情
-            </Link>
             <span>
               <Share />
             </span>
@@ -235,16 +266,16 @@ const SeriesItem = (props) => {
                       video_id: [props.info.video_id],
                     },
                   };
-                  console.log(props)
-                  
+                  console.log(props);
+
                   get_data("api/v1/gateway", _data).then((res) => {
                     //请求
                     // console.log(res);
-                    if (res.err === 0&&res.errmsg=="OK") {
-                      props.parent.update_data&&props.parent.update_data(props.series)
+                    if (res.err === 0 && res.errmsg == "OK") {
+                      props.parent.update_data &&
+                        props.parent.update_data(props.series);
                       new CustomModal().alert("删除成功", "success", 3000);
                     }
-                  
                   });
                 }}
               />

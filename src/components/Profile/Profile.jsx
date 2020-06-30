@@ -72,14 +72,15 @@ class Profile extends React.Component {
   // componentWillReceiveProps(nextProps){
 
   // }
-  // shouldComponentUpdate(nextProps, nextState) {
+  // shouldComponentUpdate(negixtProps, nextState) {
   //   console.log(nextProps);
   //   console.log(nextState);
   //   return true;
   // }
-  pageRoute(event) {
-    let _data = event.target.dataset;
-    if (this.state.nowPage.parent_id === parseInt(_data.id)) {
+  pageRoute(event,msg) {
+   
+    let _data =msg|| event.target.dataset;
+    if (this.state.nowPage.parent_id === parseInt(_data.id)&&_data.page!="CreateCenter") {
       return;
     }
     let _menuOpen = JSON.parse(JSON.stringify(this.state.menuOpen));
@@ -98,7 +99,8 @@ class Profile extends React.Component {
         parent: _data.page,
         parent_id: parseInt(_data.id),
         childPage: _data.defaultpage || "",
-        childpage_id: 0,
+        childpage_id: _data.inx||0,
+        series_id:_data.series_id&&_data.series_id
       },
     });
     sessionStorage.setItem(
@@ -107,7 +109,8 @@ class Profile extends React.Component {
         parent: _data.page,
         parent_id: parseInt(_data.id),
         childPage: _data.defaultpage || "",
-        childpage_id: 0,
+        childpage_id:_data.inx|| 0,
+        series_id:_data.series_id&&_data.series_id
       })
     );
   }
@@ -156,7 +159,7 @@ class Profile extends React.Component {
                   data-page="ProfileIndex"
                   data-id="1"
                   onClick={this.pageRoute}
-                  onClick={this.pageRoute}
+                  
                 >
                   <PermIdentity />
                   个人中心

@@ -31,8 +31,7 @@ import { get_data } from "../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../assets/js/CustomModal";
-import { set } from "lodash";
-import { get } from "jquery";
+import wechatQrcode from "../../../../static/images/wechat-qrcode.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -202,7 +201,7 @@ const Setpage = (props) => {
     let _phone = bindPhone;
     let _code = bindCode;
     let _data = null;
-    console.log(activeStep);
+
     if (activeStep === 1 && !_phone) {
       _phone = userInfo.mobile;
     }
@@ -240,19 +239,31 @@ const Setpage = (props) => {
       if (res.err === 0) {
         if (activeStep === 1) {
           setToken(res.result_data[0].token);
-          setBindPhone("");
-          setBindCode("");
-          new CustomModal().alert("验证成功", "success", 3000);
+          setCountdown(0);
+          new CustomModal().alert("身份验证成功", "success", 3000);
         }
         if (activeStep === 2) {
+          new CustomModal().alert("绑定手机成功", "success", 3000);
+          userInfo.mobile = bindPhone;
+          sessionStorage.setItem("user_info", JSON.stringify(userInfo));
+          setCountdown(0);
+        }
+
+        setTimeout(() => {
+          let _new_step = 0;
+          setActiveStep((prevActiveStep) => {
+            _new_step = prevActiveStep + 1;
+            return prevActiveStep + 1;
+          });
           setBindPhone("");
           setBindCode("");
-          new CustomModal().alert("绑定成功", "success", 3000);
-        }
-        setTimeout(() => {
-          setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          setCountdown(0);
-        }, 3000);
+          if(_new_step===3){
+            setCountdown(10);
+            setTimeout(time_remaining, 1000);//1秒后启用倒计时，
+            setTimeout(handleBack,12000);//12稍后跳转（大于倒计时+启用倒计时时间）
+          }
+          // time_remaining();
+        }, 2000);
       } else {
         new CustomModal().alert(res.errmsg, "error", 3000);
       }
@@ -261,11 +272,12 @@ const Setpage = (props) => {
   const time_remaining = () => {
     setTimeout(() => {
       let _num = 0;
-      setCountdown((prevActiveStep) => {
-        _num = prevActiveStep;
-        return prevActiveStep - 1;
+      setCountdown((countdown) => {
+        _num = countdown;
+        return countdown - 1;
       });
       if (_num <= 0) {
+        setCountdown(0);
         return;
       }
       time_remaining();
@@ -302,7 +314,7 @@ const Setpage = (props) => {
           time_remaining();
         }, 1000);
       } else {
-        new CustomModal().alert("获取验证码失败", "error", 3000);
+        new CustomModal().alert(res.errmsg || "获取验证码失败", "error", 3000);
       }
     });
   };
@@ -315,6 +327,9 @@ const Setpage = (props) => {
       nowPage: _data,
     });
     setActiveStep(1);
+    setBindCode("");
+    setBindPhone("");
+    setCountdown(0);
   };
 
   const handleReset = () => {
@@ -696,7 +711,6 @@ const Setpage = (props) => {
                       if (JSON.stringify(_ev_data) == "{}") {
                         _ev_data = event.target.parentNode.dataset;
                       }
-
                       if (_ev_data.inx === "0") {
                         let _data = JSON.parse(
                           JSON.stringify(props.parent.state.nowPage)
@@ -782,12 +796,12 @@ const Setpage = (props) => {
 
             <div className={`profile-top ${classes.root}`}>
               <Grid container>
-                <Grid item xs={2} className="text-right">
+                <Grid item xs={2} className="text-right fn-color-878791">
                   问题描述(选填)：
                 </Grid>
                 <Grid itme xs={8}>
                   <TextField
-                    placeholder="Placeholder"
+                    placeholder="请协助填写提示信息和问题描述, 将有助于我们更快的发现和解决问题~"
                     variant="outlined"
                     rows={3}
                     multiline
@@ -799,14 +813,27 @@ const Setpage = (props) => {
             </div>
             <div className={`profile-top ${classes.root}`}>
               <Grid container>
-                <Grid item xs={2} className="text-right">
-                  联系方式：
+                <Grid item xs={2} className="text-right fn-color-878791">
+                  <span className="fn-color-FC3535">*</span>联系方式：
                 </Grid>
                 <Grid itme xs={8}>
                   <TextField
-                    placeholder="Placeholder"
+                    placeholder="请输入您的手机号"
                     className={classes.input}
                   />
+                </Grid>
+              </Grid>
+            </div>
+            <div className={`profile-top ${classes.root}`}>
+              <Grid container>
+                <Grid item xs={2} className="text-right fn-color-878791">
+                  官方微信公众号：
+                </Grid>
+                <Grid itme xs={8}>
+                  <div>关注官方微信公众号，消息第一时间通知您</div>
+                  <div style={{ paddingTop: 20 }}>
+                    <img src={wechatQrcode} />
+                  </div>
                 </Grid>
               </Grid>
             </div>
@@ -989,7 +1016,7 @@ const Setpage = (props) => {
                         </div>
                         <div style={{ margin: "20px 0" }}>绑定成功</div>
                         <div className="fn-color-9E9EA6">
-                          10s后自动跳转到当前页面
+                          {countdown}s后自动跳转到当前页面
                         </div>
                       </div>
                     </div>

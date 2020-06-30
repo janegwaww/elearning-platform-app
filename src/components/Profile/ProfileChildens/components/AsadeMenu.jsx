@@ -8,7 +8,7 @@ const AsadeMenu = (props) => {
         {props.menus.map((v, inx) => (
           <MenuItem
             key={v}
-            selected={inx == props.info.childpage_id}
+            selected={inx == props.info.childpage_id||(props.info.parent=="CreateCenter"&&props.info.childpage_id==3&&inx===0)}
             data-inx={inx}
             onClick={(event) => {
               event.stopPropagation();
