@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
+import Container from "../Container/KeContainer";
 import wechatQrcode from "../../../static/images/wechat-qrcode.jpg";
 import logo from "../../../static/logos/Logo.png";
 import "./Footer.sass";
@@ -33,12 +33,12 @@ const ContractUs = () => {
     "联系我们",
     "售后服务",
     "常见问题",
-    "关于我们"
+    "关于我们",
   ];
   return (
     <div className="contract-us">
       <ul>
-        {menu.map(o => (
+        {menu.map((o) => (
           <li key={o}>
             <Link>{o}</Link>
           </li>
@@ -51,14 +51,14 @@ const ContractUs = () => {
 class Footer extends Component {
   render() {
     const {
-      config: { copyright }
+      config: { copyright },
     } = this.props;
 
     return (
       <footer className="footer" id="page-footer">
         <CssBaseline />
         <div className="footer-above">
-          <Container fixed>
+          <Container>
             <Grid container>
               <Grid item xs={9}>
                 <div className="footer-above-left">

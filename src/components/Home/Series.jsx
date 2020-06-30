@@ -9,10 +9,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
-import Link from "@material-ui/core/Link";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import Link from "../Link/Link";
 import { getIdFromHref, secondsToDate } from "../../services/utils";
 import "./SeriesStyles.sass";
 
@@ -24,17 +25,9 @@ const headCard = ({
   author_name,
   update_time,
   headshot,
-  author_id
+  author_id,
 }) => (
-  <div
-    style={{
-      display: "grid",
-      height: 190,
-      gridTemplateColumns: "300px auto",
-      gridTemplateRows: "repeat(6,1fr)",
-      columnGap: "40px"
-    }}
-  >
+  <div className="head-card-root">
     <div style={{ gridColumn: 1, gridRow: "1/8" }}>
       <img
         src={image_path}
@@ -42,15 +35,7 @@ const headCard = ({
         style={{ height: "100%", width: 300 }}
       />
     </div>
-    <Box
-      style={{
-        gridColumn: 2,
-        gridRow: 1,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}
-    >
+    <Box className="card-title">
       <Typography>{title}</Typography>
       <Typography color="textSecondary" variant="caption">
         {`${secondsToDate(update_time)} 更新`}
@@ -68,17 +53,8 @@ const headCard = ({
       <Typography variant="body2">{description}</Typography>
     </Box>
     <Link
-      style={{
-        gridColumn: 2,
-        gridRow: 7,
-        display: "flex",
-        alignItems: "center"
-      }}
-      color="inherit"
-      underline="none"
       href={`/excellentcreator/creator/?cid=${author_id}`}
-      target="_blank"
-      rel="noopener norefferer"
+      className="series-avatar"
     >
       <Avatar
         src={headshot}
@@ -98,9 +74,9 @@ export default function Series() {
   const [type, setType] = useState("all");
   const { sid } = getIdFromHref();
 
-  const fetchSeriesData = id => {
+  const fetchSeriesData = (id) => {
     setLoading(true);
-    getSeriesInfo({ series_id: id }).then(data => {
+    getSeriesInfo({ series_id: id }).then((data) => {
       setSeries(data.series);
       setSeriesStack(data.series);
       setSeriesInfo(data.info);
@@ -108,9 +84,9 @@ export default function Series() {
     });
   };
 
-  const handleTypeClick = name => {
+  const handleTypeClick = (name) => {
     const arr = [];
-    seriesStack.map(o => {
+    seriesStack.map((o) => {
       if (o.source === name || name === "all") {
         arr.push(o);
       }
@@ -123,7 +99,7 @@ export default function Series() {
     // 找到匹配名字的课件或视频
     const { value = "" } = document.getElementById("series_local_search_input");
     const arr = [];
-    seriesStack.map(o => {
+    seriesStack.map((o) => {
       if (
         (o.data.file_name && o.data.file_name.includes(value)) ||
         (o.data.video_title && o.data.video_title.includes(value))
@@ -161,21 +137,21 @@ export default function Series() {
       <Box className="buttonGroup">
         <Button
           size="small"
-          className={type === "all" && "action"}
+          className={`${type === "all" && "action"}`}
           onClick={() => handleTypeClick("all")}
         >
           全部
         </Button>
         <Button
           size="small"
-          className={type === "video" && "action"}
+          className={`${type === "video" && "action"}`}
           onClick={() => handleTypeClick("video")}
         >
           视频
         </Button>
         <Button
           size="small"
-          className={type === "document" && "action"}
+          className={`${type === "document" && "action"}`}
           onClick={() => handleTypeClick("document")}
         >
           课件
@@ -203,19 +179,14 @@ export default function Series() {
         <div style={{ minHeight: "90vh" }}>
           {series.map((o, i) => {
             let j = {};
-            const vtrans = obj => ({
+            const vtrans = (obj) => ({
               ...obj,
-              data: Object.assign(obj.data, { title: obj.data.video_title })
+              data: Object.assign(obj.data, { title: obj.data.video_title }),
             });
-            const dtrans = obj => ({
-              ...obj,
-              data: Object.assign(obj.data, {
-                file_name: obj.data.file_name
-              })
-            });
-            j = o.source === "video" ? vtrans(o) : dtrans(o);
+            j = o.source === "video" ? vtrans(o) : o;
             return <SearchCard card={j} key={i} />;
           })}
+          <EmptyNotice empty={!series.length && !loading} />
         </div>
       )}
       <br />

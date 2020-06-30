@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import Container from "@material-ui/core/Container";
 import SearchLayout from "../layout/SearchLayout";
 import config from "../../data/SiteConfig";
 import Search from "../components/Search/Search";
+import Container from "../components/Container/KeContainer";
 
 class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchValue: ""
+      searchValue: "",
     };
   }
 
   componentDidMount() {
     const {
-      location: { state = {} }
+      location: { state = {} },
     } = this.props;
     this.setState({ searchValue: state && state.searchValue });
   }
@@ -23,13 +23,13 @@ class SearchPage extends Component {
   render() {
     return (
       <SearchLayout searchValue={this.state.searchValue}>
-        {input => (
+        {(input) => (
           <div
             className="search-container"
             style={{ width: "100%", padding: 20 }}
           >
             <Helmet title={`Search | ${config.siteTitle}`} />
-            <Container fixed>
+            <Container>
               <Search {...this.props} input={input} />
             </Container>
           </div>

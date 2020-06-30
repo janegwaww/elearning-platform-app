@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { Link } from "gatsby";
-import Container from "@material-ui/core/Container";
 import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import CreatorBar from "../Home/CreatorBar";
 import { getHotAuths } from "../../services/home";
+import Container from "../Container/KeContainer";
 
 export default class ExcellentCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
       authList: [],
-      loading: true
+      loading: true,
     };
   }
 
@@ -23,7 +23,7 @@ export default class ExcellentCreator extends Component {
 
   fetchAuthData = () => {
     this.setState({ loading: true });
-    getHotAuths({ max_size: 5, page: 1, video_size: 4 }).then(data => {
+    getHotAuths({ max_size: 5, page: 1, video_size: 4 }).then((data) => {
       this.setState({ authList: data, loading: false });
     });
   };
@@ -35,7 +35,7 @@ export default class ExcellentCreator extends Component {
       <Layout>
         <div className="ExcellentCreator-container" style={{ width: "100%" }}>
           <Helmet title={`Excellent | ${config.siteTitle}`} />
-          <Container fixed>
+          <Container>
             <div>
               <HomeTab
                 tabs={[
@@ -47,8 +47,8 @@ export default class ExcellentCreator extends Component {
                           <CreatorBar info={o} key={i} loading={loading} />
                         ))}
                       </div>
-                    )
-                  }
+                    ),
+                  },
                 ]}
               />
             </div>

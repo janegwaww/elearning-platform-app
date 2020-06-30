@@ -3,17 +3,17 @@ import MuiPagination from "@material-ui/lab/Pagination";
 import { pipe } from "../../services/utils";
 import "./PaginationStyles.sass";
 
-export default function Pagination({ fetch = () => ({}) }) {
+export default function Pagination({ fetch = () => ({}), method = "async" }) {
   const [count, setCount] = useState(5);
   const [curPage, setCurPage] = useState(1);
 
-  const getCount = (bool) => setCount((prev) => (bool ? prev + 1 : prev));
+  const getCount = (num = 1) => setCount(num);
 
   const increse = (page) => (num = 0) => {
-    if (num === 0) return false;
-    if (page < curPage) return false;
-    if (page < count) return false;
-    return true;
+    if (page <= count && num < 16) return page;
+    if (page < curPage) return count;
+    if (page < count) return count;
+    return count + 1;
   };
 
   const pageNum = (num = 0) => Math.ceil(num / 16);
@@ -21,9 +21,13 @@ export default function Pagination({ fetch = () => ({}) }) {
   const getLength = (data = []) => data.length;
 
   const handlePage = (event, page = 1) => {
-    fetch({ page }, pipe(getLength, pageNum, increse(page), getCount));
+    fetch({ page }, pipe(getLength, increse(page), getCount));
     setCurPage(page);
   };
+
+  useEffect(() => {
+    if (method === "async") handlePage({}, 1);
+  }, []);
 
   return (
     <MuiPagination

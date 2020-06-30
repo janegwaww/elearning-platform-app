@@ -6,6 +6,7 @@ import GridCards from "./GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
 import Pagination from "../Pagination/Pagination";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
 
 class Home extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.fetchHotVideo({});
+    /* this.fetchHotVideo({}); */
   }
 
   fetchHotVideo = ({ page = 1 }, callback = () => ({})) => {
@@ -38,6 +39,7 @@ class Home extends Component {
         <br />
         <div style={{ minHeight: "50vh" }}>
           <GridCards loading={loading} itemCount={16} items={hotVideos} />
+          <EmptyNotice empty={!hotVideos.length && !loading} />
         </div>
         <br />
         <Pagination fetch={this.fetchHotVideo} />

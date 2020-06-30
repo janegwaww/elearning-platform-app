@@ -8,9 +8,9 @@ import LightTooltip from "./LightTooltip";
 export default function UserLikeHeart({
   like = 0,
   likeCounts = 0,
-  handleClick = () => ({})
+  handleClick = () => ({}),
 }) {
-  const HeartIcon = heart =>
+  const HeartIcon = (heart) =>
     heart === 1 ? (
       <FavoriteIcon style={{ fontSize: 16, margin: 4 }} />
     ) : (
@@ -18,16 +18,7 @@ export default function UserLikeHeart({
     );
 
   return (
-    <IconButton
-      size="small"
-      onClick={handleClick}
-      style={{
-        "&:hover": {
-          color: "#fc5659",
-          backgroundColor: "transparent"
-        }
-      }}
-    >
+    <IconButton size="small" onClick={handleClick} className="user-like-heart">
       {HeartIcon(like)}
       <LightTooltip title="喜欢" placement="bottom">
         <Typography>{likeCounts}</Typography>

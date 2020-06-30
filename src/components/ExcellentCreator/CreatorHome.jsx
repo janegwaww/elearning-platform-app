@@ -3,7 +3,6 @@ import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
-import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -16,6 +15,8 @@ import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import GridCards from "../Home/GridCards";
 import SearchLoading from "../Loading/SearchLoading";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import Container from "../Container/KeContainer";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
 
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   panel: {
-    minHeight: "80vh",
+    minHeight: "60vh",
   },
 }));
 
@@ -167,7 +168,6 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      className={classes.panel}
       {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
@@ -243,7 +243,7 @@ export default class CreatorHome extends Component {
       <Layout>
         <div className="Creator-container" style={{ width: "100%" }}>
           <Helmet title={`Creator | ${config.siteTitle}`} />
-          <Container fixed>
+          <Container>
             <div>
               <div
                 style={{
@@ -266,7 +266,7 @@ export default class CreatorHome extends Component {
               </div>
               <br />
 
-              <div>
+              <div style={{ minHeight: "60vh" }}>
                 <Tabs onChange={this.handleTabChange} value={value}>
                   <Tab label="全部" />
                   <Tab label="视频" />
@@ -286,9 +286,10 @@ export default class CreatorHome extends Component {
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
                 </TabPanel>
-                <Pagination num={list.length} hanlePage={this.handlePage} />
-                <br />
+                <EmptyNotice empty={!(list.length || loading)} />
               </div>
+              <Pagination num={list.length} hanlePage={this.handlePage} />
+              <br />
             </div>
           </Container>
           <SearchLoading loading={loading} />

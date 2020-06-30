@@ -3,7 +3,6 @@ import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Container from "@material-ui/core/Container";
 import {
   Toolbar,
   Menu,
@@ -20,6 +19,7 @@ import {
   Box,
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
+import Container from "../Container/KeContainer";
 import logo from "../../../static/logos/Logo.png";
 import useStyles from "./NavBarStyles";
 
@@ -81,13 +81,13 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <div className={classes.grow} >
-      <AppBar position="fixed" style={{height:80}}>
-        <Container fixed className='12365487'>
-          <Toolbar>
-            <IconButton onClick={() => navigate("/")}>
+    <div className={classes.grow}>
+      <AppBar position="fixed">
+        <Container>
+          <Toolbar className={classes.toolbar}>
+            <Link href="/">
               <img src={logo} alt="logo" />
-            </IconButton>
+            </Link>
             <div className={classes.menus}>
               <Link
                 href="/"
