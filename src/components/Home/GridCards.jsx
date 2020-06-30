@@ -20,13 +20,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     if (video_id) {
       return {
         to: `/watch/?vid=${video_id}`,
-        state: { vid: video_id }
+        state: { vid: video_id },
       };
     }
     if (series_id) {
       return {
         to: `/series/?sid=${series_id}`,
-        state: { sid: series_id }
+        state: { sid: series_id },
       };
     }
     return { to: "/", state: {} };
@@ -41,7 +41,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           padding: "2px 4px",
           borderRadius: "0 0 4px 4px",
           top: 0,
-          left: 18
+          left: 18,
         }}
       >
         <Typography color="primary" variant="caption">
@@ -57,9 +57,9 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "calc(160px * 0.83)",
+          top: "calc(190px * 0.85)",
           right: "2%",
-          padding: "0 4px"
+          padding: "0 4px",
         }}
       >
         <Typography variant="caption" color="primary">
@@ -75,9 +75,9 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "calc(160px * 0.83)",
+          top: "calc(190px * 0.85)",
           right: "2%",
-          padding: "0 4px"
+          padding: "0 4px",
         }}
       >
         <Typography variant="caption" color="primary">
@@ -102,7 +102,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                 borderRadius: "12px",
                 overflow: "hidden",
                 backgroundColor: "#fff",
-                position: "relative"
+                position: "relative",
               }}
             >
               {item ? (
@@ -112,7 +112,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   rel="noopener norefferer"
                 >
                   <img
-                    style={{ width: "100%", height: 160 }}
+                    style={{ width: "100%", height: 190 }}
                     alt={item.image_path}
                     src={`${item.image_path}`}
                   />
@@ -121,7 +121,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   {seriesCounts(item)}
                 </Link>
               ) : (
-                <Skeleton variant="rect" width="100%" height={160} />
+                <Skeleton variant="rect" width="100%" height={190} />
               )}
 
               {item ? (
@@ -200,7 +200,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 GridCards.propTypes = {
   loading: PropTypes.bool,
   items: PropTypes.array,
-  itemCount: PropTypes.number
+  itemCount: PropTypes.number,
 };
 
 export default GridCards;

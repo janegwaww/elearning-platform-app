@@ -3,7 +3,6 @@ import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
-import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -16,9 +15,10 @@ import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import GridCards from "../Home/GridCards";
 import SearchLoading from "../Loading/SearchLoading";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import Container from "../Container/KeContainer";
 import { getCreatorInfo } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
-import EmptyNotice from "../EmptyNotice/EmptyNotice";
 
 const useStyles = makeStyles((theme) => ({
   authAvatar: {
@@ -243,7 +243,7 @@ export default class CreatorHome extends Component {
       <Layout>
         <div className="Creator-container" style={{ width: "100%" }}>
           <Helmet title={`Creator | ${config.siteTitle}`} />
-          <Container fixed>
+          <Container>
             <div>
               <div
                 style={{
