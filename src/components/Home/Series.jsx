@@ -13,6 +13,7 @@ import Link from "@material-ui/core/Link";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import { getIdFromHref, secondsToDate } from "../../services/utils";
 import "./SeriesStyles.sass";
 
@@ -24,7 +25,7 @@ const headCard = ({
   author_name,
   update_time,
   headshot,
-  author_id
+  author_id,
 }) => (
   <div
     style={{
@@ -32,7 +33,7 @@ const headCard = ({
       height: 190,
       gridTemplateColumns: "300px auto",
       gridTemplateRows: "repeat(6,1fr)",
-      columnGap: "40px"
+      columnGap: "40px",
     }}
   >
     <div style={{ gridColumn: 1, gridRow: "1/8" }}>
@@ -48,7 +49,7 @@ const headCard = ({
         gridRow: 1,
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <Typography>{title}</Typography>
@@ -72,7 +73,7 @@ const headCard = ({
         gridColumn: 2,
         gridRow: 7,
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
       }}
       color="inherit"
       underline="none"
@@ -98,9 +99,9 @@ export default function Series() {
   const [type, setType] = useState("all");
   const { sid } = getIdFromHref();
 
-  const fetchSeriesData = id => {
+  const fetchSeriesData = (id) => {
     setLoading(true);
-    getSeriesInfo({ series_id: id }).then(data => {
+    getSeriesInfo({ series_id: id }).then((data) => {
       setSeries(data.series);
       setSeriesStack(data.series);
       setSeriesInfo(data.info);
@@ -108,9 +109,9 @@ export default function Series() {
     });
   };
 
-  const handleTypeClick = name => {
+  const handleTypeClick = (name) => {
     const arr = [];
-    seriesStack.map(o => {
+    seriesStack.map((o) => {
       if (o.source === name || name === "all") {
         arr.push(o);
       }
@@ -123,7 +124,7 @@ export default function Series() {
     // 找到匹配名字的课件或视频
     const { value = "" } = document.getElementById("series_local_search_input");
     const arr = [];
-    seriesStack.map(o => {
+    seriesStack.map((o) => {
       if (
         (o.data.file_name && o.data.file_name.includes(value)) ||
         (o.data.video_title && o.data.video_title.includes(value))
@@ -203,19 +204,20 @@ export default function Series() {
         <div style={{ minHeight: "90vh" }}>
           {series.map((o, i) => {
             let j = {};
-            const vtrans = obj => ({
+            const vtrans = (obj) => ({
               ...obj,
-              data: Object.assign(obj.data, { title: obj.data.video_title })
+              data: Object.assign(obj.data, { title: obj.data.video_title }),
             });
-            const dtrans = obj => ({
+            const dtrans = (obj) => ({
               ...obj,
               data: Object.assign(obj.data, {
-                file_name: obj.data.file_name
-              })
+                file_name: obj.data.file_name,
+              }),
             });
             j = o.source === "video" ? vtrans(o) : dtrans(o);
             return <SearchCard card={j} key={i} />;
           })}
+          <EmptyNotice empty={!series.length && !loading} />
         </div>
       )}
       <br />

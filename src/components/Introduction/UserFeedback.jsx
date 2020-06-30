@@ -10,36 +10,35 @@ import { likeTheVideo, collectTheVideo } from "../../services/video";
 import LightTooltip from "./LightTooltip";
 import UserLikeHeart from "./UserLikeHeart";
 
-export default function UserFeedback({
-  backData: { viewCounts, likeCounts, id, isLike, isCollect }
-}) {
+export default function UserFeedback({ backData = {} }) {
   const [like, setLike] = useState(0);
   const [collect, setCollect] = useState(0);
   const [lCounts, setLCounts] = useState(0);
+  const [id, setId] = useState("");
 
-  const oppositeValue = val => (val === 1 ? 0 : 1);
+  const oppositeValue = (val) => (val === 1 ? 0 : 1);
 
-  const actionEvent = (setData, actApi, value, callback) => {
+  const actionEvent = (setData, actApi, value, callback = () => ({})) => {
     const val = oppositeValue(value);
     /* setData(val); */
     actApi({
-      relation_id: id,
+      relation_id: [id],
       value: val,
-      type: "video"
-    }).then(data => {
+      type: "video",
+    }).then((data) => {
       if (data) {
         setData(val);
-        typeof callback === "function" && callback(val);
+        callback(val);
       }
     });
   };
 
-  const handleLikeClick = event => {
+  const handleLikeClick = (event) => {
     event.preventDefault();
-    actionEvent(setLike, likeTheVideo, like, val =>
+    actionEvent(setLike, likeTheVideo, like, (val) =>
       val
-        ? setLCounts(prev => prev + 1)
-        : setLCounts(prev => {
+        ? setLCounts((prev) => prev + 1)
+        : setLCounts((prev) => {
             if (prev >= 1) {
               return prev - 1;
             }
@@ -51,7 +50,7 @@ export default function UserFeedback({
   const handleStarClick = () =>
     actionEvent(setCollect, collectTheVideo, collect);
 
-  const StarOrNot = star =>
+  const StarOrNot = (star) =>
     star === 1 ? (
       <StarIcon style={{ fontSize: 18, margin: "8px" }} />
     ) : (
@@ -59,33 +58,18 @@ export default function UserFeedback({
     );
 
   useEffect(() => {
-    setLike(isLike);
-    setCollect(isCollect);
-    setLCounts(likeCounts);
-  }, [isLike, isCollect]);
+    setLike(backData.is_like);
+    setCollect(backData.is_collect);
+    setLCounts(backData.like_counts);
+    setId(backData.video_id);
+  }, [backData.is_like, backData.is_collect]);
 
   return (
-    <div
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        "& > button": {
-          margin: "0 16px"
-        }
-      }}
-    >
-      <IconButton
-        size="small"
-        style={{
-          "&:hover": {
-            color: "#007cff",
-            backgroundColor: "transparent"
-          }
-        }}
-      >
+    <div className="user-feedback">
+      <IconButton size="small" className="user-play-count">
         <PlayCircleOutlineIcon style={{ fontSize: 16, margin: "8px" }} />
         <LightTooltip title="播放" placement="bottom">
-          <Typography>{viewCounts}</Typography>
+          <Typography>{backData.view_counts}</Typography>
         </LightTooltip>
       </IconButton>
 
@@ -96,17 +80,12 @@ export default function UserFeedback({
       />
 
       <SharePopover>
-        {handleShare => (
+        {(handleShare) => (
           <IconButton
             aria-describedby={id}
             size="small"
             onClick={handleShare}
-            style={{
-              "&:hover": {
-                color: "#007cff",
-                backgroundColor: "transparent"
-              }
-            }}
+            className="user-play-count"
           >
             <LightTooltip title="分享">
               <ShareIcon style={{ fontSize: 16, margin: "8px" }} />
@@ -118,12 +97,7 @@ export default function UserFeedback({
       <IconButton
         size="small"
         onClick={handleStarClick}
-        style={{
-          "&:hover": {
-            color: "#fdc44f",
-            backgroundColor: "transparent"
-          }
-        }}
+        className="user-collection"
       >
         <LightTooltip title="收藏" placement="bottom">
           {StarOrNot(collect)}

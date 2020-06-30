@@ -8,6 +8,7 @@ import SearchCard from "./SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
 import Pagination from "../Pagination/Pagination";
 import { searchGlobal } from "../../services/home";
+import EmptyNotice from "../EmptyNotice/EmptyNotice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   searchResult: {
-    minHeight: "90vh",
+    minHeight: "60vh",
   },
   buttonGrounp: {
     padding: "8px 0",
@@ -47,24 +48,21 @@ export default function Search({ input }) {
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
 
-  const fetchSearchResult = ({ page = 1 }) => {
+  const fetchSearchResult = ({ page = 1 }, callback = () => ({})) => {
     setLoading(true);
     searchGlobal({
       query_string: input,
       video_ids: [],
-      max_size: 12,
+      max_size: 16,
       type,
       page,
     }).then((data) => {
-      setResult(data.resultData);
-      setCount(data.count);
+      const sd = (d) => d.slice((page - 1) * 16, (page - 1) * 16 + 16);
+      setResult(sd(data));
+      setCount(data.length);
       setLoading(false);
+      callback(sd(data));
     });
-  };
-
-  const handlePage = (event, page) => {
-    event.preventDefault();
-    fetchSearchResult({ page });
   };
 
   const handleTypeClick = (cate) => {
@@ -79,7 +77,7 @@ export default function Search({ input }) {
 
   const iterateItems = (arr = []) => {
     // iterate there
-    return arr.map((o, i) => <SearchCard card={o} key={i} />);
+    return arr.slice(0, 16).map((o, i) => <SearchCard card={o} key={i} />);
   };
 
   return (
@@ -131,9 +129,12 @@ export default function Search({ input }) {
       </Box>
       <Divider />
       <br />
-      <div className={classes.searchResult}>{iterateItems(result)}</div>
+      <div className={classes.searchResult}>
+        {iterateItems(result)}
+        {!result.length && !loading && <EmptyNotice />}
+      </div>
       <br />
-      <Pagination total={count} handlePage={handlePage} />
+      <Pagination fetch={fetchSearchResult} method="total" />
       <SearchLoading loading={loading} />
     </div>
   );
