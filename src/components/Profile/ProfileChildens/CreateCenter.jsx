@@ -232,12 +232,13 @@ class CreateCenter extends React.Component {
                   style={{
                     width: "calc(100% - 280px)",
                     flexDirection: "column",
+                    height:160
                   }}
                   className="box box-between all-height"
                 >
                   <div>
                     <div className="fn-color-2C2C3B fn-size-16 zero-edges text-overflow">
-                      {this.state.series_details.series_title}
+                      {this.state.series_details.title}
                     </div>
                     <p className="fn-color-878791 all-width ">
                       {"更新于  " +

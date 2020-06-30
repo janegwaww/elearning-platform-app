@@ -72,7 +72,7 @@ class Profile extends React.Component {
   // componentWillReceiveProps(nextProps){
 
   // }
-  // shouldComponentUpdate(nextProps, nextState) {
+  // shouldComponentUpdate(negixtProps, nextState) {
   //   console.log(nextProps);
   //   console.log(nextState);
   //   return true;
