@@ -101,8 +101,8 @@ export default function Document({ did }) {
                 {secondsToDate(detail.upload_time)}
               </span>
             </Typography>
-            <div style={{ display: "flex" }}>
-              <Typography color="textSecondary" variant="body2" gutterBottom>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography color="textSecondary" variant="body2">
                 价格：
                 <span style={{ color: "#fc5659" }}>{`￥${detail.price}`}</span>
               </Typography>
