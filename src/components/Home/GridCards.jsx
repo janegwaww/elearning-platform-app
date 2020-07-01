@@ -57,7 +57,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "calc(190px * 0.85)",
+          top: "calc(160px * 0.83)",
           right: "2%",
           padding: "0 4px",
         }}
@@ -75,7 +75,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
           backgroundColor: "rgba(32,32,32,0.48)",
           position: "absolute",
           borderRadius: 4,
-          top: "calc(190px * 0.85)",
+          top: "calc(160px * 0.83)",
           right: "2%",
           padding: "0 4px",
         }}
@@ -112,7 +112,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   rel="noopener norefferer"
                 >
                   <img
-                    style={{ width: "100%", height: 190 }}
+                    style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
                     src={`${item.image_path}`}
                   />
@@ -121,7 +121,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   {seriesCounts(item)}
                 </Link>
               ) : (
-                <Skeleton variant="rect" width="100%" height={190} />
+                <Skeleton variant="rect" width="100%" height={160} />
               )}
 
               {item ? (
