@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
-import logo from "../../../static/logos/Logo.png";
+import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
 
 export default function PrimarySearchAppBar() {
@@ -85,7 +85,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="fixed">
         <Container>
           <Toolbar className={classes.toolbar}>
-            <Link href="/">
+            <Link href="/" className={classes.logoLink}>
               <img src={logo} alt="logo" />
             </Link>
             <div className={classes.menus}>

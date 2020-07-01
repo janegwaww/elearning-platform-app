@@ -6,7 +6,7 @@ import Link from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "../Container/KeContainer";
 import wechatQrcode from "../../../static/images/wechat-qrcode.jpg";
-import logo from "../../../static/logos/Logo.png";
+import logo from "../../../static/logos/logo.svg";
 import "./Footer.sass";
 
 const QrCodeImg = () => (
@@ -64,7 +64,7 @@ class Footer extends Component {
                 <div className="footer-above-left">
                   <div className="footer-title">
                     <IconButton>
-                      <img src={logo} />
+                      <img src={logo} alt="logo" />
                     </IconButton>
                     <Typography color="primary">
                       &#183; 开动遨游知识海洋的引擎
