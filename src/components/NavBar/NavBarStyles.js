@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
+  logoLink: {
+    lineHeight: 0
+  },
   title: {
     display: "none",
     [theme.breakpoints.up("sm")]: {

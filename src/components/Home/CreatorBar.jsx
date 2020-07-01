@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import GridCards from "../Home/GridCards";
+import GridCards from "../GridCards/GridCards";
 
 const SubButton = withStyles({
   root: {
@@ -13,9 +13,9 @@ const SubButton = withStyles({
     borderRadius: 4,
     padding: "2px 4px",
     "&:hover": {
-      backgroundColor: "#fc5659"
-    }
-  }
+      backgroundColor: "#fc5659",
+    },
+  },
 })(ButtonBase);
 
 export default function CreatorBar({ info, ...props }) {
@@ -23,10 +23,10 @@ export default function CreatorBar({ info, ...props }) {
   const [fansCount, setFansCount] = useState(0);
 
   const handleSubcript = () => {
-    setSubscript(prev => !prev);
+    setSubscript((prev) => !prev);
     !subscript
-      ? setFansCount(prev => prev + 1)
-      : setFansCount(prev => prev - 1);
+      ? setFansCount((prev) => prev + 1)
+      : setFansCount((prev) => prev - 1);
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function CreatorBar({ info, ...props }) {
           style={{ width: 50, height: 50, cursor: "pointer" }}
           onClick={() =>
             navigate(`/excellentcreator/creator?cid=${info.user_id}`, {
-              state: { cid: info.user_id }
+              state: { cid: info.user_id },
             })
           }
         />
@@ -60,7 +60,7 @@ export default function CreatorBar({ info, ...props }) {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "4px 0"
+              padding: "4px 0",
             }}
           >
             <SubButton onClick={() => handleSubcript()}>
