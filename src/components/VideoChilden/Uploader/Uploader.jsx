@@ -146,6 +146,12 @@ export default class UploadVideos extends Component {
             video_size: res.result_data[0].video_size,
             video_time: res.result_data[0].video_time,
           };
+          if(res.result_data[0].lang){
+            _data.lang=res.result_data[0].lang;
+            this.setState({
+              lang_value:res.result_data[0].lang
+            })
+          }
           if (res.result_data[0].subtitle) {
             _data.sub_josn = res.result_data[0].subtitle;
             if (_data.sub_josn[0].en_sub) {

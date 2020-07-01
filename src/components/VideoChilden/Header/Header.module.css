@@ -13,8 +13,11 @@
 .header span:hover{
   cursor: default;
 }
-.imdex span:hover{
+.imdex span:hover,.header .headshot img:hover,.header button span:hover{
   cursor: pointer;
+}
+.headshot{
+  display: block;
 }
 .shortcut{
   position: relative;

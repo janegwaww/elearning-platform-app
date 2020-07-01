@@ -498,7 +498,15 @@ export default function VideoIndex(props) {
                                 name="gender1"
                                 checked={option.title == currency}
                                 value={option.title}
+                                onClick={(ev)=>{
+                                
+                                if(ev.target.checked){
+                                  ev.target.checked=false;
+                                  setCurrency('');
+                                }
+                                }}
                                 onChange={(event) => {
+                                  
                                   setCurrency(event.target.value);
                                 }}
                               />
@@ -810,6 +818,7 @@ export default function VideoIndex(props) {
                     if (JSON.stringify(adjunct) != "[]") {
                       _data.document = adjunct;
                     }
+                    
                     get_data("api/v1/gateway", {
                       model_name: "video",
                       model_action: "check",

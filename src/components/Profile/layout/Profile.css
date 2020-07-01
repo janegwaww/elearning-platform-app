@@ -1,3 +1,6 @@
+p{
+  cursor: default;
+}
 .profile-main {
   margin: 40px 0;
 }
@@ -117,34 +120,22 @@
   border:1px solid rgb(242, 242, 245);
   border-radius: 12px;
  }
-/* .btn1{
-  background-color:'#007CFF';
-  font-size:16px;
-  color:'white';
-  width:180px;
-  height:40px;
-  border-radius:20;
-}
-.btn2{
-  color:'#878791';
-  background-color:'#F2F2F5';
-} */
+
 
 
 .edit-phone .MuiInput-underline:after{
   border-bottom: 2px solid rgb(77, 144, 254); 
 }
-/* .MuiStepIcon-root.MuiStepIcon-completed{
-color:#007CFF !important;
-} */
+
 .profile-setting-phone{
   border-left: 1px dashed #007CFF;
-  /* transform: translateX(72px); */
+ 
   margin-right:120px ;
   
 }
+
 .profile-step span{
-  /* height: 33%; */
+
   display: inline-block;
   width: 20px;
   height: 20px;

@@ -770,7 +770,7 @@ export default class VideoPage extends Component {
                           : 0}
                       </span>
                     </div>
-                    <div className="paly-on-off">
+                    <div className="paly-on-off" style={{cursor:'pointer'}}>
                       {this.state.status ? (
                         <Pause onClick={on_pause} />
                       ) : (

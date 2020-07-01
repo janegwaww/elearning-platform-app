@@ -28,3 +28,6 @@ height: 120px;
   width:52px;
   height: 36px;
 }
+.ul li:nth-child(3) img:hover{
+  cursor: pointer;
+}

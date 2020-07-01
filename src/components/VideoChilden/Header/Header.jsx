@@ -205,7 +205,7 @@ export default class Header extends Component {
 
           <div onClick={this.btn_user}>
             {this.state.user_info ? (
-              <div>
+              <div className={styles.headshot}>
                 <Avatar
                   src={
                     this.state.user_info && this.state.user_info.headshot

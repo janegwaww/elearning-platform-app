@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getUser } from "../../services/auth";
-import CustomModal from './CustomModal';
+import CustomModal from "./CustomModal";
 const _path = __dirname;
 const request_url = "http://api.haetek.com:9191/"; //'http://192.168.0.200:9191/';//'http://seeker.haetek.com:9191/';//'
 
@@ -20,13 +20,12 @@ export const get_data = function(url, data, method, header) {
         "Content-Type": "application/json",
         Authorization: "Bearer" + " " + getUser().token,
       },
-     
     })
       .then((res) => resolve(res.data))
       .catch((err) => {
         console.log(err);
         reject(err);
-        
+
         // new CustomModal().alert('网络错误','error')
       });
   });
@@ -52,7 +51,8 @@ export const get_alldata = function(url_lists, data_list, methods) {
         request_arr.push(axios.get(url_lists, data_list[i]));
       }
     }
-  } else {//url是数组列表时
+  } else {
+    //url是数组列表时
     if (!methods || methods == "post" || methods == "POST") {
       for (let i = 0; i < len; i++) {
         request_arr.push(get_data(url_lists[i], data_list[i]));
@@ -67,9 +67,10 @@ export const get_alldata = function(url_lists, data_list, methods) {
     axios
       .all(request_arr)
       .then(
-        axios.spread(function(res1, ...reses) {//call_back里是不定参，不能是箭头函数，使用前头时不能绑定当前回调的arguments
+        axios.spread(function(res1, ...reses) {
+          //call_back里是不定参，不能是箭头函数，使用前头时不能绑定当前回调的arguments
           resolve(arguments);
-        //   console.log(arguments)
+          //   console.log(arguments)
         })
       )
       .catch(
@@ -79,5 +80,27 @@ export const get_alldata = function(url_lists, data_list, methods) {
           // new CustomModal().alert('网络错误','error')
         })
       );
+  });
+};
+export const updata_img = function(_file, _type) {
+  let _form = new FormData();
+  _form.append("model_name", "file");
+  _form.append("model_action", "upload_file");
+  _form.append("type", _type);
+  _form.append("file", _file);
+  return new Promise(function(resolve, reject) {
+    get_data("api/v1/gateway", _form)
+      .then((res) => {
+        if (res.err == 0 && res.errmsg == "OK") {
+          new CustomModal().alert("上传成功", "success", 3000);
+        } else {
+          new CustomModal().alert("上传失败", "error", 3000);
+        }
+        resolve(res);
+        // new CustomModal().alert('上传成功','success',3000)
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 };
