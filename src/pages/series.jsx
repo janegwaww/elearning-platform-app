@@ -10,7 +10,7 @@ export default class SeriesPage extends Component {
     return (
       <Layout>
         <div className="subscription-container" style={{ width: "100%" }}>
-          <Helmet title={`series | ${config.siteTitle}`} />
+          <Helmet title={`Series | ${config.siteTitle}`} />
           <Container>
             <Series {...this.props} />
           </Container>

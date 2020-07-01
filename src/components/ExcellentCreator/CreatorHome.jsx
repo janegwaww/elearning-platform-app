@@ -13,7 +13,7 @@ import Box from "@material-ui/core/Box";
 import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
-import GridCards from "../Home/GridCards";
+import GridCards from "../GridCards/GridCards";
 import SearchLoading from "../Loading/SearchLoading";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";

@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-/* import { navigate } from "gatsby"; */
-import GridCards from "./GridCards";
+import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
