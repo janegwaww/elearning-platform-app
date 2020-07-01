@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import HomeTab from "./HomeTab";
-import GridCards from "./GridCards";
+import GridCards from "../GridCards/GridCards";
 import { isLoggedIn } from "../../services/auth";
 
 export default function MySubscription() {
@@ -14,8 +14,8 @@ export default function MySubscription() {
           tabs={[
             {
               label: "订阅更新",
-              tabContent: () => <GridCards itemCount={8} loading={loading1} />
-            }
+              tabContent: () => <GridCards itemCount={8} loading={loading1} />,
+            },
           ]}
         />
       ) : null}
@@ -24,8 +24,8 @@ export default function MySubscription() {
         tabs={[
           {
             label: "推荐订阅",
-            tabContent: () => <GridCards itemCount={8} loading={loading2} />
-          }
+            tabContent: () => <GridCards itemCount={8} loading={loading2} />,
+          },
         ]}
       />
     </Fragment>

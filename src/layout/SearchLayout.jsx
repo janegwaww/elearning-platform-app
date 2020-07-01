@@ -43,6 +43,7 @@ export default function SearchLayout({ children, searchValue = "" }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
       <AppBar position="fixed" color="inherit" className="search-layout-bar">
         <div style={{ backgroundColor: "#2c2c3b" }} id="back-to-top-anchor">
           <Container>

@@ -99,9 +99,9 @@ const authAvatar = (headshot, href = "/") =>
     </Link>
   );
 
-const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
-  name && (
-    <div style={{ display: "flex", alignItems: "center" }}>
+const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) => (
+  <div style={{ display: "flex", alignItems: "center" }}>
+    {headshot && (
       <Link href={`/excellentcreator/creator/?cid=${id}`}>
         <Avatar
           src={headshot}
@@ -109,21 +109,22 @@ const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) =>
           style={{ height: 28, width: 28, marginRight: 5 }}
         />
       </Link>
-      <Typography variant="caption">{name}</Typography>
-      <div style={{ marginRight: 40 }} />
-      {!!(view || comment || like) && (
-        <div style={{ gridColumn: 2, gridRow: 4 }}>
-          <Typography variant="caption" color="textSecondary">
-            {`${view}观看`}
-            <Bull />
-            {`${comment}回应`}
-            <Bull />
-            {`${like}点赞`}
-          </Typography>
-        </div>
-      )}
-    </div>
-  );
+    )}
+    {name && <Typography variant="caption">{name}</Typography>}
+    {name && headshot && <div style={{ marginRight: 40 }} />}
+    {!!(view || comment || like) && (
+      <div style={{ gridColumn: 2, gridRow: 4 }}>
+        <Typography variant="caption" color="textSecondary">
+          {`${view}观看`}
+          <Bull />
+          {`${comment}回应`}
+          <Bull />
+          {`${like}点赞`}
+        </Typography>
+      </div>
+    )}
+  </div>
+);
 
 const subtitle = ({ start_time, whole_str, subtitle_dist, type, id }) => {
   const createMarkup = () => ({

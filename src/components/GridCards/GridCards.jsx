@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -8,7 +7,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Bull from "../Search/Bull";
+import Link from "../Link/Link";
 import { secondsToMouth } from "../../services/utils";
+import "./GridCardsStyles.sass";
 
 function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const [list, setList] = useState([]);
@@ -34,16 +35,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const isSeries = ({ video_id, series_id }) =>
     series_id && (
-      <div
-        style={{
-          position: "absolute",
-          backgroundColor: "#007cff",
-          padding: "2px 4px",
-          borderRadius: "0 0 4px 4px",
-          top: 0,
-          left: 18,
-        }}
-      >
+      <div className="series-tag">
         <Typography color="primary" variant="caption">
           系列
         </Typography>
@@ -52,16 +44,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const duration = ({ video_time }) =>
     video_time && (
-      <Box
-        style={{
-          backgroundColor: "rgba(32,32,32,0.48)",
-          position: "absolute",
-          borderRadius: 4,
-          top: "calc(160px * 0.83)",
-          right: "2%",
-          padding: "0 4px",
-        }}
-      >
+      <Box className="video-time-tag">
         <Typography variant="caption" color="primary">
           {video_time}
         </Typography>
@@ -70,16 +53,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
-      <Box
-        style={{
-          backgroundColor: "rgba(32,32,32,0.48)",
-          position: "absolute",
-          borderRadius: 4,
-          top: "calc(160px * 0.83)",
-          right: "2%",
-          padding: "0 4px",
-        }}
-      >
+      <Box className="video-counts-tag" style={{}}>
         <Typography variant="caption" color="primary">
           {`共${video_counts}课`}
         </Typography>
@@ -91,26 +65,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   }, [, loading]);
 
   return (
-    <Grid container wrap="wrap" spacing={2}>
+    <Grid container wrap="wrap" spacing={2} className="grid-cards-container">
       {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
-          <Grid item xs={3} key={index}>
-            <Box
-              width="100%"
-              style={{
-                border: "1px solid rgba(242,242,245,1)",
-                borderRadius: "12px",
-                overflow: "hidden",
-                backgroundColor: "#fff",
-                position: "relative",
-              }}
-            >
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={index}>
+            <Box width="100%" className="grid-item">
               {item ? (
-                <Link
-                  href={handleLink(item).to}
-                  target="_blank"
-                  rel="noopener norefferer"
-                >
+                <Link href={handleLink(item).to}>
                   <img
                     style={{ width: "100%", height: 160 }}
                     alt={item.image_path}
@@ -126,12 +87,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
               {item ? (
                 <Box p={2}>
-                  <Link
-                    href={handleLink(item).to}
-                    color="textPrimary"
-                    target="_blank"
-                    rel="noopener norefferer"
-                  >
+                  <Link href={handleLink(item).to} color="textPrimary">
                     <Tooltip placement="top-start" title={item.title}>
                       <Typography
                         gutterBottom
@@ -147,8 +103,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   {item.headshot ? (
                     <Link
                       href={`/excellentcreator/creator/?cid=${item.user_id}`}
-                      target="_blank"
-                      rel="noopener norefferer"
                     >
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Avatar
