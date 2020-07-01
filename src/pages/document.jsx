@@ -35,7 +35,7 @@ class DocumentPage extends Component {
           className="subscription-container"
           style={{ width: "100%", backgroundColor: "#f2f2f5" }}
         >
-          <Helmet title={`document | ${config.siteTitle}`} />
+          <Helmet title={`Document | ${config.siteTitle}`} />
           <Container>
             <Document did={did} {...this.props} />
           </Container>

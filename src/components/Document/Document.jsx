@@ -18,10 +18,8 @@ import "./DocumentStyles.sass";
 
 export default function Document({ did }) {
   const [detail, setDetail] = useState({});
-  const [expanded, setExpanded] = useState("");
   const [loading, setLoading] = useState(false);
   const [isPay, setIsPay] = useState(false);
-  const [orderId, setOrderId] = useState("");
   const [paidedHref, setPaidedHref] = useState("");
 
   const fetchDocumentInfo = () => {
@@ -31,10 +29,6 @@ export default function Document({ did }) {
       setIsPay(!!data.is_pay);
       setLoading(false);
     });
-  };
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
   };
 
   const verifyIsPaided = (id) => {
@@ -48,7 +42,6 @@ export default function Document({ did }) {
           verifyIsPaided(id);
         }, 1000);
       }
-      console.log(data);
     });
   };
 
@@ -58,7 +51,6 @@ export default function Document({ did }) {
       (data) => {
         if (data.url && data.order_id) {
           window.open(data.url);
-          setOrderId(data.order_id);
           verifyIsPaided(data.order_id);
         }
       }
@@ -177,16 +169,10 @@ export default function Document({ did }) {
           <Box className="content">
             {detail.catalogue &&
               detail.catalogue.map((o, i) => (
-                <MuiExpansionPanel
-                  square
-                  expanded={expanded === `panel${i + 1}`}
-                  onChange={handleChange(`panel${i + 1}`)}
-                  key={i}
-                  className="expansionpanel"
-                >
+                <MuiExpansionPanel square key={i} className="expansionpanel">
                   <MuiExpansionPanelSummary
-                    aria-controls="panel1d-content"
-                    id="panel1d-header"
+                    aria-controls={`panel${i + 1}d-content`}
+                    id={`panel${i + 1}d-header`}
                     expandIcon={<ExpandMoreIcon />}
                     className="expansionpanelsummary"
                   >
