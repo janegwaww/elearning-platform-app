@@ -21,8 +21,8 @@ function ChannelBar({ id = "hots" }) {
 
   return cates.length ? (
     <Box className="channel-bar-paper">
-      <Box style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <Box className="bar-container">
+        <div className="bar-content">
           {cates.map((o) => {
             const cn = id && id === o.id ? "slice-action" : "";
             const href = o.id === "hots" ? "/" : `/channel/?ch=${o.id}`;
