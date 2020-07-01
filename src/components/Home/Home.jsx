@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import HomeTab from "./HomeTab";
-import GridCards from "./GridCards";
+import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
 import Pagination from "../Pagination/Pagination";
