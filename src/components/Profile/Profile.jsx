@@ -78,7 +78,6 @@ class Profile extends React.Component {
   //   return true;
   // }
   pageRoute(event,msg) {
-   
     let _data =msg|| event.target.dataset;
     if (this.state.nowPage.parent_id === parseInt(_data.id)&&_data.page!="CreateCenter") {
       return;

@@ -6,25 +6,51 @@ import {
   ChatBubbleOutlineOutlined,
   Delete,
   Share,
+  AddCircle,
+  Description,
 } from "@material-ui/icons";
-
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Grid,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 // import MenuItem from '@material-ui/core/MenuItem';
 import { get_date } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
 import { ModalDialog } from "./Modal";
+
 import CustomModal from "../../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
+import EditDialog from "./EditDialog";
+import userStyles from "./profileStyle";
+
 // 系列横向item
 
 const stop_run = (prevValue, nextValue) => {
   // return prevValue.series===nextValue.series
 };
+const NewTextField = withStyles((theme) => ({
+  root: {
+    borderRadius: 4,
+    "& .MuiOutlinedInput-notchedOutline": {
+      top: -3,
+    },
+  },
+}))(TextField);
 
 const SeriesItem = (props) => {
   // inx,onEvent,info,parent,series
+  const [newimgurl, setNewimgurl] = React.useState("");
+  const [newTitle, setNewTitle] = React.useState("");
+  const [newdescription, setNewdescription] = React.useState("");
 
+  const classes = userStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [modalMsg, setModalMsg] = React.useState({
@@ -44,10 +70,10 @@ const SeriesItem = (props) => {
     // evt.preventDefault();
     setAnchorEl(null);
   };
+
   return (
     <div
       className="box box-between box-align-center profile-top"
-     
       onClick={(event) => {
         if (props.series == "series") {
           event.stopPropagation();
@@ -99,7 +125,7 @@ const SeriesItem = (props) => {
             />
 
             <p className="profile-time fn-color-white fn-size-12">
-              {!props.series && props.info
+              {props.series == "video" || props.series == "draft"
                 ? props.info.video_time
                 : props.info && props.info.video_data
                 ? "共" + props.info.video_data.length + "集"
@@ -123,11 +149,40 @@ const SeriesItem = (props) => {
               }
               target={props.series == "video" ? "_blank" : "_self"}
             >
-              <div className="fn-color-2C2C3B fn-size-16 zero-edges text-overflow">
-                {props.info
-                  ? props.info.title || props.info.series_title
-                  : "标题"}
-              </div>
+              <Tooltip
+                title={props.info.title || props.info.series_title}
+                
+                classes={{ tooltip: classes.noMaxWidth }}
+                placement="top-start" 
+              >
+                <Typography className='text-overflow'>
+                  {props.info.document_counts > 0 && (
+                    <span
+                      style={{
+                        backgroundColor: "#7B7FFF",
+                        display: "inline-block",
+                        marginRight: 10,
+                        borderRadius: 10,
+                        padding: "3px 8px",
+                      }}
+                      className="fn-color-white fn-size-12"
+                    >
+                      <Description
+                        style={{
+                          width: 16,
+                          height: 16,
+                          transform: "translateY(-1px)",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                      含课件
+                    </span>
+                  )}
+
+                  {props.info.title || props.info.series_title}
+                </Typography>
+              </Tooltip>
+
               <p className="fn-color-878791 all-width ">
                 {props.info
                   ? "发布于  " +
@@ -204,10 +259,156 @@ const SeriesItem = (props) => {
               id="series-menu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>编辑系列</MenuItem>
-              <MenuItem onClick={handleClose}>移动系列</MenuItem>
-              <MenuItem onClick={handleClose}>分享</MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleClose} data-id="1">
+                {" "}
+                <EditDialog
+                  title="编辑描述"
+                  info={props.info}
+                  onChange={(res) => {
+                    if (res.url) {
+                      setNewimgurl(res.url);
+                    }
+                  }}
+                  onEvent={(res) => {
+                    if (!newimgurl && !newTitle && !newdescription) {
+                      return;
+                    }
+                    if (res.cancel) {
+                      return;
+                    }
+                    if (res.confirm) {
+                      let _data = {
+                        model_name: "video",
+                        model_action: "change_information",
+                        extra_data: {
+                          video_id: props.info.video_id,
+                          image_path: newimgurl || props.info.image_path,
+                          title: newTitle || props.info.title,
+                          description: newdescription || props.info.description,
+                        },
+                      };
+                      get_data("api/v1/gateway", _data).then((res) => {
+                        console.log(res);
+                      });
+                    }
+                  }}
+                >
+                  <div>
+                    <div className="box">
+                      <div>
+                        <div
+                          style={{
+                            width: 295,
+                            height: 190,
+                            marginRight: 20,
+                            borderRadius: 12,
+                            backgroundImage:
+                              "url(" +
+                              (newimgurl || props.info.image_path) +
+                              ")",
+                            position: "relative",
+                          }}
+                          className="view-overflow bg-not text-center"
+                        >
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0.7)",
+                              flexDirection: "column",
+                            }}
+                            className="all-width all-height box box-center "
+                          >
+                            <span
+                              style={{
+                                width: 35,
+                                height: 35,
+                                backgroundColor: "#fff",
+                                display: "inline-block",
+                                borderRadius: "50%",
+                              }}
+                            >
+                              <AddCircle
+                                style={{
+                                  width: 35,
+                                  height: 35,
+                                  transform: "scale(1.2)",
+                                }}
+                                className="fn-color-007CFF"
+                                onClick={() => {
+                                  document.getElementById("file-img").click();
+                                }}
+                              />
+                            </span>
+                            <p className="fn-color-878791">建议尺寸为295x190</p>
+                          </div>
+                        </div>
+                        <p className="text-center">添加作品封面</p>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            width: 295,
+                            height: 190,
+                            borderRadius: 12,
+                            backgroundImage:
+                              "url(" +
+                              (newimgurl || props.info.image_path) +
+                              ")",
+                          }}
+                          className="view-overflow text-center bg-not"
+                        ></div>
+                        <p className="text-center">作品封面预览</p>
+                      </div>
+                    </div>
+                    <Grid container spacing={1}>
+                      <Grid item xs={2}>
+                        视频名称
+                      </Grid>
+                      <Grid item xs={9}>
+                        <input
+                          type="text"
+                          className={`all-width ${classes.textfield}`}
+                          placeholder={props.info.title}
+                          onChange={(ev) => {
+                            setNewTitle(ev.target.value);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={1}></Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item xs={2}>
+                        视频描述
+                      </Grid>
+                      <Grid item xs={9}>
+                        <textarea
+                          className={`all-width ${classes.textfield}`}
+                          rows={5}
+                          defaultValue={
+                            props.info.description || "填写新的描述"
+                          }
+                          onChange={(ev) => {
+                            setNewdescription(ev.target.value);
+                          }}
+                        ></textarea>
+                      </Grid>
+                      <Grid item xs={1}></Grid>
+                    </Grid>
+                  </div>
+                </EditDialog>
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="2">
+                移动至系列
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="3">
+                查看数据
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="4">
+                下载
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="5">
+                分享
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="6">
                 <Link
                   color="inherit"
                   underline="none"
@@ -215,12 +416,12 @@ const SeriesItem = (props) => {
                   target="_blank"
                   rel="noopener norefferer"
                 >
-                  {" "}
                   编辑字幕
                 </Link>
               </MenuItem>
 
               <MenuItem
+                data-id="7"
                 onClick={() => {
                   setModalMsg({
                     title: "温馨提示",

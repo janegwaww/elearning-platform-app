@@ -1,7 +1,7 @@
 import React from "react";
 import { Grade, MoreHorizOutlined, Delete } from "@material-ui/icons";
 import img from "../../../../assets/img/img1.png";
-import { IconButton, Menu, MenuItem,Link } from "@material-ui/core";
+import { IconButton, Menu, MenuItem,Link,Tooltip, Typography, } from "@material-ui/core";
 import { get_date } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
 import { navigate } from "@reach/router";
@@ -10,7 +10,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   //inx,onEvent,info,parent,history
- 
+  //history 1收藏 2历史，3系列详情
   return (
     <div
       className="zero-edges all-width view-overflow all-height"
@@ -65,9 +65,12 @@ const WorksItem = (props) => {
         }}
         className="box box-between"
       >
-        <p className="fn-color-2C2C3B zero-edges textview-overflow two">
-          {props.info && props.info.title||props.info.video_title}
-        </p>
+      <Tooltip  title={props.info && props.info.title||props.info.video_title} placement="top-start" >
+      <Typography>
+      {props.info && props.info.title||props.info.video_title}
+      </Typography>
+      </Tooltip>
+      
         {props.history==1 && (
           <div
             className="box box-align-center box-between "

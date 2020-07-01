@@ -82,7 +82,7 @@ class Dynamic extends React.Component {
                         <WorksItem
                           parent={this}
                           info={v}
-                          history={false}
+                          history={1}
                           inx={this.state.page_id}
                         />
                       </Grid>
@@ -101,7 +101,7 @@ class Dynamic extends React.Component {
                       <WorksItem
                         parent={this}
                         info={v}
-                        history={true}
+                        history={2}
                         inx={this.state.page_id}
                       />
                     </Grid>
