@@ -8,7 +8,7 @@ import useStyles from "./ThirdPartyLoginOptStyle";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
-  bindingMobile
+  bindingMobile,
 } from "../../services/auth";
 import wechat from "../../../static/images/wechat-icon.png";
 import qq from "../../../static/images/qq-icon.png";
@@ -21,33 +21,43 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   const [binding, setBinding] = useState(false);
   const [acToken, setAcToken] = useState("");
 
-  const handleLoginClick = method => {
+  // 第一步：获取跳转链接
+  const handleLoginClick = (method) => {
     setThirdMethod(method);
-    generateThirdPartyUrl({ type: method }).then(res => {
+    generateThirdPartyUrl({ type: method }).then((res) => {
       if (res) {
         window.location.href = `${res}`;
       }
     });
   };
 
+  const track = (msg) => (data) => console.log(`${msg}: `, data);
+  // 第二步：拿到code进行登录操作
   const handleLogin = ({ code }) => {
     const param = { code, type: thirdMethod };
-    handleThirdLogin(param).then(response => {
+    handleThirdLogin(param).then((response) => {
       const { accessToken } = response;
       if (accessToken) {
         /* 执行绑定手机号操作 */
         setBinding(true);
         setAcToken(accessToken);
+        track("bind")(accessToken);
+        return;
       }
       if (response && !accessToken) {
         handleNavigate();
+        track("login")(response);
+        return;
       }
+      track("else")(response);
+      alert("登录出错，请重新试一下");
     });
   };
 
+  // 第三步：绑定手机号
   const handleBindMobile = ({ mobile, smscode }) => {
     const param = { mobile, code: smscode, access_token: acToken };
-    bindingMobile(param).then(response => {
+    bindingMobile(param).then((response) => {
       if (response) {
         setBinding(false);
         handleNavigate();
@@ -55,7 +65,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
     });
   };
 
-  const getThirdCode = href => urlParse(href, true).query.code || "";
+  const getThirdCode = (href) => urlParse(href, true).query.code || "";
 
   useEffect(() => {
     const getCode = getThirdCode(locationHref);

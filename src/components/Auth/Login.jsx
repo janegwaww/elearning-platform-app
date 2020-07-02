@@ -12,17 +12,16 @@ const useStyles = makeStyles(() => ({
   root: {
     minHeight: "100vh",
     minWidth: "100vw",
-    backgroundColor: "rgba(232,240,255,1)"
+    backgroundColor: "rgba(232,240,255,1)",
   },
   secondary: {
     background: `left top / 100% 100% no-repeat url(${backgroundImage})`,
-    height: "100vh"
-  }
+    height: "100vh",
+  },
 }));
 
 const Login = ({ location }) => {
   const classes = useStyles();
-  const origin = urlParse(location.origin, true).pathname;
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -34,7 +33,7 @@ const Login = ({ location }) => {
     <div className={classes.root}>
       <div className={classes.secondary}>
         <Helmet title={`Login | ${config.siteTitle}`} />
-        <KEForm originPath={origin} />
+        <KEForm />
       </div>
     </div>
   );
