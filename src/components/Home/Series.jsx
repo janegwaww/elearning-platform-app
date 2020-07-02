@@ -9,12 +9,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
+import MuiPagination from "@material-ui/lab/Pagination";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Link from "../Link/Link";
-import { getIdFromHref, secondsToDate } from "../../services/utils";
+import { getIdFromHref, secondsToDate, pipe } from "../../services/utils";
 import "./SeriesStyles.sass";
 
 const headCard = ({
@@ -48,7 +49,13 @@ const headCard = ({
     >
       {`${video_counts} 个视频`}
     </Typography>
-    <Box style={{ gridColumn: 2, gridRow: "3/6" }}>
+    <Box
+      style={{
+        gridColumn: 2,
+        gridRow: "3/6",
+        overflow: "hidden",
+      }}
+    >
       <Typography variant="subtitle2">系列简介:</Typography>
       <Typography variant="body2">{description}</Typography>
     </Box>
@@ -66,56 +73,89 @@ const headCard = ({
   </div>
 );
 
+const Pagination = ({ num = 1, handlePage }) => {
+  return (
+    <MuiPagination
+      count={Math.ceil(num / 16)}
+      variant="outlined"
+      shape="rounded"
+      onChange={handlePage}
+    />
+  );
+};
+
 export default function Series() {
-  const [loading, setLoading] = useState("true");
+  const [loading, setLoading] = useState(true);
   const [series, setSeries] = useState([]);
-  const [seriesStack, setSeriesStack] = useState([]);
+  const [seriesLength, setSeriesLength] = useState(0);
   const [seriesInfo, setSeriesInfo] = useState({});
   const [type, setType] = useState("all");
+  const [input, setInput] = useState("");
   const { sid } = getIdFromHref();
 
-  const fetchSeriesData = (id) => {
+  const filterData = (name) => (data = []) => {
+    const arr = [];
+    data.map((o) => {
+      if (o.source === name || name === "all") {
+        arr.push(o);
+      }
+    });
+    return arr;
+  };
+
+  const filterSearchData = (data) => {
+    const arr = [];
+    data.map((o) => {
+      if (
+        (o.data.file_name && o.data.file_name.includes(input)) ||
+        (o.data.video_title && o.data.video_title.includes(input)) ||
+        !input
+      ) {
+        arr.push(o);
+      }
+    });
+    return arr;
+  };
+
+  const fetchSeriesData = ({ page = 1 }) => {
     setLoading(true);
-    getSeriesInfo({ series_id: id }).then((data) => {
-      setSeries(data.series);
-      setSeriesStack(data.series);
+    getSeriesInfo({ series_id: sid }).then((data) => {
+      const sd = (d) => d.slice((page - 1) * 12, (page - 1) * 12 + 12);
+      setSeries(pipe(sd, filterSearchData, filterData(type))(data.series));
+      setSeriesLength(
+        pipe(filterSearchData, filterData(type))(data.series).length
+      );
       setSeriesInfo(data.info);
       setLoading(false);
     });
   };
 
   const handleTypeClick = (name) => {
-    const arr = [];
-    seriesStack.map((o) => {
-      if (o.source === name || name === "all") {
-        arr.push(o);
-      }
-    });
-    setSeries(arr);
     setType(name);
+  };
+
+  useEffect(() => {
+    fetchSeriesData({});
+  }, [type]);
+
+  const handlePage = (event, page) => {
+    fetchSeriesData({ page });
   };
 
   const handleSearchClick = () => {
     // 找到匹配名字的课件或视频
     const { value = "" } = document.getElementById("series_local_search_input");
-    const arr = [];
-    seriesStack.map((o) => {
-      if (
-        (o.data.file_name && o.data.file_name.includes(value)) ||
-        (o.data.video_title && o.data.video_title.includes(value))
-      ) {
-        arr.push(o);
-      }
-    });
-    setSeries(arr);
-    setType("all");
+    setInput(value);
   };
 
   useEffect(() => {
+    fetchSeriesData({});
+  }, [input]);
+
+  useEffect(() => {
     if (sid) {
-      fetchSeriesData(sid);
+      fetchSeriesData({});
     } else {
-      /* navigate("/"); */
       alert("系列不存在～");
     }
   }, [sid]);
@@ -176,7 +216,7 @@ export default function Series() {
       {loading ? (
         <CircularProgress />
       ) : (
-        <div style={{ minHeight: "90vh" }}>
+        <div style={{ minHeight: "60vh" }}>
           {series.map((o, i) => {
             let j = {};
             const vtrans = (obj) => ({
@@ -189,6 +229,7 @@ export default function Series() {
           <EmptyNotice empty={!series.length && !loading} />
         </div>
       )}
+      <Pagination num={seriesLength} handlePage={handlePage} />
       <br />
       <SearchLoading loading={loading} />
     </div>
