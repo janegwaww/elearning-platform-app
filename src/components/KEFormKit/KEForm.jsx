@@ -141,7 +141,7 @@ const KEForm = ({ modal, modalClose }) => {
                 ) : (
                   <QrCodeLoginComponent />
                 )}
-                <ThirdPartyLoginOpt handleNavigate />
+                <ThirdPartyLoginOpt handleNavigate={handleNavigate} />
                 <UserProtocol />
               </div>
             </Grid>
