@@ -26,7 +26,13 @@ const KEForm = ({ modal, modalClose }) => {
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
 
-  const handleNavigate = () => (!!modal ? modalClose() : navigate(`/`));
+  const handleNavigate = () => {
+    if (modal) {
+      modalClose();
+    } else {
+      navigate(`/`);
+    }
+  };
 
   const handleClickLogin = ({ mobile, smscode }) => {
     handleLogin({ mobile, code: smscode }).then((res) => {
