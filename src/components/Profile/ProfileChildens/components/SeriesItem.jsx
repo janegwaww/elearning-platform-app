@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
-// import MenuItem from '@material-ui/core/MenuItem';
+
 import { get_date } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
 import { ModalDialog } from "./Modal";
@@ -29,6 +29,7 @@ import CustomModal from "../../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
 import EditDialog from "./EditDialog";
 import userStyles from "./profileStyle";
+import del from '../../../../assets/img/del.png';
 
 // 系列横向item
 
@@ -46,9 +47,13 @@ const NewTextField = withStyles((theme) => ({
 
 const SeriesItem = (props) => {
   // inx,onEvent,info,parent,series
+  // 编辑描述
   const [newimgurl, setNewimgurl] = React.useState("");
   const [newTitle, setNewTitle] = React.useState("");
   const [newdescription, setNewdescription] = React.useState("");
+  //移至系列
+  const [seriesArr, setSeriesArr] = React.useState([]);
+  const [seriesvalue, setSeriesvalue] = React.useState("");
 
   const classes = userStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -151,11 +156,10 @@ const SeriesItem = (props) => {
             >
               <Tooltip
                 title={props.info.title || props.info.series_title}
-                
                 classes={{ tooltip: classes.noMaxWidth }}
-                placement="top-start" 
+                placement="top-start"
               >
-                <Typography className='text-overflow'>
+                <Typography className="text-overflow">
                   {props.info.document_counts > 0 && (
                     <span
                       style={{
@@ -258,9 +262,10 @@ const SeriesItem = (props) => {
               keepMounted
               id="series-menu"
               onClose={handleClose}
+              className={classes.menulist}
             >
               <MenuItem onClick={handleClose} data-id="1">
-                {" "}
+                
                 <EditDialog
                   title="编辑描述"
                   info={props.info}
@@ -396,17 +401,82 @@ const SeriesItem = (props) => {
                   </div>
                 </EditDialog>
               </MenuItem>
-              <MenuItem onClick={handleClose} data-id="2">
-                移动至系列
-              </MenuItem>
-              <MenuItem onClick={handleClose} data-id="3">
-                查看数据
-              </MenuItem>
-              <MenuItem onClick={handleClose} data-id="4">
-                下载
-              </MenuItem>
-              <MenuItem onClick={handleClose} data-id="5">
-                分享
+              <MenuItem
+                onClick={() => {
+                  get_data("api/v1/gateway", {
+                    model_name: "series",
+                    model_action: "get_series",
+                    extra_data: {},
+                  }).then((res) => {
+                    if (res.err == 0) {
+                      setSeriesArr(res.result_data);
+                    }
+                  });
+                  handleClose();
+                }}
+                data-id="2"
+              >
+                <EditDialog
+                  title="移动至系列"
+                  info={props.info}
+                  onChange={() => {}}
+                  onEvent={(res) => {
+                    if (res.confirm) {
+                      get_data("api/v1/gateway", {
+                        model_name: "video",
+                        model_action: "movie_video",
+                        extra_data: {
+                          video_id: [props.info.video_id],
+                          series_id: seriesvalue,
+                        },
+                      }).then((res) => {
+                        if(res.err==0&&res.errmsg== "OK"){
+                          new CustomModal().alert('移动成功','success',3000);
+                          props.parent.update_data('video')
+                        }
+                      });
+                    }
+                    if (res.cancel) {
+                      setSeriesvalue("");
+                    }
+                  }}
+                >
+                  <div style={{ padding: "0 10px" }}>
+                    {seriesArr &&
+                      seriesArr.map((option, inx) => (
+                        <div
+                          key={option._id}
+                          className={`box box-between ${
+                            seriesvalue == option._id ? "bg-F2F2F5" : ""
+                          }`}
+                          style={{ padding: "10px 20px" }}
+                        >
+                          <div>
+                            <input
+                              type="radio"
+                              value={option._id}
+                              id={"series_" + option._id}
+                              onClick={(ev) => {
+                                ev.stopPropagation();
+                              }}
+                              onChange={(ev) => {
+                                setSeriesvalue(ev.target.value);
+                              }}
+                            />
+                            <label
+                              htmlFor={"series_" + option._id}
+                              onClick={(ev) => {
+                                ev.stopPropagation();
+                              }}
+                            >
+                              {option.title}
+                            </label>
+                          </div>
+                          <div>共{option.video_counts}集</div>
+                        </div>
+                      ))}
+                  </div>
+                </EditDialog>
               </MenuItem>
               <MenuItem onClick={handleClose} data-id="6">
                 <Link
@@ -416,23 +486,30 @@ const SeriesItem = (props) => {
                   target="_blank"
                   rel="noopener norefferer"
                 >
-                  编辑字幕
+                  重新编辑
                 </Link>
               </MenuItem>
-
+              <MenuItem onClick={handleClose} data-id="4">
+              下载
+            </MenuItem>
+            <MenuItem onClick={handleClose} data-id="5">
+              分享
+            </MenuItem>
               <MenuItem
                 data-id="7"
                 onClick={() => {
                   setModalMsg({
                     title: "温馨提示",
                     type: "del",
-                    msg: "确定要删除么，删除后无法恢复哦",
+                    msg: "上传作品不容易, 确定真的要删除该作品?",
                     open: true,
                   });
                   handleClose();
                 }}
-              >
-                删除
+              > 
+              <div><img src={del} style={{width:14,height:14}} /></div>
+              
+               <div> 删除作品</div>
               </MenuItem>
             </Menu>
           </div>
@@ -460,24 +537,18 @@ const SeriesItem = (props) => {
             <span>
               <Delete
                 onClick={() => {
-                  let _data = {
-                    model_name: "video",
-                    model_action: "delete_video",
-                    extra_data: {
-                      video_id: [props.info.video_id],
-                    },
-                  };
-                  console.log(props);
+                  if(props.info.state===1){
+                    new CustomModal().alert('审核中的作品暂不支持删除','error',3000);
+                    return
+                  }
 
-                  get_data("api/v1/gateway", _data).then((res) => {
-                    //请求
-                    // console.log(res);
-                    if (res.err === 0 && res.errmsg == "OK") {
-                      props.parent.update_data &&
-                        props.parent.update_data(props.series);
-                      new CustomModal().alert("删除成功", "success", 3000);
-                    }
+                  setModalMsg({
+                    title: "温馨提示",
+                    type: "del",
+                    msg: "上传作品不容易, 确定真的要删除该作品?",
+                    open: true,
                   });
+
                 }}
               />
             </span>

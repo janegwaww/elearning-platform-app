@@ -146,8 +146,15 @@
 .top .el-main > div:last-child section> div+main{
   height: 40px;
   margin: 0 20px;
-
+position: relative;
   
+}
+.top .el-main > div:last-child section> div+main>div:nth-child(2){
+  position: absolute;
+  line-height: 40px;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 .top .el-main > div:last-child section> div>main{
   position: absolute;
@@ -168,12 +175,12 @@
   height: 1px;
   background-color: #a9a9aa;
   position: absolute;
-  
+  transform-origin:center center;
 }
 .top .el-main > div:last-child section> div>main>div:first-child span:nth-child(1){
   left:50%;
   top:0;
-  transform-origin:left top;
+ 
   transform: translate(-50%) rotate(90deg);
 }
 .top .el-main > div:last-child section> div>main>div:first-child span:nth-child(2){
@@ -185,7 +192,7 @@
 .top .el-main > div:last-child section> div>main>div:first-child span:nth-child(3){
   left:50%;
   bottom:0;
-  transform-origin:left bottom;
+
   transform: translateX(-50%) rotate(-90deg);
 }
 .top .el-main > div:last-child section> div>main>div:first-child span:nth-child(4){

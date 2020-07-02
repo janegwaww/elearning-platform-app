@@ -10,33 +10,41 @@ class Dynamic extends React.Component {
     super(props);
     this.state = {
       pagedata: null, //页面数据
+      collection_data: null,
+      history_data: null,
+      page_num: 0, //记录当前数据的第几页
+      page_count: 0, //记录当前页面数据一有几条
       page_id: props.parent.state.nowPage.childpage_id,
-
     };
     this.update_data = this.update_data.bind(this);
   }
   componentDidMount() {
-   
-    this.update_data({
-      model_name: "collection",
-      model_action: "get_collection",
-    });
+    if (this.state.page_id === 0) {
+      this.update_data({
+        model_name: "collection",
+        model_action: "get_collection",
+      });
+    }
+    if (this.state.page_id == 1) {
+      this.update_data({
+        model_name: "video_history",
+        model_action: "get_history",
+        extra_data: {},
+      });
+    }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
-    
       let _data = {
         model_name: "collection",
         model_action: "get_collection",
       };
-      
+
       if (nextProps.parent.state.nowPage.childpage_id == 1) {
         _data = {
           model_name: "video_history",
           model_action: "get_history",
           extra_data: {},
-          model_type: "",
         };
       }
       this.update_data(_data);
@@ -53,8 +61,17 @@ class Dynamic extends React.Component {
   // }
   update_data(data) {
     get_data("api/v1/gateway", data).then((res) => {
-      console.log(res.result_data);
       if (res.err == 0) {
+        if (this.state.page_id == 0) {
+          this.setState({
+            collection_data: res.result_data,
+          });
+        }
+        if (this.state.page_id == 1) {
+          this.setState({
+            history_data: res.result_data,
+          });
+        }
         this.setState({
           pagedata: res.result_data,
         });
@@ -70,33 +87,32 @@ class Dynamic extends React.Component {
             parent={this}
           />
         </nav>
-        <main className="profile-margin">
-         
-          {this.state.page_id == 0 && (
-            <div>
-              
-              <Grid container spacing={4} className="grid">
-                {this.state.pagedata && this.state.pagedata.length > 0
-                  ? this.state.pagedata.map((v, inx) => (
-                      <Grid item xs={3} key={JSON.stringify(v)}>
-                        <WorksItem
-                          parent={this}
-                          info={v}
-                          history={1}
-                          inx={this.state.page_id}
-                        />
-                      </Grid>
-                    ))
-                  : ""}
-              </Grid>
-            </div>
-         
-          )}
-
-          {this.state.page_id == 1 && (
+        <main>
+          {/**收藏 */}
+          {this.state.page_id == 0 ? (
             <Grid container spacing={4} className="grid">
-              {this.state.pagedata && this.state.pagedata.length > 0
-                ? this.state.pagedata.map((v, inx) => (
+              {this.state.collection_data &&
+              this.state.collection_data.length > 0
+                ? this.state.collection_data.map((v, inx) => (
+                    <Grid item xs={3} key={JSON.stringify(v)}>
+                      <WorksItem
+                        parent={this}
+                        info={v}
+                        history={1}
+                        inx={this.state.page_id}
+                      />
+                    </Grid>
+                  ))
+                : ""}
+            </Grid>
+          ) : (
+            ""
+          )}
+          {/**历史记录 */}
+          {this.state.page_id == 1 ? (
+            <Grid container spacing={4} className="grid">
+              {this.state.history_data && this.state.history_data.length > 0
+                ? this.state.history_data.map((v, inx) => (
                     <Grid item xs={3} key={JSON.stringify(v)}>
                       <WorksItem
                         parent={this}
@@ -108,13 +124,17 @@ class Dynamic extends React.Component {
                   ))
                 : ""}
             </Grid>
-          
-          )}
-          {!this.state.pagedata || this.state.pagedata.length <= 0 ? (
-            <div>亲你还没有数据呢，赶快添加吧！</div>
           ) : (
             ""
           )}
+          {(this.state.page_id == 0 &&
+            (!this.state.collection_data ||
+              this.state.collection_data.length <= 0)) ||
+            (this.state.page_id == 1 &&
+              (!this.state.history_data ||
+                this.state.history_data.length <= 0) && (
+                <div>亲你还没有数据呢，赶快添加吧！</div>
+              ))}
         </main>
         {/**翻页 */}
         {this.state.pagedata && this.state.pagedata.length > 10 ? (

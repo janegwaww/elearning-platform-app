@@ -1,20 +1,77 @@
 import React from "react";
-import { Grade, MoreHorizOutlined, Delete } from "@material-ui/icons";
+import {
+  Grade,
+  MoreHorizOutlined,
+  Delete,
+  DeleteOutline,
+  AddCircle
+} from "@material-ui/icons";
 import img from "../../../../assets/img/img1.png";
-import { IconButton, Menu, MenuItem,Link,Tooltip, Typography, } from "@material-ui/core";
-import { get_date } from "../../../../assets/js/totls";
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Link,
+  Tooltip,
+  Typography,
+  Grid
+} from "@material-ui/core";
+import { get_date, get_time } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
+import CustomModal from "../../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
+import userStyles from "./profileStyle";
+import EditDialog from "./EditDialog";
+import { ModalDialog } from "./Modal";
 const stop_run = (prevValue, nextValue) => {
   return prevValue.history === nextValue.history;
 };
 const WorksItem = (props) => {
+  const classes = userStyles();
+
+  const [newimgurl, setNewimgurl] = React.useState("");
+  const [newTitle, setNewTitle] = React.useState("");
+  const [newdescription, setNewdescription] = React.useState("");
+  //移至系列
+  const [seriesArr, setSeriesArr] = React.useState([]);
+  const [seriesvalue, setSeriesvalue] = React.useState("");
   //inx,onEvent,info,parent,history
   //history 1收藏 2历史，3系列详情
+  const [modalMsg, setModalMsg] = React.useState({
+    open: false,
+    type: 1,
+    msg: "",
+    title: "",
+  });
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setAnchorEl(evt.currentTarget);
+  };
+
+  const handleClose = (evt) => {
+    // evt.stopPropagation();
+    // evt.preventDefault();
+    setAnchorEl(null);
+  };
   return (
     <div
       className="zero-edges all-width view-overflow all-height"
-    
+      onClick={(evt) => {
+        if (props.info.type == "series") {
+          event.stopPropagation();
+          event.preventDefault();
+          props.parent.props.parent.pageRoute(event, {
+            page: "CreateCenter",
+            id: 3,
+            defaultpage: "作品管理",
+            inx: 3,
+            series_id: props.info.series_id,
+          });
+        }
+      }}
     >
       <div
         className="all-width view-overflow bg-not"
@@ -23,25 +80,30 @@ const WorksItem = (props) => {
           backgroundImage: props.info && "url(" + props.info.image_path + ")",
         }}
       >
-        <Link className='all-width all-hieght'
-        color="inherit"
-        underline="none"
-        href={`/${props.info.type=='series'?'series':'watch'}/?vid=${props.info.type=='series'?props.info.series_id:props.info.video_id}`}
-        target="_blank"
+        <Link
+          className="all-width all-hieght"
+          color="inherit"
+          underline="none"
+          href={`/watch/?vid=${props.info.video_id}`}
+          target="_blank"
         >
-          <img src={props.info.image_path} className='all-width all-height' style={{height:136}} />  
+          <img
+            src={props.info.image_path}
+            className="all-width all-height"
+            style={{ height: 136 }}
+          />
         </Link>
-        {props.history==2 && (
+        {props.history == 2 && (
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
         )}
-        {props.history==1 && props.info.type == "video" && (
+        {props.history == 1 && props.info.type == "video" && (
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
         )}
-        {props.history==1 && props.info.type == "series" && (
+        {props.history == 1 && props.info.type == "series" && (
           <span
             style={{
               position: "absolute",
@@ -65,13 +127,24 @@ const WorksItem = (props) => {
         }}
         className="box box-between"
       >
-      <Tooltip  title={props.info && props.info.title||props.info.video_title} placement="top-start" >
-      <Typography>
-      {props.info && props.info.title||props.info.video_title}
-      </Typography>
-      </Tooltip>
-      
-        {props.history==1 && (
+        <Tooltip
+          title={(props.info && props.info.title) || props.info.video_title}
+          placement="top-start"
+        >
+          <Link
+            className="all-width all-hieght"
+            color="inherit"
+            underline="none"
+            href={`/watch/?vid=${props.info.video_id}`}
+            target="_blank"
+          >
+            <Typography className="textview-overflow two">
+              {(props.info && props.info.title) || props.info.video_title}
+            </Typography>
+          </Link>
+        </Tooltip>
+
+        {props.history == 1 && (
           <div
             className="box box-align-center box-between "
             style={{ paddingTop: 10 }}
@@ -80,43 +153,442 @@ const WorksItem = (props) => {
               {/**
           {props.info&&props.info.view_counts||0}&nbsp;观看●{props.info&&props.info.comment_counts||0}回应●{props.info&&props.info.like_counts||0}点赞
          */}
-              收藏于05月28日
+              收藏于
+              {get_date(props.info.collection_time, "/", 8)}
             </p>
-            <div>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                get_data("api/v1/gateway", {
+                  model_name: "collection",
+                  model_action: "add_collection",
+                  extra_data: {
+                    relation_id: [props.info.video_id || props.info.series_id],
+                    value: 0,
+                    type: props.info.type,
+                  },
+                }).then((res) => {
+                  if (res.err == 0 && res.errmsg == "OK") {
+                    new CustomModal().alert("取消收藏成功", "success", 3000);
+                    if (props.parent.state.userCollection) {
+                      get_data("api/v1/gateway", {
+                        model_name: "collection",
+                        model_action: "get_collection",
+                      }).then((res) => {
+                        //个人中心页
+                        props.parent.setState({
+                          userCollection: res.result_data,
+                        });
+                      });
+                    } else {
+                      //动态页
+                      props.parent.update_data({
+                        model_name: "collection",
+                        model_action: "get_collection",
+                      });
+                    }
+                  }
+                });
+              }}
+            >
               <Grade className="fn-color-F86B6B" />
             </div>
           </div>
         )}
-        {props.history==2 && (
+        {props.history == 2 && (
           <div
-            className="box box-align-center box-between "
+            className="box box-align-center box-between fn-color-878791"
             style={{ paddingTop: 10 }}
           >
-            <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-              搜索<span>'设计'</span>知识点
-              <br />
-              观看至23.34
+            <p className="text-overflow zero-edges fn-size-12">
+              {props.info.record.action == "search" && (
+                <Link
+                  color="inherit"
+                  underline="none"
+                  href={`/watch/?vid=${props.info.video_id}&&time=${get_time(
+                    props.info.record.end_time || props.info.record.matched_time
+                  )}`}
+                  target="_blank"
+                >
+                  搜索<span className="fn-color-007CFF">'设计'</span>知识点
+                </Link>
+              )}
+              {props.info.record.action == "end_watch" && (
+                <Link
+                  color="inherit"
+                  underline="none"
+                  href={`/watch/?vid=${props.info.video_id}&&time=${get_time(
+                    props.info.record.end_time
+                  )}`}
+                  target="_blank"
+                >
+                  观看至{props.info.record.end_time}
+                </Link>
+              )}
             </p>
-            <div>
-              <Delete />
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                get_data("api/v1/gateway", {
+                  model_name: "video_history",
+                  model_action: "delete_history",
+                  extra_data: {
+                    history_id: [props.info.video_id],
+                  },
+                }).then((res) => {
+                  
+                  console.log(res);
+                  if (res.err == 0 && res.err_msge) {
+                    if (props.parent.state.userCollection) {
+                      get_data("api/v1/gateway", {
+                        model_name: "video_history",
+                        model_action: "get_history",
+                        extra_data: {},
+                      }).then((res) => {
+                        props.parent.setState({
+                          userCollection: res.result_data,
+                        });
+                      });
+                    } else {
+                      props.parent.update_data({
+                        model_name: "video_history",
+                        model_action: "get_history",
+                        extra_data: {},
+                      });
+                    }
+                    console.log(res);
+                  }
+                });
+              }}
+            >
+              <DeleteOutline />
             </div>
           </div>
         )}
-        {props.history==3 && (
+        {props.history == 3 && (
           <div
             className="box box-align-center box-between "
             style={{ paddingTop: 10 }}
           >
             <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
               102观看●05月29日 发布
-          
             </p>
             <div>
+
+
+
+
+            <div className="text-right">
+            <IconButton
+              aria-label="more"
+              aria-controls="series-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
               <MoreHorizOutlined />
+            </IconButton>
+
+            <Menu
+              open={open}
+              anchorEl={anchorEl}
+              keepMounted
+              id="series-menu"
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose} data-id="1">
+                
+                <EditDialog
+                  title="编辑描述"
+                  info={props.info}
+                  onChange={(res) => {
+                    if (res.url) {
+                      setNewimgurl(res.url);
+                    }
+                  }}
+                  onEvent={(res) => {
+                    if (!newimgurl && !newTitle && !newdescription) {
+                      return;
+                    }
+                    if (res.cancel) {
+                      return;
+                    }
+                    if (res.confirm) {
+                      let _data = {
+                        model_name: "video",
+                        model_action: "change_information",
+                        extra_data: {
+                          video_id: props.info.video_id,
+                          image_path: newimgurl || props.info.image_path,
+                          title: newTitle || props.info.title,
+                          description: newdescription || props.info.description,
+                        },
+                      };
+                      get_data("api/v1/gateway", _data).then((res) => {
+                        console.log(res);
+                      });
+                    }
+                  }}
+                >
+                  <div>
+                    <div className="box">
+                      <div>
+                        <div
+                          style={{
+                            width: 295,
+                            height: 190,
+                            marginRight: 20,
+                            borderRadius: 12,
+                            backgroundImage:
+                              "url(" +
+                              (newimgurl || props.info.image_path) +
+                              ")",
+                            position: "relative",
+                          }}
+                          className="view-overflow bg-not text-center"
+                        >
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0,0,0,0.7)",
+                              flexDirection: "column",
+                            }}
+                            className="all-width all-height box box-center "
+                          >
+                            <span
+                              style={{
+                                width: 35,
+                                height: 35,
+                                backgroundColor: "#fff",
+                                display: "inline-block",
+                                borderRadius: "50%",
+                              }}
+                            >
+                              <AddCircle
+                                style={{
+                                  width: 35,
+                                  height: 35,
+                                  transform: "scale(1.2)",
+                                }}
+                                className="fn-color-007CFF"
+                                onClick={() => {
+                                  document.getElementById("file-img").click();
+                                }}
+                              />
+                            </span>
+                            <p className="fn-color-878791">建议尺寸为295x190</p>
+                          </div>
+                        </div>
+                        <p className="text-center">添加作品封面</p>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            width: 295,
+                            height: 190,
+                            borderRadius: 12,
+                            backgroundImage:
+                              "url(" +
+                              (newimgurl || props.info.image_path) +
+                              ")",
+                          }}
+                          className="view-overflow text-center bg-not"
+                        ></div>
+                        <p className="text-center">作品封面预览</p>
+                      </div>
+                    </div>
+                    <Grid container spacing={1}>
+                      <Grid item xs={2}>
+                        视频名称
+                      </Grid>
+                      <Grid item xs={9}>
+                        <input
+                          type="text"
+                          className={`all-width ${classes.textfield}`}
+                          placeholder={props.info.title}
+                          onChange={(ev) => {
+                            setNewTitle(ev.target.value);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={1}></Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item xs={2}>
+                        视频描述
+                      </Grid>
+                      <Grid item xs={9}>
+                        <textarea
+                          className={`all-width ${classes.textfield}`}
+                          rows={5}
+                          defaultValue={
+                            props.info.description || "填写新的描述"
+                          }
+                          onChange={(ev) => {
+                            setNewdescription(ev.target.value);
+                          }}
+                        ></textarea>
+                      </Grid>
+                      <Grid item xs={1}></Grid>
+                    </Grid>
+                  </div>
+                </EditDialog>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  get_data("api/v1/gateway", {
+                    model_name: "series",
+                    model_action: "get_series",
+                    extra_data: {},
+                  }).then((res) => {
+                    if (res.err == 0) {
+                      setSeriesArr(res.result_data);
+                    }
+                  });
+                  handleClose();
+                }}
+                data-id="2"
+              >
+                <EditDialog
+                  title="移动至系列"
+                  info={props.info}
+                  onChange={() => {}}
+                  onEvent={(res) => {
+                    if (res.confirm) {
+                      get_data("api/v1/gateway", {
+                        model_name: "video",
+                        model_action: "movie_video",
+                        extra_data: {
+                          video_id: [props.info.video_id],
+                          series_id: seriesvalue,
+                        },
+                      }).then((res) => {
+                        if(res.err==0&&res.errmsg== "OK"){
+                          new CustomModal().alert('移动成功','success',3000);
+                          props.parent.update_data('video')
+                        }
+                      });
+                    }
+                    if (res.cancel) {
+                      setSeriesvalue("");
+                    }
+                  }}
+                >
+                  <div style={{ padding: "0 10px" }}>
+                    {seriesArr &&
+                      seriesArr.map((option, inx) => (
+                        <div
+                          key={option._id}
+                          className={`box box-between ${
+                            seriesvalue == option._id ? "bg-F2F2F5" : ""
+                          }`}
+                          style={{ padding: "10px 20px" }}
+                        >
+                          <div>
+                            <input
+                              type="radio"
+                              value={option._id}
+                              id={"series_" + option._id}
+                              onClick={(ev) => {
+                                ev.stopPropagation();
+                              }}
+                              onChange={(ev) => {
+                                setSeriesvalue(ev.target.value);
+                              }}
+                            />
+                            <label
+                              htmlFor={"series_" + option._id}
+                              onClick={(ev) => {
+                                ev.stopPropagation();
+                              }}
+                            >
+                              {option.title}
+                            </label>
+                          </div>
+                          <div>共{option.video_counts}集</div>
+                        </div>
+                      ))}
+                  </div>
+                </EditDialog>
+              </MenuItem>
+           
+              <MenuItem onClick={handleClose} data-id="4">
+                下载
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="5">
+                分享
+              </MenuItem>
+              <MenuItem onClick={handleClose} data-id="6">
+                <Link
+                  color="inherit"
+                  underline="none"
+                  href={`/video/?sid=${props.info.video_id}`}
+                  target="_blank"
+                  rel="noopener norefferer"
+                >
+                  编辑字幕
+                </Link>
+              </MenuItem>
+
+              <MenuItem
+                data-id="7"
+                onClick={() => {
+                  setModalMsg({
+                    title: "温馨提示",
+                    type: "del",
+                    msg: "上传作品不容易, 确定真的要删除该作品?",
+                    open: true,
+                  });
+                  handleClose();
+                }}
+              >
+                删除
+              </MenuItem>
+            </Menu>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
             </div>
           </div>
         )}
       </div>
+      <ModalDialog
+        info={modalMsg}
+        parent={props}
+        onEvent={(msg) => {
+          if (msg.cancel) {
+            setModalMsg({ open: false });
+          }
+          if (msg.confirm) {
+            get_data("api/v1/gateway", {
+              model_name: "video",
+              model_action: "delete_video",
+              extra_data: {
+                video_id: [props.info.video_id],
+              },
+            }).then((res) => {
+              if (res.err === 0) {
+                new CustomModal().alert("删除成功", "success", 5000);
+                setModalMsg({
+                  open: false,
+                });
+              }
+            });
+          }
+        }}
+      ></ModalDialog>
     </div>
   );
 };

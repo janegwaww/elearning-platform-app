@@ -102,10 +102,19 @@ export const get_date=(timer,sep,num)=>{//时间戳转换
     return _y+_sep+_m+_sep+_d+' '+_h+':'+_min;
   }else if(num==9){
     return _y+'年'+_m+'月'+_d+'日';
+  }else if(num==8){
+    return _m+'月'+_d+'日';
   }else{
     return _y+_sep+_m+_sep+_d+' '+_h+':'+_min+':'+_s;
   }
   
+
+};
+export const get_time=function(time){
+ 
+  let _time_arr = time.split(':');
+  let _new_time =parseInt( _time_arr[0])*3600+parseInt(_time_arr[1])*60+parseInt(_time_arr[2]);
+  return _new_time;
 
 }
 
