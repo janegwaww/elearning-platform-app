@@ -288,7 +288,7 @@ export default class CreatorHome extends Component {
                 </TabPanel>
                 <EmptyNotice empty={!(list.length || loading)} />
               </div>
-              <Pagination num={list.length} hanlePage={this.handlePage} />
+              <Pagination num={list.length} handlePage={this.handlePage} />
               <br />
             </div>
           </Container>
