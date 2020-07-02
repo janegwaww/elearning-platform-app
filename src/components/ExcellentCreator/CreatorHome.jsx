@@ -122,15 +122,15 @@ const CreatorAvatar = ({ auth }) => {
         </Grid>
         <Grid item xs={3}>
           <Typography variant="subtitle1">
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <span>订阅</span>
-                <span>{description_counts}</span>
-              </Box>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <span>订阅者</span>
-                <span>{fans_counts}</span>
-              </Box>
+            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+              {/* <Box display="flex" flexDirection="column" alignItems="center">
+                    <span>订阅</span>
+                    <span>{description_counts}</span>
+                    </Box>
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                    <span>订阅者</span>
+                    <span>{fans_counts}</span>
+                    </Box> */}
               <Box display="flex" flexDirection="column" alignItems="center">
                 <span>获赞数</span>
                 <span>{like_counts}</span>
@@ -288,7 +288,7 @@ export default class CreatorHome extends Component {
                 </TabPanel>
                 <EmptyNotice empty={!(list.length || loading)} />
               </div>
-              <Pagination num={list.length} hanlePage={this.handlePage} />
+              <Pagination num={list.length} handlePage={this.handlePage} />
               <br />
             </div>
           </Container>

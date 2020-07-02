@@ -53,7 +53,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
-      <Box className="video-counts-tag" style={{}}>
+      <Box className="video-counts-tag">
         <Typography variant="caption" color="primary">
           {`共${video_counts}课`}
         </Typography>
@@ -73,7 +73,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Link href={handleLink(item).to}>
                   <img
-                    style={{ width: "100%", height: 160 }}
+                    style={{ width: "100%" }}
                     alt={item.image_path}
                     src={`${item.image_path}`}
                   />
