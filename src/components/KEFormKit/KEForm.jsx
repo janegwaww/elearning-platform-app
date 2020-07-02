@@ -6,7 +6,7 @@ import {
   CssBaseline,
   Grid,
   Tooltip,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
@@ -15,23 +15,21 @@ import UserProtocol from "./UserProtocol";
 import {
   generateQRCode,
   enquiryQRCode,
-  handleLogin
+  handleLogin,
 } from "../../services/auth";
 import qrcode from "../../../static/images/qr-code.png";
 import account from "../../../static/images/account.png";
 import loginBg from "../../../static/images/login-bg.png";
 
-const KEForm = ({ modal, modalClose, originPath = "/" }) => {
+const KEForm = ({ modal, modalClose }) => {
   const classes = useStyles();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
 
-  const handleNavigate = () => {
-    !!modal ? modalClose() : navigate(`${originPath}`);
-  };
+  const handleNavigate = () => (!!modal ? modalClose() : navigate(`/`));
 
   const handleClickLogin = ({ mobile, smscode }) => {
-    handleLogin({ mobile, code: smscode }).then(res => {
+    handleLogin({ mobile, code: smscode }).then((res) => {
       if (res) {
         handleNavigate();
       }
@@ -39,7 +37,7 @@ const KEForm = ({ modal, modalClose, originPath = "/" }) => {
   };
 
   const varifyQRCode = () => {
-    enquiryQRCode({ qrcode: qrcodeValue }).then(res => {
+    enquiryQRCode({ qrcode: qrcodeValue }).then((res) => {
       if (res) {
         handleNavigate();
       }
@@ -53,7 +51,7 @@ const KEForm = ({ modal, modalClose, originPath = "/" }) => {
 
   useEffect(() => {
     if (!accountLogin) {
-      generateQRCode().then(data => {
+      generateQRCode().then((data) => {
         setQrcodeValue(data);
         varifyQRCode();
         console.log(data);
@@ -92,7 +90,7 @@ const KEForm = ({ modal, modalClose, originPath = "/" }) => {
             width: "160px",
             height: "160px",
             backgroundColor: "transparent",
-            margin: "30px auto"
+            margin: "30px auto",
           }}
         >
           <QRCode value={qrcodeValue} level="L" size={160} />
