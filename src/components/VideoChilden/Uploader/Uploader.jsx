@@ -345,7 +345,7 @@ export default class UploadVideos extends Component {
           <div className="lists">
             <section
               className="box  box-center all-width"
-              style={{ height: "calc(100% - 48px)" }}
+              style={{ height: "calc(100% - 48px)"}}
             >
               <div
                 className={`file-box ${is_drop ? "drop" : "width"}`}
@@ -537,16 +537,16 @@ export default class UploadVideos extends Component {
                 }}
               >
                 {!is_drop ? (
-                  <div className="all-height box box-align-center">
+                  <div className="all-height box box-align-center" style={{cursor:'pointer'}}>
                     <div>
                       <p
                         className="fn-color-F2F2F5 fn-size-16 box box-center"
-                        style={{ marginBottom: 20 }}
+                        style={{ marginBottom: 20 ,cursor:'pointer'}}
                       >
                         <img src={dropupload} />
-                        <span>文件拖拽到此处或点击此处可以添加上传</span>
+                        <span style={{cursor:'pointer'}}>文件拖拽到此处或点击此处可以添加上传</span>
                       </p>
-                      <p>
+                      <p style={{cursor:'pointer'}}>
                         视频建议为MP4格式;不要带有水印、黑边；清晰度大于720P有利于首页推荐；请勿上传色情及反动违法视频。建议使用Chrome浏览器
                       </p>
                     </div>

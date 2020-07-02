@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import userStyles from "./profileStyle";
-import { updata_img,get_data } from "../../../../assets/js/request";
+import { updata_img, get_data } from "../../../../assets/js/request";
 import CustomModal from "../../../../assets/js/CustomModal";
 
 const styles = (theme) => ({
@@ -65,7 +65,9 @@ export default function EditDialog(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setOpen(false);
   };
 
@@ -82,49 +84,54 @@ export default function EditDialog(props) {
           {props.title}
         </DialogTitle>
         <DialogContent dividers>
-         
-             { children } 
-             <input type='file' id='file-img' onChange={(ev)=>{
-                let _files = ev.target.files[0];
-                    updata_img(_files,'video_image').then(res=>{
-                       
-                        if(res.err==0&&res.errmsg=='OK'){
-                            props.onChange&&props.onChange({url:res.result_data[0]})
-                        }
-                    })
-               
-             }} style={{width:0,height:0,display:'none'}} />
-          
-         
+          {children}
+          <input
+            type="file"
+            id="file-img"
+            onChange={(ev) => {
+              let _files = ev.target.files[0];
+              updata_img(_files, "video_image").then((res) => {
+                if (res.err == 0 && res.errmsg == "OK") {
+                  props.onChange && props.onChange({ url: res.result_data[0] });
+                }
+              });
+            }}
+            style={{ width: 0, height: 0, display: "none" }}
+          />
         </DialogContent>
         <DialogActions>
           <Button
             autoFocus
-            onClick={()=>{
-                handleClose();
-                props.onEvent&&props.onEvent({
-                    confirm:true,
-                    cancel:false
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose(e);
+              props.onEvent &&
+                props.onEvent({
+                  confirm: true,
+                  cancel: false,
                 });
             }}
             color="primary"
             className={classes.btn1}
-            
           >
             确定
           </Button>
           <Button
             autoFocus
-            onClick={()=>{
-                handleClose();
-                props.onEvent&&props.onEvent({
-                    confirm:false,
-                    cancel:true
+            onClick={(e) => {
+              e.preventDefault();
+    e.stopPropagation();
+              handleClose(e);
+              props.onEvent &&
+                props.onEvent({
+                  confirm: false,
+                  cancel: true,
                 });
             }}
             className={`${classes.btn1} ${classes.btn2}`}
           >
-          取消
+            取消
           </Button>
         </DialogActions>
       </Dialog>

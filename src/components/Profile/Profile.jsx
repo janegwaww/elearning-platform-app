@@ -60,7 +60,9 @@ class Profile extends React.Component {
       model_name: "user",
       model_action: "get_information",
     }).then((res) => {
+
       if (res.err == 0 && res.errmsg == "OK") {
+        
         this.setState({
           userinfo: res.result_data[0],
         });

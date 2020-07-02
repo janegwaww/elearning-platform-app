@@ -770,7 +770,7 @@ export default class VideoPage extends Component {
                           : 0}
                       </span>
                     </div>
-                    <div className="paly-on-off" style={{cursor:'pointer'}}>
+                    <div className="paly-on-off all-height" style={{cursor:'pointer', width: this.state.video_w + "px",}} >
                       {this.state.status ? (
                         <Pause onClick={on_pause} />
                       ) : (
@@ -778,7 +778,7 @@ export default class VideoPage extends Component {
                       )}
                     </div>
 
-                    <div>
+                    <div style={{cursor:'pointer'}}>
                       {!depth_of_field ? (
                         <img
                           src={videoImg}

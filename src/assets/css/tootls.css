@@ -116,6 +116,9 @@
  .view-scroll{
    overflow: auto;
  }
+ svg{
+   vertical-align: middle;
+ }
  /*单行显示文字*/
  .textview-overflow {
    display: -webkit-box;

@@ -13,8 +13,26 @@ const userStyles = makeStyles((theme) => ({
       maxWidth:650,
       margin:0,
     
+    },
+    '& .MuiPaper-root':{
+      padding:20
     }
     
+  },
+  menulist:{
+    
+    '& .MuiList-root.MuiMenu-list':{
+      display:'flex',
+      flexWrap: 'wrap',
+      width: 320,
+      height: 216,
+      
+      '& .MuiMenuItem-root':{
+        width:'33.33%',
+        fontSize:14,
+        flexDirection: 'column'
+      }
+    }
   },
   input:{
     '& .MuiInputBase-input':{
@@ -48,34 +66,10 @@ const userStyles = makeStyles((theme) => ({
     border:'1px solid #F2F2F5',
     borderRadius:6,
     resize: 'none'
-    // '& .MuiInputBase-fullWidth':{
-    //   border:'1px solid rgba(0, 0, 0, 0.42)',
-    //   borderRadius:4,
-    //   "&:hover":{
-    //     borderBottom:'none'
-    //   },
-    
-    // },
-    // '& .MuiInput-underline:after':{
-    //   borderBottom:'1px solid rgba(0, 0, 0, 0.42)'
-    // },
-    // '& .MuiInput-underline:hover:not(.Mui-disabled):before':{
-    //   borderBottom:'1px solid rgba(0, 0, 0, 0.42)'
-    // },
-    // '& .MuiInputBase-input:focus':{
-    //   outline:'none',
-    //   // border:'1px solid red',
-     
-    // },
-   
-    // '& .MuiOutlinedInput-notchedOutline':{
-    //   top:0,
-     
-    // },
-    // '& .MuiOutlinedInput-root.Mui-fcused.MuiOutlinedInput-notchedOutline':{
-    //   borderColor:'#007CFF'
-    // }
+  
+
   }
+
 }));
 
 export default userStyles;
