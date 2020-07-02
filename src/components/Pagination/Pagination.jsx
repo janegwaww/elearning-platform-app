@@ -4,7 +4,7 @@ import { pipe } from "../../services/utils";
 import "./PaginationStyles.sass";
 
 export default function Pagination({ fetch = () => ({}), method = "async" }) {
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(3);
   const [curPage, setCurPage] = useState(1);
 
   const getCount = (num = 1) => setCount(num);
