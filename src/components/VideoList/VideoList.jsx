@@ -17,7 +17,6 @@ import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxWidth: 300,
     marginTop: "10px",
     backgroundColor: theme.palette.background.paper,
   },
@@ -25,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f2f2f5",
     borderRadius: "12px",
     width: "100%",
-    maxWidth: 360,
     /* overflow: "auto", */
     /* maxHeight: 500 */
     "& .MuiListItem-root:last-child": {

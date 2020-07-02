@@ -65,7 +65,7 @@ class Watch extends Component {
     return (
       <Fragment>
         <Grid container style={{ marginTop: 18 }} spacing={3}>
-          <Grid item xs={9}>
+          <Grid item xs={12} sm={12} md={9}>
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
             <LazyIntroduction intros={avatar} />
             <Divider />
@@ -73,7 +73,7 @@ class Watch extends Component {
             <IntroductionText text={avatar} />
             {/* <LazyComments vid={vid} /> */}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={12} md={3}>
             <br />
             <VideoDocument vid={vid} />
             <br />

@@ -18,8 +18,9 @@ export default class VideoPlayer extends React.Component {
         xlarge: 800,
         huge: 900,
       },
+      height: 516,
       responsive: true,
-      fluid: true,
+      /* fluid: true, */
       textTrackSettings: true,
       html5: {
         nativeTextTracks: false,

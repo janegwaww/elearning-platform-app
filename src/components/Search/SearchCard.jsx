@@ -51,15 +51,13 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
     <div className="title-item">
       {pay && <Chip size="small" label="付费" className="is-pay" />}
       {title && (
-        <div style={{ flexGrow: 1 }}>
-          <Link href={href}>
-            <Typography
-              variant="subtitle1"
-              noWrap
-              dangerouslySetInnerHTML={createMarkup}
-            />
-          </Link>
-        </div>
+        <Link href={href}>
+          <Typography
+            variant="subtitle1"
+            noWrap
+            dangerouslySetInnerHTML={createMarkup}
+          />
+        </Link>
       )}
       {time && (
         <Typography variant="caption" color="textSecondary">
@@ -167,10 +165,10 @@ const videoContainer = ({ data = {}, match_frame }) => {
           match={match_frame}
         />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
         {descriptionItem(data.description, match_frame)}
       </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }}>
+      <div style={{ gridColumn: 2, gridRow: 4, overflow: "hidden" }}>
         {subtitle({ ...match_frame, id: data.video_id })}
       </div>
       <div style={{ gridColumn: 2, gridRow: 5 }}>
