@@ -72,17 +72,15 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
             <Box width="100%" className="grid-item">
               {item ? (
                 <Link href={handleLink(item).to}>
-                  <img
-                    style={{ width: "100%" }}
-                    alt={item.image_path}
-                    src={`${item.image_path}`}
-                  />
+                  <div className="grid-card-image-head">
+                    <img alt={item.image_path} src={`${item.image_path}`} />
+                  </div>
                   {isSeries(item)}
                   {duration(item)}
                   {seriesCounts(item)}
                 </Link>
               ) : (
-                <Skeleton variant="rect" width="100%" height={160} />
+                <Skeleton variant="rect" width="100%" height={166} />
               )}
 
               {item ? (

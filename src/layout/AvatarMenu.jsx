@@ -72,7 +72,7 @@ export default function () {
               handleMenuClose();
             }}
           >
-            Profile
+            个人中心
           </MenuItem>
         ) : null}
         {isLogin ? (
@@ -83,7 +83,7 @@ export default function () {
               handleMenuClose();
             }}
           >
-            Logout
+            登出
           </MenuItem>
         ) : (
           <MenuItem
@@ -92,7 +92,7 @@ export default function () {
               navigate(`/users/login`);
             }}
           >
-            LogIn
+            登录
           </MenuItem>
         )}
       </Menu>

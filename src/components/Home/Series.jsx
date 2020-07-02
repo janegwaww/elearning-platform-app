@@ -10,6 +10,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import MuiPagination from "@material-ui/lab/Pagination";
+import Tooltip from "@material-ui/core/Tooltip";
 import { getSeriesInfo } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
@@ -52,12 +53,16 @@ const headCard = ({
     <Box
       style={{
         gridColumn: 2,
-        gridRow: "3/6",
+        gridRow: "3/7",
         overflow: "hidden",
       }}
     >
-      <Typography variant="subtitle2">系列简介:</Typography>
-      <Typography variant="body2">{description}</Typography>
+      <Typography variant="subtitle2" gutterBottom>
+        系列简介:
+      </Typography>
+      <Tooltip placement="top-start" title={description}>
+        <Typography variant="body2">{description}</Typography>
+      </Tooltip>
     </Box>
     <Link
       href={`/excellentcreator/creator/?cid=${author_id}`}
