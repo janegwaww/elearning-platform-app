@@ -31,9 +31,9 @@
     visibility: visible
 
   .paper
-    background-color: rgba(44,44,59,0.6)
+    background-color: rgba(44,44,59,0.8)
     border-radius: 20px
-    width: 400px
+    width: calc(100%)
     display: flex
     justify-content: space-between
     align-items: center
@@ -62,6 +62,7 @@
     border-radius: 0 20px 20px 0
     font-size: 12px
     padding: 6px 14px
+    min-width: 98px
     &:hover
       background-color: #007cff
     & .MuiButton-startIcon
@@ -72,8 +73,11 @@
     width: 70%
     margin-left: 20px
     margin-top: 0
+    color: #fff
     input
       cursor: pointer
       &::placeholder
-        color: rgba(255,255,255,1)
+        color: rgba(255,255,255,1) !important
         font-size: 12px
+      &::placeholder-shown
+        text-overflow: ellipsis
