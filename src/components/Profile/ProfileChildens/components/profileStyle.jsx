@@ -10,27 +10,38 @@ const userStyles = makeStyles((theme) => ({
   },
   dialog:{
     '& .MuiDialog-paperWidthSm':{
-      maxWidth:650,
+      maxWidth:850,
       margin:0,
     
     },
     '& .MuiPaper-root':{
-      padding:20
+      padding:20,
+      boxShadow:'2px 2px 20px 0px rgba(0,0,0,0.1)',
+      borderRadius:12,
     }
     
   },
   menulist:{
-    
+    '& .MuiPaper-root':{
+      borderRadius:'12px',
+      
+    },
     '& .MuiList-root.MuiMenu-list':{
       display:'flex',
       flexWrap: 'wrap',
       width: 320,
       height: 216,
-      
+      padding:30,
+      boxShadow:'0px 2px 10px 2px rgba(0,0,0,0.1)',
+
       '& .MuiMenuItem-root':{
         width:'33.33%',
         fontSize:14,
         flexDirection: 'column'
+      },
+      '& img':{
+        width:14,
+        height:14
       }
     }
   },

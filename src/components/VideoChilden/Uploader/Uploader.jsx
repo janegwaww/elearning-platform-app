@@ -129,7 +129,7 @@ export default class UploadVideos extends Component {
     });
     let _id = this.props.parent.props.location.href.split("=")[1];
     if (_id) {
-      get_data("api/v1/gateway", {
+      get_data({
         model_name: "video",
         model_action: "update_subtitle_again",
         extra_data: {
@@ -213,7 +213,7 @@ export default class UploadVideos extends Component {
     });
   }
   get_image(id) {
-    get_data("api/v1/gateway", {
+    get_data({
       //生成图片
       model_name: "video",
       model_action: "generate_thumbnail",
@@ -221,7 +221,7 @@ export default class UploadVideos extends Component {
         video_id: this.state.files._id || this.state.files.video_id || id,
       },
       model_type: "",
-    }).then((res) => {
+    },"http://api.haetek.com:9090/api/v1/gateway").then((res) => {
       if (res.err === 0 && res.result_data.length > 0) {
         this.props.parent.get_image(res.result_data);
       }
@@ -245,7 +245,7 @@ export default class UploadVideos extends Component {
       status: 5,
     });
 
-    get_data("api/v1/gateway", _data, "post").then((res) => {
+    get_data(_data,).then((res) => {
       
       if(res.err===0){
         setTimeout(()=>{
@@ -272,7 +272,7 @@ export default class UploadVideos extends Component {
       },
      
     };
-    get_data("api/v1/gateway", _data).then((res) => {
+    get_data( _data).then((res) => {
       if(res.err===0){
         setTimeout(()=>{
           this.query_subtitles()//查询是否生成字幕
@@ -297,7 +297,7 @@ export default class UploadVideos extends Component {
       },
     };
 
-    get_data("api/v1/gateway", _data, "post")
+    get_data(_data)
       .then((res) => {
         if (res.err == 4104) {
           navigate(`users/login`);
@@ -310,6 +310,7 @@ export default class UploadVideos extends Component {
           _this.setState({ status: 3, lang_value: "", files: _data });
           // sessionStorage.setItem('file_data',_data);
           _this.props.parent.getUpfileUrl(res.result_data[0]);
+          alert('字幕已生成 （如果您的视频有片头曲 可能要右移才会发现字幕哦）')
 
           return;
         } else {
@@ -379,7 +380,7 @@ export default class UploadVideos extends Component {
                     });
                     return false;
                   }
-                  get_data("api/v1/gateway", {
+                  get_data( {
                     model_name: "user",
                     model_action: "is_login",
                     extra_data: {},
@@ -502,7 +503,7 @@ export default class UploadVideos extends Component {
                     });
                     return false;
                   }
-                  get_data("api/v1/gateway", {
+                  get_data( {
                     model_name: "user",
                     model_action: "is_login",
                     extra_data: {},

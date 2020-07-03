@@ -12,7 +12,7 @@ import { getUser } from "../../../services/auth";
 import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
-
+import logoimg from '../../../../static/logos/logo.svg';
 import { ArrowBack, ArrowForward, Autorenew } from "@material-ui/icons";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -87,7 +87,7 @@ export default class Header extends Component {
         },
         model_type: "",
       };
-      get_data("api/v1/gateway", r_data, "post")
+      get_data( r_data)
         .then((res) => {
           if (res.err == 0 && res.errmsg == "OK") {
             _this.setState({ open: true });
@@ -108,7 +108,7 @@ export default class Header extends Component {
       <header className={`box box-align-center ${styles.header}`}>
         <div className={`box box-align-center ${styles.nav}`}>
           <div className={styles.logo}>
-            <img src="../logos/Logo.png" />
+            <img src={logoimg} alt='logo' />
           </div>
           <div
             className={`fn-size-16 ${styles.imdex}`}

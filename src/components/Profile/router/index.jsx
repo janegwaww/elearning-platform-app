@@ -7,9 +7,7 @@ import MsgCenter from "../ProfileChildens/MsgCenter";
 import CreateCenter from "../ProfileChildens/CreateCenter";
 import Dynamic from '../ProfileChildens/Dynamic';
 import SetPage from '../ProfileChildens/setingsCenter';
-const return_run = (prveProps, nextPropa) => {
-  
-};
+
 const return_dom = (parent,num) => {
   if (!num) {
     return <ProfileIndex parent={parent}/>;
@@ -27,12 +25,11 @@ const return_dom = (parent,num) => {
       return <CreateCenter parent={parent}/>;
     case 4:
       // 动态
-      
       return <Dynamic parent={parent}/>;
     case 5:
       return <SetPage parent={parent}/>;
-    default:
-      return <ProfileIndex parent={parent}/>;
+    // default:
+    //   return <ProfileIndex parent={parent}/>;
   }
 };
 const PageRouter = (props) => {
@@ -40,4 +37,4 @@ const PageRouter = (props) => {
   return return_dom(props.parent,props.num);
 };
 
-export default React.memo(PageRouter, return_run);
+export default PageRouter;

@@ -35,6 +35,9 @@ class Profile extends React.Component {
     this.pageRoute = this.pageRoute.bind(this);
   }
   componentDidMount() {
+    if(sessionStorage.getItem('file_data')){
+      sessionStorage.removeItem('file_data');
+    };
     if (sessionStorage.getItem("now_page")) {
       let _now_page = JSON.parse(sessionStorage.getItem("now_page"));
       let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
@@ -56,7 +59,7 @@ class Profile extends React.Component {
       });
     }
     //请求用户信息
-    get_data("api/v1/gateway", {
+    get_data( {
       model_name: "user",
       model_action: "get_information",
     }).then((res) => {

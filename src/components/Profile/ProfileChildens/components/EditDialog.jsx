@@ -28,6 +28,7 @@ const styles = (theme) => ({
 });
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
+  
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -70,10 +71,16 @@ export default function EditDialog(props) {
     e.stopPropagation();
     setOpen(false);
   };
-
+ 
   return (
     <div>
-      <div onClick={handleClickOpen}>{props.title}</div>
+      <div onClick={handleClickOpen}>
+      {props.icon_img?(
+        <div className='text-center'>
+          <img src={props.icon_img} />
+        </div>):null}
+        <div>{props.title}</div>
+      </div>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -121,7 +128,7 @@ export default function EditDialog(props) {
             autoFocus
             onClick={(e) => {
               e.preventDefault();
-    e.stopPropagation();
+              e.stopPropagation();
               handleClose(e);
               props.onEvent &&
                 props.onEvent({

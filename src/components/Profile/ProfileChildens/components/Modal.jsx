@@ -97,6 +97,7 @@ export function ModalDialog(props) {
               props.onEvent({
                 cancel: false,
                 confirm: true,
+                role:props.info.role||''
               });
           }}
         >

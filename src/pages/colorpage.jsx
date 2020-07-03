@@ -181,7 +181,7 @@ export default class ColorPage extends React.Component {
                   },
                   model_type: "",
                 };
-                get_data("api/v1/gateway", _data).then((res) => {
+                get_data( _data).then((res) => {
                   if (res.err == 0 && res.result_data.length > 0) {
                     let _data = res.result_data;
                     let _htm_str = "";

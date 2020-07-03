@@ -2,7 +2,7 @@ import axios from "axios";
 import { getUser } from "../../services/auth";
 import CustomModal from "./CustomModal";
 const _path = __dirname;
-const request_url = "http://api.haetek.com:9191/"; //'http://192.168.0.200:9191/';//'http://seeker.haetek.com:9191/';//'
+const request_url = "http://api.haetek.com:9191/api/v1/gateway"; //'http://192.168.0.200:9191/';//'http://seeker.haetek.com:9191/';//'
 
 // axios.defaults.timeout = 10000;
 axios.defaults.headers = {
@@ -10,10 +10,10 @@ axios.defaults.headers = {
   Authorization: "Bearer" + " " + getUser().token,
 };
 
-export const get_data = function(url, data, method, header) {
+export const get_data = function( data,url, method, header) {
   return new Promise(function(resolve, reject) {
     axios({
-      url: request_url + url,
+      url:url|| request_url,
       data: data,
       method: method || "post",
       headers: header || {
@@ -44,11 +44,11 @@ export const get_alldata = function(url_lists, data_list, methods) {
     //url是字符时
     if (!methods || methods == "post" || methods == "POST") {
       for (let i = 0; i < len; i++) {
-        request_arr.push(get_data(url_lists, data_list[i]));
+        request_arr.push(get_data( data_list[i]));
       }
     } else {
       for (let i = 0; i < len; i++) {
-        request_arr.push(axios.get(url_lists, data_list[i]));
+        request_arr.push(axios.get(data_list[i]));
       }
     }
   } else {
@@ -89,7 +89,7 @@ export const updata_img = function(_file, _type) {
   _form.append("type", _type);
   _form.append("file", _file);
   return new Promise(function(resolve, reject) {
-    get_data("api/v1/gateway", _form)
+    get_data(_form)
       .then((res) => {
         if (res.err == 0 && res.errmsg == "OK") {
           new CustomModal().alert("上传成功", "success", 3000);
