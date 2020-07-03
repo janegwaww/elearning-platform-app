@@ -61,7 +61,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   useEffect(() => {
     setTimeout(() => {
       verifyTimer();
-    }, 1200);
+    }, 500);
   }, []);
 
   return (

@@ -14,23 +14,40 @@ class VideoWindow extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (this.playerRef.current) {
-        const { player } = this.playerRef.current;
-        player.one("play", (e) => {
-          startWatchRecord({
-            video_id: this.props.info.videoId,
-            start_time: secondsToHMS(this.getCurrentTime()),
-          });
-        });
-      }
-    }, 1000);
+    this.recordStart();
   }
 
   componentDidUpdate(prevProps) {
     const { timer } = this.props;
     if (timer !== prevProps.timer) {
+      this.seekToCurrentTime(timer);
+    }
+  }
+
+  recordStart = () => {
+    if (this.playerRef.current) {
+      const { player } = this.playerRef.current;
+      player.one("play", (e) => {
+        startWatchRecord({
+          video_id: this.props.info.videoId,
+          start_time: secondsToHMS(this.getCurrentTime()),
+        });
+      });
+    } else {
+      setTimeout(() => {
+        this.recordStart();
+      }, 500);
+    }
+  };
+
+  // 跳转时间
+  seekToCurrentTime(timer) {
+    if (this.playerRef.current) {
       this.playerRef.current.seekTo(timer);
+    } else {
+      setTimeout(() => {
+        this.seekToCurrentTime(timer);
+      }, 500);
     }
   }
 
@@ -57,7 +74,7 @@ class VideoWindow extends Component {
         tracks={[
           {
             src: `${info.vttPath}`,
-            label: "captions on",
+            label: "字募开",
             kind: "captions",
             default: true,
           },
