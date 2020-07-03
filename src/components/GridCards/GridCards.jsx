@@ -53,7 +53,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
-      <Box className="video-counts-tag">
+      <Box className="video-time-tag">
         <Typography variant="caption" color="primary">
           {`共${video_counts}课`}
         </Typography>

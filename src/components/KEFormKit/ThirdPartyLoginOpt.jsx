@@ -50,7 +50,6 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
         return;
       }
       track("else")(response);
-      alert("登录出错，请重新试一下");
     });
   };
 

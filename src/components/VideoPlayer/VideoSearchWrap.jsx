@@ -88,12 +88,10 @@ const VideoSearchWrap = ({ children, vid, path }) => {
               endAdornment={
                 <InputAdornment position="end">
                   <ButtonBase onClick={() => setInput("")}>
-                    {input ? (
-                      <ClearIcon
-                        style={{ color: "rgba(189, 195, 199,0.8)" }}
-                        fontSize="small"
-                      />
-                    ) : null}
+                    <ClearIcon
+                      fontSize="small"
+                      style={{ visibility: `${input ? "visible" : "hidden"}` }}
+                    />
                   </ButtonBase>
                 </InputAdornment>
               }
