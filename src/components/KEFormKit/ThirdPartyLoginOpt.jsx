@@ -34,7 +34,8 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
   const track = (msg) => (data) => console.log(`${msg}: `, data);
   // 第二步：拿到code进行登录操作
   const handleLogin = ({ code }) => {
-    const param = { code, type: thirdMethod };
+    const type = window.location.hash ? "wechat" : "qq";
+    const param = { code, type };
     handleThirdLogin(param).then((response) => {
       const { accessToken } = response;
       if (accessToken) {
@@ -50,7 +51,6 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
         return;
       }
       track("else")(response);
-      alert("登录出错，请重新试一下");
     });
   };
 
