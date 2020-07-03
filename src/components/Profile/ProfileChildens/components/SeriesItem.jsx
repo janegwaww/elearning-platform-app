@@ -30,7 +30,11 @@ import { navigate } from "@reach/router";
 import EditDialog from "./EditDialog";
 import userStyles from "./profileStyle";
 import del from '../../../../assets/img/del.png';
-
+import bianmiao from '../../../../assets/img/bianmiao.png';
+import fenxiang from '../../../../assets/img/fenxiang.png';
+import yixi from '../../../../assets/img/yixi.png';
+import restbian from '../../../../assets/img/restbian.png';
+import download from '../../../../assets/img/download.png';
 // 系列横向item
 
 const stop_run = (prevValue, nextValue) => {
@@ -265,10 +269,12 @@ const SeriesItem = (props) => {
               className={classes.menulist}
             >
               <MenuItem onClick={handleClose} data-id="1">
-                
+
+              
                 <EditDialog
                   title="编辑描述"
                   info={props.info}
+                  icon_img={bianmiao}
                   onChange={(res) => {
                     if (res.url) {
                       setNewimgurl(res.url);
@@ -292,7 +298,7 @@ const SeriesItem = (props) => {
                           description: newdescription || props.info.description,
                         },
                       };
-                      get_data("api/v1/gateway", _data).then((res) => {
+                      get_data( _data).then((res) => {
                         console.log(res);
                       });
                     }
@@ -403,7 +409,7 @@ const SeriesItem = (props) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  get_data("api/v1/gateway", {
+                  get_data( {
                     model_name: "series",
                     model_action: "get_series",
                     extra_data: {},
@@ -416,13 +422,15 @@ const SeriesItem = (props) => {
                 }}
                 data-id="2"
               >
+            
                 <EditDialog
                   title="移动至系列"
+                  icon_img={yixi}
                   info={props.info}
                   onChange={() => {}}
                   onEvent={(res) => {
                     if (res.confirm) {
-                      get_data("api/v1/gateway", {
+                      get_data( {
                         model_name: "video",
                         model_action: "movie_video",
                         extra_data: {
@@ -486,15 +494,18 @@ const SeriesItem = (props) => {
                   target="_blank"
                   rel="noopener norefferer"
                 >
-                  重新编辑
+                <div className='text-center'><img src={restbian} /></div>
+                  <div>重新编辑</div>
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleClose} data-id="4">
-              下载
+              <div> <img src={download }/></div>
+              <div>下载</div>
             </MenuItem>
             <MenuItem onClick={handleClose} data-id="5">
-              分享
-            </MenuItem>
+               <div><img src={fenxiang} /></div>   
+              <div>分享</div>
+            </MenuItem> 
               <MenuItem
                 data-id="7"
                 onClick={() => {
@@ -503,11 +514,12 @@ const SeriesItem = (props) => {
                     type: "del",
                     msg: "上传作品不容易, 确定真的要删除该作品?",
                     open: true,
+                    role:'video'
                   });
                   handleClose();
                 }}
               > 
-              <div><img src={del} style={{width:14,height:14}} /></div>
+              <div><img src={del}  /></div>
               
                <div> 删除作品</div>
               </MenuItem>
@@ -516,9 +528,7 @@ const SeriesItem = (props) => {
         )}
         {props.series == "series" && (
           <div className="text-right">
-            <span>
-              <Share />
-            </span>
+            <img src={fenxiang} style={{width:16,height:16}} />
           </div>
         )}
         {props.series == "draft" && (
@@ -535,7 +545,7 @@ const SeriesItem = (props) => {
               </Link>
             )}
             <span>
-              <Delete
+              <img  src={del} style={{width:16,height:16}}
                 onClick={() => {
                   if(props.info.state===1){
                     new CustomModal().alert('审核中的作品暂不支持删除','error',3000);
@@ -564,7 +574,7 @@ const SeriesItem = (props) => {
             setModalMsg({ open: false });
           }
           if (msg.confirm) {
-            get_data("api/v1/gateway", {
+            get_data( {
               model_name: "video",
               model_action: "delete_video",
               extra_data: {
@@ -573,6 +583,8 @@ const SeriesItem = (props) => {
             }).then((res) => {
               if (res.err === 0) {
                 new CustomModal().alert("删除成功", "success", 5000);
+
+                console.log(props.parent)
                 setModalMsg({
                   open: false,
                 });

@@ -1,11 +1,10 @@
 import React from "react";
-import BannerOne from "../../../assets/img/profile.png";
+
 import { Avatar, Grid ,Link} from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
 import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import  WorksItem  from "./components/WorksItem";
-
 import { get_data, get_alldata } from "../../../assets/js/request";
 
 class ProfileIndex extends React.Component {
@@ -19,6 +18,7 @@ class ProfileIndex extends React.Component {
       video_type:'video',//系列与普通
       userCollection: null, //我的收藏
       page_type:1,//收藏与历史
+      item_h:0
       // historyData: null, //历史记录
     };
     this.update_data = this.update_data.bind(this);
@@ -48,6 +48,16 @@ class ProfileIndex extends React.Component {
         userCollection: res[2].result_data,
       });
     });
+    window.onresize=(e)=>{
+      e.stopPropagation();
+      e.preventDefault();
+      let _w = document.querySelector('.MuiGrid-root.grid .MuiGrid-item').clientWidth;
+      let _h = _w/16*9;
+      _this.setState({
+        item_h:_h
+      })
+     
+    }
   }
 
   update_data(_type) {
@@ -58,8 +68,8 @@ class ProfileIndex extends React.Component {
           type: _type, //"series"
         },
       };
-    get_data("api/v1/gateway", _data).then((res) => {
-      console.log(res)
+    get_data( _data).then((res) => {
+   
       if (res.err == 0) {
         this.setState({
           userWorks: res.result_data,
@@ -77,6 +87,12 @@ class ProfileIndex extends React.Component {
       })
     }
   }
+  // componentWillUnmount() {
+  //   this.setState = (state, callback) => {
+  //     console.log(state)
+  //     // return
+  //   }
+  // }
   // shouldComponentUpdate(nextProps, nextState){
   //   //优化
   // }
@@ -147,26 +163,7 @@ class ProfileIndex extends React.Component {
               </p>
             </div>
           </div>
-         {/**<div
-            className="box box-align-end text-center"
-            style={{ minWidth: 165 }}
-          >
-            <div style={{ margin: "0 20px" }}>
-              <p className="fn-color-878791">关注数</p>
-              <p className="zero-edges">
-                {this.state.userInfo
-                  ? this.state.userInfo.subscription_counts
-                  : 0}
-              </p>
-            </div>
-            <div style={{ margin: "0 20px" }}>
-              <p className="fn-color-878791">粉丝数</p>
-              <p className="zero-edges">
-                {this.state.userInfo ? this.state.userInfo.fans_counts : 0}
-              </p>
-            </div>
-          </div>
-           */} 
+        
         </main>
         <main
           style={{ height: "250px" }}
@@ -184,17 +181,7 @@ class ProfileIndex extends React.Component {
             className="box box-align-center text-center fn-size-14 fn-color-878791"
             style={{ marginTop: "30px" }}
           >
-           {/**  <div className="box-flex bg-EDF6FF">
-              <p className="zero-edges">订阅量</p>
-              <p className="fn-size-20 fn-color-007CFF">
-                {_this.state.userData
-                  ? _this.state.userData.collections_counts
-                  : 0}
-              </p>
-              <p className="zero-edges">
-                昨日 <span className="fn-color-02BB17">+200</span>
-              </p>
-            </div>*/}
+         
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">视频播放量</p>
               <p className="fn-size-20 fn-color-007CFF">
@@ -298,7 +285,7 @@ class ProfileIndex extends React.Component {
               {this.state.userWorks&&this.state.userWorks.length>0 ? (
                 this.state.userWorks.map((option, inx) => (
                
-                    <SeriesItem parent={this} info={option} inx={inx} key={inx} series={this.state.video_type} />
+                    <SeriesItem parent={this} info={option} inx={inx} key={option.video_id||option.series_id} series={this.state.video_type} />
                  
                 ))
               ) : (
@@ -312,7 +299,7 @@ class ProfileIndex extends React.Component {
           className="all-width bg-white profile-margin profile-padding"
         >
           <div className="box box-align-center box-between">
-            <div>
+            <div >
               <ProNavbar
                 parent={_this}
                 list={["我的收藏", "历史记录"]}
@@ -330,7 +317,7 @@ class ProfileIndex extends React.Component {
                     };
                   }
                 
-                  get_data("api/v1/gateway", _data).then((res) => {
+                  get_data( _data).then((res) => {
                     
                     if (res.err == 0) {
                      
@@ -346,7 +333,7 @@ class ProfileIndex extends React.Component {
             <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
             data-page="Dynamic"
             data-id="4"
-            data-defaultpage="我的订阅"
+            data-defaultpage="我的收藏"
             onClick={(evt)=>{
               evt.stopPropagation();
               evt.preventDefault();
@@ -361,14 +348,14 @@ class ProfileIndex extends React.Component {
             spacing={4}
             className='grid'
           >
-            {this.state.userCollection &&this.state.userCollection.length>0? (
+            {this.state.userCollection &&this.state.userCollection.length>0 ? (
               this.state.userCollection.map((option, inx) => (
-                <Grid item xs={3} key={inx} >
-                  <WorksItem parent={this} inx={inx} info={option} history={_this.state.page_type} />
+                <Grid item xs={3} key={option.video_id} >
+                  <WorksItem parent={this} inx={inx} info={option} history={_this.state.page_type} _h={this.state.item_h} />
                 </Grid>
               ))
             ) : (
-              <div>亲，你还没有数据可以展示哦，现在就去添加么？</div>
+              <div className='profile-top'>亲，你还没有数据可以展示哦，现在就去添加么？</div>
             )}
           </Grid>
         </main>

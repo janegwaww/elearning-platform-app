@@ -60,7 +60,7 @@ class Dynamic extends React.Component {
   //   return  false
   // }
   update_data(data) {
-    get_data("api/v1/gateway", data).then((res) => {
+    get_data( data).then((res) => {
       if (res.err == 0) {
         if (this.state.page_id == 0) {
           this.setState({

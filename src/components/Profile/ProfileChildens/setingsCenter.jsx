@@ -235,7 +235,7 @@ const Setpage = (props) => {
       };
     }
 
-    get_data("api/v1/gateway", _data).then((res) => {
+    get_data(_data).then((res) => {
       if (res.err === 0) {
         if (activeStep === 1) {
           setToken(res.result_data[0].token);
@@ -295,7 +295,7 @@ const Setpage = (props) => {
       return;
     }
 
-    get_data("api/v1/gateway", {
+    get_data( {
       model_name: "user",
       model_action: "generate_code",
       extra_data: {
@@ -415,7 +415,7 @@ const Setpage = (props) => {
                     _formdata.append("model_name", "file");
                     _formdata.append("file", newfile);
 
-                    get_data("api/v1/gateway", _formdata).then((res) => {
+                    get_data( _formdata).then((res) => {
                       setHeaderfiles(null);
                       setHeaderUrl(null);
                       setMinheaderurl(null);
@@ -518,7 +518,7 @@ const Setpage = (props) => {
                       _formdata.append("model_name", "file");
                       _formdata.append("file", coverfile);
 
-                      get_data("api/v1/gateway", _formdata).then((res) => {
+                      get_data( _formdata).then((res) => {
                         setUpcover(false);
                         setCoverurl(null);
                         setCoverfile(null);
@@ -656,14 +656,14 @@ const Setpage = (props) => {
                       model_type: "",
                     };
 
-                    get_data("api/v1/gateway", _data).then((res) => {
+                    get_data(_data).then((res) => {
                       console.log(props);
                       if (res.err == 0) {
                         new CustomModal().alert(res.errmsg, "success", "5000");
                       } else {
                         new CustomModal().alert("修改失败", "error", "3000");
                       }
-                      // get_data("api/v1/gateway",
+                      // get_data(
                       // { model_name: "user", model_action: "get_information" }).then(res=>{
                       //   props.parent.setState({
                       //     userinfo:res.result_data[0]
@@ -1093,7 +1093,7 @@ const Setpage = (props) => {
                                         return;
                                       }
 
-                                      // get_data("api/v1/gateway", {
+                                      // get_data( {
                                       //   model_name: "user",
                                       //   model_action: "generate_code",
                                       //   extra_data: {

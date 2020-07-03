@@ -15,7 +15,7 @@ class MsgCenter extends React.Component {
   }
 
   update_data(data) {
-    get_data("api/v1/gateway", data).then((res) => {
+    get_data( data).then((res) => {
       console.log(res.result_data);
       if (res.err == 0) {
         this.setState({
@@ -25,30 +25,10 @@ class MsgCenter extends React.Component {
     });
   }
 
-  // componentDidMount() {
-
-  // }
+  
   componentWillReceiveProps(nextProps) {
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
-      // let _data = {
-      //   model_name: "subscription",
-      //   model_action: "get_subscription",
-      // };
-      // if (nextProps.parent.state.nowPage.childpage_id == 1) {
-      //   _data = {
-      //     model_name: "collection",
-      //     model_action: "get_collection",
-      //   };
-      // }
-      // if (nextProps.parent.state.nowPage.childpage_id == 2) {
-      //   _data = {
-      //     model_name: "video_history",
-      //     model_action: "get_history",
-      //     extra_data: {},
-      //     model_type: "",
-      //   };
-      // }
-      // this.update_data(_data);
+     
       this.setState({
         page_id: nextProps.parent.state.nowPage.childpage_id,
       });

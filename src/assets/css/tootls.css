@@ -233,3 +233,27 @@
   color: #FC3535;
 }
 
+
+input[type="radio"] + label::before {
+  content: "\a0";
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  /* text-indent: .15em; */
+  margin-bottom: 4px;
+  border: 1px solid #565663;
+}
+input[type="radio"]:checked + label::before {
+  background-color: #007CFF;
+  background-clip: content-box;
+  border: 1px solid #007CFF;
+  padding: 2px;
+}
+input[type="radio"] {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+ 
+}

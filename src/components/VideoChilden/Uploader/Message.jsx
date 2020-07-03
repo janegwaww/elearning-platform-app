@@ -64,7 +64,7 @@ const Message = (props) => {
                     navigate(`/users/login`);
                   }
                 } else {
-                  get_data("api/v1/gateway", {
+                  get_data( {
                     model_name: "video",
                     model_action: "delete_video",
                     extra_data: {

@@ -180,7 +180,7 @@ function CuttingTemplate(props) {
               _formdata.append("model_name", files.name);
               _formdata.append("file", files);
 
-              get_data("api/v1/gateway", _formdata).then((res) => {
+              get_data( _formdata).then((res) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   props.onEvent && props.onEvent(res.result_data[0]);
                   setOpen(false);

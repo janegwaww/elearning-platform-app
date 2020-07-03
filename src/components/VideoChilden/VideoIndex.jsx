@@ -17,7 +17,6 @@ import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
 
-
 // import viderPlay from '../../assets/img/play.svg';
 export default class VideoPage extends Component {
   constructor(props) {
@@ -31,23 +30,16 @@ export default class VideoPage extends Component {
       is_edit: false, //true 显示编辑区
       is_now_edit: false, //是否正在编辑
       lang: 2, //1 中文，2中英文，3英文
-      // now_current: {},
+
       the_current: {}, //当前字幕
       status: false, //播放状态
       is_del: false, //是否删除除方步文件
       is_select: false, //是否选中视频文件
-      // edi_show: false, //是否调起修改当前字幕弹窗
-      // is_suc: "",
-      // styles: {}, //页面中使用
-      // style: {}, //上传时使用
-      // video_img_arr: null,
+
       test_arr: null,
-      // scaleX: 1,
 
       is_play_now: false,
 
-      // video_bottom_slider: 0,
-      // a_few_screen: 1, //移動幾屏
       sliderbox_width: 0,
       sliderbox_off_x: 0,
       thumbbox_width: 0,
@@ -286,14 +278,14 @@ export default class VideoPage extends Component {
       if (res.subtitling) {
         //生成字幕
         _data.sub_josn = res.subtitling;
-        if(res.subtitling[0].en_sub){
+        if (res.subtitling[0].en_sub) {
           this.setState({
-            lang:2
-          })
-        }else{
+            lang: 2,
+          });
+        } else {
           this.setState({
-            lang:1
-          })
+            lang: 1,
+          });
         }
       }
     }
@@ -468,7 +460,8 @@ export default class VideoPage extends Component {
     el.target.className = "normal";
     let _data = this.state.the_current || {};
     // _data.inx =parseInt( el.target.dataset.inx);
-    _data.time = this.state.video_data.sub_josn[el.target.dataset.inx].bg+0.01;
+    _data.time =
+      this.state.video_data.sub_josn[el.target.dataset.inx].bg + 0.01;
     this.setState({
       // top_inx: 2,// 暂时不用文字编辑，屏蔽
       status: false,
@@ -478,9 +471,8 @@ export default class VideoPage extends Component {
     });
 
     this.video_live.pause();
-    this.video_live.currentTime = this.state.video_data.sub_josn[
-      el.target.dataset.inx
-    ].bg+0.01;
+    this.video_live.currentTime =
+      this.state.video_data.sub_josn[el.target.dataset.inx].bg + 0.01;
     //计算偏移
     let now_x =
       this.state.video_data.sub_josn[el.target.dataset.inx].bg /
@@ -770,7 +762,13 @@ export default class VideoPage extends Component {
                           : 0}
                       </span>
                     </div>
-                    <div className="paly-on-off all-height" style={{cursor:'pointer', width: this.state.video_w + "px",}} >
+                    <div
+                      className="paly-on-off all-height"
+                      style={{
+                        cursor: "pointer",
+                        width: this.state.video_w + "px",
+                      }}
+                    >
                       {this.state.status ? (
                         <Pause onClick={on_pause} />
                       ) : (
@@ -778,7 +776,7 @@ export default class VideoPage extends Component {
                       )}
                     </div>
 
-                    <div style={{cursor:'pointer'}}>
+                    <div style={{ cursor: "pointer" }}>
                       {!depth_of_field ? (
                         <img
                           src={videoImg}

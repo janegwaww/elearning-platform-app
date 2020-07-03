@@ -15,6 +15,38 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 import { get_date } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
 import EditDialog from "./components/EditDialog";
+import { withStyles } from "@material-ui/core/styles";
+import fenxiang from '../../../assets/img/fenxiang.png';
+import sore from '../../../assets/img/sore.png';
+import bianmiao from '../../../assets/img/bianmiao.png';
+const NewMenu =withStyles((theme) => ({
+  root:{
+    border:'1px solid red',
+    '& .MuiPaper-root':{
+      borderRadius:'12px',
+      
+    },
+    '& .MuiList-root.MuiMenu-list':{
+      display:'flex',
+      flexWrap: 'wrap',
+      width: 320,
+      height: 216,
+      padding:30,
+      boxShadow:'0px 2px 10px 2px rgba(0,0,0,0.1)',
+
+      '& .MuiMenuItem-root':{
+        width:'33.33%',
+        fontSize:14,
+        flexDirection: 'column'
+      },
+      '& img':{
+        width:14,
+        height:14
+      }
+    }
+  }
+}))(Menu)
+
 class CreateCenter extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +88,7 @@ class CreateCenter extends React.Component {
         type: _type, //"series"
       },
     };
-    get_data("api/v1/gateway", _data).then((res) => {
+    get_data( _data).then((res) => {
       if (res.err == 0) {
         if (_data.extra_data.type == "video") {
           this.setState({
@@ -83,7 +115,7 @@ class CreateCenter extends React.Component {
     // if(this.)
   }
   get_series_datial(_id) {
-    get_data("api/v1/gateway", {
+    get_data( {
       model_name: "series",
       model_action: "get_series_details",
       extra_data: {
@@ -283,17 +315,20 @@ class CreateCenter extends React.Component {
                     <MoreHorizOutlined />
                   </IconButton>
 
-                  <Menu
+                  <Menu 
                     open={Boolean(this.state.evt)}
                     anchorEl={this.state.evt}
                     keepMounted
                     id="series-detail-menu"
                      onClick={this.handleClose}
+                     className='menulist'
                   >
                     <MenuItem onClick={this.handleClose}>
+                     
                       <EditDialog
                         title="编辑系列"
                         info={this.state.series_details}
+                        icon_img={bianmiao}
                         onChange={(res) => {
                           if (res.url) {
                             this.setState({
@@ -330,8 +365,13 @@ class CreateCenter extends React.Component {
                               },
                             };
 
-                            get_data("api/v1/gateway", _data).then((data) => {
-                              console.log(data);
+                            get_data( _data).then((data) => {
+
+                              if(res.err==0){
+                                new CustomModal().alert(res.errmsg,'success',5000);
+                              }else{
+                                new CustomModal().alert('修改失败','error',5000);
+                              }
                             });
                           }
                         }}
@@ -452,8 +492,13 @@ class CreateCenter extends React.Component {
                         </div>
                       </EditDialog>
                     </MenuItem>
-                    <MenuItem onClick={this.handleClose}>排序</MenuItem>
-                    <MenuItem onClick={this.handleClose}>分享</MenuItem>
+                    <MenuItem onClick={this.handleClose}>
+                    <div><img src={sore}/></div>
+                    <div>排序 </div></MenuItem>
+                    <MenuItem onClick={this.handleClose}>
+                      <div> <img src={fenxiang}/></div>
+                    <div>分享</div> 
+                    </MenuItem>
                   </Menu>
                 </div>
               </div>
