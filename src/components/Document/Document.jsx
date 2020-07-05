@@ -52,7 +52,7 @@ const LineText = ({
           </Typography>
         </div>
       )}
-      <div style={{ maxWidth: "80%" }}>
+      <div style={{ maxWidth: "calc(100% - 210px)" }}>
         {content && (
           <Typography style={styles} variant="body2">
             {content}
@@ -108,6 +108,7 @@ export default function Document({ did }) {
     setLoading(true);
     getDocumentDetail({ file_id: did }).then((data) => {
       setDetail(data);
+      setPaidedHref(data.file_path);
       setIsPay(!!data.is_pay);
       setLoading(false);
     });
@@ -145,20 +146,21 @@ export default function Document({ did }) {
     }
   }, [did]);
 
-  const unlockButton = isPay ? (
-    <Link
-      href={`${paidedHref}`}
-      underline="none"
-      color="primary"
-      className="view-button"
-    >
-      查看
-    </Link>
-  ) : (
-    <ButtonBase onClick={paymentClick} size="small" className="pay-button">
-      立即解锁
-    </ButtonBase>
-  );
+  const unlockButton = () =>
+    isPay ? (
+      <Link
+        href={`${paidedHref}`}
+        underline="none"
+        color="primary"
+        className="view-button"
+      >
+        查看
+      </Link>
+    ) : (
+      <ButtonBase onClick={paymentClick} size="small" className="pay-button">
+        立即解锁
+      </ButtonBase>
+    );
 
   return (
     <Fragment>
@@ -184,7 +186,7 @@ export default function Document({ did }) {
                   content={`￥${detail.price}`}
                   color="#fc5659"
                 />
-                <div className="unlock-button">{unlockButton}</div>
+                <div className="unlock-button">{unlockButton()}</div>
               </div>
             </div>
           </Box>
