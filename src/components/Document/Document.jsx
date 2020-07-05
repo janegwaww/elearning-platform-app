@@ -29,7 +29,7 @@ const LineText = ({
   content = "",
   detail = "",
   color = "#2c2c3b",
-  mb = 2.5,
+  mb = "20px",
 }) => {
   const styles = { color };
   return (
@@ -220,7 +220,7 @@ export default function Document({ did }) {
                       <LineText
                         name={`第${i + 1}章`}
                         content={`${Object.keys(o)[0]}`}
-                        mb={0}
+                        mb="0"
                       />
                     </MuiExpansionPanelSummary>
                     <MuiExpansionPanelDetails className="expansionpaneldetails">
