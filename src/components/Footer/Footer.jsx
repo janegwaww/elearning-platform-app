@@ -60,7 +60,7 @@ class Footer extends Component {
         <div className="footer-above">
           <Container>
             <Grid container>
-              <Grid item xs={9}>
+              <Grid item xs={12} sm={12} md={9}>
                 <div className="footer-above-left">
                   <div className="footer-title">
                     <IconButton>
@@ -73,7 +73,7 @@ class Footer extends Component {
                   <ContractUs />
                 </div>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={12} md={3}>
                 <QrCodeImg />
               </Grid>
             </Grid>

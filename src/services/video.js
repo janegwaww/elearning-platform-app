@@ -162,6 +162,7 @@ export const ksearchRecord = pipeThen(apisSearch.searchHistory);
 export const aliPayment = pipeThen(
   getResultDataFirst,
   getResultData,
+  errorMessageNotice,
   apisSearch.payment
 );
 

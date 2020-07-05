@@ -133,7 +133,7 @@ const subtitle = ({ start_time, whole_str, subtitle_dist, type, id }) => {
   });
   return (
     type === "subtitle" && (
-      <Link href={`/watch/?vid=${id}&&time=${start_time}`}>
+      <Link href={`/watch/?vid=${id}&time=${start_time}`}>
         <Typography
           variant="body2"
           color="textSecondary"
