@@ -37,3 +37,9 @@ export const remotePath = path => `${PATH}/${path}`;
 
 export const getIdFromHref = () =>
   urlParse(globalHistory.location.href, true).query;
+
+// 用于pipe追踪
+export const track = label => value => {
+  console.log(`${label}: `, value);
+  return value;
+};

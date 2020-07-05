@@ -81,7 +81,7 @@ const headCard = ({
 const Pagination = ({ num = 1, handlePage }) => {
   return (
     <MuiPagination
-      count={Math.ceil(num / 16)}
+      count={Math.ceil(num / 12)}
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
@@ -126,9 +126,9 @@ export default function Series() {
     setLoading(true);
     getSeriesInfo({ series_id: sid }).then((data) => {
       const sd = (d) => d.slice((page - 1) * 12, (page - 1) * 12 + 12);
-      setSeries(pipe(sd, filterSearchData, filterData(type))(data.series));
+      setSeries(pipe(filterData(type), filterSearchData, sd)(data.series));
       setSeriesLength(
-        pipe(filterSearchData, filterData(type))(data.series).length
+        pipe(filterData(type), filterSearchData)(data.series).length
       );
       setSeriesInfo(data.info);
       setLoading(false);
@@ -138,10 +138,6 @@ export default function Series() {
   const handleTypeClick = (name) => {
     setType(name);
   };
-
-  useEffect(() => {
-    fetchSeriesData({});
-  }, [type]);
 
   const handlePage = (event, page) => {
     fetchSeriesData({ page });
@@ -154,16 +150,12 @@ export default function Series() {
   };
 
   useEffect(() => {
-    fetchSeriesData({});
-  }, [input]);
-
-  useEffect(() => {
     if (sid) {
       fetchSeriesData({});
     } else {
       alert("系列不存在～");
     }
-  }, [sid]);
+  }, [sid, type, input]);
 
   return (
     <div className="series-component">
@@ -206,6 +198,7 @@ export default function Series() {
           className="inputBase"
           placeholder="页面搜索"
           type="text"
+          onChange={(e) => setInput(e.target.value)}
           endAdornment={
             <InputAdornment>
               <IconButton onClick={handleSearchClick}>

@@ -33,7 +33,9 @@ const LineText = ({
 }) => {
   const styles = { color };
   return (
-    <Box display="flex" mb={mb} alignItems="stretch">
+    <Box
+      style={{ display: "flex", marginBottom: `${mb}`, alignItems: "stretch" }}
+    >
       <div style={{ width: 70, marginRight: 10 }}>
         <Typography
           color="textSecondary"
