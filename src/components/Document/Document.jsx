@@ -29,7 +29,7 @@ const LineText = ({
   content = "",
   detail = "",
   color = "#2c2c3b",
-  mb = 2.5,
+  mb = 20,
 }) => {
   const styles = { color };
   return (
@@ -191,11 +191,7 @@ export default function Document({ did }) {
               {detail.author_info &&
                 detail.author_info.map((o) => (
                   <div key={o.name}>
-                    <LineText
-                      name="姓名"
-                      content={o.name}
-                      detail={o.introduction}
-                    />
+                    <LineText content={o.name} detail={o.introduction} />
                   </div>
                 ))}
             </div>
