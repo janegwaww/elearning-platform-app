@@ -34,17 +34,23 @@ const LineText = ({
   const styles = { color };
   return (
     <Box
-      style={{ display: "flex", marginBottom: `${mb}`, alignItems: "stretch" }}
+      style={{
+        display: "flex",
+        marginBottom: `${mb}px`,
+        alignItems: "stretch",
+      }}
     >
       <div style={{ width: 70, marginRight: 10 }}>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-          gutterBottom
-          align="right"
-        >
-          {`${name} :`}
-        </Typography>
+        {name && (
+          <Typography
+            color="textSecondary"
+            variant="body2"
+            gutterBottom
+            align="right"
+          >
+            {`${name} :`}
+          </Typography>
+        )}
       </div>
       <div style={{ maxWidth: "80%" }}>
         <Typography style={styles} variant="body2">
