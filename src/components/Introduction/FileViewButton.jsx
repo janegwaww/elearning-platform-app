@@ -17,7 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import download from "downloadjs";
 import SearchLoading from "../Loading/SearchLoading";
-import { getRelateDocs, downloadDocs } from "../../services/video";
+import { getRelateDocs } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 
 export default function FileViewButton({ vid = "" }) {
@@ -129,7 +129,7 @@ export default function FileViewButton({ vid = "" }) {
                     button
                     onClick={handleToggle(obj.file_id)}
                   >
-                    <ListItemIcon>
+                    <ListItemIcon style={{ minWidth: 0 }}>
                       <Checkbox
                         edge="start"
                         checked={checked.indexOf(obj.file_id) !== -1}
