@@ -260,7 +260,7 @@ const WorksItem = (props) => {
             style={{ paddingTop: 10 }}
           >
             <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-              102观看●05月29日 发布
+              {props.info.view_counts}观看●{get_date(props.info.upload_time, "/", 8)} &nbsp;发布
             </p>
             <div>
               <div className="text-right">

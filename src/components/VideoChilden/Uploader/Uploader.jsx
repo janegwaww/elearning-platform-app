@@ -310,7 +310,7 @@ export default class UploadVideos extends Component {
           _this.setState({ status: 3, lang_value: "", files: _data });
           // sessionStorage.setItem('file_data',_data);
           _this.props.parent.getUpfileUrl(res.result_data[0]);
-          alert('字幕已生成 （如果您的视频有片头曲 可能要右移才会发现字幕哦）')
+          alert('字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)')
 
           return;
         } else {

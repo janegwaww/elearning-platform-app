@@ -87,12 +87,12 @@ class ProfileIndex extends React.Component {
       })
     }
   }
-  // componentWillUnmount() {
-  //   this.setState = (state, callback) => {
-  //     console.log(state)
-  //     // return
-  //   }
-  // }
+  componentWillUnmount() {
+    this.setState = (state, callback) => {
+     
+      return
+    }
+  }
   // shouldComponentUpdate(nextProps, nextState){
   //   //优化
   // }
