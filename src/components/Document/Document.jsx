@@ -31,17 +31,17 @@ const LineText = ({
   color = "#2c2c3b",
   mb = 20,
 }) => {
-  const styles = { color };
+  const styles = { color, lineHeight: "24px" };
   return (
     <Box
       style={{
         display: "flex",
         marginBottom: `${mb}px`,
-        alignItems: "stretch",
+        alignItems: "baseline",
       }}
     >
-      <div style={{ width: 70, marginRight: 10 }}>
-        {name && (
+      {name && (
+        <div style={{ width: 200, marginRight: 10 }}>
           <Typography
             color="textSecondary"
             variant="body2"
@@ -50,12 +50,14 @@ const LineText = ({
           >
             {`${name} :`}
           </Typography>
-        )}
-      </div>
+        </div>
+      )}
       <div style={{ maxWidth: "80%" }}>
-        <Typography style={styles} variant="body2">
-          {content}
-        </Typography>
+        {content && (
+          <Typography style={styles} variant="body2">
+            {content}
+          </Typography>
+        )}
         {detail && (
           <Typography style={{ ...styles, marginTop: 20 }} variant="body2">
             {detail}
@@ -197,7 +199,7 @@ export default function Document({ did }) {
               {detail.author_info &&
                 detail.author_info.map((o) => (
                   <div key={o.name}>
-                    <LineText content={o.name} detail={o.introduction} />
+                    <LineText name={o.name} content={o.introduction} />
                   </div>
                 ))}
             </div>
@@ -232,7 +234,7 @@ export default function Document({ did }) {
                             key={i}
                             gutterBottom
                             variant="body2"
-                            style={{ paddingLeft: 80 }}
+                            style={{ paddingLeft: 210 }}
                           >
                             {Object.keys(o)[0]}
                           </Typography>
@@ -250,7 +252,7 @@ export default function Document({ did }) {
             <Title name="课件预览" />
           </div>
           <Box className="content">
-            <div style={{ marginRight: 70 }} />
+            <div style={{ marginRight: 210 }} />
             <ImageModel path={detail.preview_path} />
           </Box>
         </Box>

@@ -1,25 +1,18 @@
 .document-component
   .menuBox
-    display: grid
-    grid-template-columns: 68px auto
-    grid-template-row: 50px auto
-    gap: 20px 0
     margin-bottom: 20px
 
   .title-box
-    grid-column: 1
-    grid-row: 1
     display: flex
 
   .title
     .divider
       margin-top: 10px
+      margin-bottom: 20px
       border-bottom: 2px solid #007CFF
 
   .content
-    grid-column: 2
     display: flex
-    grid-row: 2
     & > p:not(:last-child)
       margin-bottom: 20px
 
@@ -41,11 +34,11 @@
     &.Mui-expanded
       min-height: 40px !important
     & .MuiExpansionPanelSummary-content
-      order: 2
+      order: 1
       &.Mui-expanded
         margin: 12px 0
     & .MuiExpansionPanelSummary-expandIcon
-      order: 1
+      order: 2
       &.MuiIconButton-edgeEnd
         margin-right: -24px
         padding: 0
@@ -77,5 +70,5 @@
   .unlock-button
     position: absolute
     bottom: 6px
-    left: calc(70px + 180px)
+    left: calc(210px + 180px)
     width: 82px
