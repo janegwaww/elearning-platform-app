@@ -8,15 +8,15 @@ import TextCollapse from "../Comments/TextCollapse";
 import { subscribeAuth } from "../../services/video";
 
 const PersonAvatar = ({ auth = {} }) => {
-  const { user_id, user_name, headshot, is_subscribe } = auth;
+  const { user_id, user_name, headshot, is_subscribe, introduction } = auth;
   /* const [chips, setChips] = useState(["资深用户体验设计师"]); */
   const [subButton, setSubButton] = useState(false);
 
   const handleSub = () => {
-    setSubButton(prev => !prev);
+    setSubButton((prev) => !prev);
     const val = subButton ? 0 : 1;
     subscribeAuth({ relation_id: user_id, value: val, type: "author" }).then(
-      res => {
+      (res) => {
         if (res) {
           setSubButton(val);
         }
@@ -35,7 +35,7 @@ const PersonAvatar = ({ auth = {} }) => {
         style={{
           display: "flex",
           justifyContent: "flex-start",
-          padding: "10px 0"
+          padding: "10px 0",
         }}
       >
         <Avatar
@@ -44,7 +44,7 @@ const PersonAvatar = ({ auth = {} }) => {
           style={{ marginRight: "8px", height: 60, width: 60 }}
           onClick={() =>
             navigate(`/excellentcreator/creator?cid=${user_id}`, {
-              state: { cid: "" }
+              state: { cid: "" },
             })
           }
         />
@@ -67,9 +67,7 @@ const PersonAvatar = ({ auth = {} }) => {
               </Button>
               </div> */}
           <div>
-            <Typography variant="caption">
-              资深视觉设计/UI设计，淘宝天下网商特约访谈嘉宾，与小米、阿里、滴滴的资深设计...
-            </Typography>
+            <Typography variant="caption">{introduction}</Typography>
           </div>
         </div>
       </Paper>
