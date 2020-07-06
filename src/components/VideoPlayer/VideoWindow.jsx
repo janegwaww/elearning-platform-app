@@ -59,24 +59,27 @@ class VideoWindow extends Component {
 
   render() {
     const { info, loading } = this.props;
+    const tracks = info.vttPath
+      ? [
+          {
+            src: `${info.vttPath}`,
+            label: "captions on",
+            kind: "captions",
+            default: true,
+          },
+        ]
+      : [];
 
     return !loading && info.videoPath ? (
       <ReactVideo
         videoId={info.videoId}
         ref={this.playerRef}
         poster={`${info.imagePath}`}
+        tracks={tracks}
         sources={[
           {
             src: `${info.videoPath}`,
             type: "video/mp4",
-          },
-        ]}
-        tracks={[
-          {
-            src: `${info.vttPath}`,
-            label: "字募开",
-            kind: "captions",
-            default: true,
           },
         ]}
       />

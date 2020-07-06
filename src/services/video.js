@@ -142,6 +142,7 @@ export const getVideoDocument = pipeThen(
 export const getDocumentDetail = pipeThen(
   getResultDataFirst,
   getResultData,
+  errorMessageNotice,
   apisSearch.viewAdvancedInfo
 );
 
