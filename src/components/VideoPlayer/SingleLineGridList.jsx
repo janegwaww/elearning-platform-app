@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import { secondsToHMS } from "../../services/utils";
+import { secondsToHMS, decoratedStr } from "../../services/utils";
 import "./singleLineGridListStyles.sass";
 
 function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
@@ -29,17 +29,16 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
     }
   }, [tileList]);
 
-  const PressMatchedLine = ({ line }) => {
-    const wrapStr = ({ wholeStr = "", matchedStr = "" }) =>
-      wholeStr.replace(
-        matchedStr,
-        `<span style='color:#fc5659'>${matchedStr}</span>`
-      );
+  const PressMatchedLine = ({ line = {} }) => {
+    const createMarkup = {
+      __html: decoratedStr(line.wholeStr, line.subs),
+    };
     return (
-      <div
+      <Typography
         className="content"
         id="grid-tile-content"
-        dangerouslySetInnerHTML={{ __html: wrapStr(line) }}
+        variant="body2"
+        dangerouslySetInnerHTML={createMarkup}
       />
     );
   };
@@ -66,7 +65,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
         {tileList.map((tile, i) => (
           <GridListTile key={i} onClick={() => handleClick(tile.startTime)}>
             <PressMatchedLine
-              line={{ wholeStr: tile.wholeStr, matchedStr: tile.matchedStr }}
+              line={{ wholeStr: tile.wholeStr, subs: tile.subtitleDist }}
             />
             <GridListTileBar
               actionIcon={

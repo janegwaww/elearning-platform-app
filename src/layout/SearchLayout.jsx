@@ -77,12 +77,7 @@ export default function SearchLayout({ children, searchValue = "" }) {
 
         <Container>
           <Toolbar>
-            <Box
-              display="flex"
-              justifyContent="center"
-              width="100%"
-              className="search-input-bar"
-            >
+            <Box className="search-input-bar">
               <InputBase
                 value={refInput}
                 placeholder="搜索知识..."
@@ -105,7 +100,7 @@ export default function SearchLayout({ children, searchValue = "" }) {
           </Toolbar>
         </Container>
       </AppBar>
-      <div className="layout-container">
+      <div className="search-layout-container">
         <Helmet>
           <meta name="description" content={config.siteDescription} />
           <html lang="en" />

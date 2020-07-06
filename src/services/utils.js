@@ -43,3 +43,15 @@ export const track = label => value => {
   console.log(`${label}: `, value);
   return value;
 };
+
+// 根据后台数据修饰某些字符
+export const decoratedStr = (who = "", subs = []) => {
+  const explore = (arr, fn) => arr.reduce(fn, "");
+  const concatStr = (acc, cur) => acc.concat(cur[0]);
+  const span = ([c, r]) =>
+    `<span style='color: rgb(${r.toString()})'>${c}</span>`;
+  const concatColorStr = (acc, cur) => acc.concat(span(cur));
+  const subStr = explore(subs, concatStr);
+  const result = explore(subs, concatColorStr);
+  return who.replace(subStr, result);
+};

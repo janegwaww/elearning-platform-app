@@ -4,20 +4,13 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Bull from "./Bull";
 import Link from "../Link/Link";
-import { secondsToDate, secondsToHMS, pipe } from "../../services/utils";
+import {
+  secondsToDate,
+  secondsToHMS,
+  pipe,
+  decoratedStr,
+} from "../../services/utils";
 import "./SearchCardStyles.sass";
-
-// 根据后台数据修饰某些字符
-export const decoratedStr = (who = "", subs = []) => {
-  const explore = (arr, fn) => arr.reduce(fn, "");
-  const concatStr = (acc, cur) => acc.concat(cur[0]);
-  const span = ([c, r]) =>
-    `<span style='color: rgb(${r.toString()})'>${c}</span>`;
-  const concatColorStr = (acc, cur) => acc.concat(span(cur));
-  const subStr = explore(subs, concatStr);
-  const result = explore(subs, concatColorStr);
-  return who.replace(subStr, result);
-};
 
 const imagePick = (path, href = "/", type) =>
   !!path && (
@@ -221,7 +214,7 @@ const seriesContainer = ({ data, match_frame }) => {
           match={match_frame}
         />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
         {descriptionItem(data.description, match_frame)}
       </div>
       <div style={{ gridColumn: 2, gridRow: 4 }} />
