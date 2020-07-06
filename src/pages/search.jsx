@@ -24,10 +24,7 @@ class SearchPage extends Component {
     return (
       <SearchLayout searchValue={this.state.searchValue}>
         {(input) => (
-          <div
-            className="search-container"
-            style={{ width: "100%", padding: 20 }}
-          >
+          <div className="search-container" style={{ width: "100%" }}>
             <Helmet title={`Search | ${config.siteTitle}`} />
             <Container>
               <Search {...this.props} input={input} />

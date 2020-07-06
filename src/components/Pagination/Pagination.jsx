@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import MuiPagination from "@material-ui/lab/Pagination";
 import { pipe } from "../../services/utils";
 import "./PaginationStyles.sass";
 
-export default function Pagination({ fetch = () => ({}), method = "async" }) {
+function Pagination({ fetch = () => ({}), method = "async" }, ref) {
   const [count, setCount] = useState(3);
   const [curPage, setCurPage] = useState(1);
 
@@ -29,6 +34,12 @@ export default function Pagination({ fetch = () => ({}), method = "async" }) {
     if (method === "async") handlePage({}, 1);
   }, []);
 
+  useImperativeHandle(ref, () => ({
+    handlePage: (event, page) => {
+      handlePage(event, page);
+    },
+  }));
+
   return (
     <MuiPagination
       className="page-pagination"
@@ -39,3 +50,5 @@ export default function Pagination({ fetch = () => ({}), method = "async" }) {
     />
   );
 }
+
+export default forwardRef(Pagination);

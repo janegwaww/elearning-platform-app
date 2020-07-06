@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
@@ -11,6 +11,7 @@ export default function Channel() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const { ch = "" } = getIdFromHref();
+  const pageRef = useRef();
 
   const fetchSubData = ({ page = 1 }, callback = () => ({})) => {
     setLoading(true);
@@ -22,8 +23,8 @@ export default function Channel() {
   };
 
   useEffect(() => {
-    if (ch) {
-      fetchSubData({});
+    if (ch && pageRef.current) {
+      pageRef.current.handlePage({}, 1);
     }
   }, [ch]);
 
@@ -37,7 +38,7 @@ export default function Channel() {
           <EmptyNotice empty={!list.length && !loading} />
         </div>
         <br />
-        <Pagination fetch={fetchSubData} />
+        <Pagination fetch={fetchSubData} ref={pageRef} />
         <br />
       </div>
       <SearchLoading loading={loading} />

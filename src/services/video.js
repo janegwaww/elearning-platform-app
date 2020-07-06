@@ -27,7 +27,7 @@ const getResultDataFirst = arr => Promise.resolve((arr && arr[0]) || {});
 // 截取前端需要的字募字段
 const getSubtitleFrontParam = (arr = []) =>
   arr.map(i => ({
-    matchedStr: i.matched_str,
+    subtitleDist: i.subtitle_dist,
     startTime: i.start_time,
     wholeStr: i.whole_str
   }));
