@@ -1,0 +1,191 @@
+p {
+  cursor: default;
+}
+.profile-main {
+  margin: 40px 0;
+}
+.profile-left {
+  width: 210px;
+  margin-right: 40px;
+}
+.profile-left::-webkit-scrollbar,
+.view-scroll::-webkit-scrollbar {
+  width: 8px;
+  background-color: #edf6ff;
+}
+.profile-left::-webkit-scrollbar-thumb,
+.view-scroll::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #bdbdbd;
+}
+.profile-main .ul {
+  list-style: none;
+  margin: 0;
+}
+.profile-main .ul li {
+  margin: 16px 0;
+}
+.profile-main .ul li svg {
+  margin-right: 10px;
+}
+.profile-main .ul li:hover {
+  cursor: pointer;
+}
+.profile-margin {
+  margin: 40px 0;
+}
+.profile-padding {
+  padding: 40px;
+}
+.profile-height {
+  min-height: calc(100vh - 331px);
+}
+.profile-margin .box-flex,
+.box-fle.zero-edges {
+  margin: 0 10px;
+  border-radius: 12px;
+  padding: 10px;
+}
+.profile-margin .box-flex:last-child {
+  margin-right: 0;
+}
+.profile-margin .box-flex:first-child {
+  margin-left: 0;
+}
+.profile-margin .box-flex p:nth-child(2) {
+  margin: 10px 0;
+}
+.pronavbar-btn {
+  border-radius: 12px;
+  padding: 5px 10px;
+  line-height: 16px;
+}
+.pronavbar-btn:hover {
+  cursor: pointer;
+}
+/* .all-width .view-overflow {
+  border-radius: 12px;
+} */
+.box-flex.zero-edges {
+  width: 25%;
+  margin: 0;
+  padding: 0 10px;
+}
+.box-flex.zero-edges:first-child {
+  margin-left: -10px;
+}
+.box-flex.zero-edges:last-child {
+  margin-right: -10px;
+}
+.profile-point span {
+  display: inline-block;
+  margin-right: 40px;
+}
+
+.profile-point span:first-child svg {
+  transform: rotate(-90deg);
+}
+.profile-point svg,
+.ul svg {
+  vertical-align: middle;
+}
+.profile-time {
+  position: absolute;
+  background: rgba(32, 32, 32, 0.4);
+  right: 10px;
+  bottom: 0;
+
+  border-radius: 4px;
+}
+
+.profile-top {
+  margin-top: 30px;
+}
+.profile-bottom {
+  /* margin-bottom: 30px; */
+  border-bottom: 30px solid #f9f9f9;
+}
+.profile-right {
+  margin-right: 40px;
+}
+.profile-margin-10 {
+  margin: 10px;
+}
+.MuiGrid-root.grid {
+  margin: 0 -10px -10px;
+  width: calc(100% + 20px);
+}
+.MuiGrid-root.grid .MuiGrid-item {
+  padding: 0 10px;
+  margin-top: 30px;
+}
+.zero-edges.all-width {
+  border: 1px solid rgb(242, 242, 245);
+  border-radius: 12px;
+}
+
+.edit-phone .MuiInput-underline:after {
+  border-bottom: 2px solid rgb(77, 144, 254);
+}
+
+.profile-setting-phone {
+  border-left: 1px dashed #007cff;
+
+  margin-right: 120px;
+}
+
+.profile-step span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #007cff;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 20px;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.profile-step .active {
+  background-color: #badcff;
+  border: none;
+}
+.profile-step svg {
+  vertical-align: middle;
+  color: #04a59b;
+  width: 14px;
+  height: 10px;
+}
+.textfield{
+  background: #F2F2F5;
+  padding: 10px 20px;
+  border: 1px solid #F2F2F5;
+  border-radius: 6;
+  resize: none;
+}
+
+.menulist .MuiPaper-root{
+  border-radius:12px;
+  overflow: hidden;
+}
+.menulist .MuiList-root.MuiMenu-list{
+  display:flex;
+  flex-wrap: wrap;
+  width: 320px;
+  justify-content: center;
+  /* height: 216px; */
+  padding: 30px;
+  
+  box-shadow:0px 2px 10px 2px rgba(0,0,0,0.1),
+}
+.menulist .MuiList-root.MuiMenu-list .MuiMenuItem-root{
+  width:33.33%;
+  font-size:14px;
+  flex-direction: column;
+ 
+  
+}
+.menulist .MuiList-root.MuiMenu-list .MuiMenuItem-root img{
+  width:14px;
+  height: 14px;
+}

@@ -1,0 +1,228 @@
+.upload-cover {
+  text-align: left;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  display: flex;
+}
+
+.lists {
+  flex: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.lists section {
+  text-align: center;
+  position: relative;
+}
+.upload-cover img{
+   
+    width:30px;
+    height: 26px;
+    margin-right: 20px;
+}
+.upload-cover .items {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  border-color: transparent;
+  outline: none;
+  overflow: hidden;
+  background-color: #373737;
+  background-repeat: no-repeat;
+  background-size: 120px 80px;
+}
+.upload-cover input[type="file"] {
+  width: 0;
+  height: 0;
+}
+#video-test {
+  white-space: nowrap;
+  height: auto !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+#video-test .test-nodes{
+  display: inline-block;
+  /* display: flex;
+  align-items: center; */
+  
+  vertical-align: top;
+ /* position: absolute;
+ top:0; */
+ position: relative;
+ 
+}
+#video-test .test-nodes>div{
+  background-color: #1b1b1d;
+  border-radius: 4px;
+  /* padding: 5px; */
+}
+
+#video-test .test-nodes>div.active{
+  background:rgba(31,43,59,1);
+  border:1px solid rgba(0,124,255,1);
+}
+/* #video-test .test-nodes div{
+  display: none;
+  position: relative;
+
+
+}  */
+.active{
+  background:rgba(31,43,59,1);
+  border:1px solid rgba(0,124,255,1);
+}
+#video-test .test-nodes div span{
+ 
+  position: absolute;
+  left: 50%;
+  bottom:0;
+  transform: translate(-50%,150%);
+  
+}
+/* #video-test .test-nodes:hover div {
+  display: block;
+  cursor: pointer;
+} */
+#video-test .test-nodes div span{
+  
+  background:#007CFF;
+  color:#fff;
+  padding:5px 20px;
+  border-radius:4px;
+  cursor: default;
+}
+/* #video-test .test-nodes span {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 20px;
+} */
+/* #video-test .test-nodes:hover span {
+  display: block;
+} */
+#video-test .test-nodes p {
+  white-space: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+#video-test .test-nodes>div p{
+  padding: 5px;
+}
+
+#video-test .test-nodes p:hover {
+  cursor: default;
+}
+ #video-test .test-nodes .normal { 
+  white-space: normal; 
+ } 
+.upload-cover input[type="file"]:focus {
+  border-color: transparent;
+  outline: none;
+}
+
+.upload-cover .file-box {
+  text-align: center;
+  width: 80%;
+  height: 60%;
+  border: 1px dashed #ccccd1;
+  
+}
+.upload-cover .file-box.drop {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 21, 43, 0.9);
+}
+.upload-cover .file-box .fn-color-white svg {
+  vertical-align: middle;
+}
+.upload-cover p {
+  margin: 0;
+  padding: 0;
+ }
+.file-box p:hover,
+.file-box span:hover {
+  cursor: default;
+}
+
+.upload-cover .items span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  right: 5px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+.upload-cover .items span svg {
+  font-size: 14px;
+  /* vertical-align: middle; */
+  transform: translateY(1.5px);
+}
+.upload-cover .items span.edit {
+  background-color: #04a59b;
+  top: 5px;
+}
+.upload-cover .items span.del {
+  background-color: #fc3535;
+  bottom: 5px;
+}
+.upload-cover .items p {
+  position: absolute;
+  bottom: 0;
+  color: #ffffff;
+}
+
+.items.btn span {
+  display: none;
+}
+
+.items.btn:hover span {
+  display: block;
+}
+
+#filePicker,
+.updata-img {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  background-color: rgb(51, 50, 50);
+  padding: 10px;
+  overflow: hidden;
+}
+.updata-img img {
+  width: 100%;
+  height: 100%;
+}
+.updata-img span {
+  position: absolute;
+  right: 0;
+}
+.updata-img span:nth-child(1) {
+  top: 0;
+}
+.updata-img span:nth-child(2) {
+  bottom: 0;
+}
+
+.nav-tabs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #2B2C2E;
+  line-height: 20px;
+  padding: 20px 0;
+}

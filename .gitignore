@@ -43,6 +43,7 @@ jspm_packages
 
 # Output of 'npm pack'
 *.tgz
+*.zip
 
 # Yarn Integrity file
 .yarn-integrity
@@ -51,10 +52,18 @@ jspm_packages
 # Build Files
 public/
 .cache/
+.node_modules/
 public.zip
+publicbar/
+package-lock.json
+
 
 # Gatsby context
 .gatsby-context.js
 
 # Bundle stats
 bundle-stats.json
+
+#docs
+docs/*.md
+.DS_Store

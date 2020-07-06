@@ -1,0 +1,101 @@
+
+
+.scales{
+    position: relative;
+    height: 40px;
+    /* display: inline-block; */
+    width:110px;
+}
+.scales span{
+    transform: scale(.8);
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    color: #F2F2F5;
+    font-size: 10px;
+}
+.sub-scales{
+    display: flex;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.scales .mm{
+    border-left: 1px solid #F2F2F5;
+    height: 6px;
+    width: 10%;
+    left: 10%;
+}
+.scales .mm:first-child{
+    height:10px;
+    border-left: 1px solid #fff;
+}
+.mark{
+    position: absolute;
+    display: flex;
+    border-bottom: 1px solid #F2F2F5;
+    transform: translateY(-1px);
+}
+
+
+.mainedit{
+    position: relative;
+    min-height: 100%;
+    -ms-flex: 1;
+    flex: 1;
+    /* overflow: hidden; */
+    /* overflow-x: auto;
+    overflow-y: hidden; */
+}
+/* 滑块 */
+.draggable{
+    position: relative;
+}
+.pointer {
+   position: absolute;
+   left: 0;
+   top:0;
+ cursor: move;
+ transition: all 0.2s;
+ z-index: 5000;
+}
+.pointer::before{
+content: "";
+display: block;
+width: 15px;
+height: 15px;
+background: url(../../../assets/img/movesign.svg) no-repeat 50%;
+position: absolute;
+top: 12px;
+left: -1px;
+background-size: contain;
+margin-left: -6px;
+z-index: 1000;
+}
+.pointer::after{
+    content: '';
+    width:2px;
+    height: 500px;
+    background-color:#007CFF;
+    position: absolute;
+    left: 0;
+    top: 15px; 
+}
+/* .pointer span span{
+    color:red;
+    position: absolute;
+    left: 0;
+    top:20px;
+    display: none;
+}
+.pointer:hover span{
+    display: block;
+}
+.pointer span span:hover{
+    cursor: pointer;
+} */

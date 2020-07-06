@@ -1,0 +1,35 @@
+.channel-bar-paper
+  overflow: hidden
+
+  .bar-container
+    padding-top: 24px
+    padding-bottom: 24px
+    overflow-x: auto
+    .bar-content
+      min-width: 1000px
+      display: flex
+      justify-content: space-between
+
+  .item
+    display: flex
+    flex-flow: column wrap
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    &  > div:first-child
+      display: block
+    & > div:nth-child(2)
+      display: none
+    &:hover > div:first-child
+      display: none
+    &:hover >  div:nth-child(2)
+      display: block
+    &:hover
+      color: #007cff
+
+    &.slice-action
+      color: #007cff
+      &  > div:first-child
+        display: none
+      & > div:nth-child(2)
+        display: block
