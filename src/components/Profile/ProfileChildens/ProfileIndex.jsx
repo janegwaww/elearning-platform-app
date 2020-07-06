@@ -22,6 +22,7 @@ class ProfileIndex extends React.Component {
       // historyData: null, //历史记录
     };
     this.update_data = this.update_data.bind(this);
+    this.wind_size = this.wind_size.bind(this)
   }
   componentDidMount() {
   
@@ -47,19 +48,27 @@ class ProfileIndex extends React.Component {
         userWorks: res[1].result_data,
         userCollection: res[2].result_data,
       });
+      this.wind_size();
     });
+    
     window.onresize=(e)=>{
-      e.stopPropagation();
-      e.preventDefault();
-      let _w = document.querySelector('.MuiGrid-root.grid .MuiGrid-item').clientWidth;
-      let _h = _w/16*9;
-      _this.setState({
-        item_h:_h
-      })
+     this.wind_size(e)
      
     }
   }
-
+  wind_size(e){
+    let _e=e||window.event;
+    
+    let _w = document.querySelector('.MuiGrid-root.grid .MuiGrid-item').clientWidth;
+    let _h = _w/16*9;
+    this.setState({
+      item_h:_h
+    })
+  }
+  componentWillUnmount() {
+    window.onresize = null;
+   
+  }
   update_data(_type) {
     let _data={
         model_name: "video",

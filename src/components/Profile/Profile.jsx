@@ -11,7 +11,9 @@ import "./layout/Profile.css";
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
-
+import usercontainer from '../../assets/img/usercontainer.png';
+import iconDy from '../../assets/img/iconDy.png';
+import iconcrear from '../../assets/img/iconcrear.png';
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -163,17 +165,12 @@ class Profile extends React.Component {
                   data-page="ProfileIndex"
                   data-id="1"
                   onClick={this.pageRoute}
-                  
+                  className='bg-not'
+                  style={{backgroundImage:'url('+usercontainer+')'}}
                 >
-                  <PermIdentity />
+                  
                   个人中心
-                  {/**  <AdiseMenu
-                menus={["我的订阅", "我的收藏", "历史记录"]}
-                parent={this}
-                info={this.state.nowPage}
-                open={menuOpen.Dynamic}
-                id={"dynamic-menu"}
-              /> */}
+                 
                 </li>
 
                 <li
@@ -184,8 +181,10 @@ class Profile extends React.Component {
                   data-id="4"
                   data-defaultpage="我的收藏"
                   onClick={this.pageRoute}
+                  className='bg-not'
+                  style={{backgroundImage:'url('+iconDy+')'}}
                 >
-                  <Telegram />
+                
                   动态
                   <AdiseMenu
                     menus={[ "我的收藏", "历史记录"]}
@@ -193,6 +192,7 @@ class Profile extends React.Component {
                     info={this.state.nowPage}
                     open={menuOpen.Dynamic}
                     id={"dynamic-menu"}
+                    
                   />
                 </li>
                {/**  <li
@@ -220,8 +220,10 @@ class Profile extends React.Component {
                   data-id="3"
                   data-defaultpage="作品管理"
                   onClick={this.pageRoute}
+                  className='bg-not'
+                  style={{backgroundImage:'url('+iconcrear+')'}}
                 >
-                  <OndemandVideo />
+                 
                   创作中心
                   <AdiseMenu
                     menus={["作品管理", "申诉管理"]}
@@ -229,6 +231,7 @@ class Profile extends React.Component {
                     open={menuOpen.CreateCenter}
                     info={this.state.nowPage}
                     id={"create-menu"}
+                    
                   />
                 </li>
                 {/**
