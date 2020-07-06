@@ -9,7 +9,7 @@ import {
   AddCircle,
   Description,
 } from "@material-ui/icons";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   IconButton,
   Menu,
@@ -29,16 +29,20 @@ import CustomModal from "../../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
 import EditDialog from "./EditDialog";
 import userStyles from "./profileStyle";
-import del from '../../../../assets/img/del.png';
-import bianmiao from '../../../../assets/img/bianmiao.png';
-import fenxiang from '../../../../assets/img/fenxiang.png';
-import yixi from '../../../../assets/img/yixi.png';
-import restbian from '../../../../assets/img/restbian.png';
-import download from '../../../../assets/img/download.png';
+import del from "../../../../assets/img/del.png";
+import bianmiao from "../../../../assets/img/bianmiao.png";
+import fenxiang from "../../../../assets/img/fenxiang.png";
+import yixi from "../../../../assets/img/yixi.png";
+import restbian from "../../../../assets/img/restbian.png";
+import download from "../../../../assets/img/download.png";
+
+import { ShareDialog } from "./shareDialog";
+
 // 系列横向item
 
 const stop_run = (prevValue, nextValue) => {
   // return prevValue.series===nextValue.series
+  return false
 };
 const NewTextField = withStyles((theme) => ({
   root: {
@@ -60,6 +64,7 @@ const SeriesItem = (props) => {
   const [seriesvalue, setSeriesvalue] = React.useState("");
 
   const classes = userStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [modalMsg, setModalMsg] = React.useState({
@@ -68,6 +73,7 @@ const SeriesItem = (props) => {
     msg: "",
     title: "",
   });
+  const [isShare, setIsShare] = React.useState(false);//分享
   const handleClick = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
@@ -79,7 +85,7 @@ const SeriesItem = (props) => {
     // evt.preventDefault();
     setAnchorEl(null);
   };
-
+  
   return (
     <div
       className="box box-between box-align-center profile-top"
@@ -163,7 +169,7 @@ const SeriesItem = (props) => {
                 classes={{ tooltip: classes.noMaxWidth }}
                 placement="top-start"
               >
-                <Typography className="text-overflow">
+                <Typography className="text-overflow " style={{ fontSize: 16 }}>
                   {props.info.document_counts > 0 && (
                     <span
                       style={{
@@ -269,8 +275,6 @@ const SeriesItem = (props) => {
               className={classes.menulist}
             >
               <MenuItem onClick={handleClose} data-id="1">
-
-              
                 <EditDialog
                   title="编辑描述"
                   info={props.info}
@@ -298,7 +302,7 @@ const SeriesItem = (props) => {
                           description: newdescription || props.info.description,
                         },
                       };
-                      get_data( _data).then((res) => {
+                      get_data(_data).then((res) => {
                         console.log(res);
                       });
                     }
@@ -409,7 +413,7 @@ const SeriesItem = (props) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  get_data( {
+                  get_data({
                     model_name: "series",
                     model_action: "get_series",
                     extra_data: {},
@@ -422,7 +426,6 @@ const SeriesItem = (props) => {
                 }}
                 data-id="2"
               >
-            
                 <EditDialog
                   title="移动至系列"
                   icon_img={yixi}
@@ -430,7 +433,7 @@ const SeriesItem = (props) => {
                   onChange={() => {}}
                   onEvent={(res) => {
                     if (res.confirm) {
-                      get_data( {
+                      get_data({
                         model_name: "video",
                         model_action: "movie_video",
                         extra_data: {
@@ -438,9 +441,9 @@ const SeriesItem = (props) => {
                           series_id: seriesvalue,
                         },
                       }).then((res) => {
-                        if(res.err==0&&res.errmsg== "OK"){
-                          new CustomModal().alert('移动成功','success',3000);
-                          props.parent.update_data('video')
+                        if (res.err == 0 && res.errmsg == "OK") {
+                          new CustomModal().alert("移动成功", "success", 3000);
+                          props.parent.update_data("video");
                         }
                       });
                     }
@@ -494,18 +497,53 @@ const SeriesItem = (props) => {
                   target="_blank"
                   rel="noopener norefferer"
                 >
-                <div className='text-center'><img src={restbian} /></div>
+                  <div className="text-center">
+                    <img src={restbian} />
+                  </div>
                   <div>重新编辑</div>
                 </Link>
               </MenuItem>
-              <MenuItem onClick={handleClose} data-id="4">
-              <div> <img src={download }/></div>
-              <div>下载</div>
-            </MenuItem>
-            <MenuItem onClick={handleClose} data-id="5">
-               <div><img src={fenxiang} /></div>   
-              <div>分享</div>
-            </MenuItem> 
+              <MenuItem
+                data-id="4"
+                onClick={(evt) => {
+                  evt.stopPropagation();
+                  evt.preventDefault();
+                  get_data({
+                    "model_name":"video",
+                    "model_action": "download",
+                    "extra_data": {
+                    "task_id": props.info.video_id
+                    },
+                    "model_type":""
+                    }).then(res=>{
+                      console.log(res)
+                      if(res.err==4103){
+                        new CustomModal().alert(res.errmsg,'error',3000);
+                      }
+                    })
+
+                  handleClose();
+                }}
+              >
+                <div>
+                  <img src={download} />
+                </div>
+                <div>下载</div>
+              </MenuItem>
+              <MenuItem
+                onClick={(ev) => {
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                  setIsShare(true);
+                  handleClose();
+                }}
+                data-id="5"
+              >
+                <div >
+                  <img src={fenxiang}  />
+                </div>
+                <div> 分享</div>
+              </MenuItem>
               <MenuItem
                 data-id="7"
                 onClick={() => {
@@ -514,21 +552,28 @@ const SeriesItem = (props) => {
                     type: "del",
                     msg: "上传作品不容易, 确定真的要删除该作品?",
                     open: true,
-                    role:'video'
+                    role: "video",
                   });
                   handleClose();
                 }}
-              > 
-              <div><img src={del}  /></div>
-              
-               <div> 删除作品</div>
+              >
+                <div>
+                  <img src={del} />
+                </div>
+
+                <div> 删除作品</div>
               </MenuItem>
             </Menu>
           </div>
         )}
         {props.series == "series" && (
-          <div className="text-right">
-            <img src={fenxiang} style={{width:16,height:16}} />
+          <div className="text-right"  onClick={(ev)=>{
+            ev.preventDefault();
+            ev.stopPropagation();
+            setIsShare(true);
+          
+          }}>
+            <img src={fenxiang} style={{ width: 16, height: 16 }} />
           </div>
         )}
         {props.series == "draft" && (
@@ -545,26 +590,36 @@ const SeriesItem = (props) => {
               </Link>
             )}
             <span>
-              <img  src={del} style={{width:16,height:16}}
+              <img
+                src={del}
+                style={{ width: 16, height: 16 }}
                 onClick={() => {
-                  if(props.info.state===1){
-                    new CustomModal().alert('审核中的作品暂不支持删除','error',3000);
-                    return
+                  if (props.info.state === 1) {
+                    new CustomModal().alert(
+                      "审核中的作品暂不支持删除",
+                      "error",
+                      3000
+                    );
+                    return;
                   }
-
                   setModalMsg({
                     title: "温馨提示",
                     type: "del",
                     msg: "上传作品不容易, 确定真的要删除该作品?",
                     open: true,
                   });
-
                 }}
               />
             </span>
           </div>
         )}
       </div>
+
+      <ShareDialog isShare={isShare} parent={props} info={props.info} onEvent={()=>{
+        setIsShare(false)
+      }}/>
+
+
 
       <ModalDialog
         info={modalMsg}
@@ -574,7 +629,7 @@ const SeriesItem = (props) => {
             setModalMsg({ open: false });
           }
           if (msg.confirm) {
-            get_data( {
+            get_data({
               model_name: "video",
               model_action: "delete_video",
               extra_data: {
@@ -584,7 +639,7 @@ const SeriesItem = (props) => {
               if (res.err === 0) {
                 new CustomModal().alert("删除成功", "success", 5000);
 
-                console.log(props.parent)
+                console.log(props.parent);
                 setModalMsg({
                   open: false,
                 });

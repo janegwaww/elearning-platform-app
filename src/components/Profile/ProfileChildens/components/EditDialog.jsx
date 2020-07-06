@@ -28,7 +28,7 @@ const styles = (theme) => ({
 });
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
-  
+
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -71,14 +71,15 @@ export default function EditDialog(props) {
     e.stopPropagation();
     setOpen(false);
   };
- 
+
   return (
     <div>
       <div onClick={handleClickOpen}>
-      {props.icon_img?(
-        <div className='text-center'>
-          <img src={props.icon_img} />
-        </div>):null}
+        {props.icon_img ? (
+          <div className="text-center">
+            <img src={props.icon_img} />
+          </div>
+        ) : null}
         <div>{props.title}</div>
       </div>
       <Dialog
@@ -106,41 +107,43 @@ export default function EditDialog(props) {
             style={{ width: 0, height: 0, display: "none" }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleClose(e);
-              props.onEvent &&
-                props.onEvent({
-                  confirm: true,
-                  cancel: false,
-                });
-            }}
-            color="primary"
-            className={classes.btn1}
-          >
-            确定
-          </Button>
-          <Button
-            autoFocus
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleClose(e);
-              props.onEvent &&
-                props.onEvent({
-                  confirm: false,
-                  cancel: true,
-                });
-            }}
-            className={`${classes.btn1} ${classes.btn2}`}
-          >
-            取消
-          </Button>
-        </DialogActions>
+        {props.btn != "no_show" && (
+          <DialogActions>
+            <Button
+              autoFocus
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleClose(e);
+                props.onEvent &&
+                  props.onEvent({
+                    confirm: true,
+                    cancel: false,
+                  });
+              }}
+              color="primary"
+              className={classes.btn1}
+            >
+              确定
+            </Button>
+            <Button
+              autoFocus
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleClose(e);
+                props.onEvent &&
+                  props.onEvent({
+                    confirm: false,
+                    cancel: true,
+                  });
+              }}
+              className={`${classes.btn1} ${classes.btn2}`}
+            >
+              取消
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );

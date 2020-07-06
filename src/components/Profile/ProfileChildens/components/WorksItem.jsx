@@ -28,6 +28,7 @@ import fenxiang from "../../../../assets/img/fenxiang.png";
 import yixi from "../../../../assets/img/yixi.png";
 import restbian from "../../../../assets/img/restbian.png";
 import download from "../../../../assets/img/download.png";
+import { ShareDialog } from "./shareDialog";
 
 const stop_run = (prevValue, nextValue) => {
   //  if(prevValue.history!=nextValue.history){
@@ -40,7 +41,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   const classes = userStyles();
-
+  // const input_class = input_use();
   const [newimgurl, setNewimgurl] = React.useState("");
   const [newTitle, setNewTitle] = React.useState("");
   const [newdescription, setNewdescription] = React.useState("");
@@ -62,12 +63,13 @@ const WorksItem = (props) => {
     evt.preventDefault();
     setAnchorEl(evt.currentTarget);
   };
-
+  const [isShare, setIsShare] = React.useState(false);//分享
   const handleClose = (evt) => {
     // evt.stopPropagation();
     // evt.preventDefault();
     setAnchorEl(null);
   };
+  
 
   return (
     <div
@@ -147,7 +149,7 @@ const WorksItem = (props) => {
             href={`/watch/?vid=${props.info.video_id}`}
             target="_blank"
           >
-            <Typography className="textview-overflow two">
+            <Typography className="textview-overflow two" style={{fontSize:14}}>
               {(props.info && props.info.title) || props.info.video_title}
             </Typography>
           </Link>
@@ -520,13 +522,34 @@ const WorksItem = (props) => {
                       <div>重新编辑</div>
                     </Link>
                   </MenuItem>
-                  <MenuItem onClick={handleClose} data-id="4">
+                  <MenuItem  onClick={(evt) => {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    get_data({
+                      "model_name":"video",
+                      "model_action": "download",
+                      "extra_data": {
+                      "task_id": props.info.video_id
+                      },
+                      "model_type":""
+                      }).then(res=>{
+                        console.log(res)
+                        if(res.err==4103){
+                          new CustomModal().alert(res.errmsg,'error',3000);
+                        }
+                      })
+  
+                    handleClose();
+                  }} data-id="4">
                     <div>
                       <img src={download} />
                     </div>
                     <div>下载</div>
                   </MenuItem>
-                  <MenuItem onClick={handleClose} data-id="5">
+                  <MenuItem onClick={()=>{
+                    setIsShare(true);
+                    handleClose();}
+                  } data-id="5">
                     <div>
                       <img src={fenxiang} />
                     </div>
@@ -556,6 +579,11 @@ const WorksItem = (props) => {
           </div>
         )}
       </div>
+
+      <ShareDialog isShare={isShare} parent={props} info={props.info} onEvent={()=>{
+        setIsShare(false)
+      }}/>
+
       <ModalDialog
         info={modalMsg}
         parent={props}

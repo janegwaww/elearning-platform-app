@@ -28,7 +28,7 @@ export default class VideoPage extends Component {
       t_w: 0, //当前屏幕的宽度
       video_data: {},
       is_edit: false, //true 显示编辑区
-      is_now_edit: false, //是否正在编辑
+      is_now_edit: false, //是否正在编辑字幕
       lang: 2, //1 中文，2中英文，3英文
 
       the_current: {}, //当前字幕
@@ -99,7 +99,7 @@ export default class VideoPage extends Component {
     };
 
     document.onkeydown = (ev) => {
-      // console.log(ev.keyCode);
+      // console.log(ev.keyCode,this.state.is_now_edit);
       if (this.video_live && JSON.stringify(this.state.video_data) != "{}") {
         let _time = this.video_live.currentTime;
         // console.log(_time)
@@ -120,7 +120,11 @@ export default class VideoPage extends Component {
           // this.sub_test(0);
           return;
         }
+        if(!this.state.is_now_edit){
+
+        
         if (ev.keyCode == 37) {
+          
           _time = _time - 1;
           if (_time <= 0) {
             _time = 0;
@@ -137,6 +141,7 @@ export default class VideoPage extends Component {
           this.video_live.currentTime = _time;
           this.video_live.pause();
         }
+      }
         if ((ev.keyCode == 46 || ev.keyCode == 8) && this.state.is_select) {
           this.setState({
             is_del: true,

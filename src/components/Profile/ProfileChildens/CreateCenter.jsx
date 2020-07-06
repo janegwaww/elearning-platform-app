@@ -8,6 +8,7 @@ import {
   Details,
   FavoriteBorder,
   AddCircle,
+  MenuOutlined,
 } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import Management from "./components/Management";
@@ -16,36 +17,36 @@ import { get_date } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
 import EditDialog from "./components/EditDialog";
 import { withStyles } from "@material-ui/core/styles";
-import fenxiang from '../../../assets/img/fenxiang.png';
-import sore from '../../../assets/img/sore.png';
-import bianmiao from '../../../assets/img/bianmiao.png';
-const NewMenu =withStyles((theme) => ({
-  root:{
-    border:'1px solid red',
-    '& .MuiPaper-root':{
-      borderRadius:'12px',
-      
+import fenxiang from "../../../assets/img/fenxiang.png";
+import sore from "../../../assets/img/sore.png";
+import bianmiao from "../../../assets/img/bianmiao.png";
+import { ShareDialog } from "./components/shareDialog";
+const NewMenu = withStyles((theme) => ({
+  root: {
+    border: "1px solid red",
+    "& .MuiPaper-root": {
+      borderRadius: "12px",
     },
-    '& .MuiList-root.MuiMenu-list':{
-      display:'flex',
-      flexWrap: 'wrap',
+    "& .MuiList-root.MuiMenu-list": {
+      display: "flex",
+      flexWrap: "wrap",
       width: 320,
       height: 216,
-      padding:30,
-      boxShadow:'0px 2px 10px 2px rgba(0,0,0,0.1)',
+      padding: 30,
+      boxShadow: "0px 2px 10px 2px rgba(0,0,0,0.1)",
 
-      '& .MuiMenuItem-root':{
-        width:'33.33%',
-        fontSize:14,
-        flexDirection: 'column'
+      "& .MuiMenuItem-root": {
+        width: "33.33%",
+        fontSize: 14,
+        flexDirection: "column",
       },
-      '& img':{
-        width:14,
-        height:14
-      }
-    }
-  }
-}))(Menu)
+      "& img": {
+        width: 14,
+        height: 14,
+      },
+    },
+  },
+}))(Menu);
 
 class CreateCenter extends React.Component {
   constructor(props) {
@@ -62,11 +63,26 @@ class CreateCenter extends React.Component {
       newimgurl: "", //新的imgurl
       newTitle: "", //新的系列名
       newdescription: "", //新的系列描述
+      item_h: 0,
+      is_share: false, //分享
     };
     this.update_data = this.update_data.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleClik = this.handleClik.bind(this);
     this.get_series_datial = this.get_series_datial.bind(this);
+    this.wind_size = this.wind_size.bind(this);
+  }
+  wind_size(e) {
+    let _e = e || window.event;
+    let _w = document.querySelector(".MuiGrid-root.grid .MuiGrid-item")
+      .clientWidth;
+    let _h = (_w / 16) * 9;
+    this.setState({
+      item_h: _h,
+    });
+  }
+  componentWillUnmount() {
+    window.onresize = null;
   }
   handleClose(ev) {
     let _id = ev.target.dataset.id;
@@ -88,7 +104,7 @@ class CreateCenter extends React.Component {
         type: _type, //"series"
       },
     };
-    get_data( _data).then((res) => {
+    get_data(_data).then((res) => {
       if (res.err == 0) {
         if (_data.extra_data.type == "video") {
           this.setState({
@@ -112,10 +128,14 @@ class CreateCenter extends React.Component {
     }
     this.update_data(this.state.item_type);
 
+    window.onresize = (e) => {
+      this.wind_size(e);
+    };
+
     // if(this.)
   }
   get_series_datial(_id) {
-    get_data( {
+    get_data({
       model_name: "series",
       model_action: "get_series_details",
       extra_data: {
@@ -128,6 +148,7 @@ class CreateCenter extends React.Component {
           series_details: res.result_data[0],
           series_id: _id,
         });
+        this.wind_size();
       } else {
         new CustomModal().alert("获取详情失败", "success", 3000);
       }
@@ -315,16 +336,15 @@ class CreateCenter extends React.Component {
                     <MoreHorizOutlined />
                   </IconButton>
 
-                  <Menu 
+                  <Menu
                     open={Boolean(this.state.evt)}
                     anchorEl={this.state.evt}
                     keepMounted
                     id="series-detail-menu"
-                     onClick={this.handleClose}
-                     className='menulist'
+                    onClick={this.handleClose}
+                    className="menulist"
                   >
                     <MenuItem onClick={this.handleClose}>
-                     
                       <EditDialog
                         title="编辑系列"
                         info={this.state.series_details}
@@ -365,12 +385,19 @@ class CreateCenter extends React.Component {
                               },
                             };
 
-                            get_data( _data).then((data) => {
-
-                              if(res.err==0){
-                                new CustomModal().alert(res.errmsg,'success',5000);
-                              }else{
-                                new CustomModal().alert('修改失败','error',5000);
+                            get_data(_data).then((data) => {
+                              if (data.err == 0) {
+                                new CustomModal().alert(
+                                  data.errmsg,
+                                  "success",
+                                  5000
+                                );
+                              } else {
+                                new CustomModal().alert(
+                                  "修改失败",
+                                  "error",
+                                  5000
+                                );
                               }
                             });
                           }
@@ -493,11 +520,52 @@ class CreateCenter extends React.Component {
                       </EditDialog>
                     </MenuItem>
                     <MenuItem onClick={this.handleClose}>
-                    <div><img src={sore}/></div>
-                    <div>排序 </div></MenuItem>
-                    <MenuItem onClick={this.handleClose}>
-                      <div> <img src={fenxiang}/></div>
-                    <div>分享</div> 
+                      <EditDialog
+                        icon_img={sore}
+                        title="排序"
+                        info={this.state.series_details}
+                        onEvent={(msg) => {
+                          if (msg.cancel) {
+                            return;
+                          }
+                          if (msg.confirm) {
+                          }
+                        }}
+                      >
+                        <div>
+                          {this.state.series_details.video_data.map(
+                            (op, inx) => (
+                              <div
+                                key={op.video_id}
+                                className="box box-align-center "
+                              >
+                                <div style={{ marginRight: 10 }}>
+                                  <MenuOutlined />
+                                </div>
+                                <div className="fn-color-2C2C3B">
+                                  {op.video_title}
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </EditDialog>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        this.setState({
+                          is_share: true,
+                        });
+                        this.handleClose(ev);
+                      }}
+                    >
+                      <div>
+                        {" "}
+                        <img src={fenxiang} />
+                      </div>
+                      <div>分享</div>
                     </MenuItem>
                   </Menu>
                 </div>
@@ -511,12 +579,23 @@ class CreateCenter extends React.Component {
                         inx={inx}
                         info={option}
                         history="3"
+                        _h={this.state.item_h}
                       />
                     </Grid>
                   ))}
                 </Grid>
               </div>
             </div>
+            <ShareDialog
+              isShare={this.state.is_share}
+              parent={this}
+              info={this.state.series_details}
+              onEvent={() => {
+                this.setState({
+                  is_share:false
+                })
+              }}
+            />
           </section>
         )}
       </div>
