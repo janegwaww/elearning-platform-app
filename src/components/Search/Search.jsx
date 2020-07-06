@@ -1,50 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import SearchCard from "./SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
 import Pagination from "../Pagination/Pagination";
-import { searchGlobal } from "../../services/home";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import { searchGlobal } from "../../services/home";
+import "./SearchStyles.sass";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    paddingTop: 35,
-  },
-  ul: {
-    listStyleType: "none",
-    "& > li": {
-      display: "inline-block",
-      marginRight: 10,
-    },
-  },
-  searchResult: {
-    minHeight: "60vh",
-  },
-  buttonGrounp: {
-    padding: "8px 0",
-    "& button": {
-      borderRadius: "20px",
-      padding: "4px 8px",
-      "&:not(:last-child)": {
-        marginRight: "20px",
-      },
-    },
-    "& button.action": {
-      backgroundColor: "#007cff",
-      color: "#fff",
-    },
-  },
-}));
-
-export default function Search({ input }) {
-  const classes = useStyles();
+const Search = ({ input }) => {
   const [result, setResult] = useState([]);
-  const [count, setCount] = useState(0);
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
 
@@ -59,7 +25,6 @@ export default function Search({ input }) {
     }).then((data) => {
       const sd = (d) => d.slice((page - 1) * 16, (page - 1) * 16 + 16);
       setResult(sd(data));
-      setCount(data.length);
       setLoading(false);
       callback(sd(data));
     });
@@ -81,16 +46,10 @@ export default function Search({ input }) {
   };
 
   return (
-    <div className={classes.root}>
-      <Box height={40} />
-      <Typography>
-        {`${count}个`}
-        <span style={{ color: "#007cff" }}>{input}</span>
-        相关的
-      </Typography>
-      <br />
+    <div className="search-root">
+      <div style={{ height: 40 }} />
       <Divider />
-      <Box className={classes.buttonGrounp}>
+      <Box className="buttonGrounp">
         <Button
           size="small"
           className={`${type === "all" && "action"}`}
@@ -129,13 +88,16 @@ export default function Search({ input }) {
       </Box>
       <Divider />
       <br />
-      <div className={classes.searchResult}>
+      <div className="searchResult">
         {iterateItems(result)}
         {!result.length && !loading && <EmptyNotice />}
       </div>
       <br />
       <Pagination fetch={fetchSearchResult} method="total" />
+      <br />
       <SearchLoading loading={loading} />
     </div>
   );
-}
+};
+
+export default Search;
