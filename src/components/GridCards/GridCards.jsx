@@ -62,7 +62,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   useEffect(() => {
     setList(cutItemsToCount(items, itemCount));
-  }, [, loading]);
+  }, [loading, items]);
 
   return (
     <Grid container wrap="wrap" spacing={2} className="grid-cards-container">

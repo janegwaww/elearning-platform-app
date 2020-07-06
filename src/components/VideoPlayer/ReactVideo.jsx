@@ -9,15 +9,6 @@ export default class VideoPlayer extends React.Component {
     this.videoJsOptions = {
       controls: true,
       preload: "auto",
-      breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900,
-      },
       height: 516,
       responsive: true,
       /* fluid: true, */

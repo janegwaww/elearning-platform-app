@@ -185,6 +185,7 @@ export default class CreatorHome extends Component {
       cid: "",
       value: 0,
       listStack: [],
+      pageCount: 1,
     };
   }
 
@@ -214,7 +215,7 @@ export default class CreatorHome extends Component {
 
   handlePage = (event, page) => {
     const { value } = this.state;
-    const arrfil = this.filterData(value).splice((page - 1) * 16, 16);
+    const arrfil = this.filterData(value).slice((page - 1) * 16, page * 16);
     this.setState({ list: arrfil });
   };
 
@@ -226,17 +227,22 @@ export default class CreatorHome extends Component {
         list: data.list.slice(0, 16),
         loading: false,
         listStack: data.list,
+        pageCount: data.list.length,
       });
     });
   };
 
   handleTabChange = (event, newValue) => {
-    const arr = this.filterData(newValue).slice(0, 16);
-    this.setState({ value: newValue, list: arr });
+    const arr = this.filterData(newValue);
+    this.setState({
+      value: newValue,
+      list: arr.slice(0, 16),
+      pageCount: arr.length,
+    });
   };
 
   render() {
-    const { auth, list, loading, value } = this.state;
+    const { auth, list, loading, value, pageCount } = this.state;
     const { background } = auth;
 
     return (
@@ -288,7 +294,7 @@ export default class CreatorHome extends Component {
                 </TabPanel>
                 <EmptyNotice empty={!(list.length || loading)} />
               </div>
-              <Pagination num={list.length} handlePage={this.handlePage} />
+              <Pagination num={pageCount} handlePage={this.handlePage} />
               <br />
             </div>
           </Container>
