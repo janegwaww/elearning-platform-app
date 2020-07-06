@@ -214,7 +214,7 @@ const seriesContainer = ({ data, match_frame }) => {
           match={match_frame}
         />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4" }}>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
         {descriptionItem(data.description, match_frame)}
       </div>
       <div style={{ gridColumn: 2, gridRow: 4 }} />

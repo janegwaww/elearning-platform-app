@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
@@ -8,40 +7,9 @@ import SearchLoading from "../Loading/SearchLoading";
 import Pagination from "../Pagination/Pagination";
 import { searchGlobal } from "../../services/home";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    paddingTop: 35,
-  },
-  ul: {
-    listStyleType: "none",
-    "& > li": {
-      display: "inline-block",
-      marginRight: 10,
-    },
-  },
-  searchResult: {
-    minHeight: "60vh",
-  },
-  buttonGrounp: {
-    padding: "8px 0",
-    "& button": {
-      borderRadius: "20px",
-      padding: "4px 8px",
-      "&:not(:last-child)": {
-        marginRight: "20px",
-      },
-    },
-    "& button.action": {
-      backgroundColor: "#007cff",
-      color: "#fff",
-    },
-  },
-}));
+import "./SearchStyles.sass";
 
 export default function Search({ input }) {
-  const classes = useStyles();
   const [result, setResult] = useState([]);
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -78,10 +46,10 @@ export default function Search({ input }) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className="search-root">
       <div style={{ height: 40 }} />
       <Divider />
-      <Box className={classes.buttonGrounp}>
+      <Box className="buttonGrounp">
         <Button
           size="small"
           className={`${type === "all" && "action"}`}
@@ -120,7 +88,7 @@ export default function Search({ input }) {
       </Box>
       <Divider />
       <br />
-      <div className={classes.searchResult}>
+      <div className="searchResult">
         {iterateItems(result)}
         {!result.length && !loading && <EmptyNotice />}
       </div>
