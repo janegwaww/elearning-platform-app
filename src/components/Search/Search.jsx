@@ -5,11 +5,11 @@ import Box from "@material-ui/core/Box";
 import SearchCard from "./SearchCard";
 import SearchLoading from "../Loading/SearchLoading";
 import Pagination from "../Pagination/Pagination";
-import { searchGlobal } from "../../services/home";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import { searchGlobal } from "../../services/home";
 import "./SearchStyles.sass";
 
-export default function Search({ input }) {
+const Search = ({ input }) => {
   const [result, setResult] = useState([]);
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -94,7 +94,10 @@ export default function Search({ input }) {
       </div>
       <br />
       <Pagination fetch={fetchSearchResult} method="total" />
+      <br />
       <SearchLoading loading={loading} />
     </div>
   );
-}
+};
+
+export default Search;
