@@ -80,6 +80,7 @@ export default function () {
             onClick={(e) => {
               e.preventDefault();
               logout(() => ({}));
+              navigate(`/users/login`);
               handleMenuClose();
             }}
           >
