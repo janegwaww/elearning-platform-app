@@ -84,7 +84,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               )}
 
               {item ? (
-                <Box p={2}>
+                <Box style={{ padding: 16 }}>
                   <Link href={handleLink(item).to} color="textPrimary">
                     <Tooltip placement="top-start" title={item.title}>
                       <Typography
