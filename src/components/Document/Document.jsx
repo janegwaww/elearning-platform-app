@@ -52,7 +52,7 @@ const LineText = ({
           </Typography>
         </div>
       )}
-      <div style={{ maxWidth: "80%" }}>
+      <div style={{ maxWidth: "calc(100% - 210px)" }}>
         {content && (
           <Typography style={styles} variant="body2">
             {content}
@@ -162,6 +162,18 @@ export default function Document({ did }) {
       </ButtonBase>
     );
 
+  const menuLevel = (index = [], list) =>
+    Object.values(list)[0].map((o, i) => (
+      <Typography key={i} gutterBottom variant="body2">
+        {`${index.concat(i + 1).join(".")} ${Object.keys(o)[0]}`}
+        <div
+          style={{ paddingLeft: `${13 * (index.length + 1)}px`, paddingTop: 2 }}
+        >
+          {menuLevel([...index, i + 1], o)}
+        </div>
+      </Typography>
+    ));
+
   return (
     <Fragment>
       <div className="document-component">
@@ -230,18 +242,9 @@ export default function Document({ did }) {
                       />
                     </MuiExpansionPanelSummary>
                     <MuiExpansionPanelDetails className="expansionpaneldetails">
-                      {Object.values(o)[0].map((o, i) => (
-                        <div>
-                          <Typography
-                            key={i}
-                            gutterBottom
-                            variant="body2"
-                            style={{ paddingLeft: 210 }}
-                          >
-                            {Object.keys(o)[0]}
-                          </Typography>
-                        </div>
-                      ))}
+                      <div style={{ paddingLeft: 230 }}>
+                        {menuLevel([i + 1], o)}
+                      </div>
                     </MuiExpansionPanelDetails>
                   </MuiExpansionPanel>
                 ))}
