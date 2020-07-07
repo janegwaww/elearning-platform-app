@@ -74,6 +74,7 @@ const descriptionItem = (description, match = {}) => {
         variant="body2"
         color="textSecondary"
         dangerouslySetInnerHTML={createMarkup}
+        style={{ lineHeight: 1.5 }}
       />
     )
   );
