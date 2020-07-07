@@ -57,6 +57,7 @@ export default function VideoDocument({ vid }) {
                   target="_blank"
                   rel="noopener norefferer"
                   color="inherit"
+                  style={{ width: "100%" }}
                 >
                   <Box height={68} display="flex">
                     <div
@@ -81,6 +82,7 @@ export default function VideoDocument({ vid }) {
                       display="flex"
                       flexDirection="column"
                       justifyContent="space-between"
+                      width="calc(100% - 120px)"
                     >
                       <Typography noWrap variant="body2">
                         {o.file_name}
