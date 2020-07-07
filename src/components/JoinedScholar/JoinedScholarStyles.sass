@@ -1,0 +1,73 @@
+.joined-scholar
+  background-color: #1b1b1d
+  min-height: 100vh
+
+  .toolbar
+    height: 80px
+
+  .toolbar-divider
+    background: linear-gradient(172deg,rgba(0,124,255,1) 0%,rgba(10,255,232,1) 100%)
+    height: 1px
+    width: 100%
+
+
+  .cooperate-button
+    flex-grow: 0
+    color: #fff
+    background: linear-gradient(270deg,rgba(10,255,233,1) 0%,rgba(0,124,255,1) 100%)
+    padding: 9px 32px
+    border-radius: 27px
+    min-width: 116px
+
+  .content-background
+    background: url(/scholar/background1.png) top left / 100% 100%  no-repeat, url(/scholar/background2.png) right / 100% 100% no-repeat;
+    height: 100%
+    width: 100%
+
+  .content-title
+    .title-divider
+      width: 95px
+      height: 2px
+      background-color: #fff
+      margin: 20px 0
+    & > h3
+      color: #fff
+    .subtitle
+      font-size: 2.5rem
+      color: #fff
+
+  .scholar-card
+    width: 670px
+    position: relative
+    height: 340px
+    .card-img
+      width: 240px
+      height: 260px
+      position: absolute
+      top: 0
+      left: 0
+      overflow: hidden
+      background: rgba(216,216,216,1)
+      box-shadow: 0px 10px 12px 0px rgba(0,0,0,0.4)
+      border-radius: 12px
+      z-index: 2
+    .card-text
+      background: linear-gradient(45deg,rgba(35,35,37,1) 0%,rgba(27,27,29,1) 100%)
+      position: absolute
+      width: 530px
+      height: 280px
+      bottom: 0
+      right: 0
+      display: flex
+      justify-content: flex-end
+      border-radius: 12px
+      .card-text-word
+        padding: 40px
+        width: 350px
+        height: 172px
+        .name
+          color: #fff
+          font-size: 24px
+          margin-bottom: 20px
+        .intro
+          color: #ccccd1

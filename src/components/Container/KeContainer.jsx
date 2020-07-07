@@ -4,7 +4,7 @@ import "./KeContainerStyles.sass";
 
 export default function KeContainer({ children, ...props }) {
   return (
-    <Container className="ke-container" fixed>
+    <Container className="ke-container" fixed {...props}>
       {children}
     </Container>
   );
