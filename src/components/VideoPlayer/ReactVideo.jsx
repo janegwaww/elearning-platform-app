@@ -26,11 +26,11 @@ export default class VideoPlayer extends React.Component {
         hotkeys: function (event) {
           // rewind
           if (event.which === 37) {
-            this.currentTime(this.currentTime() - 10);
+            this.currentTime(this.currentTime() - 5);
           }
           // forword
           if (event.which === 39) {
-            this.currentTime(this.currentTime() + 10);
+            this.currentTime(this.currentTime() + 5);
           }
         },
       },
