@@ -16,9 +16,22 @@ export default class VideoPlayer extends React.Component {
       html5: {
         nativeTextTracks: false,
       },
+      playbackRates: [0.5, 1, 1.5, 2],
       controlBar: {
         volumePanel: {
           inline: false,
+        },
+      },
+      userActions: {
+        hotkeys: function (event) {
+          // rewind
+          if (event.which === 37) {
+            this.currentTime(this.currentTime() - 10);
+          }
+          // forword
+          if (event.which === 39) {
+            this.currentTime(this.currentTime() + 10);
+          }
         },
       },
     };
