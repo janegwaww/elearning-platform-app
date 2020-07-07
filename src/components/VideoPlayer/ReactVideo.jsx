@@ -9,15 +9,6 @@ export default class VideoPlayer extends React.Component {
     this.videoJsOptions = {
       controls: true,
       preload: "auto",
-      breakpoints: {
-        tiny: 300,
-        xsmall: 400,
-        small: 500,
-        medium: 600,
-        large: 700,
-        xlarge: 800,
-        huge: 900,
-      },
       height: 516,
       responsive: true,
       /* fluid: true, */
@@ -25,9 +16,22 @@ export default class VideoPlayer extends React.Component {
       html5: {
         nativeTextTracks: false,
       },
+      playbackRates: [0.5, 1, 1.5, 2],
       controlBar: {
         volumePanel: {
           inline: false,
+        },
+      },
+      userActions: {
+        hotkeys: function (event) {
+          // rewind
+          if (event.which === 37) {
+            this.currentTime(this.currentTime() - 5);
+          }
+          // forword
+          if (event.which === 39) {
+            this.currentTime(this.currentTime() + 5);
+          }
         },
       },
     };
