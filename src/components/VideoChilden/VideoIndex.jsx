@@ -6,7 +6,7 @@ import { getObj, getPage, getWidth, getStyles } from "../../assets/js/totls";
 
 import SliderTemplate from "./SliderTemplate/SliderTemplate";
 import HeaderTemplate from "./Header/Header";
-import TopAside from "./TopAside/TopAside";
+
 import BottomAside from "./BottomAside/BottomAside";
 
 import "./SliderTemplate/SliderTemplate.css";
@@ -16,7 +16,7 @@ import dateConversion from "../../assets/js/dateConversion";
 import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
-
+import SearchLoading from "../Loading/SearchLoading";
 // import viderPlay from '../../assets/img/play.svg';
 export default class VideoPage extends Component {
   constructor(props) {
@@ -44,6 +44,7 @@ export default class VideoPage extends Component {
       sliderbox_off_x: 0,
       thumbbox_width: 0,
       thumb_off_x: 0,
+      login_status: false,
     };
     this.video_live = null;
     //绑定双击事件
@@ -120,28 +121,25 @@ export default class VideoPage extends Component {
           // this.sub_test(0);
           return;
         }
-        if(!this.state.is_now_edit){
-
-        
-        if (ev.keyCode == 37) {
-          
-          _time = _time - 1;
-          if (_time <= 0) {
-            _time = 0;
+        if (!this.state.is_now_edit) {
+          if (ev.keyCode == 37) {
+            _time = _time - 1;
+            if (_time <= 0) {
+              _time = 0;
+            }
+            this.video_live.currentTime = _time - 1;
+            this.video_live.pause();
           }
-          this.video_live.currentTime = _time - 1;
-          this.video_live.pause();
-        }
-        if (ev.keyCode === 39) {
-          _time = _time + 1;
-          if (_time >= this.state.video_data.video_len) {
-            _time = this.state.video_data.video_len;
-          }
+          if (ev.keyCode === 39) {
+            _time = _time + 1;
+            if (_time >= this.state.video_data.video_len) {
+              _time = this.state.video_data.video_len;
+            }
 
-          this.video_live.currentTime = _time;
-          this.video_live.pause();
+            this.video_live.currentTime = _time;
+            this.video_live.pause();
+          }
         }
-      }
         if ((ev.keyCode == 46 || ev.keyCode == 8) && this.state.is_select) {
           this.setState({
             is_del: true,
@@ -627,6 +625,29 @@ export default class VideoPage extends Component {
         });
         return;
       }
+      console.log(_this.video_live.paused);
+      if (!_this.video_live.paused) {
+        let now_x =
+          time /
+          (_this.state.video_data.video_len / _this.state.sliderbox_width);
+        let now_off = _this.state.sliderbox_off_x;
+        let cran_moiti = (_this.state.t_w - 132) / 2;
+        if (now_x > now_off + _this.state.t_w - 132 - 200) {
+          if (
+            _this.state.sliderbox_width - (_this.state.t_w - 132) <
+            now_off + cran_moiti
+          ) {
+            _this.setState({
+              sliderbox_off_x:
+                _this.state.sliderbox_width - (_this.state.t_w - 132),
+            });
+          } else {
+            _this.setState({
+              sliderbox_off_x: now_off + cran_moiti,
+            });
+          }
+        }
+      }
 
       _this.sub_test(time);
     };
@@ -1091,6 +1112,7 @@ export default class VideoPage extends Component {
             </main>
           </section>
         </footer>
+        <SearchLoading loading={this.state.login_status} />
       </div>
     );
   }

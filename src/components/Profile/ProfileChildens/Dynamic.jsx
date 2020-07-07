@@ -21,6 +21,7 @@ class Dynamic extends React.Component {
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
+    
     if (this.state.page_id === 0) {
       this.update_data({
         model_name: "collection",
@@ -78,7 +79,17 @@ class Dynamic extends React.Component {
   //   return  false
   // }
   update_data(data) {
+    this.props.parent.setState({
+      login_status:true
+    })
     get_data( data).then((res) => {
+
+      setTimeout(()=>{
+        this.props.parent.setState({
+          login_status:false
+        })
+      },1000)
+
       if (res.err == 0) {
         if (this.state.page_id == 0) {
           this.setState({

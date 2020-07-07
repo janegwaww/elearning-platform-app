@@ -20,7 +20,8 @@ import { withStyles } from "@material-ui/core/styles";
 import fenxiang from "../../../assets/img/fenxiang.png";
 import sore from "../../../assets/img/sore.png";
 import bianmiao from "../../../assets/img/bianmiao.png";
-import { ShareDialog } from "./components/shareDialog";
+import { ShareDialog, SericesMenu } from "./components/shareDialog";
+import SearchLoading from "../../Loading/SearchLoading";
 const NewMenu = withStyles((theme) => ({
   root: {
     border: "1px solid red",
@@ -65,6 +66,7 @@ class CreateCenter extends React.Component {
       newdescription: "", //新的系列描述
       item_h: 0,
       is_share: false, //分享
+      login_status: false,
     };
     this.update_data = this.update_data.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -74,6 +76,9 @@ class CreateCenter extends React.Component {
   }
   wind_size(e) {
     let _e = e || window.event;
+    if (!document.querySelector(".MuiGrid-root.grid .MuiGrid-item")) {
+      return;
+    }
     let _w = document.querySelector(".MuiGrid-root.grid .MuiGrid-item")
       .clientWidth;
     let _h = (_w / 16) * 9;
@@ -96,6 +101,9 @@ class CreateCenter extends React.Component {
     });
   }
   update_data(_type) {
+    this.setState({
+      login_status: true,
+    });
     let _data = {
       //
       model_name: "video",
@@ -105,6 +113,12 @@ class CreateCenter extends React.Component {
       },
     };
     get_data(_data).then((res) => {
+      setTimeout(() => {
+        this.setState({
+          login_status: false,
+        });
+      }, 500);
+
       if (res.err == 0) {
         if (_data.extra_data.type == "video") {
           this.setState({
@@ -150,7 +164,7 @@ class CreateCenter extends React.Component {
         });
         this.wind_size();
       } else {
-        new CustomModal().alert("获取详情失败", "success", 3000);
+        new CustomModal().alert("获取详情失败", "error", 3000);
       }
     });
   }
@@ -174,6 +188,7 @@ class CreateCenter extends React.Component {
   render() {
     return (
       <div className="view-scroll all-height">
+        <SearchLoading loading={this.state.login_status} />
         {this.state.page_id === 0 && (
           <section className="bg-white profile-padding all-height ">
             <main>
@@ -181,6 +196,13 @@ class CreateCenter extends React.Component {
                 <ProNavbar
                   list={["普通", "系列", "草稿箱"]}
                   parent={this}
+                  page_num={
+                    this.state.item_type == "video"
+                      ? 1
+                      : this.state.item_type == "series"
+                      ? 2
+                      : 3
+                  }
                   onEvent={(num) => {
                     let _type = "video";
                     if (num == 2) {
@@ -196,7 +218,8 @@ class CreateCenter extends React.Component {
               </div>
               {this.state.item_type == "video" && (
                 <div>
-                  {this.state.video_data && this.state.video_data.length > 0 ? (
+                  {this.state.video_data &&
+                    this.state.video_data.length > 0 &&
                     this.state.video_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
@@ -205,17 +228,18 @@ class CreateCenter extends React.Component {
                         key={inx}
                         series={this.state.item_type}
                       />
-                    ))
-                  ) : (
-                    <div>暂时还没有数据哦</div>
-                  )}
+                    ))}
+                    {this.state.video_data &&
+                      this.state.video_data.length <= 0 &&(
+                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
+                      )}
                 </div>
               )}
 
               {this.state.item_type == "series" && (
                 <div>
                   {this.state.series_data &&
-                  this.state.series_data.length > 0 ? (
+                    this.state.series_data.length > 0 &&
                     this.state.series_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
@@ -227,16 +251,19 @@ class CreateCenter extends React.Component {
                           this.get_series_datial(_id);
                         }}
                       />
-                    ))
-                  ) : (
-                    <div>暂时还没有数据哦</div>
-                  )}
+                    ))}
+
+                    {this.state.series_data &&
+                      this.state.series_data.length <= 0 &&(
+                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
+                      )}
                 </div>
               )}
 
               {this.state.item_type == "draft" && (
                 <div>
-                  {this.state.draft_data && this.state.draft_data.length > 0 ? (
+                  {this.state.draft_data &&
+                    this.state.draft_data.length > 0 &&
                     this.state.draft_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
@@ -245,10 +272,11 @@ class CreateCenter extends React.Component {
                         key={inx}
                         series={this.state.item_type}
                       />
-                    ))
-                  ) : (
-                    <div>暂时还没有数据哦</div>
-                  )}
+                    ))}
+                    {this.state.draft_data &&
+                      this.state.draft_data.length <= 0 &&(
+                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
+                      )}
                 </div>
               )}
             </main>
@@ -271,304 +299,33 @@ class CreateCenter extends React.Component {
         {this.state.page_id === 2 && (
           <section className="bg-white profile-padding all-width  all-height">
             <div>
-              <ProNavbar list={["系列"]} parent={this} />
+              <ProNavbar
+                list={["普通", "系列", "草稿箱"]}
+                parent={this}
+                _type="two"
+                onEvent={(num) => {
+                  console.log(num);
+                  let _type = "video";
+                  if (num == 2) {
+                    _type = "series";
+                  }
+                  if (num == 3) {
+                    _type = "draft";
+                  }
+                
+                  this.setState({ item_type: _type, page_id: 0 });
+
+                  this.update_data(_type);
+                }}
+              />
             </div>
             <div className="profile-top  all-width">
-              <div className="box  fn-size-12 all-width box-align-center">
-                <div
-                  style={{
-                    minWidth: 260,
-                    width: 260,
-                    height: 160,
-                    marginRight: 20,
-                    position: "relative",
-                  }}
-                >
-                  <img
-                    src={this.state.series_details.image_path}
-                    className="all-width all-height"
-                  />
-                  <p className="profile-time fn-color-white fn-size-12">
-                    {"共" + this.state.series_details.video_data.length + "集"}
-                  </p>
-                </div>
-                <div
-                  style={{
-                    width: "calc(100% - 280px)",
-                    flexDirection: "column",
-                    height: 160,
-                  }}
-                  className="box box-between all-height"
-                >
-                  <div>
-                    <div className="fn-color-2C2C3B fn-size-16 zero-edges text-overflow">
-                      {this.state.series_details.title}
-                    </div>
-                    <p className="fn-color-878791 all-width ">
-                      {"更新于  " +
-                        get_date(this.state.series_details.update_time, ".", 9)}
-                    </p>
-                    <div className="all-width textview-overflow two">
-                      {this.state.series_details.description}
-                    </div>
-                  </div>
-                  <div className="fn-color-565663 profile-point all-width">
-                    <span>
-                      <Details />
-                      &nbsp;&nbsp;
-                      {this.state.series_details.view_counts || 0}
-                    </span>
-                    <span>
-                      <FavoriteBorder />
-                      &nbsp;&nbsp;
-                      {this.state.series_details.like_counts || 0}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <IconButton
-                    aria-label="more"
-                    aria-controls="series-detail-menu"
-                    aria-haspopup="true"
-                    onClick={this.handleClik}
-                  >
-                    <MoreHorizOutlined />
-                  </IconButton>
-
-                  <Menu
-                    open={Boolean(this.state.evt)}
-                    anchorEl={this.state.evt}
-                    keepMounted
-                    id="series-detail-menu"
-                    onClick={this.handleClose}
-                    className="menulist"
-                  >
-                    <MenuItem onClick={this.handleClose}>
-                      <EditDialog
-                        title="编辑系列"
-                        info={this.state.series_details}
-                        icon_img={bianmiao}
-                        onChange={(res) => {
-                          if (res.url) {
-                            this.setState({
-                              newimgurl: res.url,
-                            });
-                          }
-                        }}
-                        onEvent={(res) => {
-                          if (
-                            !this.state.newimgurl &&
-                            !this.state.newTitle &&
-                            !this.state.newdescription
-                          ) {
-                            return;
-                          }
-                          if (res.cancel) {
-                            return;
-                          }
-                          if (res.confirm) {
-                            let _data = {
-                              model_name: "series",
-                              model_action: "change_information",
-                              extra_data: {
-                                series_id: this.state.series_id,
-                                image_path:
-                                  this.state.newimgurl ||
-                                  this.state.series_details.image_path,
-                                title:
-                                  this.state.newTitle ||
-                                  this.state.series_details.title,
-                                description:
-                                  this.state.newdescription ||
-                                  this.state.series_details.description,
-                              },
-                            };
-
-                            get_data(_data).then((data) => {
-                              if (data.err == 0) {
-                                new CustomModal().alert(
-                                  data.errmsg,
-                                  "success",
-                                  5000
-                                );
-                              } else {
-                                new CustomModal().alert(
-                                  "修改失败",
-                                  "error",
-                                  5000
-                                );
-                              }
-                            });
-                          }
-                        }}
-                      >
-                        <div>
-                          <div className="box">
-                            <div>
-                              <div
-                                style={{
-                                  width: 295,
-                                  height: 190,
-                                  marginRight: 20,
-                                  borderRadius: 12,
-                                  backgroundImage:
-                                    "url(" +
-                                    (this.state.newimgurl ||
-                                      this.state.series_details.image_path) +
-                                    ")",
-                                  position: "relative",
-                                }}
-                                className="view-overflow bg-not text-center"
-                              >
-                                <div
-                                  style={{
-                                    backgroundColor: "rgba(0,0,0,0.7)",
-                                    flexDirection: "column",
-                                  }}
-                                  className="all-width all-height box box-center "
-                                >
-                                  <span
-                                    style={{
-                                      width: 35,
-                                      height: 35,
-                                      backgroundColor: "#fff",
-                                      display: "inline-block",
-                                      borderRadius: "50%",
-                                    }}
-                                  >
-                                    <AddCircle
-                                      style={{
-                                        width: 35,
-                                        height: 35,
-                                        transform: "scale(1.2)",
-                                      }}
-                                      className="fn-color-007CFF"
-                                      onClick={() => {
-                                        document
-                                          .getElementById("file-img")
-                                          .click();
-                                      }}
-                                    />
-                                  </span>
-                                  <p className="fn-color-878791">
-                                    建议尺寸为295x190
-                                  </p>
-                                </div>
-                              </div>
-                              <p className="text-center">添加系列封面</p>
-                            </div>
-                            <div>
-                              <div
-                                style={{
-                                  width: 295,
-                                  height: 190,
-                                  borderRadius: 12,
-                                  backgroundImage:
-                                    "url(" +
-                                    (this.state.newimgurl ||
-                                      this.state.series_details.image_path) +
-                                    ")",
-                                }}
-                                className="view-overflow text-center bg-not"
-                              ></div>
-                              <p className="text-center">系列封面预览</p>
-                            </div>
-                          </div>
-                          <Grid container spacing={1}>
-                            <Grid item xs={2}>
-                              系列名称
-                            </Grid>
-                            <Grid item xs={9}>
-                              <input
-                                type="text"
-                                className="all-width textfield"
-                                value={this.state.newTitle}
-                                placeholder={this.state.series_details.title}
-                                onChange={(ev) => {
-                                  this.setState({
-                                    newTitle: ev.target.value,
-                                  });
-                                }}
-                              />
-                            </Grid>
-                            <Grid item xs={1}></Grid>
-                          </Grid>
-                          <Grid container spacing={2}>
-                            <Grid item xs={2}>
-                              系列描述
-                            </Grid>
-                            <Grid item xs={9}>
-                              <textarea
-                                className={`all-width textfield`}
-                                rows={5}
-                                defaultValue={
-                                  this.state.series_details.description ||
-                                  "填写新的描述"
-                                }
-                                onChange={(ev) => {
-                                  this.setState({
-                                    newdescription: ev.target.value,
-                                  });
-                                  // setNewdescription(ev.target.value);${classes.textfield}
-                                }}
-                              ></textarea>
-                            </Grid>
-                            <Grid item xs={1}></Grid>
-                          </Grid>
-                        </div>
-                      </EditDialog>
-                    </MenuItem>
-                    <MenuItem onClick={this.handleClose}>
-                      <EditDialog
-                        icon_img={sore}
-                        title="排序"
-                        info={this.state.series_details}
-                        onEvent={(msg) => {
-                          if (msg.cancel) {
-                            return;
-                          }
-                          if (msg.confirm) {
-                          }
-                        }}
-                      >
-                        <div>
-                          {this.state.series_details.video_data.map(
-                            (op, inx) => (
-                              <div
-                                key={op.video_id}
-                                className="box box-align-center "
-                              >
-                                <div style={{ marginRight: 10 }}>
-                                  <MenuOutlined />
-                                </div>
-                                <div className="fn-color-2C2C3B">
-                                  {op.video_title}
-                                </div>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </EditDialog>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(ev) => {
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        this.setState({
-                          is_share: true,
-                        });
-                        this.handleClose(ev);
-                      }}
-                    >
-                      <div>
-                        {" "}
-                        <img src={fenxiang} />
-                      </div>
-                      <div>分享</div>
-                    </MenuItem>
-                  </Menu>
-                </div>
+              <div className="  fn-size-12 all-width ">
+                <SeriesItem
+                  parent={this}
+                  info={this.state.series_details}
+                  series="series"
+                />
               </div>
               <div>
                 <Grid container className="grid">
@@ -592,8 +349,8 @@ class CreateCenter extends React.Component {
               info={this.state.series_details}
               onEvent={() => {
                 this.setState({
-                  is_share:false
-                })
+                  is_share: false,
+                });
               }}
             />
           </section>

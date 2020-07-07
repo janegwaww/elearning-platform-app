@@ -36,7 +36,7 @@ import yixi from "../../../../assets/img/yixi.png";
 import restbian from "../../../../assets/img/restbian.png";
 import download from "../../../../assets/img/download.png";
 
-import { ShareDialog } from "./shareDialog";
+import { ShareDialog,SericesMenu } from "./shareDialog";
 
 // 系列横向item
 
@@ -90,9 +90,15 @@ const SeriesItem = (props) => {
     <div
       className="box box-between box-align-center profile-top"
       onClick={(event) => {
+        if(props.series=='draft'){
+          event.stopPropagation();
+          event.preventDefault();
+          return
+        }
         if (props.series == "series") {
           event.stopPropagation();
           event.preventDefault();
+          
           if (props.onEvent) {
             props.onEvent(props.info.series_id);
           } else {
@@ -237,7 +243,7 @@ const SeriesItem = (props) => {
                 <span>
                   <Details />
                   &nbsp;&nbsp;
-                  {props.info ? props.info.view_counts : 0}
+                  {props.info ? props.info.view_counts||0 : 0}
                 </span>
                 <span>
                   <FavoriteBorder />
@@ -262,6 +268,7 @@ const SeriesItem = (props) => {
               aria-controls="series-menu"
               aria-haspopup="true"
               onClick={handleClick}
+              style={{padding:0}}
             >
               <MoreHorizOutlined />
             </IconButton>
@@ -503,6 +510,7 @@ const SeriesItem = (props) => {
                   <div>重新编辑</div>
                 </Link>
               </MenuItem>
+              {/*
               <MenuItem
                 data-id="4"
                 onClick={(evt) => {
@@ -530,6 +538,7 @@ const SeriesItem = (props) => {
                 </div>
                 <div>下载</div>
               </MenuItem>
+            */}
               <MenuItem
                 onClick={(ev) => {
                   ev.preventDefault();
@@ -567,14 +576,15 @@ const SeriesItem = (props) => {
           </div>
         )}
         {props.series == "series" && (
-          <div className="text-right"  onClick={(ev)=>{
-            ev.preventDefault();
-            ev.stopPropagation();
-            setIsShare(true);
-          
-          }}>
-            <img src={fenxiang} style={{ width: 16, height: 16 }} />
-          </div>
+
+
+          <SericesMenu parent={props.parent} info={props.info} onEven={(msg)=>{
+            console.log(msg)
+          }} />
+
+
+
+
         )}
         {props.series == "draft" && (
           <div className="text-right">

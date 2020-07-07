@@ -7,7 +7,7 @@ import { navigate } from "@reach/router";
 import { Container, Avatar } from "@material-ui/core";
 import { Telegram, NotificationsNone, OndemandVideo,PermIdentity} from "@material-ui/icons";
 import "./layout/Profile.css";
-
+import SearchLoading from '../Loading/SearchLoading';
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
@@ -26,6 +26,7 @@ class Profile extends React.Component {
         childPage: "",
         childpage_id: 0,
       },
+      login_status:false,
       menuOpen: {
         //打开
         Dynamic: false, //动态
@@ -255,7 +256,8 @@ class Profile extends React.Component {
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
-            </main>
+             <SearchLoading loading={this.state.login_status} />
+             </main>
           </section>
         </Container>
       </Layout>

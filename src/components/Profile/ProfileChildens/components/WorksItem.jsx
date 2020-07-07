@@ -522,6 +522,7 @@ const WorksItem = (props) => {
                       <div>重新编辑</div>
                     </Link>
                   </MenuItem>
+                  {/** 
                   <MenuItem  onClick={(evt) => {
                     evt.stopPropagation();
                     evt.preventDefault();
@@ -546,6 +547,7 @@ const WorksItem = (props) => {
                     </div>
                     <div>下载</div>
                   </MenuItem>
+                  */}
                   <MenuItem onClick={()=>{
                     setIsShare(true);
                     handleClose();}

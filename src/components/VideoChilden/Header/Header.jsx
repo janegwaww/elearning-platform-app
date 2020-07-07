@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
 
-import { Button, Avatar, Snackbar, Modal } from "@material-ui/core";
+import { Button, Avatar, Snackbar } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -74,6 +74,9 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
+      _this.props.parent.setState({
+        login_status:true
+      })
       let _video_data = _this.props.parent.state.video_data;
 
       let r_data = {
@@ -89,18 +92,24 @@ export default class Header extends Component {
       };
       get_data( r_data)
         .then((res) => {
+          _this.props.parent.setState({
+            login_status:false
+          });
           if (res.err == 0 && res.errmsg == "OK") {
+           
             _this.setState({ open: true });
-            setTimeout(() => {
+            
               navigate("/video/uppage");
-              _this.setState({ is_modal: false });
-            }, 3000);
+             
+            
           } else {
-            _this.setState({ is_modal: false });
+            
           }
         })
         .catch((err) => {
-          _this.setState({ is_modal: false });
+          _this.props.parent.setState({
+            login_status:false
+          });
         });
     };
 
@@ -236,15 +245,7 @@ export default class Header extends Component {
             保存成功
           </Alert>
         </Snackbar>
-        <Modal
-          open={this.state.is_modal}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <div className={styles.modalLogin}>
-            <Autorenew />
-          </div>
-        </Modal>
+        
       </header>
     );
   }

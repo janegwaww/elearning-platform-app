@@ -190,3 +190,24 @@ p {
   width: 14px;
   height: 14px;
 }
+.profile-ul {
+  list-style: none;
+  padding: 0;
+}
+.profile-ul li {
+  margin: 10px 0;
+   /* border: 1px solid #f2f2f5; */
+   padding:20px; 
+  /* border-radius: 4px;
+  transition: all 1s;
+  transform: translate3d(0, 0, 0);  */
+}
+.profile-ul li:hover{
+  cursor: move;
+}
+.profile-ul li .move-item{
+  margin-right: 10px;
+}
+.profile-ul li.bg-F2F2F5 .move-item{
+  color: #007cff;
+}

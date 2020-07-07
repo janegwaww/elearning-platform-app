@@ -104,7 +104,7 @@ export default function EditDialog(props) {
                 }
               });
             }}
-            style={{ width: 0, height: 0, display: "none" }}
+            style={{display:'none'}}
           />
         </DialogContent>
         {props.btn != "no_show" && (
