@@ -75,6 +75,7 @@ export const videoPath = pipeThen(
   videoInfoFront,
   getResultDataFirst,
   getResultData,
+  tokenExpired,
   errorMessageNotice,
   apisVideo.videoPlay
 );
@@ -190,4 +191,15 @@ export const verifyAliPay = pipeThen(
   getResultDataFirst,
   getResultData,
   apisSearch.queryTradeResult
+);
+
+// 分享功能
+const getUrl = ({ url }) => {
+  return Promise.resolve(url);
+};
+export const userShare = pipeThen(
+  getUrl,
+  getResultDataFirst,
+  getResultData,
+  apisSearch.share
 );

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    padding: 40,
+    padding: 60,
   },
   icon: {
     position: "absolute",
@@ -89,17 +89,23 @@ const ModalBody = ({ item, handleClose }) => {
         <div style={{ height: 196, width: 160 }}>
           <img src={item.headshot} alt={item.name} width="100%" height="100%" />
         </div>
-        <div style={{width:520}}>
-          <Typography style={{color: '#fff',fontSize:'1.5rem'}}>{item.name}</Typography>
+        <div style={{ width: 480 }}>
+          <Typography style={{ color: "#fff", fontSize: "1.5rem" }}>
+            {item.name}
+          </Typography>
           <Box height={20} />
-          <Typography style={{color:'#fff',fontSize:'0.75rem'}}>{item.introduction1}</Typography>
+          <Typography style={{ color: "#fff", fontSize: "0.75rem" }}>
+            {item.introduction1}
+          </Typography>
           <Box height={20} />
-          <Typography style={{color:'#ccccd1',fontSize:'0.75rem'}}>{item.introduction2}</Typography>
+          <Typography style={{ color: "#ccccd1", fontSize: "0.75rem" }}>
+            {item.introduction2}
+          </Typography>
         </div>
       </Box>
       <div className={classes.icon}>
         <IconButton onClick={handleClose}>
-          <CloseIcon />
+          <CloseIcon style={{ color: "#878791" }} />
         </IconButton>
       </div>
     </div>
