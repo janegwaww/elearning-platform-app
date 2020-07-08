@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
@@ -18,6 +19,15 @@ import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Link from "../Link/Link";
 import { getIdFromHref, secondsToDate, pipe } from "../../services/utils";
 import "./SeriesStyles.sass";
+
+const useStyles = makeStyles(() => ({
+  pagi: {
+    backgroundColor: "#fff",
+  },
+  ul: {
+    justifyContent: "center",
+  },
+}));
 
 const headCard = ({
   image_path,
@@ -79,17 +89,19 @@ const headCard = ({
 );
 
 const Pagination = ({ num = 1, handlePage }) => {
+  const classes = useStyles();
   return (
     <MuiPagination
       count={Math.ceil(num / 12)}
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
+      classes={{ root: classes.pagi, ul: classes.ul }}
     />
   );
 };
 
-export default function Series() {
+const Series = () => {
   const [loading, setLoading] = useState(true);
   const [series, setSeries] = useState([]);
   const [seriesLength, setSeriesLength] = useState(0);
@@ -232,4 +244,6 @@ export default function Series() {
       <SearchLoading loading={loading} />
     </div>
   );
-}
+};
+
+export default Series;

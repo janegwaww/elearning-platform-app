@@ -27,12 +27,13 @@ class VideoWindow extends Component {
   recordStart = () => {
     if (this.playerRef.current) {
       const { player } = this.playerRef.current;
-      player.one("play", (e) => {
-        startWatchRecord({
-          video_id: this.props.info.videoId,
-          start_time: secondsToHMS(this.getCurrentTime()),
+      player &&
+        player.one("play", (e) => {
+          startWatchRecord({
+            video_id: this.props.info.videoId,
+            start_time: secondsToHMS(this.getCurrentTime()),
+          });
         });
-      });
     } else {
       setTimeout(() => {
         this.recordStart();

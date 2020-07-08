@@ -24,6 +24,7 @@ export default class VideoPlayer extends React.Component {
       },
       userActions: {
         hotkeys: function (event) {
+          event.preventDefault();
           // rewind
           if (event.which === 37) {
             this.currentTime(this.currentTime() - 5);
@@ -31,6 +32,14 @@ export default class VideoPlayer extends React.Component {
           // forword
           if (event.which === 39) {
             this.currentTime(this.currentTime() + 5);
+          }
+          // pause and play
+          if (event.which === 32) {
+            if (this.paused()) {
+              this.play();
+            } else {
+              this.pause();
+            }
           }
         },
       },
@@ -43,6 +52,16 @@ export default class VideoPlayer extends React.Component {
       this.videoNode,
       { ...this.props, ...this.videoJsOptions },
       function onPlayerReady() {
+        /* window.addEventListener("keydown", function (e) {
+         *   e.preventDefault();
+         *   if (e.which === 32) {
+         *       if (this.paused()) {
+         *           this.play();
+         *       } else {
+         *           this.pause();
+         *       }
+         *   }
+         * }); */
         console.log("onPlayerReady", this);
       }
     );
