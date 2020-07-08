@@ -170,7 +170,7 @@ export const searchPartApis = () => {
     ["give_like"],
     ["view_file", "view_advanced", "view_advanced_info", "download_file"],
     ["add_subscription", "latest_subscription"],
-    ["get_author_information"],
+    ["get_author_information", "share"],
     ["get_series_details"],
     ["get_category"],
     ["start_watch_history", "end_watch_history", "search_history"],
