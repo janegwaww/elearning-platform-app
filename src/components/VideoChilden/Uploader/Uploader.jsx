@@ -129,6 +129,9 @@ export default class UploadVideos extends Component {
     });
     let _id = this.props.parent.props.location.href.split("=")[1];
     if (_id) {
+      this.props.parent.setState({
+        login_status:true
+      })
       get_data({
         model_name: "video",
         model_action: "update_subtitle_again",
@@ -138,6 +141,11 @@ export default class UploadVideos extends Component {
         model_type: "",
       }).then((res) => {
         if (res.err === 0) {
+          setTimeout(()=>{
+            this.props.parent.setState({
+              login_status:false
+            });
+          },500)
           let _data = {
             image_path: res.result_data[0].image_path,
             title: res.result_data[0].title,

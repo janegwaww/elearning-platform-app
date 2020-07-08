@@ -6,6 +6,7 @@ import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import  WorksItem  from "./components/WorksItem";
 import { get_data, get_alldata } from "../../../assets/js/request";
+import { set } from "lodash";
 
 class ProfileIndex extends React.Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class ProfileIndex extends React.Component {
     this.wind_size = this.wind_size.bind(this)
   }
   componentDidMount() {
-  
+    this.props.parent.setState({
+      login_status:true
+    })
     let _this = this;
     get_alldata("api/v1/gateway", [
      // { model_name: "user", model_action: "get_information" }, //用户信息，
@@ -40,7 +43,9 @@ class ProfileIndex extends React.Component {
       },
       { model_name: "collection", model_action: "get_collection" }, //我的收藏
     ]).then((res) => {
-  
+      this.props.parent.setState({
+        login_status:false
+      })
       
       _this.setState({
         // userInfo: res[0].result_data[0],
@@ -58,7 +63,7 @@ class ProfileIndex extends React.Component {
   }
   wind_size(e){
     let _e=e||window.event;
-    
+    if(!document.querySelector(".MuiGrid-root.grid .MuiGrid-item")){return};
     let _w = document.querySelector('.MuiGrid-root.grid .MuiGrid-item').clientWidth;
     let _h = _w/16*9;
     this.setState({
@@ -70,6 +75,11 @@ class ProfileIndex extends React.Component {
    
   }
   update_data(_type) {
+console.log(this.props)
+    this.props.parent.setState({
+      login_status:true
+    })
+
     let _data={
         model_name: "video",
         model_action: "get_video",
@@ -78,7 +88,12 @@ class ProfileIndex extends React.Component {
         },
       };
     get_data( _data).then((res) => {
-   
+      setTimeout(()=>{
+        this.props.parent.setState({
+          login_status:false
+        })
+      },1000)
+     
       if (res.err == 0) {
         this.setState({
           userWorks: res.result_data,
@@ -291,14 +306,17 @@ class ProfileIndex extends React.Component {
           <div>
             <div>
             
-              {this.state.userWorks&&this.state.userWorks.length>0 ? (
+              {this.state.userWorks&&this.state.userWorks.length>0 && (
                 this.state.userWorks.map((option, inx) => (
                
                     <SeriesItem parent={this} info={option} inx={inx} key={option.video_id||option.series_id} series={this.state.video_type} />
                  
                 ))
-              ) : (
-                <div>亲，暂时你还没有作品哦，现在去添加么？</div>
+              
+              )}
+              {this.state.userWorks&&this.state.userWorks.length<=0&&(
+                
+                  <div>亲，暂时你还没有作品哦，现在去添加么？</div>
               )}
             </div>
           </div>
