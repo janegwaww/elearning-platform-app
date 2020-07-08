@@ -3,7 +3,6 @@ import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
-import SearchLoading from "../Loading/SearchLoading";
 import Pagination from "../Pagination/Pagination";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 
@@ -41,7 +40,6 @@ export default function Channel() {
         <Pagination fetch={fetchSubData} ref={pageRef} />
         <br />
       </div>
-      <SearchLoading loading={loading} />
     </Fragment>
   );
 }
