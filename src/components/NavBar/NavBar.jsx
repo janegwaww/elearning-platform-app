@@ -61,8 +61,8 @@ export default function PrimarySearchAppBar() {
         </ButtonBase>
       </MenuItem>
       <MenuItem>
-        <ButtonBase color="inherit">
-          <Typography>下载APP</Typography>
+        <ButtonBase color="inherit" onClick={() => navigate("/joinscholar/")}>
+          <Typography>加盟学者</Typography>
         </ButtonBase>
       </MenuItem>
       <MenuItem>
@@ -99,11 +99,11 @@ export default function PrimarySearchAppBar() {
               </Link>
               <Link
                 color="inherit"
-                href="#"
+                href="/joinedscholar/"
                 underline="none"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography>下载APP</Typography>
+                <Typography>加盟学者</Typography>
               </Link>
             </div>
             <div className={classes.search}>
