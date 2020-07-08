@@ -63,6 +63,7 @@ class Dynamic extends React.Component {
   }
   wind_size(e){
     let _e=e||window.event;
+    if(!document.querySelector('.MuiGrid-root.grid .MuiGrid-item')){return}
     let _w = document.querySelector('.MuiGrid-root.grid .MuiGrid-item').clientWidth;
     let _h = _w/16*9;
     this.setState({
@@ -88,7 +89,7 @@ class Dynamic extends React.Component {
         this.props.parent.setState({
           login_status:false
         })
-      },1000)
+      },500)
 
       if (res.err == 0) {
         if (this.state.page_id == 0) {
@@ -160,12 +161,12 @@ class Dynamic extends React.Component {
             ""
           )}
           {(this.state.page_id == 0 &&
-            (!this.state.collection_data ||
+            (this.state.collection_data&&
               this.state.collection_data.length <= 0)) ||
             (this.state.page_id == 1 &&
-              (!this.state.history_data ||
+              (this.state.history_data &&
                 this.state.history_data.length <= 0) && (
-                <div>亲你还没有数据呢，赶快添加吧！</div>
+                <div className='profile-top'>亲你还没有数据呢，赶快添加吧！</div>
               ))}
         </main>
         {/**翻页 */}

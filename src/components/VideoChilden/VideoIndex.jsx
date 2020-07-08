@@ -266,6 +266,7 @@ export default class VideoPage extends Component {
     return test_arr;
   }
   getUpfileUrl(res) {
+    console.log(res)
     //接收组件传递视频数据
     let _data = this.state.video_data || {};
     if (JSON.stringify(_data) == "{}") {
@@ -324,24 +325,7 @@ export default class VideoPage extends Component {
 
     let img_str = "";
     let img_pos = "";
-    // let len = res.length; //
-    // let box_w = this.state.sliderbox_width / len; // 每张图的宽度，全部插入时不用*3
-
-    // let p_s = 0
-    //     for (let i = 0; i < len; i++) {
-    //       //全部插入{
-    //         if(i>0){
-    //           p_s+=box_w/3
-    //         }
-
-    //       if (i == len - 1) {
-    //         img_str += "url(" + new_img[i] + ") ";
-    //         img_pos += p_s + "px " + "0px ";
-    //       } else {
-    //         img_str += "url(" + new_img[i] + "), ";
-    //         img_pos += p_s + "px " + "0px, ";
-    //       }
-    //     }
+   
 
     let new_img = [];
     for (let j = 0; j < res.length; j++) {
@@ -389,11 +373,7 @@ export default class VideoPage extends Component {
     this.sub_test(msg);
     return;
   }
-  // get_top_inx(result, value) {
-  //   this.setState({
-  //     top_inx: value,
-  //   });
-  // }
+ 
 
   sub_test(time) {
     //更新字幕
@@ -625,7 +605,7 @@ export default class VideoPage extends Component {
         });
         return;
       }
-      console.log(_this.video_live.paused);
+   
       if (!_this.video_live.paused) {
         let now_x =
           time /

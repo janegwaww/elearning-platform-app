@@ -3,6 +3,7 @@ import { Menu, MenuItem, IconButton, Grid } from "@material-ui/core";
 import { MoreHorizOutlined, AddCircle, MenuOutlined } from "@material-ui/icons";
 import InputBase from "@material-ui/core/InputBase";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import PublicDialog from "../../../../assets/template/PublicDialog";
 import EditDialog from "./EditDialog";
@@ -15,7 +16,11 @@ import CustomModal from "../../../../assets/js/CustomModal";
 import fenxiang from "../../../../assets/img/fenxiang.png";
 import sore from "../../../../assets/img/sore.png";
 import bianmiao from "../../../../assets/img/bianmiao.png";
-
+import del from "../../../../assets/img/del.png";
+import yixi from "../../../../assets/img/yixi.png";
+import restbian from "../../../../assets/img/restbian.png";
+import download from "../../../../assets/img/download.png";
+import userStyles from "./profileStyle";
 // 分享弹窗
 const input_use = makeStyles((theme) => ({
   root: {
@@ -187,9 +192,9 @@ export const ShareDialog = (props) => {
 export const SericesMenu = (props) => {
   const [open, setOpen] = React.useState(null);
   const [isShare, setIsShare] = React.useState(false);
-  const [newimgurl, setNewimgurl] = React.useState("");
-  const [newTitle, setNewTitle] = React.useState("");
-  const [newdescription, setNewdescription] = React.useState("");
+  const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
+  const [newTitle, setNewTitle] = React.useState(props.info.title || props.info.series_title);
+  const [newdescription, setNewdescription] = React.useState(props.info.description);
   const [idArr, setIdArr] = React.useState(null);
   let draging = null;
   // let isDragid='';
@@ -221,7 +226,7 @@ export const SericesMenu = (props) => {
         aria-controls="series-detail-menu"
         aria-haspopup="true"
         onClick={handleClik}
-        style={{padding:0}}
+        style={{ padding: 0 }}
       >
         <MoreHorizOutlined />
       </IconButton>
@@ -249,18 +254,18 @@ export const SericesMenu = (props) => {
                 return;
               }
               if (res.confirm) {
-                if (!newimgurl && !newTitle && !newdescription) {
-                  return;
-                }
+                // if (!newimgurl && !newTitle && !newdescription) {
+                //   return;
+                // }
 
                 let _data = {
                   model_name: "series",
                   model_action: "change_information",
                   extra_data: {
                     series_id: props.info.series_id,
-                    image_path: newimgurl || props.info.image_path,
-                    title: newTitle || props.info.title,
-                    description: newdescription || props.info.description,
+                    image_path: newimgurl ,
+                    title: newTitle ,
+                    description: newdescription ,
                   },
                 };
 
@@ -284,7 +289,7 @@ export const SericesMenu = (props) => {
                       marginRight: 20,
                       borderRadius: 12,
                       backgroundImage:
-                        "url(" + (newimgurl || props.info.image_path) + ")",
+                        "url(" + newimgurl + ")",
                       position: "relative",
                     }}
                     className="view-overflow bg-not text-center"
@@ -330,7 +335,7 @@ export const SericesMenu = (props) => {
                       height: 190,
                       borderRadius: 12,
                       backgroundImage:
-                        "url(" + (newimgurl || props.info.image_path) + ")",
+                        "url(" + newimgurl  + ")",
                     }}
                     className="view-overflow text-center bg-not"
                   ></div>
@@ -346,7 +351,7 @@ export const SericesMenu = (props) => {
                     type="text"
                     className="all-width textfield"
                     value={newTitle}
-                    placeholder={props.info.title || props.info.series_title}
+                    
                     onChange={(ev) => {
                       setNewTitle(ev.target.value);
                     }}
@@ -363,7 +368,7 @@ export const SericesMenu = (props) => {
                     className={`all-width textfield`}
                     rows={5}
                     value={
-                      newdescription || props.info.description || "填写新的描述"
+                      newdescription || "填写新的描述"
                     }
                     onChange={(ev) => {
                       setNewdescription(ev.target.value);
@@ -394,20 +399,17 @@ export const SericesMenu = (props) => {
                     video_id: idArr,
                   },
                 }).then((res) => {
-                  
-                  if(res.err===0){
-                    new CustomModal().alert('更改成功','success',3000)
-                    if(props.parent.state.page_id==2){
+                  if (res.err === 0) {
+                    new CustomModal().alert("更改成功", "success", 3000);
+                    if (props.parent.state.page_id == 2) {
                       props.parent.get_series_datial(props.info.series_id);
-                    }else{
+                    } else {
                       props.parent.update_data(props.parent.state.item_type);
                     }
-                  }else{
-                    new CustomModal().alert(res.errmsg,'error', 3000);
+                  } else {
+                    new CustomModal().alert(res.errmsg, "error", 3000);
                   }
-                
                 });
-
               }
             }}
           >
@@ -483,6 +485,347 @@ export const SericesMenu = (props) => {
       <ShareDialog
         isShare={isShare}
         parent={props.parent}
+        info={props.info}
+        onEvent={() => {
+          setIsShare(false);
+        }}
+      />
+    </div>
+  );
+};
+
+export const VideoMenu = (props) => {
+  
+  const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
+  const [newTitle, setNewTitle] = React.useState(props.info.title||props.info.video_title);
+  const [newdescription, setNewdescription] = React.useState(props.info.description);
+  //移至系列
+  const [seriesArr, setSeriesArr] = React.useState([]);
+  const [seriesvalue, setSeriesvalue] = React.useState("");
+
+  const [isShare, setIsShare] = React.useState(false); //分享
+  const classes = userStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setAnchorEl(evt.currentTarget);
+  };
+
+  const handleClose = (evt) => {
+    // evt.stopPropagation();
+    // evt.preventDefault();
+    setAnchorEl(null);
+  };
+console.log(props)
+  return (
+    <div className="text-right">
+      <IconButton
+        aria-label="more"
+        aria-controls="series-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        style={{ padding: 0 }}
+      >
+        <MoreHorizOutlined />
+      </IconButton>
+
+      <Menu
+        open={open}
+        anchorEl={anchorEl}
+        keepMounted
+        id="series-menu"
+        onClose={handleClose}
+        className={classes.menulist}
+      >
+        <MenuItem onClick={handleClose} data-id="1">
+          <EditDialog
+            title="编辑描述"
+            info={props.info}
+            icon_img={bianmiao}
+            onChange={(res) => {
+              if (res.url) {
+                setNewimgurl(res.url);
+              }
+            }}
+            onEvent={(res) => {
+             
+              if (res.cancel) {
+                return;
+              }
+              if (res.confirm) {
+                let _data = {
+                  model_name: "video",
+                  model_action: "change_information",
+                  extra_data: {
+                    video_id: props.info.video_id,
+                    image_path: newimgurl ,
+                    title: newTitle ,
+                    description: newdescription ,
+                  },
+                };
+                get_data(_data).then((res) => {
+
+                  if(props._type=='video'){
+                    props.parent.update_data('video');
+                  }
+                  if(props._type=='series_detail'){
+                    props.parent.get_series_datial(props._id);
+                  }
+                  new CustomModal().alert(res.errmsg, "error", 3000);
+                 
+                  // console.log(res);
+                });
+              }
+            }}
+          >
+            <div>
+              <div className="box">
+                <div>
+                  <div
+                    style={{
+                      width: 295,
+                      height: 190,
+                      marginRight: 20,
+                      borderRadius: 12,
+                      backgroundImage:
+                        "url(" + (newimgurl || props.info.image_path) + ")",
+                      position: "relative",
+                    }}
+                    className="view-overflow bg-not text-center"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "rgba(0,0,0,0.7)",
+                        flexDirection: "column",
+                      }}
+                      className="all-width all-height box box-center "
+                    >
+                      <span
+                        style={{
+                          width: 35,
+                          height: 35,
+                          backgroundColor: "#fff",
+                          display: "inline-block",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        <AddCircle
+                          style={{
+                            width: 35,
+                            height: 35,
+                            transform: "scale(1.2)",
+                            cursor: 'pointer'
+                          }}
+                          className="fn-color-007CFF"
+                          onClick={() => {
+                            document.getElementById("file-img").click();
+                          }}
+                        />
+                      </span>
+                      <p className="fn-color-878791">建议尺寸为295x190</p>
+                    </div>
+                  </div>
+                  <p className="text-center">添加作品封面</p>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      width: 295,
+                      height: 190,
+                      borderRadius: 12,
+                      backgroundImage:
+                        "url(" + (newimgurl || props.info.image_path) + ")",
+                    }}
+                    className="view-overflow text-center bg-not"
+                  ></div>
+                  <p className="text-center">作品封面预览</p>
+                </div>
+              </div>
+              <Grid container spacing={1}>
+                <Grid item xs={2}>
+                  视频名称
+                </Grid>
+                <Grid item xs={9}>
+                  <input
+                    type="text"
+                    className={`all-width ${classes.textfield}`}
+                    value={newTitle}
+                    onChange={(ev) => {
+                      setNewTitle(ev.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={1}></Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={2}>
+                  视频描述
+                </Grid>
+                <Grid item xs={9}>
+                  <textarea
+                    className={`all-width ${classes.textfield}`}
+                    rows={5}
+                    value={newdescription}
+                    onChange={(ev) => {
+                      setNewdescription(ev.target.value);
+                    }}
+                  ></textarea>
+                </Grid>
+                <Grid item xs={1}></Grid>
+              </Grid>
+            </div>
+          </EditDialog>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            get_data({
+              model_name: "series",
+              model_action: "get_series",
+              extra_data: {},
+            }).then((res) => {
+              if (res.err == 0) {
+                setSeriesArr(res.result_data);
+              }
+            });
+            handleClose();
+          }}
+          data-id="2"
+        >
+          <EditDialog
+            title="移动至系列"
+            icon_img={yixi}
+            info={props.info}
+            onChange={() => {}}
+            onEvent={(res) => {
+              if (res.confirm) {
+                get_data({
+                  model_name: "video",
+                  model_action: "movie_video",
+                  extra_data: {
+                    video_id: [props.info.video_id],
+                    series_id: seriesvalue,
+                  },
+                }).then((res) => {
+                  if (res.err == 0 && res.errmsg == "OK") {
+                    new CustomModal().alert("移动成功", "success", 3000);
+                    props.parent.parent.update_data("video");
+                  }
+                });
+              }
+              if (res.cancel) {
+                setSeriesvalue("");
+              }
+            }}
+          >
+            <div style={{ padding: "0 10px" }}>
+              {seriesArr &&
+                seriesArr.map((option, inx) => (
+                  <div
+                    key={option._id}
+                    className={`box box-between ${
+                      seriesvalue == option._id ? "bg-F2F2F5" : ""
+                    }`}
+                    style={{ padding: "10px 20px" }}
+                  >
+                    <div>
+                      <input
+                        type="radio"
+                        value={option._id}
+                        id={"series_" + option._id}
+                        onClick={(ev) => {
+                          ev.stopPropagation();
+                        }}
+                        onChange={(ev) => {
+                          setSeriesvalue(ev.target.value);
+                        }}
+                      />
+                      <label
+                        htmlFor={"series_" + option._id}
+                        onClick={(ev) => {
+                          ev.stopPropagation();
+                        }}
+                      >
+                        {option.title}
+                      </label>
+                    </div>
+                    <div>共{option.video_counts}集</div>
+                  </div>
+                ))}
+            </div>
+          </EditDialog>
+        </MenuItem>
+        <MenuItem onClick={handleClose} data-id="6">
+          <Link
+            color="inherit"
+            underline="none"
+            href={`/video/?sid=${props.info.video_id}`}
+            target="_blank"
+            rel="noopener norefferer"
+          >
+            <div className="text-center">
+              <img src={restbian} />
+            </div>
+            <div>重新编辑</div>
+          </Link>
+        </MenuItem>
+        
+        <MenuItem
+          onClick={(ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            setIsShare(true);
+            handleClose();
+          }}
+          data-id="5"
+        >
+          <div>
+            <img src={fenxiang} />
+          </div>
+          <div> 分享</div>
+        </MenuItem>
+        <MenuItem
+          data-id="6"
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          <EditDialog
+            title="删除作品"
+            icon_img={del}
+            info={props.info}
+            _type="del"
+            onEvent={(msg) => {
+              if(msg.confirm){
+                get_data({
+                  model_name: "video",
+                  model_action: "delete_video",
+                  extra_data: {
+                    video_id: [props.info.video_id],
+                  },
+                }).then((res) => {
+                  if (res.err === 0) {
+                    new CustomModal().alert("删除成功", "success", 5000);
+                    if(props._type=='video'){
+                      props.parent.update_data('video')
+                    }
+                    if(props._type =='series_detail'){
+                      props.parent.get_series_datial(props._id)
+                    }
+                  }
+                });
+              }
+             
+            }}
+          >
+            <p>上传作品不容易, 确定真的要删除该作品?</p>
+          </EditDialog>
+        </MenuItem>
+      </Menu>
+      <ShareDialog
+        isShare={isShare}
+        parent={props}
         info={props.info}
         onEvent={() => {
           setIsShare(false);

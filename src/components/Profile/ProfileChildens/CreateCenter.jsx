@@ -324,7 +324,7 @@ class CreateCenter extends React.Component {
                 <SeriesItem
                   parent={this}
                   info={this.state.series_details}
-                  series="series"
+                  series="series_detail"
                 />
               </div>
               <div>
@@ -337,6 +337,7 @@ class CreateCenter extends React.Component {
                         info={option}
                         history="3"
                         _h={this.state.item_h}
+                        _id={this.state.series_details.series_id}
                       />
                     </Grid>
                   ))}
