@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 import HomeTab from "./HomeTab";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
@@ -42,7 +43,18 @@ class Home extends Component {
           <EmptyNotice empty={!hotVideos.length && !loading} />
         </div>
         <br />
-        <Pagination fetch={this.fetchHotVideo} />
+        <div style={{ textAlign: "center" }}>
+          <Button
+            onClick={this.fetchHotVideo}
+            variant="contained"
+            color="secondary"
+          >
+            换一换
+          </Button>
+        </div>
+        <div style={{ display: "none" }}>
+          <Pagination fetch={this.fetchHotVideo} />
+        </div>
         <br />
       </Fragment>
     );
