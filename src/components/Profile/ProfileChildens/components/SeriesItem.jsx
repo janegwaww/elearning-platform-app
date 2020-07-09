@@ -330,6 +330,7 @@ const SeriesItem = (props) => {
           <SericesMenu
             parent={props.parent}
             info={props.info}
+            _type={props.series}
             onEven={(msg) => {
               console.log(msg);
             }}

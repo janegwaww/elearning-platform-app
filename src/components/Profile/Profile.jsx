@@ -3,7 +3,7 @@ import Helmet from "react-helmet";
 import Layout from "./layout";
 import config from "../../../data/SiteConfig";
 
-import { navigate } from "@reach/router";
+import { navigate,Link } from "@reach/router";
 import { Container, Avatar } from "@material-ui/core";
 import { Telegram, NotificationsNone, OndemandVideo,PermIdentity} from "@material-ui/icons";
 import "./layout/Profile.css";
@@ -76,7 +76,9 @@ class Profile extends React.Component {
       }
     });
   }
-
+  componentWillUnmount() {
+   sessionStorage.removeItem('now_page');
+  }
   // componentWillReceiveProps(nextProps){
 
   // }
@@ -123,6 +125,7 @@ class Profile extends React.Component {
   }
   render() {
     const { menuOpen } = this.state;
+    const {children} = this.props;
 
     return (
       <Layout>
@@ -236,7 +239,8 @@ class Profile extends React.Component {
                   />
                 </li>
                 {/**
-                <li>
+                <li> <li> <Link to="/users/profile"    >中心</Link></li>
+                <li> <Link to="/users/profile/two?id" >two</Link></li>
                   {" "}
                   <ReportProblem />
                   风纪中心
@@ -250,12 +254,13 @@ class Profile extends React.Component {
                 </li>
                 <li>
                   <LocationCity /> 数据中心
-                </li>
+                </li> {children}
                  */}
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
-             <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+           
+              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
              <SearchLoading loading={this.state.login_status} />
              </main>
           </section>

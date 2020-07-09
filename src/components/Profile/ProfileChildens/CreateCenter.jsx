@@ -3,23 +3,16 @@ import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import WorksItem from "./components/WorksItem";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import {
-  MoreHorizOutlined,
-  Details,
-  FavoriteBorder,
-  AddCircle,
-  MenuOutlined,
-} from "@material-ui/icons";
+
 import Grid from "@material-ui/core/Grid";
 import Management from "./components/Management";
+import Pagination from "@material-ui/lab/Pagination";
 import { get_data, get_alldata } from "../../../assets/js/request";
 import { get_date } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
 import EditDialog from "./components/EditDialog";
 import { withStyles } from "@material-ui/core/styles";
-import fenxiang from "../../../assets/img/fenxiang.png";
-import sore from "../../../assets/img/sore.png";
-import bianmiao from "../../../assets/img/bianmiao.png";
+
 import { ShareDialog, SericesMenu } from "./components/shareDialog";
 import SearchLoading from "../../Loading/SearchLoading";
 const NewMenu = withStyles((theme) => ({
@@ -56,6 +49,10 @@ class CreateCenter extends React.Component {
       video_data: null,
       draft_data: null,
       series_data: null,
+      data_counts: 0,
+      page_counts: 10,
+      page_num: 0,
+      page_data: [],
       page_id: props.parent.state.nowPage.childpage_id, //==3?2:props.parent.state.nowPage.childpage_id,
       item_type: "video", //普通/2系列
       series_details: null, //系列详情
@@ -133,6 +130,13 @@ class CreateCenter extends React.Component {
             draft_data: res.result_data,
           });
         }
+        this.setState({
+          data_counts: res.count,
+          page_data: res.result_data.slice(
+            this.state.page_num * this.state.page_counts,
+            (this.state.page_num + 1) * this.state.page_counts
+          ),
+        });
       }
     });
   }
@@ -211,7 +215,12 @@ class CreateCenter extends React.Component {
                     if (num == 3) {
                       _type = "draft";
                     }
-                    this.setState({ item_type: _type });
+                    this.setState({
+                      item_type: _type,
+                      data_counts: 0,
+                      page_data: [],
+                      page_num: 0,
+                    });
                     this.update_data(_type);
                   }}
                 />
@@ -220,7 +229,7 @@ class CreateCenter extends React.Component {
                 <div>
                   {this.state.video_data &&
                     this.state.video_data.length > 0 &&
-                    this.state.video_data.map((option, inx) => (
+                    this.state.page_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
                         info={option}
@@ -229,10 +238,13 @@ class CreateCenter extends React.Component {
                         series={this.state.item_type}
                       />
                     ))}
-                    {this.state.video_data &&
-                      this.state.video_data.length <= 0 &&(
-                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
-                      )}
+
+                  {this.state.video_data &&
+                    this.state.video_data.length <= 0 && (
+                      <div className="profile-top">
+                        亲，暂时你还没有作品哦，现在去添加么？
+                      </div>
+                    )}
                 </div>
               )}
 
@@ -240,7 +252,7 @@ class CreateCenter extends React.Component {
                 <div>
                   {this.state.series_data &&
                     this.state.series_data.length > 0 &&
-                    this.state.series_data.map((option, inx) => (
+                    this.state.page_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
                         info={option}
@@ -253,10 +265,12 @@ class CreateCenter extends React.Component {
                       />
                     ))}
 
-                    {this.state.series_data &&
-                      this.state.series_data.length <= 0 &&(
-                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
-                      )}
+                  {this.state.series_data &&
+                    this.state.series_data.length <= 0 && (
+                      <div className="profile-top">
+                        亲，暂时你还没有作品哦，现在去添加么？
+                      </div>
+                    )}
                 </div>
               )}
 
@@ -264,7 +278,7 @@ class CreateCenter extends React.Component {
                 <div>
                   {this.state.draft_data &&
                     this.state.draft_data.length > 0 &&
-                    this.state.draft_data.map((option, inx) => (
+                    this.state.page_data.map((option, inx) => (
                       <SeriesItem
                         parent={this}
                         info={option}
@@ -273,13 +287,65 @@ class CreateCenter extends React.Component {
                         series={this.state.item_type}
                       />
                     ))}
-                    {this.state.draft_data &&
-                      this.state.draft_data.length <= 0 &&(
-                        <div className='profile-top'>亲，暂时你还没有作品哦，现在去添加么？</div>
-                      )}
+                  {this.state.draft_data &&
+                    this.state.draft_data.length <= 0 && (
+                      <div className="profile-top">
+                        亲，暂时你还没有作品哦，现在去添加么？
+                      </div>
+                    )}
                 </div>
               )}
             </main>
+            {this.state.data_counts > this.state.page_counts && (
+              <div className="profile-top">
+                <Pagination
+                  count={Math.ceil(
+                    this.state.data_counts / this.state.page_counts
+                  )}
+                  variant="outlined"
+                  shape="rounded"
+                  onChange={(e, v) => {
+                    this.setState({
+                      page_data: [],
+                      login_status: true,
+                    });
+                    document.body.scrollTop = document.documentElement.scrollTop = 0
+                    setTimeout(() => {
+                      if (this.state.item_type == "video") {
+                        this.setState({
+                          page_data: this.state.video_data.slice(
+                            (v - 1) * this.state.page_counts,
+                            v * this.state.page_counts
+                          ),
+                        });
+                      }
+                      if (this.state.item_type == "series") {
+                        this.setState({
+                          page_data: this.state.series_data.slice(
+                            (v - 1) * this.state.page_counts,
+                            v * this.state.page_counts
+                          ),
+                        });
+                      }
+                      if (this.state.item_type == "draft") {
+                        this.setState({
+                          page_data: this.state.draft_data.slice(
+                            (v - 1) * this.state.page_counts,
+                            v * this.state.page_counts
+                          ),
+                        });
+                      }
+                      
+                      this.setState({
+                        login_status: false,
+                        page_num: v - 1,
+                      });
+                      
+                    }, 300);
+                  }}
+                />
+              </div>
+            )}
           </section>
         )}
         {this.state.page_id === 1 && (
@@ -296,6 +362,7 @@ class CreateCenter extends React.Component {
             <Management />
           </section>
         )}
+
         {this.state.page_id === 2 && (
           <section className="bg-white profile-padding all-width  all-height">
             <div>
@@ -312,7 +379,7 @@ class CreateCenter extends React.Component {
                   if (num == 3) {
                     _type = "draft";
                   }
-                
+
                   this.setState({ item_type: _type, page_id: 0 });
 
                   this.update_data(_type);

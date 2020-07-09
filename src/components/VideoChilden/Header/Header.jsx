@@ -42,6 +42,7 @@ export default class Header extends Component {
       open: false,
       files: props.parent.state.video_data,
       is_modal: false,
+      timers:null,
     };
     this.btn_user = this.btn_user.bind(this);
   }
@@ -54,7 +55,11 @@ export default class Header extends Component {
       navigate(`/users/login`);
     }
   }
-
+  componentWillUnmount() {
+    this.setState({
+      timers:null
+    })
+  }
   btn_user = function(info) {
     if (!getUser().name) {
       sessionStorage.setItem("no_login_page", window.location.href);
@@ -74,9 +79,12 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
-      _this.props.parent.setState({
-        login_status:true
-      })
+      if(el!='not'){
+        _this.props.parent.setState({
+          login_status:true
+        })
+      }
+     
       let _video_data = _this.props.parent.state.video_data;
 
       let r_data = {
@@ -92,15 +100,17 @@ export default class Header extends Component {
       };
       get_data( r_data)
         .then((res) => {
-          _this.props.parent.setState({
-            login_status:false
-          });
+          if(el!='not'){
+            _this.props.parent.setState({
+              login_status:false
+            });
+          }
+          
           if (res.err == 0 && res.errmsg == "OK") {
-           
             _this.setState({ open: true });
-            
+            if(el!='not'){
               navigate("/video/uppage");
-             
+            }   
             
           } else {
             
@@ -172,6 +182,23 @@ export default class Header extends Component {
         </div>
         <div className="box box-align-center">
           <div>
+          <NewBtn2 onClick={()=>{
+            
+            if (
+              JSON.stringify(this.props.parent.state.video_data) === "{}"||!this.props.parent.state.video_data.sub_josn
+            ) {
+              new CustomModal().alert("亲！还没有添加文件呢！", "error");
+              return;
+            }
+            clearInterval(this.state.timers);
+            this.setState({
+              timers: setInterval(()=>{btn_save('not')},60000)
+            })
+            btn_save('not') 
+          
+          }}>保存</NewBtn2>
+          </div>
+          <div>
             <NewBtn2
               onClick={() => {
                 if (
@@ -193,7 +220,7 @@ export default class Header extends Component {
                   this.setState({
                     is_modal: true,
                   });
-                  btn_save();
+                  btn_save('not');
                 } else {
                   sessionStorage.setItem(
                     "file_data",

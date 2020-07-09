@@ -121,7 +121,7 @@ export default function EditDialog(props) {
         {props.btn != "no_show" && (
           <DialogActions>
             <Button
-              autoFocus
+              disabled={props._disabled?true:false}
               onClick={(evt) => {
                 evt.preventDefault();
                 evt.stopPropagation();
