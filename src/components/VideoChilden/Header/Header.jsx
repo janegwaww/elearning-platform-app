@@ -41,7 +41,7 @@ export default class Header extends Component {
       open_updata: false,
       open: false,
       files: props.parent.state.video_data,
-      is_modal: false,
+      // is_modal: false,
       timers:null,
     };
     this.btn_user = this.btn_user.bind(this);
@@ -217,10 +217,10 @@ export default class Header extends Component {
                   }, 5000);
                 }
                 if (this.props.parent.state.video_data.sub_josn) {
-                  this.setState({
-                    is_modal: true,
-                  });
-                  btn_save('not');
+                  // this.setState({
+                  //   is_modal: true,
+                  // });
+                  btn_save();
                 } else {
                   sessionStorage.setItem(
                     "file_data",

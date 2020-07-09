@@ -269,7 +269,7 @@ class ProfileIndex extends React.Component {
               data-id="3"
               data-defaultpage="作品管理"
               onClick={(evt) => {
-                evt.stopPropagation();
+                evt.stopPropagation(); 
                 evt.preventDefault();
                 this.props.parent.pageRoute(evt);
               }}
