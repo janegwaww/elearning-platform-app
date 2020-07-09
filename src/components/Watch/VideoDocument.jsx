@@ -62,7 +62,6 @@ export default function VideoDocument({ vid }) {
                   <Box height={68} display="flex">
                     <div
                       style={{
-                        marginRight: 10,
                         height: 68,
                         width: 120,
                         overflow: "hidden",
@@ -82,7 +81,7 @@ export default function VideoDocument({ vid }) {
                       display="flex"
                       flexDirection="column"
                       justifyContent="space-between"
-                      width="calc(100% - 120px - 6px)"
+                      width="calc(100% - 120px - 14px)"
                     >
                       <Typography noWrap variant="body2">
                         {o.file_name}
