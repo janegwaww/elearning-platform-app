@@ -108,8 +108,8 @@ const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) => (
       <div style={{ gridColumn: 2, gridRow: 4 }}>
         <Typography variant="caption" color="textSecondary">
           {`${view}观看`}
-          <Bull />
-          {`${comment}回应`}
+          {/* <Bull />
+          {`${comment}回应`} */}
           <Bull />
           {`${like}点赞`}
         </Typography>

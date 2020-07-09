@@ -103,6 +103,8 @@ const PrimarySearchAppBar = () => {
                 color="inherit"
                 href="/joinedscholar/"
                 underline="none"
+                target="_blank"
+                rel="noopener norefferer"
                 style={{ padding: "6px 8px" }}
               >
                 <Typography>加盟学者</Typography>
