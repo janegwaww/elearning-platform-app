@@ -57,6 +57,7 @@ const DialogActions = withStyles((theme) => ({
     padding: theme.spacing(1),
     justifyContent: "center",
   },
+ 
 }))(MuiDialogActions);
 
 export default function EditDialog(props) {
@@ -69,7 +70,9 @@ export default function EditDialog(props) {
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setOpen(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 500);
   };
 
   return (
@@ -89,9 +92,17 @@ export default function EditDialog(props) {
         className={classes.dialog}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {props.title}
+          {props._type == "del" ? "温馨提示" : props.title}
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent
+          dividers
+          style={{
+            borderTop:
+              props._type == "del" ? "none" : " 1px solid rgba(0, 0, 0, 0.12)",
+            borderBottom:
+              props._type == "del" ? "none" : " 1px solid rgba(0, 0, 0, 0.12)",
+          }}
+        >
           {children}
           <input
             type="file"
@@ -104,17 +115,18 @@ export default function EditDialog(props) {
                 }
               });
             }}
-            style={{display:'none'}}
+            style={{ display: "none" }}
           />
         </DialogContent>
         {props.btn != "no_show" && (
           <DialogActions>
             <Button
               autoFocus
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleClose(e);
+              onClick={(evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+
+                handleClose(evt);
                 props.onEvent &&
                   props.onEvent({
                     confirm: true,
@@ -127,7 +139,6 @@ export default function EditDialog(props) {
               确定
             </Button>
             <Button
-              autoFocus
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
