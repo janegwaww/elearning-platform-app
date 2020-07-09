@@ -6,7 +6,7 @@ import { ProNavbar, Navbar } from "./components/ProfileNav";
 import SeriesItem from "./components/SeriesItem";
 import  WorksItem  from "./components/WorksItem";
 import { get_data, get_alldata } from "../../../assets/js/request";
-import { set } from "lodash";
+
 
 class ProfileIndex extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class ProfileIndex extends React.Component {
    
   }
   update_data(_type) {
-console.log(this.props)
+
     this.props.parent.setState({
       login_status:true
     })

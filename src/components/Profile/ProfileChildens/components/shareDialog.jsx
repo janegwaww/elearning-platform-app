@@ -219,6 +219,7 @@ export const SericesMenu = (props) => {
     }
     return index;
   };
+  // console.log(props)
   return (
     <div className="text-right">
       <IconButton
@@ -249,6 +250,7 @@ export const SericesMenu = (props) => {
                 setNewimgurl(res.url);
               }
             }}
+            _disabled={!newTitle?true:false}
             onEvent={(res) => {
               if (res.cancel) {
                 return;
@@ -270,8 +272,14 @@ export const SericesMenu = (props) => {
                 };
 
                 get_data(_data).then((data) => {
+                  
                   if (data.err == 0) {
                     new CustomModal().alert(data.errmsg, "success", 5000);
+                    if(props._type=='series'){
+                      props.parent.update_data('series');
+                    }else{
+                      props.parent.get_series_datial(props.info.series_id);
+                    }
                   } else {
                     new CustomModal().alert("修改失败", "error", 5000);
                   }
@@ -318,7 +326,7 @@ export const SericesMenu = (props) => {
                           }}
                           className="fn-color-007CFF"
                           onClick={() => {
-                            console.log(document.getElementById("file-img"));
+                            
                             document.getElementById("file-img").click();
                           }}
                         />
@@ -447,7 +455,7 @@ export const SericesMenu = (props) => {
                     className={`box box-align-center  }`}
                     draggable="true"
                     data-id={op.video_id}
-                    style={{}}
+                   
                     id={op.video_id}
                     onDragStart={(evt) => {
                       evt.stopPropagation();
@@ -460,7 +468,7 @@ export const SericesMenu = (props) => {
                       <MenuOutlined />
                     </div>
                     <div className="fn-color-2C2C3B text-overflow">
-                      {inx + 1} {op.video_title}
+                      {op.video_title}
                     </div>
                   </li>
                 ))}
@@ -518,7 +526,7 @@ export const VideoMenu = (props) => {
     // evt.preventDefault();
     setAnchorEl(null);
   };
-console.log(props)
+// console.log(props)
   return (
     <div className="text-right">
       <IconButton
@@ -544,6 +552,7 @@ console.log(props)
             title="编辑描述"
             info={props.info}
             icon_img={bianmiao}
+            _disabled ={!newTitle?true:false}
             onChange={(res) => {
               if (res.url) {
                 setNewimgurl(res.url);
@@ -575,7 +584,6 @@ console.log(props)
                   }
                   new CustomModal().alert(res.errmsg, "error", 3000);
                  
-                  // console.log(res);
                 });
               }
             }}

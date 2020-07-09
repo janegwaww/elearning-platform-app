@@ -298,14 +298,19 @@ export default class UploadVideos extends Component {
     };
     get_data(_data)
       .then((res) => {
-        
         if (res.err === 1 || res.err == -4) {
           this.tools_subtitles(res.result_data[0]);
         } else if (res.err === 0) {
+          this.setState({
+            status:5
+          })
           setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
         } else if (res.err == -3) {
+          this.setState({
+            status:5
+          })
           this.query_subtitles();
         } else {
           new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -354,7 +359,7 @@ export default class UploadVideos extends Component {
         } else {
           setTimeout(() => {
             _this.query_subtitles();
-          }, 9000);
+          }, 10000);
         }
       })
       .catch((err) => {
@@ -892,7 +897,7 @@ export default class UploadVideos extends Component {
                   new CustomModal().alert("请选择视频的语言", "error", 3000);
                   return;
                 }
-                _this.setState({ lang_open: false, status: 5 });
+                _this.setState({ lang_open: false });
                 if (files.sub_josn) {
                   _this.reset_subtitles(); //重新生成字幕
                 } else {
