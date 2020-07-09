@@ -17,7 +17,7 @@ const errorMessageNotice = (odata = {}) => {
 // token过期退出登录
 const tokenExpired = (odata = {}) => {
   const { data = {} } = odata;
-  if (!["4104"].includes(data.err)) {
+  if (["4104"].includes(data.err)) {
     logout(() => ({}));
   }
   return Promise.resolve(odata);
