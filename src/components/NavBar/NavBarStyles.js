@@ -1,4 +1,5 @@
 import { fade, makeStyles } from "@material-ui/core/styles";
+import { camelCase } from "lodash";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -82,7 +83,10 @@ const useStyles = makeStyles(theme => ({
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
-      display: "flex"
+      display: "flex",
+      marginRight: 'calc(6%)',
+      justifyContent: 'space-between',
+      width: 'calc(12%)',
     }
   },
   sectionMobile: {

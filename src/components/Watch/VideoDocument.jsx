@@ -82,7 +82,7 @@ export default function VideoDocument({ vid }) {
                       display="flex"
                       flexDirection="column"
                       justifyContent="space-between"
-                      width="calc(100% - 120px)"
+                      width="calc(100% - 120px - 6px)"
                     >
                       <Typography noWrap variant="body2">
                         {o.file_name}

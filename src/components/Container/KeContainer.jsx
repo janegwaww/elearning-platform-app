@@ -1,11 +1,31 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import "./KeContainerStyles.sass";
 
-export default function KeContainer({ children, ...props }) {
+const useStyles = makeStyles((theme) => ({
+  keContainer: {
+    maxWidth: 1420,
+  },
+  container: {
+    "@media (min-width:1120px) and (max-width:1440px)": {
+      maxWidth: 1120,
+    },
+  },
+}));
+
+const KeContainer = ({ children, ...props }) => {
+  const classes = useStyles();
+
   return (
-    <Container className="ke-container" fixed {...props}>
+    <Container
+      fixed
+      classes={{ maxWidthXl: classes.keContainer }}
+      className={classes.container}
+      {...props}
+    >
       {children}
     </Container>
   );
-}
+};
+
+export default KeContainer;

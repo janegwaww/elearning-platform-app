@@ -94,11 +94,25 @@ const ModalBody = ({ item, handleClose }) => {
             {item.name}
           </Typography>
           <Box height={20} />
-          <Typography style={{ color: "#fff", fontSize: "0.75rem" }}>
+          <Typography
+            style={{
+              color: "#fff",
+              fontSize: "0.75rem",
+              lineHeight: "20px",
+              letterSpacing: "1px",
+            }}
+          >
             {item.introduction1}
           </Typography>
           <Box height={20} />
-          <Typography style={{ color: "#ccccd1", fontSize: "0.75rem" }}>
+          <Typography
+            style={{
+              color: "#ccccd1",
+              fontSize: "0.75rem",
+              lineHeight: "20px",
+              letterSpacing: "1px",
+            }}
+          >
             {item.introduction2}
           </Typography>
         </div>
@@ -130,7 +144,7 @@ const JoinedScholar = () => {
     <div className="joined-scholar">
       {/* top bar */}
       <div className="toolbar">
-        <Container maxWidth="xs" classes={{ maxWidthXs: classes.maxWidthXs }}>
+        <Container maxWidth="xl" classes={{ maxWidthXl: classes.maxWidthXs }}>
           <Box
             display="flex"
             alignItems="center"

@@ -28,7 +28,7 @@ export const secondsToHMS = (seconds = 0) =>
 
 // 转iso日期
 export const secondsToDate = (seconds = 0) =>
-  new Date(seconds * 1000).toISOString().slice(0, 10);
+  seconds ? new Date(seconds * 1000).toISOString().slice(0, 10) : "";
 
 export const secondsToMouth = (seconds = 0) =>
   new Date(seconds * 1000).toISOString().slice(5, 10);

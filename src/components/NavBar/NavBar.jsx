@@ -23,7 +23,7 @@ import Container from "../Container/KeContainer";
 import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
 
-export default function PrimarySearchAppBar() {
+const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -39,7 +39,9 @@ export default function PrimarySearchAppBar() {
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
-      navigate("/search/", { state: { searchValue: value } });
+      navigate(`/search/?${new URLSearchParams("q=" + value).toString()}`, {
+        state: { searchValue: value },
+      });
     }
   };
 
@@ -101,6 +103,8 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
                 href="/joinedscholar/"
                 underline="none"
+                target="_blank"
+                rel="noopener norefferer"
                 style={{ padding: "6px 8px" }}
               >
                 <Typography>加盟学者</Typography>
@@ -130,17 +134,13 @@ export default function PrimarySearchAppBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-                style={{ marginRight: 20 }}
-              >
+              <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
-              <div style={{ marginRight: 30 }} />
             </div>
             <div>
               <Button
@@ -167,4 +167,6 @@ export default function PrimarySearchAppBar() {
       {renderMobileMenu}
     </div>
   );
-}
+};
+
+export default PrimarySearchAppBar;
