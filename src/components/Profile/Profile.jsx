@@ -76,7 +76,9 @@ class Profile extends React.Component {
       }
     });
   }
-
+  componentWillUnmount() {
+   sessionStorage.removeItem('now_page');
+  }
   // componentWillReceiveProps(nextProps){
 
   // }

@@ -575,12 +575,15 @@ export const VideoMenu = (props) => {
                   },
                 };
                 get_data(_data).then((res) => {
-
-                  if(props._type=='video'){
-                    props.parent.update_data('video');
-                  }
-                  if(props._type=='series_detail'){
-                    props.parent.get_series_datial(props._id);
+                  if(res.err==0){
+                    if(props._type=='video'){
+                      props.parent.update_data('video');
+                    }
+                    if(props._type=='series_detail'){
+                      props.parent.get_series_datial(props._id);
+                    }
+                    new CustomModal().alert(res.errmsg, "success", 3000);
+                    return
                   }
                   new CustomModal().alert(res.errmsg, "error", 3000);
                  
