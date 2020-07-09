@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 1420,
   },
   container: {
-    "@media (min-width:1120px) and (max-width:1440px)": {
+    "@media (min-width:1120px) and (max-width:1550px)": {
       maxWidth: 1120,
     },
   },
