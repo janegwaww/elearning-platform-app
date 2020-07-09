@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 const headCard = ({
   image_path,
   title,
-  video_counts,
+  video_counts = 0,
   description,
   author_name,
   update_time,

@@ -21,7 +21,7 @@ import config from "../../data/SiteConfig";
 import theme from "./theme";
 import "./SearchLayoutStyles.sass";
 
-export default function SearchLayout({ children, searchValue = "" }) {
+const SearchLayout = ({ children, searchValue = "" }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("");
 
@@ -55,7 +55,7 @@ export default function SearchLayout({ children, searchValue = "" }) {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
               </Badge>
-              <Box display="flex" ml={5} mr={3}>
+              <Box display="flex" ml={5} mr={3} color='#fff'>
                 <AvatarMenu />
               </Box>
               <Link href="/video/" underline="none">
@@ -111,4 +111,6 @@ export default function SearchLayout({ children, searchValue = "" }) {
       <Footer config={config} />
     </ThemeProvider>
   );
-}
+};
+
+export default SearchLayout;
