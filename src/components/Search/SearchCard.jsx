@@ -37,8 +37,9 @@ const imagePick = (path, href = "/", type) =>
 
 const TitleItem = ({ pay, title, time, href, match = {} }) => {
   const createMarkup = {
-    __html:
-      match.type === "title" ? decoratedStr(title, match.subtitle_dist) : title,
+    __html: ["title", "name"].includes(match.type)
+      ? decoratedStr(match.whole_str, match.subtitle_dist)
+      : title,
   };
   return (
     <div className="title-item">
@@ -63,10 +64,9 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
 
 const descriptionItem = (description, match = {}) => {
   const createMarkup = {
-    __html:
-      match.type === "description"
-        ? decoratedStr(description, match.subtitle_dist)
-        : description,
+    __html: ["description", "content"].includes(match.type)
+      ? decoratedStr(match.whole_str, match.subtitle_dist)
+      : description,
   };
   return (
     description && (
@@ -238,14 +238,17 @@ const docContainer = ({ data, match_frame }) => {
   return (
     <div className="docContainer">
       <div className="docHead">{imagePick(data.image_path, href, "doc")}</div>
-      <div stye={{ gridColumn: 2, gridRow: 1 }}>
+      <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           title={data.file_name}
           pay={data.is_pay}
           time={data.time}
           href={href}
-          mathc={match_frame}
+          match={match_frame}
         />
+      </div>
+      <div style={{ gridColumn: 2, gridRow: "2/4" }}>
+        {descriptionItem(match_frame.whole_str, match_frame)}
       </div>
       <div className="docAvatar">
         {userAvatar(data.user_name, data.headshot, data.user_id)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
@@ -18,14 +18,6 @@ export default function SimplePopover({ children }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [url, setUrl] = useState("");
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const fetchUrl = ({ type }, callback) => {
     userShare({
       url: "http://kengine.haetek.com/watch/vid=",
@@ -41,6 +33,17 @@ export default function SimplePopover({ children }) {
     });
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    if (!url) {
+      fetchUrl({ type: "wechat" }, (u) => setUrl(u));
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleShare = (type) => {
     fetchUrl({ type }, (u) => {
       window.open(u);
@@ -49,12 +52,6 @@ export default function SimplePopover({ children }) {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
-  useEffect(() => {
-    if (!url) {
-      fetchUrl({ type: "wechat" }, (u) => setUrl(u));
-    }
-  }, []);
 
   return (
     <div>
@@ -83,7 +80,7 @@ export default function SimplePopover({ children }) {
             <IconButton onClick={() => handleShare("qq")}>QQ</IconButton>
           </div>
           <div style={{ textAlign: "center" }}>
-            <QRCode value={url} level="L" size={160} />
+            {!!url && <QRCode value={url} level="L" size={160} />}
           </div>
         </Paper>
       </Popover>
