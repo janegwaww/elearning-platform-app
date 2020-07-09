@@ -12,6 +12,7 @@ const userStyles = makeStyles((theme) => ({
     '& .MuiDialog-paperWidthSm':{
       maxWidth:850,
       margin:0,
+      overflow:'hidden'
     
     },
     '& .MuiPaper-root':{
