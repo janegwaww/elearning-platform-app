@@ -132,17 +132,13 @@ const PrimarySearchAppBar = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-                style={{ marginRight: 20 }}
-              >
+              <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
-              <div style={{ marginRight: 30 }} />
             </div>
             <div>
               <Button

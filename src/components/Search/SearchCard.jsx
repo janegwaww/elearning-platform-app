@@ -248,7 +248,7 @@ const docContainer = ({ data, match_frame }) => {
         />
       </div>
       <div style={{ gridColumn: 2, gridRow: "2/4" }}>
-        {descriptionItem(match_frame.whole_str, match_frame)}
+        {descriptionItem("", match_frame)}
       </div>
       <div className="docAvatar">
         {userAvatar(data.user_name, data.headshot, data.user_id)}
