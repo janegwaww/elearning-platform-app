@@ -22,6 +22,7 @@ import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
 import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
+import { searchUrlParams } from "../../services/utils";
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
@@ -39,9 +40,7 @@ const PrimarySearchAppBar = () => {
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
-      navigate(`/search/?${new URLSearchParams("q=" + value).toString()}`, {
-        state: { searchValue: value },
-      });
+      navigate(searchUrlParams(value));
     }
   };
 
