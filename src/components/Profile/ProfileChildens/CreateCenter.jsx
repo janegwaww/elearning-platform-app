@@ -56,8 +56,7 @@ class CreateCenter extends React.Component {
       series_details: null, //系列详情
       item_type: "video", //普通/2系列
       page_id: props.parent.state.nowPage.childpage_id, //==3?2:props.parent.state.nowPage.childpage_id,
-      
-      
+
       // evt: null,
       series_id: "", //系列id
       // newimgurl: "", //新的imgurl
@@ -88,17 +87,7 @@ class CreateCenter extends React.Component {
   componentWillUnmount() {
     window.onresize = null;
   }
-  // handleClose(ev) {
-  //   let _id = ev.target.dataset.id;
-  //   this.setState({
-  //     evt: null,
-  //   });
-  // }
-  // handleClik(evt) {
-  //   this.setState({
-  //     evt: evt.currentTarget,
-  //   });
-  // }
+
   update_data(_type) {
     this.setState({
       login_status: true,
@@ -167,6 +156,8 @@ class CreateCenter extends React.Component {
           page_id: 2,
           series_details: res.result_data[0],
           series_id: _id,
+
+       
         });
         this.wind_size();
       } else {
@@ -311,7 +302,7 @@ class CreateCenter extends React.Component {
                       page_data: [],
                       login_status: true,
                     });
-                    document.body.scrollTop = document.documentElement.scrollTop = 0
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
                     setTimeout(() => {
                       if (this.state.item_type == "video") {
                         this.setState({
@@ -337,12 +328,11 @@ class CreateCenter extends React.Component {
                           ),
                         });
                       }
-                      
+
                       this.setState({
                         login_status: false,
                         page_num: v - 1,
                       });
-                      
                     }, 300);
                   }}
                 />
@@ -398,18 +388,23 @@ class CreateCenter extends React.Component {
               </div>
               <div>
                 <Grid container className="grid">
-                  {this.state.series_details.video_data.map((option, inx) => (
-                    <Grid item xs={3} key={inx}>
-                      <WorksItem
-                        parent={this}
-                        inx={inx}
-                        info={option}
-                        history="3"
-                        _h={this.state.item_h}
-                        _id={this.state.series_details.series_id}
-                      />
-                    </Grid>
-                  ))}
+                  {this.state.series_details.video_data
+                    .slice(
+                      this.state.page_num * 8,
+                      (this.state.page_num + 1) * 8
+                    )
+                    .map((option, inx) => (
+                      <Grid item xs={3} key={inx}>
+                        <WorksItem
+                          parent={this}
+                          inx={inx}
+                          info={option}
+                          history="3"
+                          _h={this.state.item_h}
+                          _id={this.state.series_details.series_id}
+                        />
+                      </Grid>
+                    ))}
                 </Grid>
               </div>
             </div>
@@ -423,6 +418,34 @@ class CreateCenter extends React.Component {
                 });
               }}
             />
+              
+            {this.state.series_details.video_data&&this.state.series_details.video_data.length > 8 && (
+              <div className="profile-top">
+                <Pagination
+                  count={Math.ceil(
+                    this.state.series_details.video_data.length / 8
+                  )}
+                  variant="outlined"
+                  shape="rounded"
+                  onChange={(e, v) => {
+                    this.setState({
+                      // page_data: [],
+                      login_status: true,
+                    });
+                    // document.body.scrollTop = document.documentElement.scrollTop = 0
+                    setTimeout(() => {
+                   
+
+                      this.setState({
+                        login_status: false,
+                        page_num: v - 1,
+                      });
+
+                    }, 300);
+                  }}
+                />
+              </div>
+            )}
           </section>
         )}
       </div>
