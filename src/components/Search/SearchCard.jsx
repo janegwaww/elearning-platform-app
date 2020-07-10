@@ -54,7 +54,7 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
         </Link>
       )}
       {time && (
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="caption" color="textSecondary" noWrap>
           {`${secondsToDate(time)} 发布`}
         </Typography>
       )}
