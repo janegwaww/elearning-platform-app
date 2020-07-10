@@ -243,7 +243,8 @@ class ProfileIndex extends React.Component {
                   0}
               </p>
               <p className="zero-edges">
-                昨日 <span className="fn-color-02BB17">+200</span>
+              {/** 
+                昨日 <span className="fn-color-02BB17">+200</span>*/}
               </p>
             </div>
             <div className="box-flex bg-EDF6FF">
@@ -252,9 +253,9 @@ class ProfileIndex extends React.Component {
                 {(_this.state.userData && _this.state.userData.share_counts) ||
                   0}
               </p>
-              <p className="zero-edges">
-                昨日 <span className="fn-color-F86B6B">-10</span>
-              </p>
+               <p className="zero-edges">
+                {/** 昨日 <span className="fn-color-F86B6B">-10</span> */}
+               </p>
             </div>
           </div>
         </main>

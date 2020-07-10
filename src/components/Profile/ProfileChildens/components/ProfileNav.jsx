@@ -47,7 +47,7 @@ export function ProNavbar(props) {
      //只在创作中心传
      _num = props.page_num-1;
    }
-   
+   console.log(_num)
   const [scrollWidth, setScrollWidth] = React.useState(
     props.list[0].length * 18
   );

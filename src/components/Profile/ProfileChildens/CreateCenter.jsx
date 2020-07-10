@@ -15,32 +15,32 @@ import { withStyles } from "@material-ui/core/styles";
 
 import { ShareDialog, SericesMenu } from "./components/shareDialog";
 import SearchLoading from "../../Loading/SearchLoading";
-const NewMenu = withStyles((theme) => ({
-  root: {
-    border: "1px solid red",
-    "& .MuiPaper-root": {
-      borderRadius: "12px",
-    },
-    "& .MuiList-root.MuiMenu-list": {
-      display: "flex",
-      flexWrap: "wrap",
-      width: 320,
-      height: 216,
-      padding: 30,
-      boxShadow: "0px 2px 10px 2px rgba(0,0,0,0.1)",
+// const NewMenu = withStyles((theme) => ({
+//   root: {
+//     border: "1px solid red",
+//     "& .MuiPaper-root": {
+//       borderRadius: "12px",
+//     },
+//     "& .MuiList-root.MuiMenu-list": {
+//       display: "flex",
+//       flexWrap: "wrap",
+//       width: 320,
+//       height: 216,
+//       padding: 30,
+//       boxShadow: "0px 2px 10px 2px rgba(0,0,0,0.1)",
 
-      "& .MuiMenuItem-root": {
-        width: "33.33%",
-        fontSize: 14,
-        flexDirection: "column",
-      },
-      "& img": {
-        width: 14,
-        height: 14,
-      },
-    },
-  },
-}))(Menu);
+//       "& .MuiMenuItem-root": {
+//         width: "33.33%",
+//         fontSize: 14,
+//         flexDirection: "column",
+//       },
+//       "& img": {
+//         width: 14,
+//         height: 14,
+//       },
+//     },
+//   },
+// }))(Menu);
 
 class CreateCenter extends React.Component {
   constructor(props) {
@@ -53,21 +53,23 @@ class CreateCenter extends React.Component {
       page_counts: 10,
       page_num: 0,
       page_data: [],
-      page_id: props.parent.state.nowPage.childpage_id, //==3?2:props.parent.state.nowPage.childpage_id,
-      item_type: "video", //普通/2系列
       series_details: null, //系列详情
-      evt: null,
+      item_type: "video", //普通/2系列
+      page_id: props.parent.state.nowPage.childpage_id, //==3?2:props.parent.state.nowPage.childpage_id,
+      
+      
+      // evt: null,
       series_id: "", //系列id
-      newimgurl: "", //新的imgurl
-      newTitle: "", //新的系列名
-      newdescription: "", //新的系列描述
+      // newimgurl: "", //新的imgurl
+      // newTitle: "", //新的系列名
+      // newdescription: "", //新的系列描述
       item_h: 0,
       is_share: false, //分享
       login_status: false,
     };
     this.update_data = this.update_data.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleClik = this.handleClik.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
+    // this.handleClik = this.handleClik.bind(this);
     this.get_series_datial = this.get_series_datial.bind(this);
     this.wind_size = this.wind_size.bind(this);
   }
@@ -86,17 +88,17 @@ class CreateCenter extends React.Component {
   componentWillUnmount() {
     window.onresize = null;
   }
-  handleClose(ev) {
-    let _id = ev.target.dataset.id;
-    this.setState({
-      evt: null,
-    });
-  }
-  handleClik(evt) {
-    this.setState({
-      evt: evt.currentTarget,
-    });
-  }
+  // handleClose(ev) {
+  //   let _id = ev.target.dataset.id;
+  //   this.setState({
+  //     evt: null,
+  //   });
+  // }
+  // handleClik(evt) {
+  //   this.setState({
+  //     evt: evt.currentTarget,
+  //   });
+  // }
   update_data(_type) {
     this.setState({
       login_status: true,

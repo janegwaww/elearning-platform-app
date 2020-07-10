@@ -298,7 +298,7 @@ const SeriesItem = (props) => {
       onClick={(event) => {
         if (props.series != "video") {
           event.stopPropagation();
-          event.preventDefault();
+          // event.preventDefault();
           if (props.series == "series") {
             if (props.onEvent) {
               props.onEvent(props.info.series_id);

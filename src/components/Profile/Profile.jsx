@@ -238,7 +238,15 @@ class Profile extends React.Component {
                     
                   />
                 </li>
+               
+               
                 {/**
+                  
+                   <li onClick={()=>{
+                  navigate(`/users/profile/workscenter`)
+                }}>工作中心
+                
+              </li>
                 <li> <li> <Link to="/users/profile"    >中心</Link></li>
                 <li> <Link to="/users/profile/two?id" >two</Link></li>
                   {" "}
@@ -253,13 +261,14 @@ class Profile extends React.Component {
                   会员中心
                 </li>
                 <li>
-                  <LocationCity /> 数据中心
-                </li> {children}
+                  <LocationCity /> 数据中心 
+                  <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+                </li> 
                  */}
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
-           
+              {children}
               <PageRouter num={this.state.nowPage.parent_id} parent={this} />
              <SearchLoading loading={this.state.login_status} />
              </main>
