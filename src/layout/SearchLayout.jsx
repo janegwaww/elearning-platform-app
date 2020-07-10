@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
+import { navigate } from "gatsby";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -19,26 +20,26 @@ import AvatarMenu from "./AvatarMenu";
 import Container from "../components/Container/KeContainer";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
+import { searchUrlParams, getIdFromHref } from "../services/utils";
 import "./SearchLayoutStyles.sass";
 
-const SearchLayout = ({ children, searchValue = "" }) => {
+const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("");
+  const { q } = getIdFromHref();
 
-  const handleSearch = (e) => {
-    const { value } = document.getElementById("search-page-input");
-    if (value) {
-      setInput(value);
-      setRefInput(value);
+  const handleSearch = () => {
+    if (refInput) {
+      navigate(searchUrlParams(refInput));
     }
   };
 
   useEffect(() => {
-    if (searchValue) {
-      setRefInput(searchValue);
-      setInput(searchValue);
+    if (q) {
+      setRefInput(q);
+      setInput(q);
     }
-  }, [searchValue]);
+  }, [q]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,7 +56,7 @@ const SearchLayout = ({ children, searchValue = "" }) => {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
               </Badge>
-              <Box display="flex" ml={5} mr={3} color='#fff'>
+              <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>
               <Link href="/video/" underline="none">
@@ -101,7 +102,7 @@ const SearchLayout = ({ children, searchValue = "" }) => {
         </Container>
       </AppBar>
       <div className="search-layout-container">
-        <Helmet>
+        <Helmet title={`Search | ${config.siteTitle}`}>
           <meta name="description" content={config.siteDescription} />
           <html lang="en" />
         </Helmet>

@@ -3,15 +3,19 @@ import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { getCategoryList } from "../../services/home";
 import "./ChannelBar.sass";
 
-function ChannelBar({ id = "hots" }) {
+const ChannelBar = ({ id = "hots" }) => {
   const [cates, setCates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchBarIcons = () => {
+    setLoading(true);
     getCategoryList({}).then((data) => {
       setCates(data);
+      setLoading(false);
     });
   };
 
@@ -19,8 +23,8 @@ function ChannelBar({ id = "hots" }) {
     fetchBarIcons();
   }, []);
 
-  return cates.length ? (
-    <Box className="channel-bar-paper">
+  return !loading && cates.length ? (
+    <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
       <Box className="bar-container">
         <div className="bar-content">
           {cates.map((o) => {
@@ -61,9 +65,22 @@ function ChannelBar({ id = "hots" }) {
         </div>
       </Box>
       <Divider />
-      <br />
     </Box>
-  ) : null;
-}
+  ) : (
+    <div>
+      <Box
+        height={80}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {Array.from({ length: 12 }).map((o, i) => (
+          <Skeleton key={i} variant="rect" width={48} height={48} />
+        ))}
+      </Box>
+      <Divider />
+    </div>
+  );
+};
 
 export default ChannelBar;

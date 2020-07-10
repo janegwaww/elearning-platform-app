@@ -1,13 +1,11 @@
 import React, { Component, Fragment } from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import HomeTab from "./HomeTab";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
 import Pagination from "../Pagination/Pagination";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
+import ChangeBatchButton from "./ChangeBatchButton";
+import Tabs from "../Tabs/Tabs";
 
 class Home extends Component {
   constructor(props) {
@@ -15,6 +13,7 @@ class Home extends Component {
     this.state = {
       hotVideos: [],
       loading: true,
+      type: "all",
     };
   }
 
@@ -22,12 +21,19 @@ class Home extends Component {
     /* this.fetchHotVideo({}); */
   }
 
-  fetchHotVideo = ({ page = 1 }, callback = () => ({})) => {
+  fetchHotVideo = ({ page = 1 } = {}, callback = () => ({})) => {
+    const { type } = this.state;
     this.setState({ loading: true });
-    getHotVideos({ max_size: 16, page }).then((data) => {
+    getHotVideos({ max_size: 16, page, type }).then((data) => {
       this.setState({ hotVideos: data });
       this.setState({ loading: false });
       callback(data);
+    });
+  };
+
+  handleTab = (type) => {
+    this.setState({ type }, () => {
+      this.fetchHotVideo({});
     });
   };
 
@@ -37,6 +43,7 @@ class Home extends Component {
     return (
       <Fragment>
         <ChannelBar id="hots" />
+        <Tabs handleTab={this.handleTab} />
         <br />
         <div style={{ minHeight: "50vh" }}>
           <GridCards loading={loading} itemCount={16} items={hotVideos} />
@@ -44,13 +51,7 @@ class Home extends Component {
         </div>
         <br />
         <div style={{ textAlign: "center" }}>
-          <Button
-            onClick={this.fetchHotVideo}
-            variant="contained"
-            color="secondary"
-          >
-            换一换
-          </Button>
+          <ChangeBatchButton handleChange={this.fetchHotVideo} />
         </div>
         <div style={{ display: "none" }}>
           <Pagination fetch={this.fetchHotVideo} />

@@ -17,7 +17,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
 
   // 点击标题跳转事件
-  const handleLink = ({ video_id, series_id }) => {
+  const handleLink = ({ video_id, series_id, file_id }) => {
     if (video_id) {
       return {
         to: `/watch/?vid=${video_id}`,
@@ -28,6 +28,12 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
       return {
         to: `/series/?sid=${series_id}`,
         state: { sid: series_id },
+      };
+    }
+    if (file_id) {
+      return {
+        to: `/document/?did=${file_id}`,
+        state: { did: file_id },
       };
     }
     return { to: "/", state: {} };
@@ -86,52 +92,72 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Box style={{ padding: 16 }}>
                   <Link href={handleLink(item).to} color="textPrimary">
-                    <Tooltip placement="top-start" title={item.title}>
-                      <Typography
-                        gutterBottom
-                        variant="body2"
-                        noWrap
-                        align="left"
-                      >
-                        {item.title}
-                      </Typography>
-                    </Tooltip>
+                    {!!item.title && (
+                      <Tooltip placement="top-start" title={item.title}>
+                        <Typography
+                          gutterBottom
+                          variant="body2"
+                          noWrap
+                          align="left"
+                        >
+                          {item.title}
+                        </Typography>
+                      </Tooltip>
+                    )}
+                    {!!item.file_name && (
+                      <Tooltip placement="top-start" title={item.file_name}>
+                        <Typography
+                          gutterBottom
+                          variant="body2"
+                          noWrap
+                          align="left"
+                        >
+                          {item.file_name}
+                        </Typography>
+                      </Tooltip>
+                    )}
                   </Link>
 
-                  {item.headshot ? (
-                    <Link
-                      href={`/excellentcreator/creator/?cid=${item.user_id}`}
+                  {item.introduction && (
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      noWrap
+                      gutterBottom
                     >
-                      <div style={{ display: "flex", alignItems: "center" }}>
+                      {item.introduction}
+                    </Typography>
+                  )}
+
+                  <Link href={`/excellentcreator/creator/?cid=${item.user_id}`}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {!!item.headshot && (
                         <Avatar
                           alt={item.user_name}
                           src={`${item.headshot}`}
                           style={{ width: 28, height: 28, margin: 8 }}
                         />
-                        <Typography
-                          display="block"
-                          variant="caption"
-                          color="textSecondary"
-                        >
-                          {item.user_name}
-                        </Typography>
-                      </div>
-                    </Link>
-                  ) : null}
+                      )}
+                      <Typography
+                        display="block"
+                        variant="caption"
+                        color="textSecondary"
+                      >
+                        {item.user_name}
+                      </Typography>
+                    </div>
+                  </Link>
 
                   <div>
-                    {(item.view_counts ||
-                      item.like_counts ||
-                      item.time ||
-                      item.upload_time) && (
-                      <Typography variant="caption" color="textSecondary">
-                        {item.view_counts} 观看
-                        <Bull />
-                        {item.like_counts} 点赞
-                        <Bull />
-                        {secondsToMouth(item.upload_time)} 发布
-                      </Typography>
-                    )}
+                    <Typography variant="caption" color="textSecondary">
+                      {item.view_counts && `${item.view_counts} 观看`}
+                      {item.view_counts && <Bull />}
+                      {item.like_counts && `${item.like_counts} 点赞`}
+                      {item.like_counts && <Bull />}
+                      {item.upload_time &&
+                        `${secondsToMouth(item.upload_time)} 发布`}
+                      {item.time && `${secondsToMouth(item.time)} 发布`}
+                    </Typography>
                   </div>
                 </Box>
               ) : (
