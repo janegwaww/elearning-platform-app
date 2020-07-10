@@ -65,7 +65,6 @@ const ChannelBar = ({ id = "hots" }) => {
         </div>
       </Box>
       <Divider />
-      <br />
     </Box>
   ) : (
     <div>

@@ -6,32 +6,39 @@ import { getIdFromHref } from "../../services/utils";
 import Pagination from "../Pagination/Pagination";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
+import Tabs from "../Tabs/Tabs";
 
 export default function Channel() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const { ch = "" } = getIdFromHref();
   const pageRef = useRef();
+  const [type, setType] = useState("all");
 
   const fetchSubData = ({ page = 1 } = {}, callback = () => ({})) => {
     setLoading(true);
-    getChannelList({ category: ch, max_size: 16, page }).then((data) => {
+    getChannelList({ category: ch, max_size: 16, page, type }).then((data) => {
       setList(data);
       setLoading(false);
       callback(data);
     });
   };
 
+  const handleTab = (value) => {
+    setType(value);
+  };
+
   useEffect(() => {
     if (ch && pageRef.current) {
       pageRef.current.handlePage({}, 1);
     }
-  }, [ch]);
+  }, [ch, type]);
 
   return (
     <>
       <div>
         <ChannelBar id={ch} />
+        <Tabs handleTab={handleTab} />
         <br />
         <div style={{ minHeight: "60vh" }}>
           <GridCards loading={loading} itemCount={16} items={list} />
