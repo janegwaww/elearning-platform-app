@@ -150,13 +150,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
                   <div>
                     <Typography variant="caption" color="textSecondary">
-                      {item.view_counts && `${item.view_counts} 观看`}
-                      {item.view_counts && <Bull />}
-                      {item.like_counts && `${item.like_counts} 点赞`}
-                      {item.like_counts && <Bull />}
-                      {item.upload_time &&
+                      {!!item.view_counts && `${item.view_counts} 观看`}
+                      {!!item.view_counts && <Bull />}
+                      {!!item.like_counts && `${item.like_counts} 点赞`}
+                      {!!item.like_counts && <Bull />}
+                      {!!item.upload_time &&
                         `${secondsToMouth(item.upload_time)} 发布`}
-                      {item.time && `${secondsToMouth(item.time)} 发布`}
+                      {!!item.time && `${secondsToMouth(item.time)} 发布`}
                     </Typography>
                   </div>
                 </Box>
