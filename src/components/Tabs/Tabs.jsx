@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     backgroundColor: "transparent",
     "& > span": {
-      maxWidth: 30,
+      maxWidth: 60,
       width: "100%",
       backgroundColor: "#007cff",
     },
@@ -21,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 
 const TTab = withStyles((theme) => ({
   root: {
-    minWidth: 30,
-    padding: "6px 10px",
+    minWidth: 60,
+    padding: "6px 0px",
     color: "#42415a",
-    marginRight: 50,
+    marginRight: 60,
     opacity: 1,
     borderRadius: 20,
     "&$selected": {
@@ -53,10 +55,28 @@ const TypeTabs = ({ handleTab = () => ({}) }) => {
       TabIndicatorProps={{ children: <span /> }}
       classes={{ root: classes.root, indicator: classes.indicator }}
     >
-      <TTab label="全部" />
-      <TTab label="视频" />
-      <TTab label="文本" />
-      <TTab label="全新模态" disabled />
+      <TTab label="全部模态" />
+      <TTab label="视频模态" />
+      <TTab label="文本模态" />
+      <TTab
+        label="更多模态..."
+        disabled
+        component={() => (
+          <Tooltip title="敬请期待..." placement="top-start">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="body2" color="textSecondary">
+                更多模态...
+              </Typography>
+            </div>
+          </Tooltip>
+        )}
+      />
     </Tabs>
   );
 };

@@ -15,7 +15,7 @@ const ChangeBatchButton = ({ handleChange }) => {
 
   return (
     <Button onClick={handleScrollTop} variant="contained" color="secondary">
-      换一换
+      换一批
     </Button>
   );
 };
