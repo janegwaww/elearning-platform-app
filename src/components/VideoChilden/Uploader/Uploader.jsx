@@ -110,6 +110,7 @@ export default class UploadVideos extends Component {
     this.reset_subtitles = this.reset_subtitles.bind(this);
     this.get_image = this.get_image.bind(this);
     this.btn_del = this.btn_del.bind(this);
+    this.tools_subtitles = this.tools_subtitles.bind(this);
   }
   componentDidMount() {
     // console.log(this.props.parent.props.location.href);
@@ -129,6 +130,9 @@ export default class UploadVideos extends Component {
     });
     let _id = this.props.parent.props.location.href.split("=")[1];
     if (_id) {
+      this.props.parent.setState({
+        login_status: true,
+      });
       get_data({
         model_name: "video",
         model_action: "update_subtitle_again",
@@ -138,6 +142,11 @@ export default class UploadVideos extends Component {
         model_type: "",
       }).then((res) => {
         if (res.err === 0) {
+          setTimeout(() => {
+            this.props.parent.setState({
+              login_status: false,
+            });
+          }, 500);
           let _data = {
             image_path: res.result_data[0].image_path,
             title: res.result_data[0].title,
@@ -146,11 +155,11 @@ export default class UploadVideos extends Component {
             video_size: res.result_data[0].video_size,
             video_time: res.result_data[0].video_time,
           };
-          if(res.result_data[0].lang){
-            _data.lang=res.result_data[0].lang;
+          if (res.result_data[0].lang) {
+            _data.lang = res.result_data[0].lang;
             this.setState({
-              lang_value:res.result_data[0].lang
-            })
+              lang_value: res.result_data[0].lang,
+            });
           }
           if (res.result_data[0].subtitle) {
             _data.sub_josn = res.result_data[0].subtitle;
@@ -213,15 +222,18 @@ export default class UploadVideos extends Component {
     });
   }
   get_image(id) {
-    get_data({
-      //生成图片
-      model_name: "video",
-      model_action: "generate_thumbnail",
-      extra_data: {
-        video_id: this.state.files._id || this.state.files.video_id || id,
+    get_data(
+      {
+        //生成图片
+        model_name: "video",
+        model_action: "generate_thumbnail",
+        extra_data: {
+          video_id: this.state.files._id || this.state.files.video_id || id,
+        },
+        model_type: "",
       },
-      model_type: "",
-    },"http://api.haetek.com:9090/api/v1/gateway").then((res) => {
+      "http://api.haetek.com:9090/api/v1/gateway"
+    ).then((res) => {
       if (res.err === 0 && res.result_data.length > 0) {
         this.props.parent.get_image(res.result_data);
       }
@@ -239,28 +251,41 @@ export default class UploadVideos extends Component {
         task_id: this.state.files._id || this.state.files.video_id,
         lang: this.state.lang_value,
       },
-      
     };
     this.setState({
       status: 5,
     });
-
-    get_data(_data,).then((res) => {
-      
-      if(res.err===0){
-        setTimeout(()=>{
-          this.query_subtitles()//查询是否生成字幕
-        },Math.ceil((this.state.files.video_len * 60) / 210 )*1000)
-      //  _this.query_subtitles(); //查询是否生成字幕
-      }else{
-        new CustomModal().alert('生成字幕失败','error',4000);
+    get_data(_data)
+      .then((res) => {
+        if (res.err === 0) {
+          this.setState({
+            status: 5,
+          });
+          setTimeout(() => {
+            this.query_subtitles(); //查询是否生成字幕
+          }, Math.ceil((this.state.files.video_len * 60) / 210 - 1) * 1000);
+        } else if (res.err == -3) {
+          this.setState({
+            status: 5,
+          });
+          this.query_subtitles();
+        } else if (res.err == -4) {
+          if (res.result_data[0] && res.result_data[0].subtitling) {
+            this.tools_subtitles(res.result_data[0]);
+          }
+        } else {
+          new CustomModal().alert("生成字幕失败", "error", 4000);
+          this.setState({
+            status: 3,
+          });
+        }
+      })
+      .catch((err) => {
+        new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
-      }
-     
-      // console.log("成功", res);
-    });
+      });
   }
   reset_subtitles() {
     let _data = {
@@ -270,21 +295,45 @@ export default class UploadVideos extends Component {
         video_id: this.state.files._id || this.state.files.video_id,
         lang: this.state.lang_value,
       },
-     
     };
-    get_data( _data).then((res) => {
-      if(res.err===0){
-        setTimeout(()=>{
-          this.query_subtitles()//查询是否生成字幕
-        },Math.ceil((this.state.files.video_len * 60) / 210 )*1000)
-      }else{
-        new CustomModal().alert('生成字幕失败','error',4000);
+    get_data(_data)
+      .then((res) => {
+        if (res.err === 1 || res.err == -4) {
+          this.tools_subtitles(res.result_data[0]);
+        } else if (res.err === 0) {
+          this.setState({
+            status:5
+          })
+          setTimeout(() => {
+            this.query_subtitles(); //查询是否生成字幕
+          }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
+        } else if (res.err == -3) {
+          this.setState({
+            status:5
+          })
+          this.query_subtitles();
+        } else {
+          new CustomModal().alert("生成字幕失败", "error", 4000);
+          this.setState({
+            status: 3,
+          });
+        }
+      })
+      .catch((err) => {
+        new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
-      }
-      
-    });
+      });
+  }
+  tools_subtitles(data) {
+    let _data = JSON.parse(JSON.stringify(this.state.files));
+    _data.sub_josn = data.subtitling;
+    this.setState({ status: 3, files: _data });
+    // sessionStorage.setItem('file_data',_data);
+    console.log(this);
+    this.props.parent.getUpfileUrl(data);
+    alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
   query_subtitles() {
     let _this = this;
@@ -305,18 +354,12 @@ export default class UploadVideos extends Component {
         }
 
         if (res.result_data[0] && res.result_data[0].subtitling) {
-          let _data = JSON.parse(JSON.stringify(_this.state.files));
-          _data.sub_josn = res.result_data[0].subtitling;
-          _this.setState({ status: 3, lang_value: "", files: _data });
-          // sessionStorage.setItem('file_data',_data);
-          _this.props.parent.getUpfileUrl(res.result_data[0]);
-          alert('字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)')
-
+          this.tools_subtitles(res.result_data[0]);
           return;
         } else {
           setTimeout(() => {
             _this.query_subtitles();
-          }, 9000);
+          }, 10000);
         }
       })
       .catch((err) => {
@@ -346,7 +389,7 @@ export default class UploadVideos extends Component {
           <div className="lists">
             <section
               className="box  box-center all-width"
-              style={{ height: "calc(100% - 48px)"}}
+              style={{ height: "calc(100% - 48px)" }}
             >
               <div
                 className={`file-box ${is_drop ? "drop" : "width"}`}
@@ -380,7 +423,7 @@ export default class UploadVideos extends Component {
                     });
                     return false;
                   }
-                  get_data( {
+                  get_data({
                     model_name: "user",
                     model_action: "is_login",
                     extra_data: {},
@@ -503,7 +546,7 @@ export default class UploadVideos extends Component {
                     });
                     return false;
                   }
-                  get_data( {
+                  get_data({
                     model_name: "user",
                     model_action: "is_login",
                     extra_data: {},
@@ -538,16 +581,21 @@ export default class UploadVideos extends Component {
                 }}
               >
                 {!is_drop ? (
-                  <div className="all-height box box-align-center" style={{cursor:'pointer'}}>
+                  <div
+                    className="all-height box box-align-center"
+                    style={{ cursor: "pointer" }}
+                  >
                     <div>
                       <p
                         className="fn-color-F2F2F5 fn-size-16 box box-center"
-                        style={{ marginBottom: 20 ,cursor:'pointer'}}
+                        style={{ marginBottom: 20, cursor: "pointer" }}
                       >
                         <img src={dropupload} />
-                        <span style={{cursor:'pointer'}}>文件拖拽到此处或点击此处可以添加上传</span>
+                        <span style={{ cursor: "pointer" }}>
+                          文件拖拽到此处或点击此处可以添加上传
+                        </span>
                       </p>
-                      <p style={{cursor:'pointer'}}>
+                      <p style={{ cursor: "pointer" }}>
                         视频建议为MP4格式;不要带有水印、黑边；清晰度大于720P有利于首页推荐；请勿上传色情及反动违法视频。建议使用Chrome浏览器
                       </p>
                     </div>
@@ -849,15 +897,12 @@ export default class UploadVideos extends Component {
                   new CustomModal().alert("请选择视频的语言", "error", 3000);
                   return;
                 }
-                _this.setState({ lang_open: false, status: 5 });
-                if(files.sub_josn){
-                  _this.reset_subtitles();//重新生成字幕
-                  
-                }else{
-                  _this.new_subtitles();//生成新的字幕
-                  
+                _this.setState({ lang_open: false });
+                if (files.sub_josn) {
+                  _this.reset_subtitles(); //重新生成字幕
+                } else {
+                  _this.new_subtitles(); //生成新的字幕
                 }
-               
               }}
             >
               确定

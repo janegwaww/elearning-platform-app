@@ -3,15 +3,17 @@ import Helmet from "react-helmet";
 import Layout from "./layout";
 import config from "../../../data/SiteConfig";
 
-import { navigate } from "@reach/router";
+import { navigate,Link } from "@reach/router";
 import { Container, Avatar } from "@material-ui/core";
 import { Telegram, NotificationsNone, OndemandVideo,PermIdentity} from "@material-ui/icons";
 import "./layout/Profile.css";
-
+import SearchLoading from '../Loading/SearchLoading';
 import PageRouter from "./router/index";
 import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
-
+import usercontainer from '../../assets/img/usercontainer.png';
+import iconDy from '../../assets/img/iconDy.png';
+import iconcrear from '../../assets/img/iconcrear.png';
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class Profile extends React.Component {
         childPage: "",
         childpage_id: 0,
       },
+      login_status:false,
       menuOpen: {
         //打开
         Dynamic: false, //动态
@@ -73,7 +76,9 @@ class Profile extends React.Component {
       }
     });
   }
-
+  componentWillUnmount() {
+   sessionStorage.removeItem('now_page');
+  }
   // componentWillReceiveProps(nextProps){
 
   // }
@@ -120,6 +125,7 @@ class Profile extends React.Component {
   }
   render() {
     const { menuOpen } = this.state;
+    const {children} = this.props;
 
     return (
       <Layout>
@@ -163,17 +169,12 @@ class Profile extends React.Component {
                   data-page="ProfileIndex"
                   data-id="1"
                   onClick={this.pageRoute}
-                  
+                  className='bg-not'
+                  style={{backgroundImage:'url('+usercontainer+')'}}
                 >
-                  <PermIdentity />
+                  
                   个人中心
-                  {/**  <AdiseMenu
-                menus={["我的订阅", "我的收藏", "历史记录"]}
-                parent={this}
-                info={this.state.nowPage}
-                open={menuOpen.Dynamic}
-                id={"dynamic-menu"}
-              /> */}
+                 
                 </li>
 
                 <li
@@ -184,8 +185,10 @@ class Profile extends React.Component {
                   data-id="4"
                   data-defaultpage="我的收藏"
                   onClick={this.pageRoute}
+                  className='bg-not'
+                  style={{backgroundImage:'url('+iconDy+')'}}
                 >
-                  <Telegram />
+                
                   动态
                   <AdiseMenu
                     menus={[ "我的收藏", "历史记录"]}
@@ -193,6 +196,7 @@ class Profile extends React.Component {
                     info={this.state.nowPage}
                     open={menuOpen.Dynamic}
                     id={"dynamic-menu"}
+                    
                   />
                 </li>
                {/**  <li
@@ -220,8 +224,10 @@ class Profile extends React.Component {
                   data-id="3"
                   data-defaultpage="作品管理"
                   onClick={this.pageRoute}
+                  className='bg-not'
+                  style={{backgroundImage:'url('+iconcrear+')'}}
                 >
-                  <OndemandVideo />
+                 
                   创作中心
                   <AdiseMenu
                     menus={["作品管理", "申诉管理"]}
@@ -229,10 +235,20 @@ class Profile extends React.Component {
                     open={menuOpen.CreateCenter}
                     info={this.state.nowPage}
                     id={"create-menu"}
+                    
                   />
                 </li>
+               
+               
                 {/**
-                <li>
+                  
+                   <li onClick={()=>{
+                  navigate(`/users/profile/workscenter`)
+                }}>工作中心
+                
+              </li>
+                <li> <li> <Link to="/users/profile"    >中心</Link></li>
+                <li> <Link to="/users/profile/two?id" >two</Link></li>
                   {" "}
                   <ReportProblem />
                   风纪中心
@@ -245,14 +261,17 @@ class Profile extends React.Component {
                   会员中心
                 </li>
                 <li>
-                  <LocationCity /> 数据中心
-                </li>
+                  <LocationCity /> 数据中心 
+                  <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+                </li> 
                  */}
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
-             <PageRouter num={this.state.nowPage.parent_id} parent={this} />
-            </main>
+              {children}
+              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+             <SearchLoading loading={this.state.login_status} />
+             </main>
           </section>
         </Container>
       </Layout>

@@ -28,6 +28,7 @@ import fenxiang from "../../../../assets/img/fenxiang.png";
 import yixi from "../../../../assets/img/yixi.png";
 import restbian from "../../../../assets/img/restbian.png";
 import download from "../../../../assets/img/download.png";
+import { ShareDialog, VideoMenu } from "./shareDialog";
 
 const stop_run = (prevValue, nextValue) => {
   //  if(prevValue.history!=nextValue.history){
@@ -40,7 +41,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   const classes = userStyles();
-
+  // const input_class = input_use();
   const [newimgurl, setNewimgurl] = React.useState("");
   const [newTitle, setNewTitle] = React.useState("");
   const [newdescription, setNewdescription] = React.useState("");
@@ -62,7 +63,7 @@ const WorksItem = (props) => {
     evt.preventDefault();
     setAnchorEl(evt.currentTarget);
   };
-
+  const [isShare, setIsShare] = React.useState(false); //分享
   const handleClose = (evt) => {
     // evt.stopPropagation();
     // evt.preventDefault();
@@ -147,7 +148,10 @@ const WorksItem = (props) => {
             href={`/watch/?vid=${props.info.video_id}`}
             target="_blank"
           >
-            <Typography className="textview-overflow two">
+            <Typography
+              className="textview-overflow two p"
+              style={{ fontSize: 14 }}
+            >
               {(props.info && props.info.title) || props.info.video_title}
             </Typography>
           </Link>
@@ -201,7 +205,7 @@ const WorksItem = (props) => {
                 });
               }}
             >
-              <Grade className="fn-color-F86B6B" />
+              <Grade className="fn-color-F86B6B p" />
             </div>
           </div>
         )}
@@ -249,6 +253,7 @@ const WorksItem = (props) => {
                   open: true,
                 });
               }}
+              className='p'
             >
               <img src={del} style={{ width: 16, height: 16 }} />
             </div>
@@ -260,302 +265,31 @@ const WorksItem = (props) => {
             style={{ paddingTop: 10 }}
           >
             <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-              {props.info.view_counts}观看●{get_date(props.info.upload_time, "/", 8)} &nbsp;发布
+              {props.info.view_counts}观看●
+              {get_date(props.info.upload_time, "/", 8)} &nbsp;发布
             </p>
             <div>
-              <div className="text-right">
-                <IconButton
-                  aria-label="more"
-                  aria-controls="series-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                >
-                  <MoreHorizOutlined />
-                </IconButton>
-
-                <Menu
-                  open={open}
-                  anchorEl={anchorEl}
-                  keepMounted
-                  id="series-menu"
-                  onClose={handleClose}
-                  className={classes.menulist}
-                >
-                  <MenuItem onClick={handleClose} data-id="1">
-                    <EditDialog
-                      icon_img={bianmiao}
-                      title="编辑描述"
-                      info={props.info}
-                      onChange={(res) => {
-                        if (res.url) {
-                          setNewimgurl(res.url);
-                        }
-                      }}
-                      onEvent={(res) => {
-                        if (!newimgurl && !newTitle && !newdescription) {
-                          return;
-                        }
-                        if (res.cancel) {
-                          return;
-                        }
-                        if (res.confirm) {
-                          let _data = {
-                            model_name: "video",
-                            model_action: "change_information",
-                            extra_data: {
-                              video_id: props.info.video_id,
-                              image_path: newimgurl || props.info.image_path,
-                              title: newTitle || props.info.title,
-                              description:
-                                newdescription || props.info.description,
-                            },
-                          };
-                          get_data(_data).then((res) => {
-                            console.log(res);
-                          });
-                        }
-                      }}
-                    >
-                      <div>
-                        <div className="box">
-                          <div>
-                            <div
-                              style={{
-                                width: 295,
-                                height: 190,
-                                marginRight: 20,
-                                borderRadius: 12,
-                                backgroundImage:
-                                  "url(" +
-                                  (newimgurl || props.info.image_path) +
-                                  ")",
-                                position: "relative",
-                              }}
-                              className="view-overflow bg-not text-center"
-                            >
-                              <div
-                                style={{
-                                  backgroundColor: "rgba(0,0,0,0.7)",
-                                  flexDirection: "column",
-                                }}
-                                className="all-width all-height box box-center "
-                              >
-                                <span
-                                  style={{
-                                    width: 35,
-                                    height: 35,
-                                    backgroundColor: "#fff",
-                                    display: "inline-block",
-                                    borderRadius: "50%",
-                                  }}
-                                >
-                                  <AddCircle
-                                    style={{
-                                      width: 35,
-                                      height: 35,
-                                      transform: "scale(1.2)",
-                                    }}
-                                    className="fn-color-007CFF"
-                                    onClick={() => {
-                                      document
-                                        .getElementById("file-img")
-                                        .click();
-                                    }}
-                                  />
-                                </span>
-                                <p className="fn-color-878791">
-                                  建议尺寸为295x190
-                                </p>
-                              </div>
-                            </div>
-                            <p className="text-center">添加作品封面</p>
-                          </div>
-                          <div>
-                            <div
-                              style={{
-                                width: 295,
-                                height: 190,
-                                borderRadius: 12,
-                                backgroundImage:
-                                  "url(" +
-                                  (newimgurl || props.info.image_path) +
-                                  ")",
-                              }}
-                              className="view-overflow text-center bg-not"
-                            ></div>
-                            <p className="text-center">作品封面预览</p>
-                          </div>
-                        </div>
-                        <Grid container spacing={1}>
-                          <Grid item xs={2}>
-                            视频名称
-                          </Grid>
-                          <Grid item xs={9}>
-                            <input
-                              type="text"
-                              className={`all-width ${classes.textfield}`}
-                              placeholder={props.info.title}
-                              onChange={(ev) => {
-                                setNewTitle(ev.target.value);
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={1}></Grid>
-                        </Grid>
-                        <Grid container spacing={2}>
-                          <Grid item xs={2}>
-                            视频描述
-                          </Grid>
-                          <Grid item xs={9}>
-                            <textarea
-                              className={`all-width ${classes.textfield}`}
-                              rows={5}
-                              defaultValue={
-                                props.info.description || "填写新的描述"
-                              }
-                              onChange={(ev) => {
-                                setNewdescription(ev.target.value);
-                              }}
-                            ></textarea>
-                          </Grid>
-                          <Grid item xs={1}></Grid>
-                        </Grid>
-                      </div>
-                    </EditDialog>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      get_data({
-                        model_name: "series",
-                        model_action: "get_series",
-                        extra_data: {},
-                      }).then((res) => {
-                        if (res.err == 0) {
-                          setSeriesArr(res.result_data);
-                        }
-                      });
-                      handleClose();
-                    }}
-                    data-id="2"
-                  >
-                    <EditDialog
-                      icon_img={yixi}
-                      title="移动至系列"
-                      info={props.info}
-                      onChange={() => {}}
-                      onEvent={(res) => {
-                        if (res.confirm) {
-                          get_data({
-                            model_name: "video",
-                            model_action: "movie_video",
-                            extra_data: {
-                              video_id: [props.info.video_id],
-                              series_id: seriesvalue,
-                            },
-                          }).then((res) => {
-                            if (res.err == 0 && res.errmsg == "OK") {
-                              new CustomModal().alert(
-                                "移动成功",
-                                "success",
-                                3000
-                              );
-                              props.parent.update_data("video");
-                            }
-                          });
-                        }
-                        if (res.cancel) {
-                          setSeriesvalue("");
-                        }
-                      }}
-                    >
-                      <div style={{ padding: "0 10px" }}>
-                        {seriesArr &&
-                          seriesArr.map((option, inx) => (
-                            <div
-                              key={option._id}
-                              className={`box box-between ${
-                                seriesvalue == option._id ? "bg-F2F2F5" : ""
-                              }`}
-                              style={{ padding: "10px 20px" }}
-                            >
-                              <div>
-                                <input
-                                  type="radio"
-                                  value={option._id}
-                                  id={"series_" + option._id}
-                                  onClick={(ev) => {
-                                    ev.stopPropagation();
-                                  }}
-                                  onChange={(ev) => {
-                                    setSeriesvalue(ev.target.value);
-                                  }}
-                                />
-                                <label
-                                  htmlFor={"series_" + option._id}
-                                  onClick={(ev) => {
-                                    ev.stopPropagation();
-                                  }}
-                                >
-                                  {option.title}
-                                </label>
-                              </div>
-                              <div>共{option.video_counts}集</div>
-                            </div>
-                          ))}
-                      </div>
-                    </EditDialog>
-                  </MenuItem>
-
-                  <MenuItem onClick={handleClose} data-id="6">
-                    <Link
-                      color="inherit"
-                      underline="none"
-                      href={`/video/?sid=${props.info.video_id}`}
-                      target="_blank"
-                      rel="noopener norefferer"
-                    >
-                      <div className="text-center">
-                        <img src={restbian} />
-                      </div>
-                      <div>重新编辑</div>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} data-id="4">
-                    <div>
-                      <img src={download} />
-                    </div>
-                    <div>下载</div>
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} data-id="5">
-                    <div>
-                      <img src={fenxiang} />
-                    </div>
-                    <div> 分享</div>
-                  </MenuItem>
-                  <MenuItem
-                    data-id="7"
-                    onClick={() => {
-                      setModalMsg({
-                        title: "温馨提示",
-                        type: "del",
-                        role: "video",
-                        msg: "上传作品不容易, 确定真的要删除该作品?",
-                        open: true,
-                      });
-                      handleClose();
-                    }}
-                  >
-                    <div>
-                      <img src={del} />
-                    </div>
-                    <div>删除</div>
-                  </MenuItem>
-                </Menu>
-              </div>
+              <VideoMenu
+                parent={props.parent}
+                info={props.info}
+                _type='series_detail'
+                _id = {props._id}
+                onEvent={(msg) => {}}
+              />
             </div>
           </div>
         )}
       </div>
+
+      <ShareDialog
+        isShare={isShare}
+        parent={props}
+        info={props.info}
+        onEvent={() => {
+          setIsShare(false);
+        }}
+      />
+
       <ModalDialog
         info={modalMsg}
         parent={props}
@@ -565,7 +299,8 @@ const WorksItem = (props) => {
             setModalMsg({ open: false });
           }
           if (msg.confirm) {
-            if (msg.role = "history") {//删除历史记录
+            if ((msg.role = "history")) {
+              //删除历史记录
               get_data({
                 model_name: "video_history",
                 model_action: "delete_history",
@@ -573,9 +308,8 @@ const WorksItem = (props) => {
                   video_id: [props.info.video_id],
                 },
               }).then((res) => {
-               
                 if (res.err == 0 && res.errmsg == "OK") {
-                  new CustomModal().alert('删除历史成功','srccess',5000);
+                  new CustomModal().alert("删除历史成功", "srccess", 5000);
                   if (props.parent.state.userCollection) {
                     get_data({
                       model_name: "video_history",
@@ -598,7 +332,8 @@ const WorksItem = (props) => {
               });
             }
 
-            if (msg.role == "video") {//删除
+            if (msg.role == "video") {
+              //删除
               get_data({
                 model_name: "video",
                 model_action: "delete_video",

@@ -1,5 +1,6 @@
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
+import { logout } from "./auth";
 
 const apisVideo = videoApis();
 const apisSearch = searchPartApis();
@@ -9,6 +10,15 @@ const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
   if (![0, "0"].includes(data.err)) {
     alert(data.errmsg);
+  }
+  return Promise.resolve(odata);
+};
+
+// token过期退出登录
+const tokenExpired = (odata = {}) => {
+  const { data = {} } = odata;
+  if (["4104"].includes(data.err)) {
+    logout(() => ({}));
   }
   return Promise.resolve(odata);
 };
@@ -40,6 +50,7 @@ export const subtitles = pipeThen(
   subtitleFront,
   getResultDataFirst,
   getResultData,
+  tokenExpired,
   errorMessageNotice,
   apisVideo.localSearch
 );
@@ -64,6 +75,7 @@ export const videoPath = pipeThen(
   videoInfoFront,
   getResultDataFirst,
   getResultData,
+  tokenExpired,
   errorMessageNotice,
   apisVideo.videoPlay
 );
@@ -98,6 +110,7 @@ const boolErrData = err => Promise.resolve(err === "0");
 export const collectTheVideo = pipeThen(
   boolErrData,
   getErrData,
+  tokenExpired,
   errorMessageNotice,
   apisSearch.addCollection
 );
@@ -106,6 +119,7 @@ export const collectTheVideo = pipeThen(
 export const likeTheVideo = pipeThen(
   boolErrData,
   getErrData,
+  tokenExpired,
   errorMessageNotice,
   apisSearch.giveLike
 );
@@ -147,7 +161,11 @@ export const getDocumentDetail = pipeThen(
 );
 
 // 获取相关课件
-export const getRelateDocs = pipeThen(getResultData, apisSearch.viewFile);
+export const getRelateDocs = pipeThen(
+  getResultData,
+  tokenExpired,
+  apisSearch.viewFile
+);
 
 // 下载课件
 export const downloadDocs = pipeThen(getResultData, apisSearch.downloadFile);
@@ -163,6 +181,7 @@ export const ksearchRecord = pipeThen(apisSearch.searchHistory);
 export const aliPayment = pipeThen(
   getResultDataFirst,
   getResultData,
+  tokenExpired,
   errorMessageNotice,
   apisSearch.payment
 );
@@ -172,4 +191,15 @@ export const verifyAliPay = pipeThen(
   getResultDataFirst,
   getResultData,
   apisSearch.queryTradeResult
+);
+
+// 分享功能
+const getUrl = ({ url }) => {
+  return Promise.resolve(url);
+};
+export const userShare = pipeThen(
+  getUrl,
+  getResultDataFirst,
+  getResultData,
+  apisSearch.share
 );

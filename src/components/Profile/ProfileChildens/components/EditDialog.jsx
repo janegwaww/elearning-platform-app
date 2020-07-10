@@ -28,7 +28,7 @@ const styles = (theme) => ({
 });
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
-  
+
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -57,6 +57,7 @@ const DialogActions = withStyles((theme) => ({
     padding: theme.spacing(1),
     justifyContent: "center",
   },
+ 
 }))(MuiDialogActions);
 
 export default function EditDialog(props) {
@@ -69,16 +70,19 @@ export default function EditDialog(props) {
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setOpen(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 500);
   };
- 
+
   return (
     <div>
       <div onClick={handleClickOpen}>
-      {props.icon_img?(
-        <div className='text-center'>
-          <img src={props.icon_img} />
-        </div>):null}
+        {props.icon_img ? (
+          <div className="text-center">
+            <img src={props.icon_img} />
+          </div>
+        ) : null}
         <div>{props.title}</div>
       </div>
       <Dialog
@@ -88,9 +92,17 @@ export default function EditDialog(props) {
         className={classes.dialog}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {props.title}
+          {props._type == "del" ? "温馨提示" : props.title}
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent
+          dividers
+          style={{
+            borderTop:
+              props._type == "del" ? "none" : " 1px solid rgba(0, 0, 0, 0.12)",
+            borderBottom:
+              props._type == "del" ? "none" : " 1px solid rgba(0, 0, 0, 0.12)",
+          }}
+        >
           {children}
           <input
             type="file"
@@ -103,44 +115,46 @@ export default function EditDialog(props) {
                 }
               });
             }}
-            style={{ width: 0, height: 0, display: "none" }}
+            style={{ display: "none" }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleClose(e);
-              props.onEvent &&
-                props.onEvent({
-                  confirm: true,
-                  cancel: false,
-                });
-            }}
-            color="primary"
-            className={classes.btn1}
-          >
-            确定
-          </Button>
-          <Button
-            autoFocus
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleClose(e);
-              props.onEvent &&
-                props.onEvent({
-                  confirm: false,
-                  cancel: true,
-                });
-            }}
-            className={`${classes.btn1} ${classes.btn2}`}
-          >
-            取消
-          </Button>
-        </DialogActions>
+        {props.btn != "no_show" && (
+          <DialogActions>
+            <Button
+              disabled={props._disabled?true:false}
+              onClick={(evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+
+                handleClose(evt);
+                props.onEvent &&
+                  props.onEvent({
+                    confirm: true,
+                    cancel: false,
+                  });
+              }}
+              color="primary"
+              className={classes.btn1}
+            >
+              确定
+            </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleClose(e);
+                props.onEvent &&
+                  props.onEvent({
+                    confirm: false,
+                    cancel: true,
+                  });
+              }}
+              className={`${classes.btn1} ${classes.btn2}`}
+            >
+              取消
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );

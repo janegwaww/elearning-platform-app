@@ -46,6 +46,7 @@ const DialogTitle = withStyles(styles)((props) => {
 const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    
   },
 }))(MuiDialogContent);
 
@@ -61,10 +62,14 @@ export default function CustomizedDialogs(props) {
     const classes=userStyles();
     const { children } = props;
     const [files,setFiles]= React.useState(null);
-    const confirmClick = () => {
+    const confirmClick = (ev) => {
+      ev.preventDefault();
+            ev.stopPropagation();
       props.onEvent&&props.onEvent({ cancel: false, confirm: true });
     };
-    const handleClose = () => {
+    const handleClose = (ev) => {
+      ev.preventDefault();
+            ev.stopPropagation();
       props.onEvent&&props.onEvent({ cancel: true, confirm: false });
     };
 
@@ -74,12 +79,12 @@ export default function CustomizedDialogs(props) {
           onClose={handleClose}
           aria-labelledby="customized-dialog-title"
           open={props.open}
-          className={`${classes.dialog} fn-size-14`}
+          className={`${classes.dialog} fn-size-14 `}
         >
           <DialogTitle className='text-center' onClose={handleClose}>
             {props.title}
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent dividers style={{borderBottom:props.not_show?'1px solid white':'1px solid rgba(0, 0, 0, 0.12)'}}>
           {children}
           <input type='file' id={props.id} style={{width:0,height:0}}  onChange={(e)=>{
             e.preventDefault();
@@ -93,6 +98,8 @@ export default function CustomizedDialogs(props) {
                  _reder.readAsDataURL(_files);
           }}  />
           </DialogContent>
+
+          {!props.not_show&&(
           <DialogActions style={{justifyContent:'center'}}>
             <Button autoFocus onClick={confirmClick} className={classes.btn1} >
               确定
@@ -105,6 +112,7 @@ export default function CustomizedDialogs(props) {
               取消
             </Button>
           </DialogActions>
+          )}
         </Dialog>
       </div>
     );

@@ -82,7 +82,6 @@ export default function UserFeedback({ backData = {} }) {
       <SharePopover>
         {(handleShare) => (
           <IconButton
-            aria-describedby={id}
             size="small"
             onClick={handleShare}
             className="user-play-count"

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
 
-import { Button, Avatar, Snackbar, Modal } from "@material-ui/core";
+import { Button, Avatar, Snackbar } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -41,7 +41,8 @@ export default class Header extends Component {
       open_updata: false,
       open: false,
       files: props.parent.state.video_data,
-      is_modal: false,
+      // is_modal: false,
+      timers:null,
     };
     this.btn_user = this.btn_user.bind(this);
   }
@@ -54,7 +55,11 @@ export default class Header extends Component {
       navigate(`/users/login`);
     }
   }
-
+  componentWillUnmount() {
+    this.setState({
+      timers:null
+    })
+  }
   btn_user = function(info) {
     if (!getUser().name) {
       sessionStorage.setItem("no_login_page", window.location.href);
@@ -74,6 +79,12 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
+      if(el!='not'){
+        _this.props.parent.setState({
+          login_status:true
+        })
+      }
+     
       let _video_data = _this.props.parent.state.video_data;
 
       let r_data = {
@@ -89,18 +100,26 @@ export default class Header extends Component {
       };
       get_data( r_data)
         .then((res) => {
+          if(el!='not'){
+            _this.props.parent.setState({
+              login_status:false
+            });
+          }
+          
           if (res.err == 0 && res.errmsg == "OK") {
             _this.setState({ open: true });
-            setTimeout(() => {
+            if(el!='not'){
               navigate("/video/uppage");
-              _this.setState({ is_modal: false });
-            }, 3000);
+            }   
+            
           } else {
-            _this.setState({ is_modal: false });
+            
           }
         })
         .catch((err) => {
-          _this.setState({ is_modal: false });
+          _this.props.parent.setState({
+            login_status:false
+          });
         });
     };
 
@@ -163,6 +182,23 @@ export default class Header extends Component {
         </div>
         <div className="box box-align-center">
           <div>
+          <NewBtn2 onClick={()=>{
+            
+            if (
+              JSON.stringify(this.props.parent.state.video_data) === "{}"||!this.props.parent.state.video_data.sub_josn
+            ) {
+              new CustomModal().alert("亲！还没有添加文件呢！", "error");
+              return;
+            }
+            clearInterval(this.state.timers);
+            this.setState({
+              timers: setInterval(()=>{btn_save('not')},60000)
+            })
+            btn_save('not') 
+          
+          }}>保存</NewBtn2>
+          </div>
+          <div>
             <NewBtn2
               onClick={() => {
                 if (
@@ -181,9 +217,9 @@ export default class Header extends Component {
                   }, 5000);
                 }
                 if (this.props.parent.state.video_data.sub_josn) {
-                  this.setState({
-                    is_modal: true,
-                  });
+                  // this.setState({
+                  //   is_modal: true,
+                  // });
                   btn_save();
                 } else {
                   sessionStorage.setItem(
@@ -236,15 +272,7 @@ export default class Header extends Component {
             保存成功
           </Alert>
         </Snackbar>
-        <Modal
-          open={this.state.is_modal}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <div className={styles.modalLogin}>
-            <Autorenew />
-          </div>
-        </Modal>
+        
       </header>
     );
   }
