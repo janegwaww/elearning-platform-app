@@ -69,7 +69,7 @@ const descriptionItem = (description, match = {}) => {
       : description,
   };
   return (
-    description && (
+    !!createMarkup.__html && (
       <Typography
         variant="body2"
         color="textSecondary"
