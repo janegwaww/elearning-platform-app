@@ -1,9 +1,9 @@
 import React from "react";
-import { ProNavbar } from "./components/ProfileNav";
+import { ProNavbar } from "../../components/ProfileNav";
 import { Avatar, Grid } from "@material-ui/core";
-import WorksItem from "./components/WorksItem";
+import WorksItem from "../../components/WorksItem";
 import Pagination from "@material-ui/lab/Pagination";
-import { get_data } from "../../../assets/js/request";
+import { get_data } from "../../../../assets/js/request";
 
 class Dynamic extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Dynamic extends React.Component {
       history_data: null,
       page_num: 0, //记录当前数据的第几页
       page_count: 0, //记录当前页面数据一有几条
-      page_id: props.parent.state.nowPage.childpage_id,
+      // page_id: props.parent.state.nowPage.childpage_id,
       item_h:0
     };
     this.update_data = this.update_data.bind(this);
@@ -40,27 +40,27 @@ class Dynamic extends React.Component {
     }
 
   }
-  componentWillReceiveProps(nextProps) {
-    if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
-      let _data = {
-        model_name: "collection",
-        model_action: "get_collection",
-      };
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
+  //     let _data = {
+  //       model_name: "collection",
+  //       model_action: "get_collection",
+  //     };
 
-      if (nextProps.parent.state.nowPage.childpage_id == 1) {
-        _data = {
-          model_name: "video_history",
-          model_action: "get_history",
-          extra_data: {},
-        };
-      }
-      this.update_data(_data);
-      this.setState({
-        page_id: nextProps.parent.state.nowPage.childpage_id,
-      });
-      return;
-    }
-  }
+  //     if (nextProps.parent.state.nowPage.childpage_id == 1) {
+  //       _data = {
+  //         model_name: "video_history",
+  //         model_action: "get_history",
+  //         extra_data: {},
+  //       };
+  //     }
+  //     this.update_data(_data);
+  //     this.setState({
+  //       page_id: nextProps.parent.state.nowPage.childpage_id,
+  //     });
+  //     return;
+  //   }
+  // }
   wind_size(e){
     let _e=e||window.event;
     if(!document.querySelector('.MuiGrid-root.grid .MuiGrid-item')){return}
@@ -80,15 +80,15 @@ class Dynamic extends React.Component {
   //   return  false
   // }
   update_data(data) {
-    this.props.parent.setState({
-      login_status:true
-    })
+    // this.props.parent.setState({
+    //   login_status:true
+    // })
     get_data( data).then((res) => {
 
       setTimeout(()=>{
-        this.props.parent.setState({
-          login_status:false
-        })
+        // this.props.parent.setState({
+        //   login_status:false
+        // })
       },500)
 
       if (res.err == 0) {
@@ -115,7 +115,7 @@ class Dynamic extends React.Component {
       <section className="bg-white profile-padding all-height view-scroll ">
         <nav>
           <ProNavbar
-            list={[this.props.parent.state.nowPage.childPage]}
+            list={['我的收藏']}
             parent={this}
           />
         </nav>

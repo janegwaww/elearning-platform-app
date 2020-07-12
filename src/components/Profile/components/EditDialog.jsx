@@ -10,8 +10,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import userStyles from "./profileStyle";
-import { updata_img, get_data } from "../../../../assets/js/request";
-import CustomModal from "../../../../assets/js/CustomModal";
+import { updata_img, get_data } from "../../../assets/js/request";
+// import CustomModal from "../../../../assets/js/CustomModal";
 
 const styles = (theme) => ({
   root: {

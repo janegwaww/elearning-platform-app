@@ -5,11 +5,11 @@ import config from "../../../data/SiteConfig";
 
 import { navigate,Link } from "@reach/router";
 import { Container, Avatar } from "@material-ui/core";
-import { Telegram, NotificationsNone, OndemandVideo,PermIdentity} from "@material-ui/icons";
+
 import "./layout/Profile.css";
 import SearchLoading from '../Loading/SearchLoading';
-import PageRouter from "./router/index";
-import AdiseMenu from "./ProfileChildens/components/AsadeMenu";
+// import PageRouter from "./router/index";
+import {AsadeMenu,RightMenu} from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
 import usercontainer from '../../assets/img/usercontainer.png';
 import iconDy from '../../assets/img/iconDy.png';
@@ -168,7 +168,12 @@ class Profile extends React.Component {
                 <li
                   data-page="ProfileIndex"
                   data-id="1"
-                  onClick={this.pageRoute}
+                  onClick={(evt)=>{
+                    navigate(`/users/profile`);
+                    this.pageRoute(evt)
+                  }
+                    
+                  }
                   className='bg-not'
                   style={{backgroundImage:'url('+usercontainer+')'}}
                 >
@@ -184,13 +189,18 @@ class Profile extends React.Component {
                   data-page="Dynamic"
                   data-id="4"
                   data-defaultpage="我的收藏"
-                  onClick={this.pageRoute}
+                  onClick={(evt)=>{
+                    navigate(`/users/profile/dynamic`)
+                    this.pageRoute(evt)
+                  }
+                    
+                  }
                   className='bg-not'
                   style={{backgroundImage:'url('+iconDy+')'}}
                 >
                 
                   动态
-                  <AdiseMenu
+                  <AsadeMenu
                     menus={[ "我的收藏", "历史记录"]}
                     parent={this}
                     info={this.state.nowPage}
@@ -199,23 +209,7 @@ class Profile extends React.Component {
                     
                   />
                 </li>
-               {/**  <li
-                  aria-controls="message-menu"
-                  onClick={this.pageRoute}
-                  data-page="MsgCenter"
-                  data-id="2"
-                  data-defaultpage="回复我的"
-                >
-                  <NotificationsNone /> 消息中心
-                  <AdiseMenu
-                    menus={["回复我的", "@我的私信", "收到的赞", "系统通知"]}
-                    parent={this}
-                    open={menuOpen.MsgCenter}
-                    info={this.state.nowPage}
-                    id={"message-menu"}
-                  />
-                </li>
-*/}
+             
                 <li
                   aria-label="more"
                   aria-controls="create-menu"
@@ -223,14 +217,18 @@ class Profile extends React.Component {
                   data-page="CreateCenter"
                   data-id="3"
                   data-defaultpage="作品管理"
-                  onClick={this.pageRoute}
+                  onClick={(evt)=>{
+                    navigate('/users/profile/workscenter');
+                    this.pageRoute(evt);
+                  }
+                    }
                   className='bg-not'
                   style={{backgroundImage:'url('+iconcrear+')'}}
                 >
                  
                   创作中心
-                  <AdiseMenu
-                    menus={["作品管理", "申诉管理"]}
+                  <RightMenu
+                    menus={[{title:"作品管理",_url:'/users/profile/workscenter'}, {title:"申诉管理"}]}
                     parent={this}
                     open={menuOpen.CreateCenter}
                     info={this.state.nowPage}
@@ -238,38 +236,16 @@ class Profile extends React.Component {
                     
                   />
                 </li>
-               
-               
-                {/**
-                  
-                   <li onClick={()=>{
-                  navigate(`/users/profile/workscenter`)
-                }}>工作中心
+                  <li onClick={()=>{
+                    navigate(`/users/profile/setings`)
+                  }}>设置</li>
+              
                 
-              </li>
-                <li> <li> <Link to="/users/profile"    >中心</Link></li>
-                <li> <Link to="/users/profile/two?id" >two</Link></li>
-                  {" "}
-                  <ReportProblem />
-                  风纪中心
-                </li>
-                <li>
-                  <AccountBalanceWalletTwoTone /> 钱包
-                </li>
-                <li>
-                  <PermIdentity />
-                  会员中心
-                </li>
-                <li>
-                  <LocationCity /> 数据中心 
-                  <PageRouter num={this.state.nowPage.parent_id} parent={this} />
-                </li> 
-                 */}
               </ul>
             </aside>
             <main className="ma-main" style={{ width: "calc(100% - 250px)" }}>
               {children}
-              <PageRouter num={this.state.nowPage.parent_id} parent={this} />
+              
              <SearchLoading loading={this.state.login_status} />
              </main>
           </section>

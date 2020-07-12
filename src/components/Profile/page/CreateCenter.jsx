@@ -1,46 +1,21 @@
 import React from "react";
-import { ProNavbar, Navbar } from "./components/ProfileNav";
-import SeriesItem from "./components/SeriesItem";
-import WorksItem from "./components/WorksItem";
+import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import SeriesItem from "../../components/SeriesItem";
+import WorksItem from "../../components/WorksItem";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 
 import Grid from "@material-ui/core/Grid";
 import Management from "./components/Management";
 import Pagination from "@material-ui/lab/Pagination";
 import { get_data, get_alldata } from "../../../assets/js/request";
-import { get_date } from "../../../assets/js/totls";
-import CustomModal from "../../../assets/js/CustomModal";
-import EditDialog from "./components/EditDialog";
+import { get_date } from "../../../../assets/js/totls";
+import CustomModal from "../../../../assets/js/CustomModal";
+import EditDialog from "../../components/EditDialog";
 import { withStyles } from "@material-ui/core/styles";
 
-import { ShareDialog, SericesMenu } from "./components/shareDialog";
-import SearchLoading from "../../Loading/SearchLoading";
-// const NewMenu = withStyles((theme) => ({
-//   root: {
-//     border: "1px solid red",
-//     "& .MuiPaper-root": {
-//       borderRadius: "12px",
-//     },
-//     "& .MuiList-root.MuiMenu-list": {
-//       display: "flex",
-//       flexWrap: "wrap",
-//       width: 320,
-//       height: 216,
-//       padding: 30,
-//       boxShadow: "0px 2px 10px 2px rgba(0,0,0,0.1)",
+import { ShareDialog, SericesMenu } from "../../components/shareDialog";
+import SearchLoading from "../../../Loading/SearchLoading";
 
-//       "& .MuiMenuItem-root": {
-//         width: "33.33%",
-//         fontSize: 14,
-//         flexDirection: "column",
-//       },
-//       "& img": {
-//         width: 14,
-//         height: 14,
-//       },
-//     },
-//   },
-// }))(Menu);
 
 class CreateCenter extends React.Component {
   constructor(props) {

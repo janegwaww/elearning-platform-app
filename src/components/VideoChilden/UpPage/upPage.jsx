@@ -21,7 +21,7 @@ import {
 } from "@material-ui/icons";
 import "../../../assets/css/container.css";
 
-import { NavTitle } from "../../Profile/ProfileChildens/components/ProfileNav";
+import { NavTitle } from "../../Profile/components/ProfileNav";
 import { get_data, get_alldata } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";

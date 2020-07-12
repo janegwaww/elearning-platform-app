@@ -2,16 +2,17 @@ import React from "react";
 
 import { Avatar, Grid, Link } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { ProNavbar, Navbar } from "./components/ProfileNav";
-import SeriesItem from "./components/SeriesItem";
-import WorksItem from "./components/WorksItem";
-import { get_data, get_alldata } from "../../../assets/js/request";
+import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import SeriesItem from "../../components/SeriesItem";
+import WorksItem from "../../components/WorksItem";
+import { get_data, get_alldata } from "../../../../assets/js/request";
+import { navigate } from "@reach/router";
 
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: props.parent.state.userinfo, //用户信息
+      // userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
       userWorks: null, //我的作品
       userWorks_counts: 0, //作品数量
@@ -26,9 +27,9 @@ class ProfileIndex extends React.Component {
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
-    this.props.parent.setState({
-      login_status: true,
-    });
+    // this.props.parent.setState({
+    //   login_status: true,
+    // });
     let _this = this;
 
     get_data({
@@ -51,9 +52,9 @@ class ProfileIndex extends React.Component {
           userColllection_counts: _data.collection_counts,
         });
       }
-      this.props.parent.setState({
-        login_status: false,
-      });
+      // this.props.parent.setState({
+      //   login_status: false,
+      // });
       this.wind_size();
     });
 
@@ -77,9 +78,9 @@ class ProfileIndex extends React.Component {
     window.onresize = null;
   }
   update_data(_type) {
-    this.props.parent.setState({
-      login_status: true,
-    });
+    // this.props.parent.setState({
+    //   login_status: true,
+    // });
 
     let _data = {
       model_name: "video",
@@ -89,11 +90,11 @@ class ProfileIndex extends React.Component {
       },
     };
     get_data(_data).then((res) => {
-      setTimeout(() => {
-        this.props.parent.setState({
-          login_status: false,
-        });
-      }, 1000);
+      // setTimeout(() => {
+      //   this.props.parent.setState({
+      //     login_status: false,
+      //   });
+      // }, 1000);
 
       if (res.err == 0) {
         this.setState({
@@ -104,14 +105,14 @@ class ProfileIndex extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      JSON.stringify(nextProps.parent.state.userinfo) !=
-      JSON.stringify(this.state.userinfo)
-    ) {
-      this.setState({
-        userInfo: nextProps.parent.state.userinfo,
-      });
-    }
+    // if (
+    //   JSON.stringify(nextProps.parent.state.userinfo) !=
+    //   JSON.stringify(this.state.userinfo)
+    // ) {
+    //   this.setState({
+    //     userInfo: nextProps.parent.state.userinfo,
+    //   });
+    // }
   }
   componentWillUnmount() {
     this.setState = (state, callback) => {
@@ -140,19 +141,17 @@ class ProfileIndex extends React.Component {
               top: 0,
               borderRadius: "50%",
             }}
-            onClick={() => {
+            onClick={(event) => {
               event.stopPropagation();
               event.preventDefault();
+              navigate(`/users/profile/setings`);
               let _page = {
                 childPage: "",
                 chilepage_id: 0,
                 parent: "SetingsCenter",
                 parent_id: 5,
               };
-              this.props.parent.setState({
-                nowPage: _page,
-              });
-              sessionStorage.setItem("now_page", JSON.stringify(_page));
+           
             }}
           >
             <Settings />
@@ -211,9 +210,9 @@ class ProfileIndex extends React.Component {
                 {(_this.state.userData && _this.state.userData.view_counts) ||
                   0}
               </p>
-              <p className="zero-edges">
+              {/*<p className="zero-edges">
                 昨日 <span className="fn-color-02BB17">+200</span>
-              </p>
+              </p>*/}
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">课件下载量</p>
@@ -222,9 +221,9 @@ class ProfileIndex extends React.Component {
                   _this.state.userData.download_counts) ||
                   0}
               </p>
-              <p className="zero-edges">
+              {/**  <p className="zero-edges">
                 昨日 <span className="fn-color-02BB17">+200</span>
-              </p>
+              </p>*/}
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">点赞数</p>
@@ -232,9 +231,9 @@ class ProfileIndex extends React.Component {
                 {(_this.state.userData && _this.state.userData.fans_change) ||
                   0}
               </p>
-              <p className="zero-edges">
+              {/**  <p className="zero-edges">
                 昨日 <span className="fn-color-02BB17">+200</span>
-              </p>
+              </p>*/}
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>

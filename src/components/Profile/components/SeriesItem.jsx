@@ -21,20 +21,20 @@ import {
 } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 
-import { get_date } from "../../../../assets/js/totls";
-import { get_data } from "../../../../assets/js/request";
+import { get_date } from "../../../assets/js/totls";
+import { get_data } from "../../../assets/js/request";
 import { ModalDialog } from "./Modal";
 
-import CustomModal from "../../../../assets/js/CustomModal";
+import CustomModal from "../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
 import EditDialog from "./EditDialog";
 import userStyles from "./profileStyle";
-import del from "../../../../assets/img/del.png";
-import bianmiao from "../../../../assets/img/bianmiao.png";
-import fenxiang from "../../../../assets/img/fenxiang.png";
-import yixi from "../../../../assets/img/yixi.png";
-import restbian from "../../../../assets/img/restbian.png";
-import download from "../../../../assets/img/download.png";
+import del from "../../../assets/img/del.png";
+// import bianmiao from "../../../assets/img/bianmiao.png";
+// import fenxiang from "../../../assets/img/fenxiang.png";
+// import yixi from "../../../../assets/img/yixi.png";
+// import restbian from "../../../../assets/img/restbian.png";
+// import download from "../../../../assets/img/download.png";
 
 import { ShareDialog, SericesMenu, VideoMenu } from "./shareDialog";
 
@@ -50,7 +50,7 @@ const return_html = (info, type) => {
   let _html = null;
   if (type == "video") {
     _html = (
-      <div className='profile-item' >
+      <div  >
         <Link
           color="inherit"
           underline="none"
@@ -63,7 +63,7 @@ const return_html = (info, type) => {
               
             >
               <img
-                src={info && info.image_path}
+                src={info && info.image_path1}
                 className="all-height all-width"
               />
 
@@ -161,13 +161,14 @@ const return_html = (info, type) => {
     );
   } else {
     _html = (
-      <div className={`profile-item box fn-size-12 ${type=='series'?'series':''}`}>
+      <div className={` box fn-size-12 ${type=='series'?'series':''}`}>
         <div
           className="profile-item-img-box" >
-          <img src={info && info.image_path} className="all-height all-width" />
+          <img src={info && info.image_path1} className="all-height all-width" />
 
           <p className={`profile-time fn-color-white fn-size-12 ${type=='series'?'p':''}`}>
-            {type=='draft'? info.video_time: info.video_data?"共" + info.video_data.length + "集":''}
+            {type=='draft'? info.video_time:"共"+ (info.video_counts||0)+ "集"}
+            {/**info.video_data?"共" + info.video_data.length + "集": */}
           </p>
         </div>
         <div
@@ -260,19 +261,9 @@ const return_html = (info, type) => {
 };
 
 const SeriesItem = (props) => {
-  // inx,onEvent,info,parent,series
-  // 编辑描述
-  // const [newimgurl, setNewimgurl] = React.useState("");
-  // const [newTitle, setNewTitle] = React.useState("");
-  // const [newdescription, setNewdescription] = React.useState("");
-  // //移至系列
-  // const [seriesArr, setSeriesArr] = React.useState([]);
-  // const [seriesvalue, setSeriesvalue] = React.useState("");
-
+  
   const classes = userStyles();
 
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
   const [modalMsg, setModalMsg] = React.useState({
     open: false,
     type: 1,
@@ -280,45 +271,31 @@ const SeriesItem = (props) => {
     title: "",
   });
   const [isShare, setIsShare] = React.useState(false); //分享
-  // const handleClick = (evt) => {
-  //   evt.stopPropagation();
-  //   evt.preventDefault();
-  //   setAnchorEl(evt.currentTarget);
-  // };
 
-  // const handleClose = (evt) => {
-  //   // evt.stopPropagation();
-  //   // evt.preventDefault();
-  //   setAnchorEl(null);
-  // };
 
   return (
     <div
       className="box box-between box-align-center profile-top"
-      onClick={(event) => {
-        if (props.series != "video") {
-          event.stopPropagation();
-          // event.preventDefault();
-          if (props.series == "series") {
-            if (props.onEvent) {
-              props.onEvent(props.info.series_id);
-            } else {
-              props.parent.props.parent.pageRoute(event, {
-                page: "CreateCenter",
-                id: 3,
-                defaultpage: "作品管理",
-                inx: 3,
-                series_id: props.info.series_id,
-              });
-            }
-          } else {
-            return false;
-          }
+     
+     
+    >
+    <div className='profile-item'
+    onClick={(event) => {
+      if (props.series != "video") {
+        event.stopPropagation();
+        event.preventDefault();
+        if (props.series == "series") {
+          navigate(`/users/profile/workscenter/seriesdetail?_id=${props.info.series_id}`)
+          
+        } else {
+          return false;
         }
-      }}
+      }
+    }}
+    
     >
       {return_html(props.info, props.series)}
-   
+      </div>
 
       <div>
         {props.series == "video" && (
@@ -331,6 +308,7 @@ const SeriesItem = (props) => {
             parent={props.parent}
             info={props.info}
             _type={props.series}
+            _id={props._id}
             onEven={(msg) => {
               console.log(msg);
             }}

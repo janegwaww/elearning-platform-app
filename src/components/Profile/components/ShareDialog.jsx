@@ -5,8 +5,9 @@ import InputBase from "@material-ui/core/InputBase";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
-import PublicDialog from "../../../../assets/template/PublicDialog";
+import PublicDialog from "../../../assets/template/PublicDialog";
 import EditDialog from "./EditDialog";
+<<<<<<< HEAD:src/components/Profile/ProfileChildens/components/shareDialog.jsx
 import { get_data } from "../../../../assets/js/request";
 import qq from "../../../../assets/img/qq.png";
 import wx from "../../../../assets/img/wx.png";
@@ -21,6 +22,22 @@ import yixi from "../../../../assets/img/yixi.png";
 import restbian from "../../../../assets/img/restbian.png";
 import download from "../../../../assets/img/download.png";
 import moveout from '../../../../assets/img/moveout.png';
+=======
+import { get_data } from "../../../assets/js/request";
+import qq from "../../../assets/img/qq.png";
+import wx from "../../../assets/img/wx.png";
+import wb from "../../../assets/img/wb.png";
+import qqz from "../../../assets/img/qqz.png";
+import CustomModal from "../../../assets/js/CustomModal";
+import fenxiang from "../../../assets/img/fenxiang.png";
+import sore from "../../../assets/img/sore.png";
+import bianmiao from "../../../assets/img/bianmiao.png";
+import del from "../../../assets/img/del.png";
+import yixi from "../../../assets/img/yixi.png";
+import restbian from "../../../assets/img/restbian.png";
+import download from "../../../assets/img/download.png";
+import moveout from '../../../assets/img/moveout.png';
+>>>>>>> develop:src/components/Profile/components/ShareDialog.jsx
 import userStyles from "./profileStyle";
 // 分享弹窗
 const input_use = makeStyles((theme) => ({
@@ -220,7 +237,7 @@ export const SericesMenu = (props) => {
     }
     return index;
   };
-  // console.log(props)
+  
   return (
     <div className="text-right">
       <IconButton
@@ -276,11 +293,11 @@ export const SericesMenu = (props) => {
                   
                   if (data.err == 0) {
                     new CustomModal().alert(data.errmsg, "success", 5000);
-                    if(props._type=='series'){
-                      props.parent.update_data('series');
-                    }else{
-                      props.parent.get_series_datial(props.info.series_id);
-                    }
+                    // if(props._type=='series'){
+                    //   props.parent.update_data('series');
+                    // }else{
+                      props.parent.update_data(props.info.series_id);
+                    // }
                   } else {
                     new CustomModal().alert("修改失败", "error", 5000);
                   }
@@ -377,7 +394,7 @@ export const SericesMenu = (props) => {
                     className={`all-width textfield`}
                     rows={5}
                     value={
-                      newdescription || "填写新的描述"
+                      newdescription 
                     }
                     onChange={(ev) => {
                       setNewdescription(ev.target.value);
@@ -397,9 +414,11 @@ export const SericesMenu = (props) => {
             title="排序"
             info={props.info}
             onEvent={(msg) => {
+              console.log(23)
               if (msg.cancel) {
                 return;
               }
+              
               if (msg.confirm) {
                 get_data({
                   model_name: "video",
@@ -408,13 +427,14 @@ export const SericesMenu = (props) => {
                     video_id: idArr,
                   },
                 }).then((res) => {
+                 
                   if (res.err === 0) {
                     new CustomModal().alert("更改成功", "success", 3000);
-                    if (props.parent.state.page_id == 2) {
-                      props.parent.get_series_datial(props.info.series_id);
-                    } else {
-                      props.parent.update_data(props.parent.state.item_type);
-                    }
+                   if(props._id){
+                      props.parent.update_data(props._id);
+                   }
+                     
+                    
                   } else {
                     new CustomModal().alert(res.errmsg, "error", 3000);
                   }
@@ -433,6 +453,7 @@ export const SericesMenu = (props) => {
                   _id_arr.push(option.dataset.id);
                   option.classList.remove("bg-F2F2F5");
                 });
+                
                 setIdArr(_id_arr);
               }}
               onDragOver={(evt) => {
@@ -577,12 +598,12 @@ export const VideoMenu = (props) => {
                 };
                 get_data(_data).then((res) => {
                   if(res.err==0){
-                    if(props._type=='video'){
-                      props.parent.update_data('video');
-                    }
-                    if(props._type=='series_detail'){
-                      props.parent.get_series_datial(props._id);
-                    }
+                    // if(props._type=='video'){
+                    //   props.parent.update_data('video');
+                    // }
+                    // if(props._type=='series_detail'){
+                      props.parent.update_data(props._id);
+                    // }
                     new CustomModal().alert(res.errmsg, "success", 3000);
                     return
                   }
@@ -841,6 +862,41 @@ export const VideoMenu = (props) => {
 
 
         <MenuItem
+          onClick={(ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            
+            handleClose();
+          }}
+          data-id="5"
+        >
+        <EditDialog
+        title="移出系列"
+        _type="del"
+        icon_img={moveout}
+            onEvent={(msg) => {
+              if (msg.confirm) {
+                get_data({
+                  model_name: "video",
+                  model_action: "movie_video",
+                  extra_data: {
+                    video_id: [props.info.video_id],
+                    series_id:'',
+                  },
+                }).then((res) => {
+                  if (res.err == 0 && res.errmsg == "OK") {
+                    new CustomModal().alert("移出成功", "success", 3000);
+                    props.parent.update_data(props._id);
+                  }
+                });
+              }
+            }}
+        
+        >
+        <p>确保定要移出本系列？</p>
+        </EditDialog>
+        </MenuItem>
+        <MenuItem
           data-id="6"
           onClick={() => {
             handleClose();
@@ -862,12 +918,12 @@ export const VideoMenu = (props) => {
                 }).then((res) => {
                   if (res.err === 0) {
                     new CustomModal().alert("删除成功", "success", 5000);
-                    if(props._type=='video'){
-                      props.parent.update_data('video')
-                    }
-                    if(props._type =='series_detail'){
-                      props.parent.get_series_datial(props._id)
-                    }
+                    // if(props._type=='video'){
+                    //   props.parent.update_data('video')
+                    // }
+                    // if(props._type =='series_detail'){
+                      props.parent.update_data(props._id)
+                    // }
                   }
                 });
               }

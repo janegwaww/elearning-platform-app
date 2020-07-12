@@ -18,7 +18,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import { navigate } from "@reach/router";
 // import { getObj } from "../../../assets/js/totls";
-import { get_data } from "../../../../assets/js/request";
+// import { get_data } from "../../../../assets/js/request";
 import userStyles from "./profileStyle";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

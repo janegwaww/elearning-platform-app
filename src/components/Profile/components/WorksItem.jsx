@@ -15,19 +15,19 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
-import { get_date, get_time } from "../../../../assets/js/totls";
-import { get_data } from "../../../../assets/js/request";
-import CustomModal from "../../../../assets/js/CustomModal";
+import { get_date, get_time } from "../../../assets/js/totls";
+import { get_data } from "../../../assets/js/request";
+import CustomModal from "../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
 import userStyles from "./profileStyle";
 import EditDialog from "./EditDialog";
 import { ModalDialog } from "./Modal";
-import del from "../../../../assets/img/del.png";
-import bianmiao from "../../../../assets/img/bianmiao.png";
-import fenxiang from "../../../../assets/img/fenxiang.png";
-import yixi from "../../../../assets/img/yixi.png";
-import restbian from "../../../../assets/img/restbian.png";
-import download from "../../../../assets/img/download.png";
+import del from "../../../assets/img/del.png";
+// import bianmiao from "../../../../assets/img/bianmiao.png";
+// import fenxiang from "../../../../assets/img/fenxiang.png";
+// import yixi from "../../../../assets/img/yixi.png";
+// import restbian from "../../../../assets/img/restbian.png";
+// import download from "../../../../assets/img/download.png";
 import { ShareDialog, VideoMenu } from "./shareDialog";
 
 const stop_run = (prevValue, nextValue) => {
@@ -91,7 +91,8 @@ const WorksItem = (props) => {
         className="all-width view-overflow bg-not"
         style={{
           height: props._h || 136,
-          backgroundImage: props.info && "url(" + props.info.image_path + ")",
+          border:'1px solid red',
+          backgroundImage: props.info && "url(" + props.info.image_path1 + ")",
         }}
       >
         <Link

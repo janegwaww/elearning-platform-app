@@ -1,5 +1,5 @@
 import React from "react";
-import { ProNavbar, Navbar } from "./components/ProfileNav";
+import { ProNavbar, Navbar } from "../../components/ProfileNav";
 import { Button, Grid } from "@material-ui/core";
 import {
   ExpandMore,
@@ -24,14 +24,14 @@ import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import ProfileDialog from "./components/ProFileDialog";
-import PublicDialog from "../../../assets/template/PublicDialog";
-import { getObj } from "../../../assets/js/totls";
-import { get_data } from "../../../assets/js/request";
+import ProfileDialog from "../../components/ProFileDialog";
+import PublicDialog from "../../../../assets/template/PublicDialog";
+import { getObj } from "../../../../assets/js/totls";
+import { get_data } from "../../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import CustomModal from "../../../assets/js/CustomModal";
-import wechatQrcode from "../../../../static/images/wechat-qrcode.jpg";
+import CustomModal from "../../../../assets/js/CustomModal";
+import wechatQrcode from "../../../../../static/images/wechat-qrcode.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,24 +130,7 @@ const table_data = [
   },
 ];
 
-// function getStepContent(step,phone,time) {
-//   let _phone_code, _phone, _old_phone=phone
-//   switch (step) {
-//     case 0:
-//       return (
-//         <div></div>
-//       );
-//     case 1:
-//       return (
-//         <div></div>
 
-//       );
-//     case 2:
-//       return <div>成功</div>;
-//     default:
-//       return "Unknown step";
-//   }
-// }
 
 const Setpage = (props) => {
   const classes = useStyles();

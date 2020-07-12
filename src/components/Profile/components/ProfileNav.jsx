@@ -34,20 +34,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export function Nav(props) {
+  const classes = useStyles();
+  const [scrollWidth, setScrollWidth] = React.useState(0);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+
+React.useEffect(()=>{
+    let _arr = props.list.slice(0,props._inx);
+    let _num  = _arr.join('').length*18+props._inx*20;
+    let _w = props.list[props._inx].length*18;
+    setScrollWidth(_w);
+    setScrollLeft(_num);
+})
+
+  const handleChange = (event) => {
+
+    if (props.onEvent ) {
+      props.onEvent(parseInt(event.target.dataset.inx)+1);
+    }
+  };
+
+  return (
+    <div className={classes.root}>
+      <div className="box box-align-center fn-size-18 fn-color-2C2C3B">
+        {props.list.map((value, inx) => (
+          <span key={value} onClick={handleChange} data-inx={inx}>
+            {value}
+          </span>
+        ))}
+      </div>
+      <div
+        className={classes.scroll}
+        style={{
+          transform: "translate(" + scrollLeft + "px)",
+          width: scrollWidth + "px",
+        }}
+      ></div>
+    </div>
+  );
+}
+
 export function ProNavbar(props) {
   const classes = useStyles();
   let _parent = props.parent.props || props.parent;
-  
-  let _num =
-    props._type && props._type == "two"
-      ? parseInt(_parent.parent.state.nowPage.childpage_id) + 1
-      : parseInt(_parent.parent.state.nowPage.childpage_id);
-      //只在series详情中传
-   if(props.page_num>0){
-     //只在创作中心传
-     _num = props.page_num-1;
-   }
-   console.log(_num)
+
+  let _num = 0;
+  //   props._type && props._type == "two"
+  //     ? parseInt(_parent.parent.state.nowPage.childpage_id) + 1
+  //     : parseInt(_parent.parent.state.nowPage.childpage_id);
+  //     //只在series详情中传
+  //  if(props.page_num>0){
+  //    //只在创作中心传
+  //    _num = props.page_num-1;
+  //  }
+  console.log(_num);
   const [scrollWidth, setScrollWidth] = React.useState(
     props.list[0].length * 18
   );
@@ -57,7 +97,7 @@ export function ProNavbar(props) {
     let e_w = event.target.clientWidth;
     let p_w = event.target.parentNode.clientWidth;
     if (left == scrollLeft + 10) {
-      if(props._type){
+      if (props._type) {
         props.onEvent(Math.floor(event.target.dataset.inx) + 1);
       }
       return;
