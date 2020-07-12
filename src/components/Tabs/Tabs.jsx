@@ -36,7 +36,7 @@ const TTab = withStyles((theme) => ({
   selected: {
     color: "#007cff",
   },
-}))(Tab);
+}))((props) => <Tab disableRipple {...props} />);
 
 const TypeTabs = ({ handleTab = () => ({}) }) => {
   const classes = useStyles();
