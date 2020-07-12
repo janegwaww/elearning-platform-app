@@ -62,12 +62,14 @@ export default function VideoDocument({ vid }) {
                   <Box height={68} display="flex">
                     <div
                       style={{
+                        marginRight: 10,
                         height: 68,
                         width: 120,
                         overflow: "hidden",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        borderRadius: "4px",
                       }}
                     >
                       <img
