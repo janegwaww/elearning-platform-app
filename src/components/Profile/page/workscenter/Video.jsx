@@ -44,6 +44,11 @@ export default class Video extends React.Component {
           ),
         });
        
+      }else{
+        this.setState({
+          total_data:[],
+          show_data:null
+        })
       }
       setTimeout(() => {
         this.setState({
@@ -68,14 +73,14 @@ export default class Video extends React.Component {
       <div>
         {total_data && (
           <div>
-            {show_data.map((option, inx) => (
+            {show_data?show_data.map((option, inx) => (
               <SeriesItem
                 key={option.video_id}
                 parent={this}
                 info={option}
                 series="video"
               />
-            ))}
+            )):(<div>暂无数据</div>)}
           </div>
         )}
         {total_counts > show_counts && (

@@ -12,7 +12,7 @@ import { getUser } from "../../../services/auth";
 import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
-import logoimg from '../../../../static/logos/logo.svg';
+import logoimg from "../../../../static/logos/logo.svg";
 import { ArrowBack, ArrowForward, Autorenew } from "@material-ui/icons";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -42,7 +42,7 @@ export default class Header extends Component {
       open: false,
       files: props.parent.state.video_data,
       // is_modal: false,
-      timers:null,
+      timers: true,
     };
     this.btn_user = this.btn_user.bind(this);
   }
@@ -55,11 +55,7 @@ export default class Header extends Component {
       navigate(`/users/login`);
     }
   }
-  componentWillUnmount() {
-    this.setState({
-      timers:null
-    })
-  }
+
   btn_user = function(info) {
     if (!getUser().name) {
       sessionStorage.setItem("no_login_page", window.location.href);
@@ -79,12 +75,12 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
-      if(el!='not'){
+      if (el != "not") {
         _this.props.parent.setState({
-          login_status:true
-        })
+          login_status: true,
+        });
       }
-     
+
       let _video_data = _this.props.parent.state.video_data;
 
       let r_data = {
@@ -98,27 +94,31 @@ export default class Header extends Component {
         },
         model_type: "",
       };
-      get_data( r_data)
+      get_data(r_data, "video")
         .then((res) => {
-          if(el!='not'){
-            _this.props.parent.setState({
-              login_status:false
-            });
-          }
-          
           if (res.err == 0 && res.errmsg == "OK") {
             _this.setState({ open: true });
-            if(el!='not'){
+            if ((el == "not") && this.state.timers) {
+              setTimeout(() => {
+                btn_save("not");
+              }, 600000);
+            }
+            if (el != "not") {
+              this.setState({
+                timers: false,
+              });
               navigate("/video/uppage");
-            }   
-            
-          } else {
-            
+            }
+          }
+          if (el != "not") {
+            _this.props.parent.setState({
+              login_status: false,
+            });
           }
         })
         .catch((err) => {
           _this.props.parent.setState({
-            login_status:false
+            login_status: false,
           });
         });
     };
@@ -127,7 +127,7 @@ export default class Header extends Component {
       <header className={`box box-align-center ${styles.header}`}>
         <div className={`box box-align-center ${styles.nav}`}>
           <div className={styles.logo}>
-            <img src={logoimg} alt='logo' />
+            <img src={logoimg} alt="logo" />
           </div>
           <div
             className={`fn-size-16 ${styles.imdex}`}
@@ -182,21 +182,21 @@ export default class Header extends Component {
         </div>
         <div className="box box-align-center">
           <div>
-          <NewBtn2 onClick={()=>{
-            
-            if (
-              JSON.stringify(this.props.parent.state.video_data) === "{}"||!this.props.parent.state.video_data.sub_josn
-            ) {
-              new CustomModal().alert("亲！还没有添加文件呢！", "error");
-              return;
-            }
-            clearInterval(this.state.timers);
-            this.setState({
-              timers: setInterval(()=>{btn_save('not')},60000)
-            })
-            btn_save('not') 
-          
-          }}>保存</NewBtn2>
+            <NewBtn2
+              onClick={() => {
+                if (
+                  JSON.stringify(this.props.parent.state.video_data) === "{}" ||
+                  !this.props.parent.state.video_data.sub_josn
+                ) {
+                  new CustomModal().alert("亲！还没有添加文件呢！", "error");
+                  return;
+                }
+
+                btn_save("not");
+              }}
+            >
+              保存
+            </NewBtn2>
           </div>
           <div>
             <NewBtn2
@@ -272,7 +272,6 @@ export default class Header extends Component {
             保存成功
           </Alert>
         </Snackbar>
-        
       </header>
     );
   }

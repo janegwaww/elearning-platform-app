@@ -5,62 +5,33 @@ import { Settings } from "@material-ui/icons";
 import { ProNavbar, Navbar } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
-import { get_data, get_alldata } from "../../../../assets/js/request";
+import { get_data } from "../../../../assets/js/request";
 import { navigate } from "@reach/router";
-
+import SearchLoading from "../../../Loading/SearchLoading";
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
-      userWorks: null, //我的作品
-      userWorks_counts: 0, //作品数量
-      video_type: "video", //系列与普通
-      userCollection: null, //我的收藏
-      userColllection_counts: 0, //收藏数量
+      works_video: null, //作品数据
+      works_series: null, //系列数据
+      works_draft: null, //草稿数据
+      history_data: null, //历史数据
+      collection_data: null, //收藏数据
+      video_type: "video", //系列与普通/草稿
+      // userCollection: null, //我的收藏
+      // userColllection_counts: 0, //收藏数量
       page_type: 1, //收藏与历史
       item_h: 0,
-      // historyData: null, //历史记录
+      login_status:false
+      
     };
     this.update_data = this.update_data.bind(this);
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
-    // this.props.parent.setState({
-    //   login_status: true,
-    // });
-    let _this = this;
-
-    get_data({
-      model_name: "home",
-      model_action: "get_information",
-      extra_data: {
-        video_counts: 2,
-        collection_counts: 8,
-      },
-      model_type: "",
-    }).then((res) => {
-      if (res.err === 0) {
-        let _data = res.result_data[0];
-        console.log(_data);
-        this.setState({
-          userData: _data,
-          userWorks: _data.video,
-          userWorks_counts: _data.view_counts,
-          userCollection: _data.collection,
-          userColllection_counts: _data.collection_counts,
-        });
-      }
-      // this.props.parent.setState({
-      //   login_status: false,
-      // });
-      this.wind_size();
-    });
-
-    window.onresize = (e) => {
-      this.wind_size(e);
-    };
+    this.update_data();
   }
   wind_size(e) {
     let _e = e || window.event;
@@ -77,43 +48,57 @@ class ProfileIndex extends React.Component {
   componentWillUnmount() {
     window.onresize = null;
   }
-  update_data(_type) {
-    // this.props.parent.setState({
-    //   login_status: true,
-    // });
+  update_data() {
+    
+    this.setState({
+      login_status: true,
+    });
+    let _this = this;
 
-    let _data = {
-      model_name: "video",
-      model_action: "get_video",
+    get_data({
+      model_name: "home",
+      model_action: "get_information",
       extra_data: {
-        type: _type,
+        max_size: 2,
+        collection_counts: 4,
       },
-    };
-    get_data(_data).then((res) => {
-      // setTimeout(() => {
-      //   this.props.parent.setState({
-      //     login_status: false,
-      //   });
-      // }, 1000);
-
-      if (res.err == 0) {
+      model_type: "",
+    }).then((res) => {
+      if (res.err === 0) {
+        let _data = res.result_data[0];
+      
         this.setState({
-          userWorks: res.result_data.slice(0, 2),
+          userData: _data,
+          works_video: _data.video,
+          works_series: _data.series,
+          works_draft:_data.draft,
+          history_data: _data.history,
+          collection_data: _data.collection,
         });
       }
+      setTimeout(()=>{this.setState({
+        login_status: false,
+      });},300)
+      
+      this.wind_size();
     });
+
+    window.onresize = (e) => {
+      this.wind_size(e);
+    };
+    
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (
-    //   JSON.stringify(nextProps.parent.state.userinfo) !=
-    //   JSON.stringify(this.state.userinfo)
-    // ) {
-    //   this.setState({
-    //     userInfo: nextProps.parent.state.userinfo,
-    //   });
-    // }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // if (
+  //   //   JSON.stringify(nextProps.parent.state.userinfo) !=
+  //   //   JSON.stringify(this.state.userinfo)
+  //   // ) {
+  //   //   this.setState({
+  //   //     userInfo: nextProps.parent.state.userinfo,
+  //   //   });
+  //   // }
+  // }
   componentWillUnmount() {
     this.setState = (state, callback) => {
       return;
@@ -124,12 +109,24 @@ class ProfileIndex extends React.Component {
   // }
 
   render() {
+    const {
+      userData,
+      works_video,
+      works_series,
+      works_draft,
+      history_data,
+      collection_data,
+      video_type,
+      page_type,
+      item_h,
+      ...other
+    } = this.state;
     let _this = this;
     return (
       <section className=" view-scroll all-height all-width">
         <main className="all-width">
           <img
-            src={this.state.userInfo ? this.state.userInfo.background : ""}
+            src={userData ? userData.background : ""}
             className="all-width"
             style={{ height: "300px" }}
           />
@@ -151,7 +148,6 @@ class ProfileIndex extends React.Component {
                 parent: "SetingsCenter",
                 parent_id: 5,
               };
-           
             }}
           >
             <Settings />
@@ -169,21 +165,21 @@ class ProfileIndex extends React.Component {
                   height: "80px",
                   transform: "translateY(-55px)",
                 }}
-                src={this.state.userInfo ? this.state.userInfo.headshot : ""}
+                src={userData ? userData.headshot : ""}
               />
             </div>
             <div>
               <p className="zero-edges fn-size-16">
-                {this.state.userInfo ? this.state.userInfo.user_name : ""}
+                {userData ? userData.user_name : ""}
               </p>
               <p
                 className="zero-edges fn-size-12 fn-color-9E9EA6"
                 style={{ margin: "10px 0" }}
               >
-                ID: {this.state.userInfo ? this.state.userInfo.user_id : ""}
+                ID: {userData ? userData.user_id : ""}
               </p>
               <p className="zero-edges textview-overflow two">
-                {this.state.userInfo ? this.state.userInfo.introduction : ""}
+                {userData ? userData.introduction : ""}
               </p>
             </div>
           </div>
@@ -242,7 +238,7 @@ class ProfileIndex extends React.Component {
                   0}
               </p>
               <p className="zero-edges">
-              {/** 
+                {/** 
                 昨日 <span className="fn-color-02BB17">+200</span>*/}
               </p>
             </div>
@@ -252,9 +248,9 @@ class ProfileIndex extends React.Component {
                 {(_this.state.userData && _this.state.userData.share_counts) ||
                   0}
               </p>
-               <p className="zero-edges">
+              <p className="zero-edges">
                 {/** 昨日 <span className="fn-color-F86B6B">-10</span> */}
-               </p>
+              </p>
             </div>
           </div>
         </main>
@@ -269,9 +265,10 @@ class ProfileIndex extends React.Component {
               data-id="3"
               data-defaultpage="作品管理"
               onClick={(evt) => {
-                evt.stopPropagation(); 
+                evt.stopPropagation();
                 evt.preventDefault();
-                this.props.parent.pageRoute(evt);
+                navigate(`/users/profile/workscenter`)
+                // this.props.parent.pageRoute(evt);
               }}
             >
               全部作品
@@ -292,27 +289,57 @@ class ProfileIndex extends React.Component {
                 this.setState({
                   video_type: _type,
                 });
-                this.update_data(_type);
+                // this.update_data(_type);
               }}
             />
           </div>
           <div>
+          {video_type=='video'&&(
             <div>
-              {this.state.userWorks &&
-                this.state.userWorks.length > 0 &&
-                this.state.userWorks.map((option, inx) => (
+              {works_video&&works_video.length>0?(
+                works_video.map(option=>(
                   <SeriesItem
                     parent={this}
                     info={option}
-                    inx={inx}
-                    key={option.video_id || option.series_id}
-                    series={this.state.video_type}
+             
+                    key={option.video_id }
+                    series={video_type}
                   />
-                ))}
-              {this.state.userWorks && this.state.userWorks.length <= 0 && (
-                <div>亲，暂时你还没有作品哦，现在去添加么？</div>
-              )}
+                ))
+              ):(<div className='profile-top'>暂无数据</div>)}
             </div>
+          )}
+          {video_type=='series'&&(
+            <div>
+              {works_series&&works_series.length>0?(
+                works_series.map(option=>(
+                  <SeriesItem
+                    parent={this}
+                    info={option}
+                    
+                    key={option.series_id }
+                    series={video_type}
+                  />
+                ))
+              ):(<div className='profile-top'>暂无数据</div>)}
+            </div>
+          )}
+          {video_type=='draft'&&(
+            <div>
+              {works_draft&&works_draft.length>0?(
+                works_draft.map(option=>(
+                  <SeriesItem
+                    parent={this}
+                    info={option}
+                   
+                    key={option.video_id }
+                    series={video_type}
+                  />
+                ))
+              ):(<div className='profile-top'>暂无数据</div>)}
+            </div>
+          )}
+           
           </div>
         </main>
         <main
@@ -325,27 +352,14 @@ class ProfileIndex extends React.Component {
                 parent={_this}
                 list={["我的收藏", "历史记录"]}
                 onEvent={(num) => {
-                  let _data = {
-                    model_name: "video_history",
-                    model_action: "get_history",
-                    extra_data: {},
-                  };
-
-                  if (num == 1) {
-                    _data = {
-                      model_name: "collection",
-                      model_action: "get_collection",
-                    };
-                  }
-
-                  get_data(_data).then((res) => {
-                    if (res.err == 0) {
+                  
                       this.setState({
-                        userCollection: res.result_data.slice(0, 4),
+               
                         page_type: num,
                       });
-                    }
-                  });
+                      setTimeout(this.wind_size,50)
+                    
+                
                 }}
               />
             </div>
@@ -357,33 +371,51 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                this.props.parent.pageRoute(evt);
+                navigate(`/users/profile/dynamic`)
+                
+                // this.props.parent.pageRoute(evt);
               }}
             >
               查看更多
             </div>
           </div>
-          <Grid container spacing={4} className="grid">
-            {this.state.userCollection &&
-            this.state.userCollection.length > 0 ? (
-              this.state.userCollection.map((option, inx) => (
-                <Grid item xs={3} key={option.video_id}>
+          {page_type == 1&&(
+            <Grid container spacing={4} className="grid">
+              {collection_data&&collection_data.length>0?(
+                collection_data.map(option=>(
+                  <Grid item xs={3} key={option.video_id||option.series_id}>
                   <WorksItem
                     parent={this}
-                    inx={inx}
+                    
                     info={option}
-                    history={_this.state.page_type}
+                    history={page_type}
                     _h={this.state.item_h}
                   />
                 </Grid>
               ))
-            ) : (
-              <div className="profile-top">
-                亲，你还没有数据可以展示哦，现在就去添加么？
-              </div>
-            )}
-          </Grid>
+              ):(<div className='profile-top'>暂无数据</div>)}
+            </Grid>
+          )}
+          {page_type == 2&&(
+            <Grid container spacing={4} className="grid">
+              {history_data &&history_data.length>0?(
+                history_data.map(option=>(
+                  <Grid item xs={3} key={option.video_id||option.series_id}>
+                  <WorksItem
+                    parent={this}
+                    
+                    info={option}
+                    history={page_type}
+                    _h={this.state.item_h}
+                  />
+                </Grid>
+                ))
+              ):(<div className='profile-top'>暂无数据</div>)}
+            </Grid>
+          )}
+         
         </main>
+        <SearchLoading loading={this.state.login_status} />
       </section>
     );
   }

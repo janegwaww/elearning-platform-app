@@ -11,6 +11,8 @@ import Draft from '../components/Profile/page/workscenter/Draft';
 import SeriesDetail from '../components/Profile/page/workscenter/SeriesDetail';
 import PageIndex from '../components/Profile/page/pageindex/Index';
 import Dynamic from '../components/Profile/page/dynamic/Index';
+import Collection from '../components/Profile/page/dynamic/collection';
+import History from '../components/Profile/page/dynamic/history';
 import Setings from '../components/Profile/page/setings/Index'
 
 const Users = () => {
@@ -19,7 +21,10 @@ const Users = () => {
       <PrivateRoute path="/profile" component={Profile} >
           <PageIndex path='/' />
       
-           <Dynamic path='/dynamic' />
+           <Dynamic path='/dynamic' >
+            <Collection path='/' />
+            <History path = '/history' />
+           </Dynamic>
                <Setings path='/setings' />
           <WorksCenter path='/workscenter' >
            <Video path='/' />

@@ -58,7 +58,7 @@ export default class WorksCenter extends React.Component {
   // }
   componentDidMount() {
       let _router = this.props['*']
-      console.log(_router)
+   
       if(_router == 'series'||_router=='seriesdetail'){
         this.setState({
           item_inx:1
@@ -72,18 +72,11 @@ export default class WorksCenter extends React.Component {
           item_inx:0
         })
       }
-    // if (this.props.parent.state.nowPage.childpage_id == 3) {
-    // this.get_series_datial(this.props.parent.state.nowPage.series_id);
-    // }
-    // this.update_data(this.state.item_type);
-    // window.onresize = (e) => {
-    // this.wind_size(e);
-    // };
-    // if(this.)
+  
   }
   componentWillReceiveProps (nextProps){
     let _router = nextProps['*'];
-    console.log(_router)
+    
     if(_router == 'series'||_router=='seriesdetail'){
       this.setState({
         item_inx:1

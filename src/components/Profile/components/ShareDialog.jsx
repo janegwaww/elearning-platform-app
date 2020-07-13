@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import PublicDialog from "../../../assets/template/PublicDialog";
 import EditDialog from "./EditDialog";
-<<<<<<< HEAD:src/components/Profile/components/ShareDialog.jsx
+
 import { get_data } from "../../../assets/js/request";
 import qq from "../../../assets/img/qq.png";
 import wx from "../../../assets/img/wx.png";
@@ -21,23 +21,9 @@ import del from "../../../assets/img/del.png";
 import yixi from "../../../assets/img/yixi.png";
 import restbian from "../../../assets/img/restbian.png";
 import download from "../../../assets/img/download.png";
+
 import moveout from '../../../assets/img/moveout.png';
-=======
-import { get_data } from "../../../../assets/js/request";
-import qq from "../../../../assets/img/qq.png";
-import wx from "../../../../assets/img/wx.png";
-import wb from "../../../../assets/img/wb.png";
-import qqz from "../../../../assets/img/qqz.png";
-import CustomModal from "../../../../assets/js/CustomModal";
-import fenxiang from "../../../../assets/img/fenxiang.png";
-import sore from "../../../../assets/img/sore.png";
-import bianmiao from "../../../../assets/img/bianmiao.png";
-import del from "../../../../assets/img/del.png";
-import yixi from "../../../../assets/img/yixi.png";
-import restbian from "../../../../assets/img/restbian.png";
-import download from "../../../../assets/img/download.png";
-import moveout from '../../../../assets/img/moveout.png';
->>>>>>> b0174b4be3e6c5f7771d2aa09846a50b4ccd9379:src/components/Profile/ProfileChildens/components/shareDialog.jsx
+
 import userStyles from "./profileStyle";
 // 分享弹窗
 const input_use = makeStyles((theme) => ({
@@ -101,7 +87,7 @@ export const ShareDialog = (props) => {
         summary: props.info.description,
         desc: "说点什么呗", //暂不写
         type: _type, //"wechat"/"microblog"/ “q_Zone”,
-        source: props.info.type, // "video",
+        source: props.info.type || props.parent._type, // "video",
         share_id: _id,
       },
     };
@@ -208,11 +194,16 @@ export const ShareDialog = (props) => {
 };
 
 export const SericesMenu = (props) => {
+  console.log(props);
   const [open, setOpen] = React.useState(null);
   const [isShare, setIsShare] = React.useState(false);
   const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
-  const [newTitle, setNewTitle] = React.useState(props.info.title || props.info.series_title);
-  const [newdescription, setNewdescription] = React.useState(props.info.description);
+  const [newTitle, setNewTitle] = React.useState(
+    props.info.title || props.info.series_title
+  );
+  const [newdescription, setNewdescription] = React.useState(
+    props.info.description
+  );
   const [idArr, setIdArr] = React.useState(null);
   let draging = null;
   // let isDragid='';
@@ -237,7 +228,7 @@ export const SericesMenu = (props) => {
     }
     return index;
   };
-  
+
   return (
     <div className="text-right">
       <IconButton
@@ -268,7 +259,7 @@ export const SericesMenu = (props) => {
                 setNewimgurl(res.url);
               }
             }}
-            _disabled={!newTitle?true:false}
+            _disabled={!newTitle ? true : false}
             onEvent={(res) => {
               if (res.cancel) {
                 return;
@@ -283,20 +274,19 @@ export const SericesMenu = (props) => {
                   model_action: "change_information",
                   extra_data: {
                     series_id: props.info.series_id,
-                    image_path: newimgurl ,
-                    title: newTitle ,
-                    description: newdescription ,
+                    image_path: newimgurl,
+                    title: newTitle,
+                    description: newdescription,
                   },
                 };
 
                 get_data(_data).then((data) => {
-                  
                   if (data.err == 0) {
                     new CustomModal().alert(data.errmsg, "success", 5000);
                     // if(props._type=='series'){
                     //   props.parent.update_data('series');
                     // }else{
-                      props.parent.update_data(props.info.series_id);
+                    props.parent.update_data(props.info.series_id);
                     // }
                   } else {
                     new CustomModal().alert("修改失败", "error", 5000);
@@ -314,8 +304,7 @@ export const SericesMenu = (props) => {
                       height: 190,
                       marginRight: 20,
                       borderRadius: 12,
-                      backgroundImage:
-                        "url(" + newimgurl + ")",
+                      backgroundImage: "url(" + newimgurl + ")",
                       position: "relative",
                     }}
                     className="view-overflow bg-not text-center"
@@ -344,7 +333,6 @@ export const SericesMenu = (props) => {
                           }}
                           className="fn-color-007CFF"
                           onClick={() => {
-                            
                             document.getElementById("file-img").click();
                           }}
                         />
@@ -360,8 +348,7 @@ export const SericesMenu = (props) => {
                       width: 295,
                       height: 190,
                       borderRadius: 12,
-                      backgroundImage:
-                        "url(" + newimgurl  + ")",
+                      backgroundImage: "url(" + newimgurl + ")",
                     }}
                     className="view-overflow text-center bg-not"
                   ></div>
@@ -377,7 +364,6 @@ export const SericesMenu = (props) => {
                     type="text"
                     className="all-width textfield"
                     value={newTitle}
-                    
                     onChange={(ev) => {
                       setNewTitle(ev.target.value);
                     }}
@@ -393,13 +379,9 @@ export const SericesMenu = (props) => {
                   <textarea
                     className={`all-width textfield`}
                     rows={5}
-                    value={
-                      newdescription 
-                    }
+                    value={newdescription}
                     onChange={(ev) => {
                       setNewdescription(ev.target.value);
-
-                      // setNewdescription(ev.target.value);${classes.textfield}
                     }}
                   ></textarea>
                 </Grid>
@@ -408,95 +390,99 @@ export const SericesMenu = (props) => {
             </div>
           </EditDialog>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <EditDialog
-            icon_img={sore}
-            title="排序"
-            info={props.info}
-            onEvent={(msg) => {
-              console.log(23)
-              if (msg.cancel) {
-                return;
-              }
-              
-              if (msg.confirm) {
-                get_data({
-                  model_name: "video",
-                  model_action: "sort_video",
-                  extra_data: {
-                    video_id: idArr,
-                  },
-                }).then((res) => {
-                 
-                  if (res.err === 0) {
-                    new CustomModal().alert("更改成功", "success", 3000);
-                   if(props._id){
-                      props.parent.update_data(props._id);
-                   }
-                     
-                    
-                  } else {
-                    new CustomModal().alert(res.errmsg, "error", 3000);
-                  }
-                });
-              }
-            }}
-          >
-            <ul
-              className="profile-ul"
-              onDrop={(evt) => {
-                evt.stopPropagation();
-                evt.preventDefault();
-                let _node_list = document.querySelectorAll(".profile-ul li");
-                let _id_arr = [];
-                _node_list.forEach((option) => {
-                  _id_arr.push(option.dataset.id);
-                  option.classList.remove("bg-F2F2F5");
-                });
-                
-                setIdArr(_id_arr);
-              }}
-              onDragOver={(evt) => {
-                evt.stopPropagation();
-                evt.preventDefault();
-                var target = event.target;
+        {props._type != "series" && (
+          <MenuItem onClick={handleClose}>
+            <EditDialog
+              icon_img={sore}
+              title="排序"
+              info={props.info}
+              onEvent={(msg) => {
+                if (msg.cancel) {
+                  return;
+                }
 
-                if (target.nodeName === "LI" && draging && target !== draging) {
-                  if (_index(draging) < _index(target)) {
-                    target.parentNode.insertBefore(draging, target.nextSibling);
-                  } else {
-                    target.parentNode.insertBefore(draging, target);
-                  }
+                if (msg.confirm) {
+                  get_data({
+                    model_name: "video",
+                    model_action: "sort_video",
+                    extra_data: {
+                      video_id: idArr,
+                    },
+                  }).then((res) => {
+                    if (res.err === 0) {
+                      new CustomModal().alert("更改成功", "success", 3000);
+                      if (props._id) {
+                        props.parent.update_data(props._id);
+                      }
+                    } else {
+                      new CustomModal().alert(res.errmsg, "error", 3000);
+                    }
+                  });
                 }
               }}
             >
-              {props.info.video_data &&
-                props.info.video_data.map((op, inx) => (
-                  <li
-                    key={op.video_id}
-                    className={`box box-align-center  }`}
-                    draggable="true"
-                    data-id={op.video_id}
-                   
-                    id={op.video_id}
-                    onDragStart={(evt) => {
-                      evt.stopPropagation();
-                      evt.dataTransfer.setData("move", evt.target.id);
-                      draging = evt.target;
-                      evt.target.classList.add("bg-F2F2F5");
-                    }}
-                  >
-                    <div className="move-item">
-                      <MenuOutlined />
-                    </div>
-                    <div className="fn-color-2C2C3B text-overflow">
-                      {op.video_title}
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </EditDialog>
-        </MenuItem>
+              <ul
+                className="profile-ul"
+                onDrop={(evt) => {
+                  evt.stopPropagation();
+                  evt.preventDefault();
+                  let _node_list = document.querySelectorAll(".profile-ul li");
+                  let _id_arr = [];
+                  _node_list.forEach((option) => {
+                    _id_arr.push(option.dataset.id);
+                    option.classList.remove("bg-F2F2F5");
+                  });
+
+                  setIdArr(_id_arr);
+                }}
+                onDragOver={(evt) => {
+                  evt.stopPropagation();
+                  evt.preventDefault();
+                  var target = event.target;
+
+                  if (
+                    target.nodeName === "LI" &&
+                    draging &&
+                    target !== draging
+                  ) {
+                    if (_index(draging) < _index(target)) {
+                      target.parentNode.insertBefore(
+                        draging,
+                        target.nextSibling
+                      );
+                    } else {
+                      target.parentNode.insertBefore(draging, target);
+                    }
+                  }
+                }}
+              >
+                {props.info.video_data &&
+                  props.info.video_data.map((op, inx) => (
+                    <li
+                      key={op.video_id}
+                      className={`box box-align-center  }`}
+                      draggable="true"
+                      data-id={op.video_id}
+                      id={op.video_id}
+                      onDragStart={(evt) => {
+                        evt.stopPropagation();
+                        evt.dataTransfer.setData("move", evt.target.id);
+                        draging = evt.target;
+                        evt.target.classList.add("bg-F2F2F5");
+                      }}
+                    >
+                      <div className="move-item">
+                        <MenuOutlined />
+                      </div>
+                      <div className="fn-color-2C2C3B text-overflow">
+                        {op.video_title}
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+            </EditDialog>
+          </MenuItem>
+        )}
         <MenuItem
           onClick={(ev) => {
             ev.preventDefault();
@@ -525,10 +511,13 @@ export const SericesMenu = (props) => {
 };
 
 export const VideoMenu = (props) => {
-  
   const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
-  const [newTitle, setNewTitle] = React.useState(props.info.title||props.info.video_title);
-  const [newdescription, setNewdescription] = React.useState(props.info.description);
+  const [newTitle, setNewTitle] = React.useState(
+    props.info.title || props.info.video_title
+  );
+  const [newdescription, setNewdescription] = React.useState(
+    props.info.description
+  );
   //移至系列
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [seriesvalue, setSeriesvalue] = React.useState("");
@@ -548,7 +537,7 @@ export const VideoMenu = (props) => {
     // evt.preventDefault();
     setAnchorEl(null);
   };
-// console.log(props)
+  // console.log(props)
   return (
     <div className="text-right">
       <IconButton
@@ -574,14 +563,13 @@ export const VideoMenu = (props) => {
             title="编辑描述"
             info={props.info}
             icon_img={bianmiao}
-            _disabled ={!newTitle?true:false}
+            _disabled={!newTitle ? true : false}
             onChange={(res) => {
               if (res.url) {
                 setNewimgurl(res.url);
               }
             }}
             onEvent={(res) => {
-             
               if (res.cancel) {
                 return;
               }
@@ -591,24 +579,23 @@ export const VideoMenu = (props) => {
                   model_action: "change_information",
                   extra_data: {
                     video_id: props.info.video_id,
-                    image_path: newimgurl ,
-                    title: newTitle ,
-                    description: newdescription ,
+                    image_path: newimgurl,
+                    title: newTitle,
+                    description: newdescription,
                   },
                 };
                 get_data(_data).then((res) => {
-                  if(res.err==0){
+                  if (res.err == 0) {
                     // if(props._type=='video'){
                     //   props.parent.update_data('video');
                     // }
                     // if(props._type=='series_detail'){
-                      props.parent.update_data(props._id);
+                    props.parent.update_data(props._id);
                     // }
                     new CustomModal().alert(res.errmsg, "success", 3000);
-                    return
+                    return;
                   }
                   new CustomModal().alert(res.errmsg, "error", 3000);
-                 
                 });
               }
             }}
@@ -649,7 +636,7 @@ export const VideoMenu = (props) => {
                             width: 35,
                             height: 35,
                             transform: "scale(1.2)",
-                            cursor: 'pointer'
+                            cursor: "pointer",
                           }}
                           className="fn-color-007CFF"
                           onClick={() => {
@@ -764,13 +751,18 @@ export const VideoMenu = (props) => {
                   >
                     <div>
                       <input
-                        type="radio"
+                        type="checkbox"
                         value={option._id}
+                        checked={seriesvalue == option._id}
                         id={"series_" + option._id}
                         onClick={(ev) => {
                           ev.stopPropagation();
                         }}
                         onChange={(ev) => {
+                          if (seriesvalue == ev.target.value) {
+                            setSeriesvalue("");
+                            return;
+                          }
                           setSeriesvalue(ev.target.value);
                         }}
                       />
@@ -803,7 +795,7 @@ export const VideoMenu = (props) => {
             <div>重新编辑</div>
           </Link>
         </MenuItem>
-        
+
         <MenuItem
           onClick={(ev) => {
             ev.preventDefault();
@@ -819,83 +811,42 @@ export const VideoMenu = (props) => {
           <div> 分享</div>
         </MenuItem>
 
-        {props._type != "video" && (
-        <MenuItem
-        onClick={(ev) => {
-          
-          handleClose();
-        }}
-        data-id="6"
-      >
-        <EditDialog
-        title="移出系列"
-            icon_img={moveout}
-            info={props.info}
-            _type="del"
-            onEvent={(msg)=>{
-              
-              console.log(props)
-              if(msg.confirm){
+        {props._type == "series_detail" && (
+          <MenuItem
+            onClick={(ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
 
-                get_data({
-                  "model_name": "video",
-                  "model_action": "movie_video",
-                  "extra_data": {
-                  "video_id":[props.info.video_id],
-                  "series_id":""
-                  },
-                  "model_type":"" 
-                  }).then((res)=>{
-                    if(res.err==0){
-                      props.parent.get_series_datial(props._id);
-                      new CustomModal().alert('移出成功','success',3000)
+              handleClose();
+            }}
+            data-id="5"
+          >
+            <EditDialog
+              title="移出系列"
+              _type="del"
+              icon_img={moveout}
+              onEvent={(msg) => {
+                if (msg.confirm) {
+                  get_data({
+                    model_name: "video",
+                    model_action: "movie_video",
+                    extra_data: {
+                      video_id: [props.info.video_id],
+                      series_id: "",
+                    },
+                  }).then((res) => {
+                    if (res.err == 0 && res.errmsg == "OK") {
+                      new CustomModal().alert("移出成功", "success", 3000);
+                      props.parent.update_data(props._id);
                     }
-                  })
-                
-              }
-            }}
-        >
-        <p>确认此视频移出该系列</p>
-        </EditDialog>
-      </MenuItem>
+                  });
+                }
+              }}
+            >
+              <p>确保定要移出本系列？</p>
+            </EditDialog>
+          </MenuItem>
         )}
-
-
-        <MenuItem
-          onClick={(ev) => {
-            ev.preventDefault();
-            ev.stopPropagation();
-            
-            handleClose();
-          }}
-          data-id="5"
-        >
-        <EditDialog
-        title="移出系列"
-        _type="del"
-        icon_img={moveout}
-            onEvent={(msg) => {
-              if (msg.confirm) {
-                get_data({
-                  model_name: "video",
-                  model_action: "movie_video",
-                  extra_data: {
-                    video_id: [props.info.video_id],
-                    series_id:'',
-                  },
-                }).then((res) => {
-                  if (res.err == 0 && res.errmsg == "OK") {
-                    new CustomModal().alert("移出成功", "success", 3000);
-                    props.parent.update_data(props._id);
-                  }
-                });
-              }
-            }}
-        
-        >
-        <p>确保定要移出本系列？</p>
-        </EditDialog>
-        </MenuItem>
         <MenuItem
           data-id="6"
           onClick={() => {
@@ -908,7 +859,7 @@ export const VideoMenu = (props) => {
             info={props.info}
             _type="del"
             onEvent={(msg) => {
-              if(msg.confirm){
+              if (msg.confirm) {
                 get_data({
                   model_name: "video",
                   model_action: "delete_video",
@@ -922,12 +873,11 @@ export const VideoMenu = (props) => {
                     //   props.parent.update_data('video')
                     // }
                     // if(props._type =='series_detail'){
-                      props.parent.update_data(props._id)
+                    props.parent.update_data(props._id);
                     // }
                   }
                 });
               }
-             
             }}
           >
             <p>上传作品不容易, 确定真的要删除该作品?</p>

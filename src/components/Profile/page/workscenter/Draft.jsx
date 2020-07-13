@@ -44,7 +44,12 @@ export default class Draft extends React.Component {
           ),
         });
         
-      };
+      }else{
+        this.setState({
+          total_data:[],
+          show_data:null
+        })
+      }
       setTimeout(() => {
         this.setState({
           login_status: false,
@@ -69,14 +74,14 @@ export default class Draft extends React.Component {
       <div>
         {total_data && (
           <div>
-            {show_data.map((option, inx) => (
+            {show_data?show_data.map((option, inx) => (
               <SeriesItem
                 key={option.video_id}
                 parent={this}
                 info={option}
                 series="draft"
               />
-            ))}
+            )):(<div> 暂无数据</div>)}
           </div>
         )}
         {total_counts > show_counts && (

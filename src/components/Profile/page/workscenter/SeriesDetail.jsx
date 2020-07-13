@@ -42,7 +42,7 @@ export default class SeriesDetail extends React.Component {
       model_name: "series",
       model_action: "get_series_details",
       extra_data: {
-        series_id: _id,
+        series_id: _id||this.state.serise_id,
       },
     })
       .then((res) => {
