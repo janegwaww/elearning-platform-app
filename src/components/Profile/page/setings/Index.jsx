@@ -1,35 +1,43 @@
 import React from "react";
-import { Router,navigate } from "@reach/router";
-import { ProNavbar, Navbar } from "../../components/ProfileNav";
-
+import {  navigate } from "@reach/router";
+import { Nav} from "../../components/ProfileNav";
 
 const Setings = (props) => {
-  console.log(props)
-  const {children} = props;
+
+  const { children } = props;
+  const [num, setNum] = React.useState(0);
+  React.useEffect(() => {
+    let _router = props["*"];
+    if (_router == "safety") {
+      setNum(1);
+    } else if (_router == "help") {
+      setNum(2);
+    } else {
+      setNum(0);
+    }
+  },[]);
   return (
-    <div className='all-height view-scroll bg-white profile-padding'>
+    <div className="all-height view-scroll bg-white profile-padding">
       <nav>
-        <ProNavbar
+        <Nav
           list={["基本设置", "安全中心", "帮助/反馈"]}
           parent={props}
-          onEvent={(num)=>{
-            if(num==1){
+          _inx = {num}
+          onEvent={(num) => {
+            if (num == 1) {
               navigate(`/users/profile/setings`);
-            }else if(num==2){
+              setNum(0)
+            } else if (num == 2) {
               navigate(`/users/profile/setings/safety`);
-
-            }else{
-              navigate(`/users/profile/setings/help`)
+              setNum(1)
+            } else {
+              navigate(`/users/profile/setings/help`);
+              setNum(2)
             }
-            
           }}
         />
       </nav>
-      <div className='profile-top'>
-     
-          {children}
-        
-        </div>
+      <div className="profile-top">{children}</div>
     </div>
   );
 };
