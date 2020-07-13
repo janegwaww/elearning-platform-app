@@ -252,8 +252,30 @@ input[type="radio"]:checked + label::before {
   border: 1px solid #007CFF;
   padding: 2px;
 }
-input[type="radio"] {
+input[type="radio"],input[type="checkbox"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
  
+}
+
+input[type="checkbox"] + label::before{     /*设置label标签的伪元素*/
+  content: "\a0";      /* 不换行空格 */
+  display: inline-block;    
+  width: 14px;
+  height: 14px;
+  margin-bottom: 4px;
+  border: 1px solid #565663;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+/*选定时*/
+input[type="checkbox"]:checked + label::before{
+  /* content: "\2714";    √ */
+  /* text-align: center; */
+  /* background-color: rgb(68, 171, 247); */
+  background-color: #007CFF;
+  background-clip: content-box;
+  border: 1px solid #007CFF;
+  padding: 3px;
 }

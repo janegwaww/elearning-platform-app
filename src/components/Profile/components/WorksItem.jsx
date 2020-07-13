@@ -92,7 +92,7 @@ const WorksItem = (props) => {
         style={{
           height: props._h || 136,
           border:'1px solid red',
-          backgroundImage: props.info && "url(" + props.info.image_path1 + ")",
+          backgroundImage: props.info && "url(" + props.info.image_path + ")",
         }}
       >
         <Link

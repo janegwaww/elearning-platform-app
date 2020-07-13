@@ -2,13 +2,13 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import SearchLoading from "../../../Loading/SearchLoading";
-
+import { ProNavbar } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
-export default class Series extends React.Component {
+export default class Collection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_type: "series",
+      page_type: "collection",
       total_counts: 0,
       total_data: null,
       show_data: null,
@@ -26,12 +26,9 @@ export default class Series extends React.Component {
       login_status: true,
     });
     get_data({
-      //
-      model_name: "video",
-      model_action: "get_video",
-      extra_data: {
-        type: "series",
-      },
+      
+      model_name: "collection",
+      model_action: "get_collection",
     }).then((res) => {
       if (res.err == 0 && res.result_data.length > 0) {
         let _data = res.result_data;
@@ -45,17 +42,16 @@ export default class Series extends React.Component {
         });
        
       }else{
-        this.setState({
-          total_data:[],
-          show_data:null
-        })
+          this.setState({
+            total_data:[],
+            
+          })
       }
       setTimeout(() => {
         this.setState({
           login_status: false,
         });
       }, 300);
-     
     });
   }
 
@@ -72,16 +68,19 @@ export default class Series extends React.Component {
     
     return (
       <div>
+        <nav>
+          <ProNavbar list={["我的收藏"]} parent={this} />
+        </nav>
         {total_data && (
           <div>
             {show_data?show_data.map((option, inx) => (
               <SeriesItem
-                key={option.series_id}
+                key={option.video_id}
                 parent={this}
                 info={option}
-                series="series"
+                series="video"
               />
-            )):(<div>暂无数据</div>)}
+            )):(<div className='profile-top'>暂无收藏</div>)}
           </div>
         )}
         {total_counts > show_counts && (

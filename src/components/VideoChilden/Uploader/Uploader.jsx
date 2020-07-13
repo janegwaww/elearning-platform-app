@@ -124,7 +124,7 @@ export default class UploadVideos extends Component {
         key: "Authorization",
         value: "Bearer " + (getUser().token || ""),
       },
-      url: "http://api.haetek.com:9191/api/v1/gateway",
+      url: "http://api2.haetek.com:9191/api/v1/gateway",
       shardSize: 10 * 1024 * 1024, //一个分片大小
       fileId: "newFile",
     });
@@ -231,8 +231,8 @@ export default class UploadVideos extends Component {
           video_id: this.state.files._id || this.state.files.video_id || id,
         },
         model_type: "",
-      },
-      "http://api.haetek.com:9090/api/v1/gateway"
+      },'video'
+     
     ).then((res) => {
       if (res.err === 0 && res.result_data.length > 0) {
         this.props.parent.get_image(res.result_data);
@@ -255,7 +255,7 @@ export default class UploadVideos extends Component {
     this.setState({
       status: 5,
     });
-    get_data(_data)
+    get_data(_data,'video')
       .then((res) => {
         if (res.err === 0) {
           this.setState({
@@ -296,7 +296,7 @@ export default class UploadVideos extends Component {
         lang: this.state.lang_value,
       },
     };
-    get_data(_data)
+    get_data(_data,'video')
       .then((res) => {
         if (res.err === 1 || res.err == -4) {
           this.tools_subtitles(res.result_data[0]);
@@ -346,7 +346,7 @@ export default class UploadVideos extends Component {
       },
     };
 
-    get_data(_data)
+    get_data(_data,'video')
       .then((res) => {
         if (res.err == 4104) {
           navigate(`users/login`);

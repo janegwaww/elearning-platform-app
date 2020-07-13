@@ -63,7 +63,7 @@ const return_html = (info, type) => {
               
             >
               <img
-                src={info && info.image_path1}
+                src={info && info.image_path}
                 className="all-height all-width"
               />
 
@@ -161,10 +161,10 @@ const return_html = (info, type) => {
     );
   } else {
     _html = (
-      <div className={` box fn-size-12 ${type=='series'?'series':''}`}>
+      <div className={` box fn-size-12 ${type=='series'?'p':''}`}>
         <div
           className="profile-item-img-box" >
-          <img src={info && info.image_path1} className="all-height all-width" />
+          <img src={info && info.image_path} className="all-height all-width" />
 
           <p className={`profile-time fn-color-white fn-size-12 ${type=='series'?'p':''}`}>
             {type=='draft'? info.video_time:"共"+ (info.video_counts||0)+ "集"}
@@ -263,7 +263,7 @@ const return_html = (info, type) => {
 const SeriesItem = (props) => {
   
   const classes = userStyles();
-
+  
   const [modalMsg, setModalMsg] = React.useState({
     open: false,
     type: 1,
@@ -276,7 +276,6 @@ const SeriesItem = (props) => {
   return (
     <div
       className="box box-between box-align-center profile-top"
-     
      
     >
     <div className='profile-item'
@@ -299,7 +298,7 @@ const SeriesItem = (props) => {
 
       <div>
         {props.series == "video" && (
-          <VideoMenu parent={props.parent} info={props.info} _type={props.series} onEvent={(msg) => {}} />
+          <VideoMenu parent={props.parent} info={props.info} _type={props.series}  />
         )}
         
 
@@ -309,9 +308,7 @@ const SeriesItem = (props) => {
             info={props.info}
             _type={props.series}
             _id={props._id}
-            onEven={(msg) => {
-              console.log(msg);
-            }}
+            
           />
         )}
         {props.series == "draft" && (
@@ -383,8 +380,8 @@ const SeriesItem = (props) => {
             }).then((res) => {
               if (res.err === 0) {
                 new CustomModal().alert("删除成功", "success", 5000);
-                props.parent.update_data('draft');
-                console.log(props.parent);
+                props.parent.update_data();
+                
                 setModalMsg({
                   open: false,
                 });

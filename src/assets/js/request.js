@@ -2,18 +2,18 @@ import axios from "axios";
 import { getUser } from "../../services/auth";
 import CustomModal from "./CustomModal";
 const _path = __dirname;
-const request_url = "http://api.haetek.com:9191/api/v1/gateway"; //'http://192.168.0.200:9191/';//'http://seeker.haetek.com:9191/';//'
-
+const users_url ="http://api.haetek.com:9191/api/v1/gateway"; //个中心
+const video_url= 'http://api2.haetek.com:9191/api/v1/gateway';//生字幕
 // axios.defaults.timeout = 10000;
 axios.defaults.headers = {
   "Content-Type": "application/json",
   Authorization: "Bearer" + " " + getUser().token,
 };
 
-export const get_data = function( data,url, method, header) {
+export const get_data = function( data,_type, method, header) {
   return new Promise(function(resolve, reject) {
     axios({
-      url:url|| request_url,
+      url:_type=='video'?video_url:users_url,
       data: data,
       method: method || "post",
       headers: header || {
