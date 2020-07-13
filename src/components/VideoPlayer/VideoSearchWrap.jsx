@@ -48,6 +48,12 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     });
   };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleInputClick(e);
+    }
+  };
+
   const handleJump = (time) => {
     setTimer(time);
     // 记录搜索点击用的
@@ -85,6 +91,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleEnter}
               endAdornment={
                 <InputAdornment position="end">
                   <ButtonBase onClick={() => setInput("")}>
