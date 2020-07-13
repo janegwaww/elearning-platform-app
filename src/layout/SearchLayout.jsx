@@ -34,6 +34,12 @@ const SearchLayout = ({ children }) => {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   useEffect(() => {
     if (q) {
       setRefInput(q);
@@ -84,6 +90,7 @@ const SearchLayout = ({ children }) => {
                 placeholder="搜索知识..."
                 id="search-page-input"
                 type="text"
+                onKeyDown={handleEnter}
                 onChange={(e) => setRefInput(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
