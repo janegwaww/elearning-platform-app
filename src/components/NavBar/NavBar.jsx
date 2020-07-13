@@ -44,6 +44,12 @@ const PrimarySearchAppBar = () => {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSearchClick();
+    }
+  };
+
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -117,6 +123,7 @@ const PrimarySearchAppBar = () => {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
+                onKeyDown={handleEnter}
                 id="navbar-search-input"
                 endAdornment={
                   <InputAdornment>
