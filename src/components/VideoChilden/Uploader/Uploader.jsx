@@ -359,7 +359,7 @@ export default class UploadVideos extends Component {
         } else {
           setTimeout(() => {
             _this.query_subtitles();
-          }, 10000);
+          }, 60000);
         }
       })
       .catch((err) => {

@@ -112,7 +112,7 @@ const return_html = (info, type) => {
                       get_date(info.update_time || info.upload_time, ".", 9)
                     : ""}
                 </p>
-                <div className="all-width textview-overflow two">
+                <div className="all-width textview-overflow two ">
                   {info ? info.description : ""}
                 </div>
               </div>

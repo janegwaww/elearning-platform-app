@@ -16,7 +16,7 @@ const imagePick = (path, href = "/", type) =>
   !!path && (
     <div className="image-pick">
       <Link href={href}>
-        <img src={`${path}`} width="246px" alt={path} height="100%" />
+        <img src={`${path}`} width="auto" alt={path} height="100%" />
       </Link>
       {type === "series" && (
         <div className="series-tag">

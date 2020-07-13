@@ -55,8 +55,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "4px",
     marginRight: "10px",
     overflow: "hidden",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ecf0f1',
     "& img": {
-      width: "100%",
+      width: "auto",
       height: "100%",
     },
   },

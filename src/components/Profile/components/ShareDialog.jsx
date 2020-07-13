@@ -7,6 +7,7 @@ import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import PublicDialog from "../../../assets/template/PublicDialog";
 import EditDialog from "./EditDialog";
+<<<<<<< HEAD:src/components/Profile/components/ShareDialog.jsx
 import { get_data } from "../../../assets/js/request";
 import qq from "../../../assets/img/qq.png";
 import wx from "../../../assets/img/wx.png";
@@ -21,6 +22,22 @@ import yixi from "../../../assets/img/yixi.png";
 import restbian from "../../../assets/img/restbian.png";
 import download from "../../../assets/img/download.png";
 import moveout from '../../../assets/img/moveout.png';
+=======
+import { get_data } from "../../../../assets/js/request";
+import qq from "../../../../assets/img/qq.png";
+import wx from "../../../../assets/img/wx.png";
+import wb from "../../../../assets/img/wb.png";
+import qqz from "../../../../assets/img/qqz.png";
+import CustomModal from "../../../../assets/js/CustomModal";
+import fenxiang from "../../../../assets/img/fenxiang.png";
+import sore from "../../../../assets/img/sore.png";
+import bianmiao from "../../../../assets/img/bianmiao.png";
+import del from "../../../../assets/img/del.png";
+import yixi from "../../../../assets/img/yixi.png";
+import restbian from "../../../../assets/img/restbian.png";
+import download from "../../../../assets/img/download.png";
+import moveout from '../../../../assets/img/moveout.png';
+>>>>>>> b0174b4be3e6c5f7771d2aa09846a50b4ccd9379:src/components/Profile/ProfileChildens/components/shareDialog.jsx
 import userStyles from "./profileStyle";
 // 分享弹窗
 const input_use = makeStyles((theme) => ({
@@ -726,7 +743,7 @@ export const VideoMenu = (props) => {
                 }).then((res) => {
                   if (res.err == 0 && res.errmsg == "OK") {
                     new CustomModal().alert("移动成功", "success", 3000);
-                    props.parent.parent.update_data("video");
+                    props.parent.update_data("video");
                   }
                 });
               }
@@ -801,6 +818,49 @@ export const VideoMenu = (props) => {
           </div>
           <div> 分享</div>
         </MenuItem>
+
+        {props._type != "video" && (
+        <MenuItem
+        onClick={(ev) => {
+          
+          handleClose();
+        }}
+        data-id="6"
+      >
+        <EditDialog
+        title="移出系列"
+            icon_img={moveout}
+            info={props.info}
+            _type="del"
+            onEvent={(msg)=>{
+              
+              console.log(props)
+              if(msg.confirm){
+
+                get_data({
+                  "model_name": "video",
+                  "model_action": "movie_video",
+                  "extra_data": {
+                  "video_id":[props.info.video_id],
+                  "series_id":""
+                  },
+                  "model_type":"" 
+                  }).then((res)=>{
+                    if(res.err==0){
+                      props.parent.get_series_datial(props._id);
+                      new CustomModal().alert('移出成功','success',3000)
+                    }
+                  })
+                
+              }
+            }}
+        >
+        <p>确认此视频移出该系列</p>
+        </EditDialog>
+      </MenuItem>
+        )}
+
+
         <MenuItem
           onClick={(ev) => {
             ev.preventDefault();
