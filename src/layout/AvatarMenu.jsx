@@ -20,9 +20,12 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 0,
   },
+  popOver: {
+    top: '50px !important',
+  },
 }));
 
-export default function () {
+const AvatarMenu = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -56,13 +59,14 @@ export default function () {
       </IconButton>
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         id={menuId}
         keepMounted
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
         classes={{ list: classes.list }}
+        PopoverClasses={{ paper: classes.popOver }}
       >
         {isLogin ? (
           <MenuItem
@@ -99,4 +103,6 @@ export default function () {
       </Menu>
     </div>
   );
-}
+};
+
+export default AvatarMenu;
