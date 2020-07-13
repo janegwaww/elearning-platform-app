@@ -70,7 +70,7 @@ const ScholCard = ({ info = {}, handleClick = () => ({}) }) => (
       <div className="card-text-word">
         <Typography className="name">{info.name}</Typography>
         <Typography className="intro" variant="body2">
-          {info.introduction1}
+          {info.introduction1.split("|").join("")}
         </Typography>
       </div>
     </div>
@@ -94,17 +94,22 @@ const ModalBody = ({ item, handleClose }) => {
             {item.name}
           </Typography>
           <Box height={20} />
-          <Typography
-            style={{
-              color: "#fff",
-              fontSize: "0.75rem",
-              lineHeight: "20px",
-              letterSpacing: "1px",
-            }}
-          >
-            {item.introduction1}
-          </Typography>
+
+          {item.introduction1.split("|").map((o) => (
+            <Typography
+              style={{
+                color: "#fff",
+                fontSize: "0.75rem",
+                lineHeight: "20px",
+                letterSpacing: "1px",
+              }}
+              key={o}
+            >
+              {o}
+            </Typography>
+          ))}
           <Box height={20} />
+
           <Typography
             style={{
               color: "#ccccd1",
