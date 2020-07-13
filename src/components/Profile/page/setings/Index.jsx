@@ -1,4 +1,41 @@
 import React from "react";
+import { Router,navigate } from "@reach/router";
+import { ProNavbar, Navbar } from "../../components/ProfileNav";
+
+
+const Setings = (props) => {
+  console.log(props)
+  const {children} = props;
+  return (
+    <div className='all-height view-scroll bg-white profile-padding'>
+      <nav>
+        <ProNavbar
+          list={["基本设置", "安全中心", "帮助/反馈"]}
+          parent={props}
+          onEvent={(num)=>{
+            if(num==1){
+              navigate(`/users/profile/setings`);
+            }else if(num==2){
+              navigate(`/users/profile/setings/safety`);
+
+            }else{
+              navigate(`/users/profile/setings/help`)
+            }
+            
+          }}
+        />
+      </nav>
+      <div className='profile-top'>
+     
+          {children}
+        
+        </div>
+    </div>
+  );
+};
+export default Setings;
+{
+  /** 
 import { ProNavbar, Navbar } from "../../components/ProfileNav";
 import { Button, Grid } from "@material-ui/core";
 import {
@@ -1151,7 +1188,7 @@ const Setpage = (props) => {
                     </StepContent>
                   </Step>
                 ))}
-              </Stepper>*/}
+              </Stepper>*
             </div>
           </div>
         )}
@@ -1161,3 +1198,5 @@ const Setpage = (props) => {
   );
 };
 export default Setpage;
+*/
+}

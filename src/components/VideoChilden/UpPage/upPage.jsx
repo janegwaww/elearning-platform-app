@@ -263,7 +263,7 @@ export default function VideoIndex(props) {
       "video"
     ).then((res) => {
       let _currencies_data = res.result_data;
-      console.log(_data);
+
       setCurrencies(_currencies_data);
 
       _currencies_data.forEach((o, inx) => {

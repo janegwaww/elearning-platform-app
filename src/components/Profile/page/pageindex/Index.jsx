@@ -89,25 +89,13 @@ class ProfileIndex extends React.Component {
     
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   // if (
-  //   //   JSON.stringify(nextProps.parent.state.userinfo) !=
-  //   //   JSON.stringify(this.state.userinfo)
-  //   // ) {
-  //   //   this.setState({
-  //   //     userInfo: nextProps.parent.state.userinfo,
-  //   //   });
-  //   // }
-  // }
+
   componentWillUnmount() {
     this.setState = (state, callback) => {
       return;
     };
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //   //优化
-  // }
-
+ 
   render() {
     const {
       userData,

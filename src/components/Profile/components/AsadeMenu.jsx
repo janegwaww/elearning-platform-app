@@ -12,7 +12,7 @@ export const RightMenu = (props) => {
           <MenuItem
             key={v.title}
             data-inx={inx}
-            className={inx == props.info.childpage_id ? "fn-color-007CFF" : ""}
+            className= {inx==props._inx?"fn-color-007CFF":''} 
             style={{
               fontSize: 14,
               paddingLeft: 0,

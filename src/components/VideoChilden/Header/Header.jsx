@@ -66,10 +66,14 @@ export default class Header extends Component {
       navigate(`/users/profile`);
     }
   };
-
+  componentWillUnmount() {
+    clearInterval(this.state.timers);
+    this.setState({
+      timers: null,
+    });
+  }
   render() {
     let _this = this;
-
     const handleClose = () => {
       this.setState({ open: false });
     };
@@ -90,31 +94,27 @@ export default class Header extends Component {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
 
-          lang: "en",
+          lang: _this.props.parent.state.lang == 2 ? "en" : "cn",
         },
         model_type: "",
       };
+
       get_data(r_data, "video")
         .then((res) => {
           if (res.err == 0 && res.errmsg == "OK") {
             _this.setState({ open: true });
-            if ((el == "not") && this.state.timers) {
-              setTimeout(() => {
-                btn_save("not");
-              }, 600000);
-            }
+
             if (el != "not") {
-              this.setState({
-                timers: false,
-              });
-              navigate("/video/uppage");
+              setTimeout(() => {
+                navigate(`/video/uppage`);
+              }, 500);
+              
             }
           }
-          if (el != "not") {
-            _this.props.parent.setState({
-              login_status: false,
-            });
-          }
+
+          _this.props.parent.setState({
+            login_status: false,
+          });
         })
         .catch((err) => {
           _this.props.parent.setState({
@@ -193,6 +193,12 @@ export default class Header extends Component {
                 }
 
                 btn_save("not");
+                clearInterval(this.state.timers)
+                this.setState({
+                  timers: setInterval(() => {
+                    btn_save("not");
+                  }, 600000),
+                });
               }}
             >
               保存
