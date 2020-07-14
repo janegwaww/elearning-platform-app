@@ -64,8 +64,8 @@ class VideoWindow extends Component {
       ? [
           {
             src: `${info.vttPath}`,
-            label: "captions on",
-            kind: "captions",
+            label: "字募开",
+            kind: "subtitle",
             default: true,
           },
         ]
