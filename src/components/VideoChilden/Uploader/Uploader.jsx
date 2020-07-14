@@ -135,6 +135,12 @@ export default class UploadVideos extends Component {
         },
         model_type: "",
       }).then((res) => {
+         if(res.err==4104){
+           new CustomModal().alert(res.errmsg+'正在为你跳转...','error',5000);
+           setTimeout(()=>{
+            navigate(`/users/login`);
+          },3000)
+         }
         if (res.err === 0) {
           setTimeout(() => {
             this.props.parent.setState({
@@ -343,7 +349,7 @@ export default class UploadVideos extends Component {
     get_data(_data, "video")
       .then((res) => {
         if (res.err == 4104) {
-          navigate(`users/login`);
+          navigate(`/users/login`);
           return;
         }
 
@@ -772,12 +778,9 @@ export default class UploadVideos extends Component {
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
-                              // this.get_image();
-                              this.props.parent.show_edit();
                                 this.setState({
                                   lang_open: true,
                                 });
-                             
                             }}
                             title="视频编辑及字幕生成"
                             className="text-overflow fn-color-white subtitle-btn subtitle-new"
@@ -862,7 +865,7 @@ export default class UploadVideos extends Component {
                     });
                   }}
                 > 
-                  {!files.sub_josn ? "智能生成语音字幕" : "重新提取字幕"}
+                  重新提取字幕
                 </NewBtn2>
               </div>
             )}
@@ -906,6 +909,7 @@ export default class UploadVideos extends Component {
                   new CustomModal().alert("请选择视频的语言", "error", 3000);
                   return;
                 }
+                this.props.parent.show_edit();
                 _this.setState({ lang_open: false });
                 if (files.sub_josn) {
                   _this.reset_subtitles(); //重新生成字幕
