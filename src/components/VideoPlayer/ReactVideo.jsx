@@ -11,12 +11,18 @@ export default class VideoPlayer extends React.Component {
       preload: "auto",
       height: 516,
       responsive: true,
-      /* fluid: true, */
-      textTrackSettings: true,
+      // fluid: true,
+      textTrackSettings: false,
+      playbackRates: [0.5, 1, 1.5, 2],
+      language: "zh",
+      languages: {
+        zh: {
+          "subtitles off": "字募关",
+        },
+      },
       html5: {
         nativeTextTracks: false,
       },
-      playbackRates: [0.5, 1, 1.5, 2],
       controlBar: {
         volumePanel: {
           inline: false,
