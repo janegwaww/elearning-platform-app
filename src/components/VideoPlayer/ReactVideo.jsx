@@ -58,9 +58,9 @@ export default class VideoPlayer extends React.Component {
       this.videoNode,
       { ...this.props, ...this.videoJsOptions },
       function onPlayerReady() {
-        window.addEventListener("keydown", (e) => {
-          e.preventDefault();
-          if (e.which === 32) {
+        document.addEventListener("keydown", (e) => {
+          if (e.code === "Space") {
+            e.preventDefault();
             if (this.paused()) {
               this.play();
             } else {

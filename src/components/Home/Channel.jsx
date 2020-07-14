@@ -3,7 +3,6 @@ import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
-import Pagination from "../Pagination/Pagination";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
@@ -12,7 +11,6 @@ export default function Channel() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const { ch = "" } = getIdFromHref();
-  const pageRef = useRef();
   const [type, setType] = useState("all");
 
   const fetchSubData = ({ page = 1 } = {}, callback = () => ({})) => {
@@ -29,8 +27,8 @@ export default function Channel() {
   };
 
   useEffect(() => {
-    if (ch && pageRef.current) {
-      pageRef.current.handlePage({}, 1);
+    if (ch) {
+      fetchSubData();
     }
   }, [ch, type]);
 
@@ -47,9 +45,6 @@ export default function Channel() {
         <br />
         <div style={{ textAlign: "center" }}>
           <ChangeBatchButton handleChange={fetchSubData} />
-        </div>
-        <div style={{ display: "none" }}>
-          <Pagination fetch={fetchSubData} ref={pageRef} />
         </div>
         <br />
       </div>
