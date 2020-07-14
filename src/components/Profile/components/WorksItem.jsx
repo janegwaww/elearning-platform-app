@@ -23,31 +23,16 @@ import userStyles from "./profileStyle";
 import EditDialog from "./EditDialog";
 import { ModalDialog } from "./Modal";
 import del from "../../../assets/img/del.png";
-// import bianmiao from "../../../../assets/img/bianmiao.png";
-// import fenxiang from "../../../../assets/img/fenxiang.png";
-// import yixi from "../../../../assets/img/yixi.png";
-// import restbian from "../../../../assets/img/restbian.png";
-// import download from "../../../../assets/img/download.png";
-import { ShareDialog, VideoMenu } from "./shareDialog";
+
+import { ShareDialog, VideoMenu } from "./ShareDialog";
 
 const stop_run = (prevValue, nextValue) => {
-  //  if(prevValue.history!=nextValue.history){
-  //    return false
-  //  }
-  //  if(prevValue._h!=nextValue._h){
-  //   return false
-  // }
-  // return true
+ 
 };
 const WorksItem = (props) => {
   const classes = userStyles();
-  // const input_class = input_use();
-  const [newimgurl, setNewimgurl] = React.useState("");
-  const [newTitle, setNewTitle] = React.useState("");
-  const [newdescription, setNewdescription] = React.useState("");
-  //移至系列
-  const [seriesArr, setSeriesArr] = React.useState([]);
-  const [seriesvalue, setSeriesvalue] = React.useState("");
+  
+  
   //inx,onEvent,info,parent,history
   //history 1收藏 2历史，3系列详情
   const [modalMsg, setModalMsg] = React.useState({
@@ -71,39 +56,31 @@ const WorksItem = (props) => {
   };
 
   return (
-    <div
-      className="zero-edges all-width view-overflow all-height"
-      onClick={(evt) => {
-        if (props.info.type == "series") {
-          event.stopPropagation();
-          event.preventDefault();
-          props.parent.props.parent.pageRoute(event, {
-            page: "CreateCenter",
-            id: 3,
-            defaultpage: "作品管理",
-            inx: 3,
-            series_id: props.info.series_id,
-          });
-        }
-      }}
-    >
+    <div className="zero-edges all-width view-overflow all-height">
       <div
-        className="all-width view-overflow bg-not"
+        className="all-width view-overflow bg-all"
         style={{
           height: props._h || 136,
-          backgroundImage: props.info && "url(" + props.info.image_path + ")",
         }}
       >
         <Link
           className="all-width all-height"
           color="inherit"
           underline="none"
-          href={`/watch/?vid=${props.info.video_id}`}
+          href={`/${
+            props.info.type == "series"
+              ? "series/?sid=" + props.info.series_id
+              : "watch/?vid=" + props.info.video_id
+          }`}
           target="_blank"
         >
+          {props.info && props.info.image_path && (
+            <img className="all-width all-height" src={props.info.image_path} />
+          )}
           <span></span>
         </Link>
-        {(props.history == 2 ||props.history==3) &&(
+
+        {(props.history == 2 || props.history == 3) && (
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
@@ -132,7 +109,7 @@ const WorksItem = (props) => {
       <div
         style={{
           padding: 16,
-          height: "calc(100% - "+props._h+"px)",
+          height: "calc(100% - " + props._h + "px)",
           flexDirection: "column",
         }}
         className="box box-between"
@@ -145,7 +122,11 @@ const WorksItem = (props) => {
             className="all-width all-hieght"
             color="inherit"
             underline="none"
-            href={`/watch/?vid=${props.info.video_id}`}
+            href={`/${
+              props.info.type == "series"
+                ? "series/?sid=" + props.info.series_id
+                : "watch/?vid=" + props.info.video_id
+            }`}
             target="_blank"
           >
             <Typography
@@ -253,7 +234,7 @@ const WorksItem = (props) => {
                   open: true,
                 });
               }}
-              className='p'
+              className="p"
             >
               <img src={del} style={{ width: 16, height: 16 }} />
             </div>
@@ -272,8 +253,8 @@ const WorksItem = (props) => {
               <VideoMenu
                 parent={props.parent}
                 info={props.info}
-                _type='series_detail'
-                _id = {props._id}
+                _type="series_detail"
+                _id={props._id}
                 onEvent={(msg) => {}}
               />
             </div>
@@ -294,7 +275,6 @@ const WorksItem = (props) => {
         info={modalMsg}
         parent={props}
         onEvent={(msg) => {
-         
           if (msg.cancel) {
             setModalMsg({ open: false });
           }
@@ -311,7 +291,6 @@ const WorksItem = (props) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   new CustomModal().alert("删除历史成功", "srccess", 5000);
                   props.parent.update_data();
-                  
                 }
               });
             }

@@ -63,13 +63,7 @@ const NewBtn = withStyles({
     },
   },
 })(Button);
-const NewDel = withStyles({
-  root: {
-    "&:hover": {
-      backgroundColor: "#FE4240",
-    },
-  },
-})(NewBtn);
+
 const NewBtn2 = withStyles({
   root: {
     backgroundColor: "#007CFF",
@@ -231,8 +225,8 @@ export default class UploadVideos extends Component {
           video_id: this.state.files._id || this.state.files.video_id || id,
         },
         model_type: "",
-      },'video'
-     
+      },
+      "video"
     ).then((res) => {
       if (res.err === 0 && res.result_data.length > 0) {
         this.props.parent.get_image(res.result_data);
@@ -255,7 +249,7 @@ export default class UploadVideos extends Component {
     this.setState({
       status: 5,
     });
-    get_data(_data,'video')
+    get_data(_data, "video")
       .then((res) => {
         if (res.err === 0) {
           this.setState({
@@ -296,21 +290,21 @@ export default class UploadVideos extends Component {
         lang: this.state.lang_value,
       },
     };
-    get_data(_data,'video')
+    get_data(_data, "video")
       .then((res) => {
         if (res.err === 1 || res.err == -4) {
           this.tools_subtitles(res.result_data[0]);
         } else if (res.err === 0) {
           this.setState({
-            status:5
-          })
+            status: 5,
+          });
           setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
         } else if (res.err == -3) {
           this.setState({
-            status:5
-          })
+            status: 5,
+          });
           this.query_subtitles();
         } else {
           new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -346,7 +340,7 @@ export default class UploadVideos extends Component {
       },
     };
 
-    get_data(_data,'video')
+    get_data(_data, "video")
       .then((res) => {
         if (res.err == 4104) {
           navigate(`users/login`);
@@ -590,7 +584,10 @@ export default class UploadVideos extends Component {
                         className="fn-color-F2F2F5 fn-size-16 box box-center"
                         style={{ marginBottom: 20, cursor: "pointer" }}
                       >
-                        <img src={dropupload} />
+                        <img
+                          src={dropupload}
+                          style={{ width: 30, height: 26, marginRight: 20 }}
+                        />
                         <span style={{ cursor: "pointer" }}>
                           文件拖拽到此处或点击此处可以添加上传
                         </span>
@@ -724,16 +721,20 @@ export default class UploadVideos extends Component {
                 }}
               >
                 <div
-                  className="all-height view-overflow bg-image"
+                  className="all-height view-overflow bg-all"
                   style={{
                     width: (240 / 1920) * this.props.parent.state.t_w,
 
                     borderRadius: 12,
                     border: "1px solid green",
-                    backgroundImage: files && "url(" + files.image_path + ")",
                   }}
                 >
-                  {" "}
+                  {files && (
+                    <img
+                      className="all-width all-heiht"
+                      src={files.image_path}
+                    />
+                  )}
                 </div>
                 <div
                   style={{
@@ -767,18 +768,26 @@ export default class UploadVideos extends Component {
                         {this.props.parent.state.is_edit ? (
                           <p>约{Math.round(files.video_size)}M</p>
                         ) : (
-                          <NewBtn
+                          <p
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
                               // this.get_image();
                               this.props.parent.show_edit();
+                                this.setState({
+                                  lang_open: true,
+                                });
+                             
                             }}
+                            title="视频编辑及字幕生成"
+                            className="text-overflow fn-color-white subtitle-btn subtitle-new"
                           >
                             视频编辑及字幕生成
-                          </NewBtn>
+                          </p>
                         )}
-                        <NewDel
+                        <p
+                        title='删除'
+                          className="text-overflow fn-color-white subtitle-btn subtitle-del"
                           onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
@@ -786,7 +795,7 @@ export default class UploadVideos extends Component {
                           }}
                         >
                           删除
-                        </NewDel>
+                        </p>
                       </div>
                     )}
                     {status === 4 && (
@@ -844,7 +853,7 @@ export default class UploadVideos extends Component {
                   </NewBtn2>
                 </div>
               )}
-            {status === 3 && this.props.parent.state.is_edit && (
+            {status === 3 && this.props.parent.state.is_edit&&files.sub_josn && (
               <div className="box box-center" style={{ marginTop: 40 }}>
                 <NewBtn2
                   onClick={() => {
@@ -852,7 +861,7 @@ export default class UploadVideos extends Component {
                       lang_open: true,
                     });
                   }}
-                >
+                > 
                   {!files.sub_josn ? "智能生成语音字幕" : "重新提取字幕"}
                 </NewBtn2>
               </div>

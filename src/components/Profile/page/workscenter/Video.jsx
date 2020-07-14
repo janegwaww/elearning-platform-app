@@ -109,9 +109,10 @@ export default class Video extends React.Component {
             />
           </div>
         )}
-        <div>
+       {/**  <div>
           <SearchLoading loading={login_status} />
         </div>
+        */}
       </div>
     );
   }

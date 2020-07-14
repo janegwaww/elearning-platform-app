@@ -32,7 +32,7 @@ import userStyles from "./profileStyle";
 import del from "../../../assets/img/del.png";
 
 
-import { ShareDialog, SericesMenu, VideoMenu } from "./shareDialog";
+import { ShareDialog, SericesMenu, VideoMenu } from "./ShareDialog";
 
 // 系列横向item
 
@@ -55,14 +55,10 @@ const return_html = (info, type) => {
         >
           <div className="box  fn-size-12">
             <div
-             className="profile-item-img-box"
-              
+             className="profile-item-img-box bg-all" 
+             
             >
-              <img
-                src={info && info.image_path}
-                className="all-height all-width"
-              />
-
+            {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} />)}
               <p className="profile-time fn-color-white fn-size-12 p">
               {info.video_time}
               </p>
@@ -159,12 +155,12 @@ const return_html = (info, type) => {
     _html = (
       <div className={` box fn-size-12 ${type=='series'?'p':''}`}>
         <div
-          className="profile-item-img-box" >
-          <img src={info && info.image_path} className="all-height all-width" />
-
+          className="profile-item-img-box bg-all"  >
+          
+          {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} />)}
           <p className={`profile-time fn-color-white fn-size-12 ${type=='series'?'p':''}`}>
             {type=='draft'? info.video_time:"共"+ (info.video_counts||0)+ "集"}
-            {/**info.video_data?"共" + info.video_data.length + "集": */}
+            
           </p>
         </div>
         <div

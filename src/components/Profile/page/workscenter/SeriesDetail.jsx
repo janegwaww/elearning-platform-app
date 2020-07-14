@@ -166,9 +166,9 @@ export default class SeriesDetail extends React.Component {
           />
           )}
         </div>
-        <div>
+        {/**<div>
           <SearchLoading loading={login_status} />
-        </div>
+        </div>*/}
       </div>
     );
   }

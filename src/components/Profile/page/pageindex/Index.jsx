@@ -1,13 +1,13 @@
 import React from "react";
-
 import { Avatar, Grid, Link } from "@material-ui/core";
-import { Settings } from "@material-ui/icons";
+
 import { ProNavbar, Navbar } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
 import { navigate } from "@reach/router";
 import SearchLoading from "../../../Loading/SearchLoading";
+import setings from "../../../../assets/img/setings.png";
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -24,8 +24,7 @@ class ProfileIndex extends React.Component {
       // userColllection_counts: 0, //收藏数量
       page_type: 1, //收藏与历史
       item_h: 0,
-      login_status:false
-      
+      login_status: false,
     };
     this.update_data = this.update_data.bind(this);
     this.wind_size = this.wind_size.bind(this);
@@ -49,7 +48,6 @@ class ProfileIndex extends React.Component {
     window.onresize = null;
   }
   update_data() {
-    
     this.setState({
       login_status: true,
     });
@@ -66,36 +64,36 @@ class ProfileIndex extends React.Component {
     }).then((res) => {
       if (res.err === 0) {
         let _data = res.result_data[0];
-      
+
         this.setState({
           userData: _data,
           works_video: _data.video,
           works_series: _data.series,
-          works_draft:_data.draft,
+          works_draft: _data.draft,
           history_data: _data.history,
           collection_data: _data.collection,
         });
       }
-      setTimeout(()=>{this.setState({
-        login_status: false,
-      });},300)
-      
+      setTimeout(() => {
+        this.setState({
+          login_status: false,
+        });
+      }, 300);
+
       this.wind_size();
     });
 
     window.onresize = (e) => {
       this.wind_size(e);
     };
-    
   }
-
 
   componentWillUnmount() {
     this.setState = (state, callback) => {
       return;
     };
   }
- 
+
   render() {
     const {
       userData,
@@ -111,36 +109,44 @@ class ProfileIndex extends React.Component {
     } = this.state;
     let _this = this;
     return (
-      <section className=" view-scroll all-height all-width">
-        <main className="all-width">
-          <img
-            src={userData ? userData.background : ""}
-            className="all-width"
-            style={{ height: "300px" }}
-          />
+      <section className=" view-scroll all-height all-width bg-f9">
+        <main
+          className="all-width bg-image "
+          style={{
+            height: 300,
+
+            borderRadius: "12px 12px 0 0",
+          }}
+        >
+          {userData && userData.background && (
+            <img className="all-height all-width" src={userData.background} />
+          )}
           <span
-            className="bg-white view-overflow box box-center"
+            className="bg-white bg-not"
             style={{
               position: "absolute",
               right: 0,
               top: 0,
               borderRadius: "50%",
+              width: 50,
+              height: 50,
+              backgroundImage: "url(" + setings + ")",
+              backgroundSize: "50% 50%",
             }}
             onClick={(event) => {
               event.stopPropagation();
               event.preventDefault();
               navigate(`/users/profile/setings`);
-              let _page = {
-                childPage: "",
-                chilepage_id: 0,
-                parent: "SetingsCenter",
-                parent_id: 5,
-              };
+              // let _page = {
+              //   childPage: "",
+              //   chilepage_id: 0,
+              //   parent: "SetingsCenter",
+              //   parent_id: 5,
+              // };
             }}
-          >
-            <Settings />
-          </span>
+          ></span>
         </main>
+
         <main
           style={{ height: "158px", paddingTop: "20px" }}
           className="all-width profile-padding bg-white box  box-between fn-size-14 fn-color-2C2C3B"
@@ -255,7 +261,7 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                navigate(`/users/profile/workscenter`)
+                navigate(`/users/profile/workscenter`);
                 // this.props.parent.pageRoute(evt);
               }}
             >
@@ -282,52 +288,54 @@ class ProfileIndex extends React.Component {
             />
           </div>
           <div>
-          {video_type=='video'&&(
-            <div>
-              {works_video&&works_video.length>0?(
-                works_video.map(option=>(
-                  <SeriesItem
-                    parent={this}
-                    info={option}
-             
-                    key={option.video_id }
-                    series={video_type}
-                  />
-                ))
-              ):(<div className='profile-top'>暂无数据</div>)}
-            </div>
-          )}
-          {video_type=='series'&&(
-            <div>
-              {works_series&&works_series.length>0?(
-                works_series.map(option=>(
-                  <SeriesItem
-                    parent={this}
-                    info={option}
-                    
-                    key={option.series_id }
-                    series={video_type}
-                  />
-                ))
-              ):(<div className='profile-top'>暂无数据</div>)}
-            </div>
-          )}
-          {video_type=='draft'&&(
-            <div>
-              {works_draft&&works_draft.length>0?(
-                works_draft.map(option=>(
-                  <SeriesItem
-                    parent={this}
-                    info={option}
-                   
-                    key={option.video_id }
-                    series={video_type}
-                  />
-                ))
-              ):(<div className='profile-top'>暂无数据</div>)}
-            </div>
-          )}
-           
+            {video_type == "video" && (
+              <div>
+                {works_video && works_video.length > 0 ? (
+                  works_video.map((option) => (
+                    <SeriesItem
+                      parent={this}
+                      info={option}
+                      key={option.video_id}
+                      series={video_type}
+                    />
+                  ))
+                ) : (
+                  <div className="profile-top">暂无数据</div>
+                )}
+              </div>
+            )}
+            {video_type == "series" && (
+              <div>
+                {works_series && works_series.length > 0 ? (
+                  works_series.map((option) => (
+                    <SeriesItem
+                      parent={this}
+                      info={option}
+                      key={option.series_id}
+                      series={video_type}
+                    />
+                  ))
+                ) : (
+                  <div className="profile-top">暂无数据</div>
+                )}
+              </div>
+            )}
+            {video_type == "draft" && (
+              <div>
+                {works_draft && works_draft.length > 0 ? (
+                  works_draft.map((option) => (
+                    <SeriesItem
+                      parent={this}
+                      info={option}
+                      key={option.video_id}
+                      series={video_type}
+                    />
+                  ))
+                ) : (
+                  <div className="profile-top">暂无数据</div>
+                )}
+              </div>
+            )}
           </div>
         </main>
         <main
@@ -340,14 +348,10 @@ class ProfileIndex extends React.Component {
                 parent={_this}
                 list={["我的收藏", "历史记录"]}
                 onEvent={(num) => {
-                  
-                      this.setState({
-               
-                        page_type: num,
-                      });
-                      setTimeout(this.wind_size,50)
-                    
-                
+                  this.setState({
+                    page_type: num,
+                  });
+                  setTimeout(this.wind_size, 50);
                 }}
               />
             </div>
@@ -359,51 +363,53 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                navigate(`/users/profile/dynamic`)
-                
+                navigate(`/users/profile/dynamic`);
+
                 // this.props.parent.pageRoute(evt);
               }}
             >
               查看更多
             </div>
           </div>
-          {page_type == 1&&(
+          {page_type == 1 && (
             <Grid container spacing={4} className="grid">
-              {collection_data&&collection_data.length>0?(
-                collection_data.map(option=>(
-                  <Grid item xs={3} key={option.video_id||option.series_id}>
-                  <WorksItem
-                    parent={this}
-                    
-                    info={option}
-                    history={page_type}
-                    _h={this.state.item_h}
-                  />
-                </Grid>
-              ))
-              ):(<div className='profile-top'>暂无数据</div>)}
-            </Grid>
-          )}
-          {page_type == 2&&(
-            <Grid container spacing={4} className="grid">
-              {history_data &&history_data.length>0?(
-                history_data.map(option=>(
-                  <Grid item xs={3} key={option.video_id||option.series_id}>
-                  <WorksItem
-                    parent={this}
-                    
-                    info={option}
-                    history={page_type}
-                    _h={this.state.item_h}
-                  />
-                </Grid>
+              {collection_data && collection_data.length > 0 ? (
+                collection_data.map((option) => (
+                  <Grid item xs={3} key={option.video_id || option.series_id}>
+                    <WorksItem
+                      parent={this}
+                      info={option}
+                      history={page_type}
+                      _h={this.state.item_h}
+                    />
+                  </Grid>
                 ))
-              ):(<div className='profile-top'>暂无数据</div>)}
+              ) : (
+                <div className="profile-top">暂无数据</div>
+              )}
             </Grid>
           )}
-         
+          {page_type == 2 && (
+            <Grid container spacing={4} className="grid">
+              {history_data && history_data.length > 0 ? (
+                history_data.map((option) => (
+                  <Grid item xs={3} key={option.video_id || option.series_id}>
+                    <WorksItem
+                      parent={this}
+                      info={option}
+                      history={page_type}
+                      _h={this.state.item_h}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <div className="profile-top">暂无数据</div>
+              )}
+            </Grid>
+          )}
         </main>
-        <SearchLoading loading={this.state.login_status} />
+
+        {/** <SearchLoading loading={this.state.login_status} />*/}
       </section>
     );
   }

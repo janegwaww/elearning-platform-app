@@ -132,9 +132,11 @@ export default class History extends React.Component {
             />
           </div>
         )}
+        {/** 
         <div>
           <SearchLoading loading={login_status} />
         </div>
+        */}
       </div>
     );
   }

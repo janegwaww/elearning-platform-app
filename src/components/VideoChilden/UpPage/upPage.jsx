@@ -448,12 +448,14 @@ export default function VideoIndex(props) {
                   <div className="item box">
                     {videoImg ? (
                       <div
-                        className="file"
+                        className="file bg-all"
                         style={{
-                          backgroundImage: "url(" + videoImg + ")",
+                          
                           marginRight: 10,
                         }}
-                      ></div>
+                      >
+                      {videoImg&&(<img className='all-width all-height' src={videoImg} />)}
+                      </div>
                     ) : (
                       ""
                     )}
@@ -583,12 +585,14 @@ export default function VideoIndex(props) {
                             <div className="box item">
                               {seriesImg ? (
                                 <div
-                                  className="file"
+                                  className="file bg-all"
                                   style={{
-                                    backgroundImage: "url(" + seriesImg + ")",
                                     marginRight: 10,
                                   }}
-                                ></div>
+                                >
+                                {seriesImg&& (<img className='all-width all-height' src={seriesImg}/>)}
+                                
+                                </div>
                               ) : (
                                 ""
                               )}

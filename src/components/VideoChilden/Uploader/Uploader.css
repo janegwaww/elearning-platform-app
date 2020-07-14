@@ -21,12 +21,12 @@
   text-align: center;
   position: relative;
 }
-.upload-cover img{
+/* .upload-cover img{
    
     width:30px;
     height: 26px;
     margin-right: 20px;
-}
+} */
 .upload-cover .items {
   position: relative;
   width: 120px;
@@ -38,9 +38,26 @@
   background-repeat: no-repeat;
   background-size: 120px 80px;
 }
+
 .upload-cover input[type="file"] {
   width: 0;
   height: 0;
+}
+.upload-cover .subtitle-btn{
+  padding: 6px 30px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #313134;
+}
+.upload-cover .subtitle-btn:hover{
+  cursor: pointer;
+ 
+}
+.upload-cover .subtitle-new:hover{
+  background-color: #04a59b;
+}
+.upload-cover .subtitle-del:hover{
+  background-color: #FE4240;
 }
 #video-test {
   white-space: nowrap;

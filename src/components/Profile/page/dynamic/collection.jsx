@@ -131,9 +131,11 @@ export default class Collection extends React.Component {
             />
           </div>
         )}
+        {/** 
         <div>
           <SearchLoading loading={login_status} />
         </div>
+        */}
       </div>
     );
   }

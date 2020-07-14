@@ -110,9 +110,10 @@ export default class Draft extends React.Component {
             />
           </div>
         )}
-        <div>
+       {/** <div>
           <SearchLoading loading={login_status} />
         </div>
+         */}
       </div>
     );
   }
