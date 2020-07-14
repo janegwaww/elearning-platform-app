@@ -77,7 +77,14 @@ const Search = ({ input }) => {
           className={`${type === "document" && "action"}`}
           onClick={() => handleTypeClick("document")}
         >
-          文本模态
+          单个文本
+        </Button>
+        <Button
+          size="small"
+          className={`${type === "documents" && "action"}`}
+          onClick={() => handleTypeClick("documents")}
+        >
+          系列文本
         </Button>
         <Button
           size="small"
