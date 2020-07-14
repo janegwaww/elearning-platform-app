@@ -843,7 +843,7 @@ export const VideoMenu = (props) => {
                 }
               }}
             >
-              <p>确保定要移出本系列？</p>
+              <p>确定要移出本系列？</p>
             </EditDialog>
           </MenuItem>
         )}

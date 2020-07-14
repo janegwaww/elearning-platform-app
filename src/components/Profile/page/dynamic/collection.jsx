@@ -1,9 +1,10 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
-import SeriesItem from "../../components/SeriesItem";
+import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
 import { ProNavbar } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
+import {  Grid } from "@material-ui/core";
 export default class Collection extends React.Component {
   constructor(props) {
     super(props);
@@ -12,11 +13,12 @@ export default class Collection extends React.Component {
       total_counts: 0,
       total_data: null,
       show_data: null,
-      show_counts: 10,
+      show_counts: 12,
       show_page: 0,
       login_status: false,
     };
     this.update_data = this.update_data.bind(this);
+    this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
     this.update_data();
@@ -26,7 +28,6 @@ export default class Collection extends React.Component {
       login_status: true,
     });
     get_data({
-      
       model_name: "collection",
       model_action: "get_collection",
     }).then((res) => {
@@ -40,13 +41,12 @@ export default class Collection extends React.Component {
             (this.state.show_page + 1) * this.state.show_counts
           ),
         });
-       
-      }else{
-          this.setState({
-            total_data:[],
-            
-          })
+      } else {
+        this.setState({
+          total_data: [],
+        });
       }
+      this.wind_size();
       setTimeout(() => {
         this.setState({
           login_status: false,
@@ -54,7 +54,21 @@ export default class Collection extends React.Component {
       }, 300);
     });
   }
-
+  wind_size(e) {
+    let _e = e || window.event;
+    if (!document.querySelector(".MuiGrid-root.grid .MuiGrid-item")) {
+      return;
+    }
+    let _w = document.querySelector(".MuiGrid-root.grid .MuiGrid-item")
+      .clientWidth;
+    let _h = (_w / 16) * 9;
+    this.setState({
+      item_h: _h,
+    });
+  }
+  componentWillUnmount() {
+    window.onresize = null;
+  }
   render() {
     const {
       total_counts,
@@ -65,24 +79,32 @@ export default class Collection extends React.Component {
       login_status,
       ...other
     } = this.state;
-    
+
     return (
       <div>
         <nav>
           <ProNavbar list={["我的收藏"]} parent={this} />
         </nav>
         {total_data && (
-          <div>
-            {show_data?show_data.map((option, inx) => (
-              <SeriesItem
-                key={option.video_id}
-                parent={this}
-                info={option}
-                series="video"
-              />
-            )):(<div className='profile-top'>暂无收藏</div>)}
-          </div>
+          <Grid container spacing={4} className="grid">
+            {show_data ? (
+              show_data.map((option) => (
+                <Grid item xs={3} key={option.video_id || option.series_id}>
+                  <WorksItem
+                    parent={this}
+                    info={option}
+                    history={1}
+                    _h={this.state.item_h}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <div className="profile-top">暂无数据</div>
+            )}
+          </Grid>
         )}
+
+      
         {total_counts > show_counts && (
           <div className="profile-top">
             <Pagination
@@ -97,6 +119,7 @@ export default class Collection extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
+                    show_page:v-1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts

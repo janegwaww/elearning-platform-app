@@ -98,6 +98,7 @@ export default class Draft extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
+                    show_page:v-1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts

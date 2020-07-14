@@ -91,7 +91,6 @@ const WorksItem = (props) => {
         className="all-width view-overflow bg-not"
         style={{
           height: props._h || 136,
-          border:'1px solid red',
           backgroundImage: props.info && "url(" + props.info.image_path + ")",
         }}
       >
@@ -104,7 +103,7 @@ const WorksItem = (props) => {
         >
           <span></span>
         </Link>
-        {props.history == 2 && (
+        {(props.history == 2 ||props.history==3) &&(
           <p className="fn-color-white fn-size-12 profile-time">
             {props.info.video_time}
           </p>
@@ -133,7 +132,7 @@ const WorksItem = (props) => {
       <div
         style={{
           padding: 16,
-          height: "calc(100% - 136px)",
+          height: "calc(100% - "+props._h+"px)",
           flexDirection: "column",
         }}
         className="box box-between"
@@ -295,7 +294,7 @@ const WorksItem = (props) => {
         info={modalMsg}
         parent={props}
         onEvent={(msg) => {
-          console.log(msg);
+         
           if (msg.cancel) {
             setModalMsg({ open: false });
           }
@@ -311,24 +310,8 @@ const WorksItem = (props) => {
               }).then((res) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   new CustomModal().alert("删除历史成功", "srccess", 5000);
-                  if (props.parent.state.userCollection) {
-                    get_data({
-                      model_name: "video_history",
-                      model_action: "get_history",
-                      extra_data: {},
-                    }).then((data) => {
-                      console.log(props);
-                      props.parent.setState({
-                        userCollection: data.result_data,
-                      });
-                    });
-                  } else {
-                    props.parent.update_data({
-                      model_name: "video_history",
-                      model_action: "get_history",
-                      extra_data: {},
-                    });
-                  }
+                  props.parent.update_data();
+                  
                 }
               });
             }

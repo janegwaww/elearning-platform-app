@@ -30,18 +30,14 @@ import { navigate } from "@reach/router";
 import EditDialog from "./EditDialog";
 import userStyles from "./profileStyle";
 import del from "../../../assets/img/del.png";
-// import bianmiao from "../../../assets/img/bianmiao.png";
-// import fenxiang from "../../../assets/img/fenxiang.png";
-// import yixi from "../../../../assets/img/yixi.png";
-// import restbian from "../../../../assets/img/restbian.png";
-// import download from "../../../../assets/img/download.png";
+
 
 import { ShareDialog, SericesMenu, VideoMenu } from "./shareDialog";
 
 // 系列横向item
 
 const stop_run = (prevValue, nextValue) => {
-  // return prevValue.series===nextValue.series
+ 
   return false;
 };
 

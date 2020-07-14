@@ -266,7 +266,7 @@ export default class VideoPage extends Component {
     return test_arr;
   }
   getUpfileUrl(res) {
-    console.log(res)
+    
     //接收组件传递视频数据
     let _data = this.state.video_data || {};
     if (JSON.stringify(_data) == "{}") {

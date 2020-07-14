@@ -89,7 +89,7 @@ export default class SeriesDetail extends React.Component {
     let _w = document.querySelector(".MuiGrid-root.grid .MuiGrid-item")
       .clientWidth;
     let _h = (_w / 16) * 9;
-    console.log(_h)
+   
     this.setState({
       item_h: _h,
     });
@@ -140,7 +140,7 @@ export default class SeriesDetail extends React.Component {
               ))}
           </Grid>
         </div>
-        <div>
+        <div className='profile-top'>
             {total_counts>show_counts&&(
           <Pagination
             count={Math.ceil(total_counts / show_counts)}
@@ -154,6 +154,7 @@ export default class SeriesDetail extends React.Component {
               // document.body.scrollTop = document.documentElement.scrollTop = 0;
               setTimeout(() => {
                 this.setState({
+                  show_page:v-1,
                   show_data: total_data.slice(
                     (v - 1) * show_counts,
                     v * show_counts

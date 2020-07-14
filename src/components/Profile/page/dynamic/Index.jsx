@@ -1,7 +1,5 @@
 import React from "react";
 
-
-
 class Dynamic extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +8,7 @@ class Dynamic extends React.Component {
   componentWillReceiveProps(nextProps) {}
 
   render() {
-    console.log(this.props);
+   
     const { children } = this.props;
     return (
       <section className="bg-white profile-padding all-height view-scroll ">
