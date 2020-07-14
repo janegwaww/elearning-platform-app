@@ -29,8 +29,9 @@ const SearchLayout = ({ children }) => {
   const { q } = getIdFromHref();
 
   const handleSearch = () => {
-    if (refInput) {
-      navigate(searchUrlParams(refInput));
+    const { value } = document.getElementById("search-page-input");
+    if (value) {
+      navigate(searchUrlParams(value));
     }
   };
 
@@ -92,6 +93,7 @@ const SearchLayout = ({ children }) => {
                 id="search-page-input"
                 type="text"
                 onKeyDown={handleEnter}
+                onChange={(e) => setRefInput(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button
