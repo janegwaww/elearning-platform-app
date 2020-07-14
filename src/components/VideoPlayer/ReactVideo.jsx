@@ -11,19 +11,25 @@ export default class VideoPlayer extends React.Component {
       preload: "auto",
       height: 516,
       responsive: true,
-      /* fluid: true, */
-      textTrackSettings: true,
+      // fluid: true,
+      textTrackSettings: false,
+      playbackRates: [0.5, 1, 1.5, 2],
+      language: "zh",
+      languages: {
+        zh: {
+          "subtitles off": "字募关",
+        },
+      },
       html5: {
         nativeTextTracks: false,
       },
-      playbackRates: [0.5, 1, 1.5, 2],
       controlBar: {
         volumePanel: {
           inline: false,
         },
       },
       userActions: {
-        hotkeys: function (event) {
+        hotkeys(event) {
           event.preventDefault();
           // rewind
           if (event.which === 37) {
@@ -52,16 +58,16 @@ export default class VideoPlayer extends React.Component {
       this.videoNode,
       { ...this.props, ...this.videoJsOptions },
       function onPlayerReady() {
-        /* window.addEventListener("keydown", function (e) {
-         *   e.preventDefault();
-         *   if (e.which === 32) {
-         *       if (this.paused()) {
-         *           this.play();
-         *       } else {
-         *           this.pause();
-         *       }
-         *   }
-         * }); */
+        window.addEventListener("keydown", (e) => {
+          e.preventDefault();
+          if (e.which === 32) {
+            if (this.paused()) {
+              this.play();
+            } else {
+              this.pause();
+            }
+          }
+        });
         console.log("onPlayerReady", this);
       }
     );
