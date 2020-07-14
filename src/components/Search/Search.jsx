@@ -13,7 +13,7 @@ import "./SearchStyles.sass";
 const Search = ({ input }) => {
   const [result, setResult] = useState([]);
   const [type, setType] = useState("all");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // fetch data from api
   const fetchSearchResult = ({ page = 1 }, callback = () => ({})) => {
