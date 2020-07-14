@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchCard from "./SearchCard";
-import Pagination from "../Pagination/Pagination";
+
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "./ProgressBar";
 import { searchGlobal } from "../../services/home";
@@ -15,19 +15,19 @@ const Search = ({ input }) => {
   const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
 
+  // fetch data from api
   const fetchSearchResult = ({ page = 1 }, callback = () => ({})) => {
     setLoading(true);
     searchGlobal({
       query_string: input,
       video_ids: [],
-      max_size: 16,
+      max_size: 10,
       type,
       page,
     }).then((data) => {
-      const sd = (d) => d.slice((page - 1) * 16, (page - 1) * 16 + 16);
-      setResult(sd(data));
+      setResult(data);
       setLoading(false);
-      callback(sd(data));
+      callback(data);
     });
   };
 
@@ -43,7 +43,7 @@ const Search = ({ input }) => {
 
   const iterateItems = (arr = []) => {
     // iterate there
-    return arr.slice(0, 16).map((o, i) => <SearchCard card={o} key={i} />);
+    return arr.slice(0, 10).map((o, i) => <SearchCard card={o} key={i} />);
   };
 
   return (
@@ -105,8 +105,6 @@ const Search = ({ input }) => {
         {iterateItems(result)}
         {!result.length && !loading && <EmptyNotice />}
       </div>
-      <br />
-      <Pagination fetch={fetchSearchResult} method="total" />
       <br />
       <ProgressBar loading={loading} />
     </div>

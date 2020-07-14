@@ -8,20 +8,18 @@ import MuiPagination from "@material-ui/lab/Pagination";
 import { pipe } from "../../services/utils";
 import "./PaginationStyles.sass";
 
-function Pagination({ fetch = () => ({}), method = "async" }, ref) {
+function Pagination({ fetch = () => ({}), size = 16 }, ref) {
   const [count, setCount] = useState(3);
   const [curPage, setCurPage] = useState(1);
 
   const getCount = (num = 1) => setCount(num);
 
   const increse = (page) => (num = 0) => {
-    if (page <= count && num < 16) return page;
+    if (page <= count && num < size) return page;
     if (page < curPage) return count;
     if (page < count) return count;
     return count + 1;
   };
-
-  const pageNum = (num = 0) => Math.ceil(num / 16);
 
   const getLength = (data = []) => data.length;
 
@@ -29,10 +27,6 @@ function Pagination({ fetch = () => ({}), method = "async" }, ref) {
     fetch({ page }, pipe(getLength, increse(page), getCount));
     setCurPage(page);
   };
-
-  useEffect(() => {
-    if (method === "async") handlePage({}, 1);
-  }, []);
 
   useImperativeHandle(ref, () => ({
     handlePage: (event, page) => {
@@ -47,6 +41,7 @@ function Pagination({ fetch = () => ({}), method = "async" }, ref) {
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
+      page={curPage}
     />
   );
 }
