@@ -31,7 +31,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   const classes = userStyles();
-  
+  console.log(props)
   
   //inx,onEvent,info,parent,history
   //history 1收藏 2历史，3系列详情
@@ -148,7 +148,7 @@ const WorksItem = (props) => {
           {props.info&&props.info.view_counts||0}&nbsp;观看●{props.info&&props.info.comment_counts||0}回应●{props.info&&props.info.like_counts||0}点赞
          */}
               收藏于
-              {get_date(props.info.collection_time, "/", 8)}
+              {get_date(props.info.collection_time||props.info.upload_time, "/", 8)}
             </p>
             <div
               onClick={(e) => {

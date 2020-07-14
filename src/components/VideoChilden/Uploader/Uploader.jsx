@@ -136,10 +136,10 @@ export default class UploadVideos extends Component {
         model_type: "",
       }).then((res) => {
          if(res.err==4104){
-           new CustomModal().alert(res.errmsg+'正在为你跳转...','error',5000);
-           setTimeout(()=>{
+           alert('用户登录，将未你跳转到登录页...')
+           
             navigate(`/users/login`);
-          },3000)
+          
          }
         if (res.err === 0) {
           setTimeout(() => {
