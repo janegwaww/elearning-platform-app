@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
-import Pagination from "../Pagination/Pagination";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
@@ -18,7 +17,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    /* this.fetchHotVideo({}); */
+    this.fetchHotVideo();
   }
 
   fetchHotVideo = ({ page = 1 } = {}, callback = () => ({})) => {
@@ -52,9 +51,6 @@ class Home extends Component {
         <br />
         <div style={{ textAlign: "center" }}>
           <ChangeBatchButton handleChange={this.fetchHotVideo} />
-        </div>
-        <div style={{ display: "none" }}>
-          <Pagination fetch={this.fetchHotVideo} />
         </div>
         <br />
       </Fragment>
