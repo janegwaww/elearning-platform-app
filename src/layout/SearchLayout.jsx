@@ -25,24 +25,24 @@ import "./SearchLayoutStyles.sass";
 
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
-  const [refInput, setRefInput] = useState("");
   const { q } = getIdFromHref();
 
   const handleSearch = () => {
-    if (refInput) {
-      navigate(searchUrlParams(refInput));
+    const { value } = document.getElementById("search-page-input");
+    if (value) {
+      navigate(searchUrlParams(value));
     }
   };
 
   const handleEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.target.value) {
+      e.preventDefault();
       handleSearch();
     }
   };
 
   useEffect(() => {
     if (q) {
-      setRefInput(q);
       setInput(q);
     }
   }, [q]);
@@ -86,12 +86,10 @@ const SearchLayout = ({ children }) => {
           <Toolbar>
             <Box className="search-input-bar">
               <InputBase
-                value={refInput}
                 placeholder="搜索知识..."
                 id="search-page-input"
                 type="text"
                 onKeyDown={handleEnter}
-                onChange={(e) => setRefInput(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button
