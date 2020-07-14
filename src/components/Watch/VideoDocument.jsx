@@ -5,6 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
+import Tooltip from "@material-ui/core/Tooltip";
 import { getVideoDocument } from "../../services/video";
 
 const useStyles = makeStyles((theme) => ({
@@ -85,9 +86,11 @@ export default function VideoDocument({ vid }) {
                       justifyContent="space-between"
                       width="calc(100% - 120px - 14px)"
                     >
-                      <Typography noWrap variant="body2">
-                        {o.file_name}
-                      </Typography>
+                      <Tooltip title={o.file_name} placement="top-start">
+                        <Typography noWrap variant="body2">
+                          {o.file_name}
+                        </Typography>
+                      </Tooltip>
                       <Typography
                         variant="caption"
                         color="textSecondary"

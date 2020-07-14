@@ -7,21 +7,22 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 const styles = {
   root: {
     position: "fixed",
-    bottom: "16px",
-    right: "16px"
+    bottom: "22%",
+    right: "40px",
+    opacity: "0.6",
   },
   fab: {
-    borderRadius: "20%"
-  }
+    borderRadius: "20%",
+  },
 };
 
-function ScrollTop(props) {
+function ScrollTop() {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 500
+    threshold: 500,
   });
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     const anchor = (event.target.ownerDocument || document).querySelector(
       "#back-to-top-anchor"
     );
