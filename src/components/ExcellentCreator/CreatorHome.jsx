@@ -1,44 +1,25 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, useState } from "react";
 import Helmet from "react-helmet";
-import { Link } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
+import Button from "@material-ui/core/Button";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import Layout from "../../layout";
 import config from "../../../data/SiteConfig";
-import HomeTab from "../Home/HomeTab";
 import GridCards from "../GridCards/GridCards";
-import SearchLoading from "../Loading/SearchLoading";
+import ProgressBar from "../Loading/ProgressBar";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";
-import { getCreatorInfo } from "../../services/home";
+import CreatorAvatar from "./CreatorHomeHeader";
+import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
 import { getIdFromHref } from "../../services/utils";
 
 const useStyles = makeStyles((theme) => ({
-  authAvatar: {
-    display: "grid",
-    gridTemplateColumns: "66px 600px",
-    gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 20px",
-  },
-  subButton: {
-    backgroundColor: "#fc5659",
-    padding: "4px 6px",
-    borderRadius: 4,
-    color: "#fff",
-  },
-  mesButton: {
-    backgroundColor: "#fdc44f",
-    padding: "4px 6px",
-    borderRadius: 4,
-    color: "#fff",
-  },
   pagination: {
     backgroundColor: "#fff",
   },
@@ -48,7 +29,41 @@ const useStyles = makeStyles((theme) => ({
   panel: {
     minHeight: "60vh",
   },
+  inputInput: {
+    backgroundColor: "#f2f2f5",
+    borderRadius: "50px 0 0 50px",
+    paddingLeft: "1em",
+    "&::placeholder": {
+      fontSize: "0.875rem",
+    },
+  },
+  searchButton: {
+    backgroundColor: "#007cff",
+    borderRadius: "0 50px 50px 0",
+    padding: "4px 8px",
+    minWidth: "50px",
+    "&:hover": {
+      backgroundColor: "#007cff",
+    },
+  },
 }));
+
+const TTab = withStyles((theme) => ({
+  root: {
+    minWidth: 40,
+    padding: "6px 0px",
+    color: "#42415a",
+    marginRight: 40,
+    opacity: 1,
+    borderRadius: 20,
+    "&$selected": {
+      color: "#007cff",
+    },
+  },
+  selected: {
+    color: "#007cff",
+  },
+}))((props) => <Tab disableRipple {...props} />);
 
 const Pagination = ({ num, handlePage }) => {
   const classes = useStyles();
@@ -60,101 +75,6 @@ const Pagination = ({ num, handlePage }) => {
       onChange={handlePage}
       classes={{ root: classes.pagination, ul: classes.pul }}
     />
-  );
-};
-
-const CreatorAvatar = ({ auth }) => {
-  const classes = useStyles();
-  const {
-    background,
-    user_name,
-    headshot,
-    introduction,
-    description_counts = 0,
-    fans_counts = 0,
-    like_counts = 0,
-    view_counts = 0,
-    user_id,
-  } = auth;
-
-  return (
-    <Container>
-      <Grid container>
-        <Grid item xs={9}>
-          <div className={classes.authAvatar}>
-            <div
-              style={{
-                gridColumn: 1,
-                gridRow: "1/5",
-              }}
-            >
-              <div
-                style={{
-                  padding: 10,
-                  marginTop: -40,
-                  borderRadius: 50,
-                  height: 80,
-                  width: 80,
-                  backgroundColor: "#fff",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Avatar
-                  src={headshot}
-                  alt={user_name}
-                  style={{ width: 66, height: 66 }}
-                />
-              </div>
-            </div>
-            <Typography variant="body2">{user_name}</Typography>
-            <Typography
-              variant="caption"
-              color="textSecondary"
-            >{`ID: ${user_id}`}</Typography>
-            <div style={{ gridRow: "3/5" }}>
-              <Typography variant="subtitle1" color="textSecondary">
-                {introduction}
-              </Typography>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="subtitle1">
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              {/* <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅</span>
-                    <span>{description_counts}</span>
-                    </Box>
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅者</span>
-                    <span>{fans_counts}</span>
-                    </Box> */}
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <span>获赞数</span>
-                <span>{like_counts}</span>
-              </Box>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <span>播放量</span>
-                <span>{view_counts}</span>
-              </Box>
-            </div>
-          </Typography>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              padding: "8px 0",
-              display: "none",
-            }}
-          >
-            <ButtonBase className={classes.subButton}>+订阅</ButtonBase>
-            <ButtonBase className={classes.mesButton}>发消息</ButtonBase>
-          </div>
-        </Grid>
-      </Grid>
-    </Container>
   );
 };
 
@@ -175,17 +95,37 @@ function TabPanel(props) {
   );
 }
 
-export default class CreatorHome extends Component {
+const SearchInput = ({ handleSearchClick }) => {
+  const classes = useStyles();
+  return (
+    <InputBase
+      id="creatorhome_local_search_input"
+      placeholder="搜索他的视频"
+      type="search"
+      classes={{ input: classes.inputInput }}
+      endAdornment={
+        <InputAdornment>
+          <Button onClick={handleSearchClick} className={classes.searchButton}>
+            <SearchIcon color="primary" />
+          </Button>
+        </InputAdornment>
+      }
+    />
+  );
+};
+
+class CreatorHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: {},
       list: [],
-      loading: true,
+      loading: false,
       cid: "",
       value: 0,
       listStack: [],
       pageCount: 1,
+      isSearch: false,
     };
   }
 
@@ -214,9 +154,13 @@ export default class CreatorHome extends Component {
   };
 
   handlePage = (event, page) => {
-    const { value } = this.state;
-    const arrfil = this.filterData(value).slice((page - 1) * 16, page * 16);
-    this.setState({ list: arrfil });
+    const { value, isSearch } = this.state;
+    if (isSearch) {
+      this.handleSearchClick(page);
+    } else {
+      const arrfil = this.filterData(value).slice((page - 1) * 16, page * 16);
+      this.setState({ list: arrfil });
+    }
   };
 
   fetchData = (id) => {
@@ -232,13 +176,41 @@ export default class CreatorHome extends Component {
     });
   };
 
+  fetchSearchData = (v) => {
+    const { cid, value } = this.state;
+    const type = ["all", "video", "series"][value];
+    this.setState({ loading: true });
+    creatorHomeSearch({
+      query_string: v,
+      author_id: cid,
+      type,
+      max_size: 999,
+      page: 1,
+    }).then((data) => {
+      this.setState({
+        loading: false,
+        list: data,
+        pageCount: data.length,
+        isSearch: true,
+      });
+    });
+  };
+
   handleTabChange = (event, newValue) => {
     const arr = this.filterData(newValue);
     this.setState({
       value: newValue,
       list: arr.slice(0, 16),
       pageCount: arr.length,
+      isSearch: false,
     });
+  };
+
+  handleSearchClick = (page = 1) => {
+    const { value } = document.getElementById("creatorhome_local_search_input");
+    if (value) {
+      this.fetchSearchData(value, page);
+    }
   };
 
   render() {
@@ -273,11 +245,15 @@ export default class CreatorHome extends Component {
               <br />
 
               <div style={{ minHeight: "60vh" }}>
-                <Tabs onChange={this.handleTabChange} value={value}>
-                  <Tab label="全部" />
-                  <Tab label="视频" />
-                  <Tab label="系列" />
-                </Tabs>
+                <Box display="flex" justifyContent="space-between">
+                  <Tabs onChange={this.handleTabChange} value={value}>
+                    <TTab label="全部" />
+                    <TTab label="视频" />
+                    <TTab label="系列" />
+                  </Tabs>
+                  <SearchInput handleSearchClick={this.handleSearchClick} />
+                </Box>
+
                 <TabPanel value={value} index={0}>
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
@@ -298,9 +274,11 @@ export default class CreatorHome extends Component {
               <br />
             </div>
           </Container>
-          <SearchLoading loading={loading} />
+          <ProgressBar loading={loading} />
         </div>
       </Layout>
     );
   }
 }
+
+export default CreatorHome;
