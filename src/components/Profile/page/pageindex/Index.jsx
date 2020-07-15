@@ -48,10 +48,10 @@ class ProfileIndex extends React.Component {
     window.onresize = null;
   }
   update_data() {
-    this.setState({
-      login_status: true,
-    });
-    let _this = this;
+    // this.setState({
+    //   login_status: true,
+    // });
+    // let _this = this;
 
     get_data({
       model_name: "home",
@@ -62,9 +62,14 @@ class ProfileIndex extends React.Component {
       },
       model_type: "",
     }).then((res) => {
+
+      if(res.err==4104){
+        alert('用户未登录，或登录已过期,将为你跳转到登录页...');
+        navigate(`/users/login`);
+        return
+      }
       if (res.err === 0) {
         let _data = res.result_data[0];
-
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -74,11 +79,12 @@ class ProfileIndex extends React.Component {
           collection_data: _data.collection,
         });
       }
-      setTimeout(() => {
-        this.setState({
-          login_status: false,
-        });
-      }, 300);
+      
+      // setTimeout(() => {
+      //   this.setState({
+      //     login_status: false,
+      //   });
+      // }, 300);
 
       this.wind_size();
     });

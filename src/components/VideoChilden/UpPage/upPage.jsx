@@ -27,7 +27,7 @@ import { get_data, get_alldata } from "../../../assets/js/request";
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
-
+import { getUser, isLoggedIn } from "../../../services/auth";
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -243,12 +243,21 @@ export default function VideoIndex(props) {
     //关闭提示
     setOpenSnackbar({ open: false });
   };
+
   useEffect(() => {
-    if (localStorage.getItem("haetekUser")) {
-      setUserinfo(JSON.parse(localStorage.getItem("haetekUser")));
-    }
     let _data = JSON.parse(sessionStorage.getItem("file_data"));
-    if (_data) {
+    if (!isLoggedIn()) {
+      alert("请先登录");
+      navigate(`/users/login`);
+      return;
+    } else {
+      setUserinfo(getUser());
+    }
+    if (!_data) {
+      alert("请先添加视频文件才能发布哦，正在跳转添加视频页...");
+      navigate(`/video`);
+      return;
+    } else {
       setFiledata(_data);
       setVideoImg(_data.image_path || "");
       setVideoTitle(_data.title || "");
@@ -263,25 +272,13 @@ export default function VideoIndex(props) {
       "video"
     ).then((res) => {
       let _currencies_data = res.result_data;
-
       setCurrencies(_currencies_data);
-
       _currencies_data.forEach((o, inx) => {
         if (o._id == _data.series_id) {
           setCurrency(o.title);
           return;
         }
       });
-
-      // if (
-      //   (Array.isArray && Array.isArray(res[1].result_data[0])) ||
-      //   Object.prototype.toString.call(res[1].result_data[0]) ==
-      //     "[object Array]"
-      // ) {
-      //   setSigns(res[1].result_data[0]);
-      // } else {
-      //   setSigns(res[1].result_data);
-      // }
     });
   }, []);
   return (
@@ -450,11 +447,15 @@ export default function VideoIndex(props) {
                       <div
                         className="file bg-all"
                         style={{
-                          
                           marginRight: 10,
                         }}
                       >
-                      {videoImg&&(<img className='all-width all-height' src={videoImg} />)}
+                        {videoImg && (
+                          <img
+                            className="all-width all-height"
+                            src={videoImg}
+                          />
+                        )}
                       </div>
                     ) : (
                       ""
@@ -590,8 +591,12 @@ export default function VideoIndex(props) {
                                     marginRight: 10,
                                   }}
                                 >
-                                {seriesImg&& (<img className='all-width all-height' src={seriesImg}/>)}
-                                
+                                  {seriesImg && (
+                                    <img
+                                      className="all-width all-height"
+                                      src={seriesImg}
+                                    />
+                                  )}
                                 </div>
                               ) : (
                                 ""

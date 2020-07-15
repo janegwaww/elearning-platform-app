@@ -8,10 +8,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   FormControl,
-  FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -24,7 +22,7 @@ import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import { getObj } from "../../../assets/js/totls";
+
 // import md5 from "md5";
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
@@ -135,12 +133,11 @@ export default class UploadVideos extends Component {
         },
         model_type: "",
       }).then((res) => {
-         if(res.err==4104){
-           alert('用户登录，将未你跳转到登录页...')
-           
-            navigate(`/users/login`);
-          
-         }
+        if (res.err == 4104) {
+          alert("用户登录，将未你跳转到登录页...");
+
+          navigate(`/users/login`);
+        }
         if (res.err === 0) {
           setTimeout(() => {
             this.props.parent.setState({
@@ -778,9 +775,9 @@ export default class UploadVideos extends Component {
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
-                                this.setState({
-                                  lang_open: true,
-                                });
+                              this.setState({
+                                lang_open: true,
+                              });
                             }}
                             title="视频编辑及字幕生成"
                             className="text-overflow fn-color-white subtitle-btn subtitle-new"
@@ -789,7 +786,7 @@ export default class UploadVideos extends Component {
                           </p>
                         )}
                         <p
-                        title='删除'
+                          title="删除"
                           className="text-overflow fn-color-white subtitle-btn subtitle-del"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -856,7 +853,7 @@ export default class UploadVideos extends Component {
                   </NewBtn2>
                 </div>
               )}
-            {status === 3 && this.props.parent.state.is_edit&&files.sub_josn && (
+            {status === 3 && this.props.parent.state.is_edit && files.sub_josn && (
               <div className="box box-center" style={{ marginTop: 40 }}>
                 <NewBtn2
                   onClick={() => {
@@ -864,7 +861,7 @@ export default class UploadVideos extends Component {
                       lang_open: true,
                     });
                   }}
-                > 
+                >
                   重新提取字幕
                 </NewBtn2>
               </div>

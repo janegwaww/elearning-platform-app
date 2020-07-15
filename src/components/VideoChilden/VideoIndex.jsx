@@ -170,6 +170,7 @@ export default class VideoPage extends Component {
   componentWillUnmount() {
     window.onresize = null;
     document.onkeydown = null;
+    this.setState = ()=>false;
   }
 
   cueing(textArr) {
