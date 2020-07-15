@@ -1,29 +1,27 @@
+const isBrowser = () => typeof window !== "undefined";
+
+const isExist = () =>
+  isBrowser() && window.localStorage.getItem("kenginesearchhistory");
+
 const exportHistory = {
   getValues() {
-    return new Set(localStorage.getItem("kengineSearchHistory"));
+    return isExist
+      ? new Set(localStorage.getItem("kengineSearchHistory"))
+      : new Set([]);
   },
   setValues(values) {
-    localStorage.setItem("kengineSearchHistory", [...values]);
+    isExit && localStorage.setItem("kengineSearchHistory", [...values]);
   },
   values() {
-    const history = localStorage
-      .getItem("kengineSearchHistory")
-      .split(",")
-      .filter((el) => el);
-    if (history.length) {
-      return history;
-    }
-    return [];
+    return [...this.getValues].filter(el => el);
   },
   add(value) {
     if (!value) return;
-    const adding = this.getValues().add(value);
-    this.setValues(adding);
+    this.setValues(this.getValues().add(value));
   },
   remove(value) {
-    const removing = this.getValues().delete(value);
-    this.setValues(removing);
-  },
+    this.setValues(this.getValues().delete(value));
+  }
 };
 
 export default exportHistory;
