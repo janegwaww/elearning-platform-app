@@ -65,6 +65,16 @@ export const getCreatorInfo = pipeThen(
   apisSearch.getAuthorInformation
 );
 
+// 作者首页搜索
+const extroData = (data = []) =>
+  Promise.resolve(data.reduce((a, c) => [...a, c.data], []));
+
+export const creatorHomeSearch = pipeThen(
+  extroData,
+  getResultData,
+  apisVideo.userSearch
+);
+
 // 获取频道
 export const getChannelList = pipeThen(
   getResultData,
@@ -89,6 +99,9 @@ export const getSeriesInfo = pipeThen(
   errorMessageNotice,
   apisSearch.getSeriesDetails
 );
+
+// 系列详情页搜索
+export const seriesSearch = pipeThen(getResultData, apisVideo.seriesSearch);
 
 // 获取频道列表栏
 export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);
