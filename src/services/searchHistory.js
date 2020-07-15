@@ -13,7 +13,7 @@ const exportHistory = {
     isExit && localStorage.setItem("kengineSearchHistory", [...values]);
   },
   values() {
-    return [...this.getValues].filter(el => el);
+    return [...this.getValues()].filter(el => el);
   },
   add(value) {
     if (!value) return;
