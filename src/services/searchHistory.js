@@ -10,7 +10,7 @@ const exportHistory = {
       : new Set([]);
   },
   setValues(values) {
-    isExit() &&
+    isExist() &&
       window.localStorage.setItem("kengineSearchHistory", [...values]);
   },
   values() {
