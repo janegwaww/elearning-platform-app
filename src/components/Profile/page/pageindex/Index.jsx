@@ -278,8 +278,17 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                navigate(`/users/profile/workscenter`);
-                // this.props.parent.pageRoute(evt);
+               
+                if(video_type=='video'){
+                  navigate(`/users/profile/workscenter`);
+                }
+                if(video_type=='series'){
+                  navigate(`/users/profile/workscenter/series`);
+                }
+                if(video_type=='draft'){
+                  navigate(`/users/profile/workscenter/draft`);
+                }
+                return
               }}
             >
               全部作品
@@ -380,9 +389,14 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                navigate(`/users/profile/dynamic`);
-
-                // this.props.parent.pageRoute(evt);
+                
+                if(page_type==1){
+                  navigate(`/users/profile/dynamic`);
+                }
+               if(page_type==2){
+                navigate(`/users/profile/dynamic/history`);
+               }
+return
               }}
             >
               查看更多

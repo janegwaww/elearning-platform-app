@@ -8,8 +8,8 @@ const WorksCenter = (props) => {
   const [num, setNum] = React.useState(0);
   React.useState(() => {
     let _router = props["*"];
-   
-    if (_router == "serise" ||_router== "seriesdetail") {
+
+    if (_router == "series" ||_router== "seriesdetail") {
       setNum(1);
     } else if (_router == "draft") {
       setNum(2);
@@ -26,7 +26,7 @@ const WorksCenter = (props) => {
               parent={props}
               _inx={num}
             onEvent={(num) => {
-              console.log(num);
+              
               if (num == 1) {
                 navigate(`/users/profile/workscenter`);
                 setNum(0);
