@@ -25,6 +25,7 @@ import "./SearchLayoutStyles.sass";
 
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
+  const [refInput, setRefInput] = useState("搜索知识...");
   const { q } = getIdFromHref();
 
   const handleSearch = () => {
@@ -44,6 +45,7 @@ const SearchLayout = ({ children }) => {
   useEffect(() => {
     if (q) {
       setInput(q);
+      setRefInput(q);
     }
   }, [q]);
 
@@ -86,10 +88,12 @@ const SearchLayout = ({ children }) => {
           <Toolbar>
             <Box className="search-input-bar">
               <InputBase
+                value={refInput}
                 placeholder="搜索知识..."
                 id="search-page-input"
                 type="text"
                 onKeyDown={handleEnter}
+                onChange={(e) => setRefInput(e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button

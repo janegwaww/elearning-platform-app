@@ -28,7 +28,7 @@ const imagePick = (path, href = "/", type) =>
       {type === "doc" && (
         <div className="doc-tag">
           <Typography color="primary" variant="caption">
-            课件
+            文本
           </Typography>
         </div>
       )}
@@ -267,6 +267,7 @@ export default function SearchCard({ card = {} }) {
       series: seriesContainer({ data, match_frame }),
       user: authContainer({ data, match_frame }),
       document: docContainer({ data, match_frame }),
+      documents: seriesContainer({ data, match_frame }),
     }[source]);
   const Card = pipe(chosenCard);
   return <div className="global-search-card">{Card(card)}</div>;

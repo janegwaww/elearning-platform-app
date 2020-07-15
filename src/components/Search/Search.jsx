@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import SearchCard from "./SearchCard";
 
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../Loading/ProgressBar";
 import { searchGlobal } from "../../services/home";
 import "./SearchStyles.sass";
 
@@ -77,7 +77,14 @@ const Search = ({ input }) => {
           className={`${type === "document" && "action"}`}
           onClick={() => handleTypeClick("document")}
         >
-          文本模态
+          单个文本
+        </Button>
+        <Button
+          size="small"
+          className={`${type === "documents" && "action"}`}
+          onClick={() => handleTypeClick("documents")}
+        >
+          系列文本
         </Button>
         <Button
           size="small"
