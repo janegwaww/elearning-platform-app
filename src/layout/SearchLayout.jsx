@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import Box from "@material-ui/core/Box";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Footer from "../components/Footer/Footer";
 import ScrollTop from "./ScrollTop";
 import AvatarMenu from "./AvatarMenu";
@@ -21,6 +22,7 @@ import Container from "../components/Container/KeContainer";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
 import { searchUrlParams, getIdFromHref } from "../services/utils";
+import searchHistory from "../services/searchHistory";
 import "./SearchLayoutStyles.sass";
 
 const SearchLayout = ({ children }) => {
@@ -29,15 +31,13 @@ const SearchLayout = ({ children }) => {
   const { q } = getIdFromHref();
 
   const handleSearch = () => {
-    const { value } = document.getElementById("search-page-input");
-    if (value) {
-      navigate(searchUrlParams(value));
+    if (refInput) {
+      navigate(searchUrlParams(refInput));
     }
   };
 
   const handleEnter = (e) => {
     if (e.key === "Enter" && e.target.value) {
-      e.preventDefault();
       handleSearch();
     }
   };
@@ -87,24 +87,37 @@ const SearchLayout = ({ children }) => {
         <Container>
           <Toolbar>
             <Box className="search-input-bar">
-              <InputBase
-                value={refInput}
-                placeholder="搜索知识..."
-                id="search-page-input"
-                type="text"
-                onKeyDown={handleEnter}
-                onChange={(e) => setRefInput(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Button
-                      startIcon={<SearchIcon />}
-                      className="search-bar-button"
-                      onClick={handleSearch}
-                    >
-                      搜索
-                    </Button>
-                  </InputAdornment>
-                }
+              <Autocomplete
+                freeSolo
+                selectOnFocus
+                handleHomeEndKeys
+                clearOnBlur
+                options={searchHistory.values()}
+                inputValue={refInput}
+                onInputChange={(event, newInputValue) => {
+                  setRefInput(newInputValue);
+                }}
+                renderInput={(params) => (
+                  <InputBase
+                    placeholder="搜索知识..."
+                    id="search-page-input"
+                    type="search"
+                    inputProps={{ ...params.inputProps }}
+                    ref={params.InputProps.ref}
+                    onKeyDown={handleEnter}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <Button
+                          startIcon={<SearchIcon />}
+                          className="search-bar-button"
+                          onClick={handleSearch}
+                        >
+                          搜索
+                        </Button>
+                      </InputAdornment>
+                    }
+                  />
+                )}
               />
             </Box>
           </Toolbar>
