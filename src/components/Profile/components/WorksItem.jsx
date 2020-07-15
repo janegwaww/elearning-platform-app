@@ -31,7 +31,7 @@ const stop_run = (prevValue, nextValue) => {
 };
 const WorksItem = (props) => {
   const classes = userStyles();
-  console.log(props)
+  // console.log(props)
   
   //inx,onEvent,info,parent,history
   //history 1收藏 2历史，3系列详情
@@ -41,19 +41,19 @@ const WorksItem = (props) => {
     msg: "",
     title: "",
   });
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (evt) => {
-    evt.stopPropagation();
-    evt.preventDefault();
-    setAnchorEl(evt.currentTarget);
-  };
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open = Boolean(anchorEl);
+  // const handleClick = (evt) => {
+  //   evt.stopPropagation();
+  //   evt.preventDefault();
+  //   setAnchorEl(evt.currentTarget);
+  // };
   const [isShare, setIsShare] = React.useState(false); //分享
-  const handleClose = (evt) => {
-    // evt.stopPropagation();
-    // evt.preventDefault();
-    setAnchorEl(null);
-  };
+  // const handleClose = (evt) => {
+  //   // evt.stopPropagation();
+  //   // evt.preventDefault();
+  //   setAnchorEl(null);
+  // };
 
   return (
     <div className="zero-edges all-width view-overflow all-height">

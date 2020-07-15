@@ -2,6 +2,7 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
+import ProgressBar from '../../../Loading/ProgressBar';
 import { ProNavbar } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import {  Grid } from "@material-ui/core";
@@ -85,6 +86,7 @@ export default class History extends React.Component {
     
     return (
       <div>
+      <ProgressBar loading={login_status} />
       <nav>
           <ProNavbar list={["历史记录"]} parent={this} />
         </nav>

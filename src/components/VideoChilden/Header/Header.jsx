@@ -7,7 +7,7 @@ import { Button, Avatar, Snackbar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
 import { get_data } from "../../../assets/js/request";
-import { getUser } from "../../../services/auth";
+import { getUser ,isLoggedIn} from "../../../services/auth";
 
 import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
@@ -47,17 +47,14 @@ export default class Header extends Component {
     this.btn_user = this.btn_user.bind(this);
   }
   componentDidMount() {
-    if (getUser().name) {
+    if (isLoggedIn()) {
       this.setState({
         user_info: getUser(),
       });
-    } else {
-      navigate(`/users/login`);
-    }
   }
-
+  }
   btn_user = function(info) {
-    if (!getUser().name) {
+    if (!isLoggedIn()) {
       sessionStorage.setItem("no_login_page", window.location.href);
 
       navigate(`/users/login`);
@@ -213,13 +210,13 @@ export default class Header extends Component {
                   new CustomModal().alert("亲！还没有添加文件呢！", "error");
                   return;
                 }
-                if (!getUser().name) {
+                if (!isLoggedIn()) {
                   new CustomModal().alert(
                     "亲！还没有登录呢，正在为你跳转登录页...",
                     "error"
                   );
                   setTimeout(() => {
-                    navigate("/users/login");
+                    navigate(`/users/login`);
                   }, 5000);
                 }
                 if (this.props.parent.state.video_data.sub_josn) {
@@ -232,7 +229,7 @@ export default class Header extends Component {
                     "file_data",
                     JSON.stringify(this.props.parent.state.video_data)
                   );
-                  navigate("/video/uppage");
+                  navigate(`/video/uppage`);
                 }
               }}
             >

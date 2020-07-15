@@ -17,6 +17,7 @@ import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
 import SearchLoading from "../Loading/SearchLoading";
+
 // import viderPlay from '../../assets/img/play.svg';
 export default class VideoPage extends Component {
   constructor(props) {
@@ -170,6 +171,7 @@ export default class VideoPage extends Component {
   componentWillUnmount() {
     window.onresize = null;
     document.onkeydown = null;
+    this.setState = ()=>false;
   }
 
   cueing(textArr) {
@@ -1093,6 +1095,7 @@ export default class VideoPage extends Component {
           </section>
         </footer>
         <SearchLoading loading={this.state.login_status} />
+       
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import SearchLoading from "../../../Loading/SearchLoading";
-
+import ProgressBar from '../../../Loading/ProgressBar';
 import Pagination from "@material-ui/lab/Pagination";
 export default class Draft extends React.Component {
   constructor(props) {
@@ -72,6 +72,7 @@ export default class Draft extends React.Component {
     
     return (
       <div>
+      <ProgressBar loading={login_status} />
         {total_data && (
           <div>
             {show_data?show_data.map((option, inx) => (

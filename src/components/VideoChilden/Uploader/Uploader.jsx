@@ -1,6 +1,6 @@
 import React, { createRef, Component } from "react";
 import WebUpload from "webuploader";
-
+import ProgressBar from '../../Loading/ProgressBar';
 import "./Uploader.css";
 import {
   Button,
@@ -8,10 +8,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   FormControl,
-  FormLabel,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -24,7 +22,7 @@ import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import { getObj } from "../../../assets/js/totls";
+
 // import md5 from "md5";
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
@@ -96,9 +94,10 @@ export default class UploadVideos extends Component {
       files: null, //文件列表
       lang_value: "", //语言
       lang_open: false,
+      login_status:false
     };
     this.myFile = null;
-
+    this.timerRef = React.createRef();
     this.new_subtitles = this.new_subtitles.bind(this);
     this.query_subtitles = this.query_subtitles.bind(this);
     this.reset_subtitles = this.reset_subtitles.bind(this);
@@ -108,7 +107,7 @@ export default class UploadVideos extends Component {
   }
   componentDidMount() {
     // console.log(this.props.parent.props.location.href);
-    if (getUser().name) {
+    if (isLoggedIn()) {
       this.setState({
         user_info: getUser(),
       });
@@ -122,9 +121,11 @@ export default class UploadVideos extends Component {
       shardSize: 10 * 1024 * 1024, //一个分片大小
       fileId: "newFile",
     });
-    let _id = this.props.parent.props.location.href.split("=")[1];
+    
+    let _id = this.props.parent.props.location.search.split("=")[1];
+   
     if (_id) {
-      this.props.parent.setState({
+      this.setState({
         login_status: true,
       });
       get_data({
@@ -135,18 +136,20 @@ export default class UploadVideos extends Component {
         },
         model_type: "",
       }).then((res) => {
-         if(res.err==4104){
-           alert('用户登录，将未你跳转到登录页...')
-           
-            navigate(`/users/login`);
-          
-         }
+
+       
+        if (res.err == 4104) {
+          alert("用户登录，将未你跳转到登录页...");
+          navigate(`/users/login`);
+          return
+        }
+        this.timerRef.current=setTimeout(() => {
+          this.setState({
+            login_status: false,
+          });
+        }, 500);
         if (res.err === 0) {
-          setTimeout(() => {
-            this.props.parent.setState({
-              login_status: false,
-            });
-          }, 500);
+          
           let _data = {
             image_path: res.result_data[0].image_path,
             title: res.result_data[0].title,
@@ -192,6 +195,8 @@ export default class UploadVideos extends Component {
           sessionStorage.setItem("file_data", _data);
           this.props.parent.getUpfileUrl(_data);
           this.get_image(_id);
+        }else{
+          new CustomModal().alert('获取资源失败，请尝试刷新重新获取','error',4000)
         }
         // console.log(res);
       });
@@ -205,6 +210,10 @@ export default class UploadVideos extends Component {
       });
       this.props.parent.getUpfileUrl(_data);
     }
+  }
+  componentWillUnmount() {
+   this.timerRef.current&&clearTimeout(this.timerRef.current);
+    this.state= ()=>false;
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.is_del) {
@@ -261,7 +270,7 @@ export default class UploadVideos extends Component {
           this.setState({
             status: 5,
           });
-          setTimeout(() => {
+          this.timerRef.current=setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, Math.ceil((this.state.files.video_len * 60) / 210 - 1) * 1000);
         } else if (res.err == -3) {
@@ -304,7 +313,7 @@ export default class UploadVideos extends Component {
           this.setState({
             status: 5,
           });
-          setTimeout(() => {
+          this.timerRef.current=setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
         } else if (res.err == -3) {
@@ -357,7 +366,7 @@ export default class UploadVideos extends Component {
           this.tools_subtitles(res.result_data[0]);
           return;
         } else {
-          setTimeout(() => {
+          this.timerRef.current=setTimeout(() => {
             _this.query_subtitles();
           }, 60000);
         }
@@ -378,10 +387,13 @@ export default class UploadVideos extends Component {
       lang_open,
       is_drop,
       files,
+      login_status
     } = this.state;
     let _this = this;
     return (
+      
       <div className="section upload-cover fn-color-9E9EA6 ">
+      <ProgressBar loading={login_status} />
         <div className="nav-tabs ">
           <p>我的视频</p>
         </div>
@@ -451,7 +463,7 @@ export default class UploadVideos extends Component {
                             "error",
                             5000
                           );
-                          setTimeout(() => {
+                          this.timerRef.current= setTimeout(() => {
                             _this.setState({ status: 1, progress: 1 });
                           }, 5000);
                           _this.myFile.stop();
@@ -466,7 +478,7 @@ export default class UploadVideos extends Component {
                             "error",
                             5000
                           );
-                          setTimeout(() => {
+                          this.timerRef.current=setTimeout(() => {
                             _this.setState({ status: 1, progress: 0 });
                           }, 5000);
                         }
@@ -503,7 +515,7 @@ export default class UploadVideos extends Component {
                       _this.setState({
                         promp_info: _data,
                       });
-                      setTimeout(() => {
+                      this.timerRef.current=setTimeout(() => {
                         _data.open = false;
                         _this.setState({
                           promp_info: _data,
@@ -564,7 +576,7 @@ export default class UploadVideos extends Component {
                         _this.setState({
                           promp_info: _data,
                         });
-                        setTimeout(() => {
+                        this.timerRef.current=setTimeout(() => {
                           _data.open = false;
                           _this.setState({
                             promp_info: _data,
@@ -648,7 +660,7 @@ export default class UploadVideos extends Component {
                         "error",
                         5000
                       );
-                      setTimeout(() => {
+                      this.timerRef.current= setTimeout(() => {
                         _this.setState({ status: 1, progress: 1 });
                       }, 5000);
                       _this.myFile.stop();
@@ -663,7 +675,7 @@ export default class UploadVideos extends Component {
                         "error",
                         5000
                       );
-                      setTimeout(() => {
+                      this.timerRef.current= setTimeout(() => {
                         _this.setState({ status: 1, progress: 1 });
                       }, 5000);
                     }
@@ -778,9 +790,9 @@ export default class UploadVideos extends Component {
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
-                                this.setState({
-                                  lang_open: true,
-                                });
+                              this.setState({
+                                lang_open: true,
+                              });
                             }}
                             title="视频编辑及字幕生成"
                             className="text-overflow fn-color-white subtitle-btn subtitle-new"
@@ -789,7 +801,7 @@ export default class UploadVideos extends Component {
                           </p>
                         )}
                         <p
-                        title='删除'
+                          title="删除"
                           className="text-overflow fn-color-white subtitle-btn subtitle-del"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -856,7 +868,7 @@ export default class UploadVideos extends Component {
                   </NewBtn2>
                 </div>
               )}
-            {status === 3 && this.props.parent.state.is_edit&&files.sub_josn && (
+            {status === 3 && this.props.parent.state.is_edit && files.sub_josn && (
               <div className="box box-center" style={{ marginTop: 40 }}>
                 <NewBtn2
                   onClick={() => {
@@ -864,7 +876,7 @@ export default class UploadVideos extends Component {
                       lang_open: true,
                     });
                   }}
-                > 
+                >
                   重新提取字幕
                 </NewBtn2>
               </div>

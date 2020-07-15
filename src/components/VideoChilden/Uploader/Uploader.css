@@ -1,11 +1,11 @@
 .upload-cover {
   text-align: left;
-  position: absolute;
+  /* position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  flex-direction: column;
-  display: flex;
+  transform: translate(-50%, -50%); */
+  flex-direction: column; 
+   display: flex; 
 }
 
 .lists {

@@ -8,7 +8,7 @@ import UpVideoPage from '../components/VideoChilden/UpPage/upPage';
 const Video = () => {
   return (
     <Router basepath="/video">
-      <UpVideoPage path="/uppage" component={UpVideoPage} />
+      <UpVideoPage path="/uppage"  />
       <Default path="/" />
     </Router>
   );

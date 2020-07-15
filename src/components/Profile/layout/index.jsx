@@ -26,7 +26,7 @@ export default class MainLayout extends React.Component {
           
               <NavBar  />
             </header>
-            <main className='profile-main ma-main' style={{minHeight:'calc(100vh - 331px)',height:'calc(100% - 331px'}} >
+            <main className='profile-main ma-main'  >
          
               {children}
               

@@ -5,8 +5,10 @@ import { ProNavbar, Navbar } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
+import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 import SearchLoading from "../../../Loading/SearchLoading";
+import ProgressBar from '../../../Loading/ProgressBar';
 import setings from "../../../../assets/img/setings.png";
 class ProfileIndex extends React.Component {
   constructor(props) {
@@ -30,6 +32,12 @@ class ProfileIndex extends React.Component {
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
+    if(!isLoggedIn){
+      alert('用户未登录，下在跳转登录页...');
+      navigate(`/users/login`);
+      return 
+
+    }
     this.update_data();
   }
   wind_size(e) {
@@ -51,7 +59,7 @@ class ProfileIndex extends React.Component {
     this.setState({
       login_status: true,
     });
-    let _this = this;
+    // let _this = this;
 
     get_data({
       model_name: "home",
@@ -62,9 +70,14 @@ class ProfileIndex extends React.Component {
       },
       model_type: "",
     }).then((res) => {
+
+      if(res.err==4104){
+        alert('用户未登录，或登录已过期,将为你跳转到登录页...');
+        navigate(`/users/login`);
+        return
+      }
       if (res.err === 0) {
         let _data = res.result_data[0];
-
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -74,11 +87,12 @@ class ProfileIndex extends React.Component {
           collection_data: _data.collection,
         });
       }
-      setTimeout(() => {
+      
+      // setTimeout(() => {
         this.setState({
           login_status: false,
         });
-      }, 300);
+      // }, 300);
 
       this.wind_size();
     });
@@ -105,11 +119,14 @@ class ProfileIndex extends React.Component {
       video_type,
       page_type,
       item_h,
+      login_status,
       ...other
     } = this.state;
     let _this = this;
     return (
       <section className=" view-scroll all-height all-width bg-f9">
+      <ProgressBar loading={login_status} />
+     {/** <SearchLoading loading={this.state.login_status} /> */}
         <main
           className="all-width bg-image "
           style={{
@@ -409,7 +426,7 @@ class ProfileIndex extends React.Component {
           )}
         </main>
 
-        {/** <SearchLoading loading={this.state.login_status} />*/}
+        
       </section>
     );
   }
