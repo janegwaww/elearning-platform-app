@@ -6,6 +6,7 @@ import { getIdFromHref } from "../../services/utils";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
+import ProgressBar from "../Loading/ProgressBar";
 
 export default function Channel() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ export default function Channel() {
         </div>
         <br />
       </div>
+      <ProgressBar loading={loading} />
     </>
   );
 }
