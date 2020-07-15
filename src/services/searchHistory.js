@@ -5,12 +5,13 @@ const isExist = () =>
 
 const exportHistory = {
   getValues() {
-    return isExist
-      ? new Set(localStorage.getItem("kengineSearchHistory"))
+    return isExist()
+      ? new Set(window.localStorage.getItem("kengineSearchHistory"))
       : new Set([]);
   },
   setValues(values) {
-    isExit && localStorage.setItem("kengineSearchHistory", [...values]);
+    isExit() &&
+      window.localStorage.setItem("kengineSearchHistory", [...values]);
   },
   values() {
     return [...this.getValues()].filter(el => el);
