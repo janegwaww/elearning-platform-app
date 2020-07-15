@@ -44,7 +44,7 @@ const ProgressBar = ({ loading = false }) => {
     if (!loading) {
       setTimeout(() => {
         setShow(false);
-        clearInterval(timer);
+        timer && clearInterval(timer);
         setProgress(0);
       }, 200);
     }
