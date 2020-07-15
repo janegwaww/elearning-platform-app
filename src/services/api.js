@@ -21,8 +21,8 @@ const axiosInstance = (token = "") =>
     timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${getUser().token}`
-    }
+      Authorization: `Bearer ${getUser().token}`,
+    },
   });
 
 // 生成传给接口参数的工厂函数
@@ -30,12 +30,12 @@ const paramFactory = ({
   modelName = "",
   modelAction = "",
   extraData = {},
-  modelType = ""
+  modelType = "",
 }) => ({
   model_name: modelName,
   model_action: modelAction,
   extra_data: extraData,
-  model_type: modelType
+  model_type: modelType,
 });
 
 // 封装请求
@@ -58,13 +58,13 @@ const extraParam = (modelName = "") => (modelActions = []) =>
     (acc, cur) => ({
       ...acc,
       ...{
-        [wrapCamelName(cur)]: obj =>
+        [wrapCamelName(cur)]: (obj) =>
           paramFactory({
             modelName,
             modelAction: cur,
-            extraData: obj
-          })
-      }
+            extraData: obj,
+          }),
+      },
     }),
     {}
   );
@@ -74,7 +74,7 @@ const extraApis = (cusFetch, paramMethod) => (modelActions = []) =>
   modelActions.reduce(
     (acc, cur) =>
       Object.assign(acc, {
-        [cur]: data => cusFetch(API_PATH, paramMethod[cur](data))
+        [cur]: (data) => cusFetch(API_PATH, paramMethod[cur](data)),
       }),
     {}
   );
@@ -105,11 +105,11 @@ export const authApis = () => {
     // 校验手机
     "check_mobile",
     // 视频收藏
-    "video_collect"
+    "video_collect",
   ];
   const getParam = pipe(extraParam("user"))(modelActions);
   const getApis = pipe(
-    names => names.map(wrapCamelName),
+    (names) => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam)
   )(modelActions);
 
@@ -152,11 +152,15 @@ export const videoApis = () => {
     // 热门作者
     "hot_author",
     // 频道
-    "category_information"
+    "category_information",
+    // 作者首页搜索
+    "user_search",
+    // 系列详情页搜索
+    "series_search",
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
-    names => names.map(wrapCamelName),
+    (names) => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam)
   )(modelActions);
 
@@ -174,7 +178,7 @@ export const searchPartApis = () => {
     ["get_series_details"],
     ["get_category"],
     ["start_watch_history", "end_watch_history", "search_history"],
-    ["payment", "query_trade_result"]
+    ["payment", "query_trade_result"],
   ];
   const getParam = [
     "comment",
@@ -186,14 +190,14 @@ export const searchPartApis = () => {
     "series",
     "category",
     "video_history",
-    "pay"
+    "pay",
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
     {}
   );
   const getApis = pipe(
-    names => names.map(wrapCamelName),
+    (names) => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam)
   )([].concat.apply([], modelActionsArr));
 

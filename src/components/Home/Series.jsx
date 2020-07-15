@@ -12,9 +12,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import MuiPagination from "@material-ui/lab/Pagination";
 import Tooltip from "@material-ui/core/Tooltip";
-import { getSeriesInfo } from "../../services/home";
+import { getSeriesInfo, seriesSearch } from "../../services/home";
 import SearchCard from "../Search/SearchCard";
-import SearchLoading from "../Loading/SearchLoading";
+import ProgressBar from "../Loading/ProgressBar";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Link from "../Link/Link";
 import { getIdFromHref, secondsToDate, pipe } from "../../services/utils";
@@ -108,6 +108,7 @@ const Series = () => {
   const [seriesInfo, setSeriesInfo] = useState({});
   const [type, setType] = useState("all");
   const [input, setInput] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
   const { sid } = getIdFromHref();
 
   const filterData = (name) => (data = []) => {
@@ -134,11 +135,14 @@ const Series = () => {
     return arr;
   };
 
+  const sd = (page) => (d) => d.slice((page - 1) * 12, page * 12);
+
   const fetchSeriesData = ({ page = 1 }) => {
     setLoading(true);
     getSeriesInfo({ series_id: sid }).then((data) => {
-      const sd = (d) => d.slice((page - 1) * 12, (page - 1) * 12 + 12);
-      setSeries(pipe(filterData(type), filterSearchData, sd)(data.series));
+      setSeries(
+        pipe(filterData(type), filterSearchData, sd(page))(data.series)
+      );
       setSeriesLength(
         pipe(filterData(type), filterSearchData)(data.series).length
       );
@@ -147,27 +151,54 @@ const Series = () => {
     });
   };
 
+  const fetchSearchSeriesData = (page = 1) => {
+    setLoading(true);
+    seriesSearch({
+      query_string: input,
+      series_id: sid,
+      type,
+      max_size: 999,
+      page,
+    }).then((data) => {
+      setSeries(sd(page)(data));
+      setLoading(false);
+      setSeriesLength(data.length);
+    });
+  };
+
   const handleTypeClick = (name) => {
     setType(name);
+    setIsSearch(false);
   };
 
   const handlePage = (event, page) => {
-    fetchSeriesData({ page });
+    if (isSearch) {
+      fetchSearchSeriesData(page);
+    } else {
+      fetchSeriesData({ page });
+    }
   };
 
   const handleSearchClick = () => {
     // 找到匹配名字的课件或视频
-    const { value = "" } = document.getElementById("series_local_search_input");
-    setInput(value);
+    if (input) {
+      setIsSearch(true);
+    } else {
+      setIsSearch(false);
+    }
   };
 
   useEffect(() => {
     if (sid) {
-      fetchSeriesData({});
+      if (isSearch) {
+        fetchSearchSeriesData();
+      } else {
+        fetchSeriesData({});
+      }
     } else {
       alert("系列不存在～");
     }
-  }, [sid, type, input]);
+  }, [sid, type, isSearch]);
 
   return (
     <div className="series-component">
@@ -209,7 +240,7 @@ const Series = () => {
           id="series_local_search_input"
           className="inputBase"
           placeholder="页面搜索"
-          type="text"
+          type="search"
           onChange={(e) => setInput(e.target.value)}
           endAdornment={
             <InputAdornment>
@@ -241,7 +272,7 @@ const Series = () => {
       )}
       <Pagination num={seriesLength} handlePage={handlePage} />
       <br />
-      <SearchLoading loading={loading} />
+      <ProgressBar loading={loading} />
     </div>
   );
 };
