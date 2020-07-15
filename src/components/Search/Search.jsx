@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import SearchCard from "./SearchCard";
 
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../Loading/ProgressBar";
 import { searchGlobal } from "../../services/home";
 import "./SearchStyles.sass";
 
