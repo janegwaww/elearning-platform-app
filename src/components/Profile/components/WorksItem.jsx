@@ -205,7 +205,7 @@ const WorksItem = (props) => {
                   )}`}
                   target="_blank"
                 >
-                  搜索<span className="fn-color-007CFF">'设计'</span>知识点
+                  搜索<span className="fn-color-007CFF">'{props.info.record.query_string}'</span>知识点
                 </Link>
               )}
               {props.info.record.action == "end_watch" && (

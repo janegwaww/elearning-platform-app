@@ -1,6 +1,6 @@
 import  React from 'react'
 
-export default class Help extends React.Component{
+export default class Safety extends React.Component{
     constructor(props){
         super(props)
     }

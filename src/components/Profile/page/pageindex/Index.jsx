@@ -8,7 +8,7 @@ import { get_data } from "../../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 import SearchLoading from "../../../Loading/SearchLoading";
-import ProgressBar from '../../../Loading/ProgressBar';
+import ProgressBar from "../../../Loading/ProgressBar";
 import setings from "../../../../assets/img/setings.png";
 class ProfileIndex extends React.Component {
   constructor(props) {
@@ -32,11 +32,10 @@ class ProfileIndex extends React.Component {
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
-    if(!isLoggedIn){
-      alert('用户未登录，下在跳转登录页...');
+    if (!isLoggedIn) {
+      alert("用户未登录，下在跳转登录页...");
       navigate(`/users/login`);
-      return 
-
+      return;
     }
     this.update_data();
   }
@@ -70,11 +69,10 @@ class ProfileIndex extends React.Component {
       },
       model_type: "",
     }).then((res) => {
-
-      if(res.err==4104){
-        alert('用户未登录，或登录已过期,将为你跳转到登录页...');
+      if (res.err == 4104) {
+        alert("用户未登录，或登录已过期,将为你跳转到登录页...");
         navigate(`/users/login`);
-        return
+        return;
       }
       if (res.err === 0) {
         let _data = res.result_data[0];
@@ -87,11 +85,11 @@ class ProfileIndex extends React.Component {
           collection_data: _data.collection,
         });
       }
-      
+
       // setTimeout(() => {
-        this.setState({
-          login_status: false,
-        });
+      this.setState({
+        login_status: false,
+      });
       // }, 300);
 
       this.wind_size();
@@ -125,8 +123,8 @@ class ProfileIndex extends React.Component {
     let _this = this;
     return (
       <section className=" view-scroll all-height all-width bg-f9">
-      <ProgressBar loading={login_status} />
-     {/** <SearchLoading loading={this.state.login_status} /> */}
+        <ProgressBar loading={login_status} />
+        {/** <SearchLoading loading={this.state.login_status} /> */}
         <main
           className="all-width bg-image "
           style={{
@@ -278,17 +276,17 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-               
-                if(video_type=='video'){
+
+                if (video_type == "video") {
                   navigate(`/users/profile/workscenter`);
                 }
-                if(video_type=='series'){
+                if (video_type == "series") {
                   navigate(`/users/profile/workscenter/series`);
                 }
-                if(video_type=='draft'){
+                if (video_type == "draft") {
                   navigate(`/users/profile/workscenter/draft`);
                 }
-                return
+                return;
               }}
             >
               全部作品
@@ -389,14 +387,14 @@ class ProfileIndex extends React.Component {
               onClick={(evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
-                
-                if(page_type==1){
+
+                if (page_type == 1) {
                   navigate(`/users/profile/dynamic`);
                 }
-               if(page_type==2){
-                navigate(`/users/profile/dynamic/history`);
-               }
-return
+                if (page_type == 2) {
+                  navigate(`/users/profile/dynamic/history`);
+                }
+                return;
               }}
             >
               查看更多
@@ -439,8 +437,6 @@ return
             </Grid>
           )}
         </main>
-
-        
       </section>
     );
   }
