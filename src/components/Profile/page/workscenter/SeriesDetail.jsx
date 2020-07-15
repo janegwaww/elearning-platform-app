@@ -3,6 +3,7 @@ import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
+import ProgressBar from '../../../Loading/ProgressBar';
 import CustomModal from "../../../../assets/js/CustomModal";
 import Pagination from "@material-ui/lab/Pagination";
 import Grid from "@material-ui/core/Grid";
@@ -110,9 +111,10 @@ export default class SeriesDetail extends React.Component {
       item_h,
       ...other
     } = this.state;
- 
+    
     return (
       <div>
+      <ProgressBar loading={login_status} />
         <div className="  fn-size-12 all-width ">
           {serise_data && (
             <SeriesItem

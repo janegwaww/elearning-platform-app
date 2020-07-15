@@ -2,7 +2,7 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import SearchLoading from "../../../Loading/SearchLoading";
-
+import ProgressBar from "../../../Loading/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 export default class Series extends React.Component {
   constructor(props) {
@@ -43,19 +43,17 @@ export default class Series extends React.Component {
             (this.state.show_page + 1) * this.state.show_counts
           ),
         });
-       
-      }else{
+      } else {
         this.setState({
-          total_data:[],
-          show_data:null
-        })
+          total_data: [],
+          show_data: null,
+        });
       }
       setTimeout(() => {
         this.setState({
           login_status: false,
         });
       }, 300);
-     
     });
   }
 
@@ -69,19 +67,24 @@ export default class Series extends React.Component {
       login_status,
       ...other
     } = this.state;
-    
+
     return (
       <div>
+        <ProgressBar loading={login_status} />
         {total_data && (
           <div>
-            {show_data?show_data.map((option, inx) => (
-              <SeriesItem
-                key={option.series_id}
-                parent={this}
-                info={option}
-                series="series"
-              />
-            )):(<div>暂无数据</div>)}
+            {show_data ? (
+              show_data.map((option, inx) => (
+                <SeriesItem
+                  key={option.series_id}
+                  parent={this}
+                  info={option}
+                  series="series"
+                />
+              ))
+            ) : (
+              <div>暂无数据</div>
+            )}
           </div>
         )}
         {total_counts > show_counts && (
@@ -98,7 +101,7 @@ export default class Series extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
-                    show_page:v-1,
+                    show_page: v - 1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts
@@ -110,7 +113,7 @@ export default class Series extends React.Component {
             />
           </div>
         )}
-      {/**   <div>
+        {/**   <div>
           <SearchLoading loading={login_status} />
         </div>
         */}

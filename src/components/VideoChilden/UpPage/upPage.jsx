@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import ProgressBar from '../../Loading/ProgressBar';
 import {
   Button,
   Toolbar,
@@ -28,6 +29,7 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
+import { set } from "lodash";
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -223,6 +225,7 @@ export default function VideoIndex(props) {
     type: "success",
     msg: "上传成功!",
   });
+  const [loginStatus,setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
   // const [videosign, setVideosign] = React.useState([]); //视频标签
@@ -263,7 +266,7 @@ export default function VideoIndex(props) {
       setVideoTitle(_data.title || "");
       setVideodescription(_data.description || "");
     }
-
+    setLoginStatus(true);
     get_data(
       {
         model_name: "series",
@@ -271,6 +274,7 @@ export default function VideoIndex(props) {
       },
       "video"
     ).then((res) => {
+      setLoginStatus(false);
       let _currencies_data = res.result_data;
       setCurrencies(_currencies_data);
       _currencies_data.forEach((o, inx) => {
@@ -283,6 +287,7 @@ export default function VideoIndex(props) {
   }, []);
   return (
     <section style={{ height: "100vh" }} className="ma-container is-vertical">
+    <ProgressBar loading={loginStatus} />
       <header className="ma-heiader fn-size-16 fn-color-21">
         <section className={classes.toolbar}>
           <Toolbar

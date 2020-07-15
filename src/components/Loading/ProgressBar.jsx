@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -17,7 +17,7 @@ const ProgressBar = ({ loading = false }) => {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
   const [show, setShow] = useState(false);
-
+ 
   const increProgress = () => {
     setProgress((oldProgress) => {
       if (oldProgress === 100) {
@@ -37,7 +37,7 @@ const ProgressBar = ({ loading = false }) => {
   const loadInterval = () => {
     increProgress();
     if (loading) {
-      setTimeout(() => {
+     setTimeout(() => {
         loadInterval();
       }, 500);
     }
@@ -53,7 +53,9 @@ const ProgressBar = ({ loading = false }) => {
         setShow(false);
         setProgress(0);
       }, 150);
+     
     }
+   
   }, [loading]);
 
   return (
