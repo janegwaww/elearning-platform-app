@@ -4,10 +4,10 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
 import SearchCard from "./SearchCard";
-
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "./ProgressBar";
 import { searchGlobal } from "../../services/home";
+import searchHistory from "../../services/searchHistory";
 import "./SearchStyles.sass";
 
 const Search = ({ input }) => {
@@ -28,6 +28,7 @@ const Search = ({ input }) => {
       setResult(data);
       setLoading(false);
       callback(data);
+      searchHistory.add(input);
     });
   };
 
