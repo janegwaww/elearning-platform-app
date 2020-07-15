@@ -5,6 +5,7 @@ import { getHotVideos } from "../../services/home";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
+import ProgressBar from "../Loading/ProgressBar";
 
 class Home extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class Home extends Component {
           <ChangeBatchButton handleChange={this.fetchHotVideo} />
         </div>
         <br />
+        <ProgressBar loading={loading} />
       </Fragment>
     );
   }
