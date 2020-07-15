@@ -29,30 +29,24 @@ const ProgressBar = ({ loading = false }) => {
       if (loading && oldProgress > 90) {
         return oldProgress;
       }
-      const diff = Math.random() * 10;
-      return Math.min(oldProgress + diff, 100);
+      return oldProgress + 5;
     });
   };
 
-  const loadInterval = () => {
-    increProgress();
-    if (loading) {
-      setTimeout(() => {
-        loadInterval();
-      }, 500);
-    }
-  };
-
   useEffect(() => {
+    let timer = null;
     if (loading) {
       setShow(true);
-      loadInterval();
+      timer = setInterval(() => {
+        increProgress();
+      }, 500);
     }
     if (!loading) {
       setTimeout(() => {
         setShow(false);
+        clearInterval(timer);
         setProgress(0);
-      }, 150);
+      }, 200);
     }
   }, [loading]);
 
