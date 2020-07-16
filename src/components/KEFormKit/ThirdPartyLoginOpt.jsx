@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { globalHistory } from "@reach/router";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import urlParse from "url-parse";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
@@ -102,7 +103,16 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
       <div className={classes.logos}>
         <Logo url={wechat} method="wechat" />
         <Logo url={qq} method="qq" />
-        <Logo url={weibo} method="weibo" />
+
+        <div className={classes.logo}>
+          <Tooltip title="尚未搞定">
+            <img
+              src="/images/weibo-icon.png"
+              alt="thirdpartylogin"
+              width="32"
+            />
+          </Tooltip>
+        </div>
       </div>
       <BindingForm />
     </div>
