@@ -2,7 +2,6 @@ import React from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import LightTooltip from "./LightTooltip";
 
 export default function UserLikeHeart({
@@ -19,10 +18,10 @@ export default function UserLikeHeart({
 
   return (
     <IconButton size="small" onClick={handleClick} className="user-like-heart">
-      {HeartIcon(like)}
       <LightTooltip title="喜欢" placement="bottom">
-        <Typography>{likeCounts}</Typography>
+        {HeartIcon(like)}
       </LightTooltip>
+      <div style={{ fontSize: "1rem" }}>{likeCounts}</div>
     </IconButton>
   );
 }

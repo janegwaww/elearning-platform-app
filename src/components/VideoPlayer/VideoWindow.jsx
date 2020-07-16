@@ -58,9 +58,8 @@ class VideoWindow extends Component {
     }
   };
 
-  render() {
-    const { info, loading } = this.props;
-    const tracks = info.vttPath
+  getTrack = (info) => {
+    const track = info.isLoged
       ? [
           {
             src: `${info.vttPath}`,
@@ -69,20 +68,33 @@ class VideoWindow extends Component {
             default: true,
           },
         ]
-      : [];
+      : [
+          {
+            src: "",
+            label: "登录开启字募",
+            kind: "notice",
+          },
+        ];
+    return info.vttPath ? track : [];
+  };
+
+  getSource = (info) => [
+    {
+      src: `${info.videoPath}`,
+      type: "video/mp4",
+    },
+  ];
+
+  render() {
+    const { info, loading } = this.props;
 
     return !loading && info.videoPath ? (
       <ReactVideo
         videoId={info.videoId}
         ref={this.playerRef}
         poster={`${info.imagePath}`}
-        tracks={tracks}
-        sources={[
-          {
-            src: `${info.videoPath}`,
-            type: "video/mp4",
-          },
-        ]}
+        tracks={this.getTrack(info)}
+        sources={this.getSource(info)}
       />
     ) : (
       <Box

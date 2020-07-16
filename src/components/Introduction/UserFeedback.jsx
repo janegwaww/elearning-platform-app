@@ -67,10 +67,10 @@ export default function UserFeedback({ backData = {} }) {
   return (
     <div className="user-feedback">
       <IconButton size="small" className="user-play-count">
-        <PlayCircleOutlineIcon style={{ fontSize: 16, margin: "8px" }} />
         <LightTooltip title="播放" placement="bottom">
-          <Typography>{backData.view_counts}</Typography>
+          <PlayCircleOutlineIcon style={{ fontSize: 16, margin: "4px" }} />
         </LightTooltip>
+        <div style={{fontSize:'1rem'}}>{backData.view_counts}</div>
       </IconButton>
 
       <UserLikeHeart
