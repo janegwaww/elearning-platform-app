@@ -9,7 +9,7 @@ import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 import SearchLoading from "../../../Loading/SearchLoading";
 import ProgressBar from "../../../Loading/ProgressBar";
-import setings from "../../../../assets/img/setings.png";
+// import setings from "../../../../assets/img/setings.png";
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -136,7 +136,7 @@ class ProfileIndex extends React.Component {
           {userData && userData.background && (
             <img className="all-height all-width" src={userData.background} />
           )}
-          <span
+         {/*} <span
             className="bg-white bg-not"
             style={{
               position: "absolute",
@@ -152,14 +152,10 @@ class ProfileIndex extends React.Component {
               event.stopPropagation();
               event.preventDefault();
               navigate(`/users/profile/setings`);
-              // let _page = {
-              //   childPage: "",
-              //   chilepage_id: 0,
-              //   parent: "SetingsCenter",
-              //   parent_id: 5,
-              // };
+             
             }}
           ></span>
+          */}
         </main>
 
         <main
@@ -190,6 +186,7 @@ class ProfileIndex extends React.Component {
               <p className="zero-edges textview-overflow two">
                 {userData ? userData.introduction : ""}
               </p>
+              <p className='zero-edges fn-size-12' style={{marginTop:10}}><Link  href={`/users/profile/setings`} className='fn-color-007CFF'  underline="none">{'编辑个人资料 >'}</Link></p>
             </div>
           </div>
         </main>
