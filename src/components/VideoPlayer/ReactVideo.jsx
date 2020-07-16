@@ -39,14 +39,6 @@ export default class VideoPlayer extends React.Component {
           if (event.which === 39) {
             this.currentTime(this.currentTime() + 5);
           }
-          // pause and play
-          if (event.which === 32) {
-            if (this.paused()) {
-              this.play();
-            } else {
-              this.pause();
-            }
-          }
         },
       },
     };

@@ -197,7 +197,8 @@ class CreatorHome extends Component {
 
   handleTabChange = (event, newValue) => {
     if (this.state.isSearch) {
-      return this.fetchSearchData();
+      this.setState({ value: newValue }, () => this.fetchSearchData());
+      return;
     }
     const arr = this.filterData(newValue);
     this.setState({
