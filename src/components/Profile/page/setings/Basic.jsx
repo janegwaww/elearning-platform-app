@@ -99,36 +99,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F3F3F3",
   },
 }));
-const table_data = [
-  {
-    label: "手机号",
-    value: "",
-    button_v: "修改手机号",
-    type: "phone",
-    isunite: true,
-  },
-  {
-    label: "绑定微信",
-    value: "已邦定微信",
-    button_v: "解除绑定",
-    type: "weChat",
-    isunite: true,
-  },
-  {
-    label: "绑定QQ",
-    value: "未绑定QQ账号, 绑定后可使用QQ直接登录",
-    button_v: "绑定QQ",
-    type: "QQ",
-    isunite: false,
-  },
-  {
-    label: "绑定微博:",
-    value: "未绑定新浪微博账号, 绑定后可使用微博直接登录",
-    button_v: "绑定微博",
-    type: "weibo",
-    isunite: false,
-  },
-];
 
 const Basic = (props) => {
     const classes= useStyles();
@@ -154,9 +124,22 @@ const Basic = (props) => {
 
       setSex(_data.gender);
       setBirth(_data.birthday);
-      table_data[0].value = _data.mobile;
+      get_info();
+      // table_data[0].value = _data.mobile;
     }
   }, []);
+  const get_info=()=>{
+    get_data({
+      model_name: "user",
+      model_action: "get_information",
+    }).then(res=>{
+      
+      if(res.err===0){
+        setUserInfo(res.result_data[0])
+        sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
+      }
+    })
+  }
   return (
     <main className="profile-top fn-size-14 all-width">
       <div className={classes.root}>
@@ -447,9 +430,13 @@ const Basic = (props) => {
                 };
 
                 get_data(_data).then((res) => {
-                  console.log(props);
+                 
                   if (res.err == 0) {
                     new CustomModal().alert(res.errmsg, "success", "5000");
+                    setTimeout(()=>{
+                      window.history.go(0);
+                    },3000)
+                    
                   } else {
                     new CustomModal().alert("修改失败", "error", "3000");
                   }

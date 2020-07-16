@@ -37,27 +37,7 @@ class Profile extends React.Component {
       sessionStorage.removeItem("file_data");
     }
     this.pageRoute(this.props)
-    // let _router = this.props["*"].split("/")[0];
- 
-    // let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
-    // Object.keys(_menu_open).forEach((va) => {
-     
-    //   _menu_open[va] = false;
-     
-    // });
-
-    // switch (_router) {
-    //   case "workscenter":
-    //     _menu_open.CreateCenter = true;
-    //     break;
-    //   case "dynamic":
-    //     _menu_open.Dynamic = true;
-    //     break;
-    // }
-    // this.setState({
-     
-    //   menuOpen: _menu_open,
-    // });
+    
     
     get_data({
       model_name: "user",
@@ -139,7 +119,7 @@ class Profile extends React.Component {
                       }
                     ></Avatar>
                   </div>
-                  <p className="zero-edges fn-color-2C2C3B fn-size-18">
+                  <p className="zero-edges fn-color-2C2C3B fn-size-18 text-overflow">
                     {this.state.userinfo && this.state.userinfo.user_name
                       ? this.state.userinfo.user_name
                       : "暂未留下称呼"}
@@ -158,10 +138,7 @@ class Profile extends React.Component {
                  
                   onClick={(evt) => {
                     navigate(`/users/profile`);
-                    // this.setState({
-                    //   is_show:false
-                    // })
-                    // this.pageRoute(evt);
+                   
                   }}
                   className="bg-not"
                   style={{ backgroundImage: "url(" + usercontainer + ")" }}

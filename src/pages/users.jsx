@@ -17,6 +17,7 @@ import Setings from "../components/Profile/page/setings/Index"; //设置中心
 import Help from '../components/Profile/page/setings/Help';
 import Safety from '../components/Profile/page/setings/Safety';
 import Basic from '../components/Profile/page/setings/Basic';
+import SetingsPhone from '../components/Profile/page/setings/SetingsPhone';
 
 const Users = () => {
   return (
@@ -30,9 +31,10 @@ const Users = () => {
         </Dynamic>
         <Setings path="/setings" >
           <Basic path='/' />
-          <Help path='help' />
-          <Safety path= 'safety' />
+          <Help path='/help' />
+          <Safety path= '/safety' />
         </Setings>
+        <SetingsPhone path='/setingsphone' />
         <WorksCenter path="/workscenter">
           <Video path="/" />
           <Draft path="/draft" />
