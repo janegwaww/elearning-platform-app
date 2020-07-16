@@ -194,7 +194,7 @@ export const ShareDialog = (props) => {
 };
 
 export const SericesMenu = (props) => {
-  console.log(props);
+
   const [open, setOpen] = React.useState(null);
   const [isShare, setIsShare] = React.useState(false);
   const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
@@ -475,7 +475,7 @@ export const SericesMenu = (props) => {
                         <MenuOutlined />
                       </div>
                       <div className="fn-color-2C2C3B text-overflow">
-                        {op.video_title}
+                        {op.video_title||op.title}
                       </div>
                     </li>
                   ))}
