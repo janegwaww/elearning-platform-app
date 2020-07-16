@@ -168,7 +168,6 @@ const Series = () => {
 
   const handleTypeClick = (name) => {
     setType(name);
-    setIsSearch(false);
   };
 
   const handlePage = (event, page) => {
@@ -190,7 +189,7 @@ const Series = () => {
 
   useEffect(() => {
     if (sid) {
-      if (isSearch) {
+      if (isSearch && input) {
         fetchSearchSeriesData();
       } else {
         fetchSeriesData({});
@@ -259,13 +258,7 @@ const Series = () => {
       ) : (
         <div style={{ minHeight: "60vh" }}>
           {series.map((o, i) => {
-            let j = {};
-            const vtrans = (obj) => ({
-              ...obj,
-              data: Object.assign(obj.data, { title: obj.data.video_title }),
-            });
-            j = o.source === "video" ? vtrans(o) : o;
-            return <SearchCard card={j} key={i} />;
+            return <SearchCard card={o} key={i} />;
           })}
           <EmptyNotice empty={!series.length && !loading} />
         </div>
