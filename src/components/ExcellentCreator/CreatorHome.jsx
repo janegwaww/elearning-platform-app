@@ -120,7 +120,7 @@ class CreatorHome extends Component {
     this.state = {
       auth: {},
       list: [],
-      loading: false,
+      loading: true,
       cid: "",
       value: 0,
       listStack: [],
@@ -176,16 +176,15 @@ class CreatorHome extends Component {
     });
   };
 
-  fetchSearchData = (v) => {
-    const { cid, value } = this.state;
+  fetchSearchData = (page = 1) => {
+    const { cid, value, inputValue } = this.state;
     const type = ["all", "video", "series"][value];
     this.setState({ loading: true });
     creatorHomeSearch({
-      query_string: v,
+      query_string: inputValue,
       author_id: cid,
       type,
       max_size: 999,
-      page: 1,
     }).then((data) => {
       this.setState({
         loading: false,
@@ -197,19 +196,22 @@ class CreatorHome extends Component {
   };
 
   handleTabChange = (event, newValue) => {
+    if (this.state.isSearch) {
+      this.setState({ value: newValue }, () => this.fetchSearchData());
+      return;
+    }
     const arr = this.filterData(newValue);
     this.setState({
       value: newValue,
       list: arr.slice(0, 16),
       pageCount: arr.length,
-      isSearch: false,
     });
   };
 
   handleSearchClick = (page = 1) => {
     const { value } = document.getElementById("creatorhome_local_search_input");
     if (value) {
-      this.fetchSearchData(value, page);
+      this.setState({ inputValue: value }, () => this.fetchSearchData(page));
     }
   };
 
@@ -251,7 +253,10 @@ class CreatorHome extends Component {
                     <TTab label="视频" />
                     <TTab label="系列" />
                   </Tabs>
-                  <SearchInput handleSearchClick={this.handleSearchClick} />
+                  <SearchInput
+                    handleSearchClick={this.handleSearchClick}
+                    handleSearchInput={this.handleSearchInput}
+                  />
                 </Box>
 
                 <TabPanel value={value} index={0}>
