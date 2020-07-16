@@ -44,7 +44,7 @@ class VideoPlayer extends Component {
     return (
       <Fragment>
         <div style={{ paddingTop: "0.35em" }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom noWrap> 
             {videoInfo && videoInfo.title}
           </Typography>
         </div>
