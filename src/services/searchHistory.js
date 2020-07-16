@@ -10,10 +10,10 @@ const exportHistory = {
       : new Set();
   },
   setValues(values) {
-      localStorage.setItem("kengineSearchHistory", JSON.stringify([...values]));
+    localStorage.setItem("kengineSearchHistory", JSON.stringify([...values]));
   },
   values() {
-    return [...this.getValues()].filter((el) => el);
+    return [...this.getValues()].filter((el) => el).reverse();
   },
   add(value) {
     if (!value) return;
