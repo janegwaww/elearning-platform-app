@@ -1,11 +1,8 @@
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
-
+import useStyles from './settingsStyle';
 import { get_data } from "../../../../assets/js/request";
-
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
 
@@ -16,102 +13,8 @@ import {
   bindingMobile,
 } from "../../../../services/auth";
 import ProfileDialog from "../../components/ProFileDialog";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      "& .MuiInput-underline": {
-        "&:before": { border: "none" },
-        "&:after": {
-          border: "none",
-        },
-      },
-      "& .MuiInputBase-input": {
-        // padding: 0,
-        "&:focus": {
-          border: "1px solid #007cff",
-        },
-      },
-      "& .MuiOutlinedInput-multiline": {
-        padding: 2,
-      },
-    },
-  },
 
-  input: {
-    "& .MuiInputBase-input": {
-      border: "1px solid rgba(231,233,238,1)",
-      borderRadius: "10px",
-      padding: 10,
-    },
-  },
-  btn1: {
-    width: 148,
-    height: 32,
-    borderRadius: 16,
-    border: "1px solid #007CFF",
-    color: "#007CFF",
-    fontSize: 14,
-  },
-  btn2: {
-    color: "#FC5659",
-    border: "1px solid #FC5659",
-  },
-  btn: {
-    backgroundColor: "#007CFF",
-    color: "white",
-    fontSize: 16,
-    width: 180,
-    height: 40,
-    borderRadius: 20,
-  },
-  btn4: {
-    backgroundColor: "#F2F2F5",
-    color: "#878791",
-  },
 
-  radioRoot: {
-    flexDirection: "row",
-    "& .MuiRadio-root": {
-      padding: "0 9px",
-    },
-  },
-  usersimg: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    backgroundColor: "#F3F3F3",
-  },
-}));
-const table_data = [
-  {
-    label: "手机号",
-    value: "",
-    button_v: "修改手机号",
-    type: "phone",
-    isunite: true,
-  },
-  {
-    label: "绑定微信",
-    value: "已邦定微信",
-    button_v: "解除绑定",
-    type: "weChat",
-    isunite: true,
-  },
-  {
-    label: "绑定QQ",
-    value: "未绑定QQ账号, 绑定后可使用QQ直接登录",
-    button_v: "绑定QQ",
-    type: "QQ",
-    isunite: false,
-  },
-  {
-    label: "绑定微博:",
-    value: "未绑定新浪微博账号, 绑定后可使用微博直接登录",
-    button_v: "绑定微博",
-    type: "weibo",
-    isunite: false,
-  },
-];
 
 const Safety = (props) => {
   const classes = useStyles();

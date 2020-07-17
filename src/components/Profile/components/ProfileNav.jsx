@@ -10,8 +10,12 @@ const useStyles = makeStyles((theme) => ({
       margin: "0 10px",
       "&:hover": {
         cursor: "pointer",
-      },
+      }, 
+      '&.nothover':{
+        cursor:'default',
+      }
     },
+    
   },
   scroll: {
     position: "absolute",
@@ -58,7 +62,7 @@ React.useEffect(()=>{
     <div className={classes.root}>
       <div className="box box-align-center fn-size-18 fn-color-2C2C3B">
         {props.list.map((value, inx) => (
-          <span key={value} onClick={handleChange} data-inx={inx}>
+          <span key={value} onClick={handleChange} data-inx={inx} className={props.list.length>1?'':'nothover'}>
             {value}
           </span>
         ))}

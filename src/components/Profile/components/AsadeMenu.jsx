@@ -2,6 +2,7 @@ import React from "react";
 import { MenuList, MenuItem } from "@material-ui/core";
 import { navigate, Link } from "@reach/router";
 export const RightMenu = (props) => {
+  
   return (
     <div
       style={{ height: props.open ? "auto" : "0px", transition: "all 0.5s" }}

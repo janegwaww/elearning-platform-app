@@ -1,13 +1,10 @@
-import React from 'react';
-import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import React from "react";
+
 import { Button, Grid } from "@material-ui/core";
 import {
-  ExpandMore,
   CameraAltOutlined,
   AddCircleOutlined,
   BrokenImageOutlined,
-  Check,
-  CheckCircleOutline,
 } from "@material-ui/icons";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,95 +12,21 @@ import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import ProfileDialog from "../../components/ProFileDialog";
 import PublicDialog from "../../../../assets/template/PublicDialog";
 import { getObj } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
-import wechatQrcode from "../../../../../static/images/wechat-qrcode.jpg";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      "& .MuiInput-underline": {
-        "&:before": { border: "none" },
-        "&:after": {
-          border: "none",
-        },
-      },
-      "& .MuiInputBase-input": {
-        // padding: 0,
-        "&:focus": {
-          border: "1px solid #007cff",
-        },
-      },
-      "& .MuiOutlinedInput-multiline": {
-        padding: 2,
-      },
-    },
-  },
-
-  input: {
-    "& .MuiInputBase-input": {
-      border: "1px solid rgba(231,233,238,1)",
-      borderRadius: "10px",
-      padding: 10,
-    },
-  },
-  btn1: {
-    width: 148,
-    height: 32,
-    borderRadius: 16,
-    border: "1px solid #007CFF",
-    color: "#007CFF",
-    fontSize: 14,
-  },
-  btn2: {
-    color: "#FC5659",
-    border: "1px solid #FC5659",
-  },
-  btn: {
-    backgroundColor: "#007CFF",
-    color: "white",
-    fontSize: 16,
-    width: 180,
-    height: 40,
-    borderRadius: 20,
-  },
-  btn4: {
-    backgroundColor: "#F2F2F5",
-    color: "#878791",
-  },
-
-  radioRoot: {
-    flexDirection: "row",
-    "& .MuiRadio-root": {
-      padding: "0 9px",
-    },
-  },
-  usersimg: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    backgroundColor: "#F3F3F3",
-  },
-}));
+import { navigate } from "@reach/router";
+import useStyles from './settingsStyle';
 
 const Basic = (props) => {
-    const classes= useStyles();
-    const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
-    const [uphead, setUphead] = React.useState(false); //打开上传头像弹窗
+  const classes = useStyles();
+  const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
+  const [uphead, setUphead] = React.useState(false); //打开上传头像弹窗
   const [headerfiles, setHeaderfiles] = React.useState(null); //文件
   const [headerUrl, setHeaderUrl] = React.useState(null); //临时路径
   const [minheaderurl, setMinheaderurl] = React.useState(null); //裁切路径
@@ -118,28 +41,22 @@ const Basic = (props) => {
   const [birth, setBirth] = React.useState(""); //出生年月
   const [userdescribe, setUserdescribe] = React.useState(""); //用户描述
   React.useEffect(() => {
-    if (sessionStorage.getItem("user_info")) {
-      let _data = JSON.parse(sessionStorage.getItem("user_info"));
-      setUserInfo(_data);
-
-      setSex(_data.gender);
-      setBirth(_data.birthday);
-      get_info();
-      // table_data[0].value = _data.mobile;
-    }
+    get_info();
   }, []);
-  const get_info=()=>{
+  const get_info = () => {
     get_data({
       model_name: "user",
       model_action: "get_information",
-    }).then(res=>{
-      
-      if(res.err===0){
-        setUserInfo(res.result_data[0])
-        sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
+    }).then((res) => {
+      if (res.err === 0) {
+        let _data = res.result_data[0];
+        setUserInfo(_data);
+        setSex(_data.gender);
+        setBirth(_data.birthday);
+        sessionStorage.setItem("user_info", JSON.stringify(_data));
       }
-    })
-  }
+    });
+  };
   return (
     <main className="profile-top fn-size-14 all-width">
       <div className={classes.root}>
@@ -430,24 +347,18 @@ const Basic = (props) => {
                 };
 
                 get_data(_data).then((res) => {
-                 
                   if (res.err == 0) {
-                    new CustomModal().alert(res.errmsg, "success", "5000");
-                    setTimeout(()=>{
-                      window.history.go(0);
-                    },3000)
-                    
+                    let _head = JSON.parse(localStorage.getItem("haetekUser"));
+                    _head.headshot = res.result_data[0].headshot;
+                    _head.name = res.result_data[0].name;
+                    localStorage.setItem("haetekUser", JSON.stringify(_head));
+                    new CustomModal().alert(res.errmsg, "success", "3000");
+                    setTimeout(() => {
+                      navigate(`/`);
+                    }, 3000);
                   } else {
                     new CustomModal().alert("修改失败", "error", "3000");
                   }
-                  // get_data(
-                  // { model_name: "user", model_action: "get_information" }).then(res=>{
-                  //   props.parent.setState({
-                  //     userinfo:res.result_data[0]
-                  //   })
-                  //   sessionStorage.setItem('user_info',JSON.stringify(res.result_data[0]))
-
-                  // })
                 });
               }}
             >
