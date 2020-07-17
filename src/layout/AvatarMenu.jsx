@@ -1,7 +1,6 @@
 import React from "react";
 import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
@@ -91,7 +90,12 @@ const AvatarMenu = () => {
         {isLogin ? (
           <div style={{ position: "relative" }}>
             <Box p={2.5}>
-              <Link href="/users/profile/" color="inherit" underline="none">
+              <Link
+                href="/users/profile/"
+                color="inherit"
+                underline="none"
+                onClick={handleMenuClose}
+              >
                 <Box display="flex" alignItems="center" mb={2.5}>
                   <Avatar
                     src={headshot}
@@ -103,15 +107,27 @@ const AvatarMenu = () => {
               </Link>
               <Divider />
               <Box display="flex" mt={2.5} className={classes.person}>
-                <Link href="/users/profile/dynamic" color="inherit">
+                <Link
+                  href="/users/profile/dynamic"
+                  color="inherit"
+                  onClick={handleMenuClose}
+                >
                   <img src="/images/collect.svg" alt="我的收藏" />
                   <Typography variant="caption">我的收藏</Typography>
                 </Link>
-                <Link href="/users/profile/workscenter" color="inherit">
+                <Link
+                  href="/users/profile/workscenter"
+                  color="inherit"
+                  onClick={handleMenuClose}
+                >
                   <img src="/images/create.svg" alt="我的收藏" />
                   <Typography variant="caption">创作中心</Typography>
                 </Link>
-                <Link href="/users/profile" color="inherit">
+                <Link
+                  href="/users/profile"
+                  color="inherit"
+                  onClick={handleMenuClose}
+                >
                   <img src="/images/person.svg" alt="我的收藏" />
                   <Typography variant="caption">个人中心</Typography>
                 </Link>
@@ -125,7 +141,6 @@ const AvatarMenu = () => {
                 e.preventDefault();
                 logout(() => ({}));
                 navigate(`/users/login`);
-                handleMenuClose();
               }}
             >
               退出
