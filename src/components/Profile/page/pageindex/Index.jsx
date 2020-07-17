@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Grid, Link } from "@material-ui/core";
 
-import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import {  Navbar,Nav } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
@@ -196,7 +196,7 @@ class ProfileIndex extends React.Component {
         >
           <div className="box box-align-center box-between">
             <div>
-              <ProNavbar parent={this} list={["数据中心"]} />
+              <Nav parent={this} list={["数据中心"]} _inx={0}/>
             </div>
             <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
               查看数据
@@ -263,7 +263,7 @@ class ProfileIndex extends React.Component {
         <main className="all-width bg-white profile-margin profile-padding">
           <div className="box box-align-center box-between">
             <div>
-              <ProNavbar parent={_this} list={["我的作品"]} />
+              <Nav parent={_this} _inx={0} list={["我的作品"]} />
             </div>
             <div
               className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
@@ -365,10 +365,12 @@ class ProfileIndex extends React.Component {
         >
           <div className="box box-align-center box-between">
             <div>
-              <ProNavbar
+              <Nav
                 parent={_this}
                 list={["我的收藏", "历史记录"]}
+                _inx={page_type-1}
                 onEvent={(num) => {
+                  console.log(num)
                   this.setState({
                     page_type: num,
                   });

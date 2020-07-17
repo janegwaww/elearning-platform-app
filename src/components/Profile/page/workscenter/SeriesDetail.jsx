@@ -97,6 +97,12 @@ export default class SeriesDetail extends React.Component {
   }
   componentWillUnmount() {
     window.onresize = null;
+
+      this.setState = (state, callback) => {
+        return;
+      };
+      
+    
   }
   render() {
     const {

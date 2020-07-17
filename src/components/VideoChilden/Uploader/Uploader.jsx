@@ -660,7 +660,7 @@ export default class UploadVideos extends Component {
                         "error",
                         5000
                       );
-                      this.timerRef.current= setTimeout(() => {
+                      _this.timerRef.current= setTimeout(() => {
                         _this.setState({ status: 1, progress: 1 });
                       }, 5000);
                       _this.myFile.stop();
