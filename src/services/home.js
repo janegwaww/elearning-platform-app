@@ -103,5 +103,21 @@ export const getSeriesInfo = pipeThen(
 // 系列详情页搜索
 export const seriesSearch = pipeThen(getResultData, apisVideo.seriesSearch);
 
+// 获取文本系列详情页接口
+const extraDocSeries = ({ document_data = [], ...info }) => {
+  const dData = document_data.reduce(
+    (a, c) => [...a, { data: c, source: "document" }],
+    []
+  );
+  return Promise.resolve({ info, series: dData });
+};
+export const getDocumentSeriesInfo = pipeThen(
+  extraDocSeries,
+  getFirstResultData,
+  getResultData,
+  errorMessageNotice,
+  apisSearch.getDocumentSeriesDetails
+);
+
 // 获取频道列表栏
 export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);

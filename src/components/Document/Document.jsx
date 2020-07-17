@@ -8,8 +8,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SearchLoading from "../Loading/SearchLoading";
 import KeContainer from "../Container/KeContainer";
+import LightTooltip from "../Introduction/LightTooltip";
 import {
   getDocumentDetail,
   aliPayment,
@@ -104,6 +106,7 @@ const Document = ({ did }) => {
   const [loading, setLoading] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [paidedHref, setPaidedHref] = useState("");
+  const [open, setOpen] = useState(false);
 
   const fetchDocumentInfo = () => {
     setLoading(true);
@@ -181,7 +184,7 @@ const Document = ({ did }) => {
           justifyContent="flex-end"
           alignItems="center"
           pt={2}
-          pb={2}
+          pb={1}
         >
           <div className="doc-price-title">课件价格：</div>
           <div className="doc-price">
@@ -189,7 +192,33 @@ const Document = ({ did }) => {
             {`${info.price || 0}`}
           </div>
           <Box width={100} />
-          <div className="unlock-button">{unlockButton()}</div>
+          <div className="unlock-button">
+            {unlockButton()}
+            <Box
+              display="flex"
+              alignItems="center"
+              mt={1}
+              onMouseOver={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
+            >
+              <Typography variant="caption" color="textSecondary">
+                温馨提示：
+              </Typography>
+              <Typography variant="caption">解锁后不再收费!</Typography>
+              <LightTooltip
+                title="该课件/课题会因为内容更新而增值，或因为内容扩充而涨价。"
+                arrow
+                placement="top-end"
+                open={open}
+                disableHoverListener
+                disableFocusListener
+              >
+                <div>
+                  <HelpOutlineIcon color="error" style={{ fontSize: 12 }} />
+                </div>
+              </LightTooltip>
+            </Box>
+          </div>
         </Box>
       </KeContainer>
     </AppBar>
