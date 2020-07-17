@@ -1,105 +1,13 @@
 import React from "react";
-import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import { Nav } from "../../components/ProfileNav";
 import { Button, Grid } from "@material-ui/core";
-import {
-  ExpandMore,
-  CameraAltOutlined,
-  AddCircleOutlined,
-  BrokenImageOutlined,
-  Check,
-  CheckCircleOutline,
-} from "@material-ui/icons";
+import { Check, CheckCircleOutline } from "@material-ui/icons";
 
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import ProfileDialog from "../../components/ProFileDialog";
-import PublicDialog from "../../../../assets/template/PublicDialog";
-import { getObj } from "../../../../assets/js/totls";
 import { get_data } from "../../../../assets/js/request";
-import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
-import wechatQrcode from "../../../../../static/images/wechat-qrcode.jpg";
-import { navigate } from "@reach/router";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      "& .MuiInput-underline": {
-        "&:before": { border: "none" },
-        "&:after": {
-          border: "none",
-        },
-      },
-      "& .MuiInputBase-input": {
-        // padding: 0,
-        "&:focus": {
-          border: "1px solid #007cff",
-        },
-      },
-      "& .MuiOutlinedInput-multiline": {
-        padding: 2,
-      },
-    },
-  },
-
-  input: {
-    "& .MuiInputBase-input": {
-      border: "1px solid rgba(231,233,238,1)",
-      borderRadius: "10px",
-      padding: 10,
-    },
-  },
-  btn1: {
-    width: 148,
-    height: 32,
-    borderRadius: 16,
-    border: "1px solid #007CFF",
-    color: "#007CFF",
-    fontSize: 14,
-  },
-  btn2: {
-    color: "#FC5659",
-    border: "1px solid #FC5659",
-  },
-  btn: {
-    backgroundColor: "#007CFF",
-    color: "white",
-    fontSize: 16,
-    width: 180,
-    height: 40,
-    borderRadius: 20,
-  },
-  btn4: {
-    backgroundColor: "#F2F2F5",
-    color: "#878791",
-  },
-
-  radioRoot: {
-    flexDirection: "row",
-    "& .MuiRadio-root": {
-      padding: "0 9px",
-    },
-  },
-  usersimg: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    backgroundColor: "#F3F3F3",
-  },
-}));
+import useStyles from "./settingsStyle";
 
 const SetingsPhone = (props) => {
   const classes = useStyles();
@@ -112,7 +20,6 @@ const SetingsPhone = (props) => {
   const timeRef = React.useRef();
   const handleBack = () => {
     window.history.back(-1);
-    
   };
   const handleNext = () => {
     let _phone = bindPhone;
@@ -154,7 +61,7 @@ const SetingsPhone = (props) => {
 
     get_data(_data).then((res) => {
       if (res.err === 0) {
-          timeRef.current&&clearTimeout(timeRef.current);
+        timeRef.current && clearTimeout(timeRef.current);
         if (activeStep === 1) {
           setToken(res.result_data[0].token);
           setCountdown(0);
@@ -175,12 +82,11 @@ const SetingsPhone = (props) => {
           });
           setBindPhone("");
           setBindCode("");
-        //   if (_new_step === 3) {
-        //     setCountdown(10);
-        //     setTimeout(time_remaining, 1000); //1秒后启用倒计时，
-        //     setTimeout(handleBack, 12000); //12稍后跳转（大于倒计时+启用倒计时时间）
-        //   }
-        //   // time_remaining();
+          if (_new_step === 3) {
+            setCountdown(10);
+            setTimeout(time_remaining, 1000); //1秒后启用倒计时，
+            setTimeout(handleBack, 11000); //12稍后跳转（大于倒计时+启用倒计时时间）
+          }
         }, 2000);
       } else {
         new CustomModal().alert(res.errmsg, "error", 3000);
@@ -188,15 +94,15 @@ const SetingsPhone = (props) => {
     });
   };
   const time_remaining = () => {
-      timeRef.current&& clearTimeout(timeRef.current);
-    timeRef.current=setTimeout(() => {
+    timeRef.current && clearTimeout(timeRef.current);
+    timeRef.current = setTimeout(() => {
       let _num = 0;
       setCountdown((countdown) => {
         _num = countdown;
         return countdown - 1;
       });
       if (_num <= 0) {
-        timeRef.current=setCountdown(0);
+        timeRef.current = setCountdown(0);
         return;
       }
       time_remaining();
@@ -207,6 +113,14 @@ const SetingsPhone = (props) => {
     if (activeStep === 1) {
       if (!_phone) {
         _phone = userInfo.mobile;
+      }
+      if (_phone != userInfo.mobile) {
+        new CustomModal().alert(
+          "输入的手机号与原来的手机号不一至，请重新输入",
+          "error",
+          3000
+        );
+        return;
       }
     }
     if (!_phone || _phone.length != 11) {
@@ -222,7 +136,6 @@ const SetingsPhone = (props) => {
         type: _type, ///"bind" # 登陆/更改/绑定
       },
     }).then((res) => {
-        console.log(res)
       if (res.err === 0) {
         new CustomModal().alert(
           "请留意手机，验证码60秒内有效",
@@ -230,7 +143,7 @@ const SetingsPhone = (props) => {
           3000
         );
         setCountdown(60);
-       timeRef.current= setTimeout(() => {
+        timeRef.current = setTimeout(() => {
           time_remaining();
         }, 1000);
       } else {
@@ -243,17 +156,17 @@ const SetingsPhone = (props) => {
       let _data = JSON.parse(sessionStorage.getItem("user_info"));
       setUserInfo(_data);
     }
-    return ()=>{
-        timeRef.current&& clearTimeout(timeRef.current)
-    }
+    return () => {
+      timeRef.current && clearTimeout(timeRef.current);
+    };
   }, []);
   return (
-    <div className='profile-padding'>
-      <nav>
-        <ProNavbar list={["设置手机"]} parent={props} />
-      </nav>
-      <div className="profile-top">
-        <div className="box " style={{ transform: "translateX(72px)" }}>
+    <div className="profile-padding ">
+      <div>
+        <Nav list={["设置手机"]} parent={props} _inx={0} />
+      </div>
+      <div className=" all-height profile-top">
+        <div className="box " style={{ paddingLeft: 72 }}>
           <div
             className="box box-between profile-setting-phone"
             style={{
@@ -300,7 +213,7 @@ const SetingsPhone = (props) => {
                   style={{ paddingTop: 20 }}
                 >
                   <Grid item xs={3}>
-                  验证码:
+                    验证码:
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
@@ -381,7 +294,7 @@ const SetingsPhone = (props) => {
                       </span>
                     ) : (
                       <span
-                        className="fn-color-007CFF"
+                        className="fn-color-007CFF p"
                         onClick={() => {
                           get_code("bind");
                         }}
@@ -407,14 +320,11 @@ const SetingsPhone = (props) => {
               >
                 <div className=" all-height fn-color-007CFF text-center">
                   <div>
-                    {" "}
-                    <CheckCircleOutline
-                      style={{ width: 50, height: 50 }}
-                    />{" "}
+                    <CheckCircleOutline style={{ width: 50, height: 50 }} />
                   </div>
                   <div style={{ margin: "20px 0" }}>绑定成功</div>
                   <div className="fn-color-9E9EA6">
-                    {countdown}s后自动跳转到当前页面
+                    {countdown}s后自动返回上一页
                   </div>
                 </div>
               </div>

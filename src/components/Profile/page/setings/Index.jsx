@@ -2,8 +2,9 @@ import React from "react";
 import {  navigate } from "@reach/router";
 import { Nav} from "../../components/ProfileNav";
 
-const Setings = (props) => {
 
+const Setings = (props) => {
+  
   const { children } = props;
   const [num, setNum] = React.useState(0);
   React.useEffect(() => {

@@ -1,111 +1,12 @@
 import React from "react";
-import { ProNavbar, Navbar } from "../../components/ProfileNav";
+import {  Navbar } from "../../components/ProfileNav";
 import { Button, Grid } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
 import wechatQrcode from "../../../../../static/images/wechat-qrcode.jpg";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      "& .MuiInput-underline": {
-        "&:before": { border: "none" },
-        "&:after": {
-          border: "none",
-        },
-      },
-      "& .MuiInputBase-input": {
-        // padding: 0,
-        "&:focus": {
-          border: "1px solid #007cff",
-        },
-      },
-      "& .MuiOutlinedInput-multiline": {
-        padding: 2,
-      },
-    },
-  },
-
-  input: {
-    "& .MuiInputBase-input": {
-      border: "1px solid rgba(231,233,238,1)",
-      borderRadius: "10px",
-      padding: 10,
-    },
-  },
-  btn1: {
-    width: 148,
-    height: 32,
-    borderRadius: 16,
-    border: "1px solid #007CFF",
-    color: "#007CFF",
-    fontSize: 14,
-  },
-  btn2: {
-    color: "#FC5659",
-    border: "1px solid #FC5659",
-  },
-  btn: {
-    backgroundColor: "#007CFF",
-    color: "white",
-    fontSize: 16,
-    width: 180,
-    height: 40,
-    borderRadius: 20,
-  },
-  btn4: {
-    backgroundColor: "#F2F2F5",
-    color: "#878791",
-  },
-
-  radioRoot: {
-    flexDirection: "row",
-    "& .MuiRadio-root": {
-      padding: "0 9px",
-    },
-  },
-  usersimg: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    backgroundColor: "#F3F3F3",
-  },
-}));
-const table_data = [
-  {
-    label: "手机号",
-    value: "",
-    button_v: "修改手机号",
-    type: "phone",
-    isunite: true,
-  },
-  {
-    label: "绑定微信",
-    value: "已邦定微信",
-    button_v: "解除绑定",
-    type: "weChat",
-    isunite: true,
-  },
-  {
-    label: "绑定QQ",
-    value: "未绑定QQ账号, 绑定后可使用QQ直接登录",
-    button_v: "绑定QQ",
-    type: "QQ",
-    isunite: false,
-  },
-  {
-    label: "绑定微博:",
-    value: "未绑定新浪微博账号, 绑定后可使用微博直接登录",
-    button_v: "绑定微博",
-    type: "weibo",
-    isunite: false,
-  },
-];
+import useStyles from "./settingsStyle";
 
 const Help = (props) => {
   const classes = useStyles();
@@ -124,28 +25,32 @@ const Help = (props) => {
         style={{ padding: 20, borderRadius: 8 }}
       >
         <p className="all-width">
-          <input type="checkbox" value="无法购买会员" />
-          <label>无法购买会员</label>
+          <input type="checkbox" value="无法购买会员" id="help_1" />
+          <label htmlFor="help_1">无法购买会员</label>
         </p>
         <p>
-          <input type="checkbox" value="会员购买成功，VIP服务未生效" />
-          <label>会员购买成功，VIP服务未生效</label>
+          <input
+            type="checkbox"
+            value="会员购买成功，VIP服务未生效"
+            id="help_2"
+          />
+          <label htmlFor="help_2">会员购买成功，VIP服务未生效</label>
         </p>
         <p>
-          <input type="checkbox" value="会员未到期提示过期" />
-          <label></label>
-          会员未到期提示过期
+          <input type="checkbox" value="会员未到期提示过期" id="help_3" />
+          <label htmlFor="help_3">会员未到期提示过期</label>
         </p>
         <p>
-          <input type="checkbox" value="取消连续包月" />
-          <label>取消连续包月</label>
+          <input type="checkbox" value="取消连续包月" id="help_4" />
+          <label htmlFor="help_4">取消连续包月</label>
         </p>
         <p>
           <input
             type="checkbox"
             value="请协助填写提示信息和问题描述, 将有助于我们更快的发现和解决问题~"
+            id="help_5"
           />
-          <label>
+          <label htmlFor="help_5">
             请协助填写提示信息和问题描述, 将有助于我们更快的发现和解决问题~
           </label>
         </p>
