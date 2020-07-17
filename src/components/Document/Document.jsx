@@ -9,7 +9,6 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
 import SearchLoading from "../Loading/SearchLoading";
-import Link from "../Link/Link";
 import KeContainer from "../Container/KeContainer";
 import {
   getDocumentDetail,
@@ -151,7 +150,7 @@ const Document = ({ did }) => {
   const unlockButton = () =>
     isPay ? (
       <ButtonBase
-        className="view-button"
+        className="pay-button"
         onClick={() => window.open(paidedHref)}
       >
         查看
