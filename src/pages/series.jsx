@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
-import Series from "../components/Home/Series";
 import Container from "../components/Container/KeContainer";
+import Series from '../components/Series/Series'
 
 export default class SeriesPage extends Component {
   render() {
@@ -12,7 +12,7 @@ export default class SeriesPage extends Component {
         <div className="subscription-container" style={{ width: "100%" }}>
           <Helmet title={`Series | ${config.siteTitle}`} />
           <Container>
-            <Series {...this.props} />
+            <Series />
           </Container>
         </div>
       </Layout>
