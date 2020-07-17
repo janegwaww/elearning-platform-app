@@ -21,6 +21,12 @@ export default class Series extends React.Component {
   componentDidMount() {
     this.update_data();
   }
+  componentWillUnmount() {
+    this.setState = (state, callback) => {
+      return;
+    };
+    
+  }
   update_data(id) {
     this.setState({
       login_status: true,

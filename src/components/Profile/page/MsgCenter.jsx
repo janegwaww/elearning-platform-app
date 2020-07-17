@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ProNavbar, Navbar } from "./components/ProfileNav";
+import { Nav, Navbar } from "./components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Container, Avatar, TextField } from "@material-ui/core";
 import { ChatBubbleOutlineOutlined } from "@material-ui/icons";
@@ -40,8 +40,9 @@ class MsgCenter extends React.Component {
       <section className="all-height viev-scroll profile-padding">
         <div className="box box-align-center box-between">
           <nav>
-            <ProNavbar
-              list={[this.props.parent.state.nowPage.childPage]}
+            <Nav
+              list={['']}
+              _inx={0}
               parent={this}
             />
           </nav>

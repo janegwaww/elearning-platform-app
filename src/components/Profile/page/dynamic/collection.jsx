@@ -3,7 +3,7 @@ import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
 import ProgressBar from '../../../Loading/ProgressBar';
-import { ProNavbar } from "../../components/ProfileNav";
+import {  Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import {  Grid } from "@material-ui/core";
 export default class Collection extends React.Component {
@@ -69,6 +69,12 @@ export default class Collection extends React.Component {
   }
   componentWillUnmount() {
     window.onresize = null;
+   
+      this.setState = (state, callback) => {
+        return;
+      };
+    
+    
   }
   render() {
     const {
@@ -85,7 +91,7 @@ export default class Collection extends React.Component {
       <div>
       <ProgressBar loading={login_status} />
         <nav>
-          <ProNavbar list={["我的收藏"]} parent={this} />
+          <Nav _inx={0} list={["我的收藏"]} parent={this} />
         </nav>
         {total_data && (
           <Grid container spacing={4} className="grid">

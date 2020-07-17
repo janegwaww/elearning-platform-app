@@ -2,10 +2,10 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
-import ProgressBar from '../../../Loading/ProgressBar';
-import { ProNavbar } from "../../components/ProfileNav";
+import ProgressBar from "../../../Loading/ProgressBar";
+import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
-import {  Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 export default class History extends React.Component {
   constructor(props) {
     super(props);
@@ -44,11 +44,10 @@ export default class History extends React.Component {
             (this.state.show_page + 1) * this.state.show_counts
           ),
         });
-       
-      }else{
-          this.setState({
-              total_data:[]
-          })
+      } else {
+        this.setState({
+          total_data: [],
+        });
       }
       this.wind_size();
       setTimeout(() => {
@@ -72,6 +71,11 @@ export default class History extends React.Component {
   }
   componentWillUnmount() {
     window.onresize = null;
+      this.setState = (state, callback) => {
+        return;
+      };
+      
+    
   }
   render() {
     const {
@@ -83,13 +87,13 @@ export default class History extends React.Component {
       login_status,
       ...other
     } = this.state;
-    
+
     return (
       <div>
-      <ProgressBar loading={login_status} />
-      <nav>
-          <ProNavbar list={["历史记录"]} parent={this} />
-        </nav>
+        <ProgressBar loading={login_status} />
+        <div>
+          <Nav _inx={0} list={["历史记录"]} parent={this} />
+        </div>
         {total_data && (
           <Grid container spacing={4} className="grid">
             {show_data ? (
@@ -122,7 +126,7 @@ export default class History extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
-                    show_page:v-1,
+                    show_page: v - 1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts

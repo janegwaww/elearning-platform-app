@@ -22,7 +22,7 @@ import {
 } from "@material-ui/icons";
 import "../../../assets/css/container.css";
 
-import { NavTitle } from "../../Profile/components/ProfileNav";
+import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data, } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";
@@ -337,7 +337,7 @@ export default function VideoIndex(props) {
           style={{ height: "100%" }}
         >
           <nav>
-            <NavTitle list={["上传视频"]} props={this} />
+            <Nav _inx={0} list={["上传视频"]} props={this} />
           </nav>
           <main>
             <form id="updata_info" className={classes.root}>
