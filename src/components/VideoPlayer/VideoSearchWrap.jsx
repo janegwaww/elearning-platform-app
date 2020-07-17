@@ -87,7 +87,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
             <InputBase
               className="KeInput"
               id="watch-subtitle-search"
-              placeholder="支持对整段视频的字幕或语义定位搜索"
+              placeholder="支持语义理解的逐帧搜索"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -109,7 +109,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
               startIcon={<SearchIcon />}
               onClick={handleInputClick}
             >
-              知识搜索
+              语义搜索
             </Button>
           </Paper>
           <div>
