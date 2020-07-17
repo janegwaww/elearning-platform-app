@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -7,8 +7,10 @@ import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Modal from "@material-ui/core/Modal";
+import AppBar from "@material-ui/core/AppBar";
 import SearchLoading from "../Loading/SearchLoading";
 import Link from "../Link/Link";
+import KeContainer from "../Container/KeContainer";
 import {
   getDocumentDetail,
   aliPayment,
@@ -98,7 +100,7 @@ const ImageModel = ({ path = "" }) => {
   );
 };
 
-export default function Document({ did }) {
+const Document = ({ did }) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [isPay, setIsPay] = useState(false);
@@ -148,14 +150,12 @@ export default function Document({ did }) {
 
   const unlockButton = () =>
     isPay ? (
-      <Link
-        href={`${paidedHref}`}
-        underline="none"
-        color="primary"
+      <ButtonBase
         className="view-button"
+        onClick={() => window.open(paidedHref)}
       >
         查看
-      </Link>
+      </ButtonBase>
     ) : (
       <ButtonBase onClick={paymentClick} size="small" className="pay-button">
         立即解锁
@@ -174,8 +174,30 @@ export default function Document({ did }) {
       </Typography>
     ));
 
+  const ShopBar = ({ info = {} }) => (
+    <AppBar position="fixed" className="doc-shop-bar">
+      <KeContainer>
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          alignItems="center"
+          pt={2}
+          pb={2}
+        >
+          <div className="doc-price-title">课件价格：</div>
+          <div className="doc-price">
+            <span style={{ fontSize: 23 }}>￥</span>
+            {`${info.price || 0}`}
+          </div>
+          <Box width={100} />
+          <div className="unlock-button">{unlockButton()}</div>
+        </Box>
+      </KeContainer>
+    </AppBar>
+  );
+
   return (
-    <Fragment>
+    <>
       <div className="document-component">
         <div style={{ marginBottom: 40 }} />
         <Box className="menuBox">
@@ -192,14 +214,6 @@ export default function Document({ did }) {
                 name="上传时间"
                 content={secondsToDate(detail.upload_time)}
               />
-              <div style={{ position: "relative" }}>
-                <LineText
-                  name="价格"
-                  content={`￥${detail.price}`}
-                  color="#fc5659"
-                />
-                <div className="unlock-button">{unlockButton()}</div>
-              </div>
             </div>
           </Box>
         </Box>
@@ -263,8 +277,11 @@ export default function Document({ did }) {
         </Box>
         <br />
         <br />
+        <ShopBar info={detail} />
         <SearchLoading loading={loading} />
       </div>
-    </Fragment>
+    </>
   );
-}
+};
+
+export default Document;
