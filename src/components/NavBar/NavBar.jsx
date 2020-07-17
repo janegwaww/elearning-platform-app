@@ -64,7 +64,7 @@ const PrimarySearchAppBar = () => {
     >
       <MenuItem>
         <ButtonBase color="inherit" onClick={() => navigate("/")}>
-          <Typography>首页</Typography>
+          <Typography>知擎首页</Typography>
         </ButtonBase>
       </MenuItem>
       <MenuItem>
@@ -102,7 +102,7 @@ const PrimarySearchAppBar = () => {
                 underline="none"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography>首页</Typography>
+                <Typography>知擎首页</Typography>
               </Link>
               <Link
                 color="inherit"
@@ -117,7 +117,7 @@ const PrimarySearchAppBar = () => {
             </div>
             <div className={classes.search}>
               <InputBase
-                placeholder="搜索..."
+                placeholder="支持跨模态逐帧搜索..."
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,

@@ -1,29 +1,34 @@
 const isBrowser = () => typeof window !== "undefined";
+const isExist = (key) => isBrowser() && window.localStorage.getItem(`${key}`);
+const getValues = (key) => {
+  return isExist(key)
+    ? new Set(JSON.parse(localStorage.getItem(key)))
+    : new Set();
+};
+const setValues = (key, values) => {
+  localStorage.setItem(key, JSON.stringify(values));
+};
 
-const isExist = () =>
-  isBrowser() && window.localStorage.getItem("kengineSearchHistory");
+const exportHistory = (name) => {
+  const state = [];
+  getValues(name).forEach((o) => state.push(o));
+  const history = () => {};
 
-const exportHistory = {
-  getValues() {
-    return isExist()
-      ? new Set(JSON.parse(localStorage.getItem("kengineSearchHistory")))
-      : new Set();
-  },
-  setValues(values) {
-    localStorage.setItem("kengineSearchHistory", JSON.stringify([...values]));
-  },
-  values() {
-    return [...this.getValues()].filter((el) => el).reverse();
-  },
-  add(value) {
-    if (!value) return;
-    const adding = this.getValues().add(value);
-    this.setValues(adding);
-  },
-  remove(value) {
-    const removing = this.getValues().delete(value);
-    this.setValues(removing);
-  },
+  return Object.assign(history, {
+    values() {
+      return state;
+    },
+    add(value) {
+      if (!value) return;
+      state.unshift(value);
+    },
+    remove(value) {
+      state.filter((o) => o === value);
+    },
+    save() {
+      setValues(name, state);
+    },
+  });
 };
 
 export default exportHistory;

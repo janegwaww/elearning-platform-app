@@ -25,6 +25,8 @@ import { searchUrlParams, getIdFromHref } from "../services/utils";
 import searchHistory from "../services/searchHistory";
 import "./SearchLayoutStyles.sass";
 
+const getHistory = searchHistory("kengineSearchHistory");
+
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("搜索知识...");
@@ -46,9 +48,15 @@ const SearchLayout = ({ children }) => {
     if (q) {
       setInput(q);
       setRefInput(q);
+      getHistory.add(q);
     }
   }, [q]);
 
+  useEffect(() => {
+    return () => {
+      getHistory.save();
+    };
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -92,14 +100,14 @@ const SearchLayout = ({ children }) => {
                 selectOnFocus
                 handleHomeEndKeys
                 clearOnBlur
-                options={searchHistory.values()}
+                options={getHistory.values()}
                 inputValue={refInput}
                 onInputChange={(event, newInputValue) => {
                   setRefInput(newInputValue);
                 }}
                 renderInput={(params) => (
                   <InputBase
-                    placeholder="搜索知识..."
+                    placeholder="支持跨模态逐帧搜索..."
                     id="search-page-input"
                     type="search"
                     inputProps={{ ...params.inputProps }}
