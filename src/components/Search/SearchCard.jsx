@@ -233,6 +233,29 @@ const seriesContainer = ({ data, match_frame }) => {
   );
 };
 
+const docSeriesContainer = ({ data, match_frame }) => {
+  const href = `/series/?dsid=${data.series_id}`;
+  return (
+    <div className="container">
+      <div className="head">{imagePick(data.image_path, href, "series")}</div>
+      <div style={{ gridColumn: 2, gridRow: 1 }}>
+        <TitleItem
+          pay={data.is_pay}
+          title={data.title}
+          time={data.upload_time}
+          href={href}
+          match={match_frame}
+        />
+      </div>
+      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
+        {descriptionItem(data.description, match_frame)}
+      </div>
+      <div style={{ gridColumn: 2, gridRow: 4 }} />
+      <div style={{ gridColumn: 2, gridRow: 5 }} />
+    </div>
+  );
+};
+
 const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
@@ -248,7 +271,7 @@ const docContainer = ({ data, match_frame }) => {
         />
       </div>
       <div style={{ gridColumn: 2, gridRow: "2/4" }}>
-        {descriptionItem("", match_frame)}
+        {descriptionItem(data.description, match_frame)}
       </div>
       <div className="docAvatar">
         {userAvatar(data.user_name, data.headshot, data.user_id)}
@@ -267,7 +290,7 @@ export default function SearchCard({ card = {} }) {
       series: seriesContainer({ data, match_frame }),
       user: authContainer({ data, match_frame }),
       document: docContainer({ data, match_frame }),
-      documents: seriesContainer({ data, match_frame }),
+      documents: docSeriesContainer({ data, match_frame }),
     }[source]);
   const Card = pipe(chosenCard);
   return <div className="global-search-card">{Card(card)}</div>;

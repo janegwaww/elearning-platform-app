@@ -102,7 +102,7 @@ const PrimarySearchAppBar = () => {
                 underline="none"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography>知擎首页</Typography>
+                <Typography style={{ cursor: "inherit" }}>知擎首页</Typography>
               </Link>
               <Link
                 color="inherit"
@@ -112,7 +112,7 @@ const PrimarySearchAppBar = () => {
                 rel="noopener norefferer"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography>加盟学者</Typography>
+                <Typography style={{ cursor: "inherit" }}>加盟学者</Typography>
               </Link>
             </div>
             <div className={classes.search}>
