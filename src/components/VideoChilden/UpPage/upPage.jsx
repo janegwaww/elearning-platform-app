@@ -12,24 +12,24 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import {  makeStyles } from "@material-ui/core/styles";
 import {
   ContactSupport,
   Add,
   Cancel,
   HighlightOff,
-  PhotoCameraOutlined,
+
 } from "@material-ui/icons";
 import "../../../assets/css/container.css";
 
 import { NavTitle } from "../../Profile/components/ProfileNav";
-import { get_data, get_alldata } from "../../../assets/js/request";
+import { get_data, } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import { set } from "lodash";
+
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -287,6 +287,7 @@ export default function VideoIndex(props) {
   }, []);
   return (
     <section style={{ height: "100vh" }} className="ma-container is-vertical">
+
     <ProgressBar loading={loginStatus} />
       <header className="ma-heiader fn-size-16 fn-color-21">
         <section className={classes.toolbar}>

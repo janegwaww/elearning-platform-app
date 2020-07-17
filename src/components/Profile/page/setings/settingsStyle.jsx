@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
   
     radioRoot: {
-      flexDirection: "row",
+      flexDirection: "row !important",
       "& .MuiRadio-root": {
         padding: "0 9px",
       },
