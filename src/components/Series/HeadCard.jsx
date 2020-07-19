@@ -9,11 +9,11 @@ import { secondsToDate } from "../../services/utils";
 const HeadCard = ({ info = {} }) => {
   return (
     <div className="head-card-root">
-      <div style={{ gridColumn: 1, gridRow: "1/8" }}>
+      <div style={{ gridColumn: 1, gridRow: "1/8", width: 300 }}>
         <img
           src={info.image_path}
           alt={info.title}
-          style={{ height: "100%", width: 300 }}
+          style={{ height: "100%", width: "auto" }}
         />
       </div>
       <Box className="card-title">
@@ -52,17 +52,21 @@ const HeadCard = ({ info = {} }) => {
           <Typography variant="body2">{info.description}</Typography>
         </Tooltip>
       </Box>
-      <Link
-        href={`/excellentcreator/creator/?cid=${info.author_id}`}
-        className="series-avatar"
-      >
-        <Avatar
-          src={info.headshot}
-          alt={info.author_name}
-          style={{ height: 30, width: 30, marginRight: 10 }}
-        />
-        <Typography variant="caption">{info.author_name}</Typography>
-      </Link>
+      <div style={{ gridColumn: 2, gridRow: 7 }}>
+        {!!info.headshot && (
+          <Link
+            href={`/excellentcreator/creator/?cid=${info.author_id}`}
+            className="series-avatar"
+          >
+            <Avatar
+              src={info.headshot}
+              alt={info.author_name}
+              style={{ height: 30, width: 30, marginRight: 10 }}
+            />
+            <Typography variant="caption">{info.author_name}</Typography>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
