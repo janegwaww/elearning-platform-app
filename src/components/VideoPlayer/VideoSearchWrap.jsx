@@ -109,7 +109,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
               startIcon={<SearchIcon />}
               onClick={handleInputClick}
             >
-              语义搜索
+              逐帧搜索
             </Button>
           </Paper>
           <div>
