@@ -5,7 +5,7 @@ import {
   Paper,
   InputBase,
   InputAdornment,
-  ButtonBase,
+  ButtonBase
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
@@ -41,26 +41,26 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     }
   };
 
-  const handleInputClick = (e) => {
+  const handleInputClick = e => {
     e.preventDefault();
-    subtitles({ query_string: input, video_id: [vid] }).then((data) => {
+    subtitles({ query_string: input, video_id: [vid] }).then(data => {
       setGridList(data);
     });
   };
 
-  const handleEnter = (e) => {
+  const handleEnter = e => {
     if (e.key === "Enter") {
       handleInputClick(e);
     }
   };
 
-  const handleJump = (time) => {
+  const handleJump = time => {
     setTimer(time);
     // 记录搜索点击用的
     ksearchRecord({
       video_id: vid,
       query_string: input,
-      match_time: secondsToHMS(time),
+      match_time: secondsToHMS(time)
     });
   };
 
@@ -79,7 +79,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
             onClick={handleSearchClick}
             className="showSearchButton"
           >
-            知识搜索
+            逐帧搜索
           </Button>
         </div>
         <div className={clsx("searchInput", !showButton && "showSearchInput")}>
@@ -87,10 +87,10 @@ const VideoSearchWrap = ({ children, vid, path }) => {
             <InputBase
               className="KeInput"
               id="watch-subtitle-search"
-              placeholder="支持语义理解的逐帧搜索"
+              placeholder="支持语义理解..."
               type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={e => setInput(e.target.value)}
               onKeyDown={handleEnter}
               endAdornment={
                 <InputAdornment position="end">
