@@ -1,10 +1,6 @@
 import React from "react";
 import { getIdFromHref, pipe } from "../../services/utils";
-import {
-  getSeriesInfo,
-  seriesSearch,
-  getDocumentSeriesInfo,
-} from "../../services/home";
+import { seriesSearch } from "../../services/home";
 
 const filterData = (name) => (data = []) => {
   const arr = [];
@@ -21,7 +17,7 @@ const filterSearchData = (input) => (data) => {
   data.map((o) => {
     if (
       (o.data.file_name && o.data.file_name.includes(input)) ||
-      (o.data.video_title && o.data.video_title.includes(input)) ||
+      (o.data.title && o.data.title.includes(input)) ||
       !input
     ) {
       arr.push(o);
@@ -39,6 +35,8 @@ function withSeries(WrapComponent, getSeriesData) {
       this.state = {
         loading: false,
         series: [],
+        docSeries: [],
+        docSeriesLength: 0,
         seriesLength: 0,
         seriesInfo: {},
         type: "video",
@@ -51,6 +49,7 @@ function withSeries(WrapComponent, getSeriesData) {
     componentDidMount() {
       const { sid, dsid } = getIdFromHref();
       if (sid || dsid) {
+        this.setState({ id: sid ? sid : dsid });
         this.fetchSeriesData();
       } else {
         alert("系列不存在～");
@@ -74,17 +73,12 @@ function withSeries(WrapComponent, getSeriesData) {
     }
 
     setSeriesState = (page, data = {}) => {
-      const { type, input } = this.state;
+      const { type } = this.state;
       this.setState({
-        series: pipe(
-          filterData(type),
-          filterSearchData(input),
-          sd(page)
-        )(data.series),
-        seriesLength: pipe(
-          filterData(type),
-          filterSearchData(input)
-        )(data.series).length,
+        series: pipe(filterData(type), sd(page))(data.series),
+        docSeries: pipe(sd(page))(data.series),
+        seriesLength: pipe(filterData(type))(data.series).length,
+        docSeriesLength: data.series.length,
         seriesInfo: data.info,
         loading: false,
       });
@@ -93,7 +87,6 @@ function withSeries(WrapComponent, getSeriesData) {
     fetchSeriesData = (page = 1) => {
       this.setState({ loading: true });
       getSeriesData(getIdFromHref()).then((data) => {
-          console.log(data)
         this.setSeriesState(page, data);
       });
     };

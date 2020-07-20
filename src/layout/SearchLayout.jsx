@@ -69,9 +69,9 @@ const SearchLayout = ({ children }) => {
                 <Link href="/">知擎首页</Link>
                 <Link href="/">下载APP</Link>
               </nav>
-              <Badge badgeContent={17} color="secondary">
+              {/* <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />
-              </Badge>
+              </Badge> */}
               <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>

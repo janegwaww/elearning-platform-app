@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 
 const Pagination = ({ num = 1, handlePage }) => {
   const classes = useStyles();
-  return (
+  return num === 0 ? null : (
     <MuiPagination
       count={Math.ceil(num / 12)}
       variant="outlined"
