@@ -526,14 +526,9 @@ export default class UploadVideos extends Component {
                         let _data = res.response;
                         if (_data.err === -1) {
                           alert("此视频已存在，暂不支持多人同时此视频，请谅解！")
-                          // new CustomModal().alert(
-                          //   "此视频已存在，暂不支持多人同时此视频，请谅解！",
-                          //   "error",
-                          //   5000
-                          // );
-                          // this.timerRef.current= setTimeout(() => {
+                          
                             _this.setState({ status: 1, progress: 1 });
-                          // }, 5000);
+                         
                           _this.myFile.stop();
                         }
                       });
@@ -541,15 +536,11 @@ export default class UploadVideos extends Component {
                         let _data = res.response;
 
                         if (_data.err === -1) {
-                          // new CustomModal().alert(
-                          //   "此视频已有人上传，暂不支持多人同时此视频，请谅解！",
-                          //   "error",
-                          //   5000
-                          // );
+                         
                           alert('此视频已有人上传，暂不支持多人同时此视频，请谅解！')
-                          // this.timerRef.current=setTimeout(() => {
+                          
                             _this.setState({ status: 1, progress: 0 });
-                          // }, 5000);
+                          
                         }
                         if (_data.err === 0 && _data.result_data.length > 0) {
                           new CustomModal().alert("上传成功", "success", 3000);
@@ -724,15 +715,11 @@ export default class UploadVideos extends Component {
                   this.myFile.on("onchange", function(res) {
                     let _data = res.response;
                     if (_data.err === -1) {
-                      // // new CustomModal().alert(
-                      //   "此视频已存在，暂不支持多人同时此视频，请谅解！",
-                      //   "error",
-                      //   5000
-                      // );
+                     
                       alert('此视频已存在，暂不支持多人同时此视频，请谅解！')
-                      // _this.timerRef.current= setTimeout(() => {
+                      
                         _this.setState({ status: 1, progress: 1 });
-                      // }, 5000);
+                      
                       _this.myFile.stop();
                     }
                   });
@@ -740,15 +727,11 @@ export default class UploadVideos extends Component {
                     let _data = res.response;
 
                     if (_data.err === -1) {
-                      // new CustomModal().alert(
-                      //   "此视频已存在，暂不支持多人同时此视频，请谅解！",
-                      //   "error",
-                      //   5000
-                      // );
+                    
                       alert('此视频已存在，暂不支持多人同时此视频，请谅解！')
-                      // this.timerRef.current= setTimeout(() => {
+                   
                         _this.setState({ status: 1, progress: 1 });
-                      // }, 5000);
+                      
                     }
                     if (_data.err === 0 && _data.result_data.length > 0) {
                       new CustomModal().alert("上传成功", "success", 3000);
