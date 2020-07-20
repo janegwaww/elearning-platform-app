@@ -1,7 +1,7 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
-import SearchLoading from "../../../Loading/SearchLoading";
+
 import ProgressBar from '../../../Loading/ProgressBar';
 import Pagination from "@material-ui/lab/Pagination";
 export default class Video extends React.Component {

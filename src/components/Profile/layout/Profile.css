@@ -167,7 +167,7 @@ p {
   background: #f2f2f5;
   padding: 10px 20px;
   border: 1px solid #f2f2f5;
-  border-radius: 6;
+  border-radius: 6px;
   resize: none;
 }
 
@@ -201,11 +201,9 @@ p {
 }
 .profile-ul li {
   margin: 10px 0;
-  /* border: 1px solid #f2f2f5; */
+ 
   padding: 20px;
-  /* border-radius: 4px;
-  transition: all 1s;
-  transform: translate3d(0, 0, 0);  */
+
 }
 .profile-ul li:hover {
   cursor: move;

@@ -56,7 +56,7 @@ const DialogTitle = withStyles(styles)((props) => {
 
 export function ModalDialog(props) {
   const classes=userStyles();
-
+  const { children } = props;
 
   // const [open, setOpen] =React.useState(false);
   // const handleClickOpen = () => {
@@ -75,7 +75,9 @@ export function ModalDialog(props) {
     <Dialog open={props.info.open} className={classes.dialog}>
       <DialogTitle  onClose={handleClose}>{props.info.title || "温馨提示"}</DialogTitle>
       <DialogContent>
+        {children?children:(
         <DialogContentText >{props.info.msg || "提示内容"}</DialogContentText>
+        )}
       </DialogContent>
       <DialogActions>
         <Button
