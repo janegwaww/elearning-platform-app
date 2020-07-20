@@ -41,7 +41,7 @@ function withSeries(WrapComponent, getSeriesData) {
         series: [],
         seriesLength: 0,
         seriesInfo: {},
-        type: "all",
+        type: "video",
         input: "",
         isSearch: false,
         id: "",
