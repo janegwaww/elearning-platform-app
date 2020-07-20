@@ -5,7 +5,7 @@ import Login from "../components/Auth/Login";
 import Default from "../components/Default/Default";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import WorksCenter from "../components/Profile/page/workscenter/Index"; //创作中心
-import Complaints from '../components/Profile/page/workscenter/complaints';//申诉管理
+import Complaints from '../components/Profile/page/workscenter/Complaints';//申诉管理
 import Series from "../components/Profile/page/workscenter/Series";
 import Video from "../components/Profile/page/workscenter/Video";
 import Draft from "../components/Profile/page/workscenter/Draft";
