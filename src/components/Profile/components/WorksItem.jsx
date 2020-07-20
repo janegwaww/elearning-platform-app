@@ -230,7 +230,7 @@ const WorksItem = (props) => {
                   title: "温馨提示",
                   type: "del",
                   role: "history",
-                  msg: "历史被被删除,将不可恢恢复,确定删除?",
+                  msg: "历史被删除,将不可恢复,确定要删除?",
                   open: true,
                 });
               }}

@@ -12,7 +12,7 @@
     "autoprefixer": "^9.8.5",
     "axios": "^0.19.2",
     "browserslist": "^4.13.0",
-    "caniuse-lite": "^1.0.30001100",
+    "caniuse-lite": "^1.0.30001104",
     "clsx": "^1.1.0",
     "downloadjs": "^1.4.7",
     "element-theme-default": "^1.4.13",

@@ -182,19 +182,26 @@ const Basic = (props) => {
           </Grid>
           <Grid item xs={10}>
             <div
-              className="bg-f3 box box-center text-center fn-color-white bg-not "
+              className="bg-f3 box box-center text-center fn-color-white bg-not view-overflow "
               style={{
                 width: 640,
                 height: 140,
+                position:'relative',
                 backgroundImage: newcoverurl
                   ? "url(" + newcoverurl + ")"
                   : "url(" + userInfo.background + ")",
+                  borderRadius:12,
               }}
               onClick={() => {
                 setUpcover(true);
               }}
             >
-              <div>
+              <div className='all-width all-height' style={{
+                position:'absolute',
+                backgroundColor:'rgba(0,0,0,.5)',
+                zIndex:0
+              }}></div>
+              <div  style={{position:'relative',zIndex :1}}>
                 <BrokenImageOutlined />
                 <p>上传封面</p>
               </div>
