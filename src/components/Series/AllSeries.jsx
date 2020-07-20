@@ -8,7 +8,6 @@ import Pagination from "./SePagination";
 import SeriesBar from "./SeriesBar";
 import withSeries from "./withSeries";
 import { getSeriesInfo } from "../../services/home";
-import "./SeriesStyles.sass";
 
 const AllSeries = ({
   seriesInfo,
