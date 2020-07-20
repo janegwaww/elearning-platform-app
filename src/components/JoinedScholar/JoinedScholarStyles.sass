@@ -38,12 +38,15 @@
 
   .scholar-card
     width: 670px
-    position: relative
     height: 340px
+    @media (max-width: 1550px)
+      width: 560px
+      height: 286px
+    position: relative
     cursor: pointer
     .card-img
-      width: 240px
-      height: 260px
+      width: 36%
+      height: 76%
       position: absolute
       top: 0
       left: 0
@@ -55,20 +58,20 @@
     .card-text
       background: linear-gradient(45deg,rgba(35,35,37,1) 0%,rgba(27,27,29,1) 100%)
       position: absolute
-      width: 530px
-      height: 280px
+      width: 79%
+      height: 82%
       bottom: 0
       right: 0
       display: flex
       justify-content: flex-end
       border-radius: 12px
       .card-text-word
-        margin: 40px
-        width: 350px
-        height: 172px
+        margin: 7.5%
+        width: 66%
+        height: 61%
         .name
           color: #fff
-          font-size: 24px
-          margin-bottom: 20px
+          font-size: 1.5rem
+          margin-bottom: 5.7%
         .intro
           color: #ccccd1
