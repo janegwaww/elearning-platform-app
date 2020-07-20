@@ -3,7 +3,9 @@ import AllSeries from "./AllSeries";
 import DocSeries from "./DocSeries";
 import { getIdFromHref } from "../../services/utils";
 
-export default function Series() {
+const Series = () => {
   const { sid } = getIdFromHref();
-  return sid ? <AllSeries /> : <DocSeries  />;
-}
+  return sid ? <AllSeries /> : <DocSeries />;
+};
+
+export default Series;
