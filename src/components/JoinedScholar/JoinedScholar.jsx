@@ -14,9 +14,12 @@ import logo from "../../../static/logos/logo.svg";
 import scholarData from "./scholarData";
 
 const useStyles = makeStyles((theme) => ({
-  maxWidthXs: {
+  maxWidthXl: {
     maxWidth: 1420,
     height: "100%",
+    "@media (max-width:1550px)": {
+      maxWidth: 1120,
+    },
   },
   modelBody: {
     position: "absolute",
@@ -149,7 +152,7 @@ const JoinedScholar = () => {
     <div className="joined-scholar">
       {/* top bar */}
       <div className="toolbar">
-        <Container maxWidth="xl" classes={{ maxWidthXl: classes.maxWidthXs }}>
+        <Container maxWidth="xl" classes={{ maxWidthXl: classes.maxWidthXl }}>
           <Box
             display="flex"
             alignItems="center"
@@ -166,7 +169,7 @@ const JoinedScholar = () => {
 
       {/* content */}
       <div className="content-background">
-        <Container maxWidth="xs" classes={{ maxWidthXs: classes.maxWidthXs }}>
+        <Container maxWidth="xl" fixed={false} classes={{ maxWidthXl: classes.maxWidthXl }}>
           <Box height="121px" />
           <ContentTitle />
 
