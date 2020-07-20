@@ -9,7 +9,7 @@ import { Container, Avatar } from "@material-ui/core";
 import "./layout/Profile.css";
 // import SearchLoading from '../Loading/SearchLoading';
 
-import { AsadeMenu, RightMenu } from "./components/AsadeMenu";
+import { RightMenu } from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
@@ -20,8 +20,8 @@ class Profile extends React.Component {
 
     this.state = {
       userinfo: null,
-      is_show:false,
-       inx:0,
+      is_show: false,
+      inx: 0,
       menuOpen: {
         //打开
         Dynamic: false, //动态
@@ -36,9 +36,8 @@ class Profile extends React.Component {
     if (sessionStorage.getItem("file_data")) {
       sessionStorage.removeItem("file_data");
     }
-    this.pageRoute(this.props)
-    
-    
+    this.pageRoute(this.props);
+
     get_data({
       model_name: "user",
       model_action: "get_information",
@@ -52,7 +51,7 @@ class Profile extends React.Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-   this.pageRoute(nextProps)
+    this.pageRoute(nextProps);
   }
   componentWillUnmount() {
     sessionStorage.removeItem("now_page");
@@ -61,38 +60,43 @@ class Profile extends React.Component {
   pageRoute(props) {
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
     let _router_arr = props["*"].split("/");
-  
+
     let _router = _router_arr[0];
     let _is_show = false;
-    let _inx=0;
-     Object.keys(_menu_open).forEach((va) => {
+    let _inx = 0;
+    Object.keys(_menu_open).forEach((va) => {
       _menu_open[va] = false;
     });
+    console.log(_router);
     switch (_router) {
+      case "complaints":
+        _menu_open.CreateCenter = true;
+        _inx = 1;
+        break;
+
       case "workscenter":
         _menu_open.CreateCenter = true;
         break;
       case "dynamic":
         _menu_open.Dynamic = true;
-        if(_router_arr.length>1){
-          _inx=1;
+        if (_router_arr.length > 1) {
+          _inx = 1;
         }
         break;
     }
-    
-    if(_router){
-      _is_show=true
+
+    if (_router) {
+      _is_show = true;
     }
 
     this.setState({
       menuOpen: _menu_open,
-      is_show:_is_show,
-      inx:_inx
+      is_show: _is_show,
+      inx: _inx,
     });
-    
   }
   render() {
-    const { menuOpen,inx } = this.state;
+    const { menuOpen, inx } = this.state;
     const { children } = this.props;
 
     return (
@@ -100,14 +104,16 @@ class Profile extends React.Component {
         <Helmet title={`${config.siteTitle}`} />
         <Container className="all-height all-width ">
           <section className="ma-container all-height all-width profile-height">
-            <aside className="ma-aside profile-left all-height bg-white " style={{minHeight: 'calc(100vh - 331px)'}}>
+            <aside
+              className="ma-aside profile-left all-height bg-white "
+              style={{ minHeight: "calc(100vh - 331px)" }}
+            >
               {this.state.is_show ? (
                 <div
                   className="profile-bottom profile-padding bg-white text-center"
-                  
-                  onClick={()=>{
-                    navigate(`/users/profile`)}
-                  }
+                  onClick={() => {
+                    navigate(`/users/profile`);
+                  }}
                 >
                   <div className="box box-center">
                     <Avatar
@@ -135,10 +141,8 @@ class Profile extends React.Component {
               )}
               <ul className="ul bg-white">
                 <li
-                 
                   onClick={(evt) => {
                     navigate(`/users/profile`);
-                   
                   }}
                   className="bg-not"
                   style={{ backgroundImage: "url(" + usercontainer + ")" }}
@@ -150,12 +154,8 @@ class Profile extends React.Component {
                   aria-label="more"
                   aria-controls="dynamic-menu"
                   aria-haspopup="true"
-                 
                   onClick={(evt) => {
                     navigate(`/users/profile/dynamic`);
-                    // this.setState({
-                    //   is_show:true
-                    // })
                     
                   }}
                   className="bg-not"
@@ -182,24 +182,20 @@ class Profile extends React.Component {
                   aria-label="more"
                   aria-controls="create-menu"
                   aria-haspopup="true"
-                  data-page="CreateCenter"
-                  data-id="3"
-                  data-defaultpage="作品管理"
+                
                   onClick={(evt) => {
                     navigate("/users/profile/workscenter");
-                    // this.setState({
-                    //   is_show:true
-                    // })
+                    
                   }}
                   className="bg-not"
                   style={{ backgroundImage: "url(" + iconcrear + ")" }}
                 >
                   创作中心
                   <RightMenu
-                  _inx={inx}
+                    _inx={inx}
                     menus={[
                       { title: "作品管理", _url: "/users/profile/workscenter" },
-                      { title: "申诉管理" },
+                      { title: "申诉管理", _url: "/users/profile/complaints" },
                     ]}
                     parent={this}
                     open={menuOpen.CreateCenter}
@@ -209,7 +205,13 @@ class Profile extends React.Component {
                 </li>
               </ul>
             </aside>
-            <main className="ma-main bg-white" style={{ width: "calc(100% - 250px)", minHeight: 'calc(100vh - 331px)' }}>
+            <main
+              className="ma-main bg-white"
+              style={{
+                width: "calc(100% - 250px)",
+                minHeight: "calc(100vh - 331px)",
+              }}
+            >
               {children}
             </main>
           </section>
