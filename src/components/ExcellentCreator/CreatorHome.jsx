@@ -185,6 +185,7 @@ class CreatorHome extends Component {
       author_id: cid,
       type,
       max_size: 999,
+      page,
     }).then((data) => {
       this.setState({
         loading: false,
