@@ -72,13 +72,13 @@ const PrimarySearchAppBar = () => {
           <Typography>加盟学者</Typography>
         </ButtonBase>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem>
         <Box display="flex" justifyContent="center" width="100%">
           <AvatarMenu />
@@ -140,11 +140,11 @@ const PrimarySearchAppBar = () => {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>

@@ -12,8 +12,8 @@ import { getDocumentSeriesInfo } from "../../services/home";
 
 const DocSeries = ({
   seriesInfo = "",
-  series,
-  seriesLength,
+  docSeries = [],
+  docSeriesLength,
   loading,
   handlePage,
   handleInput,
@@ -42,13 +42,13 @@ const DocSeries = ({
 
       <br />
       <div style={{ minHeight: "60vh" }}>
-        {series.map((o, i) => {
+        {docSeries.map((o, i) => {
           return <SearchCard card={o} key={i} />;
         })}
-        <EmptyNotice empty={!series.length && !loading} />
+        <EmptyNotice empty={!docSeries.length && !loading} />
       </div>
 
-      <Pagination num={seriesLength} handlePage={handlePage} />
+      <Pagination num={docSeriesLength} handlePage={handlePage} />
       <br />
 
       <ProgressBar loading={loading} />

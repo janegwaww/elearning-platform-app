@@ -135,7 +135,11 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                         <Avatar
                           alt={item.user_name}
                           src={`${item.headshot}`}
-                          style={{ width: 28, height: 28, margin: 8 }}
+                          style={{
+                            width: 28,
+                            height: 28,
+                            margin: "8px 8px 8px 0",
+                          }}
                         />
                       )}
                       <Typography
