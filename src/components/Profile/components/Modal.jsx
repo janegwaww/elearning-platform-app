@@ -58,10 +58,7 @@ export function ModalDialog(props) {
   const classes=userStyles();
   const { children } = props;
 
-  // const [open, setOpen] =React.useState(false);
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+ 
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
