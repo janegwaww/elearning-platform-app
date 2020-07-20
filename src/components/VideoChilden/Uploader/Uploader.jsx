@@ -104,6 +104,7 @@ export default class UploadVideos extends Component {
     this.get_image = this.get_image.bind(this);
     this.btn_del = this.btn_del.bind(this);
     this.tools_subtitles = this.tools_subtitles.bind(this);
+    this.tools_status = this.tools_status.bind(this);
   }
   componentDidMount() {
     // console.log(this.props.parent.props.location.href);
@@ -181,6 +182,9 @@ export default class UploadVideos extends Component {
           }
           if (res.result_data[0].series_id) {
             _data.series_id = res.result_data[0].series_id;
+          }
+          if(res.result_data[0].user_id){
+            _data.user_id=res.result_data[0].user_id
           }
           this.setState({
             status: 3,
@@ -266,28 +270,51 @@ export default class UploadVideos extends Component {
     });
     get_data(_data, "video")
       .then((res) => {
-        if (res.err === 0) {
-          this.setState({
-            status: 5,
-          });
+        if(res.err>0){
+          this.tools_status(res.err);
           this.timerRef.current=setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
-          }, Math.ceil((this.state.files.video_len * 60) / 210 - 1) * 1000);
-        } else if (res.err == -3) {
+          }, 60000);
           this.setState({
             status: 5,
           });
-          this.query_subtitles();
-        } else if (res.err == -4) {
-          if (res.result_data[0] && res.result_data[0].subtitling) {
-            this.tools_subtitles(res.result_data[0]);
-          }
-        } else {
-          new CustomModal().alert("生成字幕失败", "error", 4000);
-          this.setState({
-            status: 3,
-          });
-        }
+        }else if(res.err===0){
+            if (res.result_data[0] && res.result_data[0].subtitling) {
+              this.tools_subtitles(res.result_data[0]);
+            }
+            return
+          }else{
+            alert('生成字幕失败');
+            this.setState({
+              status: 3,
+            });
+            return
+
+          };
+
+        // if (res.err === 0) {
+        //   this.setState({
+        //     status: 5,
+        //   });
+          
+        //   this.timerRef.current=setTimeout(() => {
+        //     this.query_subtitles(); //查询是否生成字幕
+        //   }, Math.ceil((this.state.files.video_len * 60) / 210 - 1) * 1000);
+        // } else if (res.err == -3) {
+        //   this.setState({
+        //     status: 5,
+        //   });
+        //   this.query_subtitles();
+        // } else if (res.err == -4) {
+        //   if (res.result_data[0] && res.result_data[0].subtitling) {
+        //     this.tools_subtitles(res.result_data[0]);
+        //   }
+        // } else {
+        //   new CustomModal().alert("生成字幕失败", "error", 4000);
+        //   this.setState({
+        //     status: 3,
+        //   });
+        // }
       })
       .catch((err) => {
         new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -307,26 +334,42 @@ export default class UploadVideos extends Component {
     };
     get_data(_data, "video")
       .then((res) => {
-        if (res.err === 1 || res.err == -4) {
-          this.tools_subtitles(res.result_data[0]);
-        } else if (res.err === 0) {
-          this.setState({
-            status: 5,
-          });
+        if(res.err>0){
+          this.tools_status(res.err);
           this.timerRef.current=setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
-          }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
-        } else if (res.err == -3) {
+          }, 60000);
           this.setState({
             status: 5,
           });
-          this.query_subtitles();
-        } else {
-          new CustomModal().alert("生成字幕失败", "error", 4000);
+        }else if(res.err===0){
+          this.tools_subtitles(res.result_data[0]);
+        }else {
+          alert("生成字幕失败");
           this.setState({
             status: 3,
           });
         }
+        // if (res.err === 1 || res.err == -4) {
+        //   this.tools_subtitles(res.result_data[0]);
+        // } else if (res.err === 0) {
+        //   this.setState({
+        //     status: 5,
+        //   });
+        //   this.timerRef.current=setTimeout(() => {
+        //     this.query_subtitles(); //查询是否生成字幕
+        //   }, Math.ceil((this.state.files.video_len * 60) / 210) * 1000);
+        // } else if (res.err == -3) {
+        //   this.setState({
+        //     status: 5,
+        //   });
+        //   this.query_subtitles();
+        // } else {
+        //   new CustomModal().alert("生成字幕失败", "error", 4000);
+        //   this.setState({
+        //     status: 3,
+        //   });
+        // }
       })
       .catch((err) => {
         new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -343,6 +386,20 @@ export default class UploadVideos extends Component {
     console.log(this);
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
+  }
+  tools_status(num){
+    if(num===1){
+      alert('调用接口中');
+      
+    }else if(num===2){
+      alert('语音转写中');
+    
+    }else if(num===3){
+      alert('文本翻译中');
+     
+    }else if(num===4){
+      alert('生成字幕中');
+    };
   }
   query_subtitles() {
     let _this = this;
@@ -361,15 +418,25 @@ export default class UploadVideos extends Component {
           navigate(`/users/login`);
           return;
         }
-
-        if (res.result_data[0] && res.result_data[0].subtitling) {
-          this.tools_subtitles(res.result_data[0]);
-          return;
-        } else {
+        if(res.err>0){
+          this.tools_status(res.err);
           this.timerRef.current=setTimeout(() => {
             _this.query_subtitles();
           }, 60000);
+        }else if(res.err===0){
+          if (res.result_data[0] && res.result_data[0].subtitling) {
+            this.tools_subtitles(res.result_data[0]);
+            return;
+          }
+        }else if(res.err==-4){
+          alert('生成字幕失败');
+          this.setState({ status: 3 });
         }
+        // else{
+        //   this.setState({ status: 3 });
+        //   new CustomModal().alert("生成字幕失败", "error", 4000);
+        // };
+       
       })
       .catch((err) => {
         this.setState({ status: 3 });
@@ -783,7 +850,7 @@ export default class UploadVideos extends Component {
 
                     {status === 3 && (
                       <div className="box box-between box-align-center">
-                        {this.props.parent.state.is_edit ? (
+                        {this.props.parent.state.is_edit&&files.sub_josn ? (
                           <p>约{Math.round(files.video_size)}M</p>
                         ) : (
                           <p

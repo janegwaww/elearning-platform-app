@@ -60,7 +60,7 @@ export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
 
   const confirmClick = () => {
-    props.onEvent({ cancel: false, confirm: true });
+    props.onEvent({ cancel: false, confirm: true,login:props.info.login});
   };
   const handleClose = () => {
     props.onEvent({ cancel: true, confirm: false });

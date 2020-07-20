@@ -271,6 +271,9 @@ export default function VideoIndex(props) {
       {
         model_name: "series",
         model_action: "get_series",
+        "extra_data": {
+          user_id:_data.user_id
+        },
       },
       "video"
     ).then((res) => {

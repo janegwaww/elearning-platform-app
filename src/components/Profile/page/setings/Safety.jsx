@@ -28,6 +28,15 @@ const Safety = (props) => {
   });
   const untie_click = (data) => {
     //关闭弹窗
+    
+    if(data.login){
+      setUntieData({
+        isOpen: false,
+      });
+      navigate(`/users/login`);
+      return
+    }
+ 
     if (data.confirm) {
       get_data({
         model_name: "user",
@@ -37,7 +46,6 @@ const Safety = (props) => {
         },
         model_type: "",
       }).then((res) => {
-        console.log();
         if (res.err === 0) {
           alert("解除绑定成功");
           if (untieData.type == "wechat") {
@@ -81,25 +89,35 @@ const Safety = (props) => {
           isUntie: true,
           dialogtitle: "解除绑定",
           dialogmsg: "确定解除绑定吗?",
+          
         });
       } else {
-        console.log(_ev_data);
-        get_data({
-          model_name: "user",
-          model_action: "generate_third_qrcode",
-          extra_data: {
-            type: _ev_data.type, //# QQ/微信/微博
-          },
-          model_type: "",
-        }).then(res=>{
-          console.log(res.result_data[0].url)
-          if(res.err==0){
-            // window.location.href = `${res.result_data[0].url}`
-          }else{
-            alert('绑定失败')
-          }
-         
+       
+        setUntieData({
+          type:_ev_data.type,
+          isOpen:true,
+          isUntie:true,
+          dialogtitle:'绑定第三方帐号',
+          dialogmsg:'亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么',
+          login:true
         })
+        // get_data({
+        //   model_name: "user",
+        //   model_action: "generate_third_qrcode",
+        //   extra_data: {
+        //     type: _ev_data.type, //# QQ/微信/微博
+        //     back_url:'http://kengine.haetek.com/users/profile/setings/safety'
+        //   },
+        //   model_type: "",
+        // }).then(res=>{
+        //   console.log(res)
+        //   if(res.err==0){
+        //     window.location.href = `${res.result_data[0].url}`
+        //   }else{
+        //     alert('绑定失败')
+        //   }
+         
+        // })
         
       }
     }
