@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/media-has-caption */
 import React from "react";
 import videojs from "video.js";
+import vjsSubSwitchButton from "./vjsSubSwitchButton";
 import "./ReactVideo.sass";
 
 export default class VideoPlayer extends React.Component {
@@ -17,7 +20,7 @@ export default class VideoPlayer extends React.Component {
       language: "zh",
       languages: {
         zh: {
-          "subtitles off": "字募关",
+          "subtitles off": "字幕关",
         },
       },
       html5: {
@@ -27,6 +30,7 @@ export default class VideoPlayer extends React.Component {
         volumePanel: {
           inline: false,
         },
+        subsCapsButton: false,
       },
       userActions: {
         hotkeys(event) {
@@ -63,6 +67,10 @@ export default class VideoPlayer extends React.Component {
         console.log("onPlayerReady", this);
       }
     );
+
+    const subSwitch = this.player.controlBar.addChild("vjsSubSwitchButton", {});
+    subSwitch.addClass("vjs-control");
+    subSwitch.addClass("vjs-sub-switch");
   }
 
   componentDidUpdate(prevProps) {
