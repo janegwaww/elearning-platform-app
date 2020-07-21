@@ -8,7 +8,7 @@ import Pagination from "./SePagination";
 import ProgressBar from "../Loading/ProgressBar";
 import SearchCard from "../Search/SearchCard";
 import SearchInput from "./SearchInput";
-import { getDocumentSeriesInfo } from "../../services/home";
+import { getDocumentSeriesInfo, docSeriesSearch } from "../../services/home";
 
 const DocSeries = ({
   seriesInfo = "",
@@ -56,6 +56,8 @@ const DocSeries = ({
   );
 };
 
-export default withSeries(DocSeries, ({ dsid }) =>
-  getDocumentSeriesInfo({ series_id: dsid })
+export default withSeries(
+  DocSeries,
+  ({ dsid }) => getDocumentSeriesInfo({ series_id: dsid }),
+  (params) => docSeriesSearch(params)
 );
