@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { globalHistory } from "@reach/router";
-import { navigate } from "gatsby";
-import urlParse from "url-parse";
 import { Grid, Divider } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -17,7 +14,6 @@ import { getIdFromHref } from "../../services/utils";
 const IntroductionText = ({ text }) => {
   return (
     <Paper elevation={4} style={{ boxShadow: "none", padding: "20px 0" }}>
-      {/* <Typography variant="subtitle1">课程简介:</Typography> */}
       <Typography variant="body2" component="p">
         {text.description}
       </Typography>
@@ -49,8 +45,7 @@ class Watch extends Component {
   verifyId = () => {
     const { vid } = getIdFromHref();
     if (!vid) {
-      /* 视频ID不存在就返回主页; */
-      return navigate("/");
+      alert("视频ID不存在");
     }
     this.setState({ vid });
   };
