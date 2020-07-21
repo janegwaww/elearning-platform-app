@@ -53,6 +53,8 @@ export const DialogModal = (props) => {
             props.onEvent && props.onEvent({ confirm: false, cancel: true });
           }}
         >
+
+        
           {title || ""}
         </DialogTitle>
         <DialogContent>{children}</DialogContent>
