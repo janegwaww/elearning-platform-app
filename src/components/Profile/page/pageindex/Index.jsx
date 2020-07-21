@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Grid, Link } from "@material-ui/core";
 
-import {  Navbar,Nav } from "../../components/ProfileNav";
+import { Navbar, Nav } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
@@ -10,7 +10,7 @@ import { navigate } from "@reach/router";
 
 import ProgressBar from "../../../Loading/ProgressBar";
 import notcoll from "../../../../assets/img/notcoll.png";
-import notvideo from '../../../../assets/img/notvideo.png';
+import notvideo from "../../../../assets/img/notvideo.png";
 
 class ProfileIndex extends React.Component {
   constructor(props) {
@@ -138,7 +138,7 @@ class ProfileIndex extends React.Component {
           {userData && userData.background && (
             <img className="all-height all-width" src={userData.background} />
           )}
-         {/*} <span
+          {/*} <span
             className="bg-white bg-not"
             style={{
               position: "absolute",
@@ -188,7 +188,15 @@ class ProfileIndex extends React.Component {
               <p className="zero-edges textview-overflow two">
                 {userData ? userData.introduction : ""}
               </p>
-              <p className='zero-edges fn-size-12' style={{marginTop:10}}><Link  href={`/users/profile/setings`} className='fn-color-007CFF'  underline="none">{'编辑个人资料 >'}</Link></p>
+              <p className="zero-edges fn-size-12" style={{ marginTop: 10 }}>
+                <Link
+                  href={`/users/profile/setings`}
+                  className="fn-color-007CFF"
+                  underline="none"
+                >
+                  {"编辑个人资料 >"}
+                </Link>
+              </p>
             </div>
           </div>
         </main>
@@ -198,7 +206,7 @@ class ProfileIndex extends React.Component {
         >
           <div className="box box-align-center box-between">
             <div>
-              <Nav parent={this} list={["数据中心"]} _inx={0}/>
+              <Nav parent={this} list={["数据中心"]} _inx={0} />
             </div>
             <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
               查看数据
@@ -324,9 +332,11 @@ class ProfileIndex extends React.Component {
                   ))
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notvideo} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
-                </div>
+                    <img src={notvideo} style={{ width: 490, height: 293 }} />
+                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                      暂无视频
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -343,9 +353,11 @@ class ProfileIndex extends React.Component {
                   ))
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notvideo} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
-                </div>
+                    <img src={notvideo} style={{ width: 490, height: 293 }} />
+                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                      暂无视频
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -362,9 +374,11 @@ class ProfileIndex extends React.Component {
                   ))
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notvideo} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
-                </div>
+                    <img src={notvideo} style={{ width: 490, height: 293 }} />
+                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                      暂无视频
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -379,9 +393,9 @@ class ProfileIndex extends React.Component {
               <Nav
                 parent={_this}
                 list={["我的收藏", "历史记录"]}
-                _inx={page_type-1}
+                _inx={page_type - 1}
                 onEvent={(num) => {
-                  console.log(num)
+                  console.log(num);
                   this.setState({
                     page_type: num,
                   });
@@ -425,8 +439,10 @@ class ProfileIndex extends React.Component {
                 ))
               ) : (
                 <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notcoll} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                  <img src={notcoll} style={{ width: 490, height: 293 }} />
+                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                    暂无视频
+                  </div>
                 </div>
               )}
             </Grid>
@@ -446,8 +462,10 @@ class ProfileIndex extends React.Component {
                 ))
               ) : (
                 <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notcoll} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                  <img src={notcoll} style={{ width: 490, height: 293 }} />
+                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                    暂无视频
+                  </div>
                 </div>
               )}
             </Grid>
