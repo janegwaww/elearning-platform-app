@@ -186,7 +186,7 @@ const Document = ({ did }) => {
           pt={2}
           pb={1}
         >
-          <div className="doc-price-title">课件价格：</div>
+          <div className="doc-price-title">限时解锁&nbsp;</div>
           <div className="doc-price">
             <span style={{ fontSize: 23 }}>￥</span>
             {`${info.price || 0}`}
@@ -204,9 +204,9 @@ const Document = ({ did }) => {
               <Typography variant="caption" color="textSecondary">
                 温馨提示：
               </Typography>
-              <Typography variant="caption">解锁后不再收费!</Typography>
+              <Typography variant="caption">解锁后不再收费</Typography>
               <LightTooltip
-                title="该课件/课题会因为内容更新而增值，或因为内容扩充而涨价。"
+                title="该课件/课题会因为内容更新或扩充而调整。"
                 arrow
                 placement="top-end"
                 open={open}
