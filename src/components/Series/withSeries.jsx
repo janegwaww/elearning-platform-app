@@ -1,6 +1,5 @@
 import React from "react";
 import { getIdFromHref, pipe } from "../../services/utils";
-import { seriesSearch } from "../../services/home";
 
 const filterData = (name) => (data = []) => {
   const arr = [];
@@ -28,7 +27,7 @@ const filterSearchData = (input) => (data) => {
 
 const sd = (page) => (d) => d.slice((page - 1) * 12, page * 12);
 
-function withSeries(WrapComponent, getSeriesData) {
+function withSeries(WrapComponent, getSeriesData, seriesSearch) {
   return class extends React.Component {
     constructor(props) {
       super(props);
