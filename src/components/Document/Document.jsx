@@ -206,7 +206,7 @@ const Document = ({ did }) => {
               </Typography>
               <Typography variant="caption">解锁后不再收费</Typography>
               <LightTooltip
-                title="该课件/课题会因为内容更新或扩充而调整。"
+                title="该课题会因为内容更新或扩充而调整价格"
                 arrow
                 placement="top-end"
                 open={open}
