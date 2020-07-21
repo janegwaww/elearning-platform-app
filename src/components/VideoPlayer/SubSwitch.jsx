@@ -35,10 +35,14 @@ const SubSwitch = ({
 
   return (
     <Typography component="div" variant="caption">
-      <Grid component="label" container alignItems="center" spacing={0}>
-        <Grid item style={{ lineHeight: "normal" }}>
-          字幕
-        </Grid>
+      <Grid
+        component="label"
+        container
+        alignItems="center"
+        spacing={0}
+        style={{ lineHeight: 2.9 }}
+      >
+        <Grid item>字幕生成</Grid>
         <Grid item>
           <KeSwitch
             checked={checked}
