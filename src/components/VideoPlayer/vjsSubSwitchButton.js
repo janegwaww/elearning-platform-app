@@ -17,7 +17,7 @@ class vjsSubSwitchButton extends vjsComponent {
     player.ready(() => {
       this.mount(this.handleDisabled(player.options()));
 
-    //   console.log("vjsComponent", this, "player", player, "options", options);
+      //   console.log("vjsComponent", this, "player", player, "options", options);
     });
 
     /* Remove React root when component is destroyed */
@@ -27,15 +27,16 @@ class vjsSubSwitchButton extends vjsComponent {
   }
 
   handleChange = (e) => {
+    if (!this.player().textTracks()[0]) return;
     if (e) {
-        this.player().textTracks()[0].mode='showing'
+      this.player().textTracks()[0].mode = "showing";
     } else {
-        this.player().textTracks()[0].mode='disabled'
+      this.player().textTracks()[0].mode = "disabled";
     }
   };
 
   handleDisabled = (options) => {
-    return options.tracks[0] && options.tracks[0].label === "登录开启字幕";
+    return options.tracks[0] ? options.tracks[0].label === "登录开启字幕" : 'noSubtitle';
   };
 
   /**
