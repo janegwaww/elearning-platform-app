@@ -108,6 +108,9 @@ p {
 .profile-top {
   margin-top: 30px;
 }
+.profile-top-20{
+  margin-top: 20px;
+}
 .profile-bottom {
   /* margin-bottom: 30px; */
   border-bottom: 30px solid #f9f9f9;

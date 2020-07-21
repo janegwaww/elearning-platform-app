@@ -6,6 +6,7 @@ import ProgressBar from "../../../Loading/ProgressBar";
 import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Grid } from "@material-ui/core";
+import nothistory from "../../../../assets/img/nothistory.png";
 export default class History extends React.Component {
   constructor(props) {
     super(props);
@@ -108,7 +109,10 @@ export default class History extends React.Component {
                 </Grid>
               ))
             ) : (
-              <div className="profile-top">暂无数据</div>
+              <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={nothistory} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无历史记录</div>
+                </div>
             )}
           </Grid>
         )}

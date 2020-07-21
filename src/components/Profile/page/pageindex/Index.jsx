@@ -7,9 +7,11 @@ import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
-import SearchLoading from "../../../Loading/SearchLoading";
+
 import ProgressBar from "../../../Loading/ProgressBar";
-// import setings from "../../../../assets/img/setings.png";
+import notcoll from "../../../../assets/img/notcoll.png";
+import notvideo from '../../../../assets/img/notvideo.png';
+
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -321,7 +323,10 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top">暂无数据</div>
+                  <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notvideo} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                </div>
                 )}
               </div>
             )}
@@ -337,7 +342,10 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top">暂无数据</div>
+                  <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notvideo} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                </div>
                 )}
               </div>
             )}
@@ -353,7 +361,10 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top">暂无数据</div>
+                  <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notvideo} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                </div>
                 )}
               </div>
             )}
@@ -413,7 +424,10 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top">暂无数据</div>
+                <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notcoll} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                </div>
               )}
             </Grid>
           )}
@@ -431,7 +445,10 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top">暂无数据</div>
+                <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notcoll} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无视频</div>
+                </div>
               )}
             </Grid>
           )}

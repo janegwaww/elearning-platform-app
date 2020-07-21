@@ -198,6 +198,9 @@ svg {
 .fn-color-FC3535 {
   color: #fc3535;
 }
+.fn-color-6f{
+  color: #6F6F6F;
+}
 
 input[type="radio"] + label::before {
   content: "\a0";

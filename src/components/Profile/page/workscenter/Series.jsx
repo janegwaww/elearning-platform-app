@@ -4,6 +4,8 @@ import SeriesItem from "../../components/SeriesItem";
 import SearchLoading from "../../../Loading/SearchLoading";
 import ProgressBar from "../../../Loading/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
+
+import notvideo from '../../../../assets/img/notvideo.png';
 export default class Series extends React.Component {
   constructor(props) {
     super(props);
@@ -89,7 +91,10 @@ export default class Series extends React.Component {
                 />
               ))
             ) : (
-              <div>暂无数据</div>
+              <div className="profile-top all-width all-height view-overflow text-center">
+              <img src={notvideo} style={{ width: 490, height: 293 }} />
+              <div className="fn-color-6f fn-size-16 profile-top-20">暂无系列视频</div>
+            </div>
             )}
           </div>
         )}

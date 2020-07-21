@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import notcom from "../../../../assets/img/notcom.png";
 
 export default class Complaints extends React.Component {
   constructor(props) {
@@ -168,6 +169,7 @@ export default class Complaints extends React.Component {
       show_counts,
       show_page,
       modalMsg,
+      
       login_status,
       ...other
     } = this.state;
@@ -188,45 +190,59 @@ export default class Complaints extends React.Component {
           />
         </div>
         <main className="profile-top fn-color-2C2C3B fn-size-14">
-          <Table size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow className="bg-F2F2F5">
-                <TableCell align="left">举报理由</TableCell>
-                <TableCell align="left">投诉时间</TableCell>
-                <TableCell align="left">惩罚</TableCell>
-                <TableCell align="left">申诉</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {show_data &&
-                show_data.map((opt, inx) => (
-                  <TableRow key={inx}>
-                    <TableCell component="th" scope="row">
-                      {opt.title}
-                    </TableCell>
-                    <TableCell align="left">{opt.date}</TableCell>
-                    <TableCell align="left">{opt.result}</TableCell>
-                    <TableCell align="left">
-                      {opt.status == 1 ? (
-                        <span className="fn-color-F86B6B p" onClick={()=>{
-                            this.setState({
-                                modalMsg:{
-                                    open:true,
-                                    title:'申诉',
-                                    type:1
-                                }
-                            })
-                        }}>申诉</span>
-                      ) : opt.status == 2 ? (
-                        <span className="fn-color-007CFF">进行中</span>
-                      ) : (
-                        <span>完成</span>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+          {total_data && total_data.length > 0 ? (
+            <Table size="small" aria-label="a dense table">
+              <TableHead>
+                <TableRow className="bg-F2F2F5">
+                  <TableCell align="left">举报理由</TableCell>
+                  <TableCell align="left">投诉时间</TableCell>
+                  <TableCell align="left">惩罚</TableCell>
+                  <TableCell align="left">申诉</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {show_data &&
+                  show_data.map((opt, inx) => (
+                    <TableRow key={inx}>
+                      <TableCell component="th" scope="row">
+                        {opt.title}
+                      </TableCell>
+                      <TableCell align="left">{opt.date}</TableCell>
+                      <TableCell align="left">{opt.result}</TableCell>
+                      <TableCell align="left">
+                        {opt.status == 1 ? (
+                          <span
+                            className="fn-color-F86B6B p"
+                            onClick={() => {
+                              this.setState({
+                                modalMsg: {
+                                  open: true,
+                                  title: "申诉",
+                                  type: 1,
+                                },
+                              });
+                            }}
+                          >
+                            申诉
+                          </span>
+                        ) : opt.status == 2 ? (
+                          <span className="fn-color-007CFF">进行中</span>
+                        ) : (
+                          <span>完成</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="profile-top all-width all-height view-overflow text-center">
+              <img src={notcom} style={{ width: 490, height: 293 }} />
+              <div className="fn-color-6f fn-size-16 profile-top-20">
+                暂无申诉
+              </div>
+            </div>
+          )}
         </main>
         {total_counts > show_counts && (
           <div className="profile-top">
@@ -254,16 +270,19 @@ export default class Complaints extends React.Component {
             />
           </div>
         )}
-        <ModalDialog parent={this} info={modalMsg} onEvent={(msg) => {
-            console.log(msg)
-           
+        <ModalDialog
+          parent={this}
+          info={modalMsg}
+          onEvent={(msg) => {
+            console.log(msg);
+
             this.setState({
-                modalMsg:{
-                    open:false
-                }
-            })
-           
-        }}>
+              modalMsg: {
+                open: false,
+              },
+            });
+          }}
+        >
           <div className="text-center" style={{ marginBottom: 20 }}>
             对举报理由为&nbsp;
             <span className="fn-color-F86B6B">“在评论中发布不实信息”</span>
@@ -273,7 +292,7 @@ export default class Complaints extends React.Component {
             placeholder="请输入申诉的理由~耐心等待审核"
             className="textfield all-width"
             rows="3"
-            style={{marginBottom:20}}
+            style={{ marginBottom: 20 }}
           ></textarea>
         </ModalDialog>
       </section>

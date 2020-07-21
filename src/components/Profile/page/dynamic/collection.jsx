@@ -2,10 +2,11 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
 import SearchLoading from "../../../Loading/SearchLoading";
-import ProgressBar from '../../../Loading/ProgressBar';
-import {  Nav } from "../../components/ProfileNav";
+import ProgressBar from "../../../Loading/ProgressBar";
+import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
-import {  Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import notcoll from "../../../../assets/img/notcoll.png";
 export default class Collection extends React.Component {
   constructor(props) {
     super(props);
@@ -69,12 +70,10 @@ export default class Collection extends React.Component {
   }
   componentWillUnmount() {
     window.onresize = null;
-   
-      this.setState = (state, callback) => {
-        return;
-      };
-    
-    
+
+    this.setState = (state, callback) => {
+      return;
+    };
   }
   render() {
     const {
@@ -89,7 +88,7 @@ export default class Collection extends React.Component {
 
     return (
       <div>
-      <ProgressBar loading={login_status} />
+        <ProgressBar loading={login_status} />
         <nav>
           <Nav _inx={0} list={["我的收藏"]} parent={this} />
         </nav>
@@ -107,12 +106,14 @@ export default class Collection extends React.Component {
                 </Grid>
               ))
             ) : (
-              <div className="profile-top">暂无数据</div>
+              <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notcoll} style={{ width: 490, height: 293 }} />
+                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无收藏</div>
+              </div>
             )}
           </Grid>
         )}
 
-      
         {total_counts > show_counts && (
           <div className="profile-top">
             <Pagination
@@ -127,7 +128,7 @@ export default class Collection extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
-                    show_page:v-1,
+                    show_page: v - 1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts
