@@ -7,7 +7,7 @@ import HeadCard from "./HeadCard";
 import Pagination from "./SePagination";
 import SeriesBar from "./SeriesBar";
 import withSeries from "./withSeries";
-import { getSeriesInfo } from "../../services/home";
+import { getSeriesInfo, seriesSearch } from "../../services/home";
 
 const AllSeries = ({
   seriesInfo,
@@ -57,6 +57,8 @@ const AllSeries = ({
   );
 };
 
-export default withSeries(AllSeries, ({ sid }) =>
-  getSeriesInfo({ series_id: sid })
+export default withSeries(
+  AllSeries,
+  ({ sid }) => getSeriesInfo({ series_id: sid }),
+  (params) => seriesSearch(params)
 );
