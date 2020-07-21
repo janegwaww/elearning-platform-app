@@ -130,7 +130,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   )}
 
                   <Link href={`/excellentcreator/creator/?cid=${item.user_id}`}>
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: 44,
+                      }}
+                    >
                       {!!item.headshot && (
                         <Avatar
                           alt={item.user_name}
