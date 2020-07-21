@@ -157,6 +157,7 @@ export const videoApis = () => {
     "user_search",
     // 系列详情页搜索
     "series_search",
+    "documents_search",
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(

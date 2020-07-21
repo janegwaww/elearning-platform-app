@@ -105,7 +105,10 @@ const SearchInput = ({ handleSearchClick }) => {
       classes={{ input: classes.inputInput }}
       endAdornment={
         <InputAdornment>
-          <Button onClick={handleSearchClick} className={classes.searchButton}>
+          <Button
+            onClick={() => handleSearchClick()}
+            className={classes.searchButton}
+          >
             <SearchIcon color="primary" />
           </Button>
         </InputAdornment>
@@ -140,13 +143,13 @@ class CreatorHome extends Component {
   filterData = (val) => {
     const arr = [];
     this.state.listStack.map((o) => {
-      if (val === 0) {
+      /* if (val === 0) {
+       *   arr.push(o);
+       * } */
+      if (o.type === "video" && val === 0) {
         arr.push(o);
       }
-      if (o.type === "video" && val === 1) {
-        arr.push(o);
-      }
-      if (o.type === "series" && val === 2) {
+      if (o.type === "series" && val === 1) {
         arr.push(o);
       }
     });
@@ -178,7 +181,7 @@ class CreatorHome extends Component {
 
   fetchSearchData = (page = 1) => {
     const { cid, value, inputValue } = this.state;
-    const type = ["all", "video", "series"][value];
+    const type = ["video", "series"][value];
     this.setState({ loading: true });
     creatorHomeSearch({
       query_string: inputValue,
@@ -213,6 +216,8 @@ class CreatorHome extends Component {
     const { value } = document.getElementById("creatorhome_local_search_input");
     if (value) {
       this.setState({ inputValue: value }, () => this.fetchSearchData(page));
+    } else {
+      this.setState({ inputValue: "", isSearch: false });
     }
   };
 
@@ -250,7 +255,7 @@ class CreatorHome extends Component {
               <div style={{ minHeight: "60vh" }}>
                 <Box display="flex" justifyContent="space-between">
                   <Tabs onChange={this.handleTabChange} value={value}>
-                    <TTab label="全部" />
+                    {/* <TTab label="全部" /> */}
                     <TTab label="视频" />
                     <TTab label="系列" />
                   </Tabs>
