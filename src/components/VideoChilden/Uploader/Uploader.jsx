@@ -27,6 +27,9 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
 
+import { DialogModal } from "../components/Dialog";
+
+
 const NewLinearProgress = withStyles({
   root: {
     height: "10px",
@@ -94,6 +97,7 @@ export default class UploadVideos extends Component {
       files: null, //文件列表
       lang_value: "", //语言
       lang_open: false,
+      progress_width:0,
       login_status: false,
     };
     this.myFile = null;
@@ -142,6 +146,11 @@ export default class UploadVideos extends Component {
           navigate(`/users/login`);
           return;
         }
+        if(res.err===5){
+          alert('不允许多个用户同时编辑...,将关闭当前页面');
+          // window.close();
+          return
+        }
         this.timerRef.current = setTimeout(() => {
           this.setState({
             login_status: false,
@@ -182,6 +191,9 @@ export default class UploadVideos extends Component {
           }
           if (res.result_data[0].user_id) {
             _data.user_id = res.result_data[0].user_id;
+          }
+          if(res.result_data[0].document&&res.result_data[0].document.length>0){
+            _data.document=res.result_data[0].document;
           }
           this.setState({
             status: 3,
@@ -268,6 +280,7 @@ export default class UploadVideos extends Component {
     };
     this.setState({
       status: 5,
+      progress_width:0
     });
     get_data(_data, "video")
       .then((res) => {
@@ -278,6 +291,7 @@ export default class UploadVideos extends Component {
           }, 60000);
           this.setState({
             status: 5,
+            
           });
         } else if (res.err === 0) {
           if (res.result_data[0] && res.result_data[0].subtitling) {
@@ -332,6 +346,9 @@ export default class UploadVideos extends Component {
         lang: this.state.lang_value,
       },
     };
+    this.setState({
+      progress_width:0
+    })
     get_data(_data, "video")
       .then((res) => {
         if (res.err > 0) {
@@ -341,6 +358,7 @@ export default class UploadVideos extends Component {
           }, 60000);
           this.setState({
             status: 5,
+            
           });
         } else if (res.err === 0) {
           this.tools_subtitles(res.result_data[0]);
@@ -383,13 +401,17 @@ export default class UploadVideos extends Component {
     _data.sub_josn = data.subtitling;
     this.setState({ status: 3, files: _data });
     // sessionStorage.setItem('file_data',_data);
-    console.log(this);
+    
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
   tools_status(num) {
     if (num === 1) {
+      this.setState({
+        progress_width:20
+      });
       alert("调用接口中");
+      
     } else if (num === 2) {
       alert("语音转写中");
     } else if (num === 3) {
@@ -416,13 +438,32 @@ export default class UploadVideos extends Component {
           return;
         }
         if (res.err > 0) {
-          this.tools_status(res.err);
+          // this.tools_status(res.err);
+          if(res.err==1){
+            this.setState({
+              progress_width:20
+            })
+          }else if(res.err==2){
+            this.setState({
+              progress_width:40
+            })
+          }else if(res.err==3){
+            this.setState({
+              progress_width:60
+            })}
+            else if(res.err==4){
+              this.setState({
+                progress_width:80
+              })}
           this.timerRef.current = setTimeout(() => {
             _this.query_subtitles();
           }, 60000);
         } else if (res.err === 0) {
           if (res.result_data[0] && res.result_data[0].subtitling) {
             this.tools_subtitles(res.result_data[0]);
+            this.setState({
+              progress_width:100
+            })
             return;
           }
         } else if (res.err == -4) {
@@ -886,18 +927,33 @@ export default class UploadVideos extends Component {
                     )}
 
                     {status === 5 && (
-                      <div>
+                    <div>
+                      <div
+                      className='all-width'
+                        style={{
+                          height: 6,
+                          background: "rgba(49,49,52,1)",
+                          borderradius: 3,
+                        }}
+                      >
+                      <div style={{width:this.state.progress_width+'%',transition:'all 10s'}}>
+                      
                         <LinearProgress color="secondary" />
-                        <p>
-                          正在生成字幕，请稍后
-                          {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
-                            ? Math.ceil((files.video_len * 60) / 210 / 60)
-                            : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
-                          ~{Math.ceil((files.video_len * 60) / 210 / 60) + 3}
-                          分钟..
-                        </p>
                       </div>
-                    )}
+                      
+                      
+                      </div>
+                     
+                      <p>
+                        正在生成字幕，请稍后
+                        {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
+                          ? Math.ceil((files.video_len * 60) / 210 / 60)
+                          : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
+                        ~{Math.ceil((files.video_len * 60) / 210 / 60) + 3}
+                        分钟..
+                      </p>
+                    </div>
+                     )}
                   </div>
                 </div>
               </div>
@@ -934,7 +990,13 @@ export default class UploadVideos extends Component {
         {/**弹窗 */}
 
         <Message parent={this} promp_info={this.state.promp_info}></Message>
-
+        <DialogModal
+          onEvent={(msg) => {
+            console.log(msg);
+          }}
+        >
+          123
+        </DialogModal>
         <Dialog open={lang_open}>
           <DialogTitle>请选择上传视频的语言</DialogTitle>
           <DialogContent>

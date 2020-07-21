@@ -11,7 +11,7 @@ import {
 import MuiAlert from "@material-ui/lab/Alert";
 
 import { navigate } from "@reach/router";
-import { getObj } from "../../../assets/js/totls";
+
 import { get_data } from "../../../assets/js/request";
 
 function Alert(props) {
@@ -100,7 +100,7 @@ const Message = (props) => {
             </Button>
           </DialogActions>
         ) : (
-          <DialogActions />
+          <DialogActions >123 </DialogActions>
         )}
       </Dialog>
       <Snackbar

@@ -314,7 +314,7 @@ class ProfileIndex extends React.Component {
                 this.setState({
                   video_type: _type,
                 });
-                // this.update_data(_type);
+                
               }}
             />
           </div>
