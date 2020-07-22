@@ -1,13 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { navigate } from "gatsby";
 import QRCode from "qrcode.react";
-import {
-  Container,
-  CssBaseline,
-  Grid,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import { Container, Grid, Tooltip, Typography } from "@material-ui/core";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
 import AccountForm from "./AccountForm";
@@ -114,8 +108,7 @@ const KEForm = ({ modal, modalClose }) => {
   );
 
   return (
-    <Fragment>
-      <CssBaseline />
+    <>
       <Container maxWidth="lg">
         <div className={classes.secondary}>
           <Grid container>
@@ -135,14 +128,18 @@ const KEForm = ({ modal, modalClose }) => {
             <Grid item xs={6}>
               <div className={classes.rightModule}>
                 <QrCodeIcon />
-                <div className={classes.welcomeTitle}>
-                  欢迎登录/注册知擎平台~
-                </div>
+                <div className={classes.welcomeTitle}>开动知识的引擎</div>
                 {accountLogin ? (
                   <AccountLoginComponent />
                 ) : (
                   <QrCodeLoginComponent />
                 )}
+                <Typography
+                  align="center"
+                  style={{ fontSize: 12, color: "#909399" }}
+                >
+                  未注册的手机号码验证后自动创建知擎账号
+                </Typography>
                 <ThirdPartyLoginOpt handleNavigate={handleNavigate} />
                 <UserProtocol />
               </div>
@@ -150,7 +147,7 @@ const KEForm = ({ modal, modalClose }) => {
           </Grid>
         </div>
       </Container>
-    </Fragment>
+    </>
   );
 };
 
