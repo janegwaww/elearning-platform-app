@@ -29,7 +29,6 @@ import dropupload from "../../../assets/img/dropupload.svg";
 
 import { DialogModal } from "../components/Dialog";
 
-
 const NewLinearProgress = withStyles({
   root: {
     height: "10px",
@@ -97,7 +96,8 @@ export default class UploadVideos extends Component {
       files: null, //文件列表
       lang_value: "", //语言
       lang_open: false,
-      progress_width:0,
+      progress_width: 0,
+      status_text:'语音转写中...',
       login_status: false,
     };
     this.myFile = null;
@@ -146,10 +146,10 @@ export default class UploadVideos extends Component {
           navigate(`/users/login`);
           return;
         }
-        if(res.err===5){
-          alert('不允许多个用户同时编辑...,将关闭当前页面');
+        if (res.err === 5) {
+          alert("不允许多个用户同时编辑...,将关闭当前页面");
           // window.close();
-          return
+          return;
         }
         this.timerRef.current = setTimeout(() => {
           this.setState({
@@ -192,8 +192,11 @@ export default class UploadVideos extends Component {
           if (res.result_data[0].user_id) {
             _data.user_id = res.result_data[0].user_id;
           }
-          if(res.result_data[0].document&&res.result_data[0].document.length>0){
-            _data.document=res.result_data[0].document;
+          if (
+            res.result_data[0].document &&
+            res.result_data[0].document.length > 0
+          ) {
+            _data.document = res.result_data[0].document;
           }
           this.setState({
             status: 3,
@@ -280,22 +283,27 @@ export default class UploadVideos extends Component {
     };
     this.setState({
       status: 5,
-      progress_width:0
+      progress_width: 0,
     });
     get_data(_data, "video")
       .then((res) => {
         if (res.err > 0) {
-          this.tools_status(res.err);
+          this.tools_status(res.err,res.errmsg);
           this.timerRef.current = setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, 60000);
           this.setState({
             status: 5,
-            
           });
         } else if (res.err === 0) {
           if (res.result_data[0] && res.result_data[0].subtitling) {
-            this.tools_subtitles(res.result_data[0]);
+            this.setState({
+              progress_width:100,
+              status:5
+            })
+            setTimeout(() => {
+              this.tools_subtitles(res.result_data[0]);
+            }, 11000);
           }
           return;
         } else {
@@ -347,21 +355,26 @@ export default class UploadVideos extends Component {
       },
     };
     this.setState({
-      progress_width:0
-    })
+      progress_width: 0,
+    });
     get_data(_data, "video")
       .then((res) => {
         if (res.err > 0) {
-          this.tools_status(res.err);
+          this.tools_status(res.err,res.errmsg);
           this.timerRef.current = setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, 60000);
           this.setState({
             status: 5,
-            
           });
         } else if (res.err === 0) {
-          this.tools_subtitles(res.result_data[0]);
+          this.setState({
+            progress_width:100,
+            status:5,
+          });
+          setTimeout(() => {
+            this.tools_subtitles(res.result_data[0]);
+          }, 11000);
         } else {
           alert("生成字幕失败");
           this.setState({
@@ -401,23 +414,31 @@ export default class UploadVideos extends Component {
     _data.sub_josn = data.subtitling;
     this.setState({ status: 3, files: _data });
     // sessionStorage.setItem('file_data',_data);
-    
+
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
-  tools_status(num) {
+  tools_status(num,_text) {
     if (num === 1) {
       this.setState({
-        progress_width:20
+        status_text: _text,
+        progress_width: 20,
       });
-      alert("调用接口中");
-      
     } else if (num === 2) {
-      alert("语音转写中");
+      this.setState({
+        status_text: _text,
+        progress_width: 40,
+      });
     } else if (num === 3) {
-      alert("文本翻译中");
+      this.setState({
+        status_text: _text,
+        progress_width: 60,
+      });
     } else if (num === 4) {
-      alert("生成字幕中");
+      this.setState({
+        status_text: _text,
+        progress_width: 80,
+      });
     }
   }
   query_subtitles() {
@@ -438,32 +459,19 @@ export default class UploadVideos extends Component {
           return;
         }
         if (res.err > 0) {
-          // this.tools_status(res.err);
-          if(res.err==1){
-            this.setState({
-              progress_width:20
-            })
-          }else if(res.err==2){
-            this.setState({
-              progress_width:40
-            })
-          }else if(res.err==3){
-            this.setState({
-              progress_width:60
-            })}
-            else if(res.err==4){
-              this.setState({
-                progress_width:80
-              })}
+          this.tools_status(res.err,res.errmsg);
           this.timerRef.current = setTimeout(() => {
             _this.query_subtitles();
           }, 60000);
         } else if (res.err === 0) {
           if (res.result_data[0] && res.result_data[0].subtitling) {
-            this.tools_subtitles(res.result_data[0]);
             this.setState({
-              progress_width:100
-            })
+              progress_width: 100,
+            });
+            setTimeout(() => {
+              this.tools_subtitles(res.result_data[0]);
+            }, 11000);
+
             return;
           }
         } else if (res.err == -4) {
@@ -492,6 +500,8 @@ export default class UploadVideos extends Component {
       is_drop,
       files,
       login_status,
+      status_text,
+      ...other
     } = this.state;
     let _this = this;
     return (
@@ -927,33 +937,35 @@ export default class UploadVideos extends Component {
                     )}
 
                     {status === 5 && (
-                    <div>
-                      <div
-                      className='all-width'
-                        style={{
-                          height: 6,
-                          background: "rgba(49,49,52,1)",
-                          borderradius: 3,
-                        }}
-                      >
-                      <div style={{width:this.state.progress_width+'%',transition:'all 10s'}}>
-                      
-                        <LinearProgress color="secondary" />
+                      <div>
+                        <div
+                          className="all-width"
+                          style={{
+                            height: 6,
+                            background: "rgba(49,49,52,1)",
+                            borderradius: 3,
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: this.state.progress_width + "%",
+                              transition: "all 10s",
+                            }}
+                          >
+                            <LinearProgress color="secondary" />
+                          </div>
+                        </div>
+
+                        <p>
+                          {status_text}，请稍后
+                          {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
+                            ? Math.ceil((files.video_len * 60) / 210 / 60)
+                            : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
+                          ~{Math.ceil((files.video_len * 60) / 210 / 60) + 3}
+                          分钟..
+                        </p>
                       </div>
-                      
-                      
-                      </div>
-                     
-                      <p>
-                        正在生成字幕，请稍后
-                        {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
-                          ? Math.ceil((files.video_len * 60) / 210 / 60)
-                          : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
-                        ~{Math.ceil((files.video_len * 60) / 210 / 60) + 3}
-                        分钟..
-                      </p>
-                    </div>
-                     )}
+                    )}
                   </div>
                 </div>
               </div>
