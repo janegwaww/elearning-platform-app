@@ -51,11 +51,17 @@ const useStyles = makeStyles(() => ({
     marginBottom: -60,
     zIndex: 2,
     display: "block",
+    height: 140,
   },
   close: {
     position: "absolute",
     top: 0,
     right: 0,
+  },
+  modalBody: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
   },
 }));
 
@@ -69,7 +75,7 @@ const LoginConfirmModal = ({
   return (
     <Modal open={open} onClose={handleClose}>
       <div className={classes.contain}>
-        <Box display="flex" alignItems="center" flexDirection="column">
+        <div className={classes.modalBody}>
           <div className={classes.img}>
             <img src="/images/isLogin.svg" alt="login-icon" />
           </div>
@@ -101,7 +107,7 @@ const LoginConfirmModal = ({
               <CloseIcon />
             </IconButton>
           </div>
-        </Box>
+        </div>
       </div>
     </Modal>
   );
