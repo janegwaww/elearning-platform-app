@@ -73,6 +73,7 @@ class ProfileIndex extends React.Component {
     }).then((res) => {
       if (res.err == 4104) {
         alert("用户未登录，或登录已过期,将为你跳转到登录页...");
+        localStorage.removeItem('haetekUser');
         navigate(`/users/login`);
         return;
       }
