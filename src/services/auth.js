@@ -48,11 +48,12 @@ const getResultData = ({ data = {} }) =>
   Promise.resolve(data.result_data || []);
 
 // 错误信息提示
-const errorMessageNotice = (data = {}) => {
-  if (![0, "0"].includes(data.data.err)) {
-    alert(data.data.errmsg);
+const errorMessageNotice = (odata = {}) => {
+  const {data={}} = odata
+  if (![0, "0"].includes(data.err)) {
+    alert(data.errmsg);
   }
-  return Promise.resolve(data);
+  return Promise.resolve(odata);
 };
 
 // 获取后端接口返回的结果字段中的第一个数组
@@ -70,7 +71,7 @@ const getArrayData = ([arr]) => Promise.resolve(arr || {});
 // 因为登录有headers,因此需要同时处理返回的数据和headers
 const getLoginData = ({ data = {}, headers = {} }) =>
   Promise.resolve({
-    resultData: data.result_data[0] || {},
+    resultData: data.result_data ? data.result_data[0] : {},
     authorization: headers.authorization
   });
 
@@ -125,7 +126,6 @@ export const generateQRCode = pipeThen(
 export const enquiryQRCode = pipeThen(
   setLoginUser,
   getLoginData,
-  errorMessageNotice,
   apis.enquiryQrcode
 );
 
