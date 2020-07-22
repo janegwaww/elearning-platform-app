@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   welcomeTitle: {
     fontSize: "20px",
     fontFamily: "PingFangSC-Regular,PingFang SC",
-    fontWeight: 300,
+    fontWeight: 400,
     color: "rgba(0,0,0,1)",
     lineHeight: "42px",
     display: "block",

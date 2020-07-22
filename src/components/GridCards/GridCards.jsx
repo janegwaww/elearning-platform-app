@@ -8,6 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Bull from "../Search/Bull";
 import Link from "../Link/Link";
+import CardTag from "./CardTag";
 import { secondsToMouth } from "../../services/utils";
 import "./GridCardsStyles.sass";
 
@@ -39,15 +40,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     return { to: "/", state: {} };
   };
 
-  const isSeries = ({ video_id, series_id }) =>
-    series_id && (
-      <div className="series-tag">
-        <Typography color="primary" variant="caption">
-          系列
-        </Typography>
-      </div>
-    );
-
   const duration = ({ video_time }) =>
     video_time && (
       <Box className="video-time-tag">
@@ -78,10 +70,11 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
             <Box width="100%" className="grid-item">
               {item ? (
                 <Link href={handleLink(item).to}>
-                  <div className="grid-card-image-head">
-                    <img alt={item.image_path} src={`${item.image_path}`} />
-                  </div>
-                  {isSeries(item)}
+                  <CardTag type={item.type}>
+                    <div className="grid-card-image-head">
+                      <img alt={item.image_path} src={`${item.image_path}`} />
+                    </div>
+                  </CardTag>
                   {duration(item)}
                   {seriesCounts(item)}
                 </Link>
