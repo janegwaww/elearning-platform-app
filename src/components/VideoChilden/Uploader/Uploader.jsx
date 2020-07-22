@@ -27,7 +27,11 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
 
-import { DialogModal } from "../components/Dialog";
+import  DialogModal  from "../components/Dialog";
+import gologin from "../../../assets/img/gologin.png";
+import uploadererr from "../../../assets/img/uploadererr.png";
+import videorest from "../../../assets/img/videorest.png";
+
 
 const NewLinearProgress = withStyles({
   root: {
@@ -50,6 +54,14 @@ const ErrorLinearProgress = withStyles({
     },
   },
 })(NewLinearProgress);
+const SubstitleProgress = withStyles({
+  root: {
+    "background-color": "rgba(0,124,255,0.5)",
+    "& .MuiLinearProgress-barColorPrimary": {
+      "background-color": "#007CFF",
+    },
+  },
+})(LinearProgress);
 const NewBtn = withStyles({
   root: {
     backgroundColor: "#313134",
@@ -80,11 +92,11 @@ export default class UploadVideos extends Component {
     super(props);
     this.state = {
       fileName: "",
-      // fileName_chunk: "",
+
       progress: 1,
       updata_msg: null,
       status: 1, //2.正在上传，3.上传完成成功,4.上传完成失败，5.正在生成字幕
-      // is_suc:false,//上传完成后，true上传成功，
+
       is_drop: false, //是否有文件正拖进来
       promp_info: {
         //弹窗信息
@@ -97,8 +109,12 @@ export default class UploadVideos extends Component {
       lang_value: "", //语言
       lang_open: false,
       progress_width: 0,
-      status_text:'语音转写中...',
+      status_text: "语音转写中...",
       login_status: false,
+      is_login: {
+        open: false,
+        type: 3, //1 未登录 2，重复，3，失败
+      },
     };
     this.myFile = null;
     this.timerRef = React.createRef();
@@ -109,6 +125,8 @@ export default class UploadVideos extends Component {
     this.btn_del = this.btn_del.bind(this);
     this.tools_subtitles = this.tools_subtitles.bind(this);
     this.tools_status = this.tools_status.bind(this);
+    this.upFile = this.upFile.bind(this);
+    this.befor_upfile = this.befor_upfile.bind(this);
   }
   componentDidMount() {
     // console.log(this.props.parent.props.location.href);
@@ -122,7 +140,7 @@ export default class UploadVideos extends Component {
         key: "Authorization",
         value: "Bearer " + (getUser().token || ""),
       },
-      url: "http://api2.haetek.com:9191/api/v1/gateway",
+      url: "https://api2.haetek.com:9191/api/v1/gateway",
       shardSize: 10 * 1024 * 1024, //一个分片大小
       fileId: "newFile",
     });
@@ -268,7 +286,88 @@ export default class UploadVideos extends Component {
       }
     });
   }
+  upFile(_file) {
+    let _this = this;
+    this.myFile.init(_file);
+    this.myFile.on("progress", function(res) {
+      //监听文件上传进程
 
+      _this.setState({
+        progress: res.size,
+      });
+    });
+    this.myFile.on("onchange", function(res) {
+      let _data = res.response;
+      if (_data.err === -1) {
+        alert("此视频已存在，暂不支持多人同时此视频，请谅解！");
+
+        _this.setState({ status: 1, progress: 1 });
+
+        _this.myFile.stop();
+      }
+    });
+    this.myFile.on("onload", function(res) {
+      let _data = res.response;
+
+      if (_data.err === -1) {
+        alert("此视频已有人上传，暂不支持多人同时此视频，请谅解！");
+
+        _this.setState({ status: 1, progress: 0 });
+      }
+      if (_data.err === 0 && _data.result_data.length > 0) {
+        new CustomModal().alert("上传成功", "success", 3000);
+        _this.setState({
+          files: _data.result_data[0],
+          status: 3,
+        });
+        sessionStorage.setItem(
+          "file_data",
+          JSON.stringify(_data.result_data[0])
+        );
+        _this.props.parent.getUpfileUrl(_data.result_data[0]); //上传给父级
+        _this.get_image(); //获取缩略图
+      }
+    });
+    this.myFile.on("error", function(res) {
+      _this.setState({
+        status: 4,
+      });
+      new CustomModal().alert("上传失败,网络错误!", "error", 3000);
+    });
+  }
+  befor_upfile(callback){
+    if (!isLoggedIn()) {
+      this.setState({
+        is_login: {
+          type: 1,
+          open: true,
+        },
+      });
+      return false;
+    }
+    get_data({
+      model_name: "user",
+      model_action: "is_login",
+      extra_data: {},
+      model_type: "",
+    }).then((res) => {
+      
+      if (res.err === 0 && res.errmsg == "OK") {
+        callback&&callback();
+        
+      } else {
+        let _data = {
+          type:1,
+          open:true,
+          msg:'登录超时,是否重新登录?'
+        }
+        this.setState({
+          is_login:_data
+        })
+      }
+    });
+    return false;
+  }
   new_subtitles(str) {
     //获取新的字幕
     let _this = this;
@@ -288,7 +387,7 @@ export default class UploadVideos extends Component {
     get_data(_data, "video")
       .then((res) => {
         if (res.err > 0) {
-          this.tools_status(res.err,res.errmsg);
+          this.tools_status(res.err, res.errmsg);
           this.timerRef.current = setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, 60000);
@@ -298,9 +397,9 @@ export default class UploadVideos extends Component {
         } else if (res.err === 0) {
           if (res.result_data[0] && res.result_data[0].subtitling) {
             this.setState({
-              progress_width:100,
-              status:5
-            })
+              progress_width: 100,
+              status: 5,
+            });
             setTimeout(() => {
               this.tools_subtitles(res.result_data[0]);
             }, 11000);
@@ -360,7 +459,7 @@ export default class UploadVideos extends Component {
     get_data(_data, "video")
       .then((res) => {
         if (res.err > 0) {
-          this.tools_status(res.err,res.errmsg);
+          this.tools_status(res.err, res.errmsg);
           this.timerRef.current = setTimeout(() => {
             this.query_subtitles(); //查询是否生成字幕
           }, 60000);
@@ -369,8 +468,8 @@ export default class UploadVideos extends Component {
           });
         } else if (res.err === 0) {
           this.setState({
-            progress_width:100,
-            status:5,
+            progress_width: 100,
+            status: 5,
           });
           setTimeout(() => {
             this.tools_subtitles(res.result_data[0]);
@@ -418,28 +517,21 @@ export default class UploadVideos extends Component {
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
-  tools_status(num,_text) {
+  tools_status(num, _text) {
+    let _w = 0;
     if (num === 1) {
-      this.setState({
-        status_text: _text,
-        progress_width: 20,
-      });
+      _w = 20;
     } else if (num === 2) {
-      this.setState({
-        status_text: _text,
-        progress_width: 40,
-      });
+      _w = 40;
     } else if (num === 3) {
-      this.setState({
-        status_text: _text,
-        progress_width: 60,
-      });
+      _w = 60;
     } else if (num === 4) {
-      this.setState({
-        status_text: _text,
-        progress_width: 80,
-      });
+      _w = 80;
     }
+    this.setState({
+      status_text: _text,
+      progress_width: _w,
+    });
   }
   query_subtitles() {
     let _this = this;
@@ -459,7 +551,7 @@ export default class UploadVideos extends Component {
           return;
         }
         if (res.err > 0) {
-          this.tools_status(res.err,res.errmsg);
+          this.tools_status(res.err, res.errmsg);
           this.timerRef.current = setTimeout(() => {
             _this.query_subtitles();
           }, 60000);
@@ -501,6 +593,7 @@ export default class UploadVideos extends Component {
       files,
       login_status,
       status_text,
+      is_login,
       ...other
     } = this.state;
     let _this = this;
@@ -537,102 +630,14 @@ export default class UploadVideos extends Component {
                     });
                     return;
                   }
-                  if (!isLoggedIn()) {
+                  this.befor_upfile(()=>{
                     _this.setState({
-                      promp_info: {
-                        type: 3,
-                        open: true,
-                        msg: "您还没有登录，是否跳转到登录页面",
-                        title: "温馨提示",
-                      },
+                      status: 2,
+                      fileName: files.name.split(".")[0],
                     });
-                    return false;
-                  }
-                  get_data({
-                    model_name: "user",
-                    model_action: "is_login",
-                    extra_data: {},
-                    model_type: "",
-                  }).then((res) => {
-                    if (res.err === 0 && res.errmsg == "OK") {
-                      _this.setState({
-                        status: 2,
-                        fileName: files.name.split(".")[0],
-                      });
-
-                      this.myFile.init(files);
-                      this.myFile.on("progress", function(res) {
-                        //监听文件上传进程
-
-                        _this.setState({
-                          progress: res.size,
-                        });
-                      });
-                      this.myFile.on("onchange", function(res) {
-                        let _data = res.response;
-                        if (_data.err === -1) {
-                          alert(
-                            "此视频已存在，暂不支持多人同时此视频，请谅解！"
-                          );
-
-                          _this.setState({ status: 1, progress: 1 });
-
-                          _this.myFile.stop();
-                        }
-                      });
-                      this.myFile.on("onload", function(res) {
-                        let _data = res.response;
-
-                        if (_data.err === -1) {
-                          alert(
-                            "此视频已有人上传，暂不支持多人同时此视频，请谅解！"
-                          );
-
-                          _this.setState({ status: 1, progress: 0 });
-                        }
-                        if (_data.err === 0 && _data.result_data.length > 0) {
-                          new CustomModal().alert("上传成功", "success", 3000);
-                          _this.setState({
-                            files: _data.result_data[0],
-                            status: 3,
-                          });
-                          sessionStorage.setItem(
-                            "file_data",
-                            JSON.stringify(_data.result_data[0])
-                          );
-                          _this.props.parent.getUpfileUrl(_data.result_data[0]); //上传给父级
-                          _this.get_image(); //获取缩略图
-                        }
-                      });
-                      this.myFile.on("error", function(res) {
-                        _this.setState({
-                          status: 4,
-                        });
-                        new CustomModal().alert(
-                          "上传失败,网络错误!",
-                          "error",
-                          3000
-                        );
-                      });
-                    } else {
-                      let _data = this.state.promp_info;
-                      localStorage.removeItem("haetekUser");
-                      _data.type = 3;
-                      _data.open = true;
-                      _data.msg = "登录超时，正在为你跳转登录页...";
-                      _this.setState({
-                        promp_info: _data,
-                      });
-                      this.timerRef.current = setTimeout(() => {
-                        _data.open = false;
-                        _this.setState({
-                          promp_info: _data,
-                        });
-                        navigate(`/users/login`);
-                      }, 3000);
-                    }
-                  });
-                  return false;
+            
+                   this.upFile(files)
+                  })
                 }}
                 onDragEnter={(ev) => {
                   ev.stopPropagation();
@@ -655,49 +660,10 @@ export default class UploadVideos extends Component {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  if (!isLoggedIn()) {
-                    _this.setState({
-                      promp_info: {
-                        type: 3,
-                        open: true,
-                        msg: "您还没有登录，是否跳转到登录页面",
-                        title: "温馨提示",
-                      },
-                    });
-                    return false;
-                  }
-                  get_data({
-                    model_name: "user",
-                    model_action: "is_login",
-                    extra_data: {},
-                    model_type: "",
+                  this.befor_upfile(()=>{
+                    document.getElementById("newFile").click();
                   })
-                    .then((res) => {
-                      if (res.err === 0 && res.errmsg == "OK") {
-                        document.getElementById("newFile").click();
-                      } else {
-                        let _data = this.state.promp_info;
-                        localStorage.removeItem("haetekUser");
-                        _data.type = 3;
-                        _data.open = true;
-                        _data.msg = "登录超时，正在为你跳转登录页...";
-                        _this.setState({
-                          promp_info: _data,
-                        });
-                        this.timerRef.current = setTimeout(() => {
-                          _data.open = false;
-                          _this.setState({
-                            promp_info: _data,
-                          });
-                          navigate(`/users/login`);
-                        }, 3000);
-                      }
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    });
-
-                  return false;
+                  
                 }}
               >
                 {!is_drop ? (
@@ -811,13 +777,18 @@ export default class UploadVideos extends Component {
         {status >= 2 && (
           <div style={{ paddingTop: 20 }} className="all-width">
             <section
+            title='双击选中视频'
               className={`all-width ${
                 this.props.parent.state.is_select ? "active" : ""
               }`}
-              onClick={() => {
+              onDoubleClick={(ev) => {
+                ev.stopPropagation();
+                  ev.preventDefault();
+                console.log(this.props.parent.state.is_select)
                 this.props.parent.setState({
                   is_select: !this.props.parent.state.is_select,
                 });
+                return false
               }}
             >
               <div
@@ -952,12 +923,12 @@ export default class UploadVideos extends Component {
                               transition: "all 10s",
                             }}
                           >
-                            <LinearProgress color="secondary" />
+                            <SubstitleProgress />
                           </div>
                         </div>
 
                         <p>
-                          {status_text}，请稍后
+                          {status_text}&nbsp;&nbsp;请稍后
                           {Math.ceil((files.video_len * 60) / 210 / 60) - 2 <= 0
                             ? Math.ceil((files.video_len * 60) / 210 / 60)
                             : Math.ceil((files.video_len * 60) / 210 / 60) - 2}
@@ -1003,11 +974,62 @@ export default class UploadVideos extends Component {
 
         <Message parent={this} promp_info={this.state.promp_info}></Message>
         <DialogModal
+          _login={is_login}
+          open={is_login.open||false}
           onEvent={(msg) => {
-            console.log(msg);
+            
+            if(msg.confirm){
+              console.log(is_login)
+              if(is_login.type==1){
+                localStorage.removeItem("haetekUser");
+                navigate(`/users/login`)
+              }
+            }
+            this.setState({
+              is_login: {
+                is_loging: false,
+              },
+            });
           }}
         >
-          123
+          {is_login.type == 1 && (
+            <div className="fn-size-16 fn-color-2C2C3B text-center">
+              <img
+                src={gologin}
+                alt=""
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: -135,
+                  zIndex: 1000,
+                  width: 185,
+                  height: 135,
+                  transform: "translateX(-50%)",
+                }}
+              />
+              <div className="text-center" style={{ margin: "24px 0" }}>
+                {is_login.msg?is_login.msg:'亲, 此操作需登录, 是否登录?'} 
+              </div>
+            </div>
+          )}
+          {is_login.type == 2 && (
+            <div className="text-center fn-size-16 fn-color-2C2C3B">
+              <img src={videorest} alt="" style={{ width: 127, height: 115 }} />
+              <div style={{ margin: "40px 0 24px 0" }}>
+                该作品已存在, 请误重复上传!
+              </div>
+            </div>
+          )}
+          {is_login.type == 3 && (
+            <div className="text-center fn-size-16 fn-color-2C2C3B">
+              <img
+                src={uploadererr}
+                alt=""
+                style={{ width: 110, height: 165 }}
+              />
+              <div style={{ margin: "40px 0 24px 0" }}>作品上传失败!</div>
+            </div>
+          )}
         </DialogModal>
         <Dialog open={lang_open}>
           <DialogTitle>请选择上传视频的语言</DialogTitle>

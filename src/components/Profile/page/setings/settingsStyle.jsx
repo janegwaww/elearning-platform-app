@@ -63,6 +63,15 @@ const useStyles = makeStyles((theme) => ({
       height: 70,
       borderRadius: "50%",
       backgroundColor: "#F3F3F3",
+      position: "relative",
     },
+    mask:{
+      position: "absolute",
+      backgroundColor: "rgba(0,0,0,.5)",
+      zIndex: 0,
+    },
+    masknext:{
+      position: "relative", zIndex: 1
+    }
   }));
   export default useStyles;

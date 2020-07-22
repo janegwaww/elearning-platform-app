@@ -7,7 +7,6 @@ import {
   BrokenImageOutlined,
 } from "@material-ui/icons";
 
-
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -21,7 +20,7 @@ import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
 
 import { navigate } from "@reach/router";
-import useStyles from './settingsStyle';
+import useStyles from "./settingsStyle";
 
 const Basic = (props) => {
   const classes = useStyles();
@@ -71,12 +70,18 @@ const Basic = (props) => {
                   ? "url(" + newheaderurl + ")"
                   : "url(" + userInfo.headshot + ")",
               }}
-              className={`text-center bg-not fn-color-white box box-center ${classes.usersimg}`}
+              className={`text-center bg-not fn-color-white box box-center view-overflow ${classes.usersimg}`}
               onClick={() => {
                 setUphead(true);
               }}
             >
-              <CameraAltOutlined />
+              <div
+                className={`all-width all-height ${classes.mask}`}
+                
+              ></div>
+              <div className={classes.masknext}>
+                <CameraAltOutlined />
+              </div>
             </div>
             <PublicDialog
               parent={props}
@@ -186,22 +191,21 @@ const Basic = (props) => {
               style={{
                 width: 640,
                 height: 140,
-                position:'relative',
+                position: "relative",
                 backgroundImage: newcoverurl
                   ? "url(" + newcoverurl + ")"
                   : "url(" + userInfo.background + ")",
-                  borderRadius:12,
+                borderRadius: 12,
               }}
               onClick={() => {
                 setUpcover(true);
               }}
             >
-              <div className='all-width all-height' style={{
-                position:'absolute',
-                backgroundColor:'rgba(0,0,0,.5)',
-                zIndex:0
-              }}></div>
-              <div  style={{position:'relative',zIndex :1}}>
+              <div
+                className={`all-width all-height ${classes.mask}`}
+               
+              ></div>
+              <div className={classes.masknext}>
                 <BrokenImageOutlined />
                 <p>上传封面</p>
               </div>

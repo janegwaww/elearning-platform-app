@@ -2,8 +2,8 @@ import axios from "axios";
 import { getUser } from "../../services/auth";
 import CustomModal from "./CustomModal";
 const _path = __dirname;
-const users_url ="http://api.haetek.com:9191/api/v1/gateway"; //个中心
-const video_url= 'http://api2.haetek.com:9191/api/v1/gateway';//生字幕
+const users_url ="https://api.haetek.com:9191/api/v1/gateway"; //个中心
+const video_url= 'https://api2.haetek.com:9191/api/v1/gateway';//生字幕
 // axios.defaults.timeout = 10000;
 axios.defaults.headers = {
   "Content-Type": "application/json",

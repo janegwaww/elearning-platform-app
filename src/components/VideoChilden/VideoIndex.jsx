@@ -99,7 +99,16 @@ export default class VideoPage extends Component {
     window.onresize = (evnt) => {
       _this.video_w_h();
     };
-
+ document.onclick = (ev) => {
+      
+      
+        if (this.state.is_select) {
+          this.setState({
+            is_select: false,
+          });
+        }
+    
+    };
     document.onkeydown = (ev) => {
       // console.log(ev.keyCode,this.state.is_now_edit);
       if (this.video_live && JSON.stringify(this.state.video_data) != "{}") {
@@ -171,7 +180,8 @@ export default class VideoPage extends Component {
   componentWillUnmount() {
     window.onresize = null;
     document.onkeydown = null;
-    this.setState = ()=>false;
+    document.onclick = null;
+    this.setState = () => false;
   }
 
   cueing(textArr) {
@@ -268,7 +278,6 @@ export default class VideoPage extends Component {
     return test_arr;
   }
   getUpfileUrl(res) {
-    
     //接收组件传递视频数据
     let _data = this.state.video_data || {};
     if (JSON.stringify(_data) == "{}") {
@@ -327,7 +336,6 @@ export default class VideoPage extends Component {
 
     let img_str = "";
     let img_pos = "";
-   
 
     let new_img = [];
     for (let j = 0; j < res.length; j++) {
@@ -375,7 +383,6 @@ export default class VideoPage extends Component {
     this.sub_test(msg);
     return;
   }
- 
 
   sub_test(time) {
     //更新字幕
@@ -607,7 +614,7 @@ export default class VideoPage extends Component {
         });
         return;
       }
-   
+
       if (!_this.video_live.paused) {
         let now_x =
           time /
@@ -1095,7 +1102,6 @@ export default class VideoPage extends Component {
           </section>
         </footer>
         <SearchLoading loading={this.state.login_status} />
-       
       </div>
     );
   }

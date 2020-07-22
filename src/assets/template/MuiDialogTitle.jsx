@@ -41,6 +41,8 @@ const styles = (theme) => ({
   export const DialogContent = withStyles((theme) => ({
     root: {
       padding: theme.spacing(2),
+      overflowY:'visible',
+      position: 'relative'
     },
   }))(MuiDialogContent);
   

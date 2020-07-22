@@ -8,6 +8,12 @@ import {
 } from "../../../assets/template/MuiDialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
+  root:{
+    border:'1px solid red',
+    "& .MuiDialog-paper":{
+      overflowY:'visible'
+    }
+  },
   btn: {
     fontSize: 16,
     width: 180,
@@ -29,52 +35,68 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F2F2F5",
     color: "#878791",
     border: "none",
+    marginLeft:30
   },
 }));
-export const DialogModal = (props) => {
+const stop_run=(prvprops,nextpropx)=>{
+  console.log(prvprops,nextpropx)
+  if(prvprops.open ==nextpropx.open){
+    return true
+  }
+}
+ const DialogModal = (props) => {
+
   const classes = useStyles();
   const {
-    imgurl,
-    type,
+    _login,
+    open,
     children,
     title,
-    btnconfirm,
-    btncancel,
-
     onEvent,
     ...other
   } = props;
-
+console.log(props)
   return (
-    <Dialog open={false}>
-      <div style={{ width: 470, height: 230 ,padding:20}}>
+    <Dialog open={open} className={classes.root}>
+      <div style={{ width: 470,padding:20}}>
         <DialogTitle
           onClose={() => {
-            props.onEvent && props.onEvent({ confirm: false, cancel: true });
+            props.onEvent && props.onEvent({ confirm: false, concel: true });
           }}
         >
-
-        
           {title || ""}
         </DialogTitle>
         <DialogContent>{children}</DialogContent>
 
         <DialogActions >
-          <div className='box box-align-center box-between'>
+          <div className='box box-center all-width'>
+          {_login.type==3&&(
             <Button
               variant="outlined"
               color="primary"
               className={`${classes.btn} ${classes.btn2}`}
+              onClick={() => {
+                onEvent && onEvent({ confirm: true, concel: false });
+              }}
             >
               重新上传
             </Button>
+            )}
+            {_login.type==2&&(
             <Button
               variant="outlined"
               color="primary"
               className={`${classes.btn} ${classes.btn2}`}
+              onClick={() => {
+                onEvent && onEvent({ confirm: true, concel: false });
+              }}
             >
               确定
             </Button>
+            
+            )}
+            {_login.type==1&&(
+              <div>
             <Button
               variant="contained"
               className={`${classes.btn} ${classes.btn1}`}
@@ -87,12 +109,18 @@ export const DialogModal = (props) => {
             <Button
               variant="outlined"
               className={`${classes.btn} ${classes.btn3}`}
+              onClick={() => {
+                onEvent && onEvent({ confirm: false, concel: true });
+              }}
             >
-              去取消
+              取消
             </Button>
+            </div>
+            )}
           </div>
         </DialogActions>
       </div>
     </Dialog>
   );
 };
+export default React.memo(DialogModal,stop_run)
