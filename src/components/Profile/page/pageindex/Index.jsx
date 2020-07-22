@@ -208,9 +208,11 @@ class ProfileIndex extends React.Component {
             <div>
               <Nav parent={this} list={["数据中心"]} _inx={0} />
             </div>
+            <div></div>
+            {/**
             <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
               查看数据
-            </div>
+            </div> */}
           </div>
           <div
             className="box box-align-center text-center fn-size-14 fn-color-878791"
