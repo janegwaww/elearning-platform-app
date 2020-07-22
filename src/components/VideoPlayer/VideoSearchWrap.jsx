@@ -1,22 +1,25 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import {
   Button,
   Paper,
   InputBase,
   InputAdornment,
-  ButtonBase
+  ButtonBase,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "notistack";
 import SingleLineGridList from "./SingleLineGridList";
+import { useLoginConfirm } from "../LoginConfirm";
 import { subtitles, ksearchRecord } from "../../services/video";
 import { getIdFromHref, secondsToHMS } from "../../services/utils";
+import { isLoggedIn } from "../../services/auth";
 import "./VideoSearchWrapStyles.sass";
 
 const VideoSearchWrap = ({ children, vid, path }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const loginConfirm = useLoginConfirm();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState(0);
@@ -41,26 +44,27 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     }
   };
 
-  const handleInputClick = e => {
+  const handleInputClick = (e) => {
     e.preventDefault();
-    subtitles({ query_string: input, video_id: [vid] }).then(data => {
+    subtitles({ query_string: input, video_id: [vid] }).then((data) => {
       setGridList(data);
+      !isLoggedIn() && loginConfirm();
     });
   };
 
-  const handleEnter = e => {
+  const handleEnter = (e) => {
     if (e.key === "Enter") {
       handleInputClick(e);
     }
   };
 
-  const handleJump = time => {
+  const handleJump = (time) => {
     setTimer(time);
     // 记录搜索点击用的
     ksearchRecord({
       video_id: vid,
       query_string: input,
-      match_time: secondsToHMS(time)
+      match_time: secondsToHMS(time),
     });
   };
 
@@ -90,7 +94,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
               placeholder="支持语义理解..."
               type="text"
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleEnter}
               endAdornment={
                 <InputAdornment position="end">

@@ -4,17 +4,19 @@ import StarIcon from "@material-ui/icons/Star";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import ShareIcon from "@material-ui/icons/Share";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import SharePopover from "./SharePopover";
-import { likeTheVideo, collectTheVideo } from "../../services/video";
 import LightTooltip from "./LightTooltip";
 import UserLikeHeart from "./UserLikeHeart";
+import { likeTheVideo, collectTheVideo } from "../../services/video";
+import { isLoggedIn } from "../../services/auth";
+import { useLoginConfirm } from "../LoginConfirm";
 
 export default function UserFeedback({ backData = {} }) {
   const [like, setLike] = useState(0);
   const [collect, setCollect] = useState(0);
   const [lCounts, setLCounts] = useState(0);
   const [id, setId] = useState("");
+  const loginConfirm = useLoginConfirm();
 
   const oppositeValue = (val) => (val === 1 ? 0 : 1);
 
@@ -30,6 +32,7 @@ export default function UserFeedback({ backData = {} }) {
         setData(val);
         callback(val);
       }
+      !isLoggedIn() && loginConfirm();
     });
   };
 
@@ -70,7 +73,7 @@ export default function UserFeedback({ backData = {} }) {
         <LightTooltip title="播放" placement="bottom">
           <PlayCircleOutlineIcon style={{ fontSize: 16, margin: "4px" }} />
         </LightTooltip>
-        <div style={{fontSize:'1rem'}}>{backData.view_counts}</div>
+        <div style={{ fontSize: "0.875rem" }}>{backData.view_counts}</div>
       </IconButton>
 
       <UserLikeHeart

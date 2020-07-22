@@ -21,7 +21,7 @@ export default function UserLikeHeart({
       <LightTooltip title="喜欢" placement="bottom">
         {HeartIcon(like)}
       </LightTooltip>
-      <div style={{ fontSize: "1rem" }}>{likeCounts}</div>
+      <div style={{ fontSize: "0.875rem" }}>{likeCounts}</div>
     </IconButton>
   );
 }
