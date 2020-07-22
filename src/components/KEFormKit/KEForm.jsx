@@ -135,7 +135,9 @@ const KEForm = ({ modal, modalClose }) => {
             <Grid item xs={6}>
               <div className={classes.rightModule}>
                 <QrCodeIcon />
-                <div className={classes.welcomeTitle}>欢迎登录知擎网~</div>
+                <div className={classes.welcomeTitle}>
+                  欢迎登录/注册知擎平台~
+                </div>
                 {accountLogin ? (
                   <AccountLoginComponent />
                 ) : (
