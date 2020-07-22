@@ -17,6 +17,7 @@ import {
   Link,
   ButtonBase,
   Box,
+  Tooltip,
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
@@ -67,11 +68,11 @@ const PrimarySearchAppBar = () => {
           <Typography>知擎首页</Typography>
         </ButtonBase>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <ButtonBase color="inherit" onClick={() => navigate("/joinscholar/")}>
           <Typography>加盟学者</Typography>
         </ButtonBase>
-      </MenuItem>
+      </MenuItem> */}
       {/* <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
@@ -110,10 +111,17 @@ const PrimarySearchAppBar = () => {
                 underline="none"
                 target="_blank"
                 rel="noopener norefferer"
-                style={{ padding: "6px 8px" }}
+                style={{ padding: "6px 8px", display: "none" }}
               >
                 <Typography style={{ cursor: "inherit" }}>加盟学者</Typography>
               </Link>
+              <Tooltip title="敬请期待..." placement="bottom-start">
+                <div>
+                  <ButtonBase disabled>
+                    <Typography color="textSecondary">加盟学者</Typography>
+                  </ButtonBase>
+                </div>
+              </Tooltip>
             </div>
             <div className={classes.search}>
               <InputBase

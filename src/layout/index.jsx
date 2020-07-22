@@ -13,24 +13,25 @@ import "./index.sass";
 export default class MainLayout extends React.Component {
   render() {
     const { children } = this.props;
+
     return (
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <CssBaseline />
-          <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
-          <NavBar />
-          <div className="layout-container">
-            <Helmet>
-              <meta name="description" content={config.siteDescription} />
-              <meta name="keywords" content={config.siteKeywords} />
-              <html lang="en" />
-            </Helmet>
-            {children}
-          </div>
-          <ScrollTop {...this.props} />
-          <Footer config={config} />
-        </SnackbarProvider>
-      </ThemeProvider>
+      <div>
+        <Helmet>
+          <html lang="en" />
+          <meta name="description" content={config.siteDescription} />
+          <meta name="keywords" content={config.siteKeywords} />
+        </Helmet>
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider>
+            <CssBaseline />
+            <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
+            <NavBar />
+            <div className="layout-container">{children}</div>
+            <ScrollTop />
+            <Footer config={config} />
+          </SnackbarProvider>
+        </ThemeProvider>
+      </div>
     );
   }
 }

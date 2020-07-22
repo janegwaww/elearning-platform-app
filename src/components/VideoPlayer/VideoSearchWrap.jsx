@@ -71,7 +71,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <div className="video-search-wrap">
         <div className={`searchButton ${!showButton && "hiddenSearchButton"}`}>
           <Button
@@ -121,7 +121,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
           <SingleLineGridList tileList={gridList} clipJump={handleJump} />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

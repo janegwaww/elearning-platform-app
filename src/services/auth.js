@@ -117,7 +117,7 @@ export const generateQRCode = pipeThen(
   getArrayData,
   getResultData,
   errorMessageNotice,
-  apis.generateQRCode
+  apis.generateQrcode
 );
 
 // ------------------------
@@ -126,7 +126,7 @@ export const enquiryQRCode = pipeThen(
   setLoginUser,
   getLoginData,
   errorMessageNotice,
-  apis.enquiryQrCode
+  apis.enquiryQrcode
 );
 
 // ---------------------

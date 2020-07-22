@@ -119,5 +119,11 @@ export const getDocumentSeriesInfo = pipeThen(
   apisSearch.getDocumentSeriesDetails
 );
 
+// 文本系列详情页搜索
+export const docSeriesSearch = pipeThen(
+  getResultData,
+  apisVideo.documentsSearch
+);
+
 // 获取频道列表栏
 export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);

@@ -3,7 +3,7 @@ import axios from "axios";
 import { pipe, wrapCamelName } from "./utils";
 
 // 接口路径
-export const PATH = "http://api.haetek.com:9191";
+export const PATH = "https://api.haetek.com:9191";
 // 接口地址
 const API_PATH = urlJoin(PATH, "/api/v1/gateway");
 // 获取用户
@@ -157,6 +157,7 @@ export const videoApis = () => {
     "user_search",
     // 系列详情页搜索
     "series_search",
+    "documents_search",
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
