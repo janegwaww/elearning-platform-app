@@ -27,7 +27,7 @@ const filterSearchData = (input) => (data) => {
 
 const sd = (page) => (d) => d.slice((page - 1) * 12, page * 12);
 
-function withSeries(WrapComponent, getSeriesData, seriesSearch) {
+const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
   return class extends React.Component {
     constructor(props) {
       super(props);
@@ -142,6 +142,6 @@ function withSeries(WrapComponent, getSeriesData, seriesSearch) {
       );
     }
   };
-}
+};
 
 export default withSeries;
