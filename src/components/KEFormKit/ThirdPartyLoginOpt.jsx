@@ -99,7 +99,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
 
   return (
     <div className={classes.root}>
-      <div>第三方账号登录</div>
+      <div>第三方账号登录/注册</div>
       <div className={classes.logos}>
         <Logo url={wechat} method="wechat" />
         <Logo url={qq} method="qq" />
