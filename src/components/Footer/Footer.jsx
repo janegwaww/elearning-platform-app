@@ -12,15 +12,15 @@ import "./Footer.sass";
 const QrCodeImg = () => (
   <Grid container>
     <Grid item xs={6}>
-      <div style={{ textAlign: "center", margin: "14px" }}>
+      <div style={{ textAlign: "center", margin: "14px",color:'#fff' }}>
         <img src={wechatQrcode} alt="qrcode" width="80" />
-        <Typography color="primary">扫码下载APP</Typography>
+        <Typography >扫码下载APP</Typography>
       </div>
     </Grid>
     <Grid item xs={6}>
-      <div style={{ textAlign: "center", margin: "14px" }}>
+      <div style={{ textAlign: "center", margin: "14px",color:'#fff' }}>
         <img src={wechatQrcode} alt="qrcode" width="80" />
-        <Typography color="primary">官方微信</Typography>
+        <Typography >官方微信</Typography>
       </div>
     </Grid>
   </Grid>
@@ -40,7 +40,7 @@ const ContractUs = () => {
       <ul>
         {menu.map((o) => (
           <li key={o}>
-            <Link>{o}</Link>
+            <Link href='#'>{o}</Link>
           </li>
         ))}
       </ul>
@@ -66,7 +66,7 @@ class Footer extends Component {
                     <IconButton>
                       <img src={logo} alt="logo" />
                     </IconButton>
-                    <Typography color="primary">
+                    <Typography>
                       &#183; 开动遨游知识海洋的引擎
                     </Typography>
                   </div>
@@ -83,7 +83,6 @@ class Footer extends Component {
           <Container fixed>
             <div className="notice-container">
               <h4 className="copyright">{copyright}</h4>
-              <h4></h4>
             </div>
           </Container>
         </div>
