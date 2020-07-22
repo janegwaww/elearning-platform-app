@@ -13,8 +13,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import notcom from "../../../../assets/img/notcom.png";
 
-
-
 export default class Complaints extends React.Component {
   constructor(props) {
     super(props);
