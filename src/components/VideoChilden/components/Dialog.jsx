@@ -39,10 +39,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const stop_run=(prvprops,nextpropx)=>{
-  console.log(prvprops,nextpropx)
-  if(prvprops.open ==nextpropx.open){
-    return true
-  }
+ 
+    return prvprops.open !=nextpropx.open
+  
 }
  const DialogModal = (props) => {
 
@@ -55,7 +54,7 @@ const stop_run=(prvprops,nextpropx)=>{
     onEvent,
     ...other
   } = props;
-console.log(props)
+
   return (
     <Dialog open={open} className={classes.root}>
       <div style={{ width: 470,padding:20}}>
