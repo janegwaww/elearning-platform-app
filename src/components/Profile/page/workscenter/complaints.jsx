@@ -169,7 +169,7 @@ export default class Complaints extends React.Component {
       show_counts,
       show_page,
       modalMsg,
-      
+
       login_status,
       ...other
     } = this.state;
