@@ -73,13 +73,13 @@ export default class Complaints extends React.Component {
         status: 1,
       },
       {
-        title: "在评论中发布人身攻击",
+        title: "在评论中发攻击",
         date: "2020-02-04 12:23:32",
         result: "封禁15天",
         status: 2,
       },
       {
-        title: "在评论中发布人身攻击",
+        title: "在评布人身攻击",
         date: "2020-02-04 12:23:32",
         result: "封禁15天",
         status: 3,
