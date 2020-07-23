@@ -117,7 +117,7 @@ const Safety = (props) => {
         //     alert('绑定失败')
         //   }
          
-        })
+        // })
         
       }
     }
