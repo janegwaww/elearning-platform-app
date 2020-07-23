@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Typography from "@material-ui/core/Typography";
 import SearchCard from "./SearchCard";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "../Loading/ProgressBar";
@@ -52,6 +53,13 @@ const Search = ({ input }) => {
   return (
     <div className="search-root">
       <div style={{ height: 40 }} />
+      <Typography
+        noWrap
+        dangerouslySetInnerHTML={{
+          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
+        }}
+      />
+      <div style={{ height: 20 }} />
       <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
       <br />
       <div style={{ minHeight: "60vh" }}>
