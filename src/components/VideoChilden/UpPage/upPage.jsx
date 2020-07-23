@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
+
 import ProgressBar from '../../Loading/ProgressBar';
 import {
   Button,
@@ -20,6 +20,7 @@ import {
   HighlightOff,
 
 } from "@material-ui/icons";
+import '../../../assets/css/tootls.css';
 import "../../../assets/css/container.css";
 
 import { Nav } from "../../Profile/components/ProfileNav";

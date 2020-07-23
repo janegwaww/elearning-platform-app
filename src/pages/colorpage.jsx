@@ -4,7 +4,6 @@ import "../assets/css/container.css";
 import CustomModal from "../assets/js/CustomModal";
 import { get_data } from "../assets/js/request";
 
-import "../assets/css/color.css";
 export default class ColorPage extends React.Component {
   constructor(props) {
     super(props);
