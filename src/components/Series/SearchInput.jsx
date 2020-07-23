@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchInput = ({ handleInput, handleSearchClick }) => {
+const SearchInput = ({ handleInput, handleSearchClick, handleEnter }) => {
   const classes = useStyles();
 
   return (
@@ -23,6 +23,7 @@ const SearchInput = ({ handleInput, handleSearchClick }) => {
       placeholder="页面搜索"
       type="search"
       onChange={(e) => handleInput(e.target.value)}
+      onKeyDown={handleEnter}
       endAdornment={
         <InputAdornment>
           <IconButton onClick={handleSearchClick}>

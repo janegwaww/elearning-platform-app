@@ -19,6 +19,7 @@ const AllSeries = ({
   loading,
   seriesLength,
   handlePage,
+  handleEnter,
 }) => {
   return (
     <div className="series-component">
@@ -39,6 +40,7 @@ const AllSeries = ({
         handleSearchClick={handleSearchClick}
         handleTypeClick={handleTypeClick}
         handleInput={handleInput}
+        handleEnter={handleEnter}
       />
 
       <br />

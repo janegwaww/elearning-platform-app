@@ -27,6 +27,7 @@ const SeriesBar = ({
   handleTypeClick,
   handleSearchClick,
   handleInput,
+  handleEnter,
 }) => {
   const classes = useStyles();
 
@@ -59,6 +60,7 @@ const SeriesBar = ({
         <SearchInput
           handleInput={handleInput}
           handleSearchClick={handleSearchClick}
+          handleEnter={handleEnter}
         />
       </Box>
       <Divider />
