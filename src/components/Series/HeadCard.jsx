@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+  intro: {
+    lineHeight: 1.5,
+  },
 }));
 
 const HeadCard = ({ info = {} }) => {
@@ -79,7 +82,9 @@ const HeadCard = ({ info = {} }) => {
           placement="top-start"
           title={info.description || "description"}
         >
-          <Typography variant="body2">{info.description}</Typography>
+          <Typography variant="body2" className={classes.intro}>
+            {info.description}
+          </Typography>
         </Tooltip>
       </Box>
       <div style={{ gridColumn: 2, gridRow: 7 }}>
