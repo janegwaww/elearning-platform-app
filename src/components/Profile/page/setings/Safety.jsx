@@ -126,7 +126,7 @@ const Safety = (props) => {
   React.useEffect(() => {
     if (sessionStorage.getItem("user_info")) {
       let _data = JSON.parse(sessionStorage.getItem("user_info"));
-      _data.binding_microblog = 1;
+      
       setUserInfo(_data);
     }
   }, []);
