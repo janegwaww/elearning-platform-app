@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import QRCode from "qrcode.react";
 import { Container, Grid, Tooltip, Typography } from "@material-ui/core";
@@ -11,9 +11,6 @@ import {
   enquiryQRCode,
   handleLogin,
 } from "../../services/auth";
-import qrcode from "../../../static/images/qr-code.png";
-import account from "../../../static/images/account.png";
-import loginBg from "../../../static/images/login-bg.png";
 
 const KEForm = ({ modal, modalClose }) => {
   const classes = useStyles();
@@ -36,14 +33,15 @@ const KEForm = ({ modal, modalClose }) => {
     });
   };
 
-  const varifyQRCode = () => {
-    enquiryQRCode({ qrcode: qrcodeValue }).then((res) => {
+  const varifyQRCode = (code) => {
+    if (accountLogin) return;
+    enquiryQRCode({ qrcode: code }).then((res) => {
       if (res) {
         handleNavigate();
       }
-      if (!res && qrcodeValue) {
+      if (!res) {
         setTimeout(() => {
-          varifyQRCode();
+          varifyQRCode(code);
         }, 1000);
       }
     });
@@ -53,11 +51,15 @@ const KEForm = ({ modal, modalClose }) => {
     if (!accountLogin) {
       generateQRCode().then((data) => {
         setQrcodeValue(data);
-        varifyQRCode();
-        console.log(data);
+        // varifyQRCode(data);
       });
+    } else {
     }
   }, [accountLogin]);
+
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   const QrCodeIcon = () => {
     const loginOptionSwitch = () => setAccountLogin(!accountLogin);
@@ -66,9 +68,19 @@ const KEForm = ({ modal, modalClose }) => {
         <div className={classes.qrImage}>
           <Tooltip title={!accountLogin ? "账号登录" : "扫描二维码登录"}>
             {accountLogin ? (
-              <img src={qrcode} alt="qrcode" width="40" height="40" />
+              <img
+                src="/images/qr-code.png"
+                alt="qrcode"
+                width="40"
+                height="40"
+              />
             ) : (
-              <img src={account} alt="account" width="40" height="40" />
+              <img
+                src="/images/account.png"
+                alt="account"
+                width="40"
+                height="40"
+              />
             )}
           </Tooltip>
         </div>
@@ -87,13 +99,13 @@ const KEForm = ({ modal, modalClose }) => {
       <div>
         <div
           style={{
-            width: "160px",
-            height: "160px",
+            width: "140px",
+            height: "140px",
             backgroundColor: "transparent",
             margin: "30px auto",
           }}
         >
-          <QRCode value={qrcodeValue} level="L" size={160} />
+          <QRCode value={qrcodeValue} level="L" size={140} />
         </div>
         <Typography
           style={{ color: "#303133", fontSize: "14px", marginBottom: "10px" }}
@@ -116,7 +128,7 @@ const KEForm = ({ modal, modalClose }) => {
               <div className={classes.leftModule}>
                 <div className={classes.KELogo}>
                   <img
-                    src={loginBg}
+                    src="/images/login-bg.png"
                     alt="login-bg"
                     height="397"
                     width="144"

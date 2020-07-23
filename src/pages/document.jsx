@@ -5,6 +5,7 @@ import Document from "../components/Document/Document";
 import config from "../../data/SiteConfig";
 import { getIdFromHref } from "../services/utils";
 import Container from "../components/Container/KeContainer";
+import { LoginConfirmProvider } from "../components/LoginConfirm";
 
 class DocumentPage extends Component {
   constructor(props) {
@@ -36,9 +37,11 @@ class DocumentPage extends Component {
           style={{ width: "100%", backgroundColor: "#f2f2f5" }}
         >
           <Helmet title={`Document | ${config.siteTitle}`} />
-          <Container>
-            <Document did={did} {...this.props} />
-          </Container>
+          <LoginConfirmProvider>
+            <Container>
+              <Document did={did} {...this.props} />
+            </Container>
+          </LoginConfirmProvider>
         </div>
       </Layout>
     );

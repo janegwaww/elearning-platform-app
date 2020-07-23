@@ -57,5 +57,6 @@ export const decoratedStr = (who = "", subs = []) => {
   return who.replace(subStr, result);
 };
 
-export const searchUrlParams = (value) =>
-  `/search/?${new URLSearchParams("q=" + value).toString()}`;
+export const searchUrlParams = (value) => {
+  return `/search/?${new URLSearchParams(`q=${value}`).toString()}`;
+};
