@@ -48,7 +48,11 @@ const AllSeries = ({
         {series.map((o, i) => {
           return <SearchCard card={o} key={i} />;
         })}
-        <EmptyNotice empty={!series.length && !loading} />
+        <EmptyNotice
+          empty={!series.length && !loading}
+          type="noResult"
+          handleFresh={handleSearchClick}
+        />
       </div>
 
       <Pagination num={seriesLength} handlePage={handlePage} />
