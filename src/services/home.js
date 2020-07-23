@@ -41,15 +41,8 @@ export const getHotAuths = pipeThen(
 );
 
 // 全局搜索
-// const concatResultData = ({ resultData, count }) => {
-// const result = resultData.map(o =>
-//   Object.assign({}, o.data, o.match_frame, { source: o.source })
-// );
-// return Promise.resolve({ resultData: result, count });
-// };
-
 export const searchGlobal = pipeThen(
-  getResultData,
+  getCountResultData,
   errorMessageNotice,
   apisVideo.globalSearch
 );
