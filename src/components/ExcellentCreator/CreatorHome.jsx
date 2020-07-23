@@ -255,7 +255,6 @@ class CreatorHome extends Component {
               <div style={{ minHeight: "60vh" }}>
                 <Box display="flex" justifyContent="space-between">
                   <Tabs onChange={this.handleTabChange} value={value}>
-                    {/* <TTab label="全部" /> */}
                     <TTab label="视频" />
                     <TTab label="系列" />
                   </Tabs>
@@ -271,11 +270,6 @@ class CreatorHome extends Component {
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                  <GridCards itemCount={16} loading={loading} items={list} />
-                  <br />
-                </TabPanel>
-
-                <TabPanel value={value} index={2}>
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
                 </TabPanel>
