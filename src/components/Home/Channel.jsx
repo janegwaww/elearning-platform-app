@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { navigate } from "@reach/router";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getChannelList } from "../../services/home";
@@ -16,7 +17,7 @@ export default function Channel() {
 
   const fetchSubData = ({ page = 1 } = {}, callback = () => ({})) => {
     setLoading(true);
-    getChannelList({ category: ch, max_size: 16, page, type }).then((data) => {
+    getChannelList({ category: ch, max_size: 24, page, type }).then((data) => {
       setList(data);
       setLoading(false);
       callback(data);
@@ -25,6 +26,11 @@ export default function Channel() {
 
   const handleTab = (value) => {
     setType(value);
+  };
+
+  const handleChange = () => {
+    navigate(`/channel/?ch=${ch}`);
+    fetchSubData()
   };
 
   useEffect(() => {
@@ -40,12 +46,12 @@ export default function Channel() {
         <Tabs handleTab={handleTab} />
         <br />
         <div style={{ minHeight: "60vh" }}>
-          <GridCards loading={loading} itemCount={16} items={list} />
+          <GridCards loading={loading} itemCount={24} items={list} />
           <EmptyNotice empty={!list.length && !loading} />
         </div>
         <br />
         <div style={{ textAlign: "center" }}>
-          <ChangeBatchButton handleChange={fetchSubData} />
+          <ChangeBatchButton handleChange={handleChange} />
         </div>
         <br />
       </div>

@@ -18,6 +18,7 @@ const DocSeries = ({
   handlePage,
   handleInput,
   handleSearchClick,
+  handleEnter,
 }) => {
   return (
     <div className="series-component">
@@ -38,6 +39,7 @@ const DocSeries = ({
       <SearchInput
         handleInput={handleInput}
         handleSearchClick={handleSearchClick}
+        handleEnter={handleEnter}
       />
 
       <br />
