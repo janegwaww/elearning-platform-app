@@ -17,7 +17,7 @@ import {
 
 import { withStyles } from "@material-ui/core/styles";
 import { get_data } from "../../../assets/js/request";
-
+import { ev_stop } from "../../../assets/js/totls";
 import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
@@ -130,7 +130,6 @@ export default class UploadVideos extends Component {
     this.check_again = this.check_again.bind(this);
   }
   componentDidMount() {
-    // console.log(this.props.parent.props.location.href);
     if (isLoggedIn()) {
       this.setState({
         user_info: getUser(),
@@ -337,7 +336,7 @@ export default class UploadVideos extends Component {
     });
   }
   check_again(_file) {
-    console.log(_file);
+    
     if (_file.type.split("/")[1] != "mp4") {
       this.setState({
         promp_info: {
@@ -351,9 +350,10 @@ export default class UploadVideos extends Component {
     }
     let _check = new BMF();
     _check.md5(_file, (err, md5) => {
-      console.log(err);
+     
       if (err) return;
       get_data(
+        //请求视频是否已有人上传
         {
           model_name: "video",
           model_action: "verify",
@@ -369,8 +369,6 @@ export default class UploadVideos extends Component {
               type: 2,
               open: true,
             },
-            // status: 1,
-            // progress: 0,
           });
         } else {
           this.upFile(_file, md5);
@@ -381,7 +379,6 @@ export default class UploadVideos extends Component {
         }
       });
     });
-    //
   }
   befor_upfile(callback) {
     if (!isLoggedIn()) {
@@ -620,8 +617,7 @@ export default class UploadVideos extends Component {
               <div
                 className={`file-box ${is_drop ? "drop" : "width"}`}
                 onDrop={(event) => {
-                  event.stopPropagation();
-                  event.preventDefault();
+                  ev_stop(event);
                   this.setState({
                     is_drop: false,
                   });
@@ -630,27 +626,21 @@ export default class UploadVideos extends Component {
                     this.check_again(files);
                   });
                 }}
-                onDragEnter={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
-                }}
+                onDragEnter={ev_stop}
                 onDragOver={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
+                  ev_stop(ev);
                   this.setState({
                     is_drop: true,
                   });
                 }}
                 onDragLeave={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
+                  ev_stop(ev);
                   this.setState({
                     is_drop: false,
                   });
                 }}
                 onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
+                  ev_stop(e);
                   this.befor_upfile(() => {
                     document.getElementById("newFile").click();
                   });
