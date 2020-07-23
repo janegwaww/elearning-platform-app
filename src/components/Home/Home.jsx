@@ -53,7 +53,11 @@ class Home extends Component {
         <br />
         <div style={{ minHeight: "50vh" }}>
           <GridCards loading={loading} itemCount={24} items={hotVideos} />
-          <EmptyNotice empty={!hotVideos.length && !loading} />
+          <EmptyNotice
+            empty={!hotVideos.length && !loading}
+            type="noResult"
+            handleFresh={this.fetchHotVideo}
+          />
         </div>
         <br />
         <div style={{ textAlign: "center" }}>

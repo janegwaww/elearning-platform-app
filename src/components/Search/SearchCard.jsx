@@ -4,6 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Bull from "./Bull";
 import Link from "../Link/Link";
+import CardTag from "../GridCards/CardTag";
 import {
   secondsToDate,
   secondsToHMS,
@@ -14,25 +15,13 @@ import "./SearchCardStyles.sass";
 
 const imagePick = (path, href = "/", type) =>
   !!path && (
-    <div className="image-pick">
-      <Link href={href}>
-        <img src={`${path}`} width="auto" alt={path} height="100%" />
-      </Link>
-      {type === "series" && (
-        <div className="series-tag">
-          <Typography color="primary" variant="caption">
-            系列
-          </Typography>
-        </div>
-      )}
-      {type === "doc" && (
-        <div className="doc-tag">
-          <Typography color="primary" variant="caption">
-            文本
-          </Typography>
-        </div>
-      )}
-    </div>
+    <CardTag type={type}>
+      <div className="image-pick">
+        <Link href={href}>
+          <img src={`${path}`} width="auto" alt={path} height="100%" />
+        </Link>
+      </div>
+    </CardTag>
   );
 
 const TitleItem = ({ pay, title, time, href, match = {} }) => {
@@ -237,7 +226,9 @@ const docSeriesContainer = ({ data, match_frame }) => {
   const href = `/series/?dsid=${data.series_id}`;
   return (
     <div className="container">
-      <div className="head">{imagePick(data.image_path, href, "series")}</div>
+      <div className="head">
+        {imagePick(data.image_path, href, "documents")}
+      </div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           pay={data.is_pay}
@@ -260,7 +251,9 @@ const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
     <div className="docContainer">
-      <div className="docHead">{imagePick(data.image_path, href, "doc")}</div>
+      <div className="docHead">
+        {imagePick(data.image_path, href, "document")}
+      </div>
       <div style={{ gridColumn: 2, gridRow: 1 }}>
         <TitleItem
           title={data.file_name}

@@ -4,6 +4,8 @@ import CardTagEle from "./CardTagEle";
 const styles = {
   root: {
     position: "relative",
+    height: "100%",
+    width: "100%",
   },
   tag: {
     position: "absolute",
