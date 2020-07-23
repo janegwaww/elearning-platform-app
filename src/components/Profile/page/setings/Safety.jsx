@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
-import useStyles from './settingsStyle';
+import useStyles from "./settingsStyle";
 import { get_data } from "../../../../assets/js/request";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
@@ -13,8 +13,6 @@ import {
   bindingMobile,
 } from "../../../../services/auth";
 import ProfileDialog from "../../components/ProFileDialog";
-
-
 
 const Safety = (props) => {
   const classes = useStyles();
@@ -28,15 +26,14 @@ const Safety = (props) => {
   });
   const untie_click = (data) => {
     //关闭弹窗
-    
-    if(data.login){
+
+    if (data.login) {
       setUntieData({
         isOpen: false,
       });
       navigate(`/users/login`);
-      return
+      return;
     }
- 
     if (data.confirm) {
       get_data({
         model_name: "user",
@@ -48,13 +45,18 @@ const Safety = (props) => {
       }).then((res) => {
         if (res.err === 0) {
           alert("解除绑定成功");
-          if (untieData.type == "wechat") {
-            setUserInfo((old) => {
+          setUserInfo((old) => {
+            if (untieData.type == "wechat") {
               old.binding_webchat = 0;
-              sessionStorage.setItem("user_info", JSON.stringify(old));
-              return old;
-            });
-          }
+            } else if (untieData.type == "qq") {
+              old.binding_qq = 0;
+            } else if (untieData.type == "microblog") {
+              old.binding_microblog = 0;
+            }
+            sessionStorage.setItem("user_info", JSON.stringify(old));
+            return old;
+          });
+
           setUntieData({
             isOpen: false,
           });
@@ -89,18 +91,17 @@ const Safety = (props) => {
           isUntie: true,
           dialogtitle: "解除绑定",
           dialogmsg: "确定解除绑定吗?",
-          
         });
       } else {
-       
         setUntieData({
-          type:_ev_data.type,
-          isOpen:true,
-          isUntie:true,
-          dialogtitle:'绑定第三方帐号',
-          dialogmsg:'亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么',
-          login:true
-        })
+          type: _ev_data.type,
+          isOpen: true,
+          isUntie: true,
+          dialogtitle: "绑定第三方帐号",
+          dialogmsg:
+            "亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么",
+          login: true,
+        });
         // get_data({
         //   model_name: "user",
         //   model_action: "generate_third_qrcode",
@@ -116,15 +117,15 @@ const Safety = (props) => {
         //   }else{
         //     alert('绑定失败')
         //   }
-         
+
         // })
-        
       }
     }
   };
   React.useEffect(() => {
     if (sessionStorage.getItem("user_info")) {
       let _data = JSON.parse(sessionStorage.getItem("user_info"));
+      _data.binding_microblog = 1;
       setUserInfo(_data);
     }
   }, []);

@@ -7,6 +7,7 @@ import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Grid } from "@material-ui/core";
 import nothistory from "../../../../assets/img/nothistory.png";
+import LoadData from "../../components/LoadData";
 export default class History extends React.Component {
   constructor(props) {
     super(props);
@@ -72,11 +73,9 @@ export default class History extends React.Component {
   }
   componentWillUnmount() {
     window.onresize = null;
-      this.setState = (state, callback) => {
-        return;
-      };
-      
-    
+    this.setState = (state, callback) => {
+      return;
+    };
   }
   render() {
     const {
@@ -95,7 +94,7 @@ export default class History extends React.Component {
         <div>
           <Nav _inx={0} list={["历史记录"]} parent={this} />
         </div>
-        {total_data && (
+        {total_data ? (
           <Grid container spacing={4} className="grid">
             {show_data ? (
               show_data.map((option) => (
@@ -111,10 +110,14 @@ export default class History extends React.Component {
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
                 <img src={nothistory} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无历史记录</div>
+                <div className="fn-color-6f fn-size-16 profile-top-20">
+                  暂无历史记录
                 </div>
+              </div>
             )}
           </Grid>
+        ) : (
+          <LoadData />
         )}
         {total_counts > show_counts && (
           <div className="profile-top">

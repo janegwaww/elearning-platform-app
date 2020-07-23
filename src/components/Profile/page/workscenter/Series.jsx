@@ -1,11 +1,11 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
-import SearchLoading from "../../../Loading/SearchLoading";
+
 import ProgressBar from "../../../Loading/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
-
-import notvideo from '../../../../assets/img/notvideo.png';
+import LoadData from "../../components/LoadData";
+import notvideo from "../../../../assets/img/notvideo.png";
 export default class Series extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +27,6 @@ export default class Series extends React.Component {
     this.setState = (state, callback) => {
       return;
     };
-    
   }
   update_data(id) {
     this.setState({
@@ -79,7 +78,7 @@ export default class Series extends React.Component {
     return (
       <div>
         <ProgressBar loading={login_status} />
-        {total_data && (
+        {total_data ? (
           <div>
             {show_data ? (
               show_data.map((option, inx) => (
@@ -92,11 +91,15 @@ export default class Series extends React.Component {
               ))
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
-              <img src={notvideo} style={{ width: 490, height: 293 }} />
-              <div className="fn-color-6f fn-size-16 profile-top-20">暂无系列视频</div>
-            </div>
+                <img src={notvideo} style={{ width: 490, height: 293 }} />
+                <div className="fn-color-6f fn-size-16 profile-top-20">
+                  暂无系列视频
+                </div>
+              </div>
             )}
           </div>
+        ) : (
+          <LoadData />
         )}
         {total_counts > show_counts && (
           <div className="profile-top">
@@ -124,10 +127,6 @@ export default class Series extends React.Component {
             />
           </div>
         )}
-        {/**   <div>
-          <SearchLoading loading={login_status} />
-        </div>
-        */}
       </div>
     );
   }

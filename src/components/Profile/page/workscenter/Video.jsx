@@ -2,9 +2,10 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 
-import ProgressBar from '../../../Loading/ProgressBar';
+import ProgressBar from "../../../Loading/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
-import notvideo from '../../../../assets/img/notvideo.png';
+import notvideo from "../../../../assets/img/notvideo.png";
+import LoadData from '../../components/LoadData';
 export default class Video extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +27,6 @@ export default class Video extends React.Component {
     this.setState = (state, callback) => {
       return;
     };
-    
   }
   update_data(id) {
     this.setState({
@@ -50,12 +50,11 @@ export default class Video extends React.Component {
             (this.state.show_page + 1) * this.state.show_counts
           ),
         });
-       
-      }else{
+      } else {
         this.setState({
           total_data:[],
-          show_data:null
-        })
+          show_data: null,
+        });
       }
       setTimeout(() => {
         this.setState({
@@ -75,24 +74,32 @@ export default class Video extends React.Component {
       login_status,
       ...other
     } = this.state;
-    
+
     return (
-      <div>
-      <ProgressBar loading={login_status} />
-        {total_data && (
+      <div className="all-width">
+        <ProgressBar loading={login_status} />
+        {total_data ? (
           <div>
-            {show_data?show_data.map((option, inx) => (
-              <SeriesItem
-                key={option.video_id}
-                parent={this}
-                info={option}
-                series="video"
-              />
-            )):( <div className="profile-top all-width all-height view-overflow text-center">
-            <img src={notvideo} style={{ width: 490, height: 293 }} />
-            <div className="fn-color-6f fn-size-16 profile-top-20">暂无视频</div>
-          </div>)}
+            {show_data ? (
+              show_data.map((option, inx) => (
+                <SeriesItem
+                  key={option.video_id}
+                  parent={this}
+                  info={option}
+                  series="video"
+                />
+              ))
+            ) : (
+              <div className="profile-top all-width all-height view-overflow text-center">
+                <img src={notvideo} style={{ width: 490, height: 293 }} />
+                <div className="fn-color-6f fn-size-16 profile-top-20">
+                  暂无视频
+                </div>
+              </div>
+            )}
           </div>
+        ) : (
+          <LoadData />
         )}
         {total_counts > show_counts && (
           <div className="profile-top">
@@ -108,7 +115,7 @@ export default class Video extends React.Component {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
                 setTimeout(() => {
                   this.setState({
-                    show_page:v-1,
+                    show_page: v - 1,
                     show_data: total_data.slice(
                       (v - 1) * show_counts,
                       v * show_counts
@@ -120,10 +127,6 @@ export default class Video extends React.Component {
             />
           </div>
         )}
-       {/**  <div>
-          <SearchLoading loading={login_status} />
-        </div>
-        */}
       </div>
     );
   }
