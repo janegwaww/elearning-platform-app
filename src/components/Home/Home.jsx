@@ -6,6 +6,7 @@ import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
 import ProgressBar from "../Loading/ProgressBar";
+import { navigate } from "@reach/router";
 
 class Home extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Home extends Component {
   fetchHotVideo = ({ page = 1 } = {}, callback = () => ({})) => {
     const { type } = this.state;
     this.setState({ loading: true });
-    getHotVideos({ max_size: 16, page, type }).then((data) => {
+    getHotVideos({ max_size: 24, page, type }).then((data) => {
       this.setState({ hotVideos: data });
       this.setState({ loading: false });
       callback(data);
@@ -37,6 +38,11 @@ class Home extends Component {
     });
   };
 
+  handleChange = () => {
+    navigate("/");
+    this.fetchHotVideo();
+  };
+
   render() {
     const { hotVideos, loading } = this.state;
 
@@ -46,12 +52,12 @@ class Home extends Component {
         <Tabs handleTab={this.handleTab} />
         <br />
         <div style={{ minHeight: "50vh" }}>
-          <GridCards loading={loading} itemCount={16} items={hotVideos} />
+          <GridCards loading={loading} itemCount={24} items={hotVideos} />
           <EmptyNotice empty={!hotVideos.length && !loading} />
         </div>
         <br />
         <div style={{ textAlign: "center" }}>
-          <ChangeBatchButton handleChange={this.fetchHotVideo} />
+          <ChangeBatchButton handleChange={this.handleChange} />
         </div>
         <br />
         <ProgressBar loading={loading} />
