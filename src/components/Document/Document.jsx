@@ -7,16 +7,9 @@ import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Modal from "@material-ui/core/Modal";
-import AppBar from "@material-ui/core/AppBar";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SearchLoading from "../Loading/SearchLoading";
-import KeContainer from "../Container/KeContainer";
-import LightTooltip from "../Introduction/LightTooltip";
-import {
-  getDocumentDetail,
-  aliPayment,
-  verifyAliPay,
-} from "../../services/video";
+import ShopBar from "./ShopBar";
+import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
 
@@ -104,44 +97,13 @@ const ImageModel = ({ path = "" }) => {
 const Document = ({ did }) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
-  const [isPay, setIsPay] = useState(false);
-  const [paidedHref, setPaidedHref] = useState("");
-  const [open, setOpen] = useState(false);
 
   const fetchDocumentInfo = () => {
     setLoading(true);
     getDocumentDetail({ file_id: did }).then((data) => {
       setDetail(data);
-      setPaidedHref(data.file_path);
-      setIsPay(!!data.is_pay);
       setLoading(false);
     });
-  };
-
-  const verifyIsPaided = (id) => {
-    verifyAliPay({ order_id: id }).then((data) => {
-      const { file_path } = data;
-      if (file_path) {
-        setPaidedHref(file_path);
-        setIsPay(!!file_path);
-      } else {
-        setTimeout(() => {
-          verifyIsPaided(id);
-        }, 1000);
-      }
-    });
-  };
-
-  const paymentClick = () => {
-    const { price } = detail;
-    aliPayment({ price, file_id: did, url: window.location.href }).then(
-      (data) => {
-        if (data.url && data.order_id) {
-          window.open(data.url);
-          verifyIsPaided(data.order_id);
-        }
-      }
-    );
   };
 
   useEffect(() => {
@@ -149,20 +111,6 @@ const Document = ({ did }) => {
       fetchDocumentInfo();
     }
   }, [did]);
-
-  const unlockButton = () =>
-    isPay ? (
-      <ButtonBase
-        className="pay-button"
-        onClick={() => window.open(paidedHref)}
-      >
-        查看
-      </ButtonBase>
-    ) : (
-      <ButtonBase onClick={paymentClick} size="small" className="pay-button">
-        立即解锁
-      </ButtonBase>
-    );
 
   const menuLevel = (index = [], list) =>
     Object.values(list)[0].map((o, i) => (
@@ -175,54 +123,6 @@ const Document = ({ did }) => {
         </div>
       </Typography>
     ));
-
-  const ShopBar = ({ info = {} }) => (
-    <AppBar position="fixed" className="doc-shop-bar">
-      <KeContainer>
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="center"
-          pt={2}
-          pb={1}
-        >
-          <div className="doc-price-title">限时解锁&nbsp;</div>
-          <div className="doc-price">
-            <span style={{ fontSize: 23 }}>￥</span>
-            {`${info.price || 0}`}
-          </div>
-          <Box width={100} />
-          <div className="unlock-button">
-            {unlockButton()}
-            <Box
-              display="flex"
-              alignItems="center"
-              mt={1}
-              onMouseOver={() => setOpen(true)}
-              onMouseLeave={() => setOpen(false)}
-            >
-              <Typography variant="caption" color="textSecondary">
-                温馨提示：
-              </Typography>
-              <Typography variant="caption">解锁后不再收费</Typography>
-              <LightTooltip
-                title="该课题会因为内容更新或扩充而调整价格"
-                arrow
-                placement="top-end"
-                open={open}
-                disableHoverListener
-                disableFocusListener
-              >
-                <div>
-                  <HelpOutlineIcon color="error" style={{ fontSize: 12 }} />
-                </div>
-              </LightTooltip>
-            </Box>
-          </div>
-        </Box>
-      </KeContainer>
-    </AppBar>
-  );
 
   return (
     <>
@@ -305,7 +205,7 @@ const Document = ({ did }) => {
         </Box>
         <br />
         <br />
-        <ShopBar info={detail} />
+        <ShopBar info={detail} did={did} />
         <SearchLoading loading={loading} />
       </div>
     </>
