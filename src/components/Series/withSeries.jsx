@@ -64,11 +64,6 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
           this.fetchSeriesData();
         }
       }
-      if (isSearch !== prevState.isSearch) {
-        if (input && isSearch) {
-          this.fetchSearchSeriesData();
-        }
-      }
     }
 
     setSeriesState = (page, data = {}) => {
@@ -102,6 +97,8 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
       }).then((data) => {
         this.setState({
           series: sd(page)(data),
+          docSeries: sd(page)(data),
+          docSeriesLength: data.length,
           seriesLength: data.length,
           loading: false,
         });
@@ -122,12 +119,25 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
 
     handleSearchClick = () => {
       // 找到匹配名字的课件或视频
-      this.setState({ isSearch: this.state.input ? true : false });
+      const { value } = document.getElementById("series_local_search_input");
+      if (value) {
+        this.setState({ input: value, isSearch: true }, () =>
+          this.fetchSearchSeriesData()
+        );
+      } else {
+        this.fetchSeriesData()
+      }
     };
 
     handleInput = (v) => {
       this.setState({ input: v });
     };
+
+    handleEnter = (e) => {
+      if(e.key === 'Enter') {
+        this.handleSearchClick()
+      }
+    }
 
     render() {
       return (
@@ -138,6 +148,7 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
           handleTypeClick={this.handleTypeClick}
           handleSearchClick={this.handleSearchClick}
           handleInput={this.handleInput}
+          handleEnter={this.handleEnter}
         />
       );
     }
