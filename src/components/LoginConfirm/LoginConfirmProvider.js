@@ -1,4 +1,5 @@
 import React, { useState, useCallback, Fragment } from "react";
+import { navigate } from "gatsby";
 import LoginConfirmContext from "./LoginConfirmContext";
 import LoginConfirmModal from "./LoginConfirmModal";
 
@@ -18,6 +19,7 @@ const LoginConfirmProvider = ({ children }) => {
 
   const handleConfirm = useCallback(() => {
     resolve();
+    navigate("/users/login");
     handleClose();
   }, [resolve, handleClose]);
 

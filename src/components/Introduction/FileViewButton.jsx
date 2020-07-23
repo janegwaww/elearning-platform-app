@@ -71,7 +71,7 @@ export default function FileViewButton({ vid = "" }) {
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: "none", alignItems: "center" }}>
         <Button
           variant="contained"
           onClick={handleClickOpen}
