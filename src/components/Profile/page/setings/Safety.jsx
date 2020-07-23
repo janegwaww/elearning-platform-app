@@ -93,29 +93,29 @@ const Safety = (props) => {
         });
       } else {
        
-        // setUntieData({
-        //   type:_ev_data.type,
-        //   isOpen:true,
-        //   isUntie:true,
-        //   dialogtitle:'绑定第三方帐号',
-        //   dialogmsg:'亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么',
-        //   login:true
-        // })
-        get_data({
-          model_name: "user",
-          model_action: "generate_third_qrcode",
-          extra_data: {
-            type: _ev_data.type, //# QQ/微信/微博
-            back_url:'http://kengine.haetek.com/users/profile/setings/safety'
-          },
-          model_type: "",
-        }).then(res=>{
-          console.log(res)
-          if(res.err==0){
-            window.location.href = `${res.result_data[0].url}`
-          }else{
-            alert('绑定失败')
-          }
+        setUntieData({
+          type:_ev_data.type,
+          isOpen:true,
+          isUntie:true,
+          dialogtitle:'绑定第三方帐号',
+          dialogmsg:'亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么',
+          login:true
+        })
+        // get_data({
+        //   model_name: "user",
+        //   model_action: "generate_third_qrcode",
+        //   extra_data: {
+        //     type: _ev_data.type, //# QQ/微信/微博
+        //     back_url:'http://kengine.haetek.com/users/profile/setings/safety'
+        //   },
+        //   model_type: "",
+        // }).then(res=>{
+        //   console.log(res)
+        //   if(res.err==0){
+        //     window.location.href = `${res.result_data[0].url}`
+        //   }else{
+        //     alert('绑定失败')
+        //   }
          
         })
         
