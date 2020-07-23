@@ -1,7 +1,4 @@
-
-
 export const getObj = (id) => {
-
   return document.getElementById(id);
 };
 
@@ -29,7 +26,7 @@ export const getWidth = (boxId, contentId, scrollboxId) => {
   let _box = getObj(boxId);
   let _sliderbox = getObj(contentId);
   let _thumbbox = getObj(scrollboxId); //滚动盒子
-  
+
   if (_sliderbox.scrollWidth > _box.clientWidth) {
     barWidth =
       (_box.clientWidth / _sliderbox.scrollWidth) * _thumbbox.clientWidth;
@@ -44,15 +41,15 @@ export const getStyles = (objId, att) => {
     att_value = obj.getAttribute(att);
   } else {
     att_value = document.defaultView.getComputedStyle(obj, null)[att];
-    if(att =='left'){
-      att_value = parseInt(att_value.split('p')[0]);
+    if (att == "left") {
+      att_value = parseInt(att_value.split("p")[0]);
     }
     if (att_value == "none" || !att_value) {
       att_value = 0;
     } else {
       if (att == "transform") {
         let _v = att_value.split(",");
-        
+
         att_value = parseInt(_v[_v.length - 2]);
       }
     }
@@ -60,37 +57,37 @@ export const getStyles = (objId, att) => {
 
   return att_value;
 };
-export const get_date=(timer,sep,num)=>{//时间戳转换
-    let _date =new Date(timer*1000),
-     _y = _date.getFullYear(),
-     _m = _date.getMonth(),
-     _d = _date.getDate(),
-     _h = _date.getHours(),
-     _min = _date.getMinutes(),
-     _s = _date.getSeconds(),
-     _day=_date.getDay();
-     let _num = num ||1;
-     let _sep = sep||'-';
-  if(num==1){
-    return _y+_sep+_m+_sep+_d+' '+_h+':'+_min;
-  }else if(num==9){
-    return _y+'年'+_m+'月'+_d+'日';
-  }else if(num==8){
-    return _m+'月'+_d+'日';
-  }else{
-    return _y+_sep+_m+_sep+_d+' '+_h+':'+_min+':'+_s;
+export const get_date = (timer, sep, num) => {
+  //时间戳转换
+  let _date = new Date(timer * 1000),
+    _y = _date.getFullYear(),
+    _m = _date.getMonth(),
+    _d = _date.getDate(),
+    _h = _date.getHours(),
+    _min = _date.getMinutes(),
+    _s = _date.getSeconds(),
+    _day = _date.getDay();
+  let _num = num || 1;
+  let _sep = sep || "-";
+  if (num == 1) {
+    return _y + _sep + _m + _sep + _d + " " + _h + ":" + _min;
+  } else if (num == 9) {
+    return _y + "年" + _m + "月" + _d + "日";
+  } else if (num == 8) {
+    return _m + "月" + _d + "日";
+  } else {
+    return _y + _sep + _m + _sep + _d + " " + _h + ":" + _min + ":" + _s;
   }
-  
-
 };
-export const get_time=function(time){
- 
-  let _time_arr = time.split(':');
-  let _new_time =parseInt( _time_arr[0])*3600+parseInt(_time_arr[1])*60+parseInt(_time_arr[2]);
+export const get_time = function(time) {
+  let _time_arr = time.split(":");
+  let _new_time =
+    parseInt(_time_arr[0]) * 3600 +
+    parseInt(_time_arr[1]) * 60 +
+    parseInt(_time_arr[2]);
   return _new_time;
-
-}
-
-
-
-
+};
+export const ev_stop = (ev) => {
+  ev.stopPropagation();
+  ev.preventDefault();
+};

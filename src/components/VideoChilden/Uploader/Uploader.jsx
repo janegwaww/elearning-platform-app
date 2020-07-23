@@ -1,5 +1,5 @@
 import React, { createRef, Component } from "react";
-import WebUpload from "webuploader";
+
 import ProgressBar from "../../Loading/ProgressBar";
 import "./Uploader.css";
 import {
@@ -17,13 +17,14 @@ import {
 
 import { withStyles } from "@material-ui/core/styles";
 import { get_data } from "../../../assets/js/request";
-
+import { ev_stop } from "../../../assets/js/totls";
 import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
 
-// import md5 from "md5";
+import BMF from "browser-md5-file";
+
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
 
@@ -126,9 +127,9 @@ export default class UploadVideos extends Component {
     this.tools_status = this.tools_status.bind(this);
     this.upFile = this.upFile.bind(this);
     this.befor_upfile = this.befor_upfile.bind(this);
+    this.check_again = this.check_again.bind(this);
   }
   componentDidMount() {
-    // console.log(this.props.parent.props.location.href);
     if (isLoggedIn()) {
       this.setState({
         user_info: getUser(),
@@ -290,25 +291,10 @@ export default class UploadVideos extends Component {
       }
     });
   }
-  upFile(_file) {
+  upFile(_file, task_id) {
     let _this = this;
 
-    if (_file.type.split("/")[1] != "mp4") {
-      this.setState({
-        promp_info: {
-          type: 1,
-          open: true,
-          msg: "暂只支持mp4格式的视频，其他类型视频暂不支持！",
-          title: "温馨提示",
-        },
-      });
-      return;
-    }
-    this.setState({
-      status: 2,
-      fileName: _file.name.split(".")[0],
-    });
-    this.myFile.init(_file);
+    this.myFile.init(_file, task_id);
 
     this.myFile.on("progress", function(res) {
       //监听文件上传进程
@@ -317,36 +303,16 @@ export default class UploadVideos extends Component {
         progress: res.size,
       });
     });
-    this.myFile.on("onchange", function(res) {
-      let _data = res.response;
-      if (_data.err === -1) {
-       _this.setState({
-         is_login:{
-           type:2,
-           open:true
-         }
-       })
+    // this.myFile.on("onchange", function(res) {
+    //   let _data = res.response;
 
-        _this.setState({ status: 1, progress: 1 });
-
-        _this.myFile.stop();
-      }
-    });
+    // });
     this.myFile.on("onload", function(res) {
       let _data = res.response;
 
-      if (_data.err === -1) {
-        _this.setState({
-          is_login:{
-            type:2,
-            open:true
-          }
-        })
-
-        _this.setState({ status: 1, progress: 0 });
-      }
       if (_data.err === 0 && _data.result_data.length > 0) {
         new CustomModal().alert("上传成功", "success", 3000);
+
         _this.setState({
           files: _data.result_data[0],
           status: 3,
@@ -362,12 +328,56 @@ export default class UploadVideos extends Component {
     this.myFile.on("error", function(res) {
       _this.setState({
         status: 4,
-        is_login:{
-          type:3,
-          open:true
+        is_login: {
+          type: 3,
+          open: true,
+        },
+      });
+    });
+  }
+  check_again(_file) {
+    
+    if (_file.type.split("/")[1] != "mp4") {
+      this.setState({
+        promp_info: {
+          type: 1,
+          open: true,
+          msg: "暂只支持mp4格式的视频，其他类型视频暂不支持！",
+          title: "温馨提示",
+        },
+      });
+      return;
+    }
+    let _check = new BMF();
+    _check.md5(_file, (err, md5) => {
+     
+      if (err) return;
+      get_data(
+        //请求视频是否已有人上传
+        {
+          model_name: "video",
+          model_action: "verify",
+          extra_data: {
+            token: md5,
+          },
+        },
+        "video"
+      ).then((res) => {
+        if (res.err === -1) {
+          this.setState({
+            is_login: {
+              type: 2,
+              open: true,
+            },
+          });
+        } else {
+          this.upFile(_file, md5);
+          this.setState({
+            status: 2,
+            fileName: _file.name.split(".")[0],
+          });
         }
       });
-      
     });
   }
   befor_upfile(callback) {
@@ -445,8 +455,6 @@ export default class UploadVideos extends Component {
           });
           return;
         }
-
-        
       })
       .catch((err) => {
         new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -491,7 +499,6 @@ export default class UploadVideos extends Component {
             status: 3,
           });
         }
-        
       })
       .catch((err) => {
         new CustomModal().alert("生成字幕失败", "error", 4000);
@@ -610,37 +617,30 @@ export default class UploadVideos extends Component {
               <div
                 className={`file-box ${is_drop ? "drop" : "width"}`}
                 onDrop={(event) => {
-                  event.stopPropagation();
-                  event.preventDefault();
+                  ev_stop(event);
                   this.setState({
                     is_drop: false,
                   });
                   var files = event.dataTransfer.files[0];
                   this.befor_upfile(() => {
-                    this.upFile(files);
+                    this.check_again(files);
                   });
                 }}
-                onDragEnter={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
-                }}
+                onDragEnter={ev_stop}
                 onDragOver={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
+                  ev_stop(ev);
                   this.setState({
                     is_drop: true,
                   });
                 }}
                 onDragLeave={(ev) => {
-                  ev.stopPropagation();
-                  ev.preventDefault();
+                  ev_stop(ev);
                   this.setState({
                     is_drop: false,
                   });
                 }}
                 onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
+                  ev_stop(e);
                   this.befor_upfile(() => {
                     document.getElementById("newFile").click();
                   });
@@ -679,10 +679,7 @@ export default class UploadVideos extends Component {
                 id="newFile"
                 accept=".mp4"
                 onChange={(e) => {
-                  //
-                  
-
-                  this.upFile(e.target.files[0]);
+                  this.check_again(e.target.files[0]);
                 }}
               />
             </section>
@@ -892,12 +889,11 @@ export default class UploadVideos extends Component {
           open={is_login.open || false}
           onEvent={(msg) => {
             if (msg.confirm) {
-              
               if (is_login.type == 1) {
                 localStorage.removeItem("haetekUser");
                 navigate(`/users/login`);
               }
-              if(is_login.type==3){
+              if (is_login.type == 3) {
                 this.myFile.start();
                 _this.setState({
                   status: 2,
