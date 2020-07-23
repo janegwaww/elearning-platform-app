@@ -9,9 +9,9 @@ import HeaderTemplate from "./Header/Header";
 
 import BottomAside from "./BottomAside/BottomAside";
 
-import "./SliderTemplate/SliderTemplate.css";
 import styles from "../../assets/css/video.module.css";
 
+import "./SliderTemplate/SliderTemplate.css";
 import dateConversion from "../../assets/js/dateConversion";
 import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";

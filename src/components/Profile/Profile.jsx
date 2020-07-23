@@ -6,8 +6,8 @@ import config from "../../../data/SiteConfig";
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar } from "@material-ui/core";
 
-import "./layout/Profile.css";
-// import SearchLoading from '../Loading/SearchLoading';
+
+
 
 import { RightMenu } from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
@@ -67,7 +67,7 @@ class Profile extends React.Component {
     Object.keys(_menu_open).forEach((va) => {
       _menu_open[va] = false;
     });
-    console.log(_router);
+    
     switch (_router) {
       case "complaints":
         _menu_open.CreateCenter = true;

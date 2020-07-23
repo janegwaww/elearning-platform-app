@@ -7,6 +7,7 @@ import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Grid } from "@material-ui/core";
 import notcoll from "../../../../assets/img/notcoll.png";
+import LoadData from "../../components/LoadData";
 export default class Collection extends React.Component {
   constructor(props) {
     super(props);
@@ -92,7 +93,7 @@ export default class Collection extends React.Component {
         <nav>
           <Nav _inx={0} list={["我的收藏"]} parent={this} />
         </nav>
-        {total_data && (
+        {total_data ? (
           <Grid container spacing={4} className="grid">
             {show_data ? (
               show_data.map((option) => (
@@ -108,10 +109,14 @@ export default class Collection extends React.Component {
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
                 <img src={notcoll} style={{ width: 490, height: 293 }} />
-                <div className='fn-color-6f fn-size-16 profile-top-20'>暂无收藏</div>
+                <div className="fn-color-6f fn-size-16 profile-top-20">
+                  暂无收藏
+                </div>
               </div>
             )}
           </Grid>
+        ) : (
+          <LoadData />
         )}
 
         {total_counts > show_counts && (
