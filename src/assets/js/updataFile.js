@@ -1,4 +1,3 @@
-import md5 from "md5";
 
 function UpdataFile(options) {
   let xhr;
@@ -138,7 +137,7 @@ UpdataFile.prototype.upFile = function(formData, filesArr) {
     _this.xhr.send(formData);
   }
 };
-UpdataFile.prototype.init = function(file) {
+UpdataFile.prototype.init = function(file,task_id) {
   let _option = this.options;
   let _files = null;
   if (file) {
@@ -160,6 +159,7 @@ UpdataFile.prototype.init = function(file) {
   let shardSize = this.options.shardSize, // 一个分片大小
     sharConud = Math.ceil(size / shardSize); //总片数
   this.options.filesSize = size;
+  this.options.task_id= task_id;
   this.totalConud = sharConud;
   this.current = 0; //当前的上传片数 //上传成功后将要保存的分数
   let filesArr = []; //分片上传列表
@@ -174,7 +174,7 @@ UpdataFile.prototype.init = function(file) {
   this.filesList = filesArr; //分片列表
 
   let _formData = new FormData();
-  _formData.append("task_id", md5(_files) + Math.random() * 1000);
+  _formData.append("task_id",  task_id);
   _formData.append("title", _files.name.split('.')[0]);
   _formData.append("video_type", "mp4");
   _formData.append("model_name", "video");
