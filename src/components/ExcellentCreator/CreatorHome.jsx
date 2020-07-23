@@ -65,9 +65,9 @@ const TTab = withStyles((theme) => ({
   },
 }))((props) => <Tab disableRipple {...props} />);
 
-const Pagination = ({ num, handlePage }) => {
+const Pagination = ({ num = 0, handlePage }) => {
   const classes = useStyles();
-  return (
+  return num === 0 ? null : (
     <MuiPagination
       count={Math.ceil(num / 16)}
       variant="outlined"
@@ -279,7 +279,11 @@ class CreatorHome extends Component {
                   <GridCards itemCount={16} loading={loading} items={list} />
                   <br />
                 </TabPanel>
-                <EmptyNotice empty={!(list.length || loading)} />
+                <EmptyNotice
+                  empty={!(list.length || loading)}
+                  type="noResult"
+                  handleFresh={() => this.handleTabChange({}, 0)}
+                />
               </div>
               <Pagination num={pageCount} handlePage={this.handlePage} />
               <br />

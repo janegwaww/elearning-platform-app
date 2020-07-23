@@ -67,7 +67,7 @@ const SearchLayout = ({ children }) => {
             <div className="h-toolbar">
               <nav>
                 <Link href="/">知擎首页</Link>
-                <Link href="/">下载APP</Link>
+                {/* <Link href="/">下载APP</Link> */}
               </nav>
               {/* <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon color="primary" />

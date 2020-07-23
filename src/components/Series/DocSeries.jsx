@@ -47,7 +47,11 @@ const DocSeries = ({
         {docSeries.map((o, i) => {
           return <SearchCard card={o} key={i} />;
         })}
-        <EmptyNotice empty={!docSeries.length && !loading} />
+        <EmptyNotice
+          empty={!docSeries.length && !loading}
+          type="noResult"
+          handleFresh={handleSearchClick}
+        />
       </div>
 
       <Pagination num={docSeriesLength} handlePage={handlePage} />

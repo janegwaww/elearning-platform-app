@@ -30,7 +30,7 @@ export default function Channel() {
 
   const handleChange = () => {
     navigate(`/channel/?ch=${ch}`);
-    fetchSubData()
+    fetchSubData();
   };
 
   useEffect(() => {
@@ -47,7 +47,11 @@ export default function Channel() {
         <br />
         <div style={{ minHeight: "60vh" }}>
           <GridCards loading={loading} itemCount={24} items={list} />
-          <EmptyNotice empty={!list.length && !loading} />
+          <EmptyNotice
+            empty={!list.length && !loading}
+            type="noResult"
+            handleFresh={fetchSubData}
+          />
         </div>
         <br />
         <div style={{ textAlign: "center" }}>
