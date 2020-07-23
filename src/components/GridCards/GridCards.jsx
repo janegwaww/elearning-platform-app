@@ -160,6 +160,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                       {!!item.upload_time &&
                         `${secondsToMouth(item.upload_time)} 发布`}
                       {!!item.time && `${secondsToMouth(item.time)} 发布`}
+                      {!!item.update_time &&
+                        `${secondsToMouth(item.update_time)} 发布`}
                     </Typography>
                   </div>
                 </Box>

@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "../Link/Link";
 import { secondsToDate } from "../../services/utils";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   headCardRoot: {
     display: "grid",
     height: "190px",
@@ -32,6 +32,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+  intro: {
+    lineHeight: 1.5,
+  },
+  headTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 
 const HeadCard = ({ info = {} }) => {
@@ -48,7 +55,7 @@ const HeadCard = ({ info = {} }) => {
       </div>
       <Box className={classes.headTitle}>
         <Typography noWrap>{info.title}</Typography>
-        <Typography color="textSecondary" variant="caption">
+        <Typography color="textSecondary" variant="caption" noWrap>
           {`${secondsToDate(info.update_time || info.time)} 更新`}
         </Typography>
       </Box>
@@ -79,7 +86,9 @@ const HeadCard = ({ info = {} }) => {
           placement="top-start"
           title={info.description || "description"}
         >
-          <Typography variant="body2">{info.description}</Typography>
+          <Typography variant="body2" className={classes.intro}>
+            {info.description}
+          </Typography>
         </Tooltip>
       </Box>
       <div style={{ gridColumn: 2, gridRow: 7 }}>

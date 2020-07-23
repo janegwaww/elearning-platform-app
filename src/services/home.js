@@ -6,7 +6,7 @@ const apisSearch = searchPartApis();
 
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (data.err != 0) {
+  if (![0, "0"].includes(data.err)) {
     alert(data.errmsg);
   }
   return Promise.resolve(odata);
@@ -29,7 +29,6 @@ export const getLatestSubscription = pipeThen(
 // 获取热门视频的最终数据
 export const getHotVideos = pipeThen(
   getResultData,
-  errorMessageNotice,
   apisVideo.hotVideo
 );
 
@@ -43,7 +42,6 @@ export const getHotAuths = pipeThen(
 // 全局搜索
 export const searchGlobal = pipeThen(
   getCountResultData,
-  errorMessageNotice,
   apisVideo.globalSearch
 );
 
@@ -54,7 +52,6 @@ export const getCreatorInfo = pipeThen(
   extraAuth,
   getFirstResultData,
   getResultData,
-  errorMessageNotice,
   apisSearch.getAuthorInformation
 );
 
@@ -71,7 +68,6 @@ export const creatorHomeSearch = pipeThen(
 // 获取频道
 export const getChannelList = pipeThen(
   getResultData,
-  errorMessageNotice,
   apisVideo.categoryInformation
 );
 
@@ -89,7 +85,6 @@ export const getSeriesInfo = pipeThen(
   extraSeries,
   getFirstResultData,
   getResultData,
-  errorMessageNotice,
   apisSearch.getSeriesDetails
 );
 
@@ -108,7 +103,6 @@ export const getDocumentSeriesInfo = pipeThen(
   extraDocSeries,
   getFirstResultData,
   getResultData,
-  errorMessageNotice,
   apisSearch.getDocumentSeriesDetails
 );
 

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 import SearchCard from "./SearchCard";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "../Loading/ProgressBar";
 import Pagination from "../Series/SePagination";
+import GlobalSearchBar from "./GlobalSearchBar";
 import { searchGlobal } from "../../services/home";
 import "./SearchStyles.sass";
 
@@ -55,68 +53,22 @@ const Search = ({ input }) => {
   return (
     <div className="search-root">
       <div style={{ height: 40 }} />
-      <Divider />
-      <Box className="buttonGrounp">
-        <Button
-          size="small"
-          className={`${type === "all" && "action"}`}
-          onClick={() => handleTypeClick("all")}
-        >
-          全部模态
-        </Button>
-        <Button
-          size="small"
-          className={`${type === "video" && "action"}`}
-          onClick={() => handleTypeClick("video")}
-        >
-          单个视频
-        </Button>
-        <Button
-          size="small"
-          className={`${type === "series" && "action"}`}
-          onClick={() => handleTypeClick("series")}
-        >
-          系列视频
-        </Button>
-        <Button
-          size="small"
-          className={`${type === "document" && "action"}`}
-          onClick={() => handleTypeClick("document")}
-        >
-          单个文本
-        </Button>
-        <Button
-          size="small"
-          className={`${type === "documents" && "action"}`}
-          onClick={() => handleTypeClick("documents")}
-        >
-          系列文本
-        </Button>
-        <Button
-          size="small"
-          className={`${type === "user" && "action"}`}
-          onClick={() => handleTypeClick("user")}
-        >
-          用户
-        </Button>
-        <Tooltip title="敬请期待..." placement="top-start">
-          <span>
-            <Button
-              size="small"
-              disabled
-              className={`${type === "more" && "action"}`}
-              onClick={() => handleTypeClick("more")}
-            >
-              更多模态...
-            </Button>
-          </span>
-        </Tooltip>
-      </Box>
-      <Divider />
+      <Typography
+        noWrap
+        dangerouslySetInnerHTML={{
+          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
+        }}
+      />
+      <div style={{ height: 20 }} />
+      <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
       <br />
-      <div className="searchResult">
+      <div style={{ minHeight: "60vh" }}>
         {iterateItems(result)}
-        {!result.length && !loading && <EmptyNotice />}
+        <EmptyNotice
+          empty={!result.length && !loading}
+          type="noResult"
+          handleFresh={fetchSearchResult}
+        />
       </div>
       <br />
       <Pagination num={num} handlePage={handlePage} />
