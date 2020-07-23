@@ -45,9 +45,9 @@ const ShopBar = ({ info = {}, did }) => {
   };
 
   useEffect(() => {
-    setIsPay(!!info.is_pay);
+    setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
-  }, []);
+  }, [info.is_pay]);
 
   return (
     <AppBar position="fixed" className="doc-shop-bar">
