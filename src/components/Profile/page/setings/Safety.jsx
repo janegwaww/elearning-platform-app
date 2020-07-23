@@ -31,6 +31,7 @@ const Safety = (props) => {
       setUntieData({
         isOpen: false,
       });
+      localStorage.removeItem('haetekUser');
       navigate(`/users/login`);
       return;
     }
