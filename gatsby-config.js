@@ -189,7 +189,7 @@ module.exports = {
     // },
     {
       resolve: "gatsby-plugin-create-client-paths",
-      options: { prefixes: [`/users/*`, `/excellentcreator/*`] }
+      options: { prefixes: [`/users/*`, `/excellentcreator/*`, `/protocol/*`] }
     }
   ]
 };
