@@ -5,10 +5,11 @@ import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Modal from "@material-ui/core/Modal";
 import SearchLoading from "../Loading/SearchLoading";
 import ShopBar from "./ShopBar";
+import withId from "../EmptyNotice/withId";
+import LineText from "./LineText";
+import ImageModel from "./ImageModel";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
@@ -20,97 +21,23 @@ const Title = ({ name }) => (
   </div>
 );
 
-const LineText = ({
-  name = "",
-  content = "",
-  detail = "",
-  color = "#2c2c3b",
-  mb = 20,
-}) => {
-  const styles = { color, lineHeight: "24px" };
-  return (
-    <Box
-      style={{
-        display: "flex",
-        marginBottom: `${mb}px`,
-        alignItems: "baseline",
-      }}
-    >
-      {name && (
-        <div style={{ width: 200, marginRight: 10 }}>
-          <Typography
-            color="textSecondary"
-            variant="body2"
-            gutterBottom
-            align="right"
-          >
-            {`${name} :`}
-          </Typography>
-        </div>
-      )}
-      <div style={{ maxWidth: "calc(100% - 210px)" }}>
-        {content && (
-          <Typography style={styles} variant="body2">
-            {content}
-          </Typography>
-        )}
-        {detail && (
-          <Typography style={{ ...styles, marginTop: 20 }} variant="body2">
-            {detail}
-          </Typography>
-        )}
-      </div>
-    </Box>
-  );
-};
-
-const ImageModel = ({ path = "" }) => {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => setOpen(true);
-  const styles = {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%,-50%)",
-    width: "50%",
-    minWidth: 700,
-    height: "100%",
-    overflowY: "auto",
-  };
-  return (
-    <div>
-      <ButtonBase onClick={handleOpen}>
-        <div className="file-container">
-          <img src={`${path}`} alt={`${path}`} />
-        </div>
-      </ButtonBase>
-      <Modal open={open} onClose={handleClose}>
-        <div style={styles}>
-          <img src={`${path}`} alt={`${path}`} width="100%" />
-        </div>
-      </Modal>
-    </div>
-  );
-};
-
-const Document = ({ did }) => {
+const Document = ({ id = "" }) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
+  const [did, setDid] = useState("");
 
-  const fetchDocumentInfo = () => {
+  const fetchDocumentInfo = (_id) => {
     setLoading(true);
-    getDocumentDetail({ file_id: did }).then((data) => {
+    getDocumentDetail({ file_id: _id }).then((data) => {
       setDetail(data);
       setLoading(false);
     });
   };
 
   useEffect(() => {
-    if (did) {
-      fetchDocumentInfo();
-    }
-  }, [did]);
+    setDid(id);
+    fetchDocumentInfo(id);
+  }, []);
 
   const menuLevel = (index = [], list) =>
     Object.values(list)[0].map((o, i) => (
@@ -212,4 +139,4 @@ const Document = ({ did }) => {
   );
 };
 
-export default Document;
+export default withId(Document);
