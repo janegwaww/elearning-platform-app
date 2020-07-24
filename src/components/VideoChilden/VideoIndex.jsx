@@ -668,7 +668,7 @@ export default class VideoPage extends Component {
         className={`${styles.elContainer} ${styles.isVertical} ${styles.maxBox}`}
         id="max-box"
       >
-        <header className={styles.elHeader}>
+        <header className={styles.elHeader} >
           <HeaderTemplate parent={this} />
         </header>
         <main className={`${styles.elMain} ${styles.top}`}>

@@ -206,6 +206,7 @@ const userStyles = makeStyles((them) => ({
     "& .MuiOutlinedInput-input": {
       padding: "8px 6px",
       backgroundColor: "#fff",
+      fontSize:14
     },
     "& .MuiOutlinedInput-multiline": {
       padding: "1px",

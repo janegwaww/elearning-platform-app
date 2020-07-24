@@ -382,6 +382,7 @@ export default class UploadVideos extends Component {
   }
   befor_upfile(callback) {
     if (!isLoggedIn()) {
+      
       this.setState({
         is_login: {
           type: 1,
@@ -396,6 +397,7 @@ export default class UploadVideos extends Component {
       extra_data: {},
       model_type: "",
     }).then((res) => {
+    
       if (res.err === 0 && res.errmsg == "OK") {
         callback && callback();
       } else {
@@ -642,7 +644,14 @@ export default class UploadVideos extends Component {
                 onClick={(e) => {
                   ev_stop(e);
                   this.befor_upfile(() => {
-                    document.getElementById("newFile").click();
+
+                    if(document.getElementById("newFile").click){
+                     
+                      document.getElementById("newFile").click();
+                    }else{
+                      
+                      document.getElementById("newFile").onclick();
+                    }
                   });
                 }}
               >
