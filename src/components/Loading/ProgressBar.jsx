@@ -1,20 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+/* import { makeStyles } from "@material-ui/core/styles"; */
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    position: "fixed",
-    top: 0,
-    left: "auto",
-    right: 0,
-    zIndex: theme.zIndex.drawer + 1,
-  },
-}));
+/* const useStyles = makeStyles((theme) => ({
+ *     root: {
+ *         width: "100%",
+ *         position: "fixed",
+ *         top: 0,
+ *         left: "auto",
+ *         right: 0,
+ *         zIndex: theme.zIndex.drawer + 1,
+ *     },
+ * })); */
+const styles = {
+  width: "100%",
+  position: "fixed",
+  top: 0,
+  left: "auto",
+  right: 0,
+  zIndex: 1201,
+};
 
 const ProgressBar = ({ loading = false }) => {
-  const classes = useStyles();
+  /* const classes = useStyles(); */
   const [progress, setProgress] = useState(0);
   const [show, setShow] = useState(false);
 
@@ -51,7 +59,7 @@ const ProgressBar = ({ loading = false }) => {
   }, [loading]);
 
   return (
-    <div className={classes.root}>
+    <div style={styles}>
       {show ? (
         <LinearProgress
           variant="determinate"
