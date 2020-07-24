@@ -26,7 +26,7 @@
                 <mask id="mask-2" fill="white">
                     <use xlink:href="#path-1"></use>
                 </mask>
-                <use id="蒙版" fill="#FFFFFF" xlink:href="#path-1"></use>
+                <g id="蒙版"></g>
                 <g mask="url(#mask-2)">
                     <g transform="translate(3.000000, 7.000000)">
                         <g transform="translate(21.000000, 84.000000)">

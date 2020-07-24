@@ -1,4 +1,3 @@
-
 const urljoin = require("url-join");
 const path = require("path");
 const config = require("./data/SiteConfig");
@@ -20,7 +19,6 @@ module.exports = {
     }
   },
   plugins: [
-  
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-lodash",
     {
@@ -78,7 +76,7 @@ module.exports = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-material-ui",
     "gatsby-plugin-sass",
-    
+
     "gatsby-plugin-typescript",
     {
       resolve: "gatsby-plugin-manifest",
@@ -193,7 +191,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: {
-        prefixes: [`/users/*`, `/excellentcreator/*`, `/video/*`]
+        prefixes: [`/users/*`, `/excellentcreator/*`, `/video/*`, `/protocol/*`]
       }
     }
   ]

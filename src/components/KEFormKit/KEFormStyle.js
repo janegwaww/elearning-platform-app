@@ -30,20 +30,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: "strech",
     padding: "0 10%"
   },
-  qrCode: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    width: "60px",
-    height: "60px"
-  },
-  qrImage: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
   KELogo: {
     height: "580px",
     width: "100%",

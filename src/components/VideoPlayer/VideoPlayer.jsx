@@ -16,10 +16,8 @@ class VideoPlayer extends Component {
     this.videoWindowRef = React.createRef();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.vid !== prevProps.vid) {
-      this.props.vid && this.fetchVideo(this.props.vid);
-    }
+  componentDidMount() {
+    this.props.vid && this.fetchVideo(this.props.vid);
   }
 
   componentWillUnmount() {
@@ -44,7 +42,7 @@ class VideoPlayer extends Component {
     return (
       <Fragment>
         <div style={{ paddingTop: "0.35em" }}>
-          <Typography variant="h6" gutterBottom noWrap> 
+          <Typography variant="h6" gutterBottom noWrap>
             {videoInfo && videoInfo.title}
           </Typography>
         </div>
