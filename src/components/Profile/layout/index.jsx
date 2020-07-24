@@ -18,7 +18,7 @@ export default class MainLayout extends React.Component {
       <ThemeProvider theme={theme}>
         <Helmet>
             <meta name="description" content={config.siteDescription} />
-            <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"></meta>
+            
             <html lang="en" />
           </Helmet>
          <section className=' bg-f9' style={{minHeight:'100vh'}}>
