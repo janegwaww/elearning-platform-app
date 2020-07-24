@@ -132,7 +132,7 @@ export default class Header extends Component {
               navigate(`/`);
             }}
           >
-            <span className="box box-align-center text-voerflow">
+            <span className="box box-align-center ">
               <img src={Home} />{" "}
               <span className='text-overflow' style={{ marginLeft: 12 }}>返回知擎首页</span>
             </span>

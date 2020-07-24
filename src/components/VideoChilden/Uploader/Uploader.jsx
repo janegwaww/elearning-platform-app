@@ -336,7 +336,6 @@ export default class UploadVideos extends Component {
     });
   }
   check_again(_file) {
-    
     if (_file.type.split("/")[1] != "mp4") {
       this.setState({
         promp_info: {
@@ -349,8 +348,11 @@ export default class UploadVideos extends Component {
       return;
     }
     let _check = new BMF();
+    this.setState({
+      status: 2,
+      progress: 2,
+    });
     _check.md5(_file, (err, md5) => {
-     
       if (err) return;
       get_data(
         //请求视频是否已有人上传
@@ -369,6 +371,8 @@ export default class UploadVideos extends Component {
               type: 2,
               open: true,
             },
+            status: 1,
+            progress: 1,
           });
         } else {
           this.upFile(_file, md5);
@@ -642,7 +646,8 @@ export default class UploadVideos extends Component {
                 onClick={(e) => {
                   ev_stop(e);
                   this.befor_upfile(() => {
-                    document.getElementById("newFile").click();
+                  
+                    document.querySelector("#newFile").click();
                   });
                 }}
               >
@@ -673,15 +678,20 @@ export default class UploadVideos extends Component {
                   <p>此处松开鼠标执行上传文件</p>
                 )}
               </div>
-
-              <input
-                type="file"
-                id="newFile"
-                accept=".mp4"
-                onChange={(e) => {
-                  this.check_again(e.target.files[0]);
-                }}
-              />
+              <label
+                htmlFor="newFile"
+                id="newFileParent"
+                style={{ display: "none" }}
+              >
+                <input
+                  type="file"
+                  id="newFile"
+                  onChange={(e) => {
+                    this.check_again(e.target.files[0]);
+                  }}
+                />
+                {/** accept=".mp4" */}
+              </label>
             </section>
           </div>
         )}

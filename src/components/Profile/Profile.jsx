@@ -4,7 +4,7 @@ import Layout from "./layout";
 import config from "../../../data/SiteConfig";
 
 import { navigate, Link } from "@reach/router";
-import { Container, Avatar } from "@material-ui/core";
+import { Container, Avatar,Grid } from "@material-ui/core";
 
 
 
@@ -103,10 +103,13 @@ class Profile extends React.Component {
       <Layout>
         <Helmet title={`${config.siteTitle}`} />
         <Container className="all-height all-width ">
-          <section className="ma-container all-height all-width profile-height">
+         
+          <Grid container>
+            <Grid xs={3} item>
+            
             <aside
-              className="ma-aside profile-left all-height bg-white "
-              style={{ minHeight: "calc(100vh - 145px)" }}
+              className=" profile-left all-height bg-white "
+              
             >
               {this.state.is_show ? (
                 <div
@@ -206,16 +209,20 @@ class Profile extends React.Component {
                 </li>
               </ul>
             </aside>
+            
+            </Grid>
+            <Grid xs={9} item>
             <main
-              className="ma-main bg-white"
-              style={{
-                width: "calc(100% - 250px)",
-               
-              }}
+              className=" bg-white"
+              
             >
               {children}
             </main>
-          </section>
+            </Grid>
+          </Grid>
+            
+            
+         
         </Container>
       </Layout>
     );
