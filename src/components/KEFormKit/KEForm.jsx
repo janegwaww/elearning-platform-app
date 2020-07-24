@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
-import QRCode from "qrcode.react";
-import { Container, Grid, Tooltip, Typography } from "@material-ui/core";
+import { Container, Grid, Typography } from "@material-ui/core";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
+import QrCodeLoginComponent from "./QrCodeLoginComponent";
+import QrCodeIcon from "./QrCodeIcon";
 import {
   generateQRCode,
   enquiryQRCode,
@@ -61,64 +62,6 @@ const KEForm = ({ modal, modalClose }) => {
     return () => {};
   }, []);
 
-  const QrCodeIcon = () => {
-    const loginOptionSwitch = () => setAccountLogin(!accountLogin);
-    return (
-      <div className={classes.qrCode} onClick={loginOptionSwitch}>
-        <div className={classes.qrImage}>
-          <Tooltip title={!accountLogin ? "账号登录" : "扫描二维码登录"}>
-            {accountLogin ? (
-              <img
-                src="/images/qr-code.png"
-                alt="qrcode"
-                width="40"
-                height="40"
-              />
-            ) : (
-              <img
-                src="/images/account.png"
-                alt="account"
-                width="40"
-                height="40"
-              />
-            )}
-          </Tooltip>
-        </div>
-      </div>
-    );
-  };
-
-  const AccountLoginComponent = () => (
-    <div style={{ width: "100%" }}>
-      <AccountForm handleButton={handleClickLogin} />
-    </div>
-  );
-
-  const QrCodeLoginComponent = () => (
-    <div style={{ textAlign: "center" }}>
-      <div>
-        <div
-          style={{
-            width: "140px",
-            height: "140px",
-            backgroundColor: "transparent",
-            margin: "30px auto",
-          }}
-        >
-          <QRCode value={qrcodeValue} level="L" size={140} />
-        </div>
-        <Typography
-          style={{ color: "#303133", fontSize: "14px", marginBottom: "10px" }}
-        >
-          扫描二维码登录
-        </Typography>
-        <Typography style={{ color: "#909399", fontSize: "12px" }}>
-          使用知擎APP&quot;扫一扫&quot;用手机账号同步在电脑登录
-        </Typography>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <Container maxWidth="lg">
@@ -139,12 +82,17 @@ const KEForm = ({ modal, modalClose }) => {
             </Grid>
             <Grid item xs={6}>
               <div className={classes.rightModule}>
-                <QrCodeIcon />
+                <QrCodeIcon
+                  accountLogin={accountLogin}
+                  setAccountLogin={setAccountLogin}
+                />
                 <div className={classes.welcomeTitle}>开动知识的引擎</div>
                 {accountLogin ? (
-                  <AccountLoginComponent />
+                  <div style={{ width: "100%" }}>
+                    <AccountForm handleButton={handleClickLogin} />
+                  </div>
                 ) : (
-                  <QrCodeLoginComponent />
+                  <QrCodeLoginComponent qrcodeValue={qrcodeValue} />
                 )}
                 <Typography
                   align="center"

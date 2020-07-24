@@ -14,7 +14,7 @@ const emptyType = (t) =>
     loading: {
       img: "/images/loading-fail.svg",
       text: "数据加载失败",
-      but: "/images/fresh-404.svg",
+      but: "/images/back_home.svg",
     },
     noResult: {
       img: "/images/no-result.svg",
