@@ -39,10 +39,10 @@
   background-size: 120px 80px;
 }
 
-.upload-cover input[type="file"] {
+/* .upload-cover input[type="file"] {
   width: 0;
   height: 0;
-}
+} */
 .upload-cover .subtitle-btn{
   padding: 6px 30px;
   height: 32px;
