@@ -132,15 +132,15 @@ export default class Header extends Component {
               navigate(`/`);
             }}
           >
-            <span className="box box-align-center ">
+            <span className="box box-align-center text-voerflow">
               <img src={Home} />{" "}
-              <span style={{ marginLeft: 12 }}>返回知擎首页</span>
+              <span className='text-overflow' style={{ marginLeft: 12 }}>返回知擎首页</span>
             </span>
           </div>
           <div className={`fn-size-16  ${styles.shortcut}`}>
-            <span className="box box-align-center">
+            <span  className="box box-align-center">
               <img src={Code} />{" "}
-              <span style={{ marginLeft: 12 }}>显示快捷键</span>
+              <span className='text-overflow' style={{ marginLeft: 12 }}>显示快捷键</span>
             </span>
 
             <div className={`fn-size-14 ${styles.shortcutCode}`}>

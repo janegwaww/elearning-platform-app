@@ -106,7 +106,7 @@ class Profile extends React.Component {
           <section className="ma-container all-height all-width profile-height">
             <aside
               className="ma-aside profile-left all-height bg-white "
-              style={{ minHeight: "calc(100vh - 331px)" }}
+              style={{ minHeight: "calc(100vh - 145px)" }}
             >
               {this.state.is_show ? (
                 <div
@@ -191,11 +191,12 @@ class Profile extends React.Component {
                   style={{ backgroundImage: "url(" + iconcrear + ")" }}
                 >
                   创作中心
+                  {/** { title: "申诉管理", _url: "/users/profile/complaints" }, */}
                   <RightMenu
                     _inx={inx}
                     menus={[
                       { title: "作品管理", _url: "/users/profile/workscenter" },
-                      { title: "申诉管理", _url: "/users/profile/complaints" },
+                     
                     ]}
                     parent={this}
                     open={menuOpen.CreateCenter}
@@ -209,7 +210,7 @@ class Profile extends React.Component {
               className="ma-main bg-white"
               style={{
                 width: "calc(100% - 250px)",
-                minHeight: "calc(100vh - 331px)",
+               
               }}
             >
               {children}
