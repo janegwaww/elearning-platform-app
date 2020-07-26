@@ -47,7 +47,7 @@ const Search = ({ input }) => {
 
   const iterateItems = (arr = []) => {
     // iterate there
-    return arr.slice(0, 10).map((o, i) => <SearchCard card={o} key={i} />);
+    return arr.slice(0, 12).map((o, i) => <SearchCard card={o} key={i} />);
   };
 
   return (
