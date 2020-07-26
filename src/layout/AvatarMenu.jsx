@@ -2,7 +2,6 @@ import React from "react";
 import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
 import Popover from "@material-ui/core/Popover";
 import Box from "@material-ui/core/Box";
@@ -46,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   logout: {
     borderRadius: 0,
   },
+  link: {
+    color: "#007cff",
+  },
 }));
 
 const AvatarMenu = () => {
@@ -66,20 +68,28 @@ const AvatarMenu = () => {
 
   return (
     <div className={classes.root}>
-      <IconButton
-        aria-label="account of current user"
-        aria-controls={menuId}
-        aria-haspopup="true"
-        onClick={handleProfileMenuOpen}
-        color="inherit"
-        className={classes.iconButton}
-      >
-        {isLogin ? (
+      {isLogin ? (
+        <IconButton
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+          onClick={handleProfileMenuOpen}
+          color="inherit"
+          className={classes.iconButton}
+        >
           <Avatar src={headshot} alt={name} style={{ width: 30, height: 30 }} />
-        ) : (
-          <AccountCircle />
-        )}
-      </IconButton>
+        </IconButton>
+      ) : (
+        <Link
+          href="/users/login"
+          underline="none"
+          variant="body1"
+          className={classes.link}
+        >
+          登录/注册
+        </Link>
+      )}
+
       <Popover
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -90,89 +100,76 @@ const AvatarMenu = () => {
         onClose={handleMenuClose}
         classes={{ paper: classes.popOver }}
       >
-        {isLogin ? (
-          <div style={{ position: "relative" }}>
-            <Box p={2.5}>
+        <div style={{ position: "relative" }}>
+          <Box p={2.5}>
+            <Link
+              href="/users/profile/"
+              color="inherit"
+              underline="none"
+              onClick={handleMenuClose}
+            >
+              <Box display="flex" alignItems="center" mb={2.5}>
+                <Avatar
+                  src={headshot}
+                  alt={name}
+                  style={{ width: 30, height: 30, marginRight: 10 }}
+                />
+                <Typography>{name}</Typography>
+              </Box>
+            </Link>
+            <Divider />
+            <Box display="flex" mt={2.5} className={classes.person}>
               <Link
-                href="/users/profile/"
+                href="/users/profile/dynamic"
                 color="inherit"
-                underline="none"
                 onClick={handleMenuClose}
               >
-                <Box display="flex" alignItems="center" mb={2.5}>
-                  <Avatar
-                    src={headshot}
-                    alt={name}
-                    style={{ width: 30, height: 30, marginRight: 10 }}
-                  />
-                  <Typography>{name}</Typography>
-                </Box>
+                <img src="/images/collect.svg" alt="我的收藏" />
+                <Typography variant="caption">我的收藏</Typography>
               </Link>
-              <Divider />
-              <Box display="flex" mt={2.5} className={classes.person}>
-                <Link
-                  href="/users/profile/dynamic"
-                  color="inherit"
-                  onClick={handleMenuClose}
-                >
-                  <img src="/images/collect.svg" alt="我的收藏" />
-                  <Typography variant="caption">我的收藏</Typography>
-                </Link>
-                <Link
-                  href="/users/profile/workscenter"
-                  color="inherit"
-                  onClick={handleMenuClose}
-                >
-                  <img src="/images/create.svg" alt="我的收藏" />
-                  <Typography variant="caption">创作中心</Typography>
-                </Link>
-                <Link
-                  href="/users/profile"
-                  color="inherit"
-                  onClick={handleMenuClose}
-                >
-                  <img src="/images/person.svg" alt="我的收藏" />
-                  <Typography variant="caption">个人中心</Typography>
-                </Link>
-              </Box>
+              <Link
+                href="/users/profile/workscenter"
+                color="inherit"
+                onClick={handleMenuClose}
+              >
+                <img src="/images/create.svg" alt="我的收藏" />
+                <Typography variant="caption">创作中心</Typography>
+              </Link>
+              <Link
+                href="/users/profile"
+                color="inherit"
+                onClick={handleMenuClose}
+              >
+                <img src="/images/person.svg" alt="我的收藏" />
+                <Typography variant="caption">个人中心</Typography>
+              </Link>
             </Box>
+          </Box>
 
-            <Button
-              fullWidth
-              variant="contained"
-              className={classes.logout}
-              onClick={(e) => {
-                e.preventDefault();
-                logout(() => ({}));
-                handleMenuClose();
-                navigate(`/users/login`);
-              }}
-            >
-              退出
-            </Button>
-            <IconButton
-              className={classes.setIcon}
-              size="small"
-              onClick={() => {
-                handleMenuClose();
-                navigate("/users/profile/setings");
-              }}
-            >
-              <SettingsIcon fontSize="inherit" />
-            </IconButton>
-          </div>
-        ) : (
           <Button
+            fullWidth
             variant="contained"
+            className={classes.logout}
             onClick={(e) => {
               e.preventDefault();
+              logout(() => ({}));
               handleMenuClose();
               navigate(`/users/login`);
             }}
           >
-            登录/注册
+            退出
           </Button>
-        )}
+          <IconButton
+            className={classes.setIcon}
+            size="small"
+            onClick={() => {
+              handleMenuClose();
+              navigate("/users/profile/setings");
+            }}
+          >
+            <SettingsIcon fontSize="inherit" />
+          </IconButton>
+        </div>
       </Popover>
     </div>
   );
