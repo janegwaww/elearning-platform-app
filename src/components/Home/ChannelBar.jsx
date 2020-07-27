@@ -4,24 +4,31 @@ import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
+import useSEO from "../SEO/useSEO";
 import { getCategoryList } from "../../services/home";
 import "./ChannelBar.sass";
 
 const ChannelBar = ({ id = "hots" }) => {
   const [cates, setCates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const setSEO = useSEO();
 
   const fetchBarIcons = () => {
     setLoading(true);
     getCategoryList({}).then((data) => {
       setCates(data);
       setLoading(false);
+      setSEO({ title: data.find((o) => o.id === id).name });
     });
   };
 
   useEffect(() => {
     fetchBarIcons();
   }, []);
+
+  const handleChannel = (name) => {
+    setSEO({ title: name });
+  };
 
   return !loading && cates.length ? (
     <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
@@ -37,6 +44,7 @@ const ChannelBar = ({ id = "hots" }) => {
                 state={{ id: o.id }}
                 underline="none"
                 color="textPrimary"
+                onClick={() => handleChannel(o.name)}
               >
                 <Box className={`item ${cn}`}>
                   <div>

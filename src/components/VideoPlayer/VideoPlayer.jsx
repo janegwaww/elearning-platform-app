@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Typography, Link } from "@material-ui/core";
 import VideoWindow from "./VideoWindow";
 import VideoSearchWrap from "./VideoSearchWrap";
+import UseSetSEO from "./UseSetSEO";
 import { videoPath, endWatchRecord } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
 
@@ -56,6 +57,7 @@ class VideoPlayer extends Component {
             />
           )}
         </VideoSearchWrap>
+        <UseSetSEO info={videoInfo} />
       </Fragment>
     );
   }
