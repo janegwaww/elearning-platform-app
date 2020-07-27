@@ -131,13 +131,13 @@ class ProfileIndex extends React.Component {
         <main
           className="all-width bg-image "
           style={{
-            height: 300,
+            minHeight:183,
 
             borderRadius: "12px 12px 0 0",
           }}
         >
           {userData && userData.background && (
-            <img className="all-height all-width" src={userData.background} />
+            <img className=" all-width" src={userData.background} style={{height:'auto'}} alt='' />
           )}
           {/*} <span
             className="bg-white bg-not"

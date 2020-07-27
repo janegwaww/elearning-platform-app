@@ -647,7 +647,7 @@ export default class UploadVideos extends Component {
                   ev_stop(e);
                   this.befor_upfile(() => {
                   
-                    document.querySelector("#newFile").click();
+                    document.querySelector("#newFileParent").click();
                   });
                 }}
               >
@@ -661,6 +661,8 @@ export default class UploadVideos extends Component {
                         className="fn-color-F2F2F5 fn-size-16 box box-center"
                         style={{ marginBottom: 20, cursor: "pointer" }}
                       >
+
+                      
                         <img
                           src={dropupload}
                           style={{ width: 30, height: 26, marginRight: 20 }}
@@ -686,6 +688,8 @@ export default class UploadVideos extends Component {
                 <input
                   type="file"
                   id="newFile"
+                  capture="camera"
+                  accept=".mp4"
                   onChange={(e) => {
                     this.check_again(e.target.files[0]);
                   }}

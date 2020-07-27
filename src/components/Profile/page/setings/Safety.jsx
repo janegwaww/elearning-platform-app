@@ -114,11 +114,11 @@ const Safety = (props) => {
         // }).then(res=>{
         //   console.log(res)
         //   if(res.err==0){
-        //     window.location.href = `${res.result_data[0].url}`
+        //     // window.location.href = `${res.result_data[0].url}`
+        //     window.open(`${res.result_data[0].url}`);
         //   }else{
         //     alert('绑定失败')
         //   }
-
         // })
       }
     }

@@ -106,7 +106,7 @@ const Message = (props) => {
       <Snackbar
         open={open}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         }}
         autoHideDuration={3000}
