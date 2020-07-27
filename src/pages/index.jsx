@@ -10,7 +10,7 @@ export default class HomePage extends Component {
   render() {
     return (
       <Layout>
-        <Helmet title={`Home | ${config.siteTitle}`} />
+        <Helmet title={`${config.siteTitle}`} />
         <div className="home-container" style={{ width: "100%" }}>
           <Banner />
           <Container>
