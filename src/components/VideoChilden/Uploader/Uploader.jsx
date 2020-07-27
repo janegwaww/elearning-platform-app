@@ -661,6 +661,8 @@ export default class UploadVideos extends Component {
                         className="fn-color-F2F2F5 fn-size-16 box box-center"
                         style={{ marginBottom: 20, cursor: "pointer" }}
                       >
+
+                      
                         <img
                           src={dropupload}
                           style={{ width: 30, height: 26, marginRight: 20 }}
