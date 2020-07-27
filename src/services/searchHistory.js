@@ -16,7 +16,7 @@ const exportHistory = (name) => {
 
   return Object.assign(history, {
     values() {
-      return state;
+      return [...new Set(state)];
     },
     add(value) {
       if (!value) return;

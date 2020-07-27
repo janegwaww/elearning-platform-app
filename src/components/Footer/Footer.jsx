@@ -6,21 +6,20 @@ import Link from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "../Container/KeContainer";
 import wechatQrcode from "../../../static/images/wechat-qrcode.jpg";
-import logo from "../../../static/logos/logo.svg";
 import "./Footer.sass";
 
 const QrCodeImg = () => (
   <Grid container>
     <Grid item xs={6}>
-      <div style={{ textAlign: "center", margin: "14px",color:'#fff' }}>
-        <img src={wechatQrcode} alt="qrcode" width="80" />
-        <Typography >扫码下载APP</Typography>
+      <div style={{ textAlign: "center", margin: "14px", color: "#fff" }}>
+        <img src='/images/gzh.png' alt="qrcode" width="80" />
+        <Typography>官方微信公众号</Typography>
       </div>
     </Grid>
     <Grid item xs={6}>
-      <div style={{ textAlign: "center", margin: "14px",color:'#fff' }}>
-        <img src={wechatQrcode} alt="qrcode" width="80" />
-        <Typography >官方微信</Typography>
+      <div style={{ textAlign: "center", margin: "14px", color: "#fff" }}>
+        <img src='/images/wb.png' alt="qrcode" width="80" />
+        <Typography>官方微博</Typography>
       </div>
     </Grid>
   </Grid>
@@ -40,7 +39,11 @@ const ContractUs = () => {
       <ul>
         {menu.map((o) => (
           <li key={o}>
-            <Link href='#'>{o}</Link>
+            <Link>
+              <Typography noWrap variant="body2">
+                {o}
+              </Typography>
+            </Link>
           </li>
         ))}
       </ul>
@@ -64,11 +67,9 @@ class Footer extends Component {
                 <div className="footer-above-left">
                   <div className="footer-title">
                     <IconButton>
-                      <img src={logo} alt="logo" />
+                      <img src='/logos/logo.svg' alt="logo" />
                     </IconButton>
-                    <Typography>
-                      &#183; 开动遨游知识海洋的引擎
-                    </Typography>
+                    <Typography>&#183; 开动遨游知识海洋的引擎</Typography>
                   </div>
                   <ContractUs />
                 </div>
