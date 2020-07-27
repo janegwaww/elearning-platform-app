@@ -67,6 +67,7 @@ const extraVideoInfo = (data = {}) => ({
   category: data.category,
   videoId: data.video_id,
   isLoged: data.is_login,
+  description: data.description,
   data
 });
 

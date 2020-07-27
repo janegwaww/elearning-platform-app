@@ -10,6 +10,7 @@ import ShopBar from "./ShopBar";
 import withId from "../EmptyNotice/withId";
 import LineText from "./LineText";
 import ImageModel from "./ImageModel";
+import useSEO from "../SEO/useSEO";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
@@ -25,12 +26,17 @@ const Document = ({ id = "" }) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [did, setDid] = useState("");
+  const setSEO = useSEO();
 
   const fetchDocumentInfo = (_id) => {
     setLoading(true);
     getDocumentDetail({ file_id: _id }).then((data) => {
       setDetail(data);
       setLoading(false);
+      setSEO({ title: data.category ? data.category[0] : "" })({
+        title: data.file_name,
+        description: data.description,
+      });
     });
   };
 
