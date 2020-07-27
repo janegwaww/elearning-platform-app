@@ -53,6 +53,15 @@ module.exports = {
       }
     },
     {
+      resolve: `gatsby-plugin-baidu-analytics`,
+      options: {
+        // baidu analytics siteId
+        siteId: "b88346942d0f4074f2a16c0cfda3b856",
+        // Put analytics script in the head instead of the body [default:false]
+        head: false,
+      }
+    },
+    {
       resolve: "gatsby-plugin-nprogress",
       options: {
         color: config.themeColor
