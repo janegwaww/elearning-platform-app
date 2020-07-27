@@ -75,7 +75,7 @@ const WorksItem = (props) => {
           target="_blank"
         >
           {props.info && props.info.image_path && (
-            <img className="all-width all-height" src={props.info.image_path} alt='封页' />
+            <img className="all-width all-height" src={props.info.image_path} alt='' />
           )}
           <span></span>
         </Link>

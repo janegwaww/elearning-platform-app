@@ -189,8 +189,8 @@ const Basic = (props) => {
             <div
               className="bg-f3 box box-center text-center fn-color-white bg-not view-overflow "
               style={{
-                width: 640,
-                height: 140,
+                // width: 640,
+                minHeight: 140,
                 position: "relative",
                 backgroundImage: newcoverurl
                   ? "url(" + newcoverurl + ")"

@@ -61,7 +61,7 @@ export const get_date = (timer, sep, num) => {
   //时间戳转换
   let _date = new Date(timer * 1000),
     _y = _date.getFullYear(),
-    _m = _date.getMonth(),
+    _m = _date.getMonth()+1,
     _d = _date.getDate(),
     _h = _date.getHours(),
     _min = _date.getMinutes(),

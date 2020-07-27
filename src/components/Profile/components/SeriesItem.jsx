@@ -58,7 +58,7 @@ const return_html = (info, type) => {
              className="profile-item-img-box bg-all" 
              
             >
-            {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} />)}
+            {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} alt=''/>)}
               <p className="profile-time fn-color-white fn-size-12 p">
               {info.video_time}
               </p>
