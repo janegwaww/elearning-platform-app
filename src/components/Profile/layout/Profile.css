@@ -24,6 +24,7 @@ p {
 .profile-main .ul {
   list-style: none;
   margin: 0;
+  padding: 20px 0 20px 40px;
 }
 .profile-main .ul li {
   margin: 16px 0;
