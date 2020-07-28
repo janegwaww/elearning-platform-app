@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment } from "react";
+import React, { useCallback, useState } from "react";
 import Helmet from "react-helmet";
 import SEOContext from "./SEOContext";
 import config from "../../../data/SiteConfig";
@@ -45,7 +45,7 @@ const SEO = ({ children }) => {
 
   return (
     <>
-      <Helmet defaultTitle={config.siteTitle} defer={false}>
+      <Helmet defaultTitle={config.siteTitle}>
         <title>{`${seo.title}`}</title>
         <meta name="keywords" content={seo.keywords} />
         <meta name="description" content={seo.description} />
