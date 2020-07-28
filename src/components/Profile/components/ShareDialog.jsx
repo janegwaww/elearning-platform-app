@@ -22,7 +22,7 @@ import yixi from "../../../assets/img/yixi.png";
 import restbian from "../../../assets/img/restbian.png";
 import download from "../../../assets/img/download.png";
 
-import moveout from '../../../assets/img/moveout.png';
+import moveout from "../../../assets/img/moveout.png";
 
 import userStyles from "./profileStyle";
 // 分享弹窗
@@ -194,7 +194,6 @@ export const ShareDialog = (props) => {
 };
 
 export const SericesMenu = (props) => {
-
   const [open, setOpen] = React.useState(null);
   const [isShare, setIsShare] = React.useState(false);
   const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
@@ -475,7 +474,7 @@ export const SericesMenu = (props) => {
                         <MenuOutlined />
                       </div>
                       <div className="fn-color-2C2C3B text-overflow">
-                        {op.video_title||op.title}
+                        {op.video_title || op.title}
                       </div>
                     </li>
                   ))}
@@ -519,6 +518,7 @@ export const VideoMenu = (props) => {
     props.info.description
   );
   //移至系列
+  const [notconcel, setNotconcel] = React.useState(false);
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [seriesvalue, setSeriesvalue] = React.useState("");
 
@@ -705,6 +705,11 @@ export const VideoMenu = (props) => {
               model_action: "get_series",
               extra_data: {},
             }).then((res) => {
+             
+              if (res.err == 0 && res.result_data.length <= 0) {
+                setNotconcel(true);
+                return;
+              }
               if (res.err == 0) {
                 setSeriesArr(res.result_data);
               }
@@ -717,8 +722,13 @@ export const VideoMenu = (props) => {
             title="移动至系列"
             icon_img={yixi}
             info={props.info}
+            notconcel={notconcel}
             onChange={() => {}}
             onEvent={(res) => {
+              if (notconcel) {
+                setNotconcel(false);
+                return;
+              }
               if (res.confirm) {
                 get_data({
                   model_name: "video",
@@ -739,46 +749,56 @@ export const VideoMenu = (props) => {
               }
             }}
           >
-            <div style={{ padding: "0 10px" }}>
-              {seriesArr &&
-                seriesArr.map((option, inx) => (
-                  <div
-                    key={option._id}
-                    className={`box box-between ${
-                      seriesvalue == option._id ? "bg-F2F2F5" : ""
-                    }`}
-                    style={{ padding: "10px 20px" }}
-                  >
-                    <div>
-                      <input
-                        type="checkbox"
-                        value={option._id}
-                        checked={seriesvalue == option._id}
-                        id={"series_" + option._id}
-                        onClick={(ev) => {
-                          ev.stopPropagation();
-                        }}
-                        onChange={(ev) => {
-                          if (seriesvalue == ev.target.value) {
-                            setSeriesvalue("");
-                            return;
-                          }
-                          setSeriesvalue(ev.target.value);
-                        }}
-                      />
-                      <label
-                        htmlFor={"series_" + option._id}
-                        onClick={(ev) => {
-                          ev.stopPropagation();
-                        }}
-                      >
-                        {option.title}
-                      </label>
+            {notconcel ? (
+              <div
+                style={{ minWidth: 300 }}
+                className="text-center fn-color-F86B6B"
+              >
+                暂未找到有系列哦？
+              </div>
+            ) : (
+              <div style={{ padding: "0 10px" }}>
+                {seriesArr &&
+                  seriesArr.length > 0 &&
+                  seriesArr.map((option, inx) => (
+                    <div
+                      key={option._id}
+                      className={`box box-between ${
+                        seriesvalue == option._id ? "bg-F2F2F5" : ""
+                      }`}
+                      style={{ padding: "10px 20px" }}
+                    >
+                      <div>
+                        <input
+                          type="checkbox"
+                          value={option._id}
+                          checked={seriesvalue == option._id}
+                          id={"series_" + option._id}
+                          onClick={(ev) => {
+                            ev.stopPropagation();
+                          }}
+                          onChange={(ev) => {
+                            if (seriesvalue == ev.target.value) {
+                              setSeriesvalue("");
+                              return;
+                            }
+                            setSeriesvalue(ev.target.value);
+                          }}
+                        />
+                        <label
+                          htmlFor={"series_" + option._id}
+                          onClick={(ev) => {
+                            ev.stopPropagation();
+                          }}
+                        >
+                          {option.title}
+                        </label>
+                      </div>
+                      <div>共{option.video_counts}集</div>
                     </div>
-                    <div>共{option.video_counts}集</div>
-                  </div>
-                ))}
-            </div>
+                  ))}
+              </div>
+            )}
           </EditDialog>
         </MenuItem>
         <MenuItem onClick={handleClose} data-id="6">
