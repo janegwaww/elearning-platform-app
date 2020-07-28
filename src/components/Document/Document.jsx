@@ -63,14 +63,14 @@ const Document = ({ id = "" }) => {
         <div style={{ marginBottom: 40 }} />
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件详情" />
+            <Title name="文本详情" />
           </div>
           <Box className="content">
             <div>
-              <LineText name="课件名称" content={detail.file_name} />
-              <LineText name="课件内容" content={detail.description} />
-              <LineText name="文件格式" content={detail.file_type} />
-              <LineText name="文件大小" content={detail.file_size} />
+              <LineText name="文本名称" content={detail.file_name} />
+              <LineText name="文本内容" content={detail.description} />
+              <LineText name="文本格式" content={detail.file_type} />
+              <LineText name="文本大小" content={detail.file_size} />
               <LineText
                 name="上传时间"
                 content={secondsToDate(detail.upload_time)}
@@ -97,7 +97,7 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件目录" />
+            <Title name="文本目录" />
           </div>
           <Box className="content">
             <div>
@@ -129,7 +129,7 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件预览" />
+            <Title name="文本预览" />
           </div>
           <Box className="content">
             <div style={{ marginRight: 210 }} />
