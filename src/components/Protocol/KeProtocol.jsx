@@ -1,15 +1,15 @@
 import React from "react";
-import PDFViewer from "pdf-viewer-reactjs";
+/* import PDFViewer from "pdf-viewer-reactjs"; */
 import Layout from "../../layout";
 import Container from "../Container/KeContainer";
+import ProtocolContainer from "./ProtocolContainer";
 import pdf from "../../../data/rules-and-private.pdf";
 
 const KeProtocol = () => {
   return (
     <Layout>
       <Container>
-        {/* <PDFViewer document={{ url: pdf }} hideNavbar pages={10} css='pdf-viwer' /> */}
-        <iframe src={pdf} width='100%' height='100%' />
+        <ProtocolContainer src={pdf} title="知擎用户服务协议" />
       </Container>
     </Layout>
   );
