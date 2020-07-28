@@ -7,13 +7,11 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 
-import  {DialogTitle} from '../../../assets/template/MuiDialogTitle';
+import { DialogTitle } from "../../../assets/template/MuiDialogTitle";
 import userStyles from "./profileStyle";
 import { updata_img, get_data } from "../../../assets/js/request";
 
 // import CustomModal from "../../../../assets/js/CustomModal";
-
-
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -27,7 +25,6 @@ const DialogActions = withStyles((theme) => ({
     padding: theme.spacing(1),
     justifyContent: "center",
   },
- 
 }))(MuiDialogActions);
 
 export default function EditDialog(props) {
@@ -40,9 +37,9 @@ export default function EditDialog(props) {
   const handleClose = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setTimeout(() => {
+    // setTimeout(() => {
       setOpen(false);
-    }, 500);
+    // }, 50);
   };
 
   return (
@@ -91,7 +88,7 @@ export default function EditDialog(props) {
         {props.btn != "no_show" && (
           <DialogActions>
             <Button
-              disabled={props._disabled?true:false}
+              disabled={props._disabled ? true : false}
               onClick={(evt) => {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -108,21 +105,23 @@ export default function EditDialog(props) {
             >
               确定
             </Button>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleClose(e);
-                props.onEvent &&
-                  props.onEvent({
-                    confirm: false,
-                    cancel: true,
-                  });
-              }}
-              className={`${classes.btn1} ${classes.btn2}`}
-            >
-              取消
-            </Button>
+            {!props.notconcel && (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleClose(e);
+                  props.onEvent &&
+                    props.onEvent({
+                      confirm: false,
+                      cancel: true,
+                    });
+                }}
+                className={`${classes.btn1} ${classes.btn2}`}
+              >
+                取消
+              </Button>
+            )}
           </DialogActions>
         )}
       </Dialog>
