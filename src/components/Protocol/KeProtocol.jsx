@@ -3,13 +3,15 @@ import React from "react";
 import Layout from "../../layout";
 import Container from "../Container/KeContainer";
 import ProtocolContainer from "./ProtocolContainer";
-import pdf from "../../../data/rules-and-private.pdf";
 
 const KeProtocol = () => {
   return (
     <Layout>
       <Container>
-        <ProtocolContainer src={pdf} title="知擎用户服务协议" />
+        <ProtocolContainer
+          src="/data/rules-and-private.pdf"
+          title="知擎用户服务协议"
+        />
       </Container>
     </Layout>
   );
