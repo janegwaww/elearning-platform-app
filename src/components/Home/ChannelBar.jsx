@@ -15,7 +15,7 @@ const ChannelBar = ({ id = "hots" }) => {
 
   const fetchBarIcons = () => {
     setLoading(true);
-    getCategoryList({}).then((data) => {
+    getCategoryList({}).then((data = []) => {
       setCates(data);
       setLoading(false);
       setSEO({ title: data.find((o) => o.id === id).name });

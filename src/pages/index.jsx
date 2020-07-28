@@ -14,7 +14,7 @@ export default class HomePage extends Component {
         <div className="home-container" style={{ width: "100%" }}>
           <Banner />
           <Container>
-            <Home {...this.props} />
+            <Home />
           </Container>
         </div>
       </Layout>
