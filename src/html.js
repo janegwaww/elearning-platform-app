@@ -14,8 +14,10 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         /> */}
-        {props.headComponents}
         <link rel="shortcut icon" type="image/png" href="/logos/logo-48.png" />
+        <title>知擎(KEngine) - 开动遨游知识海洋的引擎</title>
+        {props.headComponents}
+        
       </head>
       <body {...props.bodyAttributes}>
         {props.preBodyComponents}
