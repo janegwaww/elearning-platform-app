@@ -149,7 +149,7 @@ export const ShareDialog = (props) => {
           <Paper component="form" className={input_class.root}>
             <InputBase
               className={input_class.input}
-              placeholder="Search Google Maps"
+              placeholder="分享url"
               value={
                 props.info.type == "series"
                   ? "http://kengine.haetek.com/series/?sid=" +
