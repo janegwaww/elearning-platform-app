@@ -26,13 +26,11 @@ import del from "../../../assets/img/del.png";
 
 import { ShareDialog, VideoMenu } from "./ShareDialog";
 
-const stop_run = (prevValue, nextValue) => {
- 
-};
+const stop_run = (prevValue, nextValue) => {};
 const WorksItem = (props) => {
   const classes = userStyles();
   // console.log(props)
-  
+
   //inx,onEvent,info,parent,history
   //history 1收藏 2历史，3系列详情
   const [modalMsg, setModalMsg] = React.useState({
@@ -75,7 +73,11 @@ const WorksItem = (props) => {
           target="_blank"
         >
           {props.info && props.info.image_path && (
-            <img className="all-width all-height" src={props.info.image_path} alt='' />
+            <img
+              className="all-width all-height"
+              src={props.info.image_path}
+              alt=""
+            />
           )}
           <span></span>
         </Link>
@@ -148,7 +150,11 @@ const WorksItem = (props) => {
           {props.info&&props.info.view_counts||0}&nbsp;观看●{props.info&&props.info.comment_counts||0}回应●{props.info&&props.info.like_counts||0}点赞
          */}
               收藏于
-              {get_date(props.info.collection_time||props.info.upload_time, "/", 8)}
+              {get_date(
+                props.info.collection_time || props.info.upload_time,
+                "/",
+                8
+              )}
             </p>
             <div
               onClick={(e) => {
@@ -205,7 +211,11 @@ const WorksItem = (props) => {
                   )}`}
                   target="_blank"
                 >
-                  搜索<span className="fn-color-007CFF">'{props.info.record.query_string}'</span>知识点
+                  搜索
+                  <span className="fn-color-007CFF">
+                    '{props.info.record.query_string}'
+                  </span>
+                  知识点
                 </Link>
               )}
               {props.info.record.action == "end_watch" && (
@@ -246,7 +256,18 @@ const WorksItem = (props) => {
             style={{ paddingTop: 10 }}
           >
             <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-              {props.info.view_counts}观看●
+              {props.info.view_counts}观看
+              <span
+                style={{
+                  width: 2,
+                  height: 2,
+                  display: "inline-block",
+                  borderRadius: "50%",
+                  backgroundColor: "#878791",
+                  verticalAlign: "middle",
+                  margin: "3px",
+                }}
+              ></span>
               {get_date(props.info.upload_time, "/", 8)} &nbsp;发布
             </p>
             <div>
