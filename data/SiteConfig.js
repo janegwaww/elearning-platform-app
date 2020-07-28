@@ -1,6 +1,6 @@
 const config = {
   // 网站名称
-  siteTitle: "知擎(KEngine) - 开动遨游知识海洋的引擎", // Site title.
+  siteTitle: "知擎（KEngine） - 开动遨游知识海洋的引擎", // Site title.
   // 网站简称
   siteTitleShort: "知擎KEngine", // Short site title for homescreen (PWA). Preferably should be under 12 characters to prevent truncation.
   // SEO名称
