@@ -17,8 +17,9 @@ import Uploder from "./Uploader/Uploader";
 import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
 import SearchLoading from "../Loading/SearchLoading";
-
+import Helmet from "react-helmet";
 // import viderPlay from '../../assets/img/play.svg';
+
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
@@ -95,19 +96,16 @@ export default class VideoPage extends Component {
   componentDidMount() {
     let _this = this;
     _this.video_w_h();
-
+    
     window.onresize = (evnt) => {
       _this.video_w_h();
     };
- document.onclick = (ev) => {
-      
-      
-        if (this.state.is_select) {
-          this.setState({
-            is_select: false,
-          });
-        }
-    
+    document.onclick = (ev) => {
+      if (this.state.is_select) {
+        this.setState({
+          is_select: false,
+        });
+      }
     };
     document.onkeydown = (ev) => {
       // console.log(ev.keyCode,this.state.is_now_edit);
@@ -668,7 +666,8 @@ export default class VideoPage extends Component {
         className={`${styles.elContainer} ${styles.isVertical} ${styles.maxBox}`}
         id="max-box"
       >
-        <header className={styles.elHeader} >
+       
+        <header className={styles.elHeader}>
           <HeaderTemplate parent={this} />
         </header>
         <main className={`${styles.elMain} ${styles.top}`}>
