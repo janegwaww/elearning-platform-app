@@ -82,7 +82,7 @@ export default function UserFeedback({ backData = {} }) {
         handleClick={handleLikeClick}
       />
 
-      <SharePopover>
+      <SharePopover info={backData}>
         {(handleShare) => (
           <IconButton
             size="small"
