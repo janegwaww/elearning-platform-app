@@ -51,16 +51,16 @@ const ChannelBar = ({ id = "hots" }) => {
                     <img
                       src={`${o.web_icon}`}
                       alt={o.name}
-                      width="34"
-                      height="34"
+                      width="26"
+                      height="26"
                     />
                   </div>
                   <div>
                     <img
                       src={`${o.web_click_icon}`}
                       alt={o.name}
-                      width="34"
-                      height="34"
+                      width="26"
+                      height="26"
                     />
                   </div>
                   <Typography noWrap align="center" variant="body2">
