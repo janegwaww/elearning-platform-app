@@ -81,7 +81,7 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="作者简介" />
+            {!!detail.author_info.length && <Title name="作者简介" />}
           </div>
           <Box className="content">
             <div>
@@ -97,7 +97,7 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件目录" />
+            {!!detail.catalogue.length && <Title name="课件目录" />}
           </div>
           <Box className="content">
             <div>
