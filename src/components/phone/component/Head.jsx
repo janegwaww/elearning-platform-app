@@ -14,7 +14,8 @@ const Head =(props)=>{
                 <SearchOutlined />
                 <p ><span className='fn-color-007CFF' style={{marginLeft:'2em'}}
                 onClick={()=>{
-                    navigate(`/users/login`)
+                    navigate(`/users/login`);
+                    window.history.go();
                 }}>登录&nbsp;/&nbsp;</span>注册</p>
             </div>
         </header>

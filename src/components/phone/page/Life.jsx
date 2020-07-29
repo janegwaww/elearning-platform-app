@@ -86,6 +86,7 @@ const Life = () => {
             color="primary"
             className={classes.btn}
             onClick={() => {
+              document.body.scrollTop = document.documentElement.scrollTop = 0;
               update_data(tp);
             }}
           >

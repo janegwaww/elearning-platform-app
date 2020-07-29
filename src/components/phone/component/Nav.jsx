@@ -13,12 +13,13 @@ export const HeadNav = () => (
       <div  >加盟学者</div>
     </div>
     <div className={style.btn} onClick={()=>{
-      navigate(`/video`)
+      navigate(`/video`);
+      window.history.go();
     }}>投稿</div>
   </div>
 );
 export const ItemNav = (props) => {
-  const [navArr, setNavArr] = React.useState([]);
+  const [navArr, setNavArr] = React.useState(props.navArr);
   const btn_click = (ev) => {
     let _data = ev.target.dataset;
     if (JSON.stringify(_data) == "{}") {
@@ -28,28 +29,28 @@ export const ItemNav = (props) => {
     props.onEvent && props.onEvent(parseInt(_data.inx),_data.type);
   };
   React.useEffect(() => {
-    get_data({
-      extra_data: {},
-      model_action: "get_category",
-      model_name: "category",
-      model_type: "",
-    })
-      .then((res) => {
+    // get_data({
+    //   extra_data: {},
+    //   model_action: "get_category",
+    //   model_name: "category",
+    //   model_type: "",
+    // })
+    //   .then((res) => {
         
-        if (res.err == 0) {
-          setNavArr(res.result_data);
-        }
-      })
-      .catch((err) => {
-        alert("网络错误");
-      });
+    //     if (res.err == 0) {
+    //       setNavArr(res.result_data);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     alert("网络错误");
+    //   });
   }, []);
   return (
     <div className="all-width">
       <div
         className={`all-width box box-align-center text-center  ${style.itemnav}`}
       >
-        {navArr.length > 0 &&
+        {navArr&&navArr.length > 0 &&
           navArr.map((op, inx) => (
             <div
               onClick={btn_click}
