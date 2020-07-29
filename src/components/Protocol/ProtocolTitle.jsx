@@ -4,12 +4,12 @@ import Typography from "@material-ui/core/Typography";
 const styles = {
   con: {
     display: "flex",
+    justifyContent: "flex-end",
   },
   text: {
     borderBottom: "2px solid #007cff",
     display: "block",
     padding: "0 0 10px 0",
-    textAlign: "left",
   },
 };
 
