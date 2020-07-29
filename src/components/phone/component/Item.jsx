@@ -1,0 +1,82 @@
+import React from "react";
+
+import style from "./style.module.css";
+import {get_date} from '../../../assets/js/totls';
+const Item = (props) => {
+  return (
+    <div className={`view-overflow all-height ${style.item}`}>
+      <div className="all-width bg-all" style={{minHeight:'8em'}}>
+        <img
+          src={props.info.image_path}
+          alt=""
+          className="all-width "
+          style={{ height: "auto" }}
+        />
+        {props.info.video_time && (
+          <span
+            className={`fn-color-white ${style.fn12}`}
+            style={{
+              position: "absolute",
+              right: "0.6em",
+              bottom: "0.6em",
+              display: "inline-block",
+              padding: "0.2em 0.5em",
+              borderRadius: "0.4em",
+              backgroundColor: "rgba(0,0,0,.48)",
+            }}
+          >
+            {props.info.video_time} {/**共7集*/}
+          </span>
+        )}
+      </div>
+      {props.info.type == "document" ? (
+        <div
+          className="box box-between all-height"
+          style={{ flexDirection: "column", padding: "1em" }}
+        >
+          <div style={{ marginBottom: "1em" }}>
+            <p className="textview-overflow two">{props.info.file_name}</p>
+          </div>
+          <div>{get_date( props.info.time,'/',8)}&nbsp;&nbsp;发布</div>
+        </div>
+      ) : (
+        <div
+          className="box box-between all-height"
+          style={{ flexDirection: "column", padding: "1em" }}
+        >
+          <div style={{ marginBottom: "1em" }}>
+            <p className="textview-overflow two">
+              {/** <span
+              style={{
+                backgroundColor: "#F86B6B",
+                borderRadius: "1.5em",
+                fontSize: "1.2em",
+                display: "inline-block",
+                padding: "0.1em 0.8em",
+              }}
+            >
+              付费
+            </span> */}
+              {props.info.title}
+            </p>
+          </div>
+          <div className="box ">
+            <div
+              className="bg-not "
+              style={{
+                width: "1.5em",
+                height: "1.5em",
+                borderRadius: "50%",
+                marginRight: "0.6em",
+                backgroundImage: "url(" + props.info.headshot + ")",
+              }}
+            ></div>
+
+            <p>{props.info.user_name}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+export default Item;

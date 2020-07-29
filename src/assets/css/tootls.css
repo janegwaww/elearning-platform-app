@@ -6,6 +6,9 @@
 .all-height {
   height: 100%;
 }
+svg {
+  vertical-align: middle;
+}
 .zero-edges {
   margin: 0;
   padding: 0;
