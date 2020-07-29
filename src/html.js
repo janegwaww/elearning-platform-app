@@ -16,7 +16,7 @@ export default function HTML(props) {
         /> */}
         <link rel="shortcut icon" type="image/png" href="/logos/logo-48.png" />
         <meta name="baidu-site-verification" content="ErkXTkR7bR" />
-        <title>知擎(KEngine) - 开动遨游知识海洋的引擎</title>
+        <title>知擎（KEngine） - 开动遨游知识海洋的引擎</title>
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

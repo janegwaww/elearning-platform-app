@@ -64,6 +64,7 @@
     "react-share": "^4.0.1",
     "react-twitter-widgets": "^1.7.1",
     "react-window": "^1.8.5",
+    "reactjs-pdf-reader": "^1.0.12",
     "url-join": "^4.0.0",
     "url-parse": "^1.4.7",
     "webuploader": "^0.1.8",
