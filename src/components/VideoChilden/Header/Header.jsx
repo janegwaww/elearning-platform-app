@@ -198,7 +198,7 @@ export default class Header extends Component {
                 });
               }}
             >
-              保存
+             定时保存
             </NewBtn2>
           </div>
           <div>
@@ -233,9 +233,8 @@ export default class Header extends Component {
                 }
               }}
             >
-              {this.props.parent.state.video_data.sub_josn
-                ? "保存并发布视频"
-                : "发布视频"}
+             
+               发布视频
             </NewBtn2>
           </div>
           {/*<div title="点击可保存你编辑文本样式">

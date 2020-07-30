@@ -61,7 +61,7 @@ React.useEffect(()=>{
 
   return (
     <div className={classes.root}>
-      <div className="box box-align-center fn-size-18 fn-color-2C2C3B">
+      <div className="box box-align-center fn-size-18 fn-color-2C2C3B" >
         {props.list.map((value, inx) => (
           <span key={value} onClick={handleChange} data-inx={inx} className={props.list.length>1?'':'nothover'}>
             {value}
