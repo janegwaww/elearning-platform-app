@@ -30,7 +30,7 @@ const ThirdPartyLoginOpt = () => {
 
   // 第一步：获取跳转链接
   const handleLoginClick = (method) => {
-    const backUrl = prevHref.get();
+    const backUrl = `${prevHref.get()}`;
     setThirdMethod(method);
     generateThirdPartyUrl({ type: method, back_url: backUrl }).then((res) => {
       if (res) {
@@ -42,8 +42,9 @@ const ThirdPartyLoginOpt = () => {
   const track = (msg) => (data) => console.log(`${msg}: `, data);
   // 第二步：拿到code进行登录操作
   const handleLogin = ({ code, state }) => {
-    const type = window.location.hash ? "wechat" : "qq";
+    const type = "wechat";
     const param = { code, type };
+    track("href")(locationHref);
     handleThirdLogin(param).then((response) => {
       const { accessToken } = response;
       if (accessToken) {
