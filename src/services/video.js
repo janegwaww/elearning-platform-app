@@ -8,8 +8,7 @@ const apisSearch = searchPartApis();
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (![0,'0','4104'].includes(data.err)) {
-    alert(data.errmsg);
+  if (![0, "0", "4104"].includes(data.err)) {
   }
   return Promise.resolve(odata);
 };

@@ -7,22 +7,18 @@ const withId = (WrapComponent) => {
   return class extends Component {
     constructor(props) {
       super(props);
-      this.state = {};
-    }
-
-    componentDidMount() {
-      this.verifyId();
     }
 
     handleAction = () => navigate("/");
 
     verifyId = () => {
       const { vid, did, dsid, sid } = getIdFromHref();
-      this.setState({ id: vid || did || dsid || sid });
+      const id = vid || did || dsid || sid;
+      return id;
     };
 
     render() {
-      const { id } = this.state;
+      const id = this.verifyId();
 
       return id ? (
         <WrapComponent id={id} />
