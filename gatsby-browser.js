@@ -2,6 +2,7 @@ import React from "react";
 import { navigate } from "gatsby";
 import { isMobile } from "react-device-detect";
 import urlParse from "url-parse";
+import prevHref from "./src/services/prevHref";
 
 // Logs when the client route changes
 export const onRouteUpdate = ({ location, prevLocation }) => {
@@ -13,5 +14,13 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
     location.pathname === "/" && navigate("/phone");
     location.pathname === "/search/" && navigate("/phonesearch");
   }
-  // console.log(location.pathname);
+
+  if (prevLocation) {
+    prevHref.set(prevLocation.href);
+  }
+};
+
+// Wraps every page in a component
+export const wrapPageElement = ({ element, props }) => {
+  return element;
 };

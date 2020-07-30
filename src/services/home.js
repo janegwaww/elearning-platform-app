@@ -7,7 +7,6 @@ const apisSearch = searchPartApis();
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
   if (![0, "0"].includes(data.err)) {
-    alert(data.errmsg);
   }
   return Promise.resolve(odata);
 };
