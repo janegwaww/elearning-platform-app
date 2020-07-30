@@ -19,7 +19,6 @@ import weibo from "../../../static/images/weibo-icon.png";
 const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
   const locationHref = globalHistory.location.href;
-  const [thirdMethod, setThirdMethod] = useState("qq");
   const [binding, setBinding] = useState(false);
   const [acToken, setAcToken] = useState("");
   const [returnUrl, setReturnUrl] = useState("/");
@@ -31,7 +30,6 @@ const ThirdPartyLoginOpt = () => {
   // 第一步：获取跳转链接
   const handleLoginClick = (method) => {
     const backUrl = `${prevHref.get()}`;
-    setThirdMethod(method);
     generateThirdPartyUrl({ type: method, back_url: backUrl }).then((res) => {
       if (res) {
         window.location.href = `${res}`;

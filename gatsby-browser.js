@@ -9,18 +9,13 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   const RedirPath = ["/", "search", "watch"];
 
   if (RedirPath.includes(location.pathname) && isMobile) {
-    location.pathname === "/watch/" &&
-      navigate(`/phoneplayvid=${urlParse(location.href, true).query.vid}`);
-    location.pathname === "/" && navigate("/phone");
-    location.pathname === "/search/" && navigate("/phonesearch");
+    // location.pathname === "/watch/" &&
+    //   navigate(`/phoneplayvid=${urlParse(location.href, true).query.vid}`);
+    // location.pathname === "/" && navigate("/phone");
+    // location.pathname === "/search/" && navigate("/phonesearch");
   }
 
   if (prevLocation) {
     prevHref.set(prevLocation.href);
   }
-};
-
-// Wraps every page in a component
-export const wrapPageElement = ({ element, props }) => {
-  return element;
 };
