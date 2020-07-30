@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 const styles = {
   con: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
   },
   text: {
     borderBottom: "2px solid #007cff",
