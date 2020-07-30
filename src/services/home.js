@@ -27,10 +27,7 @@ export const getLatestSubscription = pipeThen(
 );
 
 // 获取热门视频的最终数据
-export const getHotVideos = pipeThen(
-  getResultData,
-  apisVideo.hotVideo
-);
+export const getHotVideos = pipeThen(getResultData, apisVideo.hotVideo);
 
 // 获取热门作者的最终数据
 export const getHotAuths = pipeThen(
@@ -114,3 +111,6 @@ export const docSeriesSearch = pipeThen(
 
 // 获取频道列表栏
 export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);
+
+// 全局搜索数据上传接口
+export const globalSearchResultUpdate = pipeThen(apisSearch.globalSearch);
