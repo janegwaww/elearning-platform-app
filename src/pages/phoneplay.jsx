@@ -92,11 +92,7 @@ class PhonePlay extends React.Component {
             <meta http-equiv="Expires" content="0" />
             <meta http-equiv="Cache-Control" content="no-cache" />
             <meta http-equiv="Pragma" content="no-cache" />
-            <line
-              type="text/css"
-              rel="stylesheet"
-              href="../assets/css/tootls.css"
-            />
+            <link type="text/css" rel='stylesheet' href = '../assets/css/tootls.css' />
           </Helmet>
           <div style={{ lineHeight: 1.5, fontSize: 10 }}>
             <div style={{ padding: "0 1.67em" }}>

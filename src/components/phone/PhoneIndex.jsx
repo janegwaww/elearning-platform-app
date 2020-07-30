@@ -89,11 +89,7 @@ export default class PhoneIndex extends Component {
           <meta http-equiv="Pragma" content="no-cache" />
 
           <title>知擎</title>
-          <line
-            type="text/css"
-            rel="stylesheet"
-            href="../../assets/css/tootls.css"
-          />
+          
         </Helmet>
         {this.state.is_show ? (
           <div style={{ lineHeight: 1.5, fontSize: this.state.font_size }}>

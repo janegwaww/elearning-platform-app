@@ -670,11 +670,7 @@ export default class VideoPage extends Component {
           <meta http-equiv="Expires" content="0" />
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="Pragma" content="no-cache" />
-          <line
-          type="text/css"
-          rel="stylesheet"
-          href="../../assets/css/tootls.css"
-        />
+         
         </Helmet>
 
         <header className={styles.elHeader}>
