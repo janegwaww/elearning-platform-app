@@ -85,6 +85,7 @@ const Mechanics = () => {
             variant="contained"
             color="primary"
             onClick={() => {
+              document.body.scrollTop = document.documentElement.scrollTop = 0;
               update_data(tp);
             }}
             className={classes.btn}
