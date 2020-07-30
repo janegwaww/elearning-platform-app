@@ -1,16 +1,30 @@
 import React from "react";
 
 import style from "./style.module.css";
-import {get_date} from '../../../assets/js/totls';
+import { get_date } from "../../../assets/js/totls";
+import { navigate } from "@reach/router";
+import { PlayCircleOutline } from "@material-ui/icons";
 const Item = (props) => {
   return (
-    <div className={`view-overflow all-height ${style.item}`}>
-      <div className="all-width bg-all" style={{minHeight:'8em'}}>
+    <div
+      className={`view-overflow all-height ${style.item}`}
+      onClick={() => {
+        if (props.info.type == "document" || props.info.file_type == "Pdf") {
+          navigate(`/document/?did=${props.info.file_id}`);
+          window.history.go();
+        } else {
+          navigate(`/phoneplay?vid=${props.info.video_id}`);
+        }
+      }}
+    >
+      <div
+        className="all-width bg-all view-overflow"
+        style={{ minHeight: "8em", marginBottom: 5, height: "auto" }}
+      >
         <img
           src={props.info.image_path}
           alt=""
-          className="all-width "
-          style={{ height: "auto" }}
+          style={{ height: "auto", width: "100%", minHeight: "8em" }}
         />
         {props.info.video_time && (
           <span
@@ -29,15 +43,16 @@ const Item = (props) => {
           </span>
         )}
       </div>
+
       {props.info.type == "document" ? (
         <div
           className="box box-between all-height"
           style={{ flexDirection: "column", padding: "1em" }}
         >
           <div style={{ marginBottom: "1em" }}>
-            <p className="textview-overflow two">{props.info.file_name}</p>
+            <p className="textview-overflow two">{props.info.file_name}123</p>
           </div>
-          <div>{get_date( props.info.time,'/',8)}&nbsp;&nbsp;发布</div>
+          <div>{get_date(props.info.time, "/", 8)}&nbsp;&nbsp;发布</div>
         </div>
       ) : (
         <div
@@ -57,23 +72,34 @@ const Item = (props) => {
             >
               付费
             </span> */}
-              {props.info.title}
+              {props.info.title ||
+                props.info.file_name ||
+                props.info.video_title}
             </p>
           </div>
-          <div className="box ">
-            <div
-              className="bg-not "
-              style={{
-                width: "1.5em",
-                height: "1.5em",
-                borderRadius: "50%",
-                marginRight: "0.6em",
-                backgroundImage: "url(" + props.info.headshot + ")",
-              }}
-            ></div>
+          {props.info.headshot ? (
+            <div className="box ">
+              <div
+                className="bg-not "
+                style={{
+                  width: "1.5em",
+                  height: "1.5em",
+                  borderRadius: "50%",
+                  marginRight: "0.6em",
+                  backgroundImage: "url(" + props.info.headshot + ")",
+                }}
+              ></div>
 
-            <p>{props.info.user_name}</p>
-          </div>
+              <p>{props.info.user_name}</p>
+            </div>
+          ) : props.info.pay_counts ? (
+            <div>{props.info.pay_counts}购买</div>
+          ) : (
+            <div className="fn-color-878791">
+              <PlayCircleOutline style={{ height: "0.8em", width: "0.8em" }} />
+              {props.info.view_counts} 观看
+            </div>
+          )}
         </div>
       )}
     </div>

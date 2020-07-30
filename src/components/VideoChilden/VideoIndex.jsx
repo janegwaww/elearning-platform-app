@@ -96,7 +96,7 @@ export default class VideoPage extends Component {
   componentDidMount() {
     let _this = this;
     _this.video_w_h();
-    
+
     window.onresize = (evnt) => {
       _this.video_w_h();
     };
@@ -666,7 +666,13 @@ export default class VideoPage extends Component {
         className={`${styles.elContainer} ${styles.isVertical} ${styles.maxBox}`}
         id="max-box"
       >
-       
+        <Helmet>
+          <meta http-equiv="Expires" content="0" />
+          <meta http-equiv="Cache-Control" content="no-cache" />
+          <meta http-equiv="Pragma" content="no-cache" />
+         
+        </Helmet>
+
         <header className={styles.elHeader}>
           <HeaderTemplate parent={this} />
         </header>

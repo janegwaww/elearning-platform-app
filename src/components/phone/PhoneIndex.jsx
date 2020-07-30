@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../assets/css/tootls.css";
 import Head from "./component/Head";
 import { HeadNav, ItemNav } from "./component/Nav";
 import { navigate } from "@reach/router";
@@ -85,11 +84,16 @@ export default class PhoneIndex extends Component {
             name="viewport"
             content="width=device-width,initial-scale=1.0,maximum-scale=1"
           />
+          <meta http-equiv="Expires" content="0" />
+          <meta http-equiv="Cache-Control" content="no-cache" />
+          <meta http-equiv="Pragma" content="no-cache" />
+
           <title>知擎</title>
+          
         </Helmet>
         {this.state.is_show ? (
           <div style={{ lineHeight: 1.5, fontSize: this.state.font_size }}>
-            <div style={{ padding: "0 2em 0.8em" }}>
+            <div style={{ padding: "0 1.67em 0.8em" }}>
               <header>
                 <Head />
               </header>

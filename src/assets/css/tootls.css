@@ -127,6 +127,7 @@ svg {
   word-break: break-all;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+  
 }
 /*多行显示文字*/
 .textview-overflow.two {
