@@ -25,7 +25,8 @@ class PhonePlay extends React.Component {
       video_info: null,
       jinjie_data: null,
       open_search: false,
-      search_result:null
+      search_result:null,
+      font_size:10
     };
     this.get_jinjie = this.get_jinjie.bind(this);
     this.get_video_info = this.get_video_info.bind(this);
@@ -38,6 +39,9 @@ class PhonePlay extends React.Component {
     });
     this.get_video_info(_vid);
     this.get_jinjie(_vid);
+    this.setState({
+      font_size: (10 / 414) * window.screen.width,
+    });
   }
   componentWillReceiveProps(newprox) {
     let _vid = newprox.location.search.split("=")[1];
@@ -98,7 +102,7 @@ class PhonePlay extends React.Component {
               href="../assets/css/tootls.css"
             />
           </Helmet>
-          <div style={{ lineHeight: 1.5, fontSize: 10 }}>
+          <div style={{ lineHeight: 1.5, fontSize: this.state.font_size}}>
             <div style={{ padding: "0 1.67em" }}>
               <header>
                 <Head is_show={true} />
@@ -106,11 +110,16 @@ class PhonePlay extends React.Component {
             </div>
             <div>
               <div className="all-width">
+                <div className='all-width'>
                 <video
                   src={video_info && video_info.video_path}
                   controls="controls"
                   className="all-width"
+                  playsinline   
+                  webkit-playsinline 
+                  playsinline x5-playsinline                
                 ></video>
+                </div>
                 {this.state.open_search ? (
                   <div
                     className="all-width"
@@ -118,6 +127,7 @@ class PhonePlay extends React.Component {
                       position: "absolute",
                       top: "1.5em",
                       left: 0,
+                      zIndex:5
                     }}
                   >
                     <SearchInput

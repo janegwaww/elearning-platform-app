@@ -8,6 +8,7 @@ const Nofile = (props) => {
     <div style={{marginTop:'2em'}}>
       <img src={noResult} className='all-width' style={{height:'auto'}}/>
       <div className='text-center' style={{marginTop:'2em'}}>
+      {!props.not?(
         <Button
           variant="contained"
           color="primary"
@@ -18,6 +19,7 @@ const Nofile = (props) => {
         >
           点击刷新
         </Button>
+        ):(<div className="fn-color-007CFF">{props.msg}</div>)}
       </div>
     </div>
   );

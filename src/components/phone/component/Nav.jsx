@@ -186,16 +186,15 @@ export const NewNav = (props) => {
     props.onEvent && props.onEvent(parseInt(_data.inx));
   };
   return (
-    <div className={`${style.fn14} `}>
-      <div className={`box box-align-center ${style.nav}`}>
+    <div className={`${style.fn14} view-overflow`}>
+      <div className={`box box-align-center ${style.nav}`} style={{overflowX:'auto'}}>
         {props.list &&
           props.list.map((va, inx) => (
             <div
-              className={nowInx == inx+1 ? "fn-color-007CFF" : ""}
+              className={nowInx == inx+1 ? "fn-color-007CFF view-nowrap" : "view-nowrap"}
               data-inx={inx + 1}
               key={va}
               onClick={btn_click}
-              
             >
               {va}
               {nowInx == inx+1 && (
