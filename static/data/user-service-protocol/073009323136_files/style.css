@@ -1,0 +1,282 @@
+sup {
+	position: relative;
+	top: -0.4em;
+	vertical-align: baseline;
+}
+sub {
+	position: relative;
+	top: 0.4em;
+	vertical-align: baseline;
+}
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+@media screen and (min-device-pixel-ratio:0), (-webkit-min-device-pixel-ratio:0), (min--moz-device-pixel-ratio: 0) { .view { font-size:10em; transform:scale(0.1); -moz-transform:scale(0.1); -webkit-transform:scale(0.1); -moz-transform-origin:top left; -webkit-transform-origin:top left; } }
+.layer { }.ie { font-size: 1pt; }
+.ie body { font-size: 12em; }
+.stl_01 {
+	position: absolute;
+	white-space: nowrap;
+}
+.stl_02 {
+	height: 85.99666em;
+	font-size: 1em;
+	margin: 0em;
+	line-height: 0.0em;
+	display: block;
+	border-style: none;
+	width: 69.91666em;
+}
+.stl_03 {
+	position: relative;
+	width: 69.91666em;
+}
+.stl_04 {
+	height: 8.61666em;
+}
+.ie .stl_04 {
+	height: 98.91666em;
+}
+@font-face {
+	font-family:"KTTGES+SimSun";
+	src:url("bd878224-0000-0000-0000-000000000000.woff") format("woff");
+}
+.stl_05 {
+	font-size: 0.75em;
+	font-family: "KTTGES+SimSun", "Times New Roman";
+	color: #000000;
+}
+.stl_06 {
+	line-height: 1em;
+}
+.stl_07 {
+	letter-spacing: 0.0027em;
+}
+
+.ie .stl_07 {
+	letter-spacing: 0.0319px;
+}
+.stl_08 {
+	letter-spacing: -0.0015em;
+}
+
+.ie .stl_08 {
+	letter-spacing: -0.0178px;
+}
+.stl_09 {
+	letter-spacing: 0.0038em;
+}
+
+.ie .stl_09 {
+	letter-spacing: 0.0455px;
+}
+.stl_10 {
+	letter-spacing: 0.0044em;
+}
+
+.ie .stl_10 {
+	letter-spacing: 0.0531px;
+}
+.stl_11 {
+	letter-spacing: -0.0013em;
+}
+
+.ie .stl_11 {
+	letter-spacing: -0.0156px;
+}
+.stl_12 {
+	letter-spacing: 0em;
+}
+
+.ie .stl_12 {
+	letter-spacing: 0px;
+}
+.stl_13 {
+	letter-spacing: 0.0015em;
+}
+
+.ie .stl_13 {
+	letter-spacing: 0.0177px;
+}
+.stl_14 {
+	letter-spacing: 0.0039em;
+}
+
+.ie .stl_14 {
+	letter-spacing: 0.0471px;
+}
+.stl_15 {
+	letter-spacing: 0.0004em;
+}
+
+.ie .stl_15 {
+	letter-spacing: 0.0044px;
+}
+.stl_16 {
+	letter-spacing: 0.004em;
+}
+
+.ie .stl_16 {
+	letter-spacing: 0.0485px;
+}
+.stl_17 {
+	letter-spacing: 0.0011em;
+}
+
+.ie .stl_17 {
+	letter-spacing: 0.0133px;
+}
+.stl_18 {
+	letter-spacing: -0.0011em;
+}
+
+.ie .stl_18 {
+	letter-spacing: -0.0134px;
+}
+.stl_19 {
+	letter-spacing: 0.0007em;
+}
+
+.ie .stl_19 {
+	letter-spacing: 0.0088px;
+}
+.stl_20 {
+	letter-spacing: 0.0042em;
+}
+
+.ie .stl_20 {
+	letter-spacing: 0.0498px;
+}
+.stl_21 {
+	letter-spacing: 0.002em;
+}
+
+.ie .stl_21 {
+	letter-spacing: 0.0244px;
+}
+.stl_22 {
+	letter-spacing: 0.0026em;
+}
+
+.ie .stl_22 {
+	letter-spacing: 0.0311px;
+}
+.stl_23 {
+	letter-spacing: 0.0078em;
+}
+
+.ie .stl_23 {
+	letter-spacing: 0.0933px;
+}
+.stl_24 {
+	letter-spacing: 0.0041em;
+}
+
+.ie .stl_24 {
+	letter-spacing: 0.0487px;
+}
+.stl_25 {
+	letter-spacing: -0.0082em;
+}
+
+.ie .stl_25 {
+	letter-spacing: -0.0986px;
+}
+.stl_26 {
+	letter-spacing: 0.0033em;
+}
+
+.ie .stl_26 {
+	letter-spacing: 0.0399px;
+}
+.stl_27 {
+	letter-spacing: 0.0023em;
+}
+
+.ie .stl_27 {
+	letter-spacing: 0.027px;
+}
+.stl_28 {
+	letter-spacing: -0.0044em;
+}
+
+.ie .stl_28 {
+	letter-spacing: -0.0526px;
+}
+.stl_29 {
+	letter-spacing: 0.0031em;
+}
+
+.ie .stl_29 {
+	letter-spacing: 0.0368px;
+}
+.stl_30 {
+	letter-spacing: 0.0022em;
+}
+
+.ie .stl_30 {
+	letter-spacing: 0.0262px;
+}
+.stl_31 {
+	letter-spacing: 0.0066em;
+}
+
+.ie .stl_31 {
+	letter-spacing: 0.0797px;
+}
+.stl_32 {
+	letter-spacing: -0.0084em;
+}
+
+.ie .stl_32 {
+	letter-spacing: -0.1008px;
+}
+.stl_33 {
+	letter-spacing: 0.0001em;
+}
+
+.ie .stl_33 {
+	letter-spacing: 0.0013px;
+}
+.stl_34 {
+	letter-spacing: 0.0002em;
+}
+
+.ie .stl_34 {
+	letter-spacing: 0.0022px;
+}
+.stl_35 {
+	letter-spacing: 0.0021em;
+}
+
+.ie .stl_35 {
+	letter-spacing: 0.0257px;
+}
+.stl_36 {
+	letter-spacing: 0.0058em;
+}
+
+.ie .stl_36 {
+	letter-spacing: 0.07px;
+}
+.stl_37 {
+	letter-spacing: -0.008em;
+}
+
+.ie .stl_37 {
+	letter-spacing: -0.0964px;
+}
+.stl_38 {
+	letter-spacing: 0.0037em;
+}
+
+.ie .stl_38 {
+	letter-spacing: 0.0444px;
+}
+.stl_39 {
+	position: relative;
+}
+.stl_40 {
+	position: absolute;
+	left: 0em;
+	top: 0em;
+}

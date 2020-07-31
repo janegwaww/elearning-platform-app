@@ -1,5 +1,4 @@
 import React from "react";
-/* import PDFViewer from "pdf-viewer-reactjs"; */
 import Layout from "../../layout";
 import Container from "../Container/KeContainer";
 import ProtocolContainer from "./ProtocolContainer";
@@ -9,7 +8,7 @@ const KeProtocol = () => {
     <Layout>
       <Container>
         <ProtocolContainer
-          src="/data/user-service-protocol.pdf"
+          src="/data/rules-and-private/index.html"
           title="法律声明及隐私政策"
         />
       </Container>
