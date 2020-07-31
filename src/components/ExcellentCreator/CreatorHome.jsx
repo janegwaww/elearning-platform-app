@@ -95,7 +95,7 @@ function TabPanel(props) {
   );
 }
 
-const SearchInput = ({ handleSearchClick }) => {
+const SearchInput = ({ handleSearchClick, handleEnter }) => {
   const classes = useStyles();
   return (
     <InputBase
@@ -103,6 +103,7 @@ const SearchInput = ({ handleSearchClick }) => {
       placeholder="搜索他的视频"
       type="search"
       classes={{ input: classes.inputInput }}
+      onKeyDown={handleEnter}
       endAdornment={
         <InputAdornment>
           <Button
@@ -221,6 +222,12 @@ class CreatorHome extends Component {
     }
   };
 
+  handleEnter = (e) => {
+    if (e.key === "Enter") {
+      this.handleSearchClick();
+    }
+  };
+
   render() {
     const { auth, list, loading, value, pageCount } = this.state;
     const { background } = auth;
@@ -260,7 +267,7 @@ class CreatorHome extends Component {
                   </Tabs>
                   <SearchInput
                     handleSearchClick={this.handleSearchClick}
-                    handleSearchInput={this.handleSearchInput}
+                    handleEnter={this.handleEnter}
                   />
                 </Box>
 
