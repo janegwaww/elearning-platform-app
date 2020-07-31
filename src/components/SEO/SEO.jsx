@@ -35,7 +35,7 @@ const SEO = ({ children }) => {
         keywords: concatKeywords(title).toString(),
         description,
       });
-      return ({ detail }) => {
+      return (detail) => {
         setSeo({
           title: concatTitle(title)(detail.title).toString(),
           keywords: concatKeywords(title)(detail.title).toString(),
