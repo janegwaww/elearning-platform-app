@@ -7,10 +7,10 @@ const ProtocolContainer = ({ title = "", src = "" }) => {
     <>
       <div style={{ height: 40 }} />
       <Grid container>
-        <Grid item lg={2} xs={12}>
+        <Grid item xs={12}>
           <ProtocolTitle title={title} />
         </Grid>
-        <Grid item lg={10} xs={12} style={{ height: "90vh" }}>
+        <Grid item xs={12} style={{ height: "90vh" }}>
           <iframe
             src={src}
             width="100%"
