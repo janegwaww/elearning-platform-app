@@ -24,6 +24,7 @@ p {
   position: absolute;
   right: 0;
   top: 1em;
+  z-index: 5;
 }
 
 .btn:hover {
@@ -53,12 +54,11 @@ p {
   position: relative;
 }
 .nav > div:not(:first-child) {
-  margin-left: 1.2em;
+  margin-left: 1em;
 }
 .nav > div:not(:last-child) {
-  margin-right: 1.2em;
+  margin-right: 1em;
 }
-
 .item {
   border: 1px solid #f2f2f5;
   border-radius: 1.2em;

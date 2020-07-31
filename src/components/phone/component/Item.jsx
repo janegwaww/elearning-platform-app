@@ -19,13 +19,9 @@ const Item = (props) => {
     >
       <div
         className="all-width bg-all view-overflow"
-        style={{ minHeight: "8em", marginBottom: 5, height: "auto" }}
+        style={{ minHeight: "8em", marginBottom: 5, height: "auto",backgroundImage:'url('+ props.info.image_path+')'}}
       >
-        <img
-          src={props.info.image_path}
-          alt=""
-          style={{ height: "auto", width: "100%", minHeight: "8em" }}
-        />
+       
         {props.info.video_time && (
           <span
             className={`fn-color-white ${style.fn12}`}
@@ -57,7 +53,7 @@ const Item = (props) => {
       ) : (
         <div
           className="box box-between all-height"
-          style={{ flexDirection: "column", padding: "1em" }}
+          style={{ flexDirection: "column", padding: "1em"}}
         >
           <div style={{ marginBottom: "1em" }}>
             <p className="textview-overflow two">

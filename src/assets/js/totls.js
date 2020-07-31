@@ -91,3 +91,16 @@ export const ev_stop = (ev) => {
   ev.stopPropagation();
   ev.preventDefault();
 };
+export const switch_time=(time,sep)=>{
+  let _time= time;
+  let _h=parseInt(_time/3600);
+    _h = _h>9?_h:'0'+_h;
+  let _min=_time%3600;
+  let  _m=parseInt(_min/60);
+    _m=_m>9?_m:'0'+_m;
+  let _s=parseInt(_min%60);
+  _s=_s>9?_s:'0'+_s;
+
+  return _h+sep+_m+sep+_s;
+
+}
