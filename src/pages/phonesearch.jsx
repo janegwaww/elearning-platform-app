@@ -222,7 +222,7 @@ export default function Search() {
                               op.data.file_name}
                           </div>
                           {op.source == "document" ||
-                          op.source == "documents" ? (
+                          op.source == "documents"||op.source=='series' ? (
                             <div
                               style={{ marginTop: "1em" }}
                               className="textview-overflow four"
@@ -248,8 +248,8 @@ export default function Search() {
                             </div>
                           )}
                         </div>
-                        {op.source == "document" ||
-                          op.source == "documents" && (
+                        {op.source != "document" ||
+                          op.source != "documents" && (
                             <Grid
                               container
                               spacing={1}
