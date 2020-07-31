@@ -5,35 +5,34 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "../Container/KeContainer";
-import wechatQrcode from "../../../static/images/wechat-qrcode.jpg";
 import "./Footer.sass";
 
 const QrCodeImg = () => (
   <Grid container>
-    <Grid item xs={6}>
+    <Grid item xs={4}>
       <div style={{ textAlign: "center", margin: "14px", color: "#fff" }}>
-        <img src='/images/gzh.png' alt="qrcode" width="80" />
-        <Typography>官方微信公众号</Typography>
+        <img src="/images/wx.jpg" alt="qrcode" width="80" />
+        <Typography variant="body2">微信</Typography>
       </div>
     </Grid>
-    <Grid item xs={6}>
+
+    <Grid item xs={4}>
       <div style={{ textAlign: "center", margin: "14px", color: "#fff" }}>
-        <img src='/images/wb.png' alt="qrcode" width="80" />
-        <Typography>官方微博</Typography>
+        <img src="/images/gzh.png" alt="qrcode" width="80" />
+        <Typography variant="body2">官方微信公众号</Typography>
+      </div>
+    </Grid>
+    <Grid item xs={4}>
+      <div style={{ textAlign: "center", margin: "14px", color: "#fff" }}>
+        <img src="/images/wb.png" alt="qrcode" width="80" />
+        <Typography variant="body2">官方微博</Typography>
       </div>
     </Grid>
   </Grid>
 );
 
 const ContractUs = () => {
-  const menu = [
-    "版权声明",
-    "侵权举报",
-    "联系我们",
-    "售后服务",
-    "常见问题",
-    "关于我们",
-  ];
+  const menu = ["联系我们", "关于我们", "用户协议", "隐私政策"];
   return (
     <div className="contract-us">
       <ul>
@@ -63,18 +62,18 @@ class Footer extends Component {
         <div className="footer-above">
           <Container>
             <Grid container>
-              <Grid item xs={12} sm={12} md={9}>
+              <Grid item xs={12} sm={12} md={8}>
                 <div className="footer-above-left">
                   <div className="footer-title">
                     <IconButton>
-                      <img src='/logos/logo.svg' alt="logo" />
+                      <img src="/logos/logo.svg" alt="logo" />
                     </IconButton>
                     <Typography>&#183; 开动遨游知识海洋的引擎</Typography>
                   </div>
                   <ContractUs />
                 </div>
               </Grid>
-              <Grid item xs={12} sm={12} md={3}>
+              <Grid item xs={12} sm={12} md={4}>
                 <QrCodeImg />
               </Grid>
             </Grid>
@@ -82,9 +81,21 @@ class Footer extends Component {
         </div>
         <div className="footer-bottom">
           <Container fixed>
-            <div className="notice-container">
-              <h4 className="copyright">{copyright}</h4>
-            </div>
+            <Grid container spacing={1}>
+              <Grid container item xs={12} spacing={1}>
+                <Grid item xs={12} md>
+                  粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  粤公网安备 44030702002640号
+                </Grid>
+                <Grid item xs={12} md>
+                  版权所有@黑顿科技有限公司 2020 保留一切权利
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                深圳前海黑顿科技有限公司 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                广东省深圳市龙岗区龙翔大道7188号万科大厦3109
+              </Grid>
+            </Grid>
           </Container>
         </div>
       </footer>
