@@ -6,15 +6,12 @@ import urlParse from "url-parse";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
 import useStyles from "./ThirdPartyLoginOptStyle";
+import prevHref from "../../services/prevHref";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
   bindingMobile,
 } from "../../services/auth";
-import prevHref from "../../services/prevHref";
-import wechat from "../../../static/images/wechat-icon.png";
-import qq from "../../../static/images/qq-icon.png";
-import weibo from "../../../static/images/weibo-icon.png";
 
 const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
@@ -37,10 +34,10 @@ const ThirdPartyLoginOpt = () => {
     });
   };
 
+  const loginMethod = (value) => value || "weibo";
   const track = (msg) => (data) => console.log(`${msg}: `, data);
   // 第二步：拿到code进行登录操作
-  const handleLogin = ({ code, state }) => {
-    const type = "wechat";
+  const handleLogin = ({ code = "", state = "", type = "weibo" }) => {
     const param = { code, type };
     track("href")(locationHref);
     handleThirdLogin(param).then((response) => {
@@ -75,10 +72,14 @@ const ThirdPartyLoginOpt = () => {
   const getThirdParams = (href) => urlParse(href, true).query || {};
 
   useEffect(() => {
-    const { code, state } = getThirdParams(locationHref);
+    const { code, state, type } = getThirdParams(locationHref);
     if (code) {
       setReturnUrl(state);
-      handleLogin({ code, state });
+      handleLogin({
+        code,
+        state: urlParse(state, true).href,
+        type: loginMethod(type),
+      });
     }
   }, [locationHref]);
 
@@ -108,8 +109,8 @@ const ThirdPartyLoginOpt = () => {
     <div className={classes.root}>
       <div>社交帐号登录</div>
       <div className={classes.logos}>
-        <Logo url={wechat} method="wechat" />
-        <Logo url={qq} method="qq" />
+        <Logo url="/images/wechat-icon.png" method="wechat" />
+        <Logo url="/images/qq-icon.png" method="qq" />
 
         <div className={classes.logo}>
           <Tooltip title="尚未搞定">

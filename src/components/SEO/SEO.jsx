@@ -28,20 +28,23 @@ const SEO = ({ children }) => {
     return des;
   };
 
-  const setSEO = useCallback((site = {}) => {
-    setSeo({
-      title: concatTitle(site.title).toString(),
-      keywords: concatKeywords(site.title).toString(),
-      description: site.description,
-    });
-    return (detail) => {
+  const setSEO = useCallback(
+    ({ title = "频道", description = "描述" } = {}) => {
       setSeo({
-        title: concatTitle(site.title)(detail.title).toString(),
-        keywords: concatKeywords(site.title)(detail.title).toString(),
-        description: cutDescription(detail.description),
+        title: concatTitle(title).toString(),
+        keywords: concatKeywords(title).toString(),
+        description,
       });
-    };
-  }, []);
+      return (detail) => {
+        setSeo({
+          title: concatTitle(title)(detail.title).toString(),
+          keywords: concatKeywords(title)(detail.title).toString(),
+          description: cutDescription(detail.description),
+        });
+      };
+    },
+    []
+  );
 
   return (
     <>
