@@ -34,7 +34,7 @@ const ChannelBar = ({ id = "hots" }) => {
     getCategoryList({}).then((data = []) => {
       setCates(data);
       setLoading(false);
-      setSEO({ title: data.find((o) => o.id === id).name });
+      setSEO({ title: data.filter((o) => o.id === id).name });
     });
   };
 
