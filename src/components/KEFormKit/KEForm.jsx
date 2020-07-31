@@ -7,6 +7,7 @@ import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
 import QrCodeLoginComponent from "./QrCodeLoginComponent";
 import QrCodeIcon from "./QrCodeIcon";
+import prevHref from "../../services/prevHref";
 import {
   generateQRCode,
   enquiryQRCode,
@@ -22,7 +23,7 @@ const KEForm = ({ modal, modalClose }) => {
     if (modal) {
       modalClose();
     } else {
-      navigate(`/`);
+      navigate(prevHref.get() || `/`);
     }
   };
 
@@ -100,7 +101,7 @@ const KEForm = ({ modal, modalClose }) => {
                 >
                   未注册的手机号码验证后自动创建知擎账号
                 </Typography>
-                <ThirdPartyLoginOpt handleNavigate={handleNavigate} />
+                <ThirdPartyLoginOpt />
                 <UserProtocol />
               </div>
             </Grid>
