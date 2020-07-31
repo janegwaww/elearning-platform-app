@@ -15,8 +15,8 @@ class VideoWindow extends Component {
 
   componentDidMount() {
     this.recordStart();
-    window.addEventListener("beforeunload", function (e) {
-      e.preventDefault();
+    window.addEventListener("beforeunload", (e) => {
+      /* e.preventDefault(); */
       return endWatchRecord({
         video_id: this.props.info.videoId,
         end_time: secondsToHMS(this.getCurrentTime()),
