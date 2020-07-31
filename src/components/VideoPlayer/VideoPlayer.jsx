@@ -4,7 +4,7 @@ import { Typography, Link } from "@material-ui/core";
 import VideoWindow from "./VideoWindow";
 import VideoSearchWrap from "./VideoSearchWrap";
 import UseSetSEO from "./UseSetSEO";
-import { videoPath, endWatchRecord } from "../../services/video";
+import { videoPath } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
 
 class VideoPlayer extends Component {
@@ -19,14 +19,6 @@ class VideoPlayer extends Component {
 
   componentDidMount() {
     this.props.vid && this.fetchVideo(this.props.vid);
-  }
-
-  componentWillUnmount() {
-    // 只用于记录结束播放时间
-    endWatchRecord({
-      video_id: this.props.vid,
-      end_time: secondsToHMS(this.videoWindowRef.current.getCurrentTime()),
-    });
   }
 
   fetchVideo = (vid) => {
