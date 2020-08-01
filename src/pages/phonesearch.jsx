@@ -186,6 +186,7 @@ export default function Search() {
                     onClick={() => {
                       if (op.source == "video") {
                         navigate(`/phoneplay?vid=${op.data.video_id}`);
+                        window.history.go();
                       } else if (op.source == "document") {
                         navigate(`/document/?did=${op.data.file_id}`);
                         window.history.go();
@@ -221,17 +222,16 @@ export default function Search() {
                               op.data.video_title ||
                               op.data.file_name}
                           </div>
-                          {op.source == "document" ||
-                          op.source == "documents" ? (
+                          {op.match_frame.type != 'subtitle' ? (
                             <div
                               style={{ marginTop: "1em" }}
-                              className="textview-overflow four"
+                              className="textview-overflow two"
                             >
                               {op.str.prv}
                               <span style={{ color: "#2A32F9" }}>
                                 {op.str.now}
                               </span>
-                              {op.str.next}{" "}
+                              {op.str.next}
                             </div>
                           ) : (
                             <div
@@ -248,24 +248,24 @@ export default function Search() {
                             </div>
                           )}
                         </div>
-                        {op.source == "document" ||
-                          op.source == "documents" && (
+                        {op.source == "video" ||
+                          op.source == "series" ? (
                             <Grid
                               container
                               spacing={1}
                               className="box-align-center"
                             >
-                              <Grid item xs={2}>
+                              <Grid item xs={3}>
                                 <Avatar
                                   src={op.data.headshot}
                                   style={{ width: "1.5em", height: "1.5em" }}
                                 />
                               </Grid>
-                              <Grid item xs={10}>
+                              <Grid item xs={9}>
                                 {op.data.user_name}
                               </Grid>
                             </Grid>
-                          )}
+                          ):null}
                       </div>
                     </Grid>
                   </Grid>
