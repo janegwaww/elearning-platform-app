@@ -1,37 +1,57 @@
 .global-search-card
   .container
-    display: grid
-    height: 148px
+    /* display: grid
+    /* height: 148px
     margin: 20px 0
-    grid-template-columns: 246px auto
-    grid-template-rows: repeat(5,1fr)
-    gap: 10px 20px
-    grid-auto-flow: row
+    /* grid-template-columns: 246px auto
+    /* grid-template-rows: repeat(5,1fr)
+    /* gap: 10px 20px
+    /* grid-auto-flow: row
 
   .head
-    grid-column: 1
-    grid-row: 1 / 6
+    /* grid-column: 1
+    /* grid-row: 1 / 6
     display: flex
     align-items: center
     justify-content: center
+    height: 170px
+    @media screen and (max-width: 960px)
+      height: 105px
+
+  .card-text-part
+    display: flex
+    flex-flow: column nowrap
+    height: 100%
+
+  .card-text-part-description
+    flex-grow: 1
+    overflow: hidden
+    @media screen and (max-width: 960px)
+      & > p
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
 
   .docContainer
-    gap: 10px 20px
-    padding: 15px 0
-    display: grid
-    height: 168px
+    /* gap: 10px 20px
+    /* padding: 15px 0
+    /* display: grid
+    /* height: 168px
     border-top: 1px solid #f2f2f5
     border-bottom: 1px solid #f2f2f5
     margin: 20px 0
-    grid-template-columns: 246px auto
-    grid-template-rows: repeat(5,1fr)
+    /* grid-template-columns: 246px auto
+    /* grid-template-rows: repeat(5,1fr)
 
   .docHead
     grid-column: 1
     grid-row: 1 / 6
     display: flex
+    height: 168px
     align-items: center
     justify-content: center
+    @media screen and (max-width: 960px)
+      height: 105px
 
   .docAvatar
     grid-column: 2
@@ -41,7 +61,7 @@
 
   .image-pick
     height: 100%
-    width: 246px
+    /* width: 246px
     border-radius: 12px
     overflow: hidden
     position: relative
@@ -60,6 +80,12 @@
     display: flex
     align-items: center
     justify-content: space-between
+    & > a
+      width: 80%
+    @media screen and (max-width: 960px)
+      & > a
+        width: 100%
+
 
   .is-pay
      backgroundColor: #fc5659

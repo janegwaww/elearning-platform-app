@@ -64,7 +64,7 @@ const Search = ({ input }) => {
           __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
         }}
       />
-      <div style={{ height: 20 }} />
+      <div style={{ height: 10 }} />
       <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
       <br />
       <div style={{ minHeight: "60vh" }}>
