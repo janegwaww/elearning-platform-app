@@ -112,7 +112,7 @@ const subtitle = ({ start_time, whole_str, subtitle_dist, type, id }) => {
   const createMarkup = () => ({
     __html: `【${secondsToHMS(start_time)}】 ${decoratedStr(
       whole_str,
-      subtitle_dist
+      subtitle_dist,
     )}`,
   });
   return (
@@ -165,7 +165,7 @@ const videoContainer = ({ data = {}, match_frame = {} }) => {
           data.user_id,
           data.view_counts,
           data.comment_counts,
-          data.like_counts
+          data.like_counts,
         )}
       </div>
     </div>
@@ -219,7 +219,7 @@ const seriesContainer = ({ data, match_frame }) => {
           data.user_id,
           data.view_counts,
           data.comment_counts,
-          data.like_counts
+          data.like_counts,
         )}
       </div>
     </div>
@@ -252,7 +252,9 @@ const docSeriesContainer = ({ data, match_frame }) => {
 };
 
 const docContainer = ({ data, match_frame }) => {
-  const href = `/document/?did=${data.file_id}`;
+  const { file_path } = data;
+  const href = !file_path ? `/document/?did=${data.file_id}` : `${file_path}`;
+
   return (
     <div className="docContainer">
       <div className="docHead">
