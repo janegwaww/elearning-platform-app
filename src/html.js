@@ -10,10 +10,10 @@ export default function HTML(props) {
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="description" content={config.siteDescription} />
         <meta name="keywords" content={config.siteKeywords} />
-        {/* <meta
+         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        /> */}
+        /> 
         {props.headComponents}
         <link rel="shortcut icon" type="image/png" href="/logos/logo-48.png" />
       </head>

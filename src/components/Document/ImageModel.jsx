@@ -11,21 +11,21 @@ const ImageModel = ({ path = "" }) => {
     left: "50%",
     top: "50%",
     transform: "translate(-50%,-50%)",
-    width: "50%",
-    minWidth: 700,
-    height: "100%",
-    overflowY: "auto",
+    width: "80%",
+    // minWidth: '43.75rem',
+    height: "80%",
+    overflow: "auto",
   };
   return (
     <div>
       <ButtonBase onClick={handleOpen}>
         <div className="file-container">
-          <img src={`${path}`} alt={`${path}`} />
+          <img src={`${path}`} alt={`${path}`} style={{width:'100%'}} />
         </div>
       </ButtonBase>
       <Modal open={open} onClose={handleClose}>
         <div style={styles}>
-          <img src={`${path}`} alt={`${path}`} width="100%" />
+          <img src={`${path}`} alt={`${path}`}  style={{height:'100%',wdith:'100%'}}/>
         </div>
       </Modal>
     </div>

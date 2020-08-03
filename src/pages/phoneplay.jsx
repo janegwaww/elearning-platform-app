@@ -69,14 +69,6 @@ class PhonePlay extends React.Component {
           video_info: res.result_data[0],
           new_info: this.extraVideoInfo(res.result_data[0]),
         });
-        // this.player = videojs(
-        //   document.getElementById("xttblog"),
-        //   {
-        //     tracks: res.result_data[0].vtt_path,
-        //     sources: res.result_data[0].video_path,
-        //   },
-        //   function() {}
-        // );
       }
       this.setState({
         is_show: false,

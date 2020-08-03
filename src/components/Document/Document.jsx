@@ -13,7 +13,13 @@ import ImageModel from "./ImageModel";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
-
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles({
+  list: {
+    '& .MuiExpansionPanelSummary-content':{
+      flexGrow:'inherit'
+    }
+  }});
 const Title = ({ name }) => (
   <div className="title">
     <Typography>{name}</Typography>
@@ -22,6 +28,7 @@ const Title = ({ name }) => (
 );
 
 const Document = ({ id = "" }) => {
+  const cles = useStyles();
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [did, setDid] = useState("");
@@ -50,11 +57,11 @@ const Document = ({ id = "" }) => {
         </div>
       </Typography>
     ));
-
+//此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
   return (
     <>
       <div className="document-component">
-        <div style={{ marginBottom: 40 }} />
+        <div style={{ marginBottom: '2.5rem' }} />
         <Box className="menuBox">
           <div className="title-box">
             <Title name="课件详情" />
@@ -94,7 +101,7 @@ const Document = ({ id = "" }) => {
             <Title name="课件目录" />
           </div>
           <Box className="content">
-            <div>
+            <div style={{width:'100%'}}>
               {detail.catalogue &&
                 detail.catalogue.map((o, i) => (
                   <MuiExpansionPanel square key={i} className="expansionpanel">
@@ -102,16 +109,17 @@ const Document = ({ id = "" }) => {
                       aria-controls={`panel${i + 1}d-content`}
                       id={`panel${i + 1}d-header`}
                       expandIcon={<ExpandMoreIcon />}
-                      className="expansionpanelsummary"
+                      className={`expansionpanelsummary ${cles.list}`}
+                      style={{width:'100%'}}
                     >
                       <LineText
                         name={`第${i + 1}章`}
                         content={`${Object.keys(o)[0]}`}
                         mb={0}
-                      />
+                      /> 
                     </MuiExpansionPanelSummary>
                     <MuiExpansionPanelDetails className="expansionpaneldetails">
-                      <div style={{ paddingLeft: 230 }}>
+                      <div style={{ paddingLeft:'14.375rem' }}>
                         {menuLevel([i + 1], o)}
                       </div>
                     </MuiExpansionPanelDetails>
@@ -126,8 +134,10 @@ const Document = ({ id = "" }) => {
             <Title name="课件预览" />
           </div>
           <Box className="content">
-            <div style={{ marginRight: 210 }} />
+            <div style={{ minWidth: '13.125rem' }} />
+            <div style = {{width:'calc(100% - 13.125rem)'}}>
             <ImageModel path={detail.preview_path} />
+            </div>
           </Box>
         </Box>
         <br />

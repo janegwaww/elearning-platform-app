@@ -8,7 +8,7 @@ const Item = (props) => {
     <div
       className={`view-overflow all-height ${style.item}`}
       onClick={() => {
-        if (props.info.type == "document" || props.info.file_type == "Pdf") {
+        if (props.info.type == "document" || props.info.file_type == "pdf") {
           navigate(`/document/?did=${props.info.file_id}`);
           window.history.go();
         } else {

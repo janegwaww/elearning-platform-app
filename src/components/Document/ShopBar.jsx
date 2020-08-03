@@ -48,7 +48,7 @@ const ShopBar = ({ info = {}, did }) => {
     setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
   }, [info.is_pay]);
-
+//此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
   return (
     <AppBar position="fixed" className="doc-shop-bar">
       <KeContainer>
@@ -59,12 +59,12 @@ const ShopBar = ({ info = {}, did }) => {
           pt={2}
           pb={1}
         >
-          <div className="doc-price-title">限时解锁&nbsp;</div>
-          <div className="doc-price">
-            <span style={{ fontSize: 23 }}>￥</span>
+          <div className="doc-price-title" style={{fontSize:'1.25rem'}}>限时解锁&nbsp;</div>
+          <div className="doc-price" style={{fontSize:'2rem'}}>
+            <span style={{ fontSize: '1.4375rem' }}>￥</span>
             {`${info.price || 0}`}
           </div>
-          <Box width={100} />
+          <Box width={'6.25rem'} />
           <div className="unlock-button">
             {isPay ? (
               <ButtonBase
