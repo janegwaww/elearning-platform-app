@@ -6,7 +6,7 @@ const ProtocolContainer = ({ title = "", src = "" }) => {
   return (
     <>
       <div style={{ height: 40 }} />
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <ProtocolTitle title={title} />
         </Grid>
