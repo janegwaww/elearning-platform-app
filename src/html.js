@@ -10,10 +10,10 @@ export default function HTML(props) {
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="description" content={config.siteDescription} />
         <meta name="keywords" content={config.siteKeywords} />
-        {/* <meta
+        <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        /> */}
+        />
         <link rel="shortcut icon" type="image/png" href="/logos/logo-48.png" />
         <meta name="baidu-site-verification" content="ErkXTkR7bR" />
         <title>知擎（KEngine） - 开动遨游知识海洋的引擎</title>
