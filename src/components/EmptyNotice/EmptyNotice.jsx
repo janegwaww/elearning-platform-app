@@ -21,6 +21,11 @@ const emptyType = (t) =>
       text: "搜索无结果",
       but: "/images/fresh-404.svg",
     },
+    networkError: {
+      img: "/images/network-error.svg",
+      text: "无网络",
+      but: "/images/fresh-404.svg",
+    },
   }[t]);
 
 const EmptyNotice = ({ empty = true, type = "404", handleFresh }) => {

@@ -10,6 +10,7 @@ import ShopBar from "./ShopBar";
 import withId from "../EmptyNotice/withId";
 import LineText from "./LineText";
 import ImageModel from "./ImageModel";
+import useSEO from "../SEO/useSEO";
 import { getDocumentDetail } from "../../services/video";
 import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
@@ -32,12 +33,17 @@ const Document = ({ id = "" }) => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [did, setDid] = useState("");
+  const setSEO = useSEO();
 
   const fetchDocumentInfo = (_id) => {
     setLoading(true);
     getDocumentDetail({ file_id: _id }).then((data) => {
       setDetail(data);
       setLoading(false);
+      setSEO({ title: data.category ? data.category[0] : "" })({
+        title: data.file_name,
+        description: data.description,
+      });
     });
   };
 
@@ -64,14 +70,14 @@ const Document = ({ id = "" }) => {
         <div style={{ marginBottom: '2.5rem' }} />
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件详情" />
+            <Title name="文本详情" />
           </div>
           <Box className="content">
             <div>
-              <LineText name="课件名称" content={detail.file_name} />
-              <LineText name="课件内容" content={detail.description} />
-              <LineText name="文件格式" content={detail.file_type} />
-              <LineText name="文件大小" content={detail.file_size} />
+              <LineText name="文本名称" content={detail.file_name} />
+              <LineText name="文本内容" content={detail.description} />
+              <LineText name="文本格式" content={detail.file_type} />
+              <LineText name="文本大小" content={detail.file_size} />
               <LineText
                 name="上传时间"
                 content={secondsToDate(detail.upload_time)}
@@ -82,7 +88,9 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="作者简介" />
+            {!!detail.author_info && !!detail.author_info.length && (
+              <Title name="作者简介" />
+            )}
           </div>
           <Box className="content">
             <div>
@@ -98,7 +106,9 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件目录" />
+            {!!detail.catalogue && !!detail.catalogue.length && (
+              <Title name="文本目录" />
+            )}
           </div>
           <Box className="content">
             <div style={{width:'100%'}}>
@@ -131,7 +141,7 @@ const Document = ({ id = "" }) => {
 
         <Box className="menuBox">
           <div className="title-box">
-            <Title name="课件预览" />
+            <Title name="文本预览" />
           </div>
           <Box className="content">
             <div style={{ minWidth: '6.5625rem' }} />

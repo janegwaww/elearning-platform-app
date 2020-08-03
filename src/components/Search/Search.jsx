@@ -6,6 +6,7 @@ import ProgressBar from "../Loading/ProgressBar";
 import Pagination from "../Series/SePagination";
 import GlobalSearchBar from "./GlobalSearchBar";
 import { searchGlobal } from "../../services/home";
+import { kGlobalSearchRecord } from "../../services/userActiveRecord";
 import "./SearchStyles.sass";
 
 const Search = ({ input }) => {
@@ -47,7 +48,11 @@ const Search = ({ input }) => {
 
   const iterateItems = (arr = []) => {
     // iterate there
-    return arr.slice(0, 12).map((o, i) => <SearchCard card={o} key={i} />);
+    return arr.slice(0, 12).map((o, i) => (
+      <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
+        <SearchCard card={o} />
+      </div>
+    ));
   };
 
   return (

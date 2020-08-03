@@ -5,18 +5,7 @@ const config = require("./data/SiteConfig");
 module.exports = {
   // pathPrefix: config.pathPrefix === "" ? "/" : config.pathPrefix,
   siteMetadata: {
-    siteUrl: urljoin(config.siteUrl, config.pathPrefix),
-    rssMetadata: {
-      site_url: urljoin(config.siteUrl, config.pathPrefix),
-      feed_url: urljoin(config.siteUrl, config.pathPrefix, config.siteRss),
-      title: config.siteTitle,
-      description: config.siteDescription,
-      image_url: `${urljoin(
-        config.siteUrl,
-        config.pathPrefix
-      )}/logos/logo-512.png`,
-      copyright: config.copyright
-    }
+    siteUrl: urljoin(config.siteUrl, config.pathPrefix)
   },
   plugins: [
     "gatsby-plugin-react-helmet",
@@ -61,6 +50,15 @@ module.exports = {
       resolve: "gatsby-plugin-google-analytics",
       options: {
         trackingId: config.googleAnalyticsID
+      }
+    },
+    {
+      resolve: `gatsby-plugin-baidu-analytics`,
+      options: {
+        // baidu analytics siteId
+        siteId: "b88346942d0f4074f2a16c0cfda3b856",
+        // Put analytics script in the head instead of the body [default:false]
+        head: false,
       }
     },
     {

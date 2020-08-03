@@ -16,6 +16,9 @@ export default function HTML(props) {
         /> 
         {props.headComponents}
         <link rel="shortcut icon" type="image/png" href="/logos/logo-48.png" />
+        <meta name="baidu-site-verification" content="ErkXTkR7bR" />
+        <title>知擎（KEngine） - 开动遨游知识海洋的引擎</title>
+        {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>
         {props.preBodyComponents}
@@ -36,5 +39,5 @@ HTML.propTypes = {
   bodyAttributes: PropTypes.object,
   preBodyComponents: PropTypes.array,
   body: PropTypes.string,
-  postBodyComponents: PropTypes.array,
+  postBodyComponents: PropTypes.array
 };

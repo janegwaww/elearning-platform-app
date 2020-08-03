@@ -42,6 +42,7 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
           />
         </Link>
       )}
+      <div style={{ width: 10 }} />
       {time && (
         <Typography variant="caption" color="textSecondary" noWrap>
           {`${secondsToDate(time)} 发布`}
@@ -134,8 +135,11 @@ const fans = (vi) =>
     </Typography>
   );
 
-const videoContainer = ({ data = {}, match_frame }) => {
-  const href = `/watch/?vid=${data.video_id}`;
+const videoContainer = ({ data = {}, match_frame = {} }) => {
+  const { start_time } = match_frame;
+  const href = start_time
+    ? `/watch/?vid=${data.video_id}&time=${start_time}`
+    : `/watch/?vid=${data.video_id}`;
   return (
     <div className="container">
       <div className="head">{imagePick(data.image_path, href)}</div>
@@ -263,7 +267,7 @@ const docContainer = ({ data, match_frame }) => {
           match={match_frame}
         />
       </div>
-      <div style={{ gridColumn: 2, gridRow: "2/4" }}>
+      <div style={{ gridColumn: 2, gridRow: "2/5", overflow: "hidden" }}>
         {descriptionItem(data.description, match_frame)}
       </div>
       <div className="docAvatar">

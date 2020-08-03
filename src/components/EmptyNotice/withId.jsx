@@ -7,7 +7,7 @@ const withId = (WrapComponent) => {
   return class extends Component {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = { id: "" };
     }
 
     componentDidMount() {

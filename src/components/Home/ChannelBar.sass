@@ -4,11 +4,8 @@
   .bar-container
     padding-top: 24px
     padding-bottom: 24px
-    overflow-x: auto
     .bar-content
       min-width: 1000px
-      display: flex
-      justify-content: space-between
 
   .item
     display: flex
@@ -33,3 +30,16 @@
         display: none
       & > div:nth-child(2)
         display: block
+
+
+  .channel-slider
+    .slick-dots li
+      width: 40px
+      & .custom-dot
+        width: 40px
+        height: 4px
+        background-color: #ddd
+        border-radius: 7px
+        margin-top: 12px
+      &.slick-active .custom-dot
+        background-color: #007cff

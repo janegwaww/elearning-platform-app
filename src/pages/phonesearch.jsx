@@ -222,7 +222,8 @@ export default function Search() {
                               op.data.video_title ||
                               op.data.file_name}
                           </div>
-                          {op.match_frame.type != 'subtitle' ? (
+                          {op.source == "document" ||
+                          op.source == "documents"||op.source=='series' ? (
                             <div
                               style={{ marginTop: "1em" }}
                               className="textview-overflow two"

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import Helmet from "react-helmet";
 import Layout from "../layout";
 import Document from "../components/Document/Document";
-import config from "../../data/SiteConfig";
 import Container from "../components/Container/KeContainer";
 import { LoginConfirmProvider } from "../components/LoginConfirm";
-
-
+import Helmet from "react-helmet";
+import config from "../../data/SiteConfig";
 class DocumentPage extends Component {
   componentDidMount() {
     let _w = window.screen.width;

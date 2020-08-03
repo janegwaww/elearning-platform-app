@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
-import { startWatchRecord } from "../../services/video";
+import { startWatchRecord, endWatchRecord } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
 
 class VideoWindow extends Component {
@@ -16,6 +16,13 @@ class VideoWindow extends Component {
 
   componentDidMount() {
     this.recordStart();
+    window.addEventListener("beforeunload", (e) => {
+      /* e.preventDefault(); */
+      return endWatchRecord({
+        video_id: this.props.info.videoId,
+        end_time: secondsToHMS(this.getCurrentTime()),
+      });
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -23,6 +30,13 @@ class VideoWindow extends Component {
     if (timer !== prevProps.timer) {
       this.seekToCurrentTime(timer);
     }
+  }
+
+  componentWillUnmount() {
+    endWatchRecord({
+      video_id: this.props.info.videoId,
+      end_time: secondsToHMS(this.getCurrentTime()),
+    });
   }
 
   recordStart = () => {
@@ -45,7 +59,7 @@ class VideoWindow extends Component {
   // 跳转时间
   seekToCurrentTime(timer) {
     if (this.playerRef.current) {
-      this.playerRef.current.seekTo(timer);
+      return this.playerRef.current.seekTo(timer);
     } else {
       setTimeout(() => {
         this.seekToCurrentTime(timer);
@@ -55,7 +69,7 @@ class VideoWindow extends Component {
 
   getCurrentTime = () => {
     if (this.playerRef.current) {
-      return this.playerRef.current.seekTo();
+      return this.seekToCurrentTime();
     }
   };
 

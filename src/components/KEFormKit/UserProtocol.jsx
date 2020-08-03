@@ -21,11 +21,15 @@ const UserProtocol = () => {
   return (
     <Typography className={classes.protocol}>
       登录代表你已同意
-      <Link href="/" underline="always" className={classes.link}>
+      <Link href="/protocol/" underline="always" className={classes.link}>
         知擎协议
       </Link>
       和
-      <Link href="/" underline="always" className={classes.link}>
+      <Link
+        href="/protocol/privateprotocol"
+        underline="always"
+        className={classes.link}
+      >
         隐私保护指引
       </Link>
     </Typography>

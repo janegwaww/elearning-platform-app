@@ -1,42 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { globalHistory } from "@reach/router";
+import { globalHistory, navigate } from "@reach/router";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import urlParse from "url-parse";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
 import useStyles from "./ThirdPartyLoginOptStyle";
+import prevHref from "../../services/prevHref";
 import {
   generateThirdPartyUrl,
   handleThirdLogin,
   bindingMobile,
 } from "../../services/auth";
-import wechat from "../../../static/images/wechat-icon.png";
-import qq from "../../../static/images/qq-icon.png";
-import weibo from "../../../static/images/weibo-icon.png";
 
-const ThirdPartyLoginOpt = ({ handleNavigate }) => {
+const ThirdPartyLoginOpt = () => {
   const classes = useStyles();
   const locationHref = globalHistory.location.href;
-  const [thirdMethod, setThirdMethod] = useState("qq");
   const [binding, setBinding] = useState(false);
   const [acToken, setAcToken] = useState("");
+  const [returnUrl, setReturnUrl] = useState("/");
+
+  const handleNavigate = (href = "") => {
+    navigate(href || returnUrl);
+  };
 
   // 第一步：获取跳转链接
   const handleLoginClick = (method) => {
-    setThirdMethod(method);
-    generateThirdPartyUrl({ type: method }).then((res) => {
+    const backUrl = `${prevHref.get()}`;
+    generateThirdPartyUrl({ type: method, back_url: backUrl }).then((res) => {
       if (res) {
         window.location.href = `${res}`;
       }
     });
   };
 
+  const loginMethod = (value) => value || "weibo";
   const track = (msg) => (data) => console.log(`${msg}: `, data);
   // 第二步：拿到code进行登录操作
-  const handleLogin = ({ code }) => {
-    const type = window.location.hash ? "wechat" : "qq";
+  const handleLogin = ({ code = "", state = "", type = "weibo" }) => {
     const param = { code, type };
+    track("href")(locationHref);
     handleThirdLogin(param).then((response) => {
       const { accessToken } = response;
       if (accessToken) {
@@ -47,7 +50,7 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
         return;
       }
       if (response && !accessToken) {
-        handleNavigate();
+        handleNavigate(state);
         track("login")(response);
         return;
       }
@@ -66,12 +69,17 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
     });
   };
 
-  const getThirdCode = (href) => urlParse(href, true).query.code || "";
+  const getThirdParams = (href) => urlParse(href, true).query || {};
 
   useEffect(() => {
-    const getCode = getThirdCode(locationHref);
-    if (getCode) {
-      handleLogin({ code: getCode });
+    const { code, state, type } = getThirdParams(locationHref);
+    if (code) {
+      setReturnUrl(state);
+      handleLogin({
+        code,
+        state: urlParse(state, true).href,
+        type: loginMethod(type),
+      });
     }
   }, [locationHref]);
 
@@ -101,8 +109,8 @@ const ThirdPartyLoginOpt = ({ handleNavigate }) => {
     <div className={classes.root}>
       <div>社交帐号登录</div>
       <div className={classes.logos}>
-        <Logo url={wechat} method="wechat" />
-        <Logo url={qq} method="qq" />
+        <Logo url="/images/wechat-icon.png" method="wechat" />
+        <Logo url="/images/qq-icon.png" method="qq" />
 
         <div className={classes.logo}>
           <Tooltip title="尚未搞定">
