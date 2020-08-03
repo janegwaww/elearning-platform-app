@@ -66,7 +66,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     <Grid container wrap="wrap" spacing={2} className="grid-cards-container">
       {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={index}>
+          <Grid item xs={6} sm={6} md={4} lg={3} xl={3} key={index}>
             <Box width="100%" className="grid-item">
               {item ? (
                 <Link href={handleLink(item).to}>
@@ -151,7 +151,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     </div>
                   </Link>
 
-                  <div>
+                  <div className="grid-card-feedback">
                     <Typography variant="caption" color="textSecondary">
                       {!!item.view_counts && `${item.view_counts} 观看`}
                       {!!item.view_counts && <Bull />}
@@ -174,7 +174,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               )}
             </Box>
           </Grid>
-        )
+        ),
       )}
     </Grid>
   );
