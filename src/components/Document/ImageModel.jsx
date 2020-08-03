@@ -14,7 +14,7 @@ const ImageModel = ({ path = "" }) => {
     width: "80%",
     // minWidth: '43.75rem',
     height: "80%",
-    overflow: "auto",
+    overflowY: "auto",
   };
   return (
     <div>
@@ -25,7 +25,7 @@ const ImageModel = ({ path = "" }) => {
       </ButtonBase>
       <Modal open={open} onClose={handleClose}>
         <div style={styles}>
-          <img src={`${path}`} alt={`${path}`}  style={{height:'100%',wdith:'100%'}}/>
+          <img src={`${path}`} alt={`${path}`}  style={{height:'100%',width:'100%'}}/>
         </div>
       </Modal>
     </div>

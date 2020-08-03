@@ -59,9 +59,9 @@ const ShopBar = ({ info = {}, did }) => {
           pt={2}
           pb={1}
         >
-          <div className="doc-price-title" style={{fontSize:'1.25rem'}}>限时解锁&nbsp;</div>
+          <div className="doc-price-title" style={{fontSize:'1.25rem'}} >限时解锁&nbsp;</div>
           <div className="doc-price" style={{fontSize:'2rem'}}>
-            <span style={{ fontSize: '1.4375rem' }}>￥</span>
+            <span >￥</span>
             {`${info.price || 0}`}
           </div>
           <Box width={'6.25rem'} />
@@ -70,6 +70,7 @@ const ShopBar = ({ info = {}, did }) => {
               <ButtonBase
                 className="pay-button"
                 onClick={() => window.open(paidedHref)}
+                style={{padding:'0.625rem 3.125rem',fontSize:'1.125rem'}}
               >
                 查看
               </ButtonBase>
@@ -78,6 +79,7 @@ const ShopBar = ({ info = {}, did }) => {
                 onClick={paymentClick}
                 size="small"
                 className="pay-button"
+                style={{padding:'0.625rem 3.125rem',fontSize:'1.125rem'}}
               >
                 立即解锁
               </ButtonBase>
@@ -102,7 +104,7 @@ const ShopBar = ({ info = {}, did }) => {
                 disableFocusListener
               >
                 <div>
-                  <HelpOutlineIcon color="error" style={{ fontSize: 12 }} />
+                  <HelpOutlineIcon color="error" style={{ fontSize: '0.75rem' }} />
                 </div>
               </LightTooltip>
             </Box>

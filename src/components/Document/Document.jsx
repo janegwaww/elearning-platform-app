@@ -119,7 +119,7 @@ const Document = ({ id = "" }) => {
                       /> 
                     </MuiExpansionPanelSummary>
                     <MuiExpansionPanelDetails className="expansionpaneldetails">
-                      <div style={{ paddingLeft:'14.375rem' }}>
+                      <div style={{ paddingLeft:'11.375rem' }}>
                         {menuLevel([i + 1], o)}
                       </div>
                     </MuiExpansionPanelDetails>
@@ -134,8 +134,8 @@ const Document = ({ id = "" }) => {
             <Title name="课件预览" />
           </div>
           <Box className="content">
-            <div style={{ minWidth: '13.125rem' }} />
-            <div style = {{width:'calc(100% - 13.125rem)'}}>
+            <div style={{ minWidth: '6.5625rem' }} />
+            <div style = {{width:'calc(100% - 6.5625rem)'}}>
             <ImageModel path={detail.preview_path} />
             </div>
           </Box>
