@@ -18,7 +18,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
 
   // 点击标题跳转事件
-  const handleLink = ({ video_id, series_id, file_id }) => {
+  const handleLink = ({ video_id, series_id, file_id, file_path }) => {
     if (video_id) {
       return {
         to: `/watch/?vid=${video_id}`,
@@ -29,6 +29,11 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
       return {
         to: `/series/?sid=${series_id}`,
         state: { sid: series_id },
+      };
+    }
+    if (file_id && file_path) {
+      return {
+        to: `${file_path}`,
       };
     }
     if (file_id) {
@@ -174,7 +179,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               )}
             </Box>
           </Grid>
-        )
+        ),
       )}
     </Grid>
   );
