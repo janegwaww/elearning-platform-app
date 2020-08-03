@@ -243,7 +243,7 @@ class ProfileIndex extends React.Component {
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">点赞数</p>
               <p className="fn-size-20 fn-color-007CFF">
-                {(_this.state.userData && _this.state.userData.fans_change) ||
+                {(_this.state.userData && _this.state.userData.like_counts) ||
                   0}
               </p>
               {/**  <p className="zero-edges">
@@ -253,7 +253,7 @@ class ProfileIndex extends React.Component {
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>
               <p className="fn-size-20 fn-color-007CFF">
-                {(_this.state.userData && _this.state.userData.fans_counts) ||
+                {(_this.state.userData && _this.state.userData.collections_counts) ||
                   0}
               </p>
               <p className="zero-edges">
