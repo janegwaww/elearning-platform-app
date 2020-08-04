@@ -17,7 +17,7 @@ import {
   Link,
   ButtonBase,
   Box,
-  Tooltip,
+  Tooltip
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
@@ -68,11 +68,11 @@ const PrimarySearchAppBar = () => {
           <Typography>知擎首页</Typography>
         </ButtonBase>
       </MenuItem>
-      {/* <MenuItem>
-        <ButtonBase color="inherit" onClick={() => navigate("/joinscholar/")}>
-          <Typography>加盟学者</Typography>
+      <MenuItem>
+        <ButtonBase disabled onClick={() => navigate("/joinscholar/")}>
+          <Typography color="textSecondary">加盟学者</Typography>
         </ButtonBase>
-      </MenuItem> */}
+      </MenuItem>
       {/* <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
@@ -128,7 +128,7 @@ const PrimarySearchAppBar = () => {
                 placeholder="支持跨模态逐帧搜索..."
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput,
+                  input: classes.inputInput
                 }}
                 inputProps={{ "aria-label": "search" }}
                 onKeyDown={handleEnter}
@@ -145,14 +145,21 @@ const PrimarySearchAppBar = () => {
                   </InputAdornment>
                 }
               />
+              <Button
+                className={classes.searchButtonAlone}
+                startIcon={<SearchIcon />}
+                onClick={() => navigate("/search")}
+              >
+                搜索
+              </Button>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {/* <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton> */}
+                              <Badge badgeContent={17} color="secondary">
+                              <NotificationsIcon />
+                              </Badge>
+                              </IconButton> */}
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>

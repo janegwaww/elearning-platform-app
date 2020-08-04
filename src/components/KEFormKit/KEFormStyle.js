@@ -3,14 +3,19 @@ import keLoginLeftBackgroundImage from "../../../static/images/ke-pic-left.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: "relative"
+    position: "relative",
   },
   secondary: {
     position: "absolute",
     top: "50%",
     transform: "translateY(-50%)",
     left: "50%",
-    margin: "0 0 0 -440px"
+    margin: "0 0 0 -440px",
+    [theme.breakpoints.down("md")]: {
+      left: 0,
+      margin: 0,
+      width: "100%",
+    },
   },
   leftModule: {
     minHeight: "580px",
@@ -18,7 +23,10 @@ const useStyles = makeStyles(theme => ({
     background: "transparent",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   rightModule: {
     minHeight: "580px",
@@ -28,20 +36,24 @@ const useStyles = makeStyles(theme => ({
     flexFlow: "column nowrap",
     justifyContent: "space-between",
     alignItems: "strech",
-    padding: "0 10%"
+    padding: "0 10%",
+    [theme.breakpoints.down("md")]: {
+      minWidth: "100%",
+      minHeight: "100%",
+    },
   },
   KELogo: {
     height: "580px",
     width: "100%",
     background: `left top / 100% 100% no-repeat url(${keLoginLeftBackgroundImage})`,
-    position: "relative"
+    position: "relative",
   },
   loginBg: {
     position: "absolute",
     top: "50%",
     left: "84%",
     transform: "translateY(-50%)",
-    zIndex: 1
+    zIndex: 1,
   },
   welcomeTitle: {
     fontSize: "20px",
@@ -51,8 +63,8 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "42px",
     display: "block",
     textAlign: "left",
-    padding: "10% 0 10px"
-  }
+    padding: "10% 0 10px",
+  },
 }));
 
 export default useStyles;
