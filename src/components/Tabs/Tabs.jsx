@@ -32,6 +32,9 @@ const TTab = withStyles((theme) => ({
     "&$selected": {
       color: "#007cff",
     },
+    [theme.breakpoints.down("md")]: {
+      marginRight: 30,
+    },
   },
   selected: {
     color: "#007cff",
