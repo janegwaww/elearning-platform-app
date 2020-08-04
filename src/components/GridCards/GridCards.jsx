@@ -79,7 +79,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   {seriesCounts(item)}
                 </Link>
               ) : (
-                <Skeleton variant="rect" width="100%" height={166} />
+                <Skeleton variant="rect" className="grid-img-skeleton" />
               )}
 
               {item ? (
