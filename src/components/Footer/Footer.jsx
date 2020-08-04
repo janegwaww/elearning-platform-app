@@ -84,11 +84,11 @@ class Footer extends Component {
             <Grid container spacing={1}>
               <Grid container item xs={12} spacing={1}>
                 <Grid item xs={12} md>
-                  粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  粤公网安备 44030702002640号
+                  粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp; 粤公网安备
+                  44030702002640号
                 </Grid>
                 <Grid item xs={12} md>
-                  版权所有@黑顿科技有限公司 2020 保留一切权利
+                  版权所有@深圳前海黑顿科技有限公司 2020 保留一切权利
                 </Grid>
               </Grid>
               <Grid item xs={12} className="footer-address">
