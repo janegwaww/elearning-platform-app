@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "../components/phone/component/Head";
+
 import Helmet from "react-helmet";
 import ProgressBar from "../components/Loading/ProgressBar";
 import LoadData from "../components/Profile/components/LoadData";
@@ -126,20 +126,7 @@ class PhonePlay extends React.Component {
           <ProgressBar loading={is_show} />
           {!is_update && <LoadData />}
           <Helmet>
-<<<<<<< HEAD
-            <meta
-              name="viewport"
-              content="width=device-width,initial-scale=1.0,maximum-scale=1"
-            />
-            <title>知擎</title>
-            <meta http-equiv="Expires" content="0" />
-            <meta http-equiv="Cache-Control" content="no-cache" />
-            <meta http-equiv="Pragma" content="no-cache" />
-            <link type="text/css" rel='stylesheet' href = '../assets/css/tootls.css' />
-          </Helmet>
-          <div style={{ lineHeight: 1.5, fontSize: this.state.font_size}}>
-=======
-          
+        
           <meta http-equiv="Expires" content="0" />
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="Pragma" content="no-cache" />
@@ -152,7 +139,6 @@ class PhonePlay extends React.Component {
           />
         </Helmet>
           <div style={{ lineHeight: 1.5, fontSize: 25 }}>
->>>>>>> clx
             <div style={{ padding: "0 1.67em" }}>
               <header>
                 <Head is_show={true} />
