@@ -42,9 +42,11 @@ const Basic = (props) => {
   React.useEffect(() => {
     get_info().then(res=>{
       let _data= res;
-      setUserInfo(_data);
+        setUserInfo(_data);
         setSex(_data.gender);
         setBirth(_data.birthday);
+        setUsername(_data.user_name);
+        setUserdescribe(_data.introduction)
     });
   }, []);
   
@@ -268,6 +270,7 @@ const Basic = (props) => {
             <TextField
               placeholder={userInfo && userInfo.user_name}
               className={classes.input}
+              value={username}
               onChange={(ev, value) => {
                 setUsername(ev.target.value);
               }}
@@ -321,6 +324,7 @@ const Basic = (props) => {
               rows={5}
               variant="outlined"
               className={classes.input}
+              value={userdescribe}
               onChange={(ev) => {
                 setUserdescribe(ev.target.value);
               }}
@@ -357,7 +361,7 @@ const Basic = (props) => {
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
                     new CustomModal().alert(res.errmsg, "success", "3000");
                     setTimeout(() => {
-                      navigate(`/`);
+                      window.history.go();
                     }, 3000);
                   } else {
                     new CustomModal().alert("修改失败", "error", "3000");

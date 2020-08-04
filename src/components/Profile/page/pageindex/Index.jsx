@@ -139,26 +139,7 @@ class ProfileIndex extends React.Component {
           {userData && userData.background && (
             <img className=" all-width" src={userData.background} style={{height:'auto'}} alt='' />
           )}
-          {/*} <span
-            className="bg-white bg-not"
-            style={{
-              position: "absolute",
-              right: 0,
-              top: 0,
-              borderRadius: "50%",
-              width: 50,
-              height: 50,
-              backgroundImage: "url(" + setings + ")",
-              backgroundSize: "50% 50%",
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-              navigate(`/users/profile/setings`);
-             
-            }}
-          ></span>
-          */}
+        
         </main>
 
         <main

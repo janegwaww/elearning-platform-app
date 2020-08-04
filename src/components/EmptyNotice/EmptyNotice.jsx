@@ -39,7 +39,7 @@ const EmptyNotice = ({ empty = true, type = "404", handleFresh }) => {
       justifyContent="center"
       height="80vh"
     >
-      <img src={`${typeObj.img}`} alt="error" />
+      <img src={`${typeObj.img}`} alt="error" width="100%" />
       <Box height={40} />
       <Typography color="textSecondary">{typeObj.text}</Typography>
       <Box height={40} />
@@ -47,7 +47,7 @@ const EmptyNotice = ({ empty = true, type = "404", handleFresh }) => {
         style={{ padding: 0, borderRadius: "50px" }}
         onClick={handleFresh}
       >
-        <img src={`${typeObj.but}`} alt="button" />
+        <img src={`${typeObj.but}`} alt="button" width="100%" />
       </IconButton>
     </Box>
   ) : null;

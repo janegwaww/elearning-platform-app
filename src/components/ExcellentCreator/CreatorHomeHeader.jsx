@@ -45,7 +45,7 @@ const CreatorAvatar = ({ auth }) => {
   return (
     <Container>
       <Grid container>
-        <Grid item xs={9}>
+        <Grid item xs={8} md={9}>
           <div className={classes.authAvatar}>
             <div
               style={{
@@ -78,14 +78,14 @@ const CreatorAvatar = ({ auth }) => {
               variant="caption"
               color="textSecondary"
             >{`ID: ${user_id}`}</Typography>
-            <div style={{ gridRow: "3/5" }}>
+            <div style={{ gridRow: "3/5", overflow: "hidden" }}>
               <Typography variant="subtitle1" color="textSecondary">
                 {introduction}
               </Typography>
             </div>
           </div>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4} md={3}>
           <Typography variant="subtitle1">
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
               {/* <Box display="flex" flexDirection="column" alignItems="center">

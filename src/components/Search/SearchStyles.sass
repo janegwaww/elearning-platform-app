@@ -1,11 +1,16 @@
 .search-root
   .buttonGrounp
     padding: 8px 0
+    overflow-x: auto
+    display: flex
+    justify-content: flex-start
     & button
       border-radius: 20px
       padding: 4px 8px
       &:not(:last-child)
         margin-right: 20px
+      & span
+        white-space: nowrap
 
     & button.action
       background-color: #007cff

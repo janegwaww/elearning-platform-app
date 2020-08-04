@@ -1,5 +1,4 @@
 import { fade, makeStyles } from "@material-ui/core/styles";
-import { camelCase } from "lodash";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -45,7 +44,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
+    [theme.breakpoints.down("sm")]: {
+      display: "none"
+    }
   },
   inputInput: {
     backgroundColor: "#f2f2f5",
@@ -72,21 +74,34 @@ const useStyles = makeStyles(theme => ({
       marginRight: 0
     }
   },
+  searchButtonAlone: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
+    padding: "6px 14px",
+    borderRadius: "50px",
+    float: "right",
+    [theme.breakpoints.up("md")]: {
+      display: "none"
+    }
+  },
   createButton: {
     borderRadius: "20px",
     backgroundColor: theme.palette.secondary.main,
     color: "#fff",
     "&:hover": {
       backgroundColor: theme.palette.secondary.main
+    },
+    [theme.breakpoints.down("md")]: {
+      display: "none"
     }
   },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
       display: "flex",
-      marginRight: 'calc(6%)',
-      justifyContent: 'space-between',
-      width: 'calc(12%)',
+      marginRight: "calc(6%)",
+      justifyContent: "space-between",
+      width: "calc(12%)"
     }
   },
   sectionMobile: {

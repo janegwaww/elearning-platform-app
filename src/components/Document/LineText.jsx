@@ -7,19 +7,22 @@ const LineText = ({
   content = "",
   detail = "",
   color = "#2c2c3b",
-  mb = 20,
+  mb = 1.5,
 }) => {
-  const styles = { color, lineHeight: "24px" };
+  const styles = { color, lineHeight: "1.5rem" };
+  //此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
+  /** 2020/8/3 更改 "calc(100% - 210px)"=>"calc(100% - 13.125rem)",marginTop: 20=>marginTop: '1.25rem' */
+
   return (
     <Box
       style={{
         display: "flex",
-        marginBottom: `${mb}px`,
+        marginBottom: `${mb}rem`,
         alignItems: "baseline",
       }}
     >
       {name && (
-        <div style={{ width: 200, marginRight: 10 }}>
+        <div style={{ marginRight: "0.62rem",paddingLeft:'4rem',minWidth:'9rem'}}>
           <Typography
             color="textSecondary"
             variant="body2"
@@ -30,14 +33,18 @@ const LineText = ({
           </Typography>
         </div>
       )}
-      <div style={{ maxWidth: "calc(100% - 210px)" }}>
+
+      <div >
         {content && (
           <Typography style={styles} variant="body2">
             {content}
           </Typography>
         )}
         {detail && (
-          <Typography style={{ ...styles, marginTop: 20 }} variant="body2">
+          <Typography
+            style={{ ...styles, marginTop: "1.25rem" }}
+            variant="body2"
+          >
             {detail}
           </Typography>
         )}

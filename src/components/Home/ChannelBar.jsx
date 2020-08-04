@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from "@material-ui/core/Link";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
@@ -12,6 +13,7 @@ import "slick-carousel/slick/slick-theme.scss";
 import "./ChannelBar.sass";
 
 const ChannelBar = ({ id = "hots" }) => {
+  const screenMatches = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [cates, setCates] = useState([]);
   const [loading, setLoading] = useState(true);
   const setSEO = useSEO();
@@ -19,8 +21,8 @@ const ChannelBar = ({ id = "hots" }) => {
     dots: true,
     speed: 500,
     infinite: false,
-    slidesToShow: 12,
-    slidesToScroll: 4,
+    slidesToShow: screenMatches ? 5 : 12,
+    slidesToScroll: 5,
     className: "channel-slider",
     dotsClass: "slick-dots slick-thumb",
     arrows: false,

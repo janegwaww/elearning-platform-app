@@ -68,7 +68,7 @@ const WorksItem = (props) => {
           href={`/${
             props.info.type == "series"
               ? "series/?sid=" + props.info.series_id
-              : "watch/?vid=" + props.info.video_id
+              : "watch/?vid=" + props.info.video_id+'&time='+get_time(props.info.record.end_time )
           }`}
           target="_blank"
         >
@@ -127,7 +127,7 @@ const WorksItem = (props) => {
             href={`/${
               props.info.type == "series"
                 ? "series/?sid=" + props.info.series_id
-                : "watch/?vid=" + props.info.video_id
+                : "watch/?vid=" + props.info.video_id+'&time='+get_time(props.info.record.end_time )
             }`}
             target="_blank"
           >
@@ -206,9 +206,7 @@ const WorksItem = (props) => {
                 <Link
                   color="inherit"
                   underline="none"
-                  href={`/watch/?vid=${props.info.video_id}&&time=${get_time(
-                    props.info.record.end_time || props.info.record.matched_time
-                  )}`}
+                  href={`/watch/?vid=${props.info.video_id}&time=${get_time(props.info.record.end_time || props.info.record.matched_time)}`}
                   target="_blank"
                 >
                   搜索
@@ -222,9 +220,8 @@ const WorksItem = (props) => {
                 <Link
                   color="inherit"
                   underline="none"
-                  href={`/watch/?vid=${props.info.video_id}&&time=${get_time(
-                    props.info.record.end_time
-                  )}`}
+                 
+                  href={`/watch/?vid=${props.info.video_id}&time=${get_time(props.info.record.end_time )}`}
                   target="_blank"
                 >
                   观看至{props.info.record.end_time}
