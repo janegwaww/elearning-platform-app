@@ -52,6 +52,8 @@ const Basic = (props) => {
         setUserInfo(_data);
         setSex(_data.gender);
         setBirth(_data.birthday);
+        setUsername(_data.user_name);
+        setUserdescribe(_data.introduction)
         sessionStorage.setItem("user_info", JSON.stringify(_data));
       }
     });
@@ -276,6 +278,7 @@ const Basic = (props) => {
             <TextField
               placeholder={userInfo && userInfo.user_name}
               className={classes.input}
+              value={username}
               onChange={(ev, value) => {
                 setUsername(ev.target.value);
               }}
@@ -329,6 +332,7 @@ const Basic = (props) => {
               rows={5}
               variant="outlined"
               className={classes.input}
+              value={userdescribe}
               onChange={(ev) => {
                 setUserdescribe(ev.target.value);
               }}
