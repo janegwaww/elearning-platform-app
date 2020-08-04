@@ -9,6 +9,7 @@ import { secondsToHMS } from "../../services/utils";
 class VideoWindow extends Component {
   constructor(props) {
     super(props);
+
     this.state = {};
     this.playerRef = React.createRef(null);
   }
@@ -100,7 +101,7 @@ class VideoWindow extends Component {
 
   render() {
     const { info, loading } = this.props;
-
+console.log(this.props)
     return !loading && info.videoPath ? (
       <ReactVideo
         videoId={info.videoId}

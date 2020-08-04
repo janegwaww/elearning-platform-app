@@ -95,3 +95,17 @@ p {
 .search .color{
   color:#FC5659;
 }
+.video{
+  border:1px solid red;
+}
+ .video h6{
+   display: none;
+ }
+ .video video{
+   width:100%;
+  
+ }
+ .video #kengine-react-video{
+   /* height: 400px !important; */
+ }
+ 

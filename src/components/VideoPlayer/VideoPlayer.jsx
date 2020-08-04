@@ -31,7 +31,7 @@ class VideoPlayer extends Component {
 
   render() {
     const { videoInfo, loading } = this.state;
-
+    console.log(videoInfo)
     return (
       <Fragment>
         <div style={{ paddingTop: "0.35em" }}>
