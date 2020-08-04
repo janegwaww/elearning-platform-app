@@ -68,7 +68,7 @@ const KEForm = ({ modal, modalClose }) => {
       <Container maxWidth="lg">
         <div className={classes.secondary}>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <div className={classes.leftModule}>
                 <div className={classes.KELogo}>
                   <img
@@ -81,7 +81,7 @@ const KEForm = ({ modal, modalClose }) => {
                 </div>
               </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <div className={classes.rightModule}>
                 <QrCodeIcon
                   accountLogin={accountLogin}
