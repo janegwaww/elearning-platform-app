@@ -20,7 +20,7 @@ const Head = (props) => {
       <img src={logo} alt="logo" style={{ width: "9em", height: "2em" }}></img>
       <div className={`box box-align-center`}>
         <SearchOutlined onClick={()=>{
-          navigate(`/phonesearch`);
+          navigate(`/mobile/search`);
         }} />
         {userinfo ? (
           <div

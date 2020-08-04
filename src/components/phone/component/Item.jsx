@@ -1,5 +1,4 @@
 import React from "react";
-
 import style from "./style.module.css";
 import { get_date } from "../../../assets/js/totls";
 import { navigate } from "@reach/router";
@@ -14,6 +13,7 @@ const Item = (props) => {
           window.history.go();
         } else {
           navigate(`/phoneplay?vid=${props.info.video_id}`);
+          window.history.go();
         }
       }}
     >
@@ -21,14 +21,14 @@ const Item = (props) => {
         className="all-width bg-all view-overflow"
         style={{ minHeight: "8em", marginBottom: 5, height: "auto",backgroundImage:'url('+ props.info.image_path+')'}}
       >
-       
+        <img src={props.info.image_path} style={{height:'auto',width:'100%',minHeight: "8em"}} />
         {props.info.video_time && (
           <span
             className={`fn-color-white ${style.fn12}`}
             style={{
               position: "absolute",
-              right: "0.6em",
-              bottom: "0.6em",
+              right: 2,
+              bottom: 3,
               display: "inline-block",
               padding: "0.2em 0.5em",
               borderRadius: "0.4em",
@@ -39,11 +39,10 @@ const Item = (props) => {
           </span>
         )}
       </div>
-
       {props.info.type == "document" ? (
         <div
           className="box box-between all-height"
-          style={{ flexDirection: "column", padding: "1em" }}
+          style={{ flexDirection: "column", padding: "1em",height:'calc(100% - 10em)' }}
         >
           <div style={{ marginBottom: "1em" }}>
             <p className="textview-overflow two">{props.info.file_name}123</p>
@@ -78,10 +77,10 @@ const Item = (props) => {
               <div
                 className="bg-not "
                 style={{
-                  width: "1.5em",
-                  height: "1.5em",
+                  width: "2em",
+                  height: "2em",
                   borderRadius: "50%",
-                  marginRight: "0.6em",
+                  marginRight: "1em",
                   backgroundImage: "url(" + props.info.headshot + ")",
                 }}
               ></div>
@@ -89,10 +88,10 @@ const Item = (props) => {
               <p>{props.info.user_name}</p>
             </div>
           ) : props.info.pay_counts ? (
-            <div>{props.info.pay_counts}购买</div>
+            <div>{props.info.pay_counts}&nbsp;&nbsp;购买</div>
           ) : (
             <div className="fn-color-878791">
-              <PlayCircleOutline style={{ height: "0.8em", width: "0.8em" }} />
+              <PlayCircleOutline style={{ height: "2em", width: "2em" }} />&nbsp;&nbsp;
               {props.info.view_counts} 观看
             </div>
           )}

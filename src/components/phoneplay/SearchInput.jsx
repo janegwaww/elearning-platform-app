@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     color:'#fff',
+  
   },
   divider: {
     height: 28,
@@ -57,7 +58,7 @@ export default function SearchInput( props) {
   return (
     <Paper component="form" className={classes.root}>
       <IconButton className={classes.iconButton} aria-label="menu" onClick={config_click}>
-      <SearchIcon  />
+      <SearchIcon style={{width:'2em',height:'2em'}} />
       </IconButton>
       <InputBase
         className={classes.input}
@@ -71,7 +72,7 @@ export default function SearchInput( props) {
       
      
       <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={concel_click}>
-        <Cancel />
+        <Cancel style={{width:'2em',height:'2em'}} />
       </IconButton>
     </Paper>
   );
