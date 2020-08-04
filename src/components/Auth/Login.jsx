@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from '@material-ui/core/CssBaseline'
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { isLoggedIn } from "../../services/auth";
 import KEForm from "../KEFormKit/KEForm";
 import config from "../../../data/SiteConfig";
@@ -20,12 +20,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Login = ({ location }) => {
+const Login = () => {
   const classes = useStyles();
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate(`/users/profile`);
+      /* navigate(`/users/profile`); */
     }
   }, []);
 
