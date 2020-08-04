@@ -14,7 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import PublicDialog from "../../../../assets/template/PublicDialog";
 import { getObj } from "../../../../assets/js/totls";
-import { get_data } from "../../../../assets/js/request";
+import { get_data ,get_info} from "../../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
@@ -40,22 +40,14 @@ const Basic = (props) => {
   const [birth, setBirth] = React.useState(""); //出生年月
   const [userdescribe, setUserdescribe] = React.useState(""); //用户描述
   React.useEffect(() => {
-    get_info();
-  }, []);
-  const get_info = () => {
-    get_data({
-      model_name: "user",
-      model_action: "get_information",
-    }).then((res) => {
-      if (res.err === 0) {
-        let _data = res.result_data[0];
-        setUserInfo(_data);
+    get_info().then(res=>{
+      let _data= res;
+      setUserInfo(_data);
         setSex(_data.gender);
         setBirth(_data.birthday);
-        sessionStorage.setItem("user_info", JSON.stringify(_data));
-      }
     });
-  };
+  }, []);
+  
   return (
     <main className="profile-top fn-size-14 all-width">
       <div className={classes.root}>
