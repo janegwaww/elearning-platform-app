@@ -79,6 +79,7 @@ class VideoWindow extends Component {
             src: `${info.vttPath}`,
             label: "字幕开",
             kind: "subtitle",
+            default: true,
           },
         ]
       : [
@@ -113,7 +114,6 @@ class VideoWindow extends Component {
       <Box
         height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
         style={{
-          minHeight: 400,
           backgroundColor: "black",
           display: "flex",
           alignItems: "center",

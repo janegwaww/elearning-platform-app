@@ -12,7 +12,6 @@ export default class VideoPlayer extends React.Component {
     this.videoJsOptions = {
       controls: true,
       preload: "auto",
-      height: 516,
       responsive: true,
       // fluid: true,
       textTrackSettings: false,
@@ -65,7 +64,7 @@ export default class VideoPlayer extends React.Component {
           }
         });
         console.log("onPlayerReady", this);
-      }
+      },
     );
 
     const subSwitch = this.player.controlBar.addChild("vjsSubSwitchButton", {});
