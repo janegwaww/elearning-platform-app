@@ -359,12 +359,12 @@ const Basic = (props) => {
                     _head.headshot = res.result_data[0].headshot;
                     _head.name = res.result_data[0].name;
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
-                    new CustomModal().alert(res.errmsg, "success", "3000");
+                    new CustomModal().alert(res.errmsg+'!', "success", 3000);
                     setTimeout(() => {
                       window.history.go();
                     }, 3000);
                   } else {
-                    new CustomModal().alert("修改失败", "error", "3000");
+                    new CustomModal().alert("修改失败!", "error", 3000);
                   }
                 });
               }}

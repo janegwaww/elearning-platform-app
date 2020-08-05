@@ -13,7 +13,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { navigate } from "@reach/router";
 
 import { get_data } from "../../../assets/js/request";
-
+import CustomModal from '../../../assets/js/CustomModal';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -89,8 +89,8 @@ const Message = (props) => {
                         is_del:false
                       });
                       props.parent.props.parent.video_live.load();
-
-                    setOpen(true);
+                    new CustomModal().alert('删除成功！','success',3000)
+                    // setOpen(true);
                   });
                   return;
                 }
