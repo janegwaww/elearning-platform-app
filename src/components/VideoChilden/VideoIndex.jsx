@@ -291,7 +291,8 @@ export default class VideoPage extends Component {
       if (res.subtitling) {
         //生成字幕
         _data.sub_josn = res.subtitling;
-        if (res.subtitling[0].en_sub) {
+        
+        if (res.subtitling[0]&&res.subtitling[0].en_sub) {
           this.setState({
             lang: 2,
           });

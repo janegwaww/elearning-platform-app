@@ -14,7 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import PublicDialog from "../../../../assets/template/PublicDialog";
 import { getObj } from "../../../../assets/js/totls";
-import { get_data } from "../../../../assets/js/request";
+import { get_data ,get_info} from "../../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
@@ -40,22 +40,16 @@ const Basic = (props) => {
   const [birth, setBirth] = React.useState(""); //出生年月
   const [userdescribe, setUserdescribe] = React.useState(""); //用户描述
   React.useEffect(() => {
-    get_info();
-  }, []);
-  const get_info = () => {
-    get_data({
-      model_name: "user",
-      model_action: "get_information",
-    }).then((res) => {
-      if (res.err === 0) {
-        let _data = res.result_data[0];
+    get_info().then(res=>{
+      let _data= res;
         setUserInfo(_data);
         setSex(_data.gender);
         setBirth(_data.birthday);
-        sessionStorage.setItem("user_info", JSON.stringify(_data));
-      }
+        setUsername(_data.user_name);
+        setUserdescribe(_data.introduction)
     });
-  };
+  }, []);
+  
   return (
     <main className="profile-top fn-size-14 all-width">
       <div className={classes.root}>
@@ -276,6 +270,7 @@ const Basic = (props) => {
             <TextField
               placeholder={userInfo && userInfo.user_name}
               className={classes.input}
+              value={username}
               onChange={(ev, value) => {
                 setUsername(ev.target.value);
               }}
@@ -329,6 +324,7 @@ const Basic = (props) => {
               rows={5}
               variant="outlined"
               className={classes.input}
+              value={userdescribe}
               onChange={(ev) => {
                 setUserdescribe(ev.target.value);
               }}
@@ -363,12 +359,12 @@ const Basic = (props) => {
                     _head.headshot = res.result_data[0].headshot;
                     _head.name = res.result_data[0].name;
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
-                    new CustomModal().alert(res.errmsg, "success", "3000");
+                    new CustomModal().alert(res.errmsg+'!', "success", 3000);
                     setTimeout(() => {
-                      navigate(`/`);
+                      window.history.go();
                     }, 3000);
                   } else {
-                    new CustomModal().alert("修改失败", "error", "3000");
+                    new CustomModal().alert("修改失败!", "error", 3000);
                   }
                 });
               }}

@@ -1,4 +1,6 @@
 import "../css/modal.css";
+import success from '../img/success.png';
+import error from '../img/err.png';
 function CustomModal() {
   this.body = document.body || document.querySelector("body");
   this.obj = document.createElement("div");
@@ -11,6 +13,7 @@ CustomModal.prototype.alert = function(option) {
     this.msg = arguments[0];
     this.severity = arguments[1];
     this.times = arguments[2];
+    console.log(this.severity)
   } else {
     this.option = option;
   }
@@ -21,14 +24,16 @@ CustomModal.prototype.alert = function(option) {
   }
 
   let _div = document.createElement("div");
-  if (this.msg) {
-    _div.innerHTML = this.msg + "<span id='close' >X</span>";
+  if (this.msg&&this.severity=='success') {
+    _div.innerHTML =`<img src='${success}' />`+ this.msg ;
+  }else{
+    _div.innerHTML =`<img src='${error}' />`+ this.msg||'网络错误' ;
   }
   this.obj.appendChild(_div);
   this.body.appendChild(this.obj);
-  document.getElementById('close').onclick=()=>{
-    this.body.removeChild(this.obj);
-  }
+  // document.getElementById('close').onclick=()=>{
+  //   this.body.removeChild(this.obj);
+  // }
   setTimeout(()=>{
       if(!document.querySelector('.alert')){return};
       this.body.removeChild(this.obj);

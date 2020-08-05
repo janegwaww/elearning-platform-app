@@ -196,7 +196,7 @@ export default class UploadVideos extends Component {
           }
           if (res.result_data[0].subtitle) {
             _data.sub_josn = res.result_data[0].subtitle;
-            if (_data.sub_josn[0].en_sub) {
+            if (_data.sub_josn[0]&&_data.sub_josn[0].en_sub) {
               this.props.parent.setState({
                 lang: 2,
               });
@@ -461,7 +461,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
-        new CustomModal().alert("生成字幕失败", "error", 4000);
+        alert("生成字幕失败");
+        // new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
@@ -505,7 +506,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
-        new CustomModal().alert("生成字幕失败", "error", 4000);
+        alert("生成字幕失败");
+        // new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
