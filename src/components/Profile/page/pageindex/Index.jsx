@@ -60,7 +60,7 @@ class ProfileIndex extends React.Component {
     this.setState({
       login_status: true,
     });
-    // let _this = this;
+    
 
     get_data({
       model_name: "home",

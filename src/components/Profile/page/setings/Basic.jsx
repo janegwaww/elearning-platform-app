@@ -361,7 +361,8 @@ const Basic = (props) => {
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
                     new CustomModal().alert(res.errmsg+'!', "success", 3000);
                     setTimeout(() => {
-                      window.history.go();
+                      window.history.go(0);
+                      // navigate(`/users/profile/setings`)
                     }, 3000);
                   } else {
                     new CustomModal().alert("修改失败!", "error", 3000);

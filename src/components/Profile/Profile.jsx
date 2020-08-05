@@ -59,6 +59,10 @@ class Profile extends React.Component {
 
   pageRoute(props) {
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
+    console.log(props)
+    if(!props['*']){
+      return
+    }
     let _router_arr = props["*"].split("/");
 
     let _router = _router_arr[0];
@@ -83,6 +87,8 @@ class Profile extends React.Component {
           _inx = 1;
         }
         break;
+        
+
     }
 
     if (_router) {
@@ -98,7 +104,7 @@ class Profile extends React.Component {
   render() {
     const { menuOpen, inx } = this.state;
     const { children } = this.props;
-
+    console.log(children)
     return (
       <Layout>
         <Helmet title={`${config.siteTitle}`} />
