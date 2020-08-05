@@ -62,7 +62,7 @@ const SearchLayout = ({ children }) => {
       <CssBaseline />
       <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
       <AppBar position="fixed" color="inherit" className="search-layout-bar">
-        <div style={{ backgroundColor: "#2c2c3b" }} id="back-to-top-anchor">
+        <div style={{ backgroundColor: "#2c2c3b" }} className="header-top">
           <Container>
             <div className="h-toolbar">
               <nav>
