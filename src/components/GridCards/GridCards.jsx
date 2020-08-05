@@ -141,7 +141,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   )}
 
                   <div className="grid-card-feedback">
-                    <Typography variant="caption" color="textSecondary">
+                    <Typography variant="caption" color="textSecondary" noWrap>
                       {!!item.view_counts && `${item.view_counts} 观看`}
                       {!!item.view_counts && <Bull />}
                       {!!item.like_counts && `${item.like_counts} 点赞`}

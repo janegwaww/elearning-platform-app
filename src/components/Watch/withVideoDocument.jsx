@@ -16,7 +16,7 @@ const withVideoDocument = (WrapComponent) => {
       const { vid, type } = this.props;
       this.setState({ loading: true });
       if (!type) {
-        getVideoDocument({ video_id: vid, max_size: 10, page: 1 }).then(
+        getVideoDocument({ video_id: vid, max_size: 4, page: 1 }).then(
           (data = []) => {
             this.setState({ list: data, loading: false });
           },

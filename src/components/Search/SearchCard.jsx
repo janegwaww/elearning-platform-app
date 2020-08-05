@@ -74,37 +74,35 @@ const descriptionItem = (description, match = {}) => {
 const authAvatar = (headshot, href = "/") =>
   headshot && (
     <Link href={href}>
-      <Avatar
-        src={headshot}
-        alt={headshot}
-        style={{ width: 130, height: 130 }}
-      />
+      <Avatar src={headshot} alt={headshot} className="auth-card-avatar" />
     </Link>
   );
 
 const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) => (
-  <div style={{ display: "flex", alignItems: "center" }}>
-    {headshot && (
-      <Link href={`/excellentcreator/creator/?cid=${id}`}>
-        <Avatar
-          src={headshot}
-          alt={name}
-          style={{ height: 28, width: 28, marginRight: 5 }}
-        />
-      </Link>
-    )}
-    {name && (
-      <Typography variant="caption" noWrap>
-        {name}
-      </Typography>
-    )}
-    {name && headshot && <div style={{ marginRight: 40 }} />}
+  <div className="card-avatar">
+    <div className="card-avatar-img">
+      {headshot && (
+        <Link href={`/excellentcreator/creator/?cid=${id}`}>
+          <Avatar
+            src={headshot}
+            alt={name}
+            style={{ height: 28, width: 28, marginRight: 5 }}
+          />
+        </Link>
+      )}
+      {name && (
+        <Typography variant="caption" noWrap>
+          {name}
+        </Typography>
+      )}
+      {name && headshot && <div style={{ marginRight: 40 }} />}
+    </div>
     {!!(view || comment || like) && (
       <div style={{ gridColumn: 2, gridRow: 4 }}>
         <Typography variant="caption" color="textSecondary" noWrap>
           {`${view}观看`}
           {/* <Bull />
-          {`${comment}回应`} */}
+                      {`${comment}回应`} */}
           <Bull />
           {`${like}点赞`}
         </Typography>
@@ -117,7 +115,7 @@ const subtitle = ({ start_time, whole_str, subtitle_dist, type, id }) => {
   const createMarkup = () => ({
     __html: `【${secondsToHMS(start_time)}】 ${decoratedStr(
       whole_str,
-      subtitle_dist
+      subtitle_dist,
     )}`,
   });
   return (
@@ -148,10 +146,10 @@ const videoContainer = ({ data = {}, match_frame = {} }) => {
     : `/watch/?vid=${data.video_id}`;
   return (
     <Grid container className="container" spacing={2}>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={5} md={3}>
         <div className="head">{imagePick(data.image_path, href)}</div>
       </Grid>
-      <Grid item xs={6} md={9}>
+      <Grid item xs={7} md={9}>
         <div className="card-text-part">
           <div style={{ gridColumn: 2, gridRow: 1 }}>
             <TitleItem
@@ -175,7 +173,7 @@ const videoContainer = ({ data = {}, match_frame = {} }) => {
               data.user_id,
               data.view_counts,
               data.comment_counts,
-              data.like_counts
+              data.like_counts,
             )}
           </div>
         </div>
@@ -188,10 +186,10 @@ const authContainer = ({ data, match_frame }) => {
   const href = `/excellentcreator/creator/?cid=${data.user_id}`;
   return (
     <Grid container spacing={1} className="container">
-      <Grid item xs={6} md={3}>
+      <Grid item xs={5} md={3}>
         <div className="head">{authAvatar(data.headshot, href)}</div>
       </Grid>
-      <Grid item xs={6} md={9}>
+      <Grid item xs={7} md={9}>
         <div style={{ gridColumn: 2, gridRow: 1 }}>
           <TitleItem
             pay={data.is_pay}
@@ -216,10 +214,10 @@ const seriesContainer = ({ data, match_frame }) => {
   const href = `/series/?sid=${data.series_id}`;
   return (
     <Grid container spacing={2} className="container">
-      <Grid item xs={6} md={3}>
+      <Grid item xs={5} md={3}>
         <div className="head">{imagePick(data.image_path, href, "series")}</div>
       </Grid>
-      <Grid item xs={6} md={9}>
+      <Grid item xs={7} md={9}>
         <div className="card-text-part">
           <div style={{ gridColumn: 2, gridRow: 1 }}>
             <TitleItem
@@ -241,7 +239,7 @@ const seriesContainer = ({ data, match_frame }) => {
               data.user_id,
               data.view_counts,
               data.comment_counts,
-              data.like_counts
+              data.like_counts,
             )}
           </div>
         </div>
@@ -254,12 +252,12 @@ const docSeriesContainer = ({ data, match_frame }) => {
   const href = `/series/?dsid=${data.series_id}`;
   return (
     <Grid container spacing={2} className="container">
-      <Grid item xs={6} md={3}>
+      <Grid item xs={5} md={3}>
         <div className="head">
           {imagePick(data.image_path, href, "documents")}
         </div>
       </Grid>
-      <Grid item xs={6} md={9}>
+      <Grid item xs={7} md={9}>
         <div className="card-text-part">
           <div style={{ gridColumn: 2, gridRow: 1 }}>
             <TitleItem
@@ -285,12 +283,12 @@ const docContainer = ({ data, match_frame }) => {
   const href = `/document/?did=${data.file_id}`;
   return (
     <Grid container spacing={2} className="docContainer">
-      <Grid item xs={6} md={3}>
+      <Grid item xs={5} md={3}>
         <div className="docHead">
           {imagePick(data.image_path, href, "document")}
         </div>
       </Grid>
-      <Grid item xs={6} md={9}>
+      <Grid item xs={7} md={9}>
         <div className="card-text-part">
           <div style={{ gridColumn: 2, gridRow: 1 }}>
             <TitleItem

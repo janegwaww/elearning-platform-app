@@ -66,7 +66,6 @@ const Search = ({ input }) => {
       />
       <div style={{ height: 10 }} />
       <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
-      <br />
       <div style={{ minHeight: "60vh" }}>
         {iterateItems(result)}
         <EmptyNotice

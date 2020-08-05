@@ -22,7 +22,7 @@ import SetingsPhone from '../components/Profile/page/setings/SetingsPhone';
 
 const Users = () => {
   return (
-    <Router basepath="/users">
+    <Router basepath="/users/">
       <PrivateRoute path="/profile" component={Profile}>
         <PageIndex path="/" />
 
