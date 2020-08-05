@@ -64,7 +64,7 @@ export default class VideoPlayer extends React.Component {
           }
         });
         console.log("onPlayerReady", this);
-      },
+      }
     );
 
     const subSwitch = this.player.controlBar.addChild("vjsSubSwitchButton", {});
@@ -112,6 +112,9 @@ export default class VideoPlayer extends React.Component {
           }}
           className="video-js"
           id="kengine-react-video"
+          playsinline=""
+          webkit-playsinline=""
+          x5-playsinline=""
         />
       </div>
     );
