@@ -75,16 +75,8 @@ const SearchLayout = ({ children }) => {
               <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>
-              <Link href="/video/" underline="none">
-                <Button
-                  size="small"
-                  style={{
-                    borderRadius: "20px",
-                    marginLeft: "20px",
-                    backgroundColor: "#007cff",
-                    color: "#fff",
-                  }}
-                >
+              <Link href="/video/" underline="none" className="post-button">
+                <Button size="small">
                   <Typography>投稿</Typography>
                 </Button>
               </Link>

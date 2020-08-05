@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Grid, Divider } from "@material-ui/core";
+import { Grid, Divider, Box } from "@material-ui/core";
 import LazyIntroduction from "../Introduction/Introduction";
 import LazyPersonAvatar from "./Avatar";
 import LazyVideoList from "../VideoList/VideoList";
@@ -27,22 +27,24 @@ class Watch extends Component {
 
     return (
       <Fragment>
-        <Grid container style={{ marginTop: 18 }} spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={9}>
-            <VideoPlayerTitle title={avatar.title} />
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
-            <LazyIntroduction intros={avatar} />
-            <Divider />
-            <LazyPersonAvatar auth={avatar} />
-            <IntroductionText text={avatar} />
+            <Box p={2}>
+              <VideoPlayerTitle title={avatar.title} variant="body1" />
+              <LazyIntroduction intros={avatar} />
+              <Divider />
+              <LazyPersonAvatar auth={avatar} />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
-            <br />
-            <VideoDocument vid={vid} />
-            <br />
-            <Divider />
-            <LazyVideoList vid={vid} type="series" />
-            <LazyVideoList vid={vid} type="recommend" />
+            <Box pl={2} pr={2} pb={2}>
+              <VideoDocument vid={vid} />
+              <br />
+              <Divider />
+              <LazyVideoList vid={vid} type="series" />
+              <LazyVideoList vid={vid} type="recommend" />
+            </Box>
           </Grid>
         </Grid>
       </Fragment>

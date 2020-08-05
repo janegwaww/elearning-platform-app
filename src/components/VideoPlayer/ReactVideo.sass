@@ -7,6 +7,9 @@
 
 .video-js
   width: 100%
+  height: 516px
+  @media screen and (max-width: 960px)
+    height: 216px
   .vjs-text-track-display
     .vjs-text-track-cue
       line-height: inherit !important
@@ -23,7 +26,7 @@
     .vjs-text-track-cue
       & > div
         font-size: 34px !important
-    
+
   .vjs-big-play-button
     top: 50%
     left: 50%

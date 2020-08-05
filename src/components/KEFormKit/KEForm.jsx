@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import { Container, Grid, Typography } from "@material-ui/core";
-import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
+import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
 import QrCodeLoginComponent from "./QrCodeLoginComponent";
