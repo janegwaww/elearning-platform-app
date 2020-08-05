@@ -2,18 +2,15 @@ import React from "react";
 import Helmet from "react-helmet";
 import Layout from "./layout";
 import config from "../../../data/SiteConfig";
-
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
-
-
-
-
 import { RightMenu } from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
+
+import Drawer from './components/Drawer';
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -101,12 +98,13 @@ class Profile extends React.Component {
 
     return (
       <Layout>
-        <Helmet title={`${config.siteTitle}`} />
         <Container className="all-height all-width ">
-         
+        {/** <Drawer  >
+        {children}
+        
+        </Drawer>*/}
           <Grid container>
-            <Grid xs={3} item>
-            
+            <Grid xs={5} sm={3} item>
             <aside
               className=" profile-left all-height bg-white "
               
@@ -120,7 +118,7 @@ class Profile extends React.Component {
                 >
                   <div className="box box-center">
                     <Avatar
-                      style={{ width: 80, height: 80 }}
+                      style={{ width:'5rem', height: '5rem' }}
                       src={
                         this.state.userinfo && this.state.userinfo.headshot
                           ? this.state.userinfo.headshot
@@ -128,12 +126,12 @@ class Profile extends React.Component {
                       }
                     ></Avatar>
                   </div>
-                  <p className="zero-edges fn-color-2C2C3B fn-size-18 text-overflow">
+                  <p className="zero-edges fn-color-2C2C3B fn-r-18 text-overflow">
                     {this.state.userinfo && this.state.userinfo.user_name
                       ? this.state.userinfo.user_name
                       : "暂未留下称呼"}
                   </p>
-                  <p className="zero-edges textview-overflow two fn-color-878791 fn-size-12">
+                  <p className="zero-edges textview-overflow two fn-color-878791 fn-r-12">
                     {this.state.userinfo && this.state.userinfo.introduction
                       ? this.state.userinfo.introduction
                       : "暂未留下描述哦"}
@@ -211,7 +209,7 @@ class Profile extends React.Component {
             </aside>
             
             </Grid>
-            <Grid xs={9} item>
+            <Grid xs={7} sm={9} item>
             <main
               className=" bg-white"
               
@@ -221,7 +219,7 @@ class Profile extends React.Component {
             </Grid>
           </Grid>
             
-            
+        
          
         </Container>
       </Layout>
