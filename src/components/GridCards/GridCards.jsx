@@ -83,9 +83,9 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               )}
 
               {item ? (
-                <Box style={{ padding: 16 }}>
+                <Box className="grid-context-box">
                   <Link href={handleLink(item).to} color="textPrimary">
-                    {!!item.title && (
+                    {(!!item.title || !!item.video_title) && (
                       <Tooltip placement="top-start" title={item.title}>
                         <Typography
                           gutterBottom
@@ -94,6 +94,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                           align="left"
                         >
                           {item.title}
+                          {item.video_title}
                         </Typography>
                       </Tooltip>
                     )}
@@ -122,34 +123,22 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     </Typography>
                   )}
 
-                  <Link href={`/excellentcreator/creator/?cid=${item.user_id}`}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: 44,
-                      }}
+                  {!!item.headshot && (
+                    <Link
+                      href={`/excellentcreator/creator/?cid=${item.user_id}`}
                     >
-                      {!!item.headshot && (
-                        <Avatar
-                          alt={item.user_name}
-                          src={`${item.headshot}`}
-                          style={{
-                            width: 28,
-                            height: 28,
-                            margin: "8px 8px 8px 0",
-                          }}
-                        />
-                      )}
-                      <Typography
-                        display="block"
-                        variant="caption"
-                        color="textSecondary"
-                      >
-                        {item.user_name}
-                      </Typography>
-                    </div>
-                  </Link>
+                      <div className="grid-avatar">
+                        <Avatar alt={item.user_name} src={`${item.headshot}`} />
+                        <Typography
+                          display="block"
+                          variant="caption"
+                          color="textSecondary"
+                        >
+                          {item.user_name}
+                        </Typography>
+                      </div>
+                    </Link>
+                  )}
 
                   <div className="grid-card-feedback">
                     <Typography variant="caption" color="textSecondary">
@@ -162,6 +151,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                       {!!item.time && `${secondsToMouth(item.time)} 发布`}
                       {!!item.update_time &&
                         `${secondsToMouth(item.update_time)} 发布`}
+                      {!!item.pay_counts && `${item.pay_counts} 购买`}
                     </Typography>
                   </div>
                 </Box>
