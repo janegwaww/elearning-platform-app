@@ -93,11 +93,8 @@ class Profile extends React.Component {
     return (
       <Layout>
         <Container className="all-height all-width ">
-        {/** <Drawer  >
-        {children}
-        
-        </Drawer>*/}
-          <Grid container>
+      
+     <Grid container>
             <Grid xs={5} sm={3} item>
             <aside
               className=" profile-left all-height bg-white "
@@ -205,16 +202,12 @@ class Profile extends React.Component {
             </Grid>
             <Grid xs={7} sm={9} item>
             <main
-              className=" bg-white"
-              
+              className=" bg-white all-height"
             >
               {children}
             </main>
             </Grid>
           </Grid>
-            
-        
-         
         </Container>
       </Layout>
     );

@@ -70,7 +70,7 @@ const Message = (props) => {
                     extra_data: {
                       video_id: [props.parent.state.files.video_id],
                     },
-                  },'video').then((res) => {
+                  }).then((res) => {
                     promp_info.open = false;
 
                     props.parent.setState({

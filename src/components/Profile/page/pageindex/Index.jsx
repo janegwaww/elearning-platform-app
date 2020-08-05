@@ -131,9 +131,9 @@ class ProfileIndex extends React.Component {
         <main
           className="all-width bg-image "
           style={{
-            minHeight:183,
+            minHeight:'3rem',
 
-            borderRadius: "12px 12px 0 0",
+            borderRadius: "0.75rem 0.75rem 0 0",
           }}
         >
           {userData && userData.background && (
@@ -143,34 +143,34 @@ class ProfileIndex extends React.Component {
         </main>
 
         <main
-          style={{ height: "158px", paddingTop: "20px" }}
-          className="all-width profile-padding bg-white box  box-between fn-size-14 fn-color-2C2C3B"
+          style={{ height: "9.875rem", paddingTop: "1.25rem" }}
+          className="all-width profile-padding bg-white box  box-between fn-r-14 fn-color-2C2C3B"
         >
           <div className="box box-align-center">
-            <div style={{ marginRight: 20 }}>
+            <div style={{ marginRight: '1.25rem' }}>
               <Avatar
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  transform: "translateY(-55px)",
+                  width: "5rem",
+                  height: "5rem",
+                  transform: "translateY(-3.4375rem)",
                 }}
                 src={userData ? userData.headshot : ""}
               />
             </div>
             <div>
-              <p className="zero-edges fn-size-16">
+              <p className="zero-edges fn-r-16">
                 {userData ? userData.user_name : ""}
               </p>
               <p
-                className="zero-edges fn-size-12 fn-color-9E9EA6"
-                style={{ margin: "10px 0" }}
+                className="zero-edges fn-r-12 fn-color-9E9EA6"
+                style={{ margin: "0.625rem 0" }}
               >
                 ID: {userData ? userData.user_id : ""}
               </p>
               <p className="zero-edges textview-overflow two">
                 {userData ? userData.introduction : ""}
               </p>
-              <p className="zero-edges fn-size-12" style={{ marginTop: 10 }}>
+              <p className="zero-edges fn-r-12" style={{ marginTop: '0.625rem' }}>
                 <Link
                   href={`/users/profile/setings`}
                   className="fn-color-007CFF"
@@ -197,12 +197,12 @@ class ProfileIndex extends React.Component {
             </div> */}
           </div>
           <div
-            className="box box-align-center text-center fn-size-14 fn-color-878791"
+            className="box box-align-center text-center fn-r-14 fn-color-878791"
             style={{ marginTop: "30px" }}
           >
             <div className="box-flex bg-EDF6FF all-height">
               <p className="zero-edges">视频播放量</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="r-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.view_counts) ||
                   0}
               </p>
@@ -212,7 +212,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">课件下载量</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData &&
                   _this.state.userData.download_counts) ||
                   0}
@@ -223,7 +223,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">点赞数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.like_counts) ||
                   0}
               </p>
@@ -233,7 +233,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.collections_counts) ||
                   0}
               </p>
@@ -244,7 +244,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">分享数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.share_counts) ||
                   0}
               </p>
@@ -260,7 +260,7 @@ class ProfileIndex extends React.Component {
               <Nav parent={_this} _inx={0} list={["我的作品"]} />
             </div>
             <div
-              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-r-12 text-center"
               data-page="CreateCenter"
               data-id="3"
               data-defaultpage="作品管理"
@@ -317,7 +317,7 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
                     </div>
                   </div>
@@ -338,7 +338,7 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
                     </div>
                   </div>
@@ -359,7 +359,7 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
                     </div>
                   </div>
@@ -388,7 +388,7 @@ class ProfileIndex extends React.Component {
               />
             </div>
             <div
-              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-f-12 text-center"
               data-page="Dynamic"
               data-id="4"
               data-defaultpage="我的收藏"
@@ -424,7 +424,7 @@ class ProfileIndex extends React.Component {
               ) : (
                 <div className="profile-top all-width all-height view-overflow text-center">
                   <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                  <div className="fn-color-6f fn-f-16 profile-top-20">
                     暂无视频
                   </div>
                 </div>
@@ -445,9 +445,9 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top all-width all-height view-overflow text-center">
+                <div className="profile-top all-width all-height view-overflow text-center"> 
                   <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                  <div className="fn-color-6f fn-f-16 profile-top-20">
                     暂无视频
                   </div>
                 </div>

@@ -236,7 +236,7 @@ position: relative;
 .top .el-main > div:last-child > section video {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  /* object-fit: fill; */
 }
 .top .el-main > div:last-child >section p {
   margin: 4px 0;

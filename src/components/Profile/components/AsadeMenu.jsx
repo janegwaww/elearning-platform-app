@@ -15,10 +15,11 @@ export const RightMenu = (props) => {
             data-inx={inx}
             className= {inx==props._inx?"fn-color-007CFF":''} 
             style={{
-              fontSize: 14,
+              fontSize: '0.875rem',
               paddingLeft: 0,
-              margin: "0 -6px",
-              padding: 6,
+              margin: "0 -0.375rem",
+              padding: ' 0.375rem',
+              minHeight:'2rem'
             }}
             onClick={(event) => {
               event.stopPropagation();
