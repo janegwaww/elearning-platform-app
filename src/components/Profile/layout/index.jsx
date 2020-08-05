@@ -10,7 +10,7 @@ import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
 // import '../../../assets/css/tootls.css';
 // import '../../../assets/css/container.css';
-import "./profile.css";
+import "./Profile.css";
 
 
 export default class MainLayout extends React.Component {
