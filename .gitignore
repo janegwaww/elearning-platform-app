@@ -53,7 +53,6 @@ public/
 .cache/
 public.zip
 package-lock.json
-static/mobile
 
 
 # Gatsby context
