@@ -43,7 +43,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const duration = ({ video_time }) =>
     video_time && (
       <Box className="video-time-tag">
-        <Typography variant="caption" color="primary">
+        <Typography variant="caption" color="inherit">
           {video_time}
         </Typography>
       </Box>

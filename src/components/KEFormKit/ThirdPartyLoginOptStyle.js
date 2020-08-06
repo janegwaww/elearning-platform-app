@@ -5,16 +5,19 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(5),
     textAlign: "center",
     color: "#909399",
-    fontSize: "12px"
+    fontSize: "12px",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   logos: {
     display: "flex",
     flexFlow: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   logo: {
     margin: "20px 14px",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   bindingMobile: {
     position: "absolute",
@@ -27,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     padding: "0 6%",
     display: "flex",
     flexFlow: "column nowrap",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   title: {
     fontSize: "20px",
@@ -37,8 +40,8 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "28px",
     textAlign: "left",
     padding: "10% 0 10px",
-    marginBottom: theme.spacing(4)
-  }
+    marginBottom: theme.spacing(4),
+  },
 }));
 
 export default useStyles;
