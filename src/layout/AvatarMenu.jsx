@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   popOver: {
     top: "50px !important",
     borderRadius: 12,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   setIcon: {
     position: "absolute",
