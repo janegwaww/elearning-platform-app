@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
       width: 180,
       height: 40,
       borderRadius: 20,
+      '&:hover':{
+        backgroundColor: "#007CFF",
+      }
     },
     btn4: {
       backgroundColor: "#F2F2F5",
