@@ -79,7 +79,6 @@ class VideoWindow extends Component {
             src: `${info.vttPath}`,
             label: "字幕开",
             kind: "subtitle",
-            default: true,
           },
         ]
       : [
