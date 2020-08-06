@@ -58,6 +58,13 @@ class Profile extends React.Component {
   }
 
   pageRoute(props) {
+    
+    let _url = props.location.search;
+    if(_url){
+       navigate(`${_url.split('=')[1]}`);
+       return
+    }
+    console.log(_url)
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
     console.log(props)
     if(!props['*']){

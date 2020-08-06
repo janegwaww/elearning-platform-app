@@ -31,7 +31,7 @@ const Users = () => {
           <Collection path="/" />
           <History path="/history" />
         </Dynamic>
-        <Setings path="/setings" >
+        <Setings path="/settings" >
           <Basic path='/' />
           <Help path='/help' />
           <Safety path= '/safety' />
