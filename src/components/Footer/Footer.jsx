@@ -62,7 +62,7 @@ class Footer extends Component {
         <div className="footer-above">
           <Container>
             <Grid container>
-              <Grid item xs={12} sm={12} md={8}>
+              <Grid item xs={12} sm={12} md={4}>
                 <div className="footer-above-left">
                   <div className="footer-title">
                     <IconButton>
@@ -73,6 +73,7 @@ class Footer extends Component {
                   <ContractUs />
                 </div>
               </Grid>
+              <Grid md={4} />
               <Grid item xs={12} sm={12} md={4}>
                 <QrCodeImg />
               </Grid>
@@ -83,16 +84,18 @@ class Footer extends Component {
           <Container fixed>
             <Grid container spacing={1}>
               <Grid container item xs={12} spacing={1}>
-                <Grid item xs={12} md>
+                <Grid md={1} />
+                <Grid item xs={12} md={5}>
                   粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp; 粤公网安备
                   44030702002640号
                 </Grid>
-                <Grid item xs={12} md>
+                <Grid item xs={12} md={5}>
                   版权所有@深圳前海黑顿科技有限公司 2020 保留一切权利
                 </Grid>
+                <Grid md={1} />
               </Grid>
               <Grid item xs={12} className="footer-address">
-                深圳前海黑顿科技有限公司 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                深圳前海黑顿科技有限公司 &nbsp;&nbsp;&nbsp;&nbsp;
                 广东省深圳市龙岗区龙翔大道7188号万科大厦3109
               </Grid>
             </Grid>
