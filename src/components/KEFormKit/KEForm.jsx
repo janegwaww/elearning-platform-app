@@ -95,12 +95,6 @@ const KEForm = ({ modal, modalClose }) => {
                 ) : (
                   <QrCodeLoginComponent qrcodeValue={qrcodeValue} />
                 )}
-                <Typography
-                  align="center"
-                  style={{ fontSize: 12, color: "#909399" }}
-                >
-                  未注册的手机号码验证后自动创建知擎账号
-                </Typography>
                 <ThirdPartyLoginOpt />
                 <UserProtocol />
               </div>
