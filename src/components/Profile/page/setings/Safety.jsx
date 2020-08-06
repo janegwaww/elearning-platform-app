@@ -104,7 +104,7 @@ const Safety = (props) => {
           model_action: "generate_third_qrcode",
           extra_data: {
             type: _ev_data.type, //# QQ/微信/微博
-            back_url:'http://kengine.haetek.com/users/profile/setings/safety'
+            back_url:'http://kengine.haetek.com/users/profile/settings/safety'
           },
           model_type: "",
         }).then(res=>{
