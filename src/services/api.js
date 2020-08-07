@@ -20,8 +20,8 @@ const axiosInstance = (token = "") =>
     timeout: 50000,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${getUser().token}`
-    }
+      Authorization: `Bearer ${getUser().token}`,
+    },
   });
 
 // 生成传给接口参数的工厂函数
@@ -29,12 +29,12 @@ const paramFactory = ({
   modelName = "",
   modelAction = "",
   extraData = {},
-  modelType = ""
+  modelType = "",
 }) => ({
   model_name: modelName,
   model_action: modelAction,
   extra_data: extraData,
-  model_type: modelType
+  model_type: modelType,
 });
 
 // 封装请求
@@ -58,11 +58,11 @@ const extraParam = (modelName = "") => (modelActions = []) =>
           paramFactory({
             modelName,
             modelAction: cur,
-            extraData: obj
-          })
-      }
+            extraData: obj,
+          }),
+      },
     }),
-    {}
+    {},
   );
 
 // 接口封装
@@ -70,9 +70,9 @@ const extraApis = (cusFetch, paramMethod) => (modelActions = []) =>
   modelActions.reduce(
     (acc, cur) =>
       Object.assign(acc, {
-        [cur]: data => cusFetch(API_PATH, paramMethod[cur](data))
+        [cur]: data => cusFetch(API_PATH, paramMethod[cur](data)),
       }),
-    {}
+    {},
   );
 
 // 合并接口
@@ -101,12 +101,12 @@ export const authApis = () => {
     // 校验手机
     "check_mobile",
     // 视频收藏
-    "video_collect"
+    "video_collect",
   ];
   const getParam = pipe(extraParam("user"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod, getParam)
+    extraApis(fetchMethod, getParam),
   )(modelActions);
 
   return getApis;
@@ -153,12 +153,12 @@ export const videoApis = () => {
     "user_search",
     // 系列详情页搜索
     "series_search",
-    "documents_search"
+    "documents_search",
   ];
   const getParam = pipe(extraParam("video"))(modelActions);
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod, getParam)
+    extraApis(fetchMethod, getParam),
   )(modelActions);
 
   return getApis;
@@ -174,15 +174,15 @@ export const searchPartApis = () => {
       "view_advanced",
       "view_advanced_info",
       "download_file",
-      "get_document_series_details"
+      "get_document_series_details",
     ],
     ["add_subscription", "latest_subscription"],
     ["get_author_information", "share"],
     ["get_series_details"],
     ["get_category"],
     ["start_watch_history", "end_watch_history", "search_history"],
-    ["payment", "query_trade_result"],
-    ["global_search"]
+    ["payment", "query_trade_result", "wap_payment"],
+    ["global_search"],
   ];
   const getParam = [
     "comment",
@@ -195,15 +195,15 @@ export const searchPartApis = () => {
     "category",
     "video_history",
     "pay",
-    "search_history"
+    "search_history",
   ].reduce(
     (acc, cur, idx) =>
       Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
-    {}
+    {},
   );
   const getApis = pipe(
     names => names.map(wrapCamelName),
-    extraApis(fetchMethod, getParam)
+    extraApis(fetchMethod, getParam),
   )([].concat.apply([], modelActionsArr));
 
   return getApis;

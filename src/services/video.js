@@ -196,6 +196,15 @@ export const verifyAliPay = pipeThen(
   apisSearch.queryTradeResult,
 );
 
+// 支付宝创建订单
+export const aliWapPayment = pipeThen(
+  getResultDataFirst,
+  getResultData,
+  tokenExpired,
+  errorMessageNotice,
+  apisSearch.wapPayment,
+);
+
 // 分享功能
 const getUrl = ({ url }) => {
   return Promise.resolve(url);
