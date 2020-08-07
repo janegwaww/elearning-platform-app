@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -16,8 +16,12 @@ const SearchAutoComplete = ({
   options,
   ...props
 }) => {
+  const [opt, setOpt] = useState(options());
+  const [rvalue, setRvalue] = useState("");
+
   const handleRemove = (e, value) => {
     e.stopPropagation();
+    setRvalue(value);
     onRemove(value);
   };
 
@@ -27,18 +31,27 @@ const SearchAutoComplete = ({
     }
   };
 
+  const getOptions = () => {
+    setOpt(options());
+  };
+
+  useEffect(() => {
+    getOptions();
+  }, [rvalue]);
+
   return (
     <Autocomplete
       freeSolo
       selectOnFocus
       handleHomeEndKeys
       clearOnBlur={false}
-      options={options}
+      options={opt}
       inputValue={refInput}
+      getOptionLabel={(option) => option}
+      onOpen={() => getOptions()}
       onInputChange={(event, newInputValue) => {
         onChange(newInputValue);
       }}
-      getOptionLabel={(option) => option}
       renderOption={(option) => (
         <Box
           width="100%"
