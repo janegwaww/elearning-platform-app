@@ -38,7 +38,7 @@ const getSubtitleFrontParam = (arr = []) =>
   arr.map(i => ({
     subtitleDist: i.subtitle_dist,
     startTime: i.start_time,
-    wholeStr: i.whole_str
+    wholeStr: i.whole_str,
   }));
 
 const subtitleFront = ({ match_frame = [] }) => {
@@ -51,13 +51,15 @@ export const subtitles = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisVideo.localSearch
+  apisVideo.localSearch,
 );
 
 // -----视频播放-----------
 // 截取前端需要的字段
 const extraVideoInfo = (data = {}) => ({
   videoPath: data.video_path,
+  mergePath: data.merge_path,
+  path: data.video_path,
   vttPath: data.vtt_path,
   assPath: data.ass_path,
   title: data.title,
@@ -67,7 +69,7 @@ const extraVideoInfo = (data = {}) => ({
   videoId: data.video_id,
   isLoged: data.is_login,
   description: data.description,
-  data
+  data,
 });
 
 const videoInfoFront = (result = {}) => Promise.resolve(extraVideoInfo(result));
@@ -78,7 +80,7 @@ export const videoPath = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisVideo.videoPlay
+  apisVideo.videoPlay,
 );
 
 // -----------获取评论-------------
@@ -95,14 +97,14 @@ const extraFrontIntro = (data = {}) =>
     id: data.video_id,
     isLike: data.is_like,
     isCollect: data.is_collect,
-    isSubscribe: data.is_subscribe
+    isSubscribe: data.is_subscribe,
   });
 
 export const getVideoIntro = pipeThen(
   extraFrontIntro,
   getResultDataFirst,
   getResultData,
-  apisVideo.videoPlay
+  apisVideo.videoPlay,
 );
 
 // ---------视频收藏-----------
@@ -113,7 +115,7 @@ export const collectTheVideo = pipeThen(
   getErrData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.addCollection
+  apisSearch.addCollection,
 );
 
 // --------视频点赞-----------
@@ -122,7 +124,7 @@ export const likeTheVideo = pipeThen(
   getErrData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.giveLike
+  apisSearch.giveLike,
 );
 
 // -------获取相关视频---------
@@ -130,13 +132,13 @@ export const likeTheVideo = pipeThen(
 export const getRelativeVideos = pipeThen(
   getResultDataFirst,
   getResultData,
-  apisVideo.getRelatedVideo
+  apisVideo.getRelatedVideo,
 );
 
 // ----------获取推荐视频----------
 export const getRecommendVideos = pipeThen(
   getResultData,
-  apisVideo.getRelatedVideo
+  apisVideo.getRelatedVideo,
 );
 
 // ------订阅作者---------
@@ -144,13 +146,13 @@ export const subscribeAuth = pipeThen(
   boolErrData,
   getErrData,
   errorMessageNotice,
-  apisSearch.addSubscription
+  apisSearch.addSubscription,
 );
 
 // 获取进阶列表
 export const getVideoDocument = pipeThen(
   getResultData,
-  apisSearch.viewAdvanced
+  apisSearch.viewAdvanced,
 );
 
 // 获取课件详情
@@ -158,14 +160,14 @@ export const getDocumentDetail = pipeThen(
   getResultDataFirst,
   getResultData,
   errorMessageNotice,
-  apisSearch.viewAdvancedInfo
+  apisSearch.viewAdvancedInfo,
 );
 
 // 获取相关课件
 export const getRelateDocs = pipeThen(
   getResultData,
   tokenExpired,
-  apisSearch.viewFile
+  apisSearch.viewFile,
 );
 
 // 下载课件
@@ -184,14 +186,14 @@ export const aliPayment = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.payment
+  apisSearch.payment,
 );
 
 // 校验支付宝订单
 export const verifyAliPay = pipeThen(
   getResultDataFirst,
   getResultData,
-  apisSearch.queryTradeResult
+  apisSearch.queryTradeResult,
 );
 
 // 分享功能
@@ -202,5 +204,5 @@ export const userShare = pipeThen(
   getUrl,
   getResultDataFirst,
   getResultData,
-  apisSearch.share
+  apisSearch.share,
 );
