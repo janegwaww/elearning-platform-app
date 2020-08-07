@@ -110,20 +110,15 @@ const VideoSearchWrap = ({ children, vid, path }) => {
                 </InputAdornment>
               }
             />
-            {noMatchMobile ? (
-              <Button
-                className="KeSearchButton"
-                aria-label="search"
-                startIcon={<SearchIcon />}
-                onClick={handleInputClick}
-              >
-                逐帧搜索
-              </Button>
-            ) : (
-              <IconButton size="small" onClick={handleInputClick}>
-                <SearchIcon color="primary" />
-              </IconButton>
-            )}
+
+            <Button
+              className="KeSearchButton"
+              aria-label="search"
+              startIcon={<SearchIcon />}
+              onClick={handleInputClick}
+            >
+              逐帧搜索
+            </Button>
           </Paper>
           <div>
             <ClearIcon className="clearIcon" onClick={closeSearchInput} />
