@@ -33,7 +33,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
     }
     if (file_id && file_path) {
       return {
-        to: `/web/viewer.html?file=${file_path}`,
+        to: `/pdf/web/viewer.html?file=${file_path}`,
       };
     }
     if (file_id) {

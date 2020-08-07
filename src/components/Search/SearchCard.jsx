@@ -255,7 +255,7 @@ const docContainer = ({ data, match_frame }) => {
   const { file_path } = data;
   const href = !file_path
     ? `/document/?did=${data.file_id}`
-    : `/web/viewer.html?file=${file_path}`;
+    : `/pdf/web/viewer.html?file=${file_path}`;
 
   return (
     <div className="docContainer">
