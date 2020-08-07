@@ -46,7 +46,7 @@ export default function UserFeedback({ backData = {} }) {
               return prev - 1;
             }
             return prev;
-          })
+          }),
     );
   };
 
@@ -92,6 +92,7 @@ export default function UserFeedback({ backData = {} }) {
             <LightTooltip title="分享">
               <ShareIcon style={{ fontSize: 16, margin: "8px" }} />
             </LightTooltip>
+            <div style={{ fontSize: "0.875rem" }}>{backData.share_counts}</div>
           </IconButton>
         )}
       </SharePopover>
@@ -104,6 +105,7 @@ export default function UserFeedback({ backData = {} }) {
         <LightTooltip title="收藏" placement="bottom">
           {StarOrNot(collect)}
         </LightTooltip>
+        <div style={{ fontSize: "0.875rem" }}>{backData.collection_counts}</div>
       </IconButton>
     </div>
   );
