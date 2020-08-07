@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 
-import ProgressBar from '../../Loading/ProgressBar';
+import ProgressBar from "../../Loading/ProgressBar";
 import {
   Button,
   Toolbar,
@@ -10,213 +10,23 @@ import {
   TextField,
   Snackbar,
   InputAdornment,
+  Grid,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import {  makeStyles } from "@material-ui/core/styles";
-import {
-  ContactSupport,
-  Add,
-  Cancel,
-  HighlightOff,
 
-} from "@material-ui/icons";
-import '../../../assets/css/tootls.css';
+import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
+import "../../../assets/css/tootls.css";
 import "../../../assets/css/container.css";
 
 import { Nav } from "../../Profile/components/ProfileNav";
-import { get_data, } from "../../../assets/js/request";
+import { get_data } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
+import userStyles from '../components/TextStyle';
 
-const userStyles = makeStyles((them) => ({
-  toolbar: {
-    padding: 0,
-  },
-  btn: {
-    color: "#fff",
-    "border-radius": "16px",
-    width: "140px",
-    height: "32px",
-    "line-height": 0,
-    backgroundColor: "#007CFF",
-    margin: "0 56px",
-    "&:hover": {
-      backgroundColor: "#007CFF",
-    },
-  },
-  btn1: {
-    backgroundColor: "#f2f2f5",
-    color: "#878791",
-    margin: 0,
-    "&:hover": {
-      backgroundColor: "#878791",
-      color: "#fff",
-    },
-  },
-  avatar: {
-    width: 24,
-    height: 24,
-  },
-  save: {
-    width: 22,
-    height: 22,
-  },
-  main: {
-    padding: 40,
-  },
-  //   主体
-  textDoc: {
-    "& span:hover": {
-      cursor: "pointer",
-    },
-  },
-  snackbar: {
-    top: "40%",
-    transform: "translate(-50%,-50%)",
-  },
-  radiogroup: {
-    flexDirection: "row",
-  },
-  root: {
-    width: "100%",
-    fontSize: "14px",
-    "& span": {
-      display: "inline-block",
-    },
-    "& button": {
-      padding: 0,
-    },
-    "& b": {
-      fontWeight: 400,
-      display: "inline-block",
-    },
-    "& >div": {
-      alignItems: "flex-start",
-      "& .file": {
-        width: "140px",
-        height: "80px",
-        position: "relative",
-        border: "1px dashed #D5D5D5",
-        overflow: "hidden",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundSize: "100%",
-        display: "inline-block",
-        "& input": {
-          width: "100%",
-          height: "100%",
-        },
-        // "& .delete": {
-        //   position: "absolute",
-        //   top: 0,
-        //   right: 0,
-        //   color: "green",
-        //   "& :hover": {
-        //     color: "#ccc",
-        //   },
-        // },
-        // "& img": {
-        //   width: "100%",
-        //   height: "100%",
-        //   display: "block",
-        // },
-        "& label": {
-          display: "block",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          backgroundColor: "white",
-          color: "#999",
-          paddingTop: 15,
-          textAlign: "center ",
-          margin: 0,
-        },
-      },
-    },
-
-    "& p": {
-      margin: 0,
-    },
-
-    "& .sign": {
-      backgroundColor: "#F2F2F5",
-      padding: "12px",
-      "& .item": {
-        "& label:not(.not)": {
-          marginRight: 22,
-          width: 70,
-        },
-      },
-      "& label": {
-        // display: "inline-block",
-        margin: "6px",
-        minWidth: "auto",
-        fontSize: "12px",
-      },
-    },
-    "& label": {
-      minWidth: "65px",
-      transform: "translate(0, 1.5px) scale(1.1)",
-    },
-    "&  .item": {
-      marginTop: 22,
-      "& label": {
-        marginRight: 20,
-      },
-      "& .del": {
-        color: "#878791",
-        "&:hover": {
-          color: "#F86B6B",
-        },
-      },
-
-      "& span": {
-        position: "relative",
-        "&:hover span": {
-          display: "block",
-        },
-
-        "& span": {
-          display: "none",
-          position: "absolute",
-          right: "-10px",
-          bottom: 0,
-          width: "397px",
-          boxShadow: "0px 0px 2px 0px rgba(118,131,144,1)",
-          color: "#666",
-          transform: "translateY(100%)",
-          zIndex: 1000,
-          padding: "16px",
-          backgroundColor: "#fff",
-        },
-      },
-    },
-    "& svg": {
-      verticalAlign: "middle",
-    },
-    "& .MuiFormControlLabel-root ": {
-      minWidth: "auto",
-      "& .MuiRadio-root": {
-        padding: 0,
-      },
-    },
-    "& .MuiOutlinedInput-input": {
-      padding: "8px 6px",
-      backgroundColor: "#fff",
-      fontSize:14
-    },
-    "& .MuiOutlinedInput-multiline": {
-      padding: "1px",
-    },
-    "& .MuiInputAdornment-root": {
-      fontSize: "20px",
-      color: "#D5D5D5",
-    },
-  },
-}));
 
 export default function VideoIndex(props) {
   const classes = userStyles();
@@ -227,7 +37,7 @@ export default function VideoIndex(props) {
     type: "success",
     msg: "上传成功!",
   });
-  const [loginStatus,setLoginStatus] = React.useState(false);
+  const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
   // const [videosign, setVideosign] = React.useState([]); //视频标签
@@ -273,8 +83,8 @@ export default function VideoIndex(props) {
       {
         model_name: "series",
         model_action: "get_series",
-        "extra_data": {
-          user_id:_data.user_id
+        extra_data: {
+          user_id: _data.user_id,
         },
       },
       "video"
@@ -292,8 +102,7 @@ export default function VideoIndex(props) {
   }, []);
   return (
     <section style={{ height: "100vh" }} className="ma-container is-vertical">
-
-    <ProgressBar loading={loginStatus} />
+      <ProgressBar loading={loginStatus} />
       <header className="ma-heiader fn-size-16 fn-color-21">
         <section className={classes.toolbar}>
           <Toolbar
@@ -346,448 +155,424 @@ export default function VideoIndex(props) {
           </nav>
           <main>
             <form id="updata_info" className={classes.root}>
-              <div className="item box">
-                <label>
-                  <span className="fn-color-F86B6B">*</span> 标题
-                </label>
-                <TextField
-                  required
-                  id="standard-required"
-                  variant="outlined"
-                  fullWidth
-                  value={videoTitle}
-                  onChange={(event) => {
-                    setVideoTitle(event.target.value);
-                  }}
-                />
-                <span className="fn-color-F86B6B">
-                  <ContactSupport />
-                  <span>
-                    一个引人注目的标题可以帮助您吸引观看者。在确定视频标
-                    <br />
-                    题时，最好加入观众在查找类似视频时可能会使用的关键
-                    <br />
-                    字。
+              <Grid container spacing={4} className="item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>
+                    <span className="fn-color-F86B6B">*</span> 标题
+                  </label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <TextField
+                   
+                    variant="outlined"
+                    fullWidth
+                    value={videoTitle}
+                    onChange={(event) => {
+                      setVideoTitle(event.target.value);
+                    }}
+                  />
+                  <span className="fn-color-F86B6B">
+                    <ContactSupport />
+                    <span>
+                      一个引人注目的标题可以帮助您吸引观看者。在确定视频标
+                      <br />
+                      题时，最好加入观众在查找类似视频时可能会使用的关键
+                      <br />
+                      字。
+                    </span>
                   </span>
-                </span>
-              </div>
-              <div className="item box">
-                <label>
-                  <span className="fn-color-F86B6B">*</span> 描述
-                </label>
-                <TextField
-                  required
-                  id="standard-required"
-                  rows={3}
-                  variant="outlined"
-                  multiline
-                  fullWidth
-                  value={videodescription}
-                  onChange={(event) => {
-                    setVideodescription(event.target.value);
-                  }}
-                />
-                <span className="fn-color-F86B6B">
-                  <ContactSupport />
-                  <span>
-                    在说明中加入适当的关键字，可以帮助观看者通过搜索更轻
-                    <br />
-                    松地找到您的视频。您可以在说明中大致介绍视频的内容，
-                    <br />
-                    并将关键字放在说明的开头部
+                </Grid>
+              </Grid>
+              <Grid container spacing={4} className="item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>
+                    <span className="fn-color-F86B6B">*</span> 描述
+                  </label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <TextField
+                    required
+                    id="standard-required"
+                    rows={3}
+                    variant="outlined"
+                    multiline
+                    fullWidth
+                    value={videodescription}
+                    onChange={(event) => {
+                      setVideodescription(event.target.value);
+                    }}
+                  />
+                  <span className="fn-color-F86B6B">
+                    <ContactSupport />
+                    <span>
+                      在说明中加入适当的关键字，可以帮助观看者通过搜索更轻
+                      <br />
+                      松地找到您的视频。您可以在说明中大致介绍视频的内容，
+                      <br />
+                      并将关键字放在说明的开头部
+                    </span>
                   </span>
-                </span>
-              </div>
+                </Grid>
+              </Grid>
 
-              {/*<div className="item box">
-                <label>
-                  <span className="fn-color-F86B6B">*</span>添加标签
-                </label>
-                <p className="sign all-width">
-                  {signs.map((option, inx) => (
-                    <label key={option.name}>
-                      <input
-                        type="checkbox"
-                        name="videoSign"
-                        value={option.id}
-                        checked={
-                          videosign.indexOf(option.id) > -1 ? "checked" : false
-                        }
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            if (videosign.length > 2) {
-                              setOpenSnackbar({
-                                open: true,
-                                type: "error",
-                                msg: "最多只能选择3个标签哦!",
-                              });
-                              return;
-                            } else {
-                              let v_arr = JSON.parse(JSON.stringify(videosign));
-                              v_arr.push(event.target.value);
-                              setVideosign(v_arr);
-                            }
-                          } else {
-                            let v_arr = videosign.filter(
-                              (value) => event.target.value != value
-                            );
-                            setVideosign(v_arr);
-                          }
-                        }}
-                      />
-                      <b>{option.name}</b>
-                    </label>
-                  ))}
-                </p>
-                <span className="fn-color-F86B6B">
-                  <ContactSupport />
-                  <span>
-                    添加适当的标签，可以帮助观看者通过搜索更轻松地找到您的视频。
-                  </span>
-                </span>
-              </div>
-                      */}
-              <div className="box item">
-                <label>视频封面</label>
-                <section className="all-width">
-                  <p>
-                    选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
-                  </p>
-                  <div className="item box">
-                    {videoImg ? (
-                      <div
-                        className="file bg-all"
-                        style={{
-                          marginRight: 10,
-                        }}
-                      >
-                        {videoImg && (
-                          <img
-                            className="all-width all-height"
-                            src={videoImg}
-                          />
-                        )}
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    <div>
-                      <CuttingTemplate
-                        id="coverfile"
-                        formdata={(() => {
-                          let _formData = new FormData();
-                          _formData.append("model_action", "upload_file");
-                          _formData.append("type", "video_image");
-                          return _formData;
-                        })()}
-                        onEvent={(url) => {
-                          setVideoImg(url);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </section>
-              </div>
-
-              <div className="box item">
-                <label>系列视频</label>
-                <section style={{ width: "100%" }}>
-                  <p>
-                    将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                  </p>
-                  <section className="item">
-                    {!addseries ? (
-                      <section className="sign">
-                        <Button
-                          variant="contained"
+              <Grid container spacing={4} className="item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>视频封面</label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <section className="all-width">
+                    <p>
+                      选择或上传一张可展示您视频内容的图片。好的缩略图能脱颖而出，吸引观看者的眼球。
+                    </p>
+                    <div className="item box">
+                      {videoImg ? (
+                        <div
+                          className="file bg-all"
                           style={{
-                            margin: "0 0 12px 0",
-                            backgroundColor: "#007CFF",
-                            color: "white",
-                            padding: "3px 12px",
-                          }}
-                          onClick={() => {
-                            setAddseries(true);
-                            setSeriesImg(videoImg);
-                            return false;
+                            marginRight: 10,
                           }}
                         >
-                          <Add />
-                          新建系列
-                        </Button>
-                        <div className="line"></div>
-                        <section>
-                          {currencies.map((option, inx) => (
-                            <p key={option.title}>
-                              <input
-                                type="radio"
-                                name="gender1"
-                                checked={option.title == currency}
-                                value={option.title}
-                                id={option._id + "_" + inx}
-                                onClick={(ev) => {
-                                  if (ev.target.checked) {
-                                    ev.target.checked = false;
-                                    setCurrency("");
-                                  }
-                                }}
-                                onChange={(event) => {
-                                  setCurrency(event.target.value);
-                                }}
-                              />
+                          {videoImg && (
+                            <img
+                              className="all-width all-height"
+                              src={videoImg}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      <div>
+                        <CuttingTemplate
+                          id="coverfile"
+                          formdata={(() => {
+                            let _formData = new FormData();
+                            _formData.append("model_action", "upload_file");
+                            _formData.append("type", "video_image");
+                            return _formData;
+                          })()}
+                          onEvent={(url) => {
+                            setVideoImg(url);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </section>
+                </Grid>
+              </Grid>
 
-                              <label htmlFor={option._id + "_" + inx}>
-                                {" "}
-                                {option.title}
-                              </label>
-                            </p>
-                          ))}
-                        </section>
-                      </section>
-                    ) : (
-                      <section className="all-width sign">
-                        <div className="box all-width item">
-                          <label>
-                            <span className="fn-color-F86B6B">*</span>系列标题
-                          </label>
-                          <div className="all-width">
-                            <TextField
-                              fullWidth
-                              type="text"
-                              variant="outlined"
-                              value={newseries}
-                              onChange={(e) => {
-                                setNewseries(e.target.value);
-                              }}
-                              InputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <Cancel
-                                      onClick={() => {
-                                        setNewseries("");
-                                      }}
-                                    />
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="box all-width item">
-                          <label>系列描述</label>
-                          <div className="all-width">
-                            <TextField
-                              rows={2}
-                              variant="outlined"
-                              multiline
-                              fullWidth
-                              value={seriesdescription}
-                              onChange={(event) => {
-                                setSeriesdescription(event.target.value);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="box item">
-                          <label>系列封面</label>
-                          <div>
-                            <p>
-                              将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                            </p>
-                            <div className="box item">
-                              {seriesImg ? (
-                                <div
-                                  className="file bg-all"
-                                  style={{
-                                    marginRight: 10,
+              <Grid container spacing={4} className="box ">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>系列视频</label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <section style={{ width: "100%" }}>
+                    <p>
+                      将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+                    </p>
+                    <section className="item">
+                      {!addseries ? (
+                        <section className="sign">
+                          <Button
+                            variant="contained"
+                            style={{
+                              margin: "0 0 12px 0",
+                              backgroundColor: "#007CFF",
+                              color: "white",
+                              padding: "3px 12px",
+                            }}
+                            onClick={() => {
+                              setAddseries(true);
+                              setSeriesImg(videoImg);
+                              return false;
+                            }}
+                          >
+                            <Add />
+                            新建系列
+                          </Button>
+                          <div className="line"></div>
+                          <section>
+                            {currencies.map((option, inx) => (
+                              <p key={option.title}>
+                                <input
+                                  type="radio"
+                                  name="gender1"
+                                  checked={option.title == currency}
+                                  value={option.title}
+                                  id={option._id + "_" + inx}
+                                  onClick={(ev) => {
+                                    if (ev.target.checked) {
+                                      ev.target.checked = false;
+                                      setCurrency("");
+                                    }
                                   }}
-                                >
-                                  {seriesImg && (
-                                    <img
-                                      className="all-width all-height"
-                                      src={seriesImg}
-                                    />
-                                  )}
-                                </div>
-                              ) : (
-                                ""
-                              )}
+                                  onChange={(event) => {
+                                    setCurrency(event.target.value);
+                                  }}
+                                />
 
-                              <CuttingTemplate
-                                id="seriesfile"
-                                onEvent={(url) => {
-                                  setSeriesImg(url);
+                                <label htmlFor={option._id + "_" + inx}>
+                                  {" "}
+                                  {option.title}
+                                </label>
+                              </p>
+                            ))}
+                          </section>
+                        </section>
+                      ) : (
+                        <section className="all-width sign">
+                          <div className="box all-width item">
+                            <label>
+                              <span className="fn-color-F86B6B">*</span>系列标题
+                            </label>
+                            <div className="all-width">
+                              <TextField
+                                fullWidth
+                                type="text"
+                                variant="outlined"
+                                value={newseries}
+                                onChange={(e) => {
+                                  setNewseries(e.target.value);
+                                }}
+                                InputProps={{
+                                  endAdornment: (
+                                    <InputAdornment position="end">
+                                      <Cancel
+                                        onClick={() => {
+                                          setNewseries("");
+                                        }}
+                                      />
+                                    </InputAdornment>
+                                  ),
                                 }}
                               />
                             </div>
                           </div>
-                        </div>
+                          <div className="box all-width item">
+                            <label>系列描述</label>
+                            <div className="all-width">
+                              <TextField
+                                rows={2}
+                                variant="outlined"
+                                multiline
+                                fullWidth
+                                value={seriesdescription}
+                                onChange={(event) => {
+                                  setSeriesdescription(event.target.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="box item">
+                            <label>系列封面</label>
+                            <div>
+                              <p>
+                                将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+                              </p>
+                              <div className="box item">
+                                {seriesImg ? (
+                                  <div
+                                    className="file bg-all"
+                                    style={{
+                                      marginRight: 10,
+                                    }}
+                                  >
+                                    {seriesImg && (
+                                      <img
+                                        className="all-width all-height"
+                                        src={seriesImg}
+                                      />
+                                    )}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
 
-                        <div className="box box-end">
-                          <Button
-                            variant="contained"
-                            onClick={() => {
-                              setAddseries(false);
-                              setSeriesImg("");
-                              return false;
-                            }}
-                            className={`${classes.btn} ${classes.btn1}`}
-                          >
-                            取消
-                          </Button>
-                          &nbsp;&nbsp;
-                          <Button
-                            className={`${classes.btn} `}
-                            color="primary"
-                            variant="contained"
-                            onClick={() => {
-                              let _data = currencies;
+                                <CuttingTemplate
+                                  id="seriesfile"
+                                  onEvent={(url) => {
+                                    setSeriesImg(url);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
 
-                              if (!newseries) {
-                                setOpenSnackbar({
-                                  open: true,
-                                  type: "error",
-                                  msg: "新建系列失败，新建的标题不能为空!",
-                                });
-                                return;
-                              }
+                          <div className="box box-end">
+                            <Button
+                              variant="contained"
+                              onClick={() => {
+                                setAddseries(false);
+                                setSeriesImg("");
+                                return false;
+                              }}
+                              className={`${classes.btn} ${classes.btn1}`}
+                            >
+                              取消
+                            </Button>
+                            &nbsp;&nbsp;
+                            <Button
+                              className={`${classes.btn} `}
+                              color="primary"
+                              variant="contained"
+                              onClick={() => {
+                                let _data = currencies;
 
-                              if (
-                                _data.some(
-                                  (option) => newseries == option.title
-                                )
-                              ) {
-                                setOpenSnackbar({
-                                  open: true,
-                                  type: "error",
-                                  msg: "新建系列失败，您所新建的系列已存在!",
-                                });
-                                return;
-                              }
-                              // if (!seriesdescription) {
-                              //   setOpenSnackbar({
-                              //     open: true,
-                              //     type: "error",
-                              //     msg:
-                              //       "亲，新建了系列，系列描述不要忘记填写哦!",
-                              //   });
-                              //   return;
-                              // }
-                              if (
-                                _data.length === 0 ||
-                                !_data[_data.length - 1].type
-                              ) {
-                                _data.push({
-                                  title: newseries,
-                                  label: newseries,
-                                  type: "new",
-                                });
-                              } else {
-                                _data[_data.length - 1] = {
-                                  title: newseries,
-                                  label: newseries,
-                                  type: "new",
-                                };
-                              }
+                                if (!newseries) {
+                                  setOpenSnackbar({
+                                    open: true,
+                                    type: "error",
+                                    msg: "新建系列失败，新建的标题不能为空!",
+                                  });
+                                  return;
+                                }
 
-                              setCurrencies(_data);
-                              setAddseries(false);
-                              setCurrency(newseries);
-                              return false;
-                            }}
-                          >
-                            确认
-                          </Button>
-                        </div>
-                      </section>
-                    )}
+                                if (
+                                  _data.some(
+                                    (option) => newseries == option.title
+                                  )
+                                ) {
+                                  setOpenSnackbar({
+                                    open: true,
+                                    type: "error",
+                                    msg: "新建系列失败，您所新建的系列已存在!",
+                                  });
+                                  return;
+                                }
+                                // if (!seriesdescription) {
+                                //   setOpenSnackbar({
+                                //     open: true,
+                                //     type: "error",
+                                //     msg:
+                                //       "亲，新建了系列，系列描述不要忘记填写哦!",
+                                //   });
+                                //   return;
+                                // }
+                                if (
+                                  _data.length === 0 ||
+                                  !_data[_data.length - 1].type
+                                ) {
+                                  _data.push({
+                                    title: newseries,
+                                    label: newseries,
+                                    type: "new",
+                                  });
+                                } else {
+                                  _data[_data.length - 1] = {
+                                    title: newseries,
+                                    label: newseries,
+                                    type: "new",
+                                  };
+                                }
+
+                                setCurrencies(_data);
+                                setAddseries(false);
+                                setCurrency(newseries);
+                                return false;
+                              }}
+                            >
+                              确认
+                            </Button>
+                          </div>
+                        </section>
+                      )}
+                    </section>
                   </section>
-                </section>
-              </div>
-              <div className="box item">
-                <label>上传附件：</label>
-                <div>
-                  {/*<p style={{ marginBottom: 20 }}>
+                </Grid>
+              </Grid>
+
+              <Grid container className=" item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>上传附件：</label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <div>
+                    {/*<p style={{ marginBottom: 20 }}>
                     视频相对应的的课件（以.pdf结尾的文件）
                           </p>*/}
 
-                  {adjunct && adjunct.length > 0
-                    ? adjunct.map((option, inx) => (
-                        <p key={option.file_name}>
-                          {option.file_name}{" "}
-                          <span
-                            className="del"
-                            data-inx={inx}
-                            onClick={(event) => {
-                              let _data = event.target.dataset;
-                              if (JSON.stringify(_data) == "{}") {
-                                _data = event.target.parentNode.dataset;
+                    {adjunct && adjunct.length > 0
+                      ? adjunct.map((option, inx) => (
+                          <p key={option.file_name}>
+                            {option.file_name}{" "}
+                            <span
+                              className="del"
+                              data-inx={inx}
+                              onClick={(event) => {
+                                let _data = event.target.dataset;
                                 if (JSON.stringify(_data) == "{}") {
-                                  _data =
-                                    event.target.parentNode.parentNode.dataset;
+                                  _data = event.target.parentNode.dataset;
+                                  if (JSON.stringify(_data) == "{}") {
+                                    _data =
+                                      event.target.parentNode.parentNode
+                                        .dataset;
+                                  }
                                 }
-                              }
-                              let _old_adjunct = JSON.parse(
+                                let _old_adjunct = JSON.parse(
+                                  JSON.stringify(adjunct)
+                                );
+                                _old_adjunct.splice(_data.inx, 1);
+                                setAdjunct(_old_adjunct);
+                              }}
+                            >
+                              <HighlightOff />
+                            </span>
+                          </p>
+                        ))
+                      : ""}
+
+                    <div className={classes.textDoc}>
+                      <span
+                        className="fn-color-007CFF"
+                        onClick={() => {
+                          document.getElementById("text-doc").click();
+                        }}
+                      >
+                        <Add />
+                        点击上传课件(文档文件不能大于15M哦)
+                      </span>
+                      <input
+                        type="file"
+                        id="text-doc"
+                        style={{ width: 0, height: 0 }}
+                        onChange={(event) => {
+                          let _file = event.target.files[0];
+                          let _data = new FormData();
+                          console.log(_file);
+                          if (_file.size > 15 * 1024 * 1024) {
+                            alert("文档文件不能大于15M哦!");
+                            return;
+                          }
+
+                          _data.append("model_name", "file");
+                          _data.append("model_action", "upload_document");
+                          _data.append("type", "document");
+                          _data.append("file", _file);
+                          get_data(_data, "video").then((res) => {
+                            if (res.err == 0 && res.errmsg == "OK") {
+                              let _adjunct = JSON.parse(
                                 JSON.stringify(adjunct)
                               );
-                              _old_adjunct.splice(_data.inx, 1);
-                              setAdjunct(_old_adjunct);
-                            }}
-                          >
-                            <HighlightOff />
-                          </span>
-                        </p>
-                      ))
-                    : ""}
+                              _adjunct.push(res.result_data);
 
-                  <div className={classes.textDoc}>
-                    <span
-                      className="fn-color-007CFF"
-                      onClick={() => {
-                        document.getElementById("text-doc").click();
-                      }}
-                    >
-                      <Add />
-                      点击上传课件(文档文件不能大于15M哦)
-                    </span>
-                    <input
-                      type="file"
-                      id="text-doc"
-                      style={{ width: 0, height: 0 }}
-                      onChange={(event) => {
-                        let _file = event.target.files[0];
-                        let _data = new FormData();
-                        console.log(_file);
-                        if (_file.size > 15 * 1024 * 1024) {
-                          alert("文档文件不能大于15M哦!");
-                          return;
-                        }
-
-                        _data.append("model_name", "file");
-                        _data.append("model_action", "upload_document");
-                        _data.append("type", "document");
-                        _data.append("file", _file);
-                        get_data(_data, "video").then((res) => {
-                          if (res.err == 0 && res.errmsg == "OK") {
-                            let _adjunct = JSON.parse(JSON.stringify(adjunct));
-                            _adjunct.push(res.result_data);
-
-                            setAdjunct(_adjunct);
-                          } else {
-                            setOpenSnackbar({
-                              open: true,
-                              type: "error",
-                              msg: "上传失败!请检查文件是否为合法文档类文件哦",
-                            });
-                          }
-                        });
-                        return false;
-                      }}
-                    />
+                              setAdjunct(_adjunct);
+                            } else {
+                              setOpenSnackbar({
+                                open: true,
+                                type: "error",
+                                msg:
+                                  "上传失败!请检查文件是否为合法文档类文件哦",
+                              });
+                            }
+                          });
+                          return false;
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              </div>
-
+                </Grid>
+              </Grid>
+              <div className='item'></div>
               <div className=" box box-center">
                 <Button
                   className={`${classes.btn} ${classes.btn1}`}
@@ -821,14 +606,7 @@ export default function VideoIndex(props) {
                       });
                       return;
                     }
-                    // if (JSON.stringify(videosign) == "[]") {
-                    //   setOpenSnackbar({
-                    //     open: true,
-                    //     type: "error",
-                    //     msg: "请选择4个以下的标签！",
-                    //   });
-                    //   return;
-                    // }
+                  
 
                     let _data = {
                       task_id: JSON.parse(sessionStorage.getItem("file_data"))
@@ -875,7 +653,7 @@ export default function VideoIndex(props) {
                           type: "success",
                           msg: "上传成功,正在为你跳转个人中心作品管理页...",
                         });
-                        
+
                         sessionStorage.removeItem("file_data");
                         setTimeout(() => {
                           navigate("/users/profile");
