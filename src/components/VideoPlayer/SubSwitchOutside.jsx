@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "12px 12px",
     display: "flex",
     justifyContent: "flex-end",
+    height: 57.6,
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
