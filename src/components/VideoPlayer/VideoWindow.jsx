@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
+import withSubtitle from "./withSubtitle";
 import { startWatchRecord, endWatchRecord } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
 
@@ -72,6 +73,12 @@ class VideoWindow extends Component {
     }
   };
 
+  getPlay = () => {
+    if (this.playerRef.current) {
+      this.playerRef.current.player.play();
+    }
+  };
+
   getTrack = (info) => {
     const track = info.isLoged
       ? [
@@ -93,7 +100,7 @@ class VideoWindow extends Component {
 
   getSource = (info) => [
     {
-      src: `${info.videoPath}`,
+      src: `${info.path}`,
       type: "video/mp4",
     },
   ];
@@ -101,7 +108,7 @@ class VideoWindow extends Component {
   render() {
     const { info, loading } = this.props;
 
-    return !loading && info.videoPath ? (
+    return !loading && info.path ? (
       <ReactVideo
         videoId={info.videoId}
         ref={this.playerRef}
@@ -134,4 +141,4 @@ VideoWindow.propTypes = {
   timer: PropTypes.number,
 };
 
-export default VideoWindow;
+export default withSubtitle(VideoWindow);

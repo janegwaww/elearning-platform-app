@@ -56,6 +56,8 @@
 
     .vjs-sub-switch
       width: 10em
+      @media screen and (max-width: 960px)
+        display: none
 
     .vjs-progress-control
       order: -1
@@ -70,10 +72,10 @@
             color: rgba(252,86,89,1)
 
     .vjs-current-time
-      display: block
+      display: block !important
 
     .vjs-duration
-      display: block
+      display: block !important
       flex-grow: 1
       text-align: left
 
@@ -81,7 +83,7 @@
       display: none
 
     .vjs-time-divider
-      display: block
+      display: block !important
 
     .vjs-subs-caps-button
       order: 1
