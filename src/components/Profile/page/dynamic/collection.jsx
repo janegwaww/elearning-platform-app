@@ -94,7 +94,7 @@ export default class Collection extends React.Component {
           <Nav _inx={0} list={["我的收藏"]} parent={this} />
         </nav>
         {total_data ? (
-          <Grid container spacing={4} className="grid">
+          <Grid container spacing={3} className="grid">
             {show_data ? (
               show_data.map((option) => (
                 <Grid item xs={3} key={option.video_id || option.series_id}>
@@ -108,8 +108,8 @@ export default class Collection extends React.Component {
               ))
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notcoll} style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-size-16 profile-top-20">
+                <img src={notcoll} className='not-data'  />
+                <div className="fn-color-6f fn-r-16 profile-top-20">
                   暂无收藏
                 </div>
               </div>

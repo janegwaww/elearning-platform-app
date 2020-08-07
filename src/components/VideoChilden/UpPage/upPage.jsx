@@ -875,15 +875,7 @@ export default function VideoIndex(props) {
                           type: "success",
                           msg: "上传成功,正在为你跳转个人中心作品管理页...",
                         });
-                        sessionStorage.setItem(
-                          "now_page",
-                          JSON.stringify({
-                            parent: "CreateCenter",
-                            parent_id: 3,
-                            childPage: "作品管理",
-                            childpage_id: 0,
-                          })
-                        );
+                        
                         sessionStorage.removeItem("file_data");
                         setTimeout(() => {
                           navigate("/users/profile");
