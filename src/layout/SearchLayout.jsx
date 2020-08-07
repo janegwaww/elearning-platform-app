@@ -75,7 +75,7 @@ const SearchLayout = ({ children }) => {
             <Box className="search-input-bar">
               <SearchAutoComplete
                 refInput={refInput}
-                options={getHistory.values()}
+                options={getHistory.values}
                 onSearch={handleSearch}
                 onChange={(v) => setRefInput(v)}
                 onRemove={(v) => getHistory.remove(v)}
