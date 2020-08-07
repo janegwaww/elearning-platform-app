@@ -5,12 +5,12 @@ import SubSwitch from "./SubSwitch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "rgba(44,44,59)",
+    backgroundColor: "rgba(44,44,59,0.8)",
     color: "#fff",
-    padding: "0 12px",
+    padding: "12px 12px",
     display: "flex",
     justifyContent: "flex-end",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none",
     },
   },
