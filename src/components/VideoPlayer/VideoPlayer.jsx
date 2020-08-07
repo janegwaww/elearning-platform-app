@@ -30,7 +30,7 @@ class VideoPlayer extends Component {
 
   render() {
     const { videoInfo, loading } = this.state;
-    console.log(videoInfo)
+
     return (
       <Fragment>
         <VideoSearchWrap vid={this.props.vid} path={videoInfo.vttPath}>
