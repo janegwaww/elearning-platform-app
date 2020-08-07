@@ -13,13 +13,13 @@ import { aliPayment, verifyAliPay, aliWapPayment } from "../../services/video";
 
 const ShopBar = ({ info = {}, did }) => {
   const loginConfirm = useLoginConfirm();
-  const matchMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const matchMobile = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [paidedHref, setPaidedHref] = useState("");
 
-  const verifyIsPaided = (id) => {
-    verifyAliPay({ order_id: id }).then((data) => {
+  const verifyIsPaided = id => {
+    verifyAliPay({ order_id: id }).then(data => {
       const { file_path } = data;
       if (file_path) {
         setPaidedHref(file_path);
@@ -32,26 +32,27 @@ const ShopBar = ({ info = {}, did }) => {
     });
   };
 
-  const paymentClick = (e) => {
+  const paymentClick = e => {
     e.preventDefault();
     const { price } = info;
     !matchMobile
       ? aliPayment({ price, file_id: did, url: window.location.href }).then(
-          (data) => {
+          data => {
             if (data.url && data.order_id) {
               window.open(data.url);
               verifyIsPaided(data.order_id);
             }
             !isLoggedIn() && loginConfirm();
-          },
+          }
         )
       : aliWapPayment({ price, file_id: did, url: window.location.href }).then(
-          (data) => {
+          data => {
             if (data.url && data.order_id) {
               window.open(data.url);
+              verifyIsPaided(data.order_id);
             }
             !isLoggedIn() && loginConfirm();
-          },
+          }
         );
   };
 
