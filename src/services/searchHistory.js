@@ -12,27 +12,27 @@ const setValues = (key, values) => {
 const exportHistory = name => {
   const state = [];
   getValues(name).forEach(o => state.push(o));
-  const history = () => {};
 
-  return Object.assign(history, {
-    values() {
-      return [...new Set(state)];
+  return Object.assign(
+    {},
+    {
+      values: () => [...new Set(state)],
+      add(value) {
+        if (!value) return;
+        state.unshift(value);
+      },
+      remove(value) {
+        const index = state.indexOf(value);
+        if (index > -1) {
+          state.splice(index, 1);
+        }
+        setValues(name, state);
+      },
+      save() {
+        setValues(name, state);
+      },
     },
-    add(value) {
-      if (!value) return;
-      state.unshift(value);
-    },
-    remove(value) {
-      const index = state.indexOf(value);
-      if (index > -1) {
-        state.splice(index, 1);
-      }
-      setValues(name, state);
-    },
-    save() {
-      setValues(name, state);
-    },
-  });
+  );
 };
 
 export default exportHistory;
