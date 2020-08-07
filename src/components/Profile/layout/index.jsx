@@ -32,9 +32,9 @@ export default class MainLayout extends React.Component {
               {children}
               
               
-              <ScrollTop />
+            
             </main>
-           {/*** 
+           {/***   <ScrollTop />
             <Footer config={config} />
              */} 
             

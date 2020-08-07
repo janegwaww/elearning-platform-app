@@ -1,220 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
-
 import ProgressBar from "../../Loading/ProgressBar";
 import {
   Button,
-  Toolbar,
-  IconButton,
-  Avatar,
   TextField,
   Snackbar,
   InputAdornment,
   Grid,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/core/styles";
+import userStyles from '../components/TextStyle';
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
 import "../../../assets/css/tootls.css";
-import "../../../assets/css/container.css";
 
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data, updata_img } from "../../../assets/js/request";
 import CustomModal from "../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
-import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import ProgressBat from "../../Loading/ProgressBar";
-
 import MainLayout from "../../Profile/layout/index";
-const userStyles = makeStyles((them) => ({
-  toolbar: {
-    padding: 0,
-  },
-  btn: {
-    color: "#fff",
-    "border-radius": "16px",
-    width: "140px",
-    height: "32px",
-    "line-height": 0,
-    backgroundColor: "#007CFF",
-    margin: "0 56px",
-    "&:hover": {
-      backgroundColor: "#007CFF",
-    },
-  },
-  btn1: {
-    backgroundColor: "#f2f2f5",
-    color: "#878791",
-    margin: 0,
-    "&:hover": {
-      backgroundColor: "#878791",
-      color: "#fff",
-    },
-  },
-  avatar: {
-    width: 24,
-    height: 24,
-  },
-  save: {
-    width: 22,
-    height: 22,
-  },
-  main: {
-    padding: 40,
-    "& .MuiFormControl-fullWidth": {
-      width: "80%",
-    },
-  },
-  //   主体
-  textDoc: {
-    "& span:hover": {
-      cursor: "pointer",
-    },
-  },
-  snackbar: {
-    top: "40%",
-    transform: "translate(-50%,-50%)",
-  },
-  radiogroup: {
-    flexDirection: "row",
-  },
-  root: {
-    width: "100%",
-    fontSize: "14px",
-    "& span": {
-      display: "inline-block",
-    },
-    "& button": {
-      padding: 0,
-    },
-    "& b": {
-      fontWeight: 400,
-      display: "inline-block",
-    },
-    "& >div": {
-      alignItems: "flex-start",
-      "& .file": {
-        width: "140px",
-        height: "80px",
-        position: "relative",
-        border: "1px dashed #D5D5D5",
-        overflow: "hidden",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundSize: "100%",
-        display: "inline-block",
-        "& input": {
-          width: "100%",
-          height: "100%",
-        },
-        // "& .delete": {
-        //   position: "absolute",
-        //   top: 0,
-        //   right: 0,
-        //   color: "green",
-        //   "& :hover": {
-        //     color: "#ccc",
-        //   },
-        // },
-        // "& img": {
-        //   width: "100%",
-        //   height: "100%",
-        //   display: "block",
-        // },
-        "& label": {
-          display: "block",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          backgroundColor: "white",
-          color: "#999",
-          paddingTop: 15,
-          textAlign: "center ",
-          margin: 0,
-        },
-      },
-    },
 
-    "& p": {
-      margin: 0,
-    },
 
-    "& .sign": {
-      backgroundColor: "#F2F2F5",
-      padding: "12px",
-      "& .item": {
-        "& label:not(.not)": {
-          marginRight: 22,
-          width: 70,
-        },
-      },
-      "& label": {
-        // display: "inline-block",
-        margin: "6px",
-        minWidth: "auto",
-        fontSize: "12px",
-      },
-    },
-    "& label": {
-      minWidth: "65px",
-      transform: "translate(0, 1.5px) scale(1.1)",
-    },
-    "&  .item": {
-      marginTop: 22,
-
-      "& .del": {
-        color: "#878791",
-        "&:hover": {
-          color: "#F86B6B",
-        },
-      },
-
-      "& span": {
-        position: "relative",
-        "&:hover span": {
-          display: "block",
-        },
-
-        "& span": {
-          display: "none",
-          position: "absolute",
-          right: "-10px",
-          bottom: 0,
-          width: "397px",
-          boxShadow: "0px 0px 2px 0px rgba(118,131,144,1)",
-          color: "#666",
-          transform: "translateY(100%)",
-          zIndex: 1000,
-          padding: "16px",
-          backgroundColor: "#fff",
-        },
-      },
-    },
-    "& svg": {
-      verticalAlign: "middle",
-    },
-    "& .MuiFormControlLabel-root ": {
-      minWidth: "auto",
-      "& .MuiRadio-root": {
-        padding: 0,
-      },
-    },
-    "& .MuiOutlinedInput-input": {
-      padding: "8px 6px",
-      backgroundColor: "#fff",
-      fontSize: 14,
-    },
-    "& .MuiOutlinedInput-multiline": {
-      padding: "1px",
-    },
-    "& .MuiInputAdornment-root": {
-      fontSize: "20px",
-      color: "#D5D5D5",
-    },
-  },
-}));
 
 export default function VideoIndex(props) {
   const classes = userStyles();
@@ -228,7 +35,7 @@ export default function VideoIndex(props) {
   const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  // const [videosign, setVideosign] = React.useState([]); //视频标签
+  const [videosign, setVideosign] = React.useState([]); //视频标签
 
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
@@ -240,15 +47,35 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState(null); //附件
 
-  const [signs, setSigns] = useState([]); //标签
+  const [signs, setSigns] = useState({
+    math: "数学",
+    ai: "人工智能",
+    physics: "物理",
+    history: "历史",
+    psychology: "心理学",
+    economy: "金融经济",
+    software: "软件工程",
+    cs: "计算机科学",
+    management: "管理",
+    mechanics: "机器人工程",
+    life: "生活百科",
+    law: "法律",
+    nature: "自然",
+    health: "健康",
+    others: "其他",
+  }); //标签
   const [currencies, setCurrencies] = useState([]); //系列
+  const [authorArr, setAuthorArr] = useState([
+    { name: "登录帐号", author_description: "", key: new Date().getTime() },
+  ]);
+  const [authorvalueArr, setAuthorvalueArr] = useState([]);
+  const [price, setPrice] = useState("0.00");
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
   };
 
   useEffect(() => {
-    // let _data = JSON.parse(sessionStorage.getItem("file_data"));
     if (!isLoggedIn()) {
       alert("请先登录");
       navigate(`/users/login`);
@@ -256,50 +83,28 @@ export default function VideoIndex(props) {
     } else {
       setUserinfo(getUser());
     }
-    // if (!_data) {
-    //   alert("请先添加视频文件才能发布哦，正在跳转添加视频页...");
-    //   navigate(`/video`);
-    //   return;
-    // } else {
-    //   setFiledata(_data);
-    //   setVideoImg(_data.image_path || "");
-    //   setVideoTitle(_data.title || "");
-    //   setVideodescription(_data.description || "");
-    // }
-    // setLoginStatus(true);
-    // get_data(
-    //   {
-    //     model_name: "series",
-    //     model_action: "get_series",
-    //     "extra_data": {
-    //       user_id:_data.user_id
-    //     },
-    //   },
-    //   "video"
-    // ).then((res) => {
-    //   setLoginStatus(false);
-    //   let _currencies_data = res.result_data;
-    //   setCurrencies(_currencies_data);
-    //   _currencies_data.forEach((o, inx) => {
-    //     if (o._id == _data.series_id) {
-    //       setCurrency(o.title);
-    //       return;
-    //     }
-    //   });
-    // });
+
+    setLoginStatus(true);
+    get_data({
+      model_name: "document",
+      model_action: "get_series",
+      extra_data: {},
+      model_type: "",
+    }).then((res) => {
+      setLoginStatus(false);
+      let _currencies_data = res.result_data;
+      setCurrencies(_currencies_data);
+    });
   }, []);
   return (
     <MainLayout>
-      <section
-        style={{ height: "100vh", maxWidth: 1280, margin: "0 auto" }}
-        className="ma-container is-vertical"
-      >
+      <section style={{ maxWidth: 1280, margin: " auto " }}>
         <ProgressBar loading={loginStatus} />
 
-        <main className={`ma-main bg-f9 ${classes.main}`}>
+        <main className={` bg-f9 view-overflow ` } style={{padding:'0 40px'}}>
           <Container
-            className={`bg-white ${classes.main} `}
-            style={{ height: "100%" }}
+            className={`bg-white all-width ${classes.main} `}
+            
           >
             <nav>
               <Nav _inx={0} list={["上传文本文件/工程文件"]} props={this} />
@@ -317,7 +122,24 @@ export default function VideoIndex(props) {
                           {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
                           <span
                             className="del"
+                            title="删除课件"
                             onClick={(event) => {
+                              get_data({
+                                model_name: "document",
+                                model_action: "delete",
+                                extra_data: {
+                                  file_id: adjunct.file_id,
+                                },
+                                model_type: "",
+                              }).then((res) => {
+                                if (res.err == 0 && res.errmsg == "OK") {
+                                  new CustomModal().alert(
+                                    "删除成功",
+                                    "success",
+                                    2000
+                                  );
+                                }
+                              });
                               setAdjunct(null);
                             }}
                           >
@@ -338,24 +160,45 @@ export default function VideoIndex(props) {
                               let _file = event.target.files[0];
                               let _data = new FormData();
 
-                              if (_file.size > 15 * 1024 * 1024) {
-                                alert("文档文件不能大于15M哦!");
-                                return;
-                              }
+                              // if (_file.size > 15 * 1024 * 1024) {
+                              //   alert("文档文件不能大于15M哦!");
+                              //   return;
+                              // }
                               _data.append("model_name", "file");
                               _data.append("model_action", "upload_document");
                               _data.append("type", "document");
                               _data.append("file", _file);
                               get_data(_data).then((res) => {
-                                console.log(res);
                                 if (res.err == 0 && res.errmsg == "OK") {
+                                  setVideoImg(res.result_data.image_path);
                                   setAdjunct(res.result_data);
                                   new CustomModal().alert(
                                     "上传成功！",
                                     "success",
                                     2000
                                   );
-                                } else {
+                                } else if (res.err == -1) {
+                                  setVideoImg(res.result_data.image_path);
+                                  setAdjunct(res.result_data);
+                                  setOpenSnackbar({
+                                    open: true,
+                                    type: "error",
+                                    msg: res.errmsg,
+                                  });
+                                }else if(res.err==1){
+                                  setOpenSnackbar({
+                                    open: true,
+                                    type: "success",
+                                    msg:'该课件文件已经发布'
+                                      
+                                  });
+                                 }else if(res.err==-2){
+                                  setOpenSnackbar({
+                                    open: true,
+                                    type: "error",
+                                    msg:'课件正在审核中...',
+                                  });
+                                 } else {
                                   setOpenSnackbar({
                                     open: true,
                                     type: "error",
@@ -373,51 +216,104 @@ export default function VideoIndex(props) {
                   </Grid>
                 </Grid>
                 <div>
-                  <div>
-                    <Grid container spacing={4} className="item">
-                      <Grid item xs={4} sm={3} md={2} className="text-right">
-                        <label>
-                          <span className="fn-color-F86B6B">*</span> 作者：
-                        </label>
+                  {authorArr.map((opt, inx) => (
+                    <div key={opt.key}>
+                      <Grid container spacing={4} className="item">
+                        <Grid item xs={4} sm={3} md={2} className="text-right">
+                          <label>
+                            <span className="fn-color-F86B6B">*</span> 作者：
+                          </label>
+                        </Grid>
+                        <Grid item xs={8} sm={9} md={10}>
+                          <TextField
+                            required
+                            variant="outlined"
+                            data-inx={inx}
+                            onChange={(event) => {
+                              let _data =
+                                event.target.parentNode.parentNode.dataset;
+                              setAuthorvalueArr((old) => {
+                                let _value = old[_data.inx] || {};
+                                _value.name = event.target.value;
+                                old[_data.inx] = _value;
+                                return old;
+                              });
+                            }}
+                          />
+                          &nbsp;&nbsp;
+                          {inx > 0 && (
+                            <span
+                              className="del"
+                              data-inx={inx}
+                              title="要删除此作者么？"
+                              onClick={(event) => {
+                                let _data = event.target.dataset;
+                                if (JSON.stringify(_data) == "{}") {
+                                  _data = event.target.parentNode.dataset;
+                                }
+                                setAuthorArr((old) => {
+                                  let _new = JSON.parse(JSON.stringify(old));
+                                  _new.splice(_data.inx, 1);
+                                  return _new;
+                                });
+                              }}
+                            >
+                              <HighlightOff />
+                            </span>
+                          )}
+                        </Grid>
                       </Grid>
-                      <Grid item xs={8} sm={9} md={10}>
-                        <TextField
-                          required
-                          id="standard-required"
-                          variant="outlined"
-                          value={videoTitle}
-                          onChange={(event) => {
-                            setVideoTitle(event.target.value);
+                      <Grid container spacing={4} className="item ">
+                        <Grid item xs={4} sm={3} md={2} className="text-right">
+                          <label>作者简介：</label>
+                        </Grid>
+                        <Grid item xs={8} sm={9} md={10}>
+                          <TextField
+                            data-inx={inx}
+                            rows={3}
+                            variant="outlined"
+                            multiline
+                            fullWidth
+                            onChange={(event) => {
+                              let _data =
+                                event.target.parentNode.parentNode.dataset;
+                              setAuthorvalueArr((old) => {
+                                let _value = old[_data.inx] || {};
+                                _value.introduction = event.target.value;
+                                old[_data.inx] = _value;
+                                return old;
+                              });
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                    </div>
+                  ))}
+                  <Grid container spacing={4}>
+                    <Grid item xs={4} sm={3} md={2}></Grid>
+                    <Grid item xs={8} sm={9} md={10}>
+                      <div className={classes.textDoc}>
+                        <span
+                          className="fn-color-007CFF"
+                          onClick={() => {
+                            console.log(123);
+                            setAuthorArr((old) => {
+                              let _old = JSON.parse(JSON.stringify(old));
+                              _old.push({
+                                name: "登录帐号",
+                                author_description: "",
+                                key: new Date().getTime(),
+                              });
+                              return _old;
+                            });
                           }}
-                        />
-                      </Grid>
+                        >
+                          <Add />
+                          点击添加作者
+                        </span>
+                      </div>
                     </Grid>
-
-                    <Grid container spacing={4} className="item ">
-                      <Grid item xs={4} sm={3} md={2} className="text-right">
-                        <label>作者简介：</label>
-                      </Grid>
-                      <Grid item xs={8} sm={9} md={10}>
-                        <TextField
-                          required
-                          id="standard-required"
-                          rows={3}
-                          variant="outlined"
-                          multiline
-                          fullWidth
-                          value={videodescription}
-                          onChange={(event) => {
-                            setVideodescription(event.target.value);
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                  <span>
-                    {" "}
-                    <Add />
-                    点击上传课件
-                  </span>
+                  </Grid>
                 </div>
 
                 <Grid container spacing={4} className="item">
@@ -489,16 +385,15 @@ export default function VideoIndex(props) {
                   </Grid>
                   <Grid item xs={8} sm={9} md={10}>
                     <div className="sign all-width">
-                      {signs.map((option, inx) => (
-                        <label key={option.name}>
+                      {Object.keys(signs).map((va) => (
+                        <span key={va}>
                           <input
                             type="checkbox"
                             name="videoSign"
-                            value={option.id}
+                            id={va}
+                            value={va}
                             checked={
-                              videosign.indexOf(option.id) > -1
-                                ? "checked"
-                                : false
+                              videosign.indexOf(va) > -1 ? "checked" : false
                             }
                             onChange={(event) => {
                               if (event.target.checked) {
@@ -520,12 +415,13 @@ export default function VideoIndex(props) {
                                 let v_arr = videosign.filter(
                                   (value) => event.target.value != value
                                 );
+
                                 setVideosign(v_arr);
                               }
                             }}
                           />
-                          <b>{option.name}</b>
-                        </label>
+                          <label htmlFor={va}>{signs[va]}</label>
+                        </span>
                       ))}
                     </div>
                   </Grid>
@@ -540,15 +436,26 @@ export default function VideoIndex(props) {
                       <span>人民币</span>&nbsp;&nbsp;
                       <TextField
                         style={{ width: "5rem" }}
-                        id="standard-required"
                         variant="outlined"
-                        value={videoTitle}
+                        placeholder="0.00"
+                        value={price}
                         onChange={(event) => {
-                          setVideoTitle(event.target.value);
+                          let _v = event.target.value;
+                          _v = _v.match(/^[0-9]+(.[0-9]{0,2})?$/g);
+                          if (!_v) {
+                            _v = "";
+                          } else {
+                            _v = _v[0];
+                          }
+
+                          setPrice(_v);
                         }}
                       />
                       &nbsp;&nbsp;
                       <span>元</span>
+                      <p className="fn-color-F86B6B">
+                        请输入正整数或者带两位小数的数字
+                      </p>
                     </div>
                   </Grid>
                 </Grid>
@@ -834,27 +741,39 @@ export default function VideoIndex(props) {
                     className={classes.btn}
                     color="primary"
                     disabled={
-                      addseries || !videoTitle || !videodescription
+                      !adjunct || addseries || !videoTitle || !videodescription
                         ? true
                         : false
                     }
                     onClick={() => {
-                      if (!videoTitle) {
+                      if (!adjunct) {
                         setOpenSnackbar({
                           open: true,
                           type: "error",
-                          msg: "视频标题不能为空！",
+                          msg: "课件不能为空！",
                         });
                         return;
                       }
-                      if (!videodescription) {
+
+                      if (authorvalueArr.length > 0) {
+                        let _is_true = authorvalueArr.every((opt) => opt.name);
+                        if (!_is_true) {
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "一个作者或多个作者不能为空！",
+                          });
+                          return;
+                        }
+                      } else {
                         setOpenSnackbar({
                           open: true,
                           type: "error",
-                          msg: "视频描述不能为空！",
+                          msg: "作者不能为空！",
                         });
                         return;
                       }
+
                       // if (JSON.stringify(videosign) == "[]") {
                       //   setOpenSnackbar({
                       //     open: true,
@@ -865,15 +784,15 @@ export default function VideoIndex(props) {
                       // }
 
                       let _data = {
-                        task_id: JSON.parse(sessionStorage.getItem("file_data"))
-                          .video_id,
-                        title: videoTitle,
+                        file_name: videoTitle || adjunct.file_name,
                         description: videodescription,
-                        // category: videosign,
+                        file_path: adjunct.file_path,
+                        image_path: adjunct.image_path,
+                        price: parseFloat(price) || 0,
+                        category: videosign,
+                        author: authorvalueArr,
                       };
-                      if (videoImg) {
-                        _data.image_path = videoImg;
-                      }
+
                       if (currency) {
                         let isNew = currencies.some((option) => {
                           if (option.title == currency) {
@@ -891,34 +810,23 @@ export default function VideoIndex(props) {
                         _data.series_title = currency;
                       }
 
-                      if (JSON.stringify(adjunct) != "[]") {
+                      if (adjunct) {
                         _data.document = adjunct;
                       }
-
-                      get_data(
-                        {
-                          model_name: "video",
-                          model_action: "check",
-                          extra_data: _data,
-                        },
-                        "video"
-                      ).then((res) => {
+                      setLoginStatus(true);
+                      get_data({
+                        model_name: "document",
+                        model_action: "check",
+                        extra_data: _data,
+                      }).then((res) => {
+                        setLoginStatus(false);
                         if (res.err == 0 && res.errmsg == "OK") {
                           setOpenSnackbar({
                             open: true,
                             type: "success",
                             msg: "上传成功,正在为你跳转个人中心作品管理页...",
                           });
-                          sessionStorage.setItem(
-                            "now_page",
-                            JSON.stringify({
-                              parent: "CreateCenter",
-                              parent_id: 3,
-                              childPage: "作品管理",
-                              childpage_id: 0,
-                            })
-                          );
-                          sessionStorage.removeItem("file_data");
+
                           setTimeout(() => {
                             navigate("/users/profile");
                           }, 4000);
@@ -938,16 +846,19 @@ export default function VideoIndex(props) {
                   </Button>
                   <Button
                     className={`${classes.btn} ${classes.btn1}`}
+                    type="reset"
                     onClick={() => {
                       setVideoTitle("");
                       setVideodescription("");
-                      // setVideosign([]);
-                      // setVideoImg("");
+                      setVideosign([]);
+                      setVideoImg("");
                       setCurrency("");
                       setNewseries("");
                       setSeriesdescription("");
                       setSeriesImg("");
-                      setAdjunct([]);
+                      setPrice("");
+                      setAdjunct(null);
+                      setAuthorvalueArr([]);
                       return false;
                     }}
                   >

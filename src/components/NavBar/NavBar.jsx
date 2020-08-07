@@ -158,14 +158,14 @@ const PrimarySearchAppBar = () => {
               <AvatarMenu />
             </div>
             <div>
-             {/**  <ContributeMenu />*/}
+              <ContributeMenu />
 
-               <Button 
+              {/**  <Button 
                 className={classes.createButton}
                 onClick={() => navigate("/video/")}
               >
                 <Typography>投稿</Typography>
-              </Button>
+              </Button>*/}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
