@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { root } from "c:/users/chen-web/appdata/local/microsoft/typescript/3.9/node_modules/postcss/lib/postcss";
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -35,7 +34,7 @@ const userStyles = makeStyles((them) => ({
   },
   main: {
     padding: 40,
-  
+
     "& .MuiFormControl-fullWidth": {
       width: "80%",
     },
@@ -58,11 +57,11 @@ const userStyles = makeStyles((them) => ({
     fontSize: "14px",
     "& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused": {
       border: "2px solid #007cff",
-      "& .MuiOutlinedInput-notchedOutline":{
-        borderColor:'white'
-      }
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "white",
+      },
     },
-   
+
     "& .MuiOutlinedInput-notchedOutline": {
       top: -4,
     },
@@ -180,4 +179,4 @@ const userStyles = makeStyles((them) => ({
     },
   },
 }));
-  export default userStyles;
+export default userStyles;
