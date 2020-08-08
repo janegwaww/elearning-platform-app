@@ -9,7 +9,10 @@ import {settings_html} from '../assets/js/totls';
 class DocumentPage extends Component {
   componentDidMount() {
     settings_html();
-    let _w = window.screen.width; 
+    
+  }
+  componentWillUnmount(){
+    document.querySelector('html').style.fontSize="medium";
   }
   render() {
     return (

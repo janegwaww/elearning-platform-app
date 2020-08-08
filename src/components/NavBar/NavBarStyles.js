@@ -80,6 +80,7 @@ const useStyles = makeStyles(theme => ({
     padding: "6px 14px",
     borderRadius: "50px",
     float: "right",
+    fontSize:14,
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
