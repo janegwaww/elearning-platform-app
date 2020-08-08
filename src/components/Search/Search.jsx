@@ -9,10 +9,19 @@ import { searchGlobal } from "../../services/home";
 import { kGlobalSearchRecord } from "../../services/userActiveRecord";
 import "./SearchStyles.sass";
 
+const iterateItems = (arr = []) => {
+  // iterate there
+  return arr.slice(0, 12).map((o, i) => (
+    <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
+      <SearchCard card={o} />
+    </div>
+  ));
+};
+
 const Search = ({ input }) => {
   const [result, setResult] = useState([]);
   const [type, setType] = useState("all");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [num, setNum] = useState(0);
 
   // fetch data from api
@@ -23,7 +32,7 @@ const Search = ({ input }) => {
       video_ids: [],
       max_size: 12,
       type,
-      page,
+      page
     }).then(({ resultData = [], count = 0 }) => {
       setResult(resultData);
       setNum(count);
@@ -32,7 +41,7 @@ const Search = ({ input }) => {
     });
   };
 
-  const handleTypeClick = (cate) => {
+  const handleTypeClick = cate => {
     setType(cate);
   };
 
@@ -46,22 +55,13 @@ const Search = ({ input }) => {
     }
   }, [input, type]);
 
-  const iterateItems = (arr = []) => {
-    // iterate there
-    return arr.slice(0, 12).map((o, i) => (
-      <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
-        <SearchCard card={o} />
-      </div>
-    ));
-  };
-
   return (
     <div className="search-root">
       <div style={{ height: 40 }} />
       <Typography
         noWrap
         dangerouslySetInnerHTML={{
-          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
+          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`
         }}
       />
       <div style={{ height: 10 }} />

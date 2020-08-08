@@ -1,23 +1,23 @@
 import React from "react";
 import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
+/* import NotificationsIcon from "@material-ui/icons/Notifications"; */
+/* import MoreIcon from "@material-ui/icons/MoreVert"; */
 import {
   Toolbar,
-  Menu,
-  MenuItem,
-  Badge,
   InputBase,
   Typography,
-  IconButton,
   AppBar,
   Button,
   InputAdornment,
   Link,
   ButtonBase,
-  Box,
   Tooltip
+  /* Menu,
+   * MenuItem,
+   * Badge,
+   * IconButton,
+   * Box, */
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
@@ -27,16 +27,16 @@ import { searchUrlParams } from "../../services/utils";
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  /* const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null); */
+  /* const isMobileMenuOpen = Boolean(mobileMoreAnchorEl); */
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+  /* const handleMobileMenuClose = () => {
+   *   setMobileMoreAnchorEl(null);
+   * }; */
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  /* const handleMobileMenuOpen = event => {
+   *   setMobileMoreAnchorEl(event.currentTarget);
+   * }; */
 
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
@@ -45,48 +45,48 @@ const PrimarySearchAppBar = () => {
     }
   };
 
-  const handleEnter = (e) => {
+  const handleEnter = e => {
     if (e.key === "Enter") {
       handleSearchClick();
     }
   };
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-      classes={{ list: classes.list }}
-    >
-      <MenuItem>
-        <ButtonBase color="inherit" onClick={() => navigate("/")}>
-          <Typography>知擎首页</Typography>
-        </ButtonBase>
-      </MenuItem>
-      <MenuItem>
-        <ButtonBase disabled onClick={() => navigate("/joinscholar/")}>
-          <Typography color="textSecondary">加盟学者</Typography>
-        </ButtonBase>
-      </MenuItem>
-      {/* <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-      </MenuItem> */}
-      <MenuItem>
-        <Box display="flex" justifyContent="center" width="100%">
-          <AvatarMenu />
-        </Box>
-      </MenuItem>
-    </Menu>
-  );
+  /* const mobileMenuId = "primary-search-account-menu-mobile";
+   * const renderMobileMenu = (
+   *   <Menu
+   *     anchorEl={mobileMoreAnchorEl}
+   *     anchorOrigin={{ vertical: "top", horizontal: "right" }}
+   *     id={mobileMenuId}
+   *     keepMounted
+   *     transformOrigin={{ vertical: "top", horizontal: "right" }}
+   *     open={isMobileMenuOpen}
+   *     onClose={handleMobileMenuClose}
+   *     classes={{ list: classes.list }}
+   *   >
+   *     <MenuItem>
+   *       <ButtonBase color="inherit" onClick={() => navigate("/")}>
+   *         <Typography>知擎首页</Typography>
+   *       </ButtonBase>
+   *     </MenuItem>
+   *     <MenuItem>
+   *       <ButtonBase disabled onClick={() => navigate("/joinscholar/")}>
+   *         <Typography color="textSecondary">加盟学者</Typography>
+   *       </ButtonBase>
+   *     </MenuItem>
+   *     <MenuItem>
+   *       <IconButton aria-label="show 11 new notifications" color="inherit">
+   *         <Badge badgeContent={11} color="secondary">
+   *           <NotificationsIcon />
+   *         </Badge>
+   *       </IconButton>
+   *     </MenuItem>
+   *     <MenuItem>
+   *       <Box display="flex" justifyContent="center" width="100%">
+   *         <AvatarMenu />
+   *       </Box>
+   *     </MenuItem>
+   *   </Menu>
+   * ); */
 
   return (
     <div className={classes.grow}>
@@ -171,21 +171,21 @@ const PrimarySearchAppBar = () => {
                 <Typography>投稿</Typography>
               </Button>
             </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
+            {/* <div className={classes.sectionMobile}>
+                <IconButton
                 aria-label="show more"
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
                 onClick={handleMobileMenuOpen}
                 color="inherit"
-              >
+                >
                 <MoreIcon />
-              </IconButton>
-            </div>
+                </IconButton>
+                </div> */}
           </Toolbar>
         </Container>
       </AppBar>
-      {renderMobileMenu}
+      {/* {renderMobileMenu} */}
     </div>
   );
 };
