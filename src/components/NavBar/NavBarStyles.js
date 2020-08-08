@@ -101,6 +101,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     width: "calc(12%)",
     [theme.breakpoints.down("md")]: {
+      marginRight: 0,
       width: "calc(50%)"
     }
   },
