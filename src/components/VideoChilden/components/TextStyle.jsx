@@ -114,18 +114,13 @@ const userStyles = makeStyles((them) => ({
     "& .sign": {
       backgroundColor: "#F2F2F5",
       padding: "12px",
-      "& .item": {
-        "& label:not(.not)": {
-          marginRight: 22,
-          width: 70,
-        },
-      },
-      "& label": {
-        // display: "inline-block",
-        margin: "6px",
-        minWidth: "auto",
-        fontSize: "12px",
-      },
+     
+      // "& label": {
+      //   // display: "inline-block",
+      //   margin: "6px",
+      //   minWidth: "auto",
+      //   fontSize: "12px",
+      // },
     },
     "& label": {
       minWidth: "65px",

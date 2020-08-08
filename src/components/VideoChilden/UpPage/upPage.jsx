@@ -192,7 +192,7 @@ export default function VideoIndex(props) {
                 <Grid item xs={8} sm={9} md={10}>
                   <TextField
                     required
-                    id="standard-required"
+                    
                     rows={3}
                     variant="outlined"
                     multiline
@@ -321,11 +321,14 @@ export default function VideoIndex(props) {
                         </section>
                       ) : (
                         <section className="all-width sign">
-                          <div className="box all-width item">
+                        <Grid container spacing={4} className="item ">
+                  <Grid item xs={4} sm={3} md={2} className="text-right">
                             <label>
                               <span className="fn-color-F86B6B">*</span>系列标题
                             </label>
-                            <div className="all-width">
+                            </Grid>
+                            <Grid item xs={8} sm={9} md={10} >
+                            
                               <TextField
                                 fullWidth
                                 type="text"
@@ -346,11 +349,14 @@ export default function VideoIndex(props) {
                                   ),
                                 }}
                               />
-                            </div>
-                          </div>
-                          <div className="box all-width item">
+                              </Grid>
+                            </Grid>
+                          <Grid container spacing={4} className=" item">
+                          <Grid item xs={4} sm={3} md={2} className="text-right">
                             <label>系列描述</label>
-                            <div className="all-width">
+                            </Grid>
+                            <Grid item xs={8} sm={9} md={10} >
+                        
                               <TextField
                                 rows={2}
                                 variant="outlined"
@@ -361,10 +367,13 @@ export default function VideoIndex(props) {
                                   setSeriesdescription(event.target.value);
                                 }}
                               />
-                            </div>
-                          </div>
-                          <div className="box item">
+                              </Grid>
+                              </Grid>
+                              <Grid container spacing={4} className=" item">
+                              <Grid item xs={4} sm={3} md={2} className="text-right">
                             <label>系列封面</label>
+                            </Grid>
+                            <Grid item xs={8} sm={9} md={10} >
                             <div>
                               <p>
                                 将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
@@ -395,10 +404,11 @@ export default function VideoIndex(props) {
                                   }}
                                 />
                               </div>
-                            </div>
-                          </div>
-
-                          <div className="box box-end">
+                              </div>
+                              </Grid>
+                            </Grid>
+                          <div className='item'></div>
+                          <div className="box box-center">
                             <Button
                               variant="contained"
                               onClick={() => {
@@ -481,7 +491,7 @@ export default function VideoIndex(props) {
                 </Grid>
               </Grid>
 
-              <Grid container className=" item">
+              <Grid container spacing={4} className=" item">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>上传附件：</label>
                 </Grid>
@@ -572,6 +582,7 @@ export default function VideoIndex(props) {
                   </div>
                 </Grid>
               </Grid>
+              <div className='item' style={{height:1}}></div>
               <div className='item'></div>
               <div className=" box box-center">
                 <Button

@@ -9,7 +9,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import userStyles from '../components/TextStyle';
+import userStyles from "../components/TextStyle";
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
 import "../../../assets/css/tootls.css";
 
@@ -20,8 +20,6 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
-
-
 
 export default function VideoIndex(props) {
   const classes = userStyles();
@@ -101,11 +99,8 @@ export default function VideoIndex(props) {
       <section style={{ maxWidth: 1280, margin: " auto " }}>
         <ProgressBar loading={loginStatus} />
 
-        <main className={` bg-f9 view-overflow ` } style={{padding:'0 40px'}}>
-          <Container
-            className={`bg-white all-width ${classes.main} `}
-            
-          >
+        <main className={` bg-f9 view-overflow `} style={{ padding: "0 40px" }}>
+          <Container className={`bg-white all-width ${classes.main} `}>
             <nav>
               <Nav _inx={0} list={["上传文本文件/工程文件"]} props={this} />
             </nav>
@@ -185,20 +180,19 @@ export default function VideoIndex(props) {
                                     type: "error",
                                     msg: res.errmsg,
                                   });
-                                }else if(res.err==1){
+                                } else if (res.err == 1) {
                                   setOpenSnackbar({
                                     open: true,
                                     type: "success",
-                                    msg:'该课件文件已经发布'
-                                      
+                                    msg: "该课件文件已经发布",
                                   });
-                                 }else if(res.err==-2){
+                                } else if (res.err == -2) {
                                   setOpenSnackbar({
                                     open: true,
                                     type: "error",
-                                    msg:'课件正在审核中...',
+                                    msg: "课件正在审核中...",
                                   });
-                                 } else {
+                                } else {
                                   setOpenSnackbar({
                                     open: true,
                                     type: "error",
@@ -325,7 +319,7 @@ export default function VideoIndex(props) {
                   <Grid item xs={8} sm={9} md={10}>
                     <TextField
                       required
-                      id="standard-required"
+                     
                       variant="outlined"
                       fullWidth
                       value={videoTitle}
@@ -354,7 +348,7 @@ export default function VideoIndex(props) {
                   <Grid item xs={8} sm={9} md={10}>
                     <TextField
                       required
-                      id="standard-required"
+                      
                       rows={3}
                       variant="outlined"
                       multiline
@@ -386,7 +380,7 @@ export default function VideoIndex(props) {
                   <Grid item xs={8} sm={9} md={10}>
                     <div className="sign all-width">
                       {Object.keys(signs).map((va) => (
-                        <span key={va}>
+                        <span key={va} style={{padding:5}}>
                           <input
                             type="checkbox"
                             name="videoSign"
@@ -433,6 +427,7 @@ export default function VideoIndex(props) {
                   </Grid>
                   <Grid item xs={8} sm={9} md={10}>
                     <div>
+                          <div className='box box-align-center'>
                       <span>人民币</span>&nbsp;&nbsp;
                       <TextField
                         style={{ width: "5rem" }}
@@ -453,6 +448,7 @@ export default function VideoIndex(props) {
                       />
                       &nbsp;&nbsp;
                       <span>元</span>
+                      </div>
                       <p className="fn-color-F86B6B">
                         请输入正整数或者带两位小数的数字
                       </p>
@@ -565,12 +561,20 @@ export default function VideoIndex(props) {
                           </section>
                         ) : (
                           <section className="all-width sign">
-                            <div className="box all-width item">
+                          <Grid container spacing={4} className=" item">
+                          <Grid
+                          item
+                          xs={4}
+                          sm={3}
+                          md={2}
+                          className="text-right"
+                        >
                               <label>
                                 <span className="fn-color-F86B6B">*</span>
-                                系列标题
+                                系列标题：
                               </label>
-                              <div className="all-width">
+                              </Grid>
+                              <Grid item xs={8} sm={9} md={10} >
                                 <TextField
                                   fullWidth
                                   type="text"
@@ -591,11 +595,19 @@ export default function VideoIndex(props) {
                                     ),
                                   }}
                                 />
-                              </div>
-                            </div>
-                            <div className="box all-width item">
-                              <label>系列描述</label>
-                              <div className="all-width">
+                              </Grid>
+                            </Grid>
+                            <Grid container spacing={4} className=" item">
+                              <Grid
+                                item
+                                xs={4}
+                                sm={3}
+                                md={2}
+                                className="text-right"
+                              >
+                                <label>系列描述：</label>
+                              </Grid>
+                              <Grid item xs={8} sm={9} md={10}>
                                 <TextField
                                   rows={2}
                                   variant="outlined"
@@ -606,44 +618,55 @@ export default function VideoIndex(props) {
                                     setSeriesdescription(event.target.value);
                                   }}
                                 />
-                              </div>
-                            </div>
-                            <div className="box item">
-                              <label>系列封面</label>
-                              <div>
-                                <p>
-                                  将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                                </p>
-                                <div className="box item">
-                                  {seriesImg ? (
-                                    <div
-                                      className="file bg-all"
-                                      style={{
-                                        marginRight: 10,
+                              </Grid>
+                            </Grid>
+
+                            <Grid container spacing={4} className=" item">
+                              <Grid
+                                item
+                                xs={4}
+                                sm={3}
+                                md={2}
+                                className="text-right"
+                              >
+                                <label>系列封面：</label>
+                              </Grid>
+                              <Grid item xs={8} sm={9} md={10}>
+                                <div>
+                                  <p>
+                                    将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+                                  </p>
+                                  <div className="box item">
+                                    {seriesImg ? (
+                                      <div
+                                        className="file bg-all"
+                                        style={{
+                                          marginRight: 10,
+                                        }}
+                                      >
+                                        {seriesImg && (
+                                          <img
+                                            className="all-width all-height"
+                                            src={seriesImg}
+                                          />
+                                        )}
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+
+                                    <CuttingTemplate
+                                      id="seriesfile"
+                                      onEvent={(url) => {
+                                        setSeriesImg(url);
                                       }}
-                                    >
-                                      {seriesImg && (
-                                        <img
-                                          className="all-width all-height"
-                                          src={seriesImg}
-                                        />
-                                      )}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  <CuttingTemplate
-                                    id="seriesfile"
-                                    onEvent={(url) => {
-                                      setSeriesImg(url);
-                                    }}
-                                  />
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-
-                            <div className="box box-end">
+                              </Grid>
+                            </Grid>
+                            <div className="item"></div>
+                            <div className="box box-center">
                               <Button
                                 variant="contained"
                                 onClick={() => {
@@ -726,6 +749,7 @@ export default function VideoIndex(props) {
                     </section>
                   </Grid>
                 </Grid>
+                <div className="item" style={{ height: 1 }}></div>
                 <div className="item"></div>
                 <div className=" box box-center">
                   <Button
@@ -741,7 +765,7 @@ export default function VideoIndex(props) {
                     className={classes.btn}
                     color="primary"
                     disabled={
-                      !adjunct || addseries || !videoTitle || !videodescription
+                      !adjunct || addseries || !videoTitle || !videodescription||videosign.length<=0
                         ? true
                         : false
                     }
@@ -774,14 +798,14 @@ export default function VideoIndex(props) {
                         return;
                       }
 
-                      // if (JSON.stringify(videosign) == "[]") {
-                      //   setOpenSnackbar({
-                      //     open: true,
-                      //     type: "error",
-                      //     msg: "请选择4个以下的标签！",
-                      //   });
-                      //   return;
-                      // }
+                      if (JSON.stringify(videosign) == "[]") {
+                        setOpenSnackbar({
+                          open: true,
+                          type: "error",
+                          msg: "请选择4个以下的标签！",
+                        });
+                        return;
+                      }
 
                       let _data = {
                         file_name: videoTitle || adjunct.file_name,
