@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 
-import ProgressBar from "../../Loading/ProgressBar";
+import ProgressBar from "../../../assets/template/ProgressBar";
 import {
   Button,
   Toolbar,
@@ -15,8 +15,7 @@ import {
 import Alert from "@material-ui/lab/Alert";
 
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
-import "../../../assets/css/tootls.css";
-import "../../../assets/css/container.css";
+
 
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data } from "../../../assets/js/request";
@@ -667,7 +666,7 @@ export default function VideoIndex(props) {
 
                         sessionStorage.removeItem("file_data");
                         setTimeout(() => {
-                          navigate("/users/profile");
+                          navigate("/users/profile/workscenter/draft");
                         }, 4000);
                       } else {
                         setOpenSnackbar({

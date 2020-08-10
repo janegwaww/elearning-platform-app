@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
-import ProgressBar from "../../Loading/ProgressBar";
+import ProgressBar from "../../../assets/template/ProgressBar";
 import {
   Button,
   TextField,
@@ -11,8 +11,6 @@ import {
 import Alert from "@material-ui/lab/Alert";
 import userStyles from "../components/TextStyle";
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
-import "../../../assets/css/tootls.css";
-
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data, updata_img } from "../../../assets/js/request";
 import CustomModal from "../../../assets/js/CustomModal";
@@ -98,7 +96,7 @@ export default function VideoIndex(props) {
     <MainLayout>
       <section style={{ maxWidth: 1280, margin: " auto " }}>
         <ProgressBar loading={loginStatus} />
-
+        
         <main className={` bg-f9 view-overflow `} style={{ padding: "0 40px" }}>
           <Container className={`bg-white all-width ${classes.main} `}>
             <nav>

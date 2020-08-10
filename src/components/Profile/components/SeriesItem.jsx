@@ -1,24 +1,7 @@
 import React from "react";
-import {
-  MoreHorizOutlined,
-  Details,
-  FavoriteBorder,
-  ChatBubbleOutlineOutlined,
-  Delete,
-  Share,
-  AddCircle,
-  Description,
-} from "@material-ui/icons";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  Grid,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import { Details, FavoriteBorder, Description } from "@material-ui/icons";
+
+import { Tooltip, Typography } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 
 import { get_date } from "../../../assets/js/totls";
@@ -27,17 +10,15 @@ import { ModalDialog } from "./Modal";
 
 import CustomModal from "../../../assets/js/CustomModal";
 import { navigate } from "@reach/router";
-import EditDialog from "./EditDialog";
+import LazyLoad from 'react-lazyload';
 import userStyles from "./profileStyle";
 import del from "../../../assets/img/del.png";
-
 
 import { ShareDialog, SericesMenu, VideoMenu } from "./ShareDialog";
 
 // 系列横向item
 
 const stop_run = (prevValue, nextValue) => {
- 
   return false;
 };
 
@@ -46,7 +27,7 @@ const return_html = (info, type) => {
   let _html = null;
   if (type == "video") {
     _html = (
-      <div  >
+      <div>
         <Link
           color="inherit"
           underline="none"
@@ -54,13 +35,18 @@ const return_html = (info, type) => {
           target="_blank"
         >
           <div className="box  fn-size-12">
-            <div
-             className="profile-item-img-box bg-all" 
-             
-            >
-            {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} alt=''/>)}
+            <div className="profile-item-img-box bg-all">
+              {info && info.image_path && (
+                <LazyLoad height='100%'>
+                <img
+                  className="all-height all-width"
+                  src={info.image_path}
+                  alt=""
+                />
+                </LazyLoad>
+              )}
               <p className="profile-time fn-color-white fn-size-12 p">
-              {info.video_time}
+                {info.video_time}
               </p>
             </div>
             <div
@@ -72,16 +58,13 @@ const return_html = (info, type) => {
                   title={info.title || info.series_title}
                   classes={{ tooltip: classes.noMaxWidth }}
                   placement="top-start"
-                  
                 >
                   <Typography
                     className="text-overflow p"
                     style={{ fontSize: 16 }}
                   >
                     {info.document_counts > 0 && (
-                      <span
-                        className="fn-color-white fn-size-12 profile-sign"
-                      >
+                      <span className="fn-color-white fn-size-12 profile-sign">
                         <Description
                           style={{
                             width: 16,
@@ -127,24 +110,23 @@ const return_html = (info, type) => {
                     </div>
                   )}
                 </div>
-                  <div className="fn-color-565663 profile-point all-width">
-                    <span>
-                      <Details />
-                      &nbsp;&nbsp;
-                      {info ? info.view_counts || 0 : 0}
-                    </span>
-                    <span>
-                      <FavoriteBorder />
-                      &nbsp;&nbsp;
-                      {(info && info.like_counts) || 0}
-                    </span>
-                    {/*<span>
+                <div className="fn-color-565663 profile-point all-width">
+                  <span>
+                    <Details />
+                    &nbsp;&nbsp;
+                    {info ? info.view_counts || 0 : 0}
+                  </span>
+                  <span>
+                    <FavoriteBorder />
+                    &nbsp;&nbsp;
+                    {(info && info.like_counts) || 0}
+                  </span>
+                  {/*<span>
                 <ChatBubbleOutlineOutlined />
                 &nbsp;&nbsp;
                 {(props.info && props.info.comment_counts) || 0}
               </span>*/}
-                  </div>
-               
+                </div>
               </div>
             </div>
           </div>
@@ -153,14 +135,19 @@ const return_html = (info, type) => {
     );
   } else {
     _html = (
-      <div className={` box fn-size-12 ${type=='series'?'p':''}`}>
-        <div
-          className="profile-item-img-box bg-all"  >
-          
-          {info && info.image_path&&(<img className='all-height all-width' src={info.image_path} />)}
-          <p className={`profile-time fn-color-white fn-size-12 ${type=='series'?'p':''}`}>
-            {type=='draft'? info.video_time:"共"+ (info.video_counts||0)+ "集"}
-            
+      <div className={` box fn-size-12 ${type == "series" ? "p" : ""}`}>
+        <div className="profile-item-img-box bg-all">
+          {info && info.image_path && (
+            <img className="all-height all-width" src={info.image_path} />
+          )}
+          <p
+            className={`profile-time fn-color-white fn-size-12 ${
+              type == "series" ? "p" : ""
+            }`}
+          >
+            {type == "draft"
+              ? info.video_time
+              : "共" + (info.video_counts || 0) + "集"}
           </p>
         </div>
         <div
@@ -173,12 +160,12 @@ const return_html = (info, type) => {
               classes={{ tooltip: classes.noMaxWidth }}
               placement="top-start"
             >
-              <Typography className={`text-overflow ${type=='series'?'p':''}`} style={{ fontSize: 16 }}>
+              <Typography
+                className={`text-overflow ${type == "series" ? "p" : ""}`}
+                style={{ fontSize: 16 }}
+              >
                 {info.document_counts > 0 && (
-                  <span
-                   
-                    className="fn-color-white fn-size-12 profile-sign"
-                  >
+                  <span className="fn-color-white fn-size-12 profile-sign">
                     <Description
                       style={{
                         width: 16,
@@ -195,13 +182,21 @@ const return_html = (info, type) => {
               </Typography>
             </Tooltip>
 
-            <p className={`fn-color-878791 all-width ${type=='series'?'p':''}`}>
+            <p
+              className={`fn-color-878791 all-width ${
+                type == "series" ? "p" : ""
+              }`}
+            >
               {info
                 ? "发布于  " +
                   get_date(info.update_time || info.upload_time, ".", 9)
                 : ""}
             </p>
-            <p className={`all-width textview-overflow two ${type=='series'?'p':''}`}>
+            <p
+              className={`all-width textview-overflow two ${
+                type == "series" ? "p" : ""
+              }`}
+            >
               {info ? info.description : ""}
             </p>
           </div>
@@ -253,9 +248,8 @@ const return_html = (info, type) => {
 };
 
 const SeriesItem = (props) => {
-  
   const classes = userStyles();
-  
+
   const [modalMsg, setModalMsg] = React.useState({
     open: false,
     type: 1,
@@ -264,82 +258,85 @@ const SeriesItem = (props) => {
   });
   const [isShare, setIsShare] = React.useState(false); //分享
 
-
   return (
-    <div
-      className="box box-between box-align-center profile-top"
-     
-    >
-    <div className='profile-item'
-    onClick={(event) => {
-      if (props.series != "video") {
-        event.stopPropagation();
-        event.preventDefault();
-        if (props.series == "series") {
-          navigate(`/users/profile/workscenter/seriesdetail?_id=${props.info.series_id}`)
-          
-        } else {
-          return false;
-        }
-      }
-    }}
-    
-    >
-      {return_html(props.info, props.series)}
+    <div className="box box-between box-align-center profile-top">
+      <div
+        className="profile-item"
+        onClick={(event) => {
+          if (props.series != "video") {
+            event.stopPropagation();
+            event.preventDefault();
+            if (props.series == "series") {
+              navigate(
+                `/users/profile/workscenter/seriesdetail?_id=${props.info.series_id}`
+              );
+            } else {
+              return false;
+            }
+          }
+        }}
+      >
+        {return_html(props.info, props.series)}
       </div>
 
       <div>
         {props.series == "video" && (
-          <VideoMenu parent={props.parent} info={props.info} _type={props.series}  />
+          <VideoMenu
+            parent={props.parent}
+            info={props.info}
+            _type={props.series}
+          />
         )}
-        
 
-        {(props.series == "series" || props.series=='series_detail') && (
+        {(props.series == "series" || props.series == "series_detail") && (
           <SericesMenu
             parent={props.parent}
             info={props.info}
             _type={props.series}
             _id={props._id}
-            
           />
         )}
         {props.series == "draft" && (
-          <div className="text-center box box-between " style={{height:160,flexDirection:'column'}}>
+          <div
+            className="text-center box box-between "
+            style={{ height: 160, flexDirection: "column" }}
+          >
             <div>
-            {props.info.state !== 1 && (
-              <Link
-                color="inherit"
-                underline="none"
-                href={`/video/?sid=${props.info.video_id}`}
-                target="_blank"
-                rel="noopener norefferer"
-              >
-                编辑
-              </Link>
-            )}</div>
+              {props.info.state !== 1 && (
+                <Link
+                  color="inherit"
+                  underline="none"
+                  href={`/video/?sid=${props.info.video_id}`}
+                  target="_blank"
+                  rel="noopener norefferer"
+                >
+                  编辑
+                </Link>
+              )}
+            </div>
             <div>
-            <span>
-              <img
-                src={del}
-                style={{ width: 16, height: 16,cursor:'pointer'}}
-                onClick={() => {
-                  if (props.info.state === 1) {
-                    new CustomModal().alert(
-                      "审核中的作品暂不支持删除",
-                      "error",
-                      3000
-                    );
-                    return;
-                  }
-                  setModalMsg({
-                    title: "温馨提示",
-                    type: "del",
-                    msg: "上传作品不容易, 确定真的要删除该作品?",
-                    open: true,
-                  });
-                }}
-              />
-            </span>
+              <span>
+                <img
+                  src={del}
+                  style={{ width: 16, height: 16, cursor: "pointer" }}
+                  onClick={() => {
+                    if (props.info.state === 1) {
+                      new CustomModal().alert(
+                        "审核中的作品暂不支持删除",
+                        "error",
+                        3000
+                      );
+                      return;
+                    }
+                    setModalMsg({
+                      title: "温馨提示",
+                      type: "del",
+                      msg: "上传作品不容易, 确定真的要删除该作品?",
+                      open: true,
+                    });
+                  }}
+                />
+              </span>
             </div>
             <div></div>
           </div>
@@ -373,7 +370,7 @@ const SeriesItem = (props) => {
               if (res.err === 0) {
                 new CustomModal().alert("删除成功", "success", 5000);
                 props.parent.update_data();
-                
+
                 setModalMsg({
                   open: false,
                 });

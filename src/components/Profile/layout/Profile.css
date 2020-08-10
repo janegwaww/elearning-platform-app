@@ -3,6 +3,7 @@ p {
 }
 .p{
   cursor: pointer;
+  margin: 8px 0;
 }
 .profile-main {
   margin: 40px 0;
@@ -229,7 +230,7 @@ p {
 .profile-item-img-box {
   min-width: 260px;
   width: 260px;
-  height: 160px;
+  min-height: 50px;
   margin-right: 20px;
   position: relative;
 }

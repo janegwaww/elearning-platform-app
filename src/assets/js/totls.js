@@ -88,7 +88,7 @@ export const get_time = function(time) {
     parseInt(_time_arr[0]) * 3600 +
     parseInt(_time_arr[1]) * 60 +
     parseInt(_time_arr[2]);
-  console.log(_new_time);
+ 
   return _new_time;
 };
 export const ev_stop = (ev) => {

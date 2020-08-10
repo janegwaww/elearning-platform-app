@@ -4,7 +4,9 @@ import { Router } from "@reach/router";
 import Default from "../components/VideoChilden/VideoIndex";
 import UpVideoPage from '../components/VideoChilden/UpPage/upPage';
 import UpText from '../components/VideoChilden/UpText/UpText';
-// import '../assets/css/modal.css';
+import '../assets/css/tootls.css';
+import '../assets/css/container.css';
+
 
 const Video = () => {
   return (

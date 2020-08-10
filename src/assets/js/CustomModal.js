@@ -13,7 +13,7 @@ CustomModal.prototype.alert = function(option) {
     this.msg = arguments[0];
     this.severity = arguments[1];
     this.times = arguments[2];
-    console.log(this.severity)
+    
   } else {
     this.option = option;
   }
