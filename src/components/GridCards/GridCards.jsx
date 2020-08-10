@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
+import CardMedia from "@material-ui/core/CardMedia";
 import Bull from "../Search/Bull";
 import Link from "../Link/Link";
 import CardTag from "./CardTag";
@@ -71,9 +72,12 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               {item ? (
                 <Link href={handleLink(item).to}>
                   <CardTag type={item.type}>
-                    <div className="grid-card-image-head">
-                      <img alt={item.image_path} src={`${item.image_path}`} />
-                    </div>
+                    <CardMedia
+                      component="img"
+                      alt={item.image_path}
+                      src={`${item.image_path}`}
+                      className="grid-card-image-head"
+                    />
                   </CardTag>
                   {duration(item)}
                   {seriesCounts(item)}
@@ -123,7 +127,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     </Typography>
                   )}
 
-                  {!!item.headshot && (
+                  {!!item.headshot ? (
                     <Link
                       href={`/excellentcreator/creator/?cid=${item.user_id}`}
                     >
@@ -138,6 +142,8 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                         </Typography>
                       </div>
                     </Link>
+                  ) : (
+                    <div className="grid-avatar" />
                   )}
 
                   <div className="grid-card-feedback">
