@@ -63,14 +63,14 @@ const ShopBar = ({ info = {}, did }) => {
   }, [info.is_pay]);
 
   useEffect(() => {
-    if (trade_no) {
-      verifyAliPay({ order_id: trade_no }).then((data = {}) => {
+    if (out_trade_no) {
+      verifyAliPay({ order_id: out_trade_no }).then((data = {}) => {
         const { file_path } = data;
         setPaidedHref(file_path);
         setIsPay(!!file_path);
       });
     }
-  }, [trade_no]);
+  }, [out_trade_no]);
 
   return (
     <AppBar position="fixed" className="doc-shop-bar">
