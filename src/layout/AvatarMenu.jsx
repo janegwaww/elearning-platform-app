@@ -12,45 +12,50 @@ import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { isLoggedIn, logout, getUser } from "../services/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   iconButton: {
-    padding: 0
+    padding: 0,
   },
   popOver: {
     top: "50px !important",
     borderRadius: 12,
-    [theme.breakpoints.down("sm")]: {
-      display: "none"
-    }
   },
   setIcon: {
     position: "absolute",
     top: 0,
-    right: 0
+    right: 0,
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   person: {
     "&>a": {
       display: "flex",
       flexDirection: "column",
       "&:not(:last-child)": {
-        marginRight: 20
+        marginRight: 20,
       },
       "&>img": {
-        marginBottom: 10
-      }
-    }
+        marginBottom: 10,
+      },
+    },
   },
   logout: {
-    borderRadius: 0
+    borderRadius: 0,
   },
   link: {
-    color: "#007cff"
-  }
+    color: "#007cff",
+  },
+  popMenu: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
 }));
 
 const AvatarMenu = () => {
@@ -61,7 +66,7 @@ const AvatarMenu = () => {
   const isLogin = isLoggedIn();
   const { headshot, name } = getUser();
 
-  const handleProfileMenuOpen = event => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -104,7 +109,7 @@ const AvatarMenu = () => {
         classes={{ paper: classes.popOver }}
       >
         <div style={{ position: "relative" }}>
-          <Box p={2.5}>
+          <Box p={2.5} className={classes.popMenu}>
             <Link
               href="/users/profile/"
               color="inherit"
@@ -153,11 +158,11 @@ const AvatarMenu = () => {
             fullWidth
             variant="contained"
             className={classes.logout}
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               logout(() => ({}));
               handleMenuClose();
-              navigate(`/users/login`);
+              /* navigate(`/users/login`); */
             }}
           >
             退出
