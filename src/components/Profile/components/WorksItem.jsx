@@ -94,11 +94,14 @@ const WorksItem = (props) => {
         <div
           style={{
             padding: 16,
-            flex:1
+            height:120
           }}
-          className=" ma-main"
+          className="ma-main"
         >
-          <div className='all-height box box-between box-column' >
+          <div
+            className=" box box-between box-column"
+            style={{ height: "100%" }}
+          >
             <div>
               <Tooltip
                 title={
@@ -131,155 +134,159 @@ const WorksItem = (props) => {
                 </Link>
               </Tooltip>
             </div>
-            {props.history == 1 && (
-              <div
-                className="box box-align-center box-between "
-                style={{ paddingTop: 10 }}
-              >
-                <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-                  {/**
+            <div>
+              {props.history == 1 && (
+                <div
+                  className="box box-align-center box-between "
+                  style={{ paddingTop: 10 }}
+                >
+                  <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
+                    {/**
           {props.info&&props.info.view_counts||0}&nbsp;观看●{props.info&&props.info.comment_counts||0}回应●{props.info&&props.info.like_counts||0}点赞
          */}
-                  收藏于
-                  {get_date(
-                    props.info.collection_time || props.info.upload_time,
-                    "/",
-                    8
-                  )}
-                </p>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    get_data({
-                      model_name: "collection",
-                      model_action: "add_collection",
-                      extra_data: {
-                        relation_id: [
-                          props.info.video_id || props.info.series_id,
-                        ],
-                        value: 0,
-                        type: props.info.type,
-                      },
-                    }).then((res) => {
-                      if (res.err == 0 && res.errmsg == "OK") {
-                        new CustomModal().alert(
-                          "取消收藏成功",
-                          "success",
-                          3000
-                        );
-                        if (props.parent.state.userCollection) {
-                          get_data({
-                            model_name: "collection",
-                            model_action: "get_collection",
-                          }).then((res) => {
-                            //个人中心页
-                            props.parent.setState({
-                              userCollection: res.result_data,
+                    收藏于
+                    {get_date(
+                      props.info.collection_time || props.info.upload_time,
+                      "/",
+                      8
+                    )}
+                  </p>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      get_data({
+                        model_name: "collection",
+                        model_action: "add_collection",
+                        extra_data: {
+                          relation_id: [
+                            props.info.video_id || props.info.series_id,
+                          ],
+                          value: 0,
+                          type: props.info.type,
+                        },
+                      }).then((res) => {
+                        if (res.err == 0 && res.errmsg == "OK") {
+                          new CustomModal().alert(
+                            "取消收藏成功",
+                            "success",
+                            3000
+                          );
+                          if (props.parent.state.userCollection) {
+                            get_data({
+                              model_name: "collection",
+                              model_action: "get_collection",
+                            }).then((res) => {
+                              //个人中心页
+                              props.parent.setState({
+                                userCollection: res.result_data,
+                              });
                             });
-                          });
-                        } else {
-                          //动态页
-                          props.parent.update_data({
-                            model_name: "collection",
-                            model_action: "get_collection",
-                          });
+                          } else {
+                            //动态页
+                            props.parent.update_data({
+                              model_name: "collection",
+                              model_action: "get_collection",
+                            });
+                          }
                         }
-                      }
-                    });
-                  }}
-                >
-                  <Grade className="fn-color-F86B6B p" />
-                </div>
-              </div>
-            )}
-            {props.history == 2 && (
-              <div
-                className="box box-align-center box-between fn-color-878791"
-                style={{ paddingTop: 10 }}
-              >
-                <p className="text-overflow zero-edges fn-size-12">
-                  {props.info.record.action == "search" && (
-                    <Link
-                      color="inherit"
-                      underline="none"
-                      href={`/watch/?vid=${props.info.video_id}&time=${get_time(
-                        props.info.record.end_time ||
-                          props.info.record.matched_time ||
-                          0
-                      )}`}
-                      target="_blank"
-                    >
-                      搜索
-                      <span className="fn-color-007CFF">
-                        '{props.info.record.query_string}'
-                      </span>
-                      知识点
-                    </Link>
-                  )}
-                  {props.info.record.action == "end_watch" && (
-                    <Link
-                      color="inherit"
-                      underline="none"
-                      href={`/watch/?vid=${props.info.video_id}&time=${get_time(
-                        props.info.record.end_time
-                      )}`}
-                      target="_blank"
-                    >
-                      观看至{props.info.record.end_time}
-                    </Link>
-                  )}
-                </p>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    setModalMsg({
-                      title: "温馨提示",
-                      type: "del",
-                      role: "history",
-                      msg: "历史被删除,将不可恢复,确定要删除?",
-                      open: true,
-                    });
-                  }}
-                  className="p"
-                >
-                  <img src={del} style={{ width: 16, height: 16 }} />
-                </div>
-              </div>
-            )}
-            {props.history == 3 && (
-              <div
-                className="box box-align-center box-between "
-                style={{ paddingTop: 10 }}
-              >
-                <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
-                  {props.info.view_counts}观看
-                  <span
-                    style={{
-                      width: 2,
-                      height: 2,
-                      display: "inline-block",
-                      borderRadius: "50%",
-                      backgroundColor: "#878791",
-                      verticalAlign: "middle",
-                      margin: "3px",
+                      });
                     }}
-                  ></span>
-                  {get_date(props.info.upload_time, "/", 8)} &nbsp;发布
-                </p>
-                <div>
-                  <VideoMenu
-                    parent={props.parent}
-                    info={props.info}
-                    _type="series_detail"
-                    _id={props._id}
-                    onEvent={(msg) => {}}
-                  />
+                  >
+                    <Grade className="fn-color-F86B6B p" />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+              {props.history == 2 && (
+                <div
+                  className="box box-align-center box-between fn-color-878791"
+                  style={{ paddingTop: 10 }}
+                >
+                  <p className="text-overflow zero-edges fn-size-12">
+                    {props.info.record.action == "search" && (
+                      <Link
+                        color="inherit"
+                        underline="none"
+                        href={`/watch/?vid=${
+                          props.info.video_id
+                        }&time=${get_time(
+                          props.info.record.end_time ||
+                            props.info.record.matched_time ||
+                            0
+                        )}`}
+                        target="_blank"
+                      >
+                        搜索
+                        <span className="fn-color-007CFF">
+                          '{props.info.record.query_string}'
+                        </span>
+                        知识点
+                      </Link>
+                    )}
+                    {props.info.record.action == "end_watch" && (
+                      <Link
+                        color="inherit"
+                        underline="none"
+                        href={`/watch/?vid=${
+                          props.info.video_id
+                        }&time=${get_time(props.info.record.end_time)}`}
+                        target="_blank"
+                      >
+                        观看至{props.info.record.end_time}
+                      </Link>
+                    )}
+                  </p>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+
+                      setModalMsg({
+                        title: "温馨提示",
+                        type: "del",
+                        role: "history",
+                        msg: "历史被删除,将不可恢复,确定要删除?",
+                        open: true,
+                      });
+                    }}
+                    className="p"
+                  >
+                    <img src={del} style={{ width: 16, height: 16 }} />
+                  </div>
+                </div>
+              )}
+              {props.history == 3 && (
+                <div
+                  className="box box-align-center box-between "
+                  style={{ paddingTop: 10 }}
+                >
+                  <p className="text-overflow zero-edges fn-color-878791 fn-size-12">
+                    {props.info.view_counts}观看
+                    <span
+                      style={{
+                        width: 2,
+                        height: 2,
+                        display: "inline-block",
+                        borderRadius: "50%",
+                        backgroundColor: "#878791",
+                        verticalAlign: "middle",
+                        margin: "3px",
+                      }}
+                    ></span>
+                    {get_date(props.info.upload_time, "/", 8)} &nbsp;发布
+                  </p>
+                  <div>
+                    <VideoMenu
+                      parent={props.parent}
+                      info={props.info}
+                      _type="series_detail"
+                      _id={props._id}
+                      onEvent={(msg) => {}}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

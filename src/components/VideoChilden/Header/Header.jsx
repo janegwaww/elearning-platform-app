@@ -253,9 +253,8 @@ export default class Header extends Component {
                     this.props.parent.state.video_data.image_path =
                       _data.image_path;
                     JSON.stringify(this.props.parent.state.video_data);
-                   
-                      navigate(`/video/uppage`);
-                    
+
+                    navigate(`/video/uppage`);
                   }
                   this.props.parent.setState({
                     login_status: false,
