@@ -64,14 +64,14 @@ const ShopBar = ({ info = {}, did }) => {
 
   //此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
   useEffect(() => {
-    if (trade_no) {
-      verifyAliPay({ order_id: trade_no }).then((data = {}) => {
+    if (out_trade_no) {
+      verifyAliPay({ order_id: out_trade_no }).then((data = {}) => {
         const { file_path } = data;
         setPaidedHref(file_path);
         setIsPay(!!file_path);
       });
     }
-  }, [trade_no]);
+  }, [out_trade_no]);
 
   return (
     <AppBar position="fixed" className="doc-shop-bar">
