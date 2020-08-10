@@ -119,7 +119,7 @@ class VideoWindow extends Component {
       />
     ) : (
       <Box
-        height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
+        height={{ xs: 216, sm: 316, md: 416, lg: 516, xl: 516 }}
         style={{
           backgroundColor: "black",
           display: "flex",

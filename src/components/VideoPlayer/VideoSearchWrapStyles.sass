@@ -76,11 +76,16 @@
     font-size: 12px
     padding: 6px 14px
     min-width: 98px
+    @media screen and (max-width: 960px)
+      min-width: 70px
+      padding: 6px 6px
     &:hover
       background-color: #007cff
     & .MuiButton-startIcon
       margin-left: 0
       margin-right: 0
+      @media screen and (max-width: 960px)
+        display: none
 
   .KeInput
     width: 80%

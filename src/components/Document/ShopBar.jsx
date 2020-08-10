@@ -10,6 +10,7 @@ import LightTooltip from "../Introduction/LightTooltip";
 import { useLoginConfirm } from "../LoginConfirm";
 import { isLoggedIn } from "../../services/auth";
 import { aliPayment, verifyAliPay, aliWapPayment } from "../../services/video";
+import { getIdFromHref } from "../../services/utils";
 
 const ShopBar = ({ info = {}, did }) => {
   const loginConfirm = useLoginConfirm();
@@ -17,6 +18,7 @@ const ShopBar = ({ info = {}, did }) => {
   const [open, setOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [paidedHref, setPaidedHref] = useState("");
+  const { trade_no } = getIdFromHref();
 
   const verifyIsPaided = (id) => {
     verifyAliPay({ order_id: id }).then((data) => {
@@ -27,7 +29,7 @@ const ShopBar = ({ info = {}, did }) => {
       } else {
         setTimeout(() => {
           verifyIsPaided(id);
-        }, 1000);
+        }, 5000);
       }
     });
   };
@@ -48,7 +50,7 @@ const ShopBar = ({ info = {}, did }) => {
       : aliWapPayment({ price, file_id: did, url: window.location.href }).then(
           (data) => {
             if (data.url && data.order_id) {
-              window.open(data.url);
+              window.location.href = data.url;
             }
             !isLoggedIn() && loginConfirm();
           },
@@ -59,7 +61,18 @@ const ShopBar = ({ info = {}, did }) => {
     setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
   }, [info.is_pay]);
-//此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
+
+  //此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
+  useEffect(() => {
+    if (trade_no) {
+      verifyAliPay({ order_id: trade_no }).then((data = {}) => {
+        const { file_path } = data;
+        setPaidedHref(file_path);
+        setIsPay(!!file_path);
+      });
+    }
+  }, [trade_no]);
+
   return (
     <AppBar position="fixed" className="doc-shop-bar">
       <KeContainer>
@@ -70,18 +83,20 @@ const ShopBar = ({ info = {}, did }) => {
           pt={2}
           pb={1}
         >
-          <div className="doc-price-title" style={{fontSize:'1.25rem'}} >限时解锁&nbsp;</div>
-          <div className="doc-price" style={{fontSize:'2rem'}}>
-            <span >￥</span>
+          <div className="doc-price-title" style={{ fontSize: "1.25rem" }}>
+            限时解锁&nbsp;
+          </div>
+          <div className="doc-price" style={{ fontSize: "2rem" }}>
+            <span>￥</span>
             {`${info.price || 0}`}
           </div>
-          <Box width={'6.25rem'} />
+          <Box width={"6.25rem"} />
           <div className="unlock-button">
             {isPay ? (
               <ButtonBase
                 className="pay-button"
                 onClick={() => window.open(paidedHref)}
-                style={{padding:'0.625rem 3.125rem',fontSize:'1.125rem'}}
+                style={{ padding: "0.625rem 3.125rem", fontSize: "1.125rem" }}
               >
                 查看
               </ButtonBase>
@@ -90,7 +105,7 @@ const ShopBar = ({ info = {}, did }) => {
                 onClick={paymentClick}
                 size="small"
                 className="pay-button"
-                style={{padding:'0.625rem 3.125rem',fontSize:'1.125rem'}}
+                style={{ padding: "0.625rem 3.125rem", fontSize: "1.125rem" }}
               >
                 立即解锁
               </ButtonBase>
@@ -115,7 +130,10 @@ const ShopBar = ({ info = {}, did }) => {
                 disableFocusListener
               >
                 <div>
-                  <HelpOutlineIcon color="error" style={{ fontSize: '0.75rem' }} />
+                  <HelpOutlineIcon
+                    color="error"
+                    style={{ fontSize: "0.75rem" }}
+                  />
                 </div>
               </LightTooltip>
             </Box>

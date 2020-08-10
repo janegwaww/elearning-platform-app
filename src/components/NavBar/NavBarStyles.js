@@ -96,12 +96,13 @@ const useStyles = makeStyles(theme => ({
     }
   },
   sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-      marginRight: "calc(6%)",
-      justifyContent: "space-between",
-      width: "calc(12%)"
+    display: "flex",
+    marginRight: "calc(6%)",
+    justifyContent: "space-between",
+    width: "calc(12%)",
+    [theme.breakpoints.down("md")]: {
+      marginRight: 0,
+      width: "calc(50%)"
     }
   },
   sectionMobile: {
