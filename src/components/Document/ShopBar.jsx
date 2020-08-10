@@ -10,16 +10,18 @@ import LightTooltip from "../Introduction/LightTooltip";
 import { useLoginConfirm } from "../LoginConfirm";
 import { isLoggedIn } from "../../services/auth";
 import { aliPayment, verifyAliPay, aliWapPayment } from "../../services/video";
+import { getIdFromHref } from "../../services/utils";
 
 const ShopBar = ({ info = {}, did }) => {
   const loginConfirm = useLoginConfirm();
-  const matchMobile = useMediaQuery(theme => theme.breakpoints.down("sm"));
+  const matchMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [paidedHref, setPaidedHref] = useState("");
+  const { trade_no } = getIdFromHref();
 
-  const verifyIsPaided = id => {
-    verifyAliPay({ order_id: id }).then(data => {
+  const verifyIsPaided = (id) => {
+    verifyAliPay({ order_id: id }).then((data) => {
       const { file_path } = data;
       if (file_path) {
         setPaidedHref(file_path);
@@ -27,32 +29,31 @@ const ShopBar = ({ info = {}, did }) => {
       } else {
         setTimeout(() => {
           verifyIsPaided(id);
-        }, 1000);
+        }, 5000);
       }
     });
   };
 
-  const paymentClick = e => {
+  const paymentClick = (e) => {
     e.preventDefault();
     const { price } = info;
     !matchMobile
       ? aliPayment({ price, file_id: did, url: window.location.href }).then(
-          data => {
+          (data) => {
             if (data.url && data.order_id) {
               window.open(data.url);
               verifyIsPaided(data.order_id);
             }
             !isLoggedIn() && loginConfirm();
-          }
+          },
         )
       : aliWapPayment({ price, file_id: did, url: window.location.href }).then(
-          data => {
+          (data) => {
             if (data.url && data.order_id) {
-              window.open(data.url);
-              verifyIsPaided(data.order_id);
+              window.location.href = data.url;
             }
             !isLoggedIn() && loginConfirm();
-          }
+          },
         );
   };
 
@@ -60,6 +61,16 @@ const ShopBar = ({ info = {}, did }) => {
     setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
   }, [info.is_pay]);
+
+  useEffect(() => {
+    if (trade_no) {
+      verifyAliPay({ order_id: trade_no }).then((data = {}) => {
+        const { file_path } = data;
+        setPaidedHref(file_path);
+        setIsPay(!!file_path);
+      });
+    }
+  }, [trade_no]);
 
   return (
     <AppBar position="fixed" className="doc-shop-bar">
