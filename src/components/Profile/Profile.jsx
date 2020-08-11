@@ -6,9 +6,6 @@ import config from "../../../data/SiteConfig";
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
 
-
-
-
 import { RightMenu } from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";

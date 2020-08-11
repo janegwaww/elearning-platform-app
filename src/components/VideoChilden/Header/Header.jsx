@@ -7,13 +7,14 @@ import { Button, Avatar, Snackbar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
 import { get_data } from "../../../assets/js/request";
-import { getUser ,isLoggedIn} from "../../../services/auth";
+import { getUser, isLoggedIn } from "../../../services/auth";
 
 import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
 import logoimg from "../../../../static/logos/logo.svg";
-import { ArrowBack, ArrowForward, Autorenew } from "@material-ui/icons";
+import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import { set } from "lodash";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -51,7 +52,7 @@ export default class Header extends Component {
       this.setState({
         user_info: getUser(),
       });
-  }
+    }
   }
   btn_user = function(info) {
     if (!isLoggedIn()) {
@@ -76,11 +77,11 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
-      if (el != "not") {
-        _this.props.parent.setState({
-          login_status: true,
-        });
-      }
+      // if (el != "not") {
+      //   _this.props.parent.setState({
+      //     login_status: true,
+      //   });
+      // }
 
       let _video_data = _this.props.parent.state.video_data;
 
@@ -90,34 +91,27 @@ export default class Header extends Component {
         extra_data: {
           subtitling: _video_data.sub_josn,
           task_id: _video_data.video_id || _video_data.video_data.video_id, // task_id,
-
           lang: _this.props.parent.state.lang == 2 ? "en" : "cn",
         },
         model_type: "",
       };
 
-      get_data(r_data, "video")
-        .then((res) => {
-          if (res.err == 0 && res.errmsg == "OK") {
-            _this.setState({ open: true });
+      get_data(r_data, "video").then((res) => {
+        if (res.err == 0 && res.errmsg == "OK") {
+          _this.setState({ open: true });
 
-            if (el != "not") {
-              setTimeout(() => {
-                navigate(`/video/uppage`);
-              }, 500);
-              
-            }
-          }
+          //   if (el != "not") {
+          //     setTimeout(() => {
+          //       navigate(`/video/uppage`);
+          //     }, 500);
 
-          _this.props.parent.setState({
-            login_status: false,
-          });
-        })
-        .catch((err) => {
-          _this.props.parent.setState({
-            login_status: false,
-          });
-        });
+          //   }
+        }
+
+        // _this.props.parent.setState({
+        //   login_status: false,
+        // });
+      });
     };
 
     return (
@@ -134,13 +128,17 @@ export default class Header extends Component {
           >
             <span className="box box-align-center ">
               <img src={Home} />{" "}
-              <span className='text-overflow' style={{ marginLeft: 12 }}>返回知擎首页</span>
+              <span className="text-overflow" style={{ marginLeft: 12 }}>
+                返回知擎首页
+              </span>
             </span>
           </div>
           <div className={`fn-size-16  ${styles.shortcut}`}>
-            <span  className="box box-align-center">
+            <span className="box box-align-center">
               <img src={Code} />{" "}
-              <span className='text-overflow' style={{ marginLeft: 12 }}>显示快捷键</span>
+              <span className="text-overflow" style={{ marginLeft: 12 }}>
+                显示快捷键
+              </span>
             </span>
 
             <div className={`fn-size-14 ${styles.shortcutCode}`}>
@@ -185,12 +183,15 @@ export default class Header extends Component {
                   JSON.stringify(this.props.parent.state.video_data) === "{}" ||
                   !this.props.parent.state.video_data.sub_josn
                 ) {
-                  new CustomModal().alert("亲！还没有添加文件呢！", "error");
+                  new CustomModal().alert(
+                    "亲！还没有添加文件或生成字幕不需要保存哦！",
+                    "error"
+                  );
                   return;
                 }
 
                 btn_save("not");
-                clearInterval(this.state.timers)
+                clearInterval(this.state.timers);
                 this.setState({
                   timers: setInterval(() => {
                     btn_save("not");
@@ -198,7 +199,7 @@ export default class Header extends Component {
                 });
               }}
             >
-             定时保存
+              定时保存
             </NewBtn2>
           </div>
           <div>
@@ -210,6 +211,13 @@ export default class Header extends Component {
                   new CustomModal().alert("亲！还没有添加文件呢！", "error");
                   return;
                 }
+                if (!this.props.parent.state.video_data.sub_josn) {
+                  new CustomModal().alert(
+                    "亲！还没有生成字幕发布可以点击直接发布作品哦！",
+                    "error"
+                  );
+                  return;
+                }
                 if (!isLoggedIn()) {
                   new CustomModal().alert(
                     "亲！还没有登录呢，正在为你跳转登录页...",
@@ -218,23 +226,43 @@ export default class Header extends Component {
                   setTimeout(() => {
                     navigate(`/users/login`);
                   }, 5000);
+                  return;
                 }
-                if (this.props.parent.state.video_data.sub_josn) {
-                  // this.setState({
-                  //   is_modal: true,
-                  // });
-                  btn_save();
-                } else {
-                  sessionStorage.setItem(
-                    "file_data",
-                    JSON.stringify(this.props.parent.state.video_data)
-                  );
-                  navigate(`/video/uppage`);
-                }
+                this.props.parent.setState({
+                  login_status: true,
+                });
+
+                get_data(
+                  {
+                    model_name: "video",
+                    model_action: "save_get_image_path",
+                    extra_data: {
+                      subtitling: this.props.parent.state.video_data.sub_josn,
+                      task_id:
+                        this.props.parent.state.video_data.video_id ||
+                        this.props.parent.state.video_data.video_id,
+
+                      style: "",
+                    },
+                    model_type: "",
+                  },
+                  "video"
+                ).then((res) => {
+                  let _data = res.result_data[0] || res.result_data;
+                  if (_data.image_path) {
+                    this.props.parent.state.video_data.image_path =
+                      _data.image_path;
+                    JSON.stringify(this.props.parent.state.video_data);
+
+                    navigate(`/video/uppage`);
+                  }
+                  this.props.parent.setState({
+                    login_status: false,
+                  });
+                });
               }}
             >
-             
-               发布视频
+              发布视频
             </NewBtn2>
           </div>
           {/*<div title="点击可保存你编辑文本样式">

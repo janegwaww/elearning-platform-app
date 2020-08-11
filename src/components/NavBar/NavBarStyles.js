@@ -63,6 +63,7 @@ const useStyles = makeStyles(theme => ({
     padding: "6px 14px",
     backgroundColor: theme.palette.secondary.main,
     borderRadius: "0px 50px 50px 0",
+    fontSize:14,
     color: theme.palette.primary.main,
     "&:hover": {
       backgroundColor: theme.palette.secondary.main

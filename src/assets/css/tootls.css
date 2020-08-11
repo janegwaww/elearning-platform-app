@@ -31,6 +31,11 @@ svg {
   display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
   display: -o-box;
 }
+.box-column{
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
 .box-flex {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -235,6 +240,7 @@ input[type="radio"] + label::before {
   /* text-indent: .15em; */
   margin-bottom: 4px;
   border: 1px solid #565663;
+  padding: 2px;
 }
 input[type="radio"]:checked + label::before {
   background-color: #007cff;
@@ -252,13 +258,14 @@ input[type="checkbox"] + label::before {
   /*设置label标签的伪元素*/
   content: "\a0"; /* 不换行空格 */
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 7px;
+  height: 7px;
   margin-bottom: 4px;
   border: 1px solid #565663;
   border-radius: 50%;
   vertical-align: middle;
   margin-right: 5px;
+  padding:3px;
 }
 /*选定时*/
 input[type="checkbox"]:checked + label::before {

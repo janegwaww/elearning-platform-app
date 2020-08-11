@@ -18,7 +18,7 @@ import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
 import SearchLoading from "../Loading/SearchLoading";
 import Helmet from "react-helmet";
-// import viderPlay from '../../assets/img/play.svg';
+
 
 export default class VideoPage extends Component {
   constructor(props) {
