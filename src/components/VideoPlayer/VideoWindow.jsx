@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
+import withSubtitle from "./withSubtitle";
 import { startWatchRecord, endWatchRecord } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
 
@@ -73,6 +74,12 @@ class VideoWindow extends Component {
     }
   };
 
+  getPlay = () => {
+    if (this.playerRef.current) {
+      this.playerRef.current.player.play();
+    }
+  };
+
   getTrack = (info) => {
     const track = info.isLoged
       ? [
@@ -94,15 +101,15 @@ class VideoWindow extends Component {
 
   getSource = (info) => [
     {
-      src: `${info.videoPath}`,
+      src: `${info.path}`,
       type: "video/mp4",
     },
   ];
 
   render() {
     const { info, loading } = this.props;
-console.log(this.props)
-    return !loading && info.videoPath ? (
+
+    return !loading && info.path ? (
       <ReactVideo
         videoId={info.videoId}
         ref={this.playerRef}
@@ -112,9 +119,8 @@ console.log(this.props)
       />
     ) : (
       <Box
-        height={{ xs: 200, sm: 300, md: 400, lg: 460, xl: 500 }}
+        height={{ xs: 216, sm: 316, md: 416, lg: 516, xl: 516 }}
         style={{
-          minHeight: 400,
           backgroundColor: "black",
           display: "flex",
           alignItems: "center",
@@ -136,4 +142,4 @@ VideoWindow.propTypes = {
   timer: PropTypes.number,
 };
 
-export default VideoWindow;
+export default withSubtitle(VideoWindow);

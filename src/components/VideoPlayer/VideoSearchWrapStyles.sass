@@ -8,6 +8,9 @@
     visibility: visible
     opacity: 1
     z-index: 2
+    @media screen and (max-width: 960px)
+      right: 0
+      top: 15px
 
   .hiddenSearchButton
     transition: visibility 0s linear 1s,opacity 1s
@@ -25,6 +28,12 @@
     transition: visibility 0s linear 0.5sopacity 0.5s
     visibility: hidden
     opacity: 0
+    width: 60%
+    @media screen and (max-width:960px)
+      top: 228px
+      left: 35%
+      visibility: visible
+      opacity: 1
 
   .showSearchInput
     opacity: 1
@@ -44,6 +53,8 @@
     border-radius: 20px
     margin-left: 4px
     color: rgba(149, 165, 166,1.0)
+    @media screen and (max-width: 960px)
+      display: none
 
   .showSearchButton
     box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.5)
@@ -55,6 +66,8 @@
     z-index: 2
     &:hover
         background-color: #007cff
+    @media screen and (max-width: 960px)
+      display: none
 
   .KeSearchButton
     background-color: #007cff
@@ -63,14 +76,19 @@
     font-size: 12px
     padding: 6px 14px
     min-width: 98px
+    @media screen and (max-width: 960px)
+      min-width: 70px
+      padding: 6px 6px
     &:hover
       background-color: #007cff
     & .MuiButton-startIcon
       margin-left: 0
       margin-right: 0
+      @media screen and (max-width: 960px)
+        display: none
 
   .KeInput
-    width: 70%
+    width: 80%
     margin-left: 20px
     margin-top: 0
     color: #fff

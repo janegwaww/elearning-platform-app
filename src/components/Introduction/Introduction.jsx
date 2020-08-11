@@ -78,7 +78,7 @@ export default function Introduction({ intros }) {
         <div style={{ flex: "0.1 0 auto", display: "flex" }}>
           <FileViewButton vid={intro.video_id} />
         </div>
-        <div style={{ display: "flex" }}>
+        <div className="more-icon">
           <IconButton
             aria-label="settings"
             aria-controls="user-feedback-complaint-menu"

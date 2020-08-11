@@ -7,6 +7,7 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import VideoDocument from "./VideoDocument";
 import IntroductionText from "./IntroductionText";
 import withId from "../EmptyNotice/withId";
+import VideoPlayerTitle from "../VideoPlayer/VideoPlayerTitle";
 
 class Watch extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class Watch extends Component {
       <Fragment>
         <Grid container style={{ marginTop: 18 }} spacing={3}>
           <Grid item xs={12} sm={12} md={9}>
+            <VideoPlayerTitle title={avatar.title} />
             <VideoPlayer vid={vid} handleVideoInfo={this.handleVideoInfo} />
             <LazyIntroduction intros={avatar} />
             <Divider />
