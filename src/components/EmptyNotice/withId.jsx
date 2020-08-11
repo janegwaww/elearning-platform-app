@@ -24,11 +24,7 @@ const withId = (WrapComponent) => {
     render() {
       const { id } = this.state;
 
-      return id ? (
-        <WrapComponent id={id} />
-      ) : (
-        <EmptypNotice empty type="loading" handleFresh={this.handleAction} />
-      );
+      return id ? <WrapComponent id={id} /> : null;
     }
   };
 };

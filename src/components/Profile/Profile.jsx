@@ -6,9 +6,6 @@ import config from "../../../data/SiteConfig";
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
 
-
-
-
 import { RightMenu } from "./components/AsadeMenu";
 import { get_data } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
@@ -58,7 +55,18 @@ class Profile extends React.Component {
   }
 
   pageRoute(props) {
+    
+    let _url = props.location.search;
+    if(_url){
+       navigate(`${_url.split('=')[1]}`);
+       return
+    }
+    console.log(_url)
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
+    console.log(props)
+    if(!props['*']){
+      return
+    }
     let _router_arr = props["*"].split("/");
 
     let _router = _router_arr[0];
@@ -83,6 +91,8 @@ class Profile extends React.Component {
           _inx = 1;
         }
         break;
+        
+
     }
 
     if (_router) {
@@ -98,7 +108,7 @@ class Profile extends React.Component {
   render() {
     const { menuOpen, inx } = this.state;
     const { children } = this.props;
-
+    console.log(children)
     return (
       <Layout>
         <Helmet title={`${config.siteTitle}`} />

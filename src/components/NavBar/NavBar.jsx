@@ -24,6 +24,7 @@ import Container from "../Container/KeContainer";
 import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
+import ContributeMenu from "../../layout/ContributeMenu";
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
@@ -157,12 +158,14 @@ const PrimarySearchAppBar = () => {
               <AvatarMenu />
             </div>
             <div>
-              <Button
+              <ContributeMenu />
+
+              {/**  <Button 
                 className={classes.createButton}
                 onClick={() => navigate("/video/")}
               >
                 <Typography>投稿</Typography>
-              </Button>
+              </Button>*/}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

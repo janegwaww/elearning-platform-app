@@ -7,8 +7,7 @@ import NavBar from "../../NavBar/NavBar";
 import Footer from "../../Footer/Footer";
 import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
-import '../../../assets/css/tootls.css';
-import '../../../assets/css/container.css';
+
 import "./Profile.css";
 
 export default class MainLayout extends React.Component {
@@ -20,6 +19,7 @@ export default class MainLayout extends React.Component {
             <meta name="description" content={config.siteDescription} />
             
             <html lang="en" />
+          
           </Helmet>
          <section className=' bg-f9 ma-container is-vertical' style={{minHeight:'100vh'}}>
          
@@ -32,10 +32,10 @@ export default class MainLayout extends React.Component {
               {children}
               
               
-              <ScrollTop />
+            
             </main>
-           {/*** 
-            <Footer config={config} />
+             <ScrollTop />
+          {/***   <Footer config={config} />
              */} 
             
          

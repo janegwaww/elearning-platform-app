@@ -1,19 +1,20 @@
 import axios from "axios";
 import { getUser } from "../../services/auth";
 import CustomModal from "./CustomModal";
+import { navigate } from "@reach/router";
 const _path = __dirname;
-const users_url ="https://api.haetek.com:9191/api/v1/gateway"; //个中心
-const video_url= 'https://api2.haetek.com:9191/api/v1/gateway';//生字幕
-axios.defaults.timeout = 15000;
+const users_url = "https://api.haetek.com:9191/api/v1/gateway"; //个中心
+const video_url = "https://api2.haetek.com:9191/api/v1/gateway"; //生字幕
+// axios.defaults.timeout = 10000;
 axios.defaults.headers = {
   "Content-Type": "application/json",
   Authorization: "Bearer" + " " + getUser().token,
 };
 
-export const get_data = function( data,_type, method, header) {
+export const get_data = function(data, _type, method, header) {
   return new Promise(function(resolve, reject) {
     axios({
-      url:_type=='video'?video_url:users_url,
+      url: _type == "video" ? video_url : users_url,
       data: data,
       method: method || "post",
       headers: header || {
@@ -23,6 +24,7 @@ export const get_data = function( data,_type, method, header) {
     })
       .then((res) => resolve(res.data))
       .catch((err) => {
+        navigate('/404')
         console.log(err);
         reject(err);
 
@@ -44,7 +46,7 @@ export const get_alldata = function(url_lists, data_list, methods) {
     //url是字符时
     if (!methods || methods == "post" || methods == "POST") {
       for (let i = 0; i < len; i++) {
-        request_arr.push(get_data( data_list[i]));
+        request_arr.push(get_data(data_list[i]));
       }
     } else {
       for (let i = 0; i < len; i++) {
@@ -101,6 +103,22 @@ export const updata_img = function(_file, _type) {
       })
       .catch((err) => {
         reject(err);
+      });
+  });
+};
+export const get_info = function() {
+  //请求用户信息
+  return new Promise(function(res, rej) {
+    get_data({
+      model_name: "user",
+      model_action: "get_information",
+    })
+      .then((data) => {
+        res(data.result_data[0]||null);
+        sessionStorage.setItem('user_info',JSON.stringify(data.result_data[0]))
+      })
+      .catch((err) => {
+        rej(err);
       });
   });
 };

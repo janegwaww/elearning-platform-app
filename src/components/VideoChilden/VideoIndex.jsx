@@ -18,7 +18,7 @@ import videoImg from "../../assets/img/videowindows.svg";
 import videoImg2 from "../../assets/img/videowindows2.svg";
 import SearchLoading from "../Loading/SearchLoading";
 import Helmet from "react-helmet";
-// import viderPlay from '../../assets/img/play.svg';
+
 
 export default class VideoPage extends Component {
   constructor(props) {
@@ -291,7 +291,8 @@ export default class VideoPage extends Component {
       if (res.subtitling) {
         //生成字幕
         _data.sub_josn = res.subtitling;
-        if (res.subtitling[0].en_sub) {
+        
+        if (res.subtitling[0]&&res.subtitling[0].en_sub) {
           this.setState({
             lang: 2,
           });

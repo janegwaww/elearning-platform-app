@@ -23,14 +23,15 @@ import SetingsPhone from '../components/Profile/page/setings/SetingsPhone';
 const Users = () => {
   return (
     <Router basepath="/users">
-      <PrivateRoute path="/profile" component={Profile}>
+      <Default path="/" />
+      <Login path="/login" />
+      <Profile path="/profile" >
         <PageIndex path="/" />
-
         <Dynamic path="/dynamic">
           <Collection path="/" />
           <History path="/history" />
         </Dynamic>
-        <Setings path="/setings" >
+        <Setings path="/settings" >
           <Basic path='/' />
           <Help path='/help' />
           <Safety path= '/safety' />
@@ -43,9 +44,9 @@ const Users = () => {
           <SeriesDetail path="/seriesdetail" />
         </WorksCenter>
         <Complaints path='/complaints' />
-      </PrivateRoute>
-      <Login path="/login" />
-      <Default path="/" />
+        
+      </Profile>
+      
     </Router>
   );
 };
