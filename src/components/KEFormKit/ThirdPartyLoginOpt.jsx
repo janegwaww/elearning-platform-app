@@ -34,10 +34,10 @@ const ThirdPartyLoginOpt = () => {
     });
   };
 
-  const loginMethod = (value) => value || "weibo";
+  const loginMethod = (value) => value || "microblog";
   const track = (msg) => (data) => console.log(`${msg}: `, data);
   // 第二步：拿到code进行登录操作
-  const handleLogin = ({ code = "", state = "", type = "weibo" }) => {
+  const handleLogin = ({ code = "", state = "", type = "microblog" }) => {
     const param = { code, type };
     track("href")(locationHref);
     handleThirdLogin(param).then((response) => {
@@ -111,16 +111,7 @@ const ThirdPartyLoginOpt = () => {
       <div className={classes.logos}>
         <Logo url="/images/wechat-icon.png" method="wechat" />
         <Logo url="/images/qq-icon.png" method="qq" />
-
-        <div className={classes.logo}>
-          <Tooltip title="尚未搞定">
-            <img
-              src="/images/weibo-icon.png"
-              alt="thirdpartylogin"
-              width="32"
-            />
-          </Tooltip>
-        </div>
+        <Logo url="/images/weibo-icon.png" method="microblog" />
       </div>
       <BindingForm />
     </div>
