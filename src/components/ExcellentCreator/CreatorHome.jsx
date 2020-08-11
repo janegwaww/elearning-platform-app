@@ -191,7 +191,7 @@ class CreatorHome extends Component {
         list: data.list.slice(0, 16),
         loading: false,
         listStack: data.list,
-        pageCount: data.list.length,
+        pageCount: data.list.filter((o) => o.type === "video").length,
       });
     });
   };
