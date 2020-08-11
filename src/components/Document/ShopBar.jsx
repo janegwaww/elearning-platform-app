@@ -18,7 +18,7 @@ const ShopBar = ({ info = {}, did }) => {
   const [open, setOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [paidedHref, setPaidedHref] = useState("");
-  const { trade_no } = getIdFromHref();
+  const { out_trade_no } = getIdFromHref();
 
   const verifyIsPaided = (id) => {
     verifyAliPay({ order_id: id }).then((data) => {
