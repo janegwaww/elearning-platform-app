@@ -12,6 +12,9 @@ import { navigate } from "@reach/router";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
   },
 
   btn: {
@@ -76,7 +79,7 @@ export default function MenuListComposition() {
   }, [open]);
 
   return (
-    <div>
+    <div className={classes.root}>
       <Button
         ref={anchorRef}
         aria-controls={open ? "menu-list-grow" : undefined}
