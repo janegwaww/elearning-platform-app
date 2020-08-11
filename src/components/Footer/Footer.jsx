@@ -70,7 +70,9 @@ class Footer extends Component {
                     <IconButton>
                       <img src="/logos/logo.svg" alt="logo" />
                     </IconButton>
-                    <Typography>&#183; 开动遨游知识海洋的引擎</Typography>
+                    <Typography noWrap>
+                      &#183; 开动遨游知识海洋的引擎
+                    </Typography>
                   </div>
                   <ContractUs />
                 </div>
@@ -88,17 +90,23 @@ class Footer extends Component {
               <Grid container item xs={12}>
                 <Grid item md={1} />
                 <Grid item xs={12} md={5}>
-                  粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp; 粤公网安备
-                  44030702002640号
+                  <Typography noWrap variant="inherit">
+                    粤ICP备19120979号-1 &nbsp;&nbsp;&nbsp;&nbsp; 粤公网安备
+                    44030702002640号
+                  </Typography>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                  版权所有@深圳前海黑顿科技有限公司 2020 保留一切权利
+                  <Typography noWrap variant="inherit">
+                    版权所有@深圳前海黑顿科技有限公司 2020 保留一切权利
+                  </Typography>
                 </Grid>
                 <Grid item md={1} />
               </Grid>
               <Grid item xs={12} className="footer-address">
-                深圳前海黑顿科技有限公司 &nbsp;&nbsp;&nbsp;&nbsp;
-                广东省深圳市龙岗区龙翔大道7188号万科大厦3109
+                <Typography noWrap variant="inherit">
+                  深圳前海黑顿科技有限公司 &nbsp;&nbsp;&nbsp;&nbsp;
+                  广东省深圳市龙岗区龙翔大道7188号万科大厦3109
+                </Typography>
               </Grid>
             </Grid>
           </Container>
