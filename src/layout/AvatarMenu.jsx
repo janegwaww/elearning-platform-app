@@ -89,13 +89,10 @@ const AvatarMenu = () => {
           <Avatar src={headshot} alt={name} style={{ width: 30, height: 30 }} />
         </IconButton>
       ) : (
-        <Link
-          href="/users/login"
-          underline="none"
-          variant="body1"
-          className={classes.link}
-        >
-          <Typography noWrap>登录/注册</Typography>
+        <Link href="/users/login" underline="none" variant="body1">
+          <Typography noWrap className={classes.link}>
+            登录/注册
+          </Typography>
         </Link>
       )}
 
