@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import { Container, Grid, Typography } from "@material-ui/core";
-import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import useStyles from "./KEFormStyle";
+import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import AccountForm from "./AccountForm";
 import UserProtocol from "./UserProtocol";
 import QrCodeLoginComponent from "./QrCodeLoginComponent";
@@ -68,7 +68,7 @@ const KEForm = ({ modal, modalClose }) => {
       <Container maxWidth="lg">
         <div className={classes.secondary}>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <div className={classes.leftModule}>
                 <div className={classes.KELogo}>
                   <img
@@ -81,7 +81,7 @@ const KEForm = ({ modal, modalClose }) => {
                 </div>
               </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <div className={classes.rightModule}>
                 <QrCodeIcon
                   accountLogin={accountLogin}
@@ -95,12 +95,6 @@ const KEForm = ({ modal, modalClose }) => {
                 ) : (
                   <QrCodeLoginComponent qrcodeValue={qrcodeValue} />
                 )}
-                <Typography
-                  align="center"
-                  style={{ fontSize: 12, color: "#909399" }}
-                >
-                  未注册的手机号码验证后自动创建知擎账号
-                </Typography>
                 <ThirdPartyLoginOpt />
                 <UserProtocol />
               </div>

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Typography, Link } from "@material-ui/core";
 import VideoWindow from "./VideoWindow";
 import VideoSearchWrap from "./VideoSearchWrap";
 import UseSetSEO from "./UseSetSEO";
@@ -31,14 +30,9 @@ class VideoPlayer extends Component {
 
   render() {
     const { videoInfo, loading } = this.state;
-    console.log(videoInfo)
+
     return (
       <Fragment>
-        <div style={{ paddingTop: "0.35em" }}>
-          <Typography variant="h6" gutterBottom noWrap>
-            {videoInfo && videoInfo.title}
-          </Typography>
-        </div>
         <VideoSearchWrap vid={this.props.vid} path={videoInfo.vttPath}>
           {(timer) => (
             <VideoWindow

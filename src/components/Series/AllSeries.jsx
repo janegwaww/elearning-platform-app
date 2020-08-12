@@ -25,7 +25,7 @@ const AllSeries = ({
     <div className="series-component">
       <br />
       <br />
-      <Typography>
+      <Typography noWrap>
         <span style={{ color: "#007cff" }}>{seriesInfo.title}</span>
         {` 系列课的详细信息`}
       </Typography>
@@ -66,5 +66,5 @@ const AllSeries = ({
 export default withSeries(
   AllSeries,
   ({ sid }) => getSeriesInfo({ series_id: sid }),
-  (params) => seriesSearch(params)
+  (params) => seriesSearch(params),
 );

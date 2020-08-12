@@ -16,7 +16,7 @@ const ImageModel = ({ path = "" }) => {
     transform: "translate(-50%,-50%)",
     width: "auto",
     // minWidth: '43.75rem',
-    height: "auto",
+    height: "100%",
     overflowY: "auto",
   };
   const styles1 = {

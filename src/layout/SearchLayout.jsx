@@ -52,7 +52,7 @@ const SearchLayout = ({ children }) => {
       <CssBaseline />
       <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
       <AppBar position="fixed" color="inherit" className="search-layout-bar">
-        <div style={{ backgroundColor: "#2c2c3b" }} id="back-to-top-anchor">
+        <div style={{ backgroundColor: "#2c2c3b" }} className="header-top">
           <Container>
             <div className="h-toolbar">
               <nav>
@@ -61,8 +61,8 @@ const SearchLayout = ({ children }) => {
               <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>
-              <Link href="/video/" underline="none">
-                <Button size="small" className="edit-button">
+              <Link href="/video/" underline="none" className="post-button">
+                <Button size="small">
                   <Typography>投稿</Typography>
                 </Button>
               </Link>

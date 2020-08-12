@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Link from "@material-ui/core/Link";
+import { navigate } from "gatsby";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -12,6 +13,7 @@ import "slick-carousel/slick/slick-theme.scss";
 import "./ChannelBar.sass";
 
 const ChannelBar = ({ id = "hots" }) => {
+  const screenMatches = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [cates, setCates] = useState([]);
   const [loading, setLoading] = useState(true);
   const setSEO = useSEO();
@@ -19,8 +21,8 @@ const ChannelBar = ({ id = "hots" }) => {
     dots: true,
     speed: 500,
     infinite: false,
-    slidesToShow: 12,
-    slidesToScroll: 4,
+    slidesToShow: screenMatches ? 5 : 12,
+    slidesToScroll: 5,
     className: "channel-slider",
     dotsClass: "slick-dots slick-thumb",
     arrows: false,
@@ -42,7 +44,9 @@ const ChannelBar = ({ id = "hots" }) => {
     fetchBarIcons();
   }, []);
 
-  const handleChannel = (name) => {
+  const handleChannel = (event, { href, name }) => {
+    event.preventDefault();
+    navigate(href);
     setSEO({ title: name });
   };
 
@@ -55,37 +59,22 @@ const ChannelBar = ({ id = "hots" }) => {
               const cn = id && id === o.id ? "slice-action" : "";
               const href = o.id === "hots" ? "/" : `/channel/?ch=${o.id}`;
               return (
-                <Link
+                <Box
+                  className={`item ${cn}`}
+                  onClick={(e) => handleChannel(e, { href, name: o.name })}
                   key={o.id}
-                  href={href}
-                  state={{ id: o.id }}
-                  underline="none"
-                  color="textPrimary"
-                  onClick={() => handleChannel(o.name)}
                 >
-                  <Box className={`item ${cn}`}>
-                    <div>
-                      <img
-                        src={`${o.web_icon}`}
-                        alt={o.name}
-                        width="48"
-                        height="48"
-                      />
-                    </div>
-                    <div>
-                      <img
-                        src={`${o.web_click_icon}`}
-                        alt={o.name}
-                        width="48"
-                        height="48"
-                      />
-                    </div>
-                    <div style={{ height: 10 }} />
-                    <Typography noWrap align="center" variant="body2">
-                      {o.name}
-                    </Typography>
-                  </Box>
-                </Link>
+                  <div className="bar-icon">
+                    <img src={`${o.web_icon}`} alt={o.name} />
+                  </div>
+                  <div className="bar-icon">
+                    <img src={`${o.web_click_icon}`} alt={o.name} />
+                  </div>
+                  <div style={{ height: 10 }} />
+                  <Typography noWrap align="center" variant="body2">
+                    {o.name}
+                  </Typography>
+                </Box>
               );
             })}
           </Slider>

@@ -96,7 +96,7 @@ export function Navbar(props) {
               return;
             }
             setVal(idx);
-            console.log("idx", idx);
+            
             props.onEvent && props.onEvent(idx);
           }}
         >
