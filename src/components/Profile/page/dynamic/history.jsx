@@ -2,7 +2,7 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
 
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Grid } from "@material-ui/core";
@@ -49,6 +49,7 @@ export default class History extends React.Component {
       } else {
         this.setState({
           total_data: [],
+          show_data:null
         });
       }
       this.wind_size();

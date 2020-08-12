@@ -850,7 +850,7 @@ export default function VideoIndex(props) {
                           });
 
                           setTimeout(() => {
-                            navigate("/users/profile");
+                            navigate(`/users/profile/workscenter/draft`);
                           }, 4000);
                         } else {
                           setOpenSnackbar({

@@ -206,9 +206,7 @@ p {
 }
 .profile-ul li {
   margin: 10px 0;
- 
   padding: 20px;
-
 }
 .profile-ul li:hover {
   cursor: move;
@@ -228,11 +226,16 @@ p {
   cursor: pointer;
 }
 .profile-item-img-box {
-  min-width: 260px;
-  width: 260px;
+ 
+  max-width: 260px;
+  width:257px;
+  height:145px;
   min-height: 50px;
   margin-right: 20px;
   position: relative;
+  text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
 }
 .profile-sign{
   background-color: #7B7FFF;

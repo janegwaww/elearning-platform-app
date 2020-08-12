@@ -6,7 +6,6 @@
     padding: 1.875rem 2.5rem;
     background-color: white;
     border-radius: 0.625rem;
-   
     min-width: 13rem;
     font-size: 1.125rem;
     z-index: 20000;
@@ -32,9 +31,7 @@
     height: 30px;
     text-align: center;
     border-radius: 50%;
-    
     transition: all 0.3s;
-   
 } */
 /* .alert div span:hover{
     cursor: pointer;

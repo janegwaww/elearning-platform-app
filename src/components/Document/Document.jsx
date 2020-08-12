@@ -65,7 +65,7 @@ const Document = ({ id = "" }) => {
     ));
 //此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/48,1rem为：48/1920*当前屏宽
   return (
-    <>
+    <div>
       <div className="document-component">
         <div style={{ marginBottom: '2.5rem' }} />
         <Box className="menuBox">
@@ -155,7 +155,7 @@ const Document = ({ id = "" }) => {
         <ShopBar info={detail} did={did} />
         <SearchLoading loading={loading} />
       </div>
-    </>
+    </div>
   );
 };
 
