@@ -226,14 +226,14 @@ export default function VideoIndex(props) {
                     <div className="item box">
                       {videoImg ? (
                         <div
-                          className="file bg-all"
+                          className="file bg-all text-center"
                           style={{
                             marginRight: 10,
                           }}
                         >
                           {videoImg && (
                             <img
-                              className="all-width all-height"
+                              className="all-height" style={{width:'auto'}}
                               src={videoImg}
                             />
                           )}
@@ -260,7 +260,7 @@ export default function VideoIndex(props) {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={4} className="box ">
+              <Grid container spacing={4} className="box">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>系列视频</label>
                 </Grid>
@@ -380,14 +380,14 @@ export default function VideoIndex(props) {
                               <div className="box item">
                                 {seriesImg ? (
                                   <div
-                                    className="file bg-all"
+                                    className="file bg-all text-center"
                                     style={{
                                       marginRight: 10,
                                     }}
                                   >
                                     {seriesImg && (
                                       <img
-                                        className="all-width all-height"
+                                        className=" all-height" style={{width:'auto'}}
                                         src={seriesImg}
                                       />
                                     )}

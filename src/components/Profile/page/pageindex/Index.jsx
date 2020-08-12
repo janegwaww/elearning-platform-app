@@ -27,7 +27,7 @@ class ProfileIndex extends React.Component {
       document_series: null, //系列文本数据
       video_type: "video", //系列与普通/草稿
 
-      lists_arr: ["普通", "系列", "草稿箱"],
+      lists_arr: ["普通", "系列",'文本','系列文本', "草稿箱"],
       // userCollection: null, //我的收藏
       // userColllection_counts: 0, //收藏数量
       page_type: 1, //收藏与历史
@@ -81,13 +81,13 @@ class ProfileIndex extends React.Component {
 
       if (res.err === 0) {
         let _data = res.result_data[0];
-        let _list = ["普通", "系列", "草稿箱"];
-        if (_data.document && _data.document.length > 0) {
-          _list.push("文本");
-        }
-        if (_data.document_series && _data.document_series.length > 0) {
-          _list.push("系列文本");
-        }
+        // let _list = ["普通", "系列", "草稿箱"];
+        // if (_data.document && _data.document.length > 0) {
+        //   _list.push("文本");
+        // }
+        // if (_data.document_series && _data.document_series.length > 0) {
+        //   _list.push("系列文本");
+        // }
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -101,7 +101,7 @@ class ProfileIndex extends React.Component {
             _data.document_series && _data.document_series.length > 0
               ? _data.document_series
               : null,
-          lists_arr: _list,
+          // lists_arr: _list,
         });
       }
 
@@ -318,20 +318,20 @@ class ProfileIndex extends React.Component {
               parent={_this}
               lists={this.state.lists_arr}
               onEvent={(num) => {
+                
                 let _type = "video";
                 if (num == 1) {
                   _type = "series";
                 } else if (num == 2) {
-                  _type = "draft";
+                 
+                  _type = "document";
                 } else if (num == 3) {
-                  if(document_data){
-                    _type = "document";
-                  }else{
-                    _type='document_series'
-                  }
+                  
+                  _type = "document_series";
                   
                 } else if (num == 4) {
-                  _type = "document_series";
+                  
+                  _type = "draft";
                 }
                 this.setState({
                   video_type: _type,
@@ -439,7 +439,7 @@ class ProfileIndex extends React.Component {
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
                     <div className="fn-color-6f fn-size-16 profile-top-20">
-                      暂无文本
+                      暂无系列文本
                     </div>
                   </div>
                 )}

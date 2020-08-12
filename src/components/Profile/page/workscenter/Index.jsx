@@ -6,7 +6,7 @@ import { navigate } from "@reach/router";
 const WorksCenter = (props) => {
   const { children } = props;
   const [num, setNum] = React.useState(0);
-  const [lists, setLists] = React.useState(["普通", "系列", "草稿箱"]);
+  const [lists, setLists] = React.useState(["普通", "系列",'文本','系列文本', "草稿箱"]);
   const [url,setUrl] = React.useState('');
   React.useEffect(() => {
     let _router = props["*"];
@@ -15,27 +15,26 @@ const WorksCenter = (props) => {
     }
    
     if (_router == "document") {
-      setNum(3);
-      setUrl(_router);
-      setLists((old) => {
-        let _new = JSON.parse(JSON.stringify(lists));
-        _new.push("文本");
-        return _new;
-      });
+      setNum(2);
+      // setUrl(_router);
+      // setLists((old) => {
+      //   let _new = JSON.parse(JSON.stringify(lists));
+      //   _new.push("文本");
+      //   return _new;
+      // });
     } else if (_router == "seriesdoc") {
       setNum(3);
-      setUrl(_router);
-      setLists((old) => {
-        let _new = JSON.parse(JSON.stringify(lists));
-        _new.push("系列文本");
-        return _new;
-      });
+      // setUrl(_router);
+      // setLists((old) => {
+      //   let _new = JSON.parse(JSON.stringify(lists));
+      //   _new.push("系列文本");
+      //   return _new;
+      // });
     } else if (_router == "series" || _router == "seriesdetail") {
       setNum(1);
     } else if (_router == "draft") {
-      setNum(2);
+      setNum(4);
     } else {
-     
       setNum(0);
     }
   }, []);
@@ -55,11 +54,16 @@ const WorksCenter = (props) => {
                 navigate(`/users/profile/workscenter/series`);
                 setNum(1);
               } else if(num==3){
-                navigate(`/users/profile/workscenter/draft`);
+                navigate(`/users/profile/workscenter/document`);
                 setNum(2);
-              }else {
-                navigate(`/users/profile/workscenter/${url}`);
+              }
+              else if(num==4) {
+                navigate(`/users/profile/workscenter/seriesdoc`);
                 setNum(3);
+              }else{
+                navigate(`/users/profile/workscenter/draft`);
+                setNum(4);
+               
               }
             }}
           />

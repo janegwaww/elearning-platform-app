@@ -12,7 +12,7 @@ import { navigate } from "@reach/router";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       display: "none",
     },
   },

@@ -82,6 +82,7 @@ const ShopBar = ({ info = {}, did }) => {
           alignItems="baseline"
           pt={2}
           pb={1}
+          style={{maxWdith:1000}}
         >
           <div className="doc-price-title" style={{ fontSize: "1.25rem" }}>
             限时解锁&nbsp;

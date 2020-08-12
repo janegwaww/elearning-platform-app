@@ -93,7 +93,7 @@ export default class Document extends React.Component {
               <div className="profile-top all-width all-height view-overflow text-center">
                 <img src={notvideo} style={{ width: 490, height: 293 }} />
                 <div className="fn-color-6f fn-size-16 profile-top-20">
-                  暂无草稿记录
+                  暂无文本记录
                 </div>
               </div>
             )}
