@@ -63,8 +63,11 @@ class Profile extends React.Component {
     }
     
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
-    
-    if(!props['*']){
+    Object.keys(_menu_open).forEach((va) => {
+      _menu_open[va] = false;
+    });
+  
+    if(!props['*']&& typeof props['*'] !='string'){
       return
     }
     let _router_arr = props["*"].split("/");
@@ -72,10 +75,7 @@ class Profile extends React.Component {
     let _router = _router_arr[0];
     let _is_show = false;
     let _inx = 0;
-    Object.keys(_menu_open).forEach((va) => {
-      _menu_open[va] = false;
-    });
-    
+   
     switch (_router) {
       case "complaints":
         _menu_open.CreateCenter = true;
@@ -168,6 +168,7 @@ class Profile extends React.Component {
                   aria-controls="dynamic-menu"
                   aria-haspopup="true"
                   onClick={(evt) => {
+                    
                     navigate(`/users/profile/dynamic`);
                     
                   }}
@@ -195,8 +196,10 @@ class Profile extends React.Component {
                   aria-label="more"
                   aria-controls="create-menu"
                   aria-haspopup="true"
-                
                   onClick={(evt) => {
+                    if(menuOpen.CreateCenter){
+                      return
+                    } 
                     navigate("/users/profile/workscenter");
                     
                   }}

@@ -13,7 +13,7 @@ const WorksCenter = (props) => {
     if (_router.split("/")) {
       _router = _router.split("/")[0];
     }
-    
+   
     if (_router == "document") {
       setNum(3);
       setUrl(_router);
@@ -35,6 +35,7 @@ const WorksCenter = (props) => {
     } else if (_router == "draft") {
       setNum(2);
     } else {
+     
       setNum(0);
     }
   }, []);

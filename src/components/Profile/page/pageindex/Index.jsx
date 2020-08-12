@@ -8,7 +8,7 @@ import { get_data } from "../../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import notcoll from "../../../../assets/img/notcoll.png";
 import notvideo from "../../../../assets/img/notvideo.png";
 

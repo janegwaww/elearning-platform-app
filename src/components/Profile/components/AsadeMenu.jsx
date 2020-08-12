@@ -21,6 +21,8 @@ export const RightMenu = (props) => {
               padding: 6,
             }}
             onClick={(event) => {
+         
+              if(props._inx==event.target.dataset.inx){return};
               event.stopPropagation();
               event.preventDefault();
               if (v._url) {
