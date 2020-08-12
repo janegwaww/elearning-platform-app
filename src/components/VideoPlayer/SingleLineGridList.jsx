@@ -11,6 +11,20 @@ import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import "./singleLineGridListStyles.sass";
 
+const PressMatchedLine = ({ line = {} }) => {
+  const createMarkup = {
+    __html: decoratedStr(line.wholeStr, line.subs),
+  };
+  return (
+    <Typography
+      className="content"
+      id="grid-tile-content"
+      variant="body2"
+      dangerouslySetInnerHTML={createMarkup}
+    />
+  );
+};
+
 function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
   const [show, setShow] = useState(false);
   const slickSetting = {
@@ -44,31 +58,17 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
 
   const handleOpen = () => setShow(true);
 
-  const handleClick = (time) => {
+  const getCount = () => tileList.length;
+
+  const handleClick = (e, time) => {
     clipJump(time);
   };
-
-  const getCount = () => tileList.length;
 
   useEffect(() => {
     if (tileList.length > 0) {
       handleOpen();
     }
   }, [tileList]);
-
-  const PressMatchedLine = ({ line = {} }) => {
-    const createMarkup = {
-      __html: decoratedStr(line.wholeStr, line.subs),
-    };
-    return (
-      <Typography
-        className="content"
-        id="grid-tile-content"
-        variant="body2"
-        dangerouslySetInnerHTML={createMarkup}
-      />
-    );
-  };
 
   return (
     <div
@@ -89,7 +89,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
             <div>
               <Box
                 key={i}
-                onClick={() => handleClick(tile.startTime)}
+                onClick={(e) => handleClick(e, tile.startTime)}
                 className="GridListTile-tile"
               >
                 <PressMatchedLine
