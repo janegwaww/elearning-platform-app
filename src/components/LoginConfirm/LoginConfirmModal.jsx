@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   contain: {
     position: "absolute",
     top: "50%",
@@ -26,6 +26,9 @@ const useStyles = makeStyles(() => ({
     flexFlow: "column nowrap",
     justifyContent: "flex-end",
     position: "relative",
+    [theme.breakpoints.down("md")]: {
+      width: "120%",
+    },
   },
   loginButton: {
     width: "100%",

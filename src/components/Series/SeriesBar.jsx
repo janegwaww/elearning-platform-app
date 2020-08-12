@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#007cff",
       color: "#fff",
     },
+    [theme.breakpoints.down("md")]: {
+      display: "flex",
+    },
   },
 }));
 

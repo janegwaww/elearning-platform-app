@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 0,
     right: 0,
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   person: {
     "&>a": {
@@ -48,6 +51,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#007cff",
     cursor: "pointer",
+  },
+  popMenu: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -87,7 +95,7 @@ const AvatarMenu = () => {
           variant="body1"
           className={classes.link}
         >
-          登录/注册
+          <Typography noWrap>登录/注册</Typography>
         </Link>
       )}
 
@@ -102,7 +110,7 @@ const AvatarMenu = () => {
         classes={{ paper: classes.popOver }}
       >
         <div style={{ position: "relative" }}>
-          <Box p={2.5}>
+          <Box p={2.5} className={classes.popMenu}>
             <Link
               href="/users/profile/"
               color="inherit"
@@ -155,7 +163,7 @@ const AvatarMenu = () => {
               e.preventDefault();
               logout(() => ({}));
               handleMenuClose();
-              navigate(`/users/login`);
+              /* navigate(`/users/login`); */
             }}
           >
             退出

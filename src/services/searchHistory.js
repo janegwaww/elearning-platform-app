@@ -19,7 +19,7 @@ const exportHistory = name => {
       values: () => [...new Set(state)],
       add(value) {
         if (!value) return;
-        state.unshift(value);
+        state.unshift(value.trim());
       },
       remove(value) {
         const index = state.indexOf(value);

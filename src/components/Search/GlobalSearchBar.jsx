@@ -6,7 +6,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 const GlobalSearchBar = ({ type, handleTypeClick }) => {
   return (
-    <>
+    <div>
       <Divider />
       <Box className="buttonGrounp">
         <Button
@@ -65,7 +65,7 @@ const GlobalSearchBar = ({ type, handleTypeClick }) => {
         </Tooltip>
       </Box>
       <Divider />
-    </>
+    </div>
   );
 };
 

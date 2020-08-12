@@ -1,37 +1,58 @@
 .global-search-card
   .container
-    display: grid
-    height: 148px
     margin: 20px 0
-    grid-template-columns: 246px auto
-    grid-template-rows: repeat(5,1fr)
-    gap: 10px 20px
-    grid-auto-flow: row
 
-  .head
-    grid-column: 1
-    grid-row: 1 / 6
+  .auth-head
     display: flex
     align-items: center
     justify-content: center
+    height: 170px
+    @media screen and (max-width: 960px)
+      height: 100px
+
+  .card-text-part
+    display: flex
+    flex-flow: column nowrap
+    height: 100%
+
+  .card-text-part-description
+    flex-grow: 1
+    overflow: hidden
+    & > p
+      line-height: 1.7
+    @media screen and (max-width: 960px)
+      & > p
+        font-size: 0.75rem
+        line-height: unset
+        overflow: hidden
+        letter-spacing: 0.00938em
+        margin-bottom: 0.4em
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 3
+        -webkit-box-orient: vertical
+    &.subtitle
+      display: none
+
+  .card-subtitle
+    @media screen and (max-width: 960px)
+      & p
+        font-size: 0.75rem
 
   .docContainer
-    gap: 10px 20px
-    padding: 15px 0
-    display: grid
-    height: 168px
     border-top: 1px solid #f2f2f5
     border-bottom: 1px solid #f2f2f5
     margin: 20px 0
-    grid-template-columns: 246px auto
-    grid-template-rows: repeat(5,1fr)
 
   .docHead
     grid-column: 1
     grid-row: 1 / 6
     display: flex
+    height: 168px
     align-items: center
     justify-content: center
+    @media screen and (max-width: 960px)
+      height: 105px
 
   .docAvatar
     grid-column: 2
@@ -40,26 +61,32 @@
     align-items: center
 
   .image-pick
-    height: 100%
-    width: 246px
     border-radius: 12px
     overflow: hidden
-    position: relative
-    background-color: #ecf0f1
-    & > a
-      display: flex
-      justify-content: center
-      align-items: center
-      width: 100%
-      height: 100%
-      & > img
-        width: auto
-        height: 100%
+    @media screen and (max-width: 960px)
+      border-radius: 4px
+    & img
+      height: 166px
+      @media screen and (max-width: 960px)
+        height: 70px
 
   .title-item
     display: flex
     align-items: center
     justify-content: space-between
+    margin-bottom: 0.4em
+    & > a
+      flex-grow: 1
+    @media screen and (max-width: 960px)
+      & .upload-time-title
+        display: none
+      & .title-item-name
+        font-size: 0.875rem
+        overflow: hidden
+        text-overflow: ellipsis
+        -webkit-line-clamp: 2
+        -webkit-box-orient: vertical
+        display: -webkit-box
 
   .is-pay
      backgroundColor: #fc5659
@@ -80,3 +107,19 @@
     border-radius: 0 0 4px 4px
     top: 0
     left: 18px
+
+  .card-avatar
+    display: flex
+    align-items: center
+    .card-avatar-img
+      display: flex
+      align-items: center
+      @media screen and (max-width: 960px)
+        display: none
+
+  .auth-card-avatar
+    width: 130px
+    height: 130px
+    @media screen and (max-width: 960px)
+      width: 80px
+      height: 80px

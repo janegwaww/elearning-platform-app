@@ -7,7 +7,7 @@ import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const Users = () => {
   return (
-    <Router basepath="/users">
+    <Router basepath="/users/">
       <PrivateRoute path="/profile" component={Profile} />
       <Login path="/login" />
       <Default path="/" />
