@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     color: "#007cff",
+    cursor: "pointer",
   },
 }));
 
