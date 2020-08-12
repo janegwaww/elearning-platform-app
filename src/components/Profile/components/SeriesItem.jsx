@@ -63,7 +63,7 @@ const return_html = (info, type) => {
                   left: 18,
                 }}
               >
-                文本
+               {info.type=='document'?'文本':'系列文本'} 
               </span>
             </div>
             <div
