@@ -61,12 +61,17 @@ const userStyles = makeStyles((theme) => ({
     height: 40,
     borderRadius: 20,
     "&:hover": {
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+      backgroundColor: "#007CFF",
+      // backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
   },
   btn2: {
     color: "#878791",
     backgroundColor: "#F2F2F5",
+    "&:hover": {
+      // backgroundColor: "#007CFF",
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    },
   },
   noMaxWidth: {
     maxWidth: 'none',

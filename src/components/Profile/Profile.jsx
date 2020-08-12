@@ -5,7 +5,7 @@ import config from "../../../data/SiteConfig";
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
 import { RightMenu } from "./components/AsadeMenu";
-import { get_data } from "../../assets/js/request";
+import { get_data, get_info } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
@@ -34,18 +34,12 @@ class Profile extends React.Component {
       sessionStorage.removeItem("file_data");
     }
     this.pageRoute(this.props);
-
-    get_data({
-      model_name: "user",
-      model_action: "get_information",
-    }).then((res) => {
-      if (res.err == 0 && res.errmsg == "OK") {
-        this.setState({
-          userinfo: res.result_data[0],
-        });
-        sessionStorage.setItem("user_info", JSON.stringify(res.result_data[0]));
-      }
-    });
+    get_info().then(res=>{
+      this.setState({
+        userinfo: res,
+      });
+    })
+   
   }
   componentWillReceiveProps(nextProps) {
     this.pageRoute(nextProps);
@@ -112,11 +106,8 @@ class Profile extends React.Component {
     return (
       <Layout>
         <Container className="all-height all-width ">
-        {/** <Drawer  >
-        {children}
-        
-        </Drawer>*/}
-          <Grid container>
+      
+     <Grid container>
             <Grid xs={5} sm={3} item>
             <aside
               className=" profile-left all-height bg-white "
@@ -227,16 +218,12 @@ class Profile extends React.Component {
             </Grid>
             <Grid xs={7} sm={9} item>
             <main
-              className=" bg-white"
-              
+              className=" bg-white all-height"
             >
               {children}
             </main>
             </Grid>
           </Grid>
-            
-        
-         
         </Container>
       </Layout>
     );
