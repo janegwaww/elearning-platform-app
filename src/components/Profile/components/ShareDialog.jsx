@@ -59,7 +59,19 @@ const input_use = makeStyles((theme) => ({
     margin: 4,
   },
 }));
-
+function main_url(type,info) {
+  let _url;
+  if (type == "document_series") {
+    _url = "http://kengine.haetek.com/series/?dsid=" + info.series_id;
+  } else if (type == "document") {
+    _url = "http://kengine.haetek.com/document/?did=" + info.file_id;
+  } else if (type == "series") {
+    _url = "http://kengine.haetek.com/series/?sid=" + info.series_id;
+  } else {
+    _url = "http://kengine.haetek.com/watch/?vid=" + info.video_id;
+  }
+  return _url;
+}
 export const ShareDialog = (props) => {
   const input_class = input_use();
   const btn_share = (ev) => {
@@ -67,8 +79,17 @@ export const ShareDialog = (props) => {
     ev.preventDefault();
     ev.stopPropagation();
     let _type = ev.target.dataset.type;
-    let _id, _title, _url;
-    if (props.info.type == "series") {
+    let _id, _title, _url,_source = props.info.type || props.parent._typ;
+    if (props.info.type == "document_series") {
+      _url = "http://kengine.haetek.com/series/?dsid=" + props.info.series_id;
+      _source='document';
+      _id = props.info.series_id;
+      _title = props.info.series_title;
+    } else if (props.info.type == "document") {
+      _url = "http://kengine.haetek.com/document/?did=" + props.info.file_id;
+      _id = props.info.file_id;
+      _title = props.info.file_name;
+    } else if (props.info.type == "series") {
       _url = "http://kengine.haetek.com/series/?sid=" + props.info.series_id;
       _id = props.info.series_id;
       _title = props.info.series_title || props.info.title;
@@ -87,7 +108,7 @@ export const ShareDialog = (props) => {
         summary: props.info.description,
         desc: "说点什么呗", //暂不写
         type: _type, //"wechat"/"microblog"/ “q_Zone”,
-        source: props.info.type || props.parent._type, // "video",
+        source:_source, // "video",
         share_id: _id,
       },
     };
@@ -150,12 +171,7 @@ export const ShareDialog = (props) => {
             <InputBase
               className={input_class.input}
               placeholder="分享url"
-              value={
-                props.info.type == "series"
-                  ? "http://kengine.haetek.com/series/?sid=" +
-                    props.info.series_id
-                  : "http://kengine.haetek.com/watch/?vid=" +
-                    props.info.video_id
+              value={main_url(props.info.type,props.info) 
               }
               inputProps={{ "aria-label": "search google maps" }}
             />
@@ -168,16 +184,8 @@ export const ShareDialog = (props) => {
                 ev.stopPropagation();
                 let _input =
                   ev.target.parentNode.parentNode.childNodes[0].childNodes[0];
-                let _url = "";
-                if (props.info.type == "series") {
-                  _url =
-                    "http://kengine.haetek.com/series/?sid=" +
-                    props.info.series_id;
-                } else {
-                  _url =
-                    "http://kengine.haetek.com/watch/?vid=" +
-                    props.info.video_id;
-                }
+                let _url = main_url(props.info.type,props.info);
+                
                 _input.value = _url;
                 _input.select(); // 选中文本
                 document.execCommand("copy"); // 执行浏览器复制命令
@@ -705,7 +713,6 @@ export const VideoMenu = (props) => {
               model_action: "get_series",
               extra_data: {},
             }).then((res) => {
-             
               if (res.err == 0 && res.result_data.length <= 0) {
                 setNotconcel(true);
                 return;
@@ -903,6 +910,113 @@ export const VideoMenu = (props) => {
             <p>上传作品不容易, 确定真的要删除该作品?</p>
           </EditDialog>
         </MenuItem>
+      </Menu>
+      <ShareDialog
+        isShare={isShare}
+        parent={props}
+        info={props.info}
+        onEvent={() => {
+          setIsShare(false);
+        }}
+      />
+    </div>
+  );
+};
+export const DocMenu = (props) => {
+  const [newimgurl, setNewimgurl] = React.useState(props.info.image_path);
+  const [newTitle, setNewTitle] = React.useState(
+    props.info.title || props.info.video_title
+  );
+  const [newdescription, setNewdescription] = React.useState(
+    props.info.description
+  );
+  //移至系列
+  const [notconcel, setNotconcel] = React.useState(false);
+  const [seriesArr, setSeriesArr] = React.useState([]);
+  const [seriesvalue, setSeriesvalue] = React.useState("");
+
+  const [isShare, setIsShare] = React.useState(false); //分享
+  const classes = userStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (evt) => {
+    evt.stopPropagation();
+    evt.preventDefault();
+    setAnchorEl(evt.currentTarget);
+  };
+
+  const handleClose = (evt) => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div className="text-right">
+      <IconButton
+        aria-label="more"
+        aria-controls="series-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        style={{ padding: 0 }}
+      >
+        <MoreHorizOutlined />
+      </IconButton>
+
+      <Menu
+        open={open}
+        anchorEl={anchorEl}
+        keepMounted
+        id="series-menu"
+        onClose={handleClose}
+        className="menulist"
+      >
+        <MenuItem
+          onClick={(ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            setIsShare(true);
+            handleClose();
+          }}
+          data-id="5"
+        >
+          <div>
+            <img src={fenxiang} />
+          </div>
+          <div> 分享</div>
+        </MenuItem>
+          {props.info.type!='document_series'&&(
+        <MenuItem
+          data-id="6"
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          <EditDialog
+            title="删除作品"
+            icon_img={del}
+            info={props.info}
+            _type="del"
+            onEvent={(msg) => {
+              if (msg.confirm) {
+                get_data({
+                  model_name: "document",
+                  model_action: "delete",
+                  extra_data: {
+                    file_id: props.info.file_id,
+                  },
+                }).then((res) => {
+                  if (res.err === 0) {
+                    new CustomModal().alert("删除成功", "success", 5000);
+                    props.parent.update_data(props._id);
+              
+                  }
+                });
+              }
+            }}
+          >
+            <p>上传作品不容易, 确定真的要删除该作品?</p>
+          </EditDialog>
+        </MenuItem>
+        )}
       </Menu>
       <ShareDialog
         isShare={isShare}

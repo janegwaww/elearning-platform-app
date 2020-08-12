@@ -164,7 +164,7 @@ const AvatarMenu = () => {
             size="small"
             onClick={() => {
               handleMenuClose();
-              navigate("/users/profile/setings");
+              navigate("/users/profile/settings");
             }}
           >
             <SettingsIcon fontSize="inherit" />

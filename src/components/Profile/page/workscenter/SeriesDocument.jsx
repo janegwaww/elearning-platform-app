@@ -1,15 +1,16 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
+
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 import notvideo from "../../../../assets/img/notvideo.png";
 import LoadData from "../../components/LoadData";
-export default class Draft extends React.Component {
+export default class SeriesDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page_type: "Draft",
+      page_type: "document_series",
       total_counts: 0,
       total_data: null,
       show_data: null,
@@ -36,7 +37,7 @@ export default class Draft extends React.Component {
       model_name: "video",
       model_action: "get_video",
       extra_data: {
-        type: "draft",
+        type: "document_series",
       },
     }).then((res) => {
       if (res.err == 0 && res.result_data.length > 0) {
@@ -82,10 +83,10 @@ export default class Draft extends React.Component {
             {show_data ? (
               show_data.map((option, inx) => (
                 <SeriesItem
-                  key={option.video_id||option.file_id}
+                  key={option.series_id}
                   parent={this}
                   info={option}
-                  series="draft"
+                  series="document_series"
                 />
               ))
             ) : (

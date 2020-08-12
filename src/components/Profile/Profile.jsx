@@ -49,16 +49,27 @@ class Profile extends React.Component {
   }
 
   pageRoute(props) {
+    
+    let _url = props.location.search;
+    if(_url){
+       navigate(`${_url.split('=')[1]}`);
+       return
+    }
+    
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
+    Object.keys(_menu_open).forEach((va) => {
+      _menu_open[va] = false;
+    });
+  
+    if(!props['*']&& typeof props['*'] !='string'){
+      return
+    }
     let _router_arr = props["*"].split("/");
 
     let _router = _router_arr[0];
     let _is_show = false;
     let _inx = 0;
-    Object.keys(_menu_open).forEach((va) => {
-      _menu_open[va] = false;
-    });
-    
+   
     switch (_router) {
       case "complaints":
         _menu_open.CreateCenter = true;
@@ -74,6 +85,8 @@ class Profile extends React.Component {
           _inx = 1;
         }
         break;
+        
+
     }
 
     if (_router) {
@@ -89,7 +102,7 @@ class Profile extends React.Component {
   render() {
     const { menuOpen, inx } = this.state;
     const { children } = this.props;
-
+  
     return (
       <Layout>
         <Container className="all-height all-width ">
@@ -147,6 +160,7 @@ class Profile extends React.Component {
                   aria-controls="dynamic-menu"
                   aria-haspopup="true"
                   onClick={(evt) => {
+                    
                     navigate(`/users/profile/dynamic`);
                     
                   }}
@@ -174,8 +188,10 @@ class Profile extends React.Component {
                   aria-label="more"
                   aria-controls="create-menu"
                   aria-haspopup="true"
-                
                   onClick={(evt) => {
+                    if(menuOpen.CreateCenter){
+                      return
+                    } 
                     navigate("/users/profile/workscenter");
                     
                   }}

@@ -6,14 +6,36 @@ import { navigate } from "@reach/router";
 const WorksCenter = (props) => {
   const { children } = props;
   const [num, setNum] = React.useState(0);
-  React.useState(() => {
+  const [lists, setLists] = React.useState(["普通", "系列", "草稿箱"]);
+  const [url,setUrl] = React.useState('');
+  React.useEffect(() => {
     let _router = props["*"];
-
-    if (_router == "series" ||_router== "seriesdetail") {
+    if (_router.split("/")) {
+      _router = _router.split("/")[0];
+    }
+   
+    if (_router == "document") {
+      setNum(3);
+      setUrl(_router);
+      setLists((old) => {
+        let _new = JSON.parse(JSON.stringify(lists));
+        _new.push("文本");
+        return _new;
+      });
+    } else if (_router == "seriesdoc") {
+      setNum(3);
+      setUrl(_router);
+      setLists((old) => {
+        let _new = JSON.parse(JSON.stringify(lists));
+        _new.push("系列文本");
+        return _new;
+      });
+    } else if (_router == "series" || _router == "seriesdetail") {
       setNum(1);
     } else if (_router == "draft") {
       setNum(2);
     } else {
+     
       setNum(0);
     }
   }, []);
@@ -22,20 +44,22 @@ const WorksCenter = (props) => {
       <main>
         <div>
           <Nav
-            list={["普通", "系列", "草稿箱"]}
-              parent={props}
-              _inx={num}
+            list={lists}
+            parent={props}
+            _inx={num}
             onEvent={(num) => {
-              
               if (num == 1) {
                 navigate(`/users/profile/workscenter`);
                 setNum(0);
               } else if (num == 2) {
                 navigate(`/users/profile/workscenter/series`);
                 setNum(1);
-              } else {
+              } else if(num==3){
                 navigate(`/users/profile/workscenter/draft`);
                 setNum(2);
+              }else {
+                navigate(`/users/profile/workscenter/${url}`);
+                setNum(3);
               }
             }}
           />

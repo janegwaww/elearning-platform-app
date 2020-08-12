@@ -1,6 +1,6 @@
 import React, { createRef, Component } from "react";
 
-import ProgressBar from "../../Loading/ProgressBar";
+import ProgressBar from "../../../assets/template/ProgressBar";
 import "./Uploader.css";
 import {
   Button,
@@ -32,6 +32,7 @@ import DialogModal from "../components/Dialog";
 import gologin from "../../../assets/img/gologin.png";
 import uploadererr from "../../../assets/img/uploadererr.png";
 import videorest from "../../../assets/img/videorest.png";
+
 
 const NewLinearProgress = withStyles({
   root: {
@@ -610,7 +611,7 @@ export default class UploadVideos extends Component {
     let _this = this;
     return (
       <div className="section upload-cover fn-color-9E9EA6 ">
-        <ProgressBar loading={login_status} />
+      <ProgressBar loading={login_status} />
         <div className="nav-tabs ">
           <p>我的视频</p>
         </div>
@@ -875,7 +876,30 @@ export default class UploadVideos extends Component {
                   <NewBtn2
                     disabled={status != 3}
                     onClick={() => {
-                      navigate(`/video/uppage`);
+                      this.setState({
+                        login_status:true
+                      })
+                      get_data({
+                        "model_name":"video",
+                        "model_action":"get_image_path",
+                        "extra_data":{
+                        "video_id" : this.state.files.video_id
+                        },
+                        "model_type":""
+                        },'video').then(res=>{
+                          if(res.result_data[0]&&res.result_data[0].image_path){
+                            let _data =JSON.parse(sessionStorage.getItem('file_data'));
+                            _data.image_path=res.result_data[0].image_path;
+                            this.setState({
+                              files:_data
+                            });
+                            sessionStorage.setItem('file_data',JSON.stringify(_data));
+                            
+                            navigate(`/video/uppage`);
+                          }
+                          this.setState({login_status:false})
+                        })
+                        
                     }}
                   >
                     直接发布作品

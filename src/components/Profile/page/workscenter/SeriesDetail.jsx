@@ -3,7 +3,7 @@ import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import Button from '@material-ui/core/Button';
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import CustomModal from "../../../../assets/js/CustomModal";
 import Pagination from "@material-ui/lab/Pagination";
 import Grid from "@material-ui/core/Grid";
@@ -44,7 +44,11 @@ export default class SeriesDetail extends React.Component {
     this.wind_size = this.wind_size.bind(this);
   }
   componentDidMount() {
-    let _id = this.props.location.search.split("=")[1];
+    let _id = this.props.id;
+    if(!_id){
+      alert('系列id错误');
+      window.history.go(-1);
+    }
     this.update_data(_id);
     window.onresize = (e) => {
       this.wind_size(e);

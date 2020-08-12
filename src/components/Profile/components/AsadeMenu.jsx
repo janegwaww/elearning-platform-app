@@ -22,6 +22,8 @@ export const RightMenu = (props) => {
               minHeight:'2rem'
             }}
             onClick={(event) => {
+         
+              if(props._inx==event.target.dataset.inx){return};
               event.stopPropagation();
               event.preventDefault();
               if (v._url) {

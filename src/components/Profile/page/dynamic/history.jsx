@@ -1,8 +1,8 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
-import SearchLoading from "../../../Loading/SearchLoading";
-import ProgressBar from "../../../Loading/ProgressBar";
+
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
 import { Grid } from "@material-ui/core";
@@ -49,6 +49,7 @@ export default class History extends React.Component {
       } else {
         this.setState({
           total_data: [],
+          show_data:null
         });
       }
       this.wind_size();
@@ -98,7 +99,7 @@ export default class History extends React.Component {
           <Grid container spacing={4} className="grid">
             {show_data ? (
               show_data.map((option) => (
-                <Grid item xs={3} key={option.video_id || option.series_id}>
+                <Grid item xs={6} sm={4} md={3} key={option.video_id || option.series_id}>
                   <WorksItem
                     parent={this}
                     info={option}
@@ -145,11 +146,7 @@ export default class History extends React.Component {
             />
           </div>
         )}
-        {/** 
-        <div>
-          <SearchLoading loading={login_status} />
-        </div>
-        */}
+       
       </div>
     );
   }

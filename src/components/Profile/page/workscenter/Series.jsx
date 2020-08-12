@@ -1,8 +1,7 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
-
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 import LoadData from "../../components/LoadData";
 import notvideo from "../../../../assets/img/notvideo.png";

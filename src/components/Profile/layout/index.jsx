@@ -8,8 +8,6 @@ import {settings_html} from '../../../assets/js/totls';
 import Footer from "../../Footer/Footer";
 import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
-// import '../../../assets/css/tootls.css';
-// import '../../../assets/css/container.css';
 import "./Profile.css";
 import  Drawer from '../components/Drawer';
 
@@ -28,6 +26,7 @@ export default class MainLayout extends React.Component {
           <link type= 'text/css' rel='stylesheet' href='../../../assets/css/container.css' />
           {/*<link type= 'text/css' rel='stylesheet' href='./profile.css' />*/}
             <html lang="en" />
+          
           </Helmet>
 
           
@@ -42,10 +41,10 @@ export default class MainLayout extends React.Component {
               {children}
               
               
-              <ScrollTop />
+            
             </main>
-          {/**
-            <Footer config={config} />
+             <ScrollTop />
+          {/***   <Footer config={config} />
              */} 
             
          

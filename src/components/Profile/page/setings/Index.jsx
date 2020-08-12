@@ -26,13 +26,13 @@ const Setings = (props) => {
           _inx = {num}
           onEvent={(num) => {
             if (num == 1) {
-              navigate(`/users/profile/setings`);
+              navigate(`/users/profile/settings`);
               setNum(0)
             } else if (num == 2) {
-              navigate(`/users/profile/setings/safety`);
+              navigate(`/users/profile/settings/safety`);
               setNum(1)
             } else {
-              navigate(`/users/profile/setings/help`);
+              navigate(`/users/profile/settings/help`);
               setNum(2)
             }
           }}
