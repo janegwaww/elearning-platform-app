@@ -196,14 +196,14 @@ export default class VideoPage extends Component {
       } else {
         sub_l = (json_sub[i].bg - json_sub[i - 1].ed) / (total_time / total_w);
       }
-      //json_sub[i].bg / (total_time / total_w);
+     
 
       test_arr.push(
         <div
           key={i}
           style={{
             width: sub_w + "px",
-            // transform: "translateX(" + sub_l + "px)",
+       
             marginLeft: sub_l + "px",
           }}
           className="test-nodes"
@@ -232,7 +232,7 @@ export default class VideoPage extends Component {
               className={this.state.the_current.inx == i ? "active" : ""}
               style={{ marginTop: 20 }}
             >
-              {json_sub[i].en_sub && (
+              
                 <p
                   data-lu="en"
                   onBlur={this.context_blur}
@@ -244,9 +244,9 @@ export default class VideoPage extends Component {
                   contentEditable="true"
                   title="此字段视频可以循环播放"
                 >
-                  {json_sub[i].en_sub}
+                  {json_sub[i].en_sub?json_sub[i].en_sub:''}
                 </p>
-              )}
+             
             </div>
           ) : (
             ""

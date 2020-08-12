@@ -81,7 +81,7 @@ class ProfileIndex extends React.Component {
 
       if (res.err === 0) {
         let _data = res.result_data[0];
-        let _list = JSON.parse(JSON.stringify(this.state.lists_arr));
+        let _list = ["普通", "系列", "草稿箱"];
         if (_data.document && _data.document.length > 0) {
           _list.push("文本");
         }
@@ -324,7 +324,12 @@ class ProfileIndex extends React.Component {
                 } else if (num == 2) {
                   _type = "draft";
                 } else if (num == 3) {
-                  _type = "document";
+                  if(document_data){
+                    _type = "document";
+                  }else{
+                    _type='document_series'
+                  }
+                  
                 } else if (num == 4) {
                   _type = "document_series";
                 }
