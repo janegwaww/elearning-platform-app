@@ -12,7 +12,7 @@ import {
   InputAdornment,
   Link,
   ButtonBase,
-  Tooltip
+  Tooltip,
   /* Menu,
    * MenuItem,
    * Badge,
@@ -46,7 +46,7 @@ const PrimarySearchAppBar = () => {
     }
   };
 
-  const handleEnter = e => {
+  const handleEnter = (e) => {
     if (e.key === "Enter") {
       handleSearchClick();
     }
@@ -129,7 +129,7 @@ const PrimarySearchAppBar = () => {
                 placeholder="支持跨模态逐帧搜索..."
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput
+                  input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
                 onKeyDown={handleEnter}
@@ -166,13 +166,6 @@ const PrimarySearchAppBar = () => {
             </div>
             <div>
               <ContributeMenu />
-
-              {/**  <Button 
-                className={classes.createButton}
-                onClick={() => navigate("/video/")}
-              >
-                <Typography>投稿</Typography>
-              </Button>*/}
             </div>
             {/* <div className={classes.sectionMobile}>
                 <IconButton

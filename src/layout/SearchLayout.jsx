@@ -14,6 +14,7 @@ import ScrollTop from "./ScrollTop";
 import AvatarMenu from "./AvatarMenu";
 import Container from "../components/Container/KeContainer";
 import SearchAutoComplete from "../components/Search/SearchAutoComplete";
+import ContributeMenu from "./ContributeMenu";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
 import { searchUrlParams, getIdFromHref } from "../services/utils";
@@ -61,11 +62,7 @@ const SearchLayout = ({ children }) => {
               <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>
-              <Link href="/video/" underline="none" className="post-button">
-                <Button size="small">
-                  <Typography>投稿</Typography>
-                </Button>
-              </Link>
+              <ContributeMenu />
             </div>
           </Container>
         </div>
@@ -84,6 +81,7 @@ const SearchLayout = ({ children }) => {
           </Toolbar>
         </Container>
       </AppBar>
+
       <div className="search-layout-container">
         <Helmet title={`Search | ${config.siteTitle}`}>
           <meta name="description" content={config.siteDescription} />
@@ -91,6 +89,7 @@ const SearchLayout = ({ children }) => {
         </Helmet>
         {children(input)}
       </div>
+
       <ScrollTop />
       <Footer config={config} />
     </ThemeProvider>
