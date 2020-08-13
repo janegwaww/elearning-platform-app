@@ -42,7 +42,7 @@ const PrimarySearchAppBar = () => {
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
-      navigate(searchUrlParams(value));
+      navigate(searchUrlParams({ value }));
     }
   };
 
