@@ -7,9 +7,9 @@ class SearchPage extends Component {
   render() {
     return (
       <SearchLayout>
-        {(input) => (
+        {(input, page, type) => (
           <Container>
-            <Search input={input} />
+            <Search input={input} page={page} type={type} />
           </Container>
         )}
       </SearchLayout>
