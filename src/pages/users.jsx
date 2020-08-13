@@ -21,7 +21,8 @@ import Help from '../components/Profile/page/setings/Help';
 import Safety from '../components/Profile/page/setings/Safety';
 import Basic from '../components/Profile/page/setings/Basic';
 import SetingsPhone from '../components/Profile/page/setings/SetingsPhone';
-
+import '../assets/css/tootls.css';
+import '../assets/css/container.css';
 const Users = () => {
   return (
     <Router basepath="/users">
