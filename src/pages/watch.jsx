@@ -1,9 +1,22 @@
 import React, { Component } from "react";
+import useQueryMedia from "@material-ui/core/useMediaQuery";
 import Layout from "../layout";
 import Watch from "../components/Watch/Watch";
+import WatchMobile from "../components/Watch/WatchMobile";
 import Container from "../components/Container/KeContainer";
 import { LoginConfirmProvider } from "../components/LoginConfirm";
 import { getIdFromHref } from "../services/utils";
+
+const WitchWatch = ({ vid = "" }) => {
+  const match = useQueryMedia((theme) => theme.breakpoints.down("md"));
+  return match ? (
+    <WatchMobile vid={vid} />
+  ) : (
+    <Container>
+      <Watch vid={vid} />
+    </Container>
+  );
+};
 
 class WatchPage extends Component {
   render() {
@@ -12,9 +25,7 @@ class WatchPage extends Component {
     return (
       <Layout>
         <LoginConfirmProvider>
-          <Container>
-            <Watch vid={vid} />
-          </Container>
+          <WitchWatch vid={vid} />
         </LoginConfirmProvider>
       </Layout>
     );

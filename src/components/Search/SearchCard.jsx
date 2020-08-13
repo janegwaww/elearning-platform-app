@@ -1,7 +1,10 @@
 import React from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
+import Grid from "@material-ui/core/Grid";
+import CardMedia from "@material-ui/core/CardMedia";
 import Bull from "./Bull";
 import Link from "../Link/Link";
 import CardTag from "../GridCards/CardTag";
@@ -18,7 +21,7 @@ const imagePick = (path, href = "/", type) =>
     <CardTag type={type}>
       <div className="image-pick">
         <Link href={href}>
-          <img src={`${path}`} width="auto" alt={path} height="100%" />
+          <CardMedia component="img" alt={path} src={`${path}`} />
         </Link>
       </div>
     </CardTag>
@@ -36,15 +39,18 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
       {title && (
         <Link href={href}>
           <Typography
-            variant="subtitle1"
-            noWrap
             dangerouslySetInnerHTML={createMarkup}
+            className="title-item-name"
           />
         </Link>
       )}
       <div style={{ width: 10 }} />
       {time && (
-        <Typography variant="caption" color="textSecondary" noWrap>
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          className="upload-time-title"
+        >
           {`${secondsToDate(time)} 发布`}
         </Typography>
       )}
@@ -64,7 +70,6 @@ const descriptionItem = (description, match = {}) => {
         variant="body2"
         color="textSecondary"
         dangerouslySetInnerHTML={createMarkup}
-        style={{ lineHeight: 1.7 }}
       />
     )
   );
@@ -72,34 +77,38 @@ const descriptionItem = (description, match = {}) => {
 
 const authAvatar = (headshot, href = "/") =>
   headshot && (
-    <Link href={href}>
-      <Avatar
-        src={headshot}
-        alt={headshot}
-        style={{ width: 130, height: 130 }}
-      />
-    </Link>
+    <div className="auth-head">
+      <Link href={href}>
+        <Avatar src={headshot} alt={headshot} className="auth-card-avatar" />
+      </Link>
+    </div>
   );
 
 const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) => (
-  <div style={{ display: "flex", alignItems: "center" }}>
-    {headshot && (
-      <Link href={`/excellentcreator/creator/?cid=${id}`}>
-        <Avatar
-          src={headshot}
-          alt={name}
-          style={{ height: 28, width: 28, marginRight: 5 }}
-        />
-      </Link>
-    )}
-    {name && <Typography variant="caption">{name}</Typography>}
-    {name && headshot && <div style={{ marginRight: 40 }} />}
+  <div className="card-avatar">
+    <div className="card-avatar-img">
+      {headshot && (
+        <Link href={`/excellentcreator/creator/?cid=${id}`}>
+          <Avatar
+            src={headshot}
+            alt={name}
+            style={{ height: 28, width: 28, marginRight: 5 }}
+          />
+        </Link>
+      )}
+      {name && (
+        <Typography variant="caption" noWrap>
+          {name}
+        </Typography>
+      )}
+      {name && headshot && <div style={{ marginRight: 40 }} />}
+    </div>
     {!!(view || comment || like) && (
       <div style={{ gridColumn: 2, gridRow: 4 }}>
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="caption" color="textSecondary" noWrap>
           {`${view}观看`}
           {/* <Bull />
-          {`${comment}回应`} */}
+                        {`${comment}回应`} */}
           <Bull />
           {`${like}点赞`}
         </Typography>
@@ -135,119 +144,144 @@ const fans = (vi) =>
     </Typography>
   );
 
+const Container = ({ leftComponent, rightComponent }) => {
+  const match = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  return (
+    <Grid container className="container" spacing={match ? 1 : 2}>
+      <Grid item xs={4} md={3}>
+        {leftComponent}
+      </Grid>
+      <Grid item xs={8} md={9}>
+        {rightComponent}
+      </Grid>
+    </Grid>
+  );
+};
+
 const videoContainer = ({ data = {}, match_frame = {} }) => {
-  const { start_time } = match_frame;
+  const match = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const { start_time, type } = match_frame;
   const href = start_time
     ? `/watch/?vid=${data.video_id}&time=${start_time}`
     : `/watch/?vid=${data.video_id}`;
   return (
-    <div className="container">
-      <div className="head">{imagePick(data.image_path, href)}</div>
-      <div style={{ gridColumn: 2, gridRow: 1 }}>
-        <TitleItem
-          pay={data.is_pay}
-          title={data.title}
-          time={data.upload_time}
-          href={href}
-          match={match_frame}
-        />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
-        {descriptionItem(data.description, match_frame)}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 4, overflow: "hidden" }}>
-        {subtitle({ ...match_frame, id: data.video_id })}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 5 }}>
-        {userAvatar(
-          data.user_name,
-          data.headshot,
-          data.user_id,
-          data.view_counts,
-          data.comment_counts,
-          data.like_counts,
-        )}
-      </div>
-    </div>
+    <Container
+      leftComponent={imagePick(data.image_path, href)}
+      rightComponent={
+        <div className="card-text-part">
+          <TitleItem
+            pay={data.is_pay}
+            title={data.title}
+            time={data.upload_time}
+            href={href}
+            match={match_frame}
+          />
+          <div
+            className={`card-text-part-description ${
+              type === "subtitle" && match && "subtitle"
+            }`}
+          >
+            {descriptionItem(data.description, match_frame)}
+          </div>
+          <div className="card-subtitle">
+            {subtitle({ ...match_frame, id: data.video_id })}
+          </div>
+          {userAvatar(
+            data.user_name,
+            data.headshot,
+            data.user_id,
+            data.view_counts,
+            data.comment_counts,
+            data.like_counts,
+          )}
+        </div>
+      }
+    />
   );
 };
 
 const authContainer = ({ data, match_frame }) => {
   const href = `/excellentcreator/creator/?cid=${data.user_id}`;
   return (
-    <div className="container">
-      <div className="head">{authAvatar(data.headshot, href)}</div>
-      <div style={{ gridColumn: 2, gridRow: 1 }}>
-        <TitleItem
-          pay={data.is_pay}
-          title={data.user_name}
-          time={data.upload_time}
-          href={href}
-          match={match_frame}
-        />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 2 }}>{fans(data.video_counts)}</div>
-      <div style={{ gridColumn: 2, gridRow: "3/5" }}>
-        {descriptionItem(data.introduction, match_frame)}
-      </div>
-    </div>
+    <Container
+      leftComponent={authAvatar(data.headshot, href)}
+      rightComponent={
+        <div>
+          <TitleItem
+            pay={data.is_pay}
+            title={data.user_name}
+            time={data.upload_time}
+            href={href}
+            match={match_frame}
+          />
+          <div style={{ gridColumn: 2, gridRow: 2 }}>
+            {fans(data.video_counts)}
+          </div>
+          <div style={{ gridColumn: 2, gridRow: "3/5" }}>
+            {descriptionItem(data.introduction, match_frame)}
+          </div>
+        </div>
+      }
+    />
   );
 };
 
 const seriesContainer = ({ data, match_frame }) => {
   const href = `/series/?sid=${data.series_id}`;
   return (
-    <div className="container">
-      <div className="head">{imagePick(data.image_path, href, "series")}</div>
-      <div style={{ gridColumn: 2, gridRow: 1 }}>
-        <TitleItem
-          pay={data.is_pay}
-          title={data.title}
-          time={data.upload_time}
-          href={href}
-          match={match_frame}
-        />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
-        {descriptionItem(data.description, match_frame)}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }} />
-      <div style={{ gridColumn: 2, gridRow: 5 }}>
-        {userAvatar(
-          data.user_name,
-          data.headshot,
-          data.user_id,
-          data.view_counts,
-          data.comment_counts,
-          data.like_counts,
-        )}
-      </div>
-    </div>
+    <Container
+      leftComponent={imagePick(data.image_path, href, "series")}
+      rightComponent={
+        <div className="card-text-part">
+          <TitleItem
+            pay={data.is_pay}
+            title={data.title}
+            time={data.upload_time}
+            href={href}
+            match={match_frame}
+          />
+          <div className="card-text-part-description">
+            {descriptionItem(data.description, match_frame)}
+          </div>
+          <div style={{ gridColumn: 2, gridRow: 4 }} />
+          <div style={{ gridColumn: 2, gridRow: 5 }}>
+            {userAvatar(
+              data.user_name,
+              data.headshot,
+              data.user_id,
+              data.view_counts,
+              data.comment_counts,
+              data.like_counts,
+            )}
+          </div>
+        </div>
+      }
+    />
   );
 };
 
 const docSeriesContainer = ({ data, match_frame }) => {
   const href = `/series/?dsid=${data.series_id}`;
   return (
-    <div className="container">
-      <div className="head">
-        {imagePick(data.image_path, href, "documents")}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 1 }}>
-        <TitleItem
-          pay={data.is_pay}
-          title={data.title}
-          time={data.upload_time}
-          href={href}
-          match={match_frame}
-        />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: "2 / 4", overflow: "hidden" }}>
-        {descriptionItem(data.description, match_frame)}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 4 }} />
-      <div style={{ gridColumn: 2, gridRow: 5 }} />
-    </div>
+    <Container
+      leftComponent={imagePick(data.image_path, href, "documents")}
+      rightComponent={
+        <div className="card-text-part">
+          <TitleItem
+            pay={data.is_pay}
+            title={data.title}
+            time={data.upload_time}
+            href={href}
+            match={match_frame}
+          />
+          <div className="card-text-part-description">
+            {descriptionItem(data.description, match_frame)}
+          </div>
+          <div style={{ gridColumn: 2, gridRow: 4 }} />
+          <div style={{ gridColumn: 2, gridRow: 5 }} />
+        </div>
+      }
+    />
   );
 };
 
@@ -256,33 +290,33 @@ const docContainer = ({ data, match_frame }) => {
   const href = !file_path ? `/document/?did=${data.file_id}` : `${file_path}`;
 
   return (
-    <div className="docContainer">
-      <div className="docHead">
-        {imagePick(data.image_path, href, "document")}
-      </div>
-      <div style={{ gridColumn: 2, gridRow: 1 }}>
-        <TitleItem
-          title={data.file_name}
-          pay={data.is_pay}
-          time={data.time}
-          href={href}
-          match={match_frame}
-        />
-      </div>
-      <div style={{ gridColumn: 2, gridRow: "2/5", overflow: "hidden" }}>
-        {descriptionItem(data.description, match_frame)}
-      </div>
-      <div className="docAvatar">
-        {userAvatar(data.user_name, data.headshot, data.user_id)}
-        <Typography variant="caption" color="textSecondary">
-          {`${data.download_counts}次 下载`}
-        </Typography>
-      </div>
-    </div>
+    <Container
+      leftComponent={imagePick(data.image_path, href, "document")}
+      rightComponent={
+        <div className="card-text-part">
+          <TitleItem
+            title={data.file_name}
+            pay={data.is_pay}
+            time={data.time}
+            href={href}
+            match={match_frame}
+          />
+          <div className="card-text-part-description">
+            {descriptionItem(data.description, match_frame)}
+          </div>
+          <div className="docAvatar">
+            {userAvatar(data.user_name, data.headshot, data.user_id)}
+            <Typography variant="caption" color="textSecondary">
+              {`${data.download_counts}次 下载`}
+            </Typography>
+          </div>
+        </div>
+      }
+    />
   );
 };
 
-export default function SearchCard({ card = {} }) {
+const SearchCard = ({ card = {} }) => {
   const chosenCard = ({ source, data, match_frame }) =>
     ({
       video: videoContainer({ data, match_frame }),
@@ -293,4 +327,6 @@ export default function SearchCard({ card = {} }) {
     }[source]);
   const Card = pipe(chosenCard);
   return <div className="global-search-card">{Card(card)}</div>;
-}
+};
+
+export default SearchCard;

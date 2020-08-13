@@ -3,10 +3,11 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import CustomInput from "./CustomInput";
 import { generateSMSCode } from "../../services/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   loginButton: {
     backgroundColor: "#007cff",
     borderRadius: "30px",
@@ -14,12 +15,18 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     marginTop: theme.spacing(2),
     "&.Mui-disabled": {
-      backgroundColor: "#ddd"
+      backgroundColor: "#ddd",
     },
     "&:hover": {
-      backgroundColor: "#007cff"
-    }
-  }
+      backgroundColor: "#007cff",
+    },
+  },
+  notice: {
+    fontSize: 12,
+    color: "#909399",
+    marginTop: 10,
+    textAlign: "center",
+  },
 }));
 
 const AccountForm = ({ handleButton, buttonText = "登录" }) => {
@@ -31,7 +38,7 @@ const AccountForm = ({ handleButton, buttonText = "登录" }) => {
       .required("手机号必须填写!"),
     smscode: Yup.string()
       .matches(/^\d{4}$/, "验证码错误!")
-      .required("验证码必须填写!")
+      .required("验证码必须填写!"),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -75,6 +82,9 @@ const AccountForm = ({ handleButton, buttonText = "登录" }) => {
             >
               {buttonText}
             </Button>
+            <Typography className={classes.notice}>
+              未注册的手机号码验证后自动创建知擎账号
+            </Typography>
           </Form>
         );
       }}

@@ -6,7 +6,9 @@ import {
   InputBase,
   InputAdornment,
   ButtonBase,
+  IconButton,
 } from "@material-ui/core";
+import useQueryMedia from "@material-ui/core/useMediaQuery";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "notistack";
@@ -24,6 +26,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState(0);
   const [input, setInput] = useState("");
+  const noMatchMobile = useQueryMedia((theme) => theme.breakpoints.up("md"));
 
   const verifyTimer = () => {
     const { time } = getIdFromHref();
@@ -107,6 +110,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
                 </InputAdornment>
               }
             />
+
             <Button
               className="KeSearchButton"
               aria-label="search"

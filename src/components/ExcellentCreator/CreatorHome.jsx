@@ -46,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#007cff",
     },
   },
+  headImg: {
+    height: 300,
+    [theme.breakpoints.down("md")]: {
+      height: 150,
+    },
+  },
 }));
 
 const TTab = withStyles((theme) => ({
@@ -118,6 +124,16 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
   );
 };
 
+const HeadBanner = ({ bg = "" }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.headImg}>
+      <img src={bg} height="100%" width="100%" alt={bg} />
+    </div>
+  );
+};
+
 class CreatorHome extends Component {
   constructor(props) {
     super(props);
@@ -175,7 +191,7 @@ class CreatorHome extends Component {
         list: data.list.slice(0, 16),
         loading: false,
         listStack: data.list,
-        pageCount: data.list.length,
+        pageCount: data.list.filter((o) => o.type === "video").length,
       });
     });
   };
@@ -245,14 +261,7 @@ class CreatorHome extends Component {
                   overflow: "hidden",
                 }}
               >
-                <div>
-                  <img
-                    src={background}
-                    height={300}
-                    width="100%"
-                    alt={background}
-                  />
-                </div>
+                <HeadBanner bg={background} />
                 <div style={{ height: 158, paddingTop: 10 }}>
                   <CreatorAvatar auth={auth} />
                 </div>

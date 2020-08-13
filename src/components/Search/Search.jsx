@@ -9,10 +9,19 @@ import { searchGlobal } from "../../services/home";
 import { kGlobalSearchRecord } from "../../services/userActiveRecord";
 import "./SearchStyles.sass";
 
+const iterateItems = (arr = [], input) => {
+  // iterate there
+  return arr.slice(0, 12).map((o, i) => (
+    <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
+      <SearchCard card={o} />
+    </div>
+  ));
+};
+
 const Search = ({ input }) => {
   const [result, setResult] = useState([]);
   const [type, setType] = useState("all");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [num, setNum] = useState(0);
 
   // fetch data from api
@@ -46,15 +55,6 @@ const Search = ({ input }) => {
     }
   }, [input, type]);
 
-  const iterateItems = (arr = []) => {
-    // iterate there
-    return arr.slice(0, 12).map((o, i) => (
-      <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
-        <SearchCard card={o} />
-      </div>
-    ));
-  };
-
   return (
     <div className="search-root">
       <div style={{ height: 40 }} />
@@ -64,11 +64,10 @@ const Search = ({ input }) => {
           __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
         }}
       />
-      <div style={{ height: 20 }} />
+      <div style={{ height: 10 }} />
       <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
-      <br />
       <div style={{ minHeight: "60vh" }}>
-        {iterateItems(result)}
+        {iterateItems(result, input)}
         <EmptyNotice
           empty={!result.length && !loading}
           type="noResult"
