@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
 import SearchCard from "./SearchCard";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
@@ -7,6 +8,7 @@ import Pagination from "../Series/SePagination";
 import GlobalSearchBar from "./GlobalSearchBar";
 import { searchGlobal } from "../../services/home";
 import { kGlobalSearchRecord } from "../../services/userActiveRecord";
+import { searchUrlParams } from "../../services/utils";
 import "./SearchStyles.sass";
 
 const iterateItems = (arr = [], input) => {
@@ -18,14 +20,13 @@ const iterateItems = (arr = [], input) => {
   ));
 };
 
-const Search = ({ input }) => {
+const Search = ({ input, page = 1, type = "all" }) => {
   const [result, setResult] = useState([]);
-  const [type, setType] = useState("all");
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState(0);
 
   // fetch data from api
-  const fetchSearchResult = ({ page = 1 } = {}, callback = () => ({})) => {
+  const fetchSearchResult = () => {
     setLoading(true);
     searchGlobal({
       query_string: input,
@@ -37,23 +38,22 @@ const Search = ({ input }) => {
       setResult(resultData);
       setNum(count);
       setLoading(false);
-      callback(resultData);
     });
   };
 
   const handleTypeClick = (cate) => {
-    setType(cate);
+    navigate(searchUrlParams({ value: input, type: cate }));
   };
 
-  const handlePage = (event, page) => {
-    fetchSearchResult({ page });
+  const handlePage = (event, pa) => {
+    navigate(searchUrlParams({ value: input, type, page: pa }));
   };
 
   useEffect(() => {
     if (input) {
       fetchSearchResult();
     }
-  }, [input, type]);
+  }, [input, type, page]);
 
   return (
     <div className="search-root">
@@ -75,7 +75,12 @@ const Search = ({ input }) => {
         />
       </div>
       <br />
-      <Pagination num={num} handlePage={handlePage} />
+      <Pagination
+        num={num}
+        handlePage={handlePage}
+        page={parseInt(page, 10)}
+        jump
+      />
       <br />
       <ProgressBar loading={loading} />
     </div>
