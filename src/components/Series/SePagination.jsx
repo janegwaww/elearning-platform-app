@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   jumpRoot: {
     marginLeft: 20,
+    border: "1px solid rgba(0,0,0,0.23)",
+    boxShadow: "unset",
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -64,6 +66,7 @@ const Pagination = ({ num = 1, handlePage, jump = false, ...others }) => {
             endAdornment={
               <InputAdornment>
                 <Button
+                  size="small"
                   onClick={(e) => {
                     const { value } = document.getElementById(
                       "sepagination-page-jump",
