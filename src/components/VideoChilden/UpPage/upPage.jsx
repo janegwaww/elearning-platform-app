@@ -387,7 +387,7 @@ export default function VideoIndex(props) {
                                     }}
                                   >
                                     {seriesImg && (
-                                      <Zmage 
+                                      <Zmage
                                         className=" all-height" style={{width:'auto'}}
                                         src={seriesImg}
                                       />

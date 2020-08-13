@@ -8,7 +8,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
 import { navigate } from "@reach/router";
-
+import LoginModal from "../assets/template/LoginModal";
+import { getUser, isLoggedIn } from "../services/auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -47,7 +48,14 @@ export default function MenuListComposition() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [upStatus, setUpStatus] = React.useState(false);
+  const [isLogin,setIsLogin] =React.useState(false);
   const handleToggle = () => {
+   
+    if(!isLoggedIn()){
+      setIsLogin(true);
+      return
+    }
+
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -67,8 +75,9 @@ export default function MenuListComposition() {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
+ 
   const prevOpen = React.useRef(open);
+  
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
@@ -78,61 +87,68 @@ export default function MenuListComposition() {
   }, [open]);
 
   return (
-    <div className={classes.root}>
-      <Button
-        ref={anchorRef}
-        aria-controls={open ? "menu-list-grow" : undefined}
-        aria-haspopup="true"
-        className={classes.btn}
-        onClick={handleToggle}
-      >
-        投稿
-      </Button>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="menu-list-grow"
-                  onKeyDown={handleListKeyDown}
-                  className={classes.menuList}
-                >
-                  <MenuItem
-                    onClick={(e) => {
-                      handleClose(e);
-                      navigate(`/video`);
-                    }}
+    <LoginModal open={isLogin} onEvent={(msg)=>{
+      // if(msg.confirm){
+      //   navigate(`/users/login`);
+      // }
+      setIsLogin(false);
+    }}> 
+      <div className={classes.root}>
+        <Button
+          ref={anchorRef}
+          aria-controls={open ? "menu-list-grow" : undefined}
+          aria-haspopup="true"
+          className={classes.btn}
+          onClick={handleToggle}
+        >
+          投稿
+        </Button>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === "bottom" ? "center top" : "center bottom",
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="menu-list-grow"
+                    onKeyDown={handleListKeyDown}
+                    className={classes.menuList}
                   >
-                    上传视频文件
-                  </MenuItem>
-                  <MenuItem
-                    onClick={(e) => {
-                      handleClose(e);
-                      navigate(`/video/uptext`);
-                    }}
-                  >
-                    上传文本文件/工程文件
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </div>
+                    <MenuItem
+                      onClick={(e) => {
+                        handleClose(e);
+                        navigate(`/video`);
+                      }}
+                    >
+                      上传视频文件
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(e) => {
+                        handleClose(e);
+                        navigate(`/video/uptext`);
+                      }}
+                    >
+                      上传文本文件/工程文件
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
+    </LoginModal>
   );
 }

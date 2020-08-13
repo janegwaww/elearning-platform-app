@@ -20,10 +20,12 @@ import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from 'react-zmage'
+import LoginModal from '../../../assets/template/LoginModal';
 export default function VideoIndex(props) {
   const classes = userStyles();
   const [userinfo, setUserinfo] = React.useState(null);
   const [filedata, setFiledata] = React.useState(null);
+  const [isLogin,setIsLogin]=React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState({
     open: false,
     type: "success",
@@ -77,6 +79,7 @@ export default function VideoIndex(props) {
       alert("请先登录");
       navigate(`/users/login`);
       return;
+      // setIsLogin(true)
     } else {
       setUserinfo(getUser());
     }
@@ -95,6 +98,10 @@ export default function VideoIndex(props) {
   }, []);
   return (
     <MainLayout>
+    <LoginModal open={isLogin} onEvent={(msg)=>{
+      
+      setIsLogin(false);
+    }}>
       <section style={{ maxWidth: 1280, margin: " auto " }}>
         <ProgressBar loading={loginStatus} />
         
@@ -906,6 +913,7 @@ export default function VideoIndex(props) {
           </Alert>
         </Snackbar>
       </section>
+      </LoginModal> 
     </MainLayout>
   );
 }
