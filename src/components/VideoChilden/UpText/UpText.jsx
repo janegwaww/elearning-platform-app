@@ -482,7 +482,7 @@ export default function VideoIndex(props) {
                           >
                             {videoImg && (
                             
-                              <Zmage src={videoImg} alt='' className='all-height'  style={{width:'auto'}}/>
+                              <Zmage src={videoImg} alt='' className='all-height'  style={{width:'auto',zIndex:2000000}}/>
                              
                              
                             )}
