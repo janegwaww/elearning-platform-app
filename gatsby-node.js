@@ -14,10 +14,14 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
         rules: [
           {
             test: /reactjs-pdf-reader/,
-            use: loaders.null()
-          }
-        ]
-      }
+            use: loaders.null(),
+          },
+          {
+            test: /react-zmage/,
+            use: loaders.null(),
+          },
+        ],
+      },
     });
   }
 };
