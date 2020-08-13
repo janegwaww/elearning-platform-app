@@ -68,8 +68,8 @@ const Pagination = ({ num = 1, handlePage, jump = false, ...others }) => {
                     const { value } = document.getElementById(
                       "sepagination-page-jump",
                     );
-                    if (value > 0 && value <= count) {
-                      handlePage(e, value);
+                    if (value >= 1 && value <= count) {
+                      handlePage(e, Math.floor(value));
                     }
                   }}
                 >
