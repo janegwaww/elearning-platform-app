@@ -19,7 +19,7 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
-import Zmage from 'react-zmage'
+import Zmage from 'react-zmage';
 import LoginModal from '../../../assets/template/LoginModal';
 export default function VideoIndex(props) {
   const classes = userStyles();
