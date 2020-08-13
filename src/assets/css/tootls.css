@@ -314,3 +314,6 @@ input[type="checkbox"]:checked + label::before {
   /* background-color: #9e9ea6; */
 }
 
+#zmage{
+  z-index: 2000000000 !important;
+}
