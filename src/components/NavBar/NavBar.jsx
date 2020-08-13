@@ -12,7 +12,7 @@ import {
   InputAdornment,
   Link,
   ButtonBase,
-  Tooltip
+  Tooltip,
   /* Menu,
    * MenuItem,
    * Badge,
@@ -41,11 +41,11 @@ const PrimarySearchAppBar = () => {
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
-      navigate(searchUrlParams(value));
+      navigate(searchUrlParams({ value }));
     }
   };
 
-  const handleEnter = e => {
+  const handleEnter = (e) => {
     if (e.key === "Enter") {
       handleSearchClick();
     }
@@ -128,7 +128,7 @@ const PrimarySearchAppBar = () => {
                 placeholder="支持跨模态逐帧搜索..."
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput
+                  input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
                 onKeyDown={handleEnter}

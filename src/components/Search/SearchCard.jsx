@@ -50,6 +50,7 @@ const TitleItem = ({ pay, title, time, href, match = {} }) => {
           variant="caption"
           color="textSecondary"
           className="upload-time-title"
+          noWrap
         >
           {`${secondsToDate(time)} 发布`}
         </Typography>

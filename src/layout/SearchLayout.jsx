@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -25,11 +25,11 @@ const getHistory = searchHistory("kengineSearchHistory");
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("搜索知识...");
-  const { q } = getIdFromHref();
+  const { q, page, type } = getIdFromHref();
 
   const handleSearch = () => {
     if (refInput) {
-      navigate(searchUrlParams(refInput));
+      navigate(searchUrlParams({ value: refInput }));
     }
   };
 
@@ -89,7 +89,7 @@ const SearchLayout = ({ children }) => {
           <meta name="description" content={config.siteDescription} />
           <html lang="en" />
         </Helmet>
-        {children(input)}
+        {children(input, page, type)}
       </div>
       <ScrollTop />
       <Footer config={config} />
