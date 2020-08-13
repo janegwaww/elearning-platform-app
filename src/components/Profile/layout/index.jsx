@@ -10,7 +10,6 @@ import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
 import "./Profile.css";
 
-
 export default class MainLayout extends React.Component {
   componentDidMount(){
     settings_html();
@@ -21,22 +20,21 @@ export default class MainLayout extends React.Component {
       <ThemeProvider theme={theme}>
         <Helmet>
             <meta name="description" content={config.siteDescription} />
-            <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
+           
           <link type= 'text/css' rel='stylesheet' href='../../../assets/css/tootls.css' />
           <link type= 'text/css' rel='stylesheet' href='../../../assets/css/container.css' />
           {/*<link type= 'text/css' rel='stylesheet' href='./profile.css' />*/}
             <html lang="en" />
           
           </Helmet>
+
+          
          <section className=' bg-f9 ma-container is-vertical' style={{minHeight:'100vh'}}>
          
-            <header  style={{height:'4rem'}} className= 'ma-header'>
+          <header  style={{height:'4rem'}} className= 'ma-header'>
           
               <NavBar  />
-            </header>
+            </header> 
             <main className='profile-main ma-main'    >
          
               {children}

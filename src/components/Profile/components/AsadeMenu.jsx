@@ -15,12 +15,15 @@ export const RightMenu = (props) => {
             data-inx={inx}
             className= {inx==props._inx?"fn-color-007CFF":''} 
             style={{
-              fontSize: 14,
+              fontSize: '0.875rem',
               paddingLeft: 0,
-              margin: "0 -6px",
-              padding: 6,
+              margin: "0 -0.375rem",
+              padding: ' 0.375rem',
+              minHeight:'2rem'
             }}
             onClick={(event) => {
+         
+              if(props._inx==event.target.dataset.inx){return};
               event.stopPropagation();
               event.preventDefault();
               if (v._url) {

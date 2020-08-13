@@ -28,7 +28,7 @@ class DocumentPage extends Component {
             />
           </Helmet>
           <LoginConfirmProvider> 
-            <Container>
+            <Container  style={{maxWidth:1000}}>
               <Document />
             </Container>
           </LoginConfirmProvider>

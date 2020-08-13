@@ -12,9 +12,9 @@ import { navigate } from "@reach/router";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
 
   btn: {
@@ -40,20 +40,19 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
- 
 }));
 
 export default function MenuListComposition() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [upStatus,setUpStatus] = React.useState(false);
+  const [upStatus, setUpStatus] = React.useState(false);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
-    if(event){
+    if (event) {
       if (anchorRef.current && anchorRef.current.contains(event.target)) {
         return;
       }
@@ -116,26 +115,24 @@ export default function MenuListComposition() {
                     onClick={(e) => {
                       handleClose(e);
                       navigate(`/video`);
-                      
                     }}
                   >
                     上传视频文件
                   </MenuItem>
-                  <MenuItem onClick={(e)=>{
-                    handleClose(e);
-                    navigate(`/video/uptext`);
-                  }}>
-                  上传文本文件/工程文件
-                
+                  <MenuItem
+                    onClick={(e) => {
+                      handleClose(e);
+                      navigate(`/video/uptext`);
+                    }}
+                  >
+                    上传文本文件/工程文件
                   </MenuItem>
-                  
                 </MenuList>
               </ClickAwayListener>
             </Paper>
           </Grow>
         )}
       </Popper>
-     
     </div>
   );
 }

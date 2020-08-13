@@ -19,7 +19,6 @@ import videoImg2 from "../../assets/img/videowindows2.svg";
 import SearchLoading from "../Loading/SearchLoading";
 import Helmet from "react-helmet";
 
-
 export default class VideoPage extends Component {
   constructor(props) {
     super(props);
@@ -196,14 +195,13 @@ export default class VideoPage extends Component {
       } else {
         sub_l = (json_sub[i].bg - json_sub[i - 1].ed) / (total_time / total_w);
       }
-      //json_sub[i].bg / (total_time / total_w);
 
       test_arr.push(
         <div
           key={i}
           style={{
             width: sub_w + "px",
-            // transform: "translateX(" + sub_l + "px)",
+
             marginLeft: sub_l + "px",
           }}
           className="test-nodes"
@@ -232,21 +230,19 @@ export default class VideoPage extends Component {
               className={this.state.the_current.inx == i ? "active" : ""}
               style={{ marginTop: 20 }}
             >
-              {json_sub[i].en_sub && (
-                <p
-                  data-lu="en"
-                  onBlur={this.context_blur}
-                  onInput={this.context_input}
-                  data-type="bottom"
-                  suppressContentEditableWarning="true"
-                  onFocus={this.context_focus}
-                  data-inx={i}
-                  contentEditable="true"
-                  title="此字段视频可以循环播放"
-                >
-                  {json_sub[i].en_sub}
-                </p>
-              )}
+              <p
+                data-lu="en"
+                onBlur={this.context_blur}
+                onInput={this.context_input}
+                data-type="bottom"
+                suppressContentEditableWarning="true"
+                onFocus={this.context_focus}
+                data-inx={i}
+                contentEditable="true"
+                title="此字段视频可以循环播放"
+              >
+                {json_sub[i].en_sub ? json_sub[i].en_sub : ""}
+              </p>
             </div>
           ) : (
             ""
@@ -291,8 +287,8 @@ export default class VideoPage extends Component {
       if (res.subtitling) {
         //生成字幕
         _data.sub_josn = res.subtitling;
-        
-        if (res.subtitling[0]&&res.subtitling[0].en_sub) {
+
+        if (res.subtitling[0] && res.subtitling[0].en_sub) {
           this.setState({
             lang: 2,
           });
@@ -671,7 +667,6 @@ export default class VideoPage extends Component {
           <meta http-equiv="Expires" content="0" />
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="Pragma" content="no-cache" />
-         
         </Helmet>
 
         <header className={styles.elHeader}>
@@ -746,21 +741,21 @@ export default class VideoPage extends Component {
                             </span>
                           )}
                         <p></p>
-                        {_this.state.the_current.en &&
-                          (_this.state.lang == 3 || _this.state.lang == 2) && (
-                            <span
-                              data-lu="en"
-                              data-type="top"
-                              data-inx={_this.state.the_current.inx}
-                              onBlur={_this.context_blur}
-                              onInput={_this.context_input}
-                              suppressContentEditableWarning="true"
-                              onFocus={_this.context_focus}
-                              contentEditable="true"
-                            >
-                              {_this.state.the_current.en}
-                            </span>
-                          )}
+                        <span
+                          data-lu="en"
+                          data-type="top"
+                          data-inx={_this.state.the_current.inx}
+                          onBlur={_this.context_blur}
+                          onInput={_this.context_input}
+                          suppressContentEditableWarning="true"
+                          onFocus={_this.context_focus}
+                          contentEditable="true"
+                        >
+                          {_this.state.the_current.en &&
+                          (_this.state.lang == 3 || _this.state.lang == 2)
+                            ? _this.state.the_current.en
+                            : ""}
+                        </span>
                       </div>
                     ) : (
                       ""

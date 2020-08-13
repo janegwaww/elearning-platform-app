@@ -46,8 +46,8 @@ export function Nav(props) {
 React.useEffect(()=>{
   let _inx = props._inx||0;
     let _arr = props.list.slice(0,_inx);
-    let _num  = _arr.join('').length*18+_inx*20;
-    let _w = props.list[_inx].length*18;
+    let _num  = _arr.join('').length*1.125+_inx*1.25;
+    let _w = props.list[_inx].length*1.125;
     setScrollWidth(_w);
     setScrollLeft(_num);
 })
@@ -61,7 +61,7 @@ React.useEffect(()=>{
 
   return (
     <div className={classes.root}>
-      <div className="box box-align-center fn-size-18 fn-color-2C2C3B" >
+      <div className="box box-align-center fn-r-18 fn-color-2C2C3B" >
         {props.list.map((value, inx) => (
           <span key={value} onClick={handleChange} data-inx={inx} className={props.list.length>1?'':'nothover'}>
             {value}
@@ -71,8 +71,8 @@ React.useEffect(()=>{
       <div
         className={classes.scroll}
         style={{
-          transform: "translate(" + scrollLeft + "px)",
-          width: scrollWidth + "px",
+          transform: "translate(" + scrollLeft + "rem)",
+          width: scrollWidth + "rem",
         }}
       ></div>
     </div>
@@ -80,12 +80,11 @@ React.useEffect(()=>{
 }
 
 
-
 export function Navbar(props) {
   const classes = useStyles();
   const [val, setVal] = React.useState(0);
   return (
-    <div className={classes.navbar}>
+    <div className={`text-left ${classes.navbar}`}>
       {props.lists.map((v, idx) => (
         <span
           className="fn-size-16"
@@ -96,7 +95,7 @@ export function Navbar(props) {
               return;
             }
             setVal(idx);
-            console.log("idx", idx);
+            
             props.onEvent && props.onEvent(idx);
           }}
         >

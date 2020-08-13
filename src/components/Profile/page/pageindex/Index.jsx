@@ -8,7 +8,7 @@ import { get_data } from "../../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import notcoll from "../../../../assets/img/notcoll.png";
 import notvideo from "../../../../assets/img/notvideo.png";
 
@@ -23,7 +23,11 @@ class ProfileIndex extends React.Component {
       works_draft: null, //草稿数据
       history_data: null, //历史数据
       collection_data: null, //收藏数据
+      document_data: null, //文本数据数据
+      document_series: null, //系列文本数据
       video_type: "video", //系列与普通/草稿
+
+      lists_arr: ["普通", "系列",'文本','系列文本', "草稿箱"],
       // userCollection: null, //我的收藏
       // userColllection_counts: 0, //收藏数量
       page_type: 1, //收藏与历史
@@ -53,14 +57,11 @@ class ProfileIndex extends React.Component {
       item_h: _h,
     });
   }
-  componentWillUnmount() {
-    window.onresize = null;
-  }
+
   update_data() {
     this.setState({
       login_status: true,
     });
-    
 
     get_data({
       model_name: "home",
@@ -73,12 +74,20 @@ class ProfileIndex extends React.Component {
     }).then((res) => {
       if (res.err == 4104) {
         alert("用户未登录，或登录已过期,将为你跳转到登录页...");
-        localStorage.removeItem('haetekUser');
+        localStorage.removeItem("haetekUser");
         navigate(`/users/login`);
         return;
       }
+
       if (res.err === 0) {
         let _data = res.result_data[0];
+        // let _list = ["普通", "系列", "草稿箱"];
+        // if (_data.document && _data.document.length > 0) {
+        //   _list.push("文本");
+        // }
+        // if (_data.document_series && _data.document_series.length > 0) {
+        //   _list.push("系列文本");
+        // }
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -86,6 +95,13 @@ class ProfileIndex extends React.Component {
           works_draft: _data.draft,
           history_data: _data.history,
           collection_data: _data.collection,
+          document_data:
+            _data.document && _data.document.length > 0 ? _data.document : null,
+          document_series:
+            _data.document_series && _data.document_series.length > 0
+              ? _data.document_series
+              : null,
+          // lists_arr: _list,
         });
       }
 
@@ -104,6 +120,7 @@ class ProfileIndex extends React.Component {
   }
 
   componentWillUnmount() {
+    window.onresize = null;
     this.setState = (state, callback) => {
       return;
     };
@@ -121,6 +138,8 @@ class ProfileIndex extends React.Component {
       page_type,
       item_h,
       login_status,
+      document_data,
+      document_series,
       ...other
     } = this.state;
     let _this = this;
@@ -131,46 +150,50 @@ class ProfileIndex extends React.Component {
         <main
           className="all-width bg-image "
           style={{
-            minHeight:183,
+            minHeight: 183,
 
-            borderRadius: "12px 12px 0 0",
+            borderRadius: "0.75rem 0.75rem 0 0",
           }}
         >
           {userData && userData.background && (
-            <img className=" all-width" src={userData.background} style={{height:'auto'}} alt='' />
+            <img
+              className=" all-width"
+              src={userData.background}
+              style={{ height: "auto" }}
+              alt=""
+            />
           )}
-          
         </main>
 
         <main
-          style={{ height: "158px", paddingTop: "20px" }}
-          className="all-width profile-padding bg-white box  box-between fn-size-14 fn-color-2C2C3B"
+          style={{ height: "9.875rem", paddingTop: "1.25rem" }}
+          className="all-width profile-padding bg-white box  box-between fn-r-14 fn-color-2C2C3B"
         >
           <div className="box box-align-center">
-            <div style={{ marginRight: 20 }}>
+            <div style={{ marginRight: '1.25rem' }}>
               <Avatar
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  transform: "translateY(-55px)",
+                  width: "5rem",
+                  height: "5rem",
+                  transform: "translateY(-3.4375rem)",
                 }}
                 src={userData ? userData.headshot : ""}
               />
             </div>
             <div>
-              <p className="zero-edges fn-size-16">
+              <p className="zero-edges fn-r-16">
                 {userData ? userData.user_name : ""}
               </p>
               <p
-                className="zero-edges fn-size-12 fn-color-9E9EA6"
-                style={{ margin: "10px 0" }}
+                className="zero-edges fn-r-12 fn-color-9E9EA6"
+                style={{ margin: "0.625rem 0" }}
               >
                 ID: {userData ? userData.user_id : ""}
               </p>
               <p className="zero-edges textview-overflow two">
                 {userData ? userData.introduction : ""}
               </p>
-              <p className="zero-edges fn-size-12" style={{ marginTop: 10 }}>
+              <p className="zero-edges fn-r-12" style={{ marginTop: '0.625rem' }}>
                 <Link
                   href={`/users/profile/settings`}
                   className="fn-color-007CFF"
@@ -197,12 +220,12 @@ class ProfileIndex extends React.Component {
             </div> */}
           </div>
           <div
-            className="box box-align-center text-center fn-size-14 fn-color-878791"
+            className="box box-align-center text-center fn-r-14 fn-color-878791"
             style={{ marginTop: "30px" }}
           >
             <div className="box-flex bg-EDF6FF all-height">
               <p className="zero-edges">视频播放量</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="r-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.view_counts) ||
                   0}
               </p>
@@ -212,7 +235,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">课件下载量</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData &&
                   _this.state.userData.download_counts) ||
                   0}
@@ -223,7 +246,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">点赞数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.like_counts) ||
                   0}
               </p>
@@ -234,7 +257,8 @@ class ProfileIndex extends React.Component {
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>
               <p className="fn-size-20 fn-color-007CFF">
-                {(_this.state.userData && _this.state.userData.collections_counts) ||
+                {(_this.state.userData &&
+                  _this.state.userData.collections_counts) ||
                   0}
               </p>
               <p className="zero-edges">
@@ -244,7 +268,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">分享数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.share_counts) ||
                   0}
               </p>
@@ -260,7 +284,7 @@ class ProfileIndex extends React.Component {
               <Nav parent={_this} _inx={0} list={["我的作品"]} />
             </div>
             <div
-              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-r-12 text-center"
               data-page="CreateCenter"
               data-id="3"
               data-defaultpage="作品管理"
@@ -277,6 +301,12 @@ class ProfileIndex extends React.Component {
                 if (video_type == "draft") {
                   navigate(`/users/profile/workscenter/draft`);
                 }
+                if(video_type=='document'){
+                  navigate(`/users/profile/workscenter/document`);
+                }
+                if(video_type=='document_series'){
+                  navigate(`/users/profile/workscenter/seriesdoc`);
+                }
                 return;
               }}
             >
@@ -286,19 +316,26 @@ class ProfileIndex extends React.Component {
           <div style={{ margin: "30px 0" }}>
             <Navbar
               parent={_this}
-              lists={["普通", "系列", "草稿箱"]}
+              lists={this.state.lists_arr}
               onEvent={(num) => {
+                
                 let _type = "video";
                 if (num == 1) {
                   _type = "series";
-                }
-                if (num == 2) {
+                } else if (num == 2) {
+                 
+                  _type = "document";
+                } else if (num == 3) {
+                  
+                  _type = "document_series";
+                  
+                } else if (num == 4) {
+                  
                   _type = "draft";
                 }
                 this.setState({
                   video_type: _type,
                 });
-                
               }}
             />
           </div>
@@ -317,7 +354,7 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
                     </div>
                   </div>
@@ -338,7 +375,7 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
                     </div>
                   </div>
@@ -359,8 +396,50 @@ class ProfileIndex extends React.Component {
                 ) : (
                   <div className="profile-top all-width all-height view-overflow text-center">
                     <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                    <div className="fn-color-6f fn-f-16 profile-top-20">
                       暂无视频
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            {video_type == "document" && (
+              <div>
+                {document_data && document_data.length > 0 ? (
+                  document_data.map((option) => (
+                    <SeriesItem
+                      parent={this}
+                      info={option}
+                      key={option.file_id}
+                      series={video_type}
+                    />
+                  ))
+                ) : (
+                  <div className="profile-top all-width all-height view-overflow text-center">
+                    <img src={notvideo} style={{ width: 490, height: 293 }} />
+                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                      暂无文本
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            {video_type == "document_series" && (
+              <div>
+                {document_series && document_series.length > 0 ? (
+                  document_series.map((option) => (
+                    <SeriesItem
+                      parent={this}
+                      info={option}
+                      key={option.series_id}
+                      series={video_type}
+                    />
+                  ))
+                ) : (
+                  <div className="profile-top all-width all-height view-overflow text-center">
+                    <img src={notvideo} style={{ width: 490, height: 293 }} />
+                    <div className="fn-color-6f fn-size-16 profile-top-20">
+                      暂无系列文本
                     </div>
                   </div>
                 )}
@@ -388,7 +467,7 @@ class ProfileIndex extends React.Component {
               />
             </div>
             <div
-              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center"
+              className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-f-12 text-center"
               data-page="Dynamic"
               data-id="4"
               data-defaultpage="我的收藏"
@@ -424,7 +503,7 @@ class ProfileIndex extends React.Component {
               ) : (
                 <div className="profile-top all-width all-height view-overflow text-center">
                   <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                  <div className="fn-color-6f fn-f-16 profile-top-20">
                     暂无视频
                   </div>
                 </div>
@@ -445,9 +524,9 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top all-width all-height view-overflow text-center">
+                <div className="profile-top all-width all-height view-overflow text-center"> 
                   <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-size-16 profile-top-20">
+                  <div className="fn-color-6f fn-f-16 profile-top-20">
                     暂无视频
                   </div>
                 </div>

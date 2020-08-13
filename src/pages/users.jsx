@@ -10,6 +10,8 @@ import Series from "../components/Profile/page/workscenter/Series";
 import Video from "../components/Profile/page/workscenter/Video";
 import Draft from "../components/Profile/page/workscenter/Draft";
 import SeriesDetail from "../components/Profile/page/workscenter/SeriesDetail";
+import Document from '../components/Profile/page/workscenter/Document';
+import SeriesDocument from '../components/Profile/page/workscenter/SeriesDocument';
 import PageIndex from "../components/Profile/page/pageindex/Index"; //个人中心
 import Dynamic from "../components/Profile/page/dynamic/Index"; //动态
 import Collection from "../components/Profile/page/dynamic/collection";
@@ -41,7 +43,9 @@ const Users = () => {
           <Video path="/" />
           <Draft path="/draft" />
           <Series path="/series" />
-          <SeriesDetail path="/seriesdetail" />
+          <SeriesDetail path="/seriesdetail/:id" />
+          <Document path='document' />
+          <SeriesDocument path='seriesdoc' />
         </WorksCenter>
         <Complaints path='/complaints' />
         

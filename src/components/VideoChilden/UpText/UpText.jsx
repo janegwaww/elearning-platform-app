@@ -8,6 +8,7 @@ import {
   InputAdornment,
   Grid,
 } from "@material-ui/core";
+import '../../../assets/css/tootls.css';
 import Alert from "@material-ui/lab/Alert";
 import userStyles from "../components/TextStyle";
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
@@ -465,14 +466,14 @@ export default function VideoIndex(props) {
                       <div className="item box">
                         {videoImg ? (
                           <div
-                            className="file bg-all"
+                            className="file bg-all text-center"
                             style={{
                               marginRight: 10,
                             }}
                           >
                             {videoImg && (
                               <img
-                                className="all-width all-height"
+                                className=" all-height" style={{width:'auto'}}
                                 src={videoImg}
                               />
                             )}
@@ -637,14 +638,14 @@ export default function VideoIndex(props) {
                                   <div className="box item">
                                     {seriesImg ? (
                                       <div
-                                        className="file bg-all"
+                                        className="file bg-all text-center"
                                         style={{
                                           marginRight: 10,
                                         }}
                                       >
                                         {seriesImg && (
                                           <img
-                                            className="all-width all-height"
+                                            className="all-height" style={{width:'auto'}}
                                             src={seriesImg}
                                           />
                                         )}
@@ -850,7 +851,7 @@ export default function VideoIndex(props) {
                           });
 
                           setTimeout(() => {
-                            navigate("/users/profile");
+                            navigate(`/users/profile/workscenter/draft`);
                           }, 4000);
                         } else {
                           setOpenSnackbar({
