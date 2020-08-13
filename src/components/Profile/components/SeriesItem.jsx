@@ -45,12 +45,14 @@ const return_html = (info, type) => {
           <div className="box  fn-size-12">
             <div className="profile-item-img-box bg-all">
               {info && info.image_path && (
+                <LazyLoad  >
                 <img
                   className="all-height "
                   src={info.image_path}
                   alt=""
                   style={{ width: "auto" }}
                 />
+                </LazyLoad>
               )}
               <span
                 style={{
@@ -146,12 +148,14 @@ const return_html = (info, type) => {
           <div className="box  fn-size-12">
             <div className="profile-item-img-box bg-all">
               {info && info.image_path && (
+               <LazyLoad > 
                 <img
                   className="all-height "
                   src={info.image_path}
                   alt=""
                   style={{ width: "auto" }}
                 />
+                </LazyLoad>
               )}
               <p className="profile-time fn-color-white fn-size-12 p">
                 {info.video_time}
@@ -246,11 +250,13 @@ const return_html = (info, type) => {
       <div className={` box fn-size-12 ${type == "series" ? "p" : ""}`}>
         <div className="profile-item-img-box bg-all">
           {info && info.image_path && (
+            <LazyLoad >
             <img
               className="all-height "
               src={info.image_path}
               style={{ width: "auto" }}
             />
+            </LazyLoad>
           )}
           <p
             className={`profile-time fn-color-white fn-size-12 ${

@@ -8,7 +8,7 @@ import {
   InputAdornment,
   Grid,
 } from "@material-ui/core";
-import '../../../assets/css/tootls.css';
+
 import Alert from "@material-ui/lab/Alert";
 import userStyles from "../components/TextStyle";
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
@@ -19,7 +19,7 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
-
+import Zmage from 'react-zmage'
 export default function VideoIndex(props) {
   const classes = userStyles();
   const [userinfo, setUserinfo] = React.useState(null);
@@ -127,6 +127,8 @@ export default function VideoIndex(props) {
                                 model_type: "",
                               }).then((res) => {
                                 if (res.err == 0 && res.errmsg == "OK") {
+                                  setVideoImg('');
+                                  setSeriesImg('');
                                   new CustomModal().alert(
                                     "删除成功",
                                     "success",
@@ -289,7 +291,7 @@ export default function VideoIndex(props) {
                         <span
                           className="fn-color-007CFF"
                           onClick={() => {
-                            console.log(123);
+                        
                             setAuthorArr((old) => {
                               let _old = JSON.parse(JSON.stringify(old));
                               _old.push({
@@ -472,10 +474,10 @@ export default function VideoIndex(props) {
                             }}
                           >
                             {videoImg && (
-                              <img
-                                className=" all-height" style={{width:'auto'}}
-                                src={videoImg}
-                              />
+                            
+                              <Zmage src={videoImg} alt='' className='all-height'  style={{width:'auto'}}/>
+                             
+                             
                             )}
                           </div>
                         ) : (
@@ -644,10 +646,8 @@ export default function VideoIndex(props) {
                                         }}
                                       >
                                         {seriesImg && (
-                                          <img
-                                            className="all-height" style={{width:'auto'}}
-                                            src={seriesImg}
-                                          />
+                                          <Zmage src={seriesImg} alt='' className='all-height' style={{width:'auto'}} />
+                                          
                                         )}
                                       </div>
                                     ) : (

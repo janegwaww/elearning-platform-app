@@ -1,7 +1,7 @@
 import React from "react";
 import Helmet from "react-helmet";
 import Layout from "./layout";
-import config from "../../../data/SiteConfig";
+
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
 import { RightMenu } from "./components/AsadeMenu";
@@ -9,7 +9,7 @@ import { get_data, get_info } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
-
+import "./layout/Profile.css";
 import Drawer from './components/Drawer';
 class Profile extends React.Component {
   constructor(props) {

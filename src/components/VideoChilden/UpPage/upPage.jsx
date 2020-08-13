@@ -16,7 +16,7 @@ import Alert from "@material-ui/lab/Alert";
 
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
 
-
+import Zmage from 'react-zmage'
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data } from "../../../assets/js/request";
 
@@ -232,7 +232,8 @@ export default function VideoIndex(props) {
                           }}
                         >
                           {videoImg && (
-                            <img
+                            
+                            <Zmage 
                               className="all-height" style={{width:'auto'}}
                               src={videoImg}
                             />
@@ -386,7 +387,7 @@ export default function VideoIndex(props) {
                                     }}
                                   >
                                     {seriesImg && (
-                                      <img
+                                      <Zmage 
                                         className=" all-height" style={{width:'auto'}}
                                         src={seriesImg}
                                       />
@@ -654,8 +655,7 @@ export default function VideoIndex(props) {
                         model_name: "video",
                         model_action: "check",
                         extra_data: _data,
-                      },
-                      "video"
+                      }
                     ).then((res) => {
                       if (res.err == 0 && res.errmsg == "OK") {
                         setOpenSnackbar({

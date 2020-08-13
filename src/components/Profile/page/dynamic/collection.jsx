@@ -109,7 +109,7 @@ export default class Collection extends React.Component {
               ))
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notcoll} className='not-data'  />
+                <img src={notcoll} className='not-data' style={{ width: 490, height: 293 }} />
                 <div className="fn-color-6f fn-r-16 profile-top-20">
                   暂无收藏
                 </div>

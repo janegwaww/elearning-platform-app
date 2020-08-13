@@ -8,7 +8,7 @@ import {settings_html} from '../../../assets/js/totls';
 import Footer from "../../Footer/Footer";
 import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
-import "./Profile.css";
+
 
 export default class MainLayout extends React.Component {
   componentDidMount(){
@@ -21,9 +21,7 @@ export default class MainLayout extends React.Component {
         <Helmet>
             <meta name="description" content={config.siteDescription} />
            
-          <link type= 'text/css' rel='stylesheet' href='../../../assets/css/tootls.css' />
-          <link type= 'text/css' rel='stylesheet' href='../../../assets/css/container.css' />
-          {/*<link type= 'text/css' rel='stylesheet' href='./profile.css' />*/}
+         
             <html lang="en" />
           
           </Helmet>

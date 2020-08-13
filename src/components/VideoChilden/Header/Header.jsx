@@ -14,7 +14,7 @@ import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
 import logoimg from "../../../../static/logos/logo.svg";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
-import { set } from "lodash";
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
