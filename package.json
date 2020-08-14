@@ -19,7 +19,6 @@
     "gatsby-plugin-catch-links": "^2.3.11",
     "gatsby-plugin-create-client-paths": "^2.3.10",
     "gatsby-plugin-feed": "^2.5.11",
-    "gatsby-plugin-google-analytics": "^2.3.13",
     "gatsby-plugin-lodash": "^3.3.10",
     "gatsby-plugin-manifest": "^2.4.20",
     "gatsby-plugin-material-ui": "^2.1.9",
