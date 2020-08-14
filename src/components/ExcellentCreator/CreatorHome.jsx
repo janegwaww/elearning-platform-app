@@ -16,8 +16,8 @@ import ProgressBar from "../Loading/ProgressBar";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";
 import CreatorAvatar from "./CreatorHomeHeader";
+import withId from "../EmptyNotice/withId";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
-import { getIdFromHref } from "../../services/utils";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -87,7 +87,6 @@ const Pagination = ({ num = 0, handlePage }) => {
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   const classes = useStyles();
-
   return (
     <div
       role="tabpanel"
@@ -126,12 +125,11 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
 
 const HeadBanner = ({ bg = "" }) => {
   const classes = useStyles();
-
-  return (
+  return bg ? (
     <div className={classes.headImg}>
       <img src={bg} height="100%" width="100%" alt={bg} />
     </div>
-  );
+  ) : null;
 };
 
 class CreatorHome extends Component {
@@ -150,7 +148,7 @@ class CreatorHome extends Component {
   }
 
   componentDidMount() {
-    const { cid } = getIdFromHref();
+    const cid = this.props.id;
     if (cid) {
       this.fetchData(cid);
       this.setState({ cid });
@@ -245,7 +243,7 @@ class CreatorHome extends Component {
   };
 
   render() {
-    const { auth, list, loading, value, pageCount } = this.state;
+    const { auth, list, loading, value, pageCount, cid } = this.state;
     const { background } = auth;
 
     return (
@@ -306,4 +304,4 @@ class CreatorHome extends Component {
   }
 }
 
-export default CreatorHome;
+export default withId(CreatorHome);

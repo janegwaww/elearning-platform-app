@@ -17,8 +17,8 @@ const withId = (WrapComponent) => {
     handleAction = () => navigate("/");
 
     verifyId = () => {
-      const { vid, did, dsid, sid } = getIdFromHref();
-      this.setState({ id: vid || did || dsid || sid });
+      const { vid, did, dsid, sid, cid } = getIdFromHref();
+      this.setState({ id: vid || did || dsid || sid || cid });
     };
 
     render() {

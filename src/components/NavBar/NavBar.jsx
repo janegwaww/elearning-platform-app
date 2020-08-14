@@ -148,7 +148,7 @@ const PrimarySearchAppBar = () => {
               <Button
                 className={classes.searchButtonAlone}
                 startIcon={<SearchIcon />}
-                onClick={() => navigate("/search")}
+                onClick={() => navigate("/search/")}
               >
                 搜索
               </Button>
