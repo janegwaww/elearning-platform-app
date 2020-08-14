@@ -281,7 +281,7 @@ export default function VideoIndex(props) {
                           <Button
                             variant="contained"
                             style={{
-                              margin: "0 0 12px 0",
+                              
                               backgroundColor: "#007CFF",
                               color: "white",
                               padding: "3px 12px",
@@ -295,61 +295,75 @@ export default function VideoIndex(props) {
                             <Add />
                             新建系列
                           </Button>
-                          <div className="line"></div>
-                          <section style={{paddingTop:12}}>
-                            {currencies.map((option, inx) => {
-                              if (inx < seeMore) {
-                                return (
-                                  <p key={option.title} style={{marginTop:5}}>
-                                    <input
-                                      type="radio"
-                                      name="gender1"
-                                      checked={option.title == currency}
-                                      value={option.title}
-                                      id={option._id + "_" + inx}
-                                      onClick={(ev) => {
-                                        if (ev.target.checked) {
-                                          ev.target.checked = false;
-                                          setCurrency("");
-                                        }
-                                      }}
-                                      onChange={(event) => {
-                                        setCurrency(event.target.value);
-                                      }}
-                                    />
+                          {currencies.length > 0 && (
+                            <section style={{ paddingTop: 12 }}>
+                              <div
+                                className="line"
+                                style={{ marginBottom: 12 }}
+                              ></div>
+                              {currencies.map((option, inx) => {
+                                if (inx < seeMore) {
+                                  return (
+                                    <p
+                                      key={option.title}
+                                      style={{ marginTop: 5 }}
+                                      title={option.title}
+                                    >
+                                      <input
+                                        type="radio"
+                                        name="gender1"
+                                        checked={option.title == currency}
+                                        value={option.title}
+                                        id={option._id + "_" + inx}
+                                        onClick={(ev) => {
+                                          if (ev.target.checked) {
+                                            ev.target.checked = false;
+                                            setCurrency("");
+                                          }
+                                        }}
+                                        onChange={(event) => {
+                                          setCurrency(event.target.value);
+                                        }}
+                                      />
 
-                                    <label htmlFor={option._id + "_" + inx} className='p'>
-                                      {" "}
-                                      {option.title}
-                                    </label>
-                                  </p>
-                                );
-                              }
-                            })}
-                            {currencies.length > 5 && (
-                              <p className="text-center fn-color-007CFF fn-size-12 ">
-                                {seeMore > 5 ? (
-                                  <span className='p'
-                                    onClick={() => {
-                                      setSeeMore(5);
-                                    }}
-                                  >
-                                    收起
-                                    <ExpandLess />
-                                  </span>
-                                ) : (
-                                  <span className='p'
-                                    onClick={() => {
-                                      setSeeMore(currencies.length);
-                                    }}
-                                  >
-                                    查看更多
-                                    <ExpandMore />
-                                  </span>
-                                )}
-                              </p>
-                            )}
-                          </section>
+                                      <label
+                                        htmlFor={option._id + "_" + inx}
+                                        className="p"
+                                      >
+                                        {" "}
+                                        {option.title}
+                                      </label>
+                                    </p>
+                                  );
+                                }
+                              })}
+                              {currencies.length > 5 && (
+                                <p className="text-center fn-color-007CFF fn-size-12 ">
+                                  {seeMore > 5 ? (
+                                    <span
+                                      className="p"
+                                      onClick={() => {
+                                        setSeeMore(5);
+                                      }}
+                                    >
+                                      收起
+                                      <ExpandLess />
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className="p"
+                                      onClick={() => {
+                                        setSeeMore(currencies.length);
+                                      }}
+                                    >
+                                      查看更多
+                                      <ExpandMore />
+                                    </span>
+                                  )}
+                                </p>
+                              )}
+                            </section>
+                          )}
                         </section>
                       ) : (
                         <section className="all-width sign">
