@@ -73,7 +73,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
       {(loading ? Array.from(new Array(itemCount)) : [...list]).map(
         (item, index) => (
           <Grid item xs={6} sm={6} md={4} lg={3} xl={3} key={index}>
-            <Box width="100%" className="grid-item">
+            <div className="grid-item">
               {item ? (
                 <Link href={handleLink(item).to}>
                   <CardTag type={item.type}>
@@ -173,7 +173,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                   <Skeleton />
                 </Box>
               )}
-            </Box>
+            </div>
           </Grid>
         ),
       )}
