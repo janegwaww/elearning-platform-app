@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
       height: 150,
     },
   },
+  creatorHeader: {
+    border: "1px solid #f2f2f5",
+    borderRadius: "12px",
+    overflow: "hidden",
+  },
 }));
 
 const TTab = withStyles((theme) => ({
@@ -123,11 +128,17 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
   );
 };
 
-const HeadBanner = ({ bg = "" }) => {
+const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
-  return bg ? (
-    <div className={classes.headImg}>
-      <img src={bg} height="100%" width="100%" alt={bg} />
+  const { background } = auth;
+  return background ? (
+    <div className={classes.creatorHeader}>
+      <div className={classes.headImg}>
+        <img src={background} height="100%" width="100%" alt={auth.user_name} />
+      </div>
+      <div style={{ height: 158, paddingTop: 10 }}>
+        <CreatorAvatar auth={auth} />
+      </div>
     </div>
   ) : null;
 };
@@ -243,7 +254,7 @@ class CreatorHome extends Component {
   };
 
   render() {
-    const { auth, list, loading, value, pageCount, cid } = this.state;
+    const { auth, list, loading, value, pageCount } = this.state;
     const { background } = auth;
 
     return (
@@ -252,18 +263,7 @@ class CreatorHome extends Component {
           <Helmet title={`Creator | ${config.siteTitle}`} />
           <Container>
             <div>
-              <div
-                style={{
-                  border: "1px solid #f2f2f5",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                }}
-              >
-                <HeadBanner bg={background} />
-                <div style={{ height: 158, paddingTop: 10 }}>
-                  <CreatorAvatar auth={auth} />
-                </div>
-              </div>
+              <HeadBanner auth={auth} />
               <br />
 
               <div style={{ minHeight: "60vh" }}>

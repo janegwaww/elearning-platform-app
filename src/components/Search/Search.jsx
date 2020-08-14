@@ -75,12 +75,7 @@ const Search = ({ input, page = 1, type = "all" }) => {
         />
       </div>
       <br />
-      <Pagination
-        num={num}
-        handlePage={handlePage}
-        page={parseInt(page, 10)}
-        jump
-      />
+      <Pagination num={num} handlePage={handlePage} page={parseInt(page, 10)} />
       <br />
       <ProgressBar loading={loading} />
     </div>
