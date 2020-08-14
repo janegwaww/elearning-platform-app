@@ -22,6 +22,11 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
+import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 't',
+});
 export default function VideoIndex(props) {
   const classes = userStyles();
   const [userinfo, setUserinfo] = React.useState(null);
@@ -98,7 +103,9 @@ export default function VideoIndex(props) {
     });
   }, []);
   return (
+   
     <MainLayout>
+    <StylesProvider generateClassName={generateClassName}>
       <LoginModal
         open={isLogin}
         onEvent={(msg) => {
@@ -952,6 +959,8 @@ export default function VideoIndex(props) {
           </Snackbar>
         </section>
       </LoginModal>
+      </StylesProvider>
     </MainLayout>
+    
   );
 }
