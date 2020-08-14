@@ -56,10 +56,14 @@ const userStyles = makeStyles((them) => ({
   root: {
     width: "100%",
     fontSize: "14px",
+    '& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl':{
+      border:'2px solid transparent',
+    },
     "& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused": {
       border: "2px solid #007cff",
       "& .MuiOutlinedInput-notchedOutline": {
         borderColor: "white",
+        borderWidth:0
       },
     },
 

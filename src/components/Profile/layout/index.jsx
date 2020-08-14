@@ -5,7 +5,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import config from "../../../../data/SiteConfig";
 import NavBar from "../../NavBar/NavBar";
 import {settings_html} from '../../../assets/js/totls';
-import Footer from "../../Footer/Footer";
+
 import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
 
@@ -41,8 +41,7 @@ export default class MainLayout extends React.Component {
             
             </main>
              <ScrollTop />
-          {/***   <Footer config={config} />
-             */} 
+         
             
          
          </section>
