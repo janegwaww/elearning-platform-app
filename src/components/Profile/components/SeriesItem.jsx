@@ -39,12 +39,14 @@ const return_html = (info, type) => {
           <div className="box  fn-size-12">
             <div className="profile-item-img-box bg-all">
               {info && info.image_path && (
+                <LazyLoad >
                 <img
                   className="all-height "
                   src={info.image_path}
                   alt=""
                   style={{ width: "auto" }}
                 />
+                </LazyLoad>
               )}
               <span
                 style={{
@@ -140,12 +142,14 @@ const return_html = (info, type) => {
           <div className="box  fn-size-12">
             <div className="profile-item-img-box bg-all">
               {info && info.image_path && (
-                <img
-                  className="all-height "
-                  src={info.image_path}
-                  alt=""
-                  style={{ width: "auto" }}
-                />
+                <LazyLoad >
+                  <img
+                    className="all-height "
+                    src={info.image_path}
+                    alt=""
+                    style={{ width: "auto" }}
+                  />
+                </LazyLoad>
               )}
               <p className="profile-time fn-color-white fn-size-12 p">
                 {info.video_time}
@@ -240,21 +244,40 @@ const return_html = (info, type) => {
       <div className={` box fn-size-12 ${type == "series" ? "p" : ""}`}>
         <div className="profile-item-img-box bg-all">
           {info && info.image_path && (
+            <LazyLoad>
             <img
+            
               className="all-height "
               src={info.image_path}
               style={{ width: "auto" }}
             />
+            </LazyLoad>
           )}
-          <p
-            className={`profile-time fn-color-white fn-size-12 ${
-              type == "series" ? "p" : ""
-            }`}
-          >
-            {type == "draft"
-              ? info.video_time
-              : "共" + (info.video_counts || 0) + "集"}
-          </p>
+          {info.type == "document" || info.type == "documet_series" ? (
+            <span
+              style={{
+                padding: "2px 4px",
+                borderRadius: "0px 0px 4px 4px",
+                color: "rgb(255, 255, 255)",
+                backgroundColor: "rgb(235, 186, 115)",
+                position: "absolute",
+                top: 0,
+                left: 18,
+              }}
+            >
+              {info.type == "document" ? "文本" : "系列文本"}
+            </span>
+          ) : (
+            <p
+              className={`profile-time fn-color-white fn-size-12 ${
+                type == "series" ? "p" : ""
+              }`}
+            >
+              {type == "draft"
+                ? info.video_time
+                : "共" + (info.video_counts || 0) + "集"}
+            </p>
+          )}
         </div>
         <div
           style={{ width: "calc(100% - 280px)", flexDirection: "column" }}
@@ -426,7 +449,6 @@ const SeriesItem = (props) => {
                     target="_blank"
                     rel="noopener norefferer"
                   >
-                    {props.series}
                     编辑
                   </Link>
                 )}

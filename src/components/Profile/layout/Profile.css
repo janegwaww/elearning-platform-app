@@ -237,6 +237,10 @@ p {
   border-radius: 12px;
   overflow: hidden;
 }
+.profile-item-img-box .lazyload-wrapper{
+  width:100%;
+  height:100%;
+}
 .profile-sign{
   background-color: #7B7FFF;
   display: inline-block;
