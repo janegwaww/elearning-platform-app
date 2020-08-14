@@ -11,6 +11,7 @@ import {
 
 import Alert from "@material-ui/lab/Alert";
 import userStyles from "../components/TextStyle";
+
 import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data, updata_img } from "../../../assets/js/request";
@@ -174,6 +175,7 @@ export default function VideoIndex(props) {
                               get_data(_data).then((res) => {
                                 if (res.err == 0 && res.errmsg == "OK") {
                                   setVideoImg(res.result_data.image_path);
+                                  setSeriesImg(res.result_data.image_path);
                                   setAdjunct(res.result_data);
                                   new CustomModal().alert(
                                     "上传成功！",
@@ -182,6 +184,7 @@ export default function VideoIndex(props) {
                                   );
                                 } else if (res.err == -1) {
                                   setVideoImg(res.result_data.image_path);
+                                  setSeriesImg(res.result_data.image_path);
                                   setAdjunct(res.result_data);
                                   setOpenSnackbar({
                                     open: true,
@@ -482,7 +485,7 @@ export default function VideoIndex(props) {
                           >
                             {videoImg && (
                             
-                              <Zmage src={videoImg} alt='' className='all-height'  style={{width:'auto',zIndex:2000000}}/>
+                              <Zmage src={videoImg} alt='' className='all-height'  style={{width:'auto'}}/>
                              
                              
                             )}
@@ -501,6 +504,7 @@ export default function VideoIndex(props) {
                             })()}
                             onEvent={(url) => {
                               setVideoImg(url);
+                              
                             }}
                           />
                         </div>
