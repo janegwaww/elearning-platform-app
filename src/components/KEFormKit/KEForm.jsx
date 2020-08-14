@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
-import { Container, Grid, Typography } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import useStyles from "./KEFormStyle";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import AccountForm from "./AccountForm";
@@ -65,43 +65,41 @@ const KEForm = ({ modal, modalClose }) => {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <div className={classes.secondary}>
-          <Grid container>
-            <Grid item xs={12} md={6}>
-              <div className={classes.leftModule}>
-                <div className={classes.KELogo}>
-                  <img
-                    src="/images/login-bg.png"
-                    alt="login-bg"
-                    height="397"
-                    width="144"
-                    className={classes.loginBg}
-                  />
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <div className={classes.rightModule}>
-                <QrCodeIcon
-                  accountLogin={accountLogin}
-                  setAccountLogin={setAccountLogin}
+      <div className={classes.secondary}>
+        <Grid container>
+          <Grid item xs={12} md={6}>
+            <div className={classes.leftModule}>
+              <div className={classes.KELogo}>
+                <img
+                  src="/images/login-bg.png"
+                  alt="login-bg"
+                  height="397"
+                  width="144"
+                  className={classes.loginBg}
                 />
-                <div className={classes.welcomeTitle}>开动知识的引擎</div>
-                {accountLogin ? (
-                  <div style={{ width: "100%" }}>
-                    <AccountForm handleButton={handleClickLogin} />
-                  </div>
-                ) : (
-                  <QrCodeLoginComponent qrcodeValue={qrcodeValue} />
-                )}
-                <ThirdPartyLoginOpt />
-                <UserProtocol />
               </div>
-            </Grid>
+            </div>
           </Grid>
-        </div>
-      </Container>
+          <Grid item xs={12} md={6}>
+            <div className={classes.rightModule}>
+              <QrCodeIcon
+                accountLogin={accountLogin}
+                setAccountLogin={setAccountLogin}
+              />
+              <div className={classes.welcomeTitle}>开动知识的引擎</div>
+              {accountLogin ? (
+                <div style={{ width: "100%" }}>
+                  <AccountForm handleButton={handleClickLogin} />
+                </div>
+              ) : (
+                <QrCodeLoginComponent qrcodeValue={qrcodeValue} />
+              )}
+              <ThirdPartyLoginOpt />
+              <UserProtocol />
+            </div>
+          </Grid>
+        </Grid>
+      </div>
     </>
   );
 };
