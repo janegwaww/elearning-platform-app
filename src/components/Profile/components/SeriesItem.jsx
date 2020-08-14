@@ -39,16 +39,14 @@ const return_html = (info, type) => {
           <div className="box  fn-size-12">
             <div className="profile-item-img-box bg-all">
               {info && info.image_path && (
-<<<<<<< HEAD
-=======
                 <LazyLoad >
->>>>>>> clx
                 <img
                   className="all-height "
                   src={info.image_path}
                   alt=""
                   style={{ width: "auto" }}
                 />
+                </LazyLoad>
               )}
               <span
                 style={{
