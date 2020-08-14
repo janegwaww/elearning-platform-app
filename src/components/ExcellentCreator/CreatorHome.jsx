@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   paginationRoot: {
     backgroundColor: "#fff",
     minHeight: "unset",
+    height: "unset",
   },
   pul: {
     justifyContent: "center",
