@@ -1,6 +1,6 @@
 import { makeStyles,createStyles } from "@material-ui/core/styles";
 import '../../../assets/css/input.css';
-const userStyles = makeStyles((theme)=> createStyles({
+const userStyles = makeStyles(theme=> ({
   toolbar: {
     padding: 0,
   },
