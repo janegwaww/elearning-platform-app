@@ -53,7 +53,7 @@ const userStyles = makeStyles(theme=> ({
   radiogroup: {
     flexDirection: "row",
   },
-  root: {
+  formText: {
     width: "100%",
     fontSize: "14px",
     '& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl':{
