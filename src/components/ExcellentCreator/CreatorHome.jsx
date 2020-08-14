@@ -20,8 +20,9 @@ import withId from "../EmptyNotice/withId";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
 
 const useStyles = makeStyles((theme) => ({
-  pagination: {
+  paginationRoot: {
     backgroundColor: "#fff",
+    minHeight: "unset",
   },
   pul: {
     justifyContent: "center",
@@ -46,11 +47,17 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#007cff",
     },
   },
-  headImg: {
+  creatorHeaderImg: {
     height: 300,
+    position: "unset",
     [theme.breakpoints.down("md")]: {
       height: 150,
     },
+  },
+  creatorHeader: {
+    border: "1px solid #f2f2f5",
+    borderRadius: "12px",
+    overflow: "hidden",
   },
 }));
 
@@ -79,7 +86,7 @@ const Pagination = ({ num = 0, handlePage }) => {
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
-      classes={{ root: classes.pagination, ul: classes.pul }}
+      classes={{ root: classes.paginationRoot, ul: classes.pul }}
     />
   );
 };
@@ -123,11 +130,17 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
   );
 };
 
-const HeadBanner = ({ bg = "" }) => {
+const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
-  return bg ? (
-    <div className={classes.headImg}>
-      <img src={bg} height="100%" width="100%" alt={bg} />
+  const { background } = auth;
+  return background ? (
+    <div className={classes.creatorHeader}>
+      <div className={classes.creatorHeaderImg}>
+        <img src={background} height="100%" width="100%" alt={auth.user_name} />
+      </div>
+      <div style={{ height: 158, paddingTop: 10 }}>
+        <CreatorAvatar auth={auth} />
+      </div>
     </div>
   ) : null;
 };
@@ -252,22 +265,17 @@ class CreatorHome extends Component {
           <Helmet title={`Creator | ${config.siteTitle}`} />
           <Container>
             <div>
-              <div
-                style={{
-                  border: "1px solid #f2f2f5",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                }}
-              >
-                <HeadBanner bg={background} />
-                <div style={{ height: 158, paddingTop: 10 }}>
-                  <CreatorAvatar auth={auth} />
-                </div>
-              </div>
+              <HeadBanner auth={auth} />
               <br />
 
               <div style={{ minHeight: "60vh" }}>
-                <Box display="flex" justifyContent="space-between">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    backgroundColor: "inherit",
+                  }}
+                >
                   <Tabs onChange={this.handleTabChange} value={value}>
                     <TTab label="视频" />
                     <TTab label="系列" />
@@ -276,7 +284,7 @@ class CreatorHome extends Component {
                     handleSearchClick={this.handleSearchClick}
                     handleEnter={this.handleEnter}
                   />
-                </Box>
+                </div>
 
                 <TabPanel value={value} index={0}>
                   <GridCards itemCount={16} loading={loading} items={list} />
