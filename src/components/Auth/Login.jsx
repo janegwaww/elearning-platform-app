@@ -1,6 +1,10 @@
 import React from "react";
 import Helmet from "react-helmet";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import KEForm from "../KEFormKit/KEForm";
@@ -8,6 +12,10 @@ import LoggedIn from "./LoggedIn";
 import { isLoggedIn } from "../../services/auth";
 import config from "../../../data/SiteConfig";
 import backgroundImage from "../../../static/images/login-background-image.png";
+
+const generateClassName = createGenerateClassName({
+  seed: "kl",
+});
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,15 +34,17 @@ const Login = () => {
   const logged = isLoggedIn();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.secondary}>
-        <Helmet title={`Login | ${config.siteTitle}`} />
-        <CssBaseline />
-        <Container maxWidth="lg">
-          {!logged ? <KEForm /> : <LoggedIn />}
-        </Container>
+    <StylesProvider generateClassName={generateClassName}>
+      <div className={classes.root}>
+        <div className={classes.secondary}>
+          <Helmet title={`Login | ${config.siteTitle}`} />
+          <CssBaseline />
+          <Container maxWidth="lg">
+            {!logged ? <KEForm /> : <LoggedIn />}
+          </Container>
+        </div>
       </div>
-    </div>
+    </StylesProvider>
   );
 };
 
