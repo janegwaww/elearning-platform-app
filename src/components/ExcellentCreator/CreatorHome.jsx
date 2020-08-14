@@ -243,7 +243,7 @@ class CreatorHome extends Component {
   };
 
   render() {
-    const { auth, list, loading, value, pageCount, cid } = this.state;
+    const { auth, list, loading, value, pageCount } = this.state;
     const { background } = auth;
 
     return (
