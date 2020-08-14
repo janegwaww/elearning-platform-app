@@ -16,7 +16,7 @@ import { secondsToDate } from "../../services/utils";
 import "./DocumentStyles.sass";
 import { makeStyles } from "@material-ui/core/styles";
 import Zmage from "react-zmage";
-// import ImageModel from "./ImageModel";
+
 const useStyles = makeStyles({
   list: {
     "& .MuiExpansionPanelSummary-content": {
