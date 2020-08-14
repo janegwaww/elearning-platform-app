@@ -14,9 +14,16 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
-import { ContactSupport, Add, Cancel, HighlightOff } from "@material-ui/icons";
+import {
+  ContactSupport,
+  Add,
+  Cancel,
+  HighlightOff,
+  ExpandMore,
+  ExpandLess,
+} from "@material-ui/icons";
 
-import Zmage from 'react-zmage'
+import Zmage from "react-zmage";
 import { Nav } from "../../Profile/components/ProfileNav";
 import { get_data } from "../../../assets/js/request";
 
@@ -24,11 +31,11 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import userStyles from '../components/TextStyle';
-
+import userStyles from "../components/TextStyle";
 
 export default function VideoIndex(props) {
   const classes = userStyles();
+  const [seeMore, setSeeMore] = useState(5);
   const [userinfo, setUserinfo] = React.useState(null);
   const [filedata, setFiledata] = React.useState(null);
   const [openSnackbar, setOpenSnackbar] = React.useState({
@@ -162,7 +169,6 @@ export default function VideoIndex(props) {
                 </Grid>
                 <Grid item xs={8} sm={9} md={10}>
                   <TextField
-                   
                     variant="outlined"
                     fullWidth
                     value={videoTitle}
@@ -191,7 +197,6 @@ export default function VideoIndex(props) {
                 <Grid item xs={8} sm={9} md={10}>
                   <TextField
                     required
-                    
                     rows={3}
                     variant="outlined"
                     multiline
@@ -232,9 +237,9 @@ export default function VideoIndex(props) {
                           }}
                         >
                           {videoImg && (
-                            
-                            <Zmage 
-                              className="all-height" style={{width:'auto'}}
+                            <Zmage
+                              className="all-height"
+                              style={{ width: "auto" }}
                               src={videoImg}
                             />
                           )}
@@ -276,7 +281,7 @@ export default function VideoIndex(props) {
                           <Button
                             variant="contained"
                             style={{
-                              margin: "0 0 12px 0",
+                              
                               backgroundColor: "#007CFF",
                               color: "white",
                               padding: "3px 12px",
@@ -290,45 +295,92 @@ export default function VideoIndex(props) {
                             <Add />
                             新建系列
                           </Button>
-                          <div className="line"></div>
-                          <section>
-                            {currencies.map((option, inx) => (
-                              <p key={option.title}>
-                                <input
-                                  type="radio"
-                                  name="gender1"
-                                  checked={option.title == currency}
-                                  value={option.title}
-                                  id={option._id + "_" + inx}
-                                  onClick={(ev) => {
-                                    if (ev.target.checked) {
-                                      ev.target.checked = false;
-                                      setCurrency("");
-                                    }
-                                  }}
-                                  onChange={(event) => {
-                                    setCurrency(event.target.value);
-                                  }}
-                                />
+                          {currencies.length > 0 && (
+                            <section style={{ paddingTop: 12 }}>
+                              <div
+                                className="line"
+                                style={{ marginBottom: 12 }}
+                              ></div>
+                              {currencies.map((option, inx) => {
+                                if (inx < seeMore) {
+                                  return (
+                                    <p
+                                      key={option.title}
+                                      style={{ marginTop: 5 }}
+                                      title={option.title}
+                                    >
+                                      <input
+                                        type="radio"
+                                        name="gender1"
+                                        checked={option.title == currency}
+                                        value={option.title}
+                                        id={option._id + "_" + inx}
+                                        onClick={(ev) => {
+                                          if (ev.target.checked) {
+                                            ev.target.checked = false;
+                                            setCurrency("");
+                                          }
+                                        }}
+                                        onChange={(event) => {
+                                          setCurrency(event.target.value);
+                                        }}
+                                      />
 
-                                <label htmlFor={option._id + "_" + inx}>
-                                  {" "}
-                                  {option.title}
-                                </label>
-                              </p>
-                            ))}
-                          </section>
+                                      <label
+                                        htmlFor={option._id + "_" + inx}
+                                        className="p"
+                                      >
+                                        {" "}
+                                        {option.title}
+                                      </label>
+                                    </p>
+                                  );
+                                }
+                              })}
+                              {currencies.length > 5 && (
+                                <p className="text-center fn-color-007CFF fn-size-12 ">
+                                  {seeMore > 5 ? (
+                                    <span
+                                      className="p"
+                                      onClick={() => {
+                                        setSeeMore(5);
+                                      }}
+                                    >
+                                      收起
+                                      <ExpandLess />
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className="p"
+                                      onClick={() => {
+                                        setSeeMore(currencies.length);
+                                      }}
+                                    >
+                                      查看更多
+                                      <ExpandMore />
+                                    </span>
+                                  )}
+                                </p>
+                              )}
+                            </section>
+                          )}
                         </section>
                       ) : (
                         <section className="all-width sign">
-                        <Grid container spacing={4} className="item ">
-                  <Grid item xs={4} sm={3} md={2} className="text-right">
-                            <label>
-                              <span className="fn-color-F86B6B">*</span>系列标题
-                            </label>
+                          <Grid container spacing={4} className="item ">
+                            <Grid
+                              item
+                              xs={4}
+                              sm={3}
+                              md={2}
+                              className="text-right"
+                            >
+                              <label>
+                                <span className="fn-color-F86B6B">*</span>
+                                系列标题
+                              </label>
                             </Grid>
-                            <Grid item xs={8} sm={9} md={10} >
-                            
+                            <Grid item xs={8} sm={9} md={10}>
                               <TextField
                                 fullWidth
                                 type="text"
@@ -349,14 +401,19 @@ export default function VideoIndex(props) {
                                   ),
                                 }}
                               />
-                              </Grid>
                             </Grid>
+                          </Grid>
                           <Grid container spacing={4} className=" item">
-                          <Grid item xs={4} sm={3} md={2} className="text-right">
-                            <label>系列描述</label>
+                            <Grid
+                              item
+                              xs={4}
+                              sm={3}
+                              md={2}
+                              className="text-right"
+                            >
+                              <label>系列描述</label>
                             </Grid>
-                            <Grid item xs={8} sm={9} md={10} >
-                        
+                            <Grid item xs={8} sm={9} md={10}>
                               <TextField
                                 rows={2}
                                 variant="outlined"
@@ -367,47 +424,54 @@ export default function VideoIndex(props) {
                                   setSeriesdescription(event.target.value);
                                 }}
                               />
-                              </Grid>
-                              </Grid>
-                              <Grid container spacing={4} className=" item">
-                              <Grid item xs={4} sm={3} md={2} className="text-right">
-                            <label>系列封面</label>
                             </Grid>
-                            <Grid item xs={8} sm={9} md={10} >
-                            <div>
-                              <p>
-                                将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                              </p>
-                              <div className="box item">
-                                {seriesImg ? (
-                                  <div
-                                    className="file bg-all text-center"
-                                    style={{
-                                      marginRight: 10,
-                                    }}
-                                  >
-                                    {seriesImg && (
-                                      <Zmage
-                                        className=" all-height" style={{width:'auto'}}
-                                        src={seriesImg}
-                                      />
-                                    )}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
+                          </Grid>
+                          <Grid container spacing={4} className=" item">
+                            <Grid
+                              item
+                              xs={4}
+                              sm={3}
+                              md={2}
+                              className="text-right"
+                            >
+                              <label>系列封面</label>
+                            </Grid>
+                            <Grid item xs={8} sm={9} md={10}>
+                              <div>
+                                <p>
+                                  将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
+                                </p>
+                                <div className="box item">
+                                  {seriesImg ? (
+                                    <div
+                                      className="file bg-all text-center"
+                                      style={{
+                                        marginRight: 10,
+                                      }}
+                                    >
+                                      {seriesImg && (
+                                        <Zmage
+                                          className=" all-height"
+                                          style={{ width: "auto" }}
+                                          src={seriesImg}
+                                        />
+                                      )}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
 
-                                <CuttingTemplate
-                                  id="seriesfile"
-                                  onEvent={(url) => {
-                                    setSeriesImg(url);
-                                  }}
-                                />
+                                  <CuttingTemplate
+                                    id="seriesfile"
+                                    onEvent={(url) => {
+                                      setSeriesImg(url);
+                                    }}
+                                  />
+                                </div>
                               </div>
-                              </div>
-                              </Grid>
                             </Grid>
-                          <div className='item'></div>
+                          </Grid>
+                          <div className="item"></div>
                           <div className="box box-center">
                             <Button
                               variant="contained"
@@ -548,7 +612,7 @@ export default function VideoIndex(props) {
                         onChange={(event) => {
                           let _file = event.target.files[0];
                           let _data = new FormData();
-                       
+
                           if (_file.size > 15 * 1024 * 1024) {
                             alert("文档文件不能大于15M哦!");
                             return;
@@ -582,8 +646,8 @@ export default function VideoIndex(props) {
                   </div>
                 </Grid>
               </Grid>
-              <div className='item' style={{height:1}}></div>
-              <div className='item'></div>
+              <div className="item" style={{ height: 1 }}></div>
+              <div className="item"></div>
               <div className=" box box-center">
                 <Button
                   className={`${classes.btn} ${classes.btn1}`}
@@ -617,7 +681,6 @@ export default function VideoIndex(props) {
                       });
                       return;
                     }
-                  
 
                     let _data = {
                       task_id: JSON.parse(sessionStorage.getItem("file_data"))
@@ -655,7 +718,8 @@ export default function VideoIndex(props) {
                         model_name: "video",
                         model_action: "check",
                         extra_data: _data,
-                      },'video'
+                      },
+                      "video"
                     ).then((res) => {
                       if (res.err == 0 && res.errmsg == "OK") {
                         setOpenSnackbar({

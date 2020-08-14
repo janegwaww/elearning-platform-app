@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import '../../../assets/css/input.css';
 const userStyles = makeStyles((them) => ({
   toolbar: {
     padding: 0,
@@ -55,10 +56,14 @@ const userStyles = makeStyles((them) => ({
   root: {
     width: "100%",
     fontSize: "14px",
+    '& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl':{
+      border:'2px solid transparent',
+    },
     "& .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused": {
       border: "2px solid #007cff",
       "& .MuiOutlinedInput-notchedOutline": {
         borderColor: "white",
+        borderWidth:0
       },
     },
 
@@ -75,36 +80,37 @@ const userStyles = makeStyles((them) => ({
       fontWeight: 400,
       display: "inline-block",
     },
-    "& >div": {
-      alignItems: "flex-start",
-      "& .file": {
-        width: "140px",
-        height: "80px",
-        position: "relative",
-        border: "1px dashed #D5D5D5",
-        overflow: "hidden",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundSize: "100%",
-        display: "inline-block",
-        "& input": {
-          width: "100%",
-          height: "100%",
-        },
 
-        "& label": {
-          display: "block",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          backgroundColor: "white",
-          color: "#999",
-          paddingTop: 15,
-          textAlign: "center ",
-          margin: 0,
-        },
-      },
+    "& .file": {
+      width: "140px",
+      height: "80px",
+      position: "relative",
+      border: "1px dashed #D5D5D5",
+      overflow: "hidden",
+      borderRadius:6
+      // backgroundRepeat: "no-repeat",
+      // backgroundPosition: "center center",
+      // backgroundSize: "100%",
+      // display: "inline-block",
+      // "& input": {
+      //   width: "100%",
+      //   height: "100%",
+      // },
+
+      // "& label": {
+      //   display: "block",
+      //   position: "absolute",
+      //   left: 0,
+      //   top: 0,
+      //   backgroundColor: "white",
+      //   color: "#999",
+      //   paddingTop: 15,
+      //   textAlign: "center ",
+      //   margin: 0,
+      // },
     },
+
+    
 
     "& p": {
       margin: 0,
@@ -113,7 +119,7 @@ const userStyles = makeStyles((them) => ({
     "& .sign": {
       backgroundColor: "#F2F2F5",
       padding: "12px",
-     
+      borderRadius:8,
       // "& label": {
       //   // display: "inline-block",
       //   margin: "6px",
@@ -121,10 +127,10 @@ const userStyles = makeStyles((them) => ({
       //   fontSize: "12px",
       // },
     },
-    "& label": {
-      minWidth: "65px",
-      transform: "translate(0, 1.5px) scale(1.1)",
-    },
+    // "& label": {
+    //   minWidth: "65px",
+    //   transform: "translate(0, 1.5px) scale(1.1)",
+    // },
     "&  .item": {
       marginTop: 22,
 
