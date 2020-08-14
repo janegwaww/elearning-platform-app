@@ -548,7 +548,7 @@ export default function VideoIndex(props) {
                         onChange={(event) => {
                           let _file = event.target.files[0];
                           let _data = new FormData();
-                          console.log(_file);
+                       
                           if (_file.size > 15 * 1024 * 1024) {
                             alert("文档文件不能大于15M哦!");
                             return;
@@ -558,7 +558,7 @@ export default function VideoIndex(props) {
                           _data.append("model_action", "upload_document");
                           _data.append("type", "document");
                           _data.append("file", _file);
-                          get_data(_data, "video").then((res) => {
+                          get_data(_data).then((res) => {
                             if (res.err == 0 && res.errmsg == "OK") {
                               let _adjunct = JSON.parse(
                                 JSON.stringify(adjunct)
@@ -655,7 +655,7 @@ export default function VideoIndex(props) {
                         model_name: "video",
                         model_action: "check",
                         extra_data: _data,
-                      }
+                      },'video'
                     ).then((res) => {
                       if (res.err == 0 && res.errmsg == "OK") {
                         setOpenSnackbar({
