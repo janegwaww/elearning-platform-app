@@ -1,11 +1,10 @@
-const urljoin = require("url-join");
 const path = require("path");
 const config = require("./data/SiteConfig");
 
 module.exports = {
-  // pathPrefix: config.pathPrefix === "" ? "/" : config.pathPrefix,
+  pathPrefix: "/",
   siteMetadata: {
-    siteUrl: urljoin(config.siteUrl, config.pathPrefix)
+    siteUrl: config.siteUrl,
   },
   plugins: [
     "gatsby-plugin-react-helmet",
@@ -14,43 +13,30 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "assets",
-        path: `${__dirname}/static/`
-      }
+        path: `${__dirname}/static/`,
+      },
     },
-    // {
-    //   resolve: "gatsby-source-filesystem",
-    //   options: {
-    //     name: "posts",
-    //     path: `${__dirname}/content/`
-    //   }
-    // },
     {
       resolve: "gatsby-transformer-remark",
       options: {
         plugins: [
           {
-            resolve: `gatsby-remark-relative-images`
+            resolve: `gatsby-remark-relative-images`,
           },
           {
             resolve: "gatsby-remark-images",
             options: {
-              maxWidth: 690
-            }
+              maxWidth: 690,
+            },
           },
           {
-            resolve: "gatsby-remark-responsive-iframe"
+            resolve: "gatsby-remark-responsive-iframe",
           },
           "gatsby-remark-copy-linked-files",
           "gatsby-remark-autolink-headers",
-          "gatsby-remark-prismjs"
-        ]
-      }
-    },
-    {
-      resolve: "gatsby-plugin-google-analytics",
-      options: {
-        trackingId: config.googleAnalyticsID
-      }
+          "gatsby-remark-prismjs",
+        ],
+      },
     },
     {
       resolve: `gatsby-plugin-baidu-analytics`,
@@ -59,13 +45,13 @@ module.exports = {
         siteId: "b88346942d0f4074f2a16c0cfda3b856",
         // Put analytics script in the head instead of the body [default:false]
         head: false,
-      }
+      },
     },
     {
       resolve: "gatsby-plugin-nprogress",
       options: {
-        color: config.themeColor
-      }
+        color: config.themeColor,
+      },
     },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
@@ -90,15 +76,15 @@ module.exports = {
           {
             src: "/logos/logo-192.png",
             sizes: "192x192",
-            type: "image/png"
+            type: "image/png",
           },
           {
             src: "/logos/logo-512.png",
             sizes: "512x512",
-            type: "image/png"
-          }
-        ]
-      }
+            type: "image/png",
+          },
+        ],
+      },
     },
     "gatsby-plugin-offline",
     {
@@ -108,8 +94,8 @@ module.exports = {
         enableIdentityWidget: true,
         publicPath: "admin",
         htmlTitle: "Content Manager",
-        includeRobots: false
-      }
+        includeRobots: false,
+      },
     },
     // {
     //   resolve: "gatsby-plugin-feed",
@@ -189,8 +175,14 @@ module.exports = {
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: {
-        prefixes: [`/users/*`, `/excellentcreator/*`, `/video/*`, `/protocol/*`,`/phone/*`]
-      }
-    }
-  ]
+        prefixes: [
+          `/users/*`,
+          `/excellentcreator/*`,
+          `/video/*`,
+          `/protocol/*`,
+          `/phone/*`,
+        ],
+      },
+    },
+  ],
 };
