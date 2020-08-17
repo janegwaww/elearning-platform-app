@@ -43,7 +43,7 @@
 .up-text .main .MuiFormControl-fullWidth{
   width: 80%;
 }
-.up-text .text-doc span:hover,.up-text .text-doc label:hover {
+.up-text .text-doc span:hover,.up-text .text-doc label:hover,.up-text .login:hover {
   cursor: pointer;
 }
 /* .up-text .snackbar {
