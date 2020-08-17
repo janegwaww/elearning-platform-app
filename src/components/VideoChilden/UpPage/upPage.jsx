@@ -11,6 +11,7 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
+  ButtonBase
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -118,7 +119,7 @@ export default function VideoIndex(props) {
           <div className={`box box-between box-align-center  toolbar`}>
             <div className ='box box-align-center' style={{height:64}}>
              
-                <img src={loginimg} alt="logo"   onClick={() => {
+                <img src={loginimg} alt="logo" className='login'   onClick={() => {
                   navigate("/");
                 }}/>
             
@@ -130,9 +131,11 @@ export default function VideoIndex(props) {
               >
                 我的制作中心
               </Button>
-              <div>使用教程</div>
+              <div >
+                <Button disabled>使用教程</Button>
+              
+              </div>
             </div>
-
             <div>
               <Avatar
                 src={userinfo && userinfo.headshot ? userinfo.headshot : ""}
