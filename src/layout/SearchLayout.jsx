@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -14,6 +14,7 @@ import ScrollTop from "./ScrollTop";
 import AvatarMenu from "./AvatarMenu";
 import Container from "../components/Container/KeContainer";
 import SearchAutoComplete from "../components/Search/SearchAutoComplete";
+import ContributeMenu from "./ContributeMenu";
 import config from "../../data/SiteConfig";
 import theme from "./theme";
 import { searchUrlParams, getIdFromHref } from "../services/utils";
@@ -25,11 +26,11 @@ const getHistory = searchHistory("kengineSearchHistory");
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("搜索知识...");
-  const { q } = getIdFromHref();
+  const { q, page, type } = getIdFromHref();
 
   const handleSearch = () => {
     if (refInput) {
-      navigate(searchUrlParams(refInput));
+      navigate(searchUrlParams({ value: refInput }));
     }
   };
 
@@ -61,11 +62,7 @@ const SearchLayout = ({ children }) => {
               <Box display="flex" ml={5} mr={3} color="#fff">
                 <AvatarMenu />
               </Box>
-              <Link href="/video/" underline="none" className="post-button">
-                <Button size="small">
-                  <Typography>投稿</Typography>
-                </Button>
-              </Link>
+              <ContributeMenu />
             </div>
           </Container>
         </div>
@@ -84,13 +81,15 @@ const SearchLayout = ({ children }) => {
           </Toolbar>
         </Container>
       </AppBar>
+
       <div className="search-layout-container">
         <Helmet title={`Search | ${config.siteTitle}`}>
           <meta name="description" content={config.siteDescription} />
           <html lang="en" />
         </Helmet>
-        {children(input)}
+        {children(input, page, type)}
       </div>
+
       <ScrollTop />
       <Footer config={config} />
     </ThemeProvider>
