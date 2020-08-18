@@ -175,6 +175,8 @@ export const searchPartApis = () => {
       "view_advanced_info",
       "download_file",
       "get_document_series_details",
+      "local_search",
+      "get_image",
     ],
     ["add_subscription", "latest_subscription"],
     ["get_author_information", "share"],
