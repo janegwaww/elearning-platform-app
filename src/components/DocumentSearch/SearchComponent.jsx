@@ -3,20 +3,40 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
 import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
 import { FixedSizeList, areEqual } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 import SearchInput from "./SearchInput";
 import withSearchComponent from "./withSearchComponent";
 
-const useStyle = makeStyles({
-  item: {},
+const useStyles = makeStyles({
+  item: {
+    backgroundColor: "#878791",
+  },
+  button: {
+    "&:hover": {
+      backgroundColor: "#878792",
+    },
+  },
+  drawerPaper: {
+    backgroundColor: "inherit",
+    width: "41.666667%",
+  },
+  tab: {
+    backgroundColor: "rgba(60,60,60,1)",
+    padding: "9px",
+    color: "#fff",
+  },
 });
 
 const renderRow = memo(({ index, style, data }) => {
+  const classes = useStyles();
   const { itemsArray, itemClick } = data;
   const item = itemsArray[index];
-  const refStr = (str) => `<span style='color: #007cff'>${str}</span>`;
+  const refStr = (str) =>
+    `<span style='background-color: #007cff; border-radius: 2px'>${str}</span>`;
   const markup = {
     __html: `${item.whole_str.replace(
       item.str_for_reference,
@@ -24,43 +44,85 @@ const renderRow = memo(({ index, style, data }) => {
     )}`,
   };
   return (
-    <ListItem button style={style} key={index} onClick={() => itemClick(item)}>
+    <ListItem
+      button
+      style={style}
+      key={index}
+      onClick={() => itemClick({ ...item, index })}
+      className={item.isActive && classes.item}
+      classes={{ button: classes.button }}
+    >
       <Grid container>
         <Grid item xs={1}>
-          <div>{index + 1}</div>
+          <div style={{ color: "#fff" }}>{index + 1}</div>
         </Grid>
         <Grid item xs={11}>
-          <Typography dangerouslySetInnerHTML={markup} />
+          <Typography
+            style={{ color: "#fff" }}
+            dangerouslySetInnerHTML={markup}
+          />
         </Grid>
       </Grid>
     </ListItem>
   );
 }, areEqual);
 
-const SearchComponent = ({ onSearch, itemsArray = [], itemClick }) => {
+const SearchComponent = ({
+  onSearch,
+  itemsArray = [],
+  itemClick,
+  open,
+  onClose,
+}) => {
+  const classes = useStyles();
   const itemData = { itemsArray, itemClick };
 
   return (
-    <Box pt={4} pb={2}>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <SearchInput handleSearchClick={onSearch} />
+    <Drawer
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={open}
+      classes={{ paper: classes.drawerPaper }}
+    >
+      <Box pt={2} pb={4} pl={5}>
+        <Grid container>
+          <Grid item xs={10}>
+            <SearchInput handleSearchClick={onSearch} />
+          </Grid>
+          <Grid item xs={2}>
+            <Button onClick={onClose} style={{ color: "#878791" }}>
+              取消
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <FixedSizeList
-              height={500}
-              width="100%"
-              itemSize={80}
-              itemCount={itemsArray.length}
-              itemData={itemData}
-            >
-              {renderRow}
-            </FixedSizeList>
-          </Paper>
+      </Box>
+
+      <Box className={classes.tab}>
+        <Grid container>
+          <Grid item xs={1}>
+            <Typography noWrap>序号&nbsp;&nbsp;&nbsp;|</Typography>
+          </Grid>
+          <Grid item xs={11}>
+            <Typography>{`结果: ${itemsArray.length}`}</Typography>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+
+      <AutoSizer>
+        {({ height, width }) => (
+          <FixedSizeList
+            height={height - 160}
+            width={width - 10}
+            itemSize={80}
+            itemCount={itemsArray.length}
+            itemData={itemData}
+          >
+            {renderRow}
+          </FixedSizeList>
+        )}
+      </AutoSizer>
+    </Drawer>
   );
 };
 

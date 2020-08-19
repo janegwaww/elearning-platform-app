@@ -38,6 +38,9 @@ const useStyles = makeStyles({
     background: "rgba(0,124,255,0.5)",
     borderRadius: 100,
   },
+  listItem: {
+    backgroundColor: "#ebebeb",
+  },
 });
 
 const Layer = ({ height, width, vector = [0, 0] }) => {
@@ -61,7 +64,7 @@ const renderImage = memo(({ index, style, data }) => {
   const { images, vector, page } = data;
   const item = images[index];
   return (
-    <ListItem style={style} key={index}>
+    <ListItem style={style} key={index} classes={{ root: classes.listItem }}>
       <div className={classes.image}>
         <img src={item} alt={item} className="document-image" />
         {index === page ? <Layer vector={vector} /> : null}
@@ -70,7 +73,7 @@ const renderImage = memo(({ index, style, data }) => {
   );
 }, areEqual);
 
-const DocumentComponent = ({ images = [], position = {} }) => {
+const DocumentComponent = ({ images = [], position = {}, onItemsRendered }) => {
   const classes = useStyles();
   const listRef = useRef(null);
   const itemData = { vector: position.coord, page: position.page_id, images };
@@ -102,6 +105,7 @@ const DocumentComponent = ({ images = [], position = {} }) => {
             itemSize={height}
             itemCount={images.length}
             itemData={itemData}
+            onItemsRendered={onItemsRendered}
           >
             {renderImage}
           </FixedSizeList>

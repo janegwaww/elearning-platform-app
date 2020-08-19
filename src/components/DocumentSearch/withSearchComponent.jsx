@@ -14,11 +14,25 @@ const withSearchComponent = (WrapComponent) => {
       const { id } = this.props;
       if (value) {
         documentSearch({ file_id: id, query_string: value, max_size: 10 }).then(
-          (data) => {
+          (data = []) => {
             this.setState({ array: data });
           },
         );
       }
+    };
+
+    handleClick = (item) => {
+      const { array } = this.state;
+      this.props.onClick(item);
+      this.setState({
+        array: array.map((o, i) => {
+          if (i === item.index) {
+            return { ...o, isActive: true };
+          } else {
+            return { ...o, isActive: false };
+          }
+        }),
+      });
     };
 
     render() {
@@ -28,6 +42,7 @@ const withSearchComponent = (WrapComponent) => {
         <WrapComponent
           onSearch={this.onSearch}
           itemsArray={array}
+          itemClick={this.handleClick}
           {...this.props}
         />
       );

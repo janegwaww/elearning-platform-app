@@ -16,7 +16,7 @@ const withDocumentComponent = (WrapComponent) => {
       /* window.addEventListener("resize", this.reportWindowSize); */
       documentContent({ file_id: this.props.id }).then((data) => {
         this.setState({ images: data.image_list });
-        this.props.getUrl(data.file_path);
+        this.props.getInfo(data);
       });
     }
 
@@ -31,8 +31,23 @@ const withDocumentComponent = (WrapComponent) => {
        * this.setState({ height, width }); */
     };
 
+    onItemsRendered = ({
+      overscanStartIndex,
+      overscanStopIndex,
+      visibleStartIndex,
+      visibleStopIndex,
+    }) => {
+      this.props.getPage(visibleStopIndex + 1);
+    };
+
     render() {
-      return <WrapComponent {...this.state} {...this.props} />;
+      return (
+        <WrapComponent
+          onItemsRendered={this.onItemsRendered}
+          {...this.state}
+          {...this.props}
+        />
+      );
     }
   };
 };

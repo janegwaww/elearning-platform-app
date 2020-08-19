@@ -1,51 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles(() => ({
+  root: {
+    border: "1px solid rgba(86,86,99,1)",
+    borderRadius: "20px",
+  },
   inputInput: {
-    backgroundColor: "#f2f2f5",
     borderRadius: "50px 0 0 50px",
-    paddingLeft: "1em",
+    color: "#fff",
     "&::placeholder": {
       fontSize: "0.875rem",
+      color: "#fff",
     },
   },
   searchButton: {
-    backgroundColor: "#007cff",
+    backgroundColor: "inherit",
     borderRadius: "0 50px 50px 0",
     padding: "4px 8px",
     minWidth: "50px",
     color: "#fff",
-    "&:hover": {
-      backgroundColor: "#007cff",
-    },
   },
 }));
 
-const SearchInput = ({ handleSearchClick, handleEnter }) => {
+const SearchInput = ({ handleSearchClick }) => {
   const classes = useStyles();
+  const [value, setValue] = useState("");
+
   const handleSearch = () => {
-    const { value } = document.getElementById("creatorhome_local_search_input");
-    handleSearchClick(value);
+    if (value) {
+      handleSearchClick(value);
+    }
   };
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleClear = () => setValue("");
 
   return (
     <InputBase
       id="creatorhome_local_search_input"
-      placeholder="请输入搜索内容..."
+      placeholder="语义搜索"
       type="search"
-      classes={{ input: classes.inputInput }}
+      fullWidth
+      classes={{ input: classes.inputInput, root: classes.root }}
       onKeyDown={handleEnter}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      startAdornment={
+        <InputAdornment>
+          <IconButton onClick={handleSearch} className={classes.searchButton}>
+            <SearchIcon />
+          </IconButton>
+        </InputAdornment>
+      }
       endAdornment={
         <InputAdornment>
-          <Button onClick={handleSearch} className={classes.searchButton}>
-            <SearchIcon />
-            语义搜索
-          </Button>
+          <IconButton onClick={handleClear} className={classes.searchButton}>
+            <ClearIcon />
+          </IconButton>
         </InputAdornment>
       }
     />
