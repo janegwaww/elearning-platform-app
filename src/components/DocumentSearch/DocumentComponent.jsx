@@ -35,7 +35,8 @@ const useStyles = makeStyles({
     position: "absolute",
     height: "10%",
     width: "15%",
-    background: "rgba(0,124,255,0.5)",
+    background:
+      "radial-gradient(circle,rgba(0,124,255,0.8) 0%,rgba(0,124,255,0.43) 16%,rgba(0,124,255,0) 80%)",
     borderRadius: 100,
   },
   listItem: {

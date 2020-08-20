@@ -18,6 +18,9 @@ const useStyles = makeStyles({
   toolbar: {
     minHeight: 0,
   },
+  searchButton: {
+    borderRadius: 50,
+  },
 });
 
 const DocumentSearchAppBar = ({
@@ -41,16 +44,21 @@ const DocumentSearchAppBar = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography>{file_name}</Typography>
-                <Typography>{`${page} / ${image_list.length}`}</Typography>
-                <Box>
+                <Typography noWrap>{file_name}</Typography>
+                <Typography
+                  noWrap
+                >{`${page} / ${image_list.length}`}</Typography>
+                <Box display="flex">
                   <Button
                     variant="contained"
                     color="default"
                     startIcon={<SearchIcon />}
                     onClick={handleClick}
+                    className={classes.searchButton}
                   >
-                    语义搜索
+                    <Typography variant="body2" noWrap>
+                      语义搜索
+                    </Typography>
                   </Button>
                   <IconButton onClick={handleDownload}>
                     <GetAppIcon style={{ color: "#fff" }} />

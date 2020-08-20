@@ -6,8 +6,7 @@ const withDocumentComponent = (WrapComponent) => {
     constructor(props) {
       super(props);
       this.state = {
-        height: 841.92,
-        width: 595.2,
+        itemHeight: 841.92,
         images: [],
       };
     }
@@ -20,15 +19,21 @@ const withDocumentComponent = (WrapComponent) => {
       });
     }
 
+    /* componentDidUpdate(prevProps) {
+     *   if (prevProps.show !== this.props.show) {
+     *     this.reportWindowSize();
+     *   }
+     * } */
+
     componentWillUnmount() {
       /* window.removeEventListener("resize", this.reportWindowSize); */
     }
 
-    reportWindowSize = () => {
-      /* const el = document.querySelector("document-image")[0];
-       * const height = el.scrollHeight;
-       * const width = el.width;
-       * this.setState({ height, width }); */
+    reportWindowSize = (i = 0) => {
+      /* const el = document.querySelector("img.document-image")[i];
+       * if (el) {
+       *   this.setState({ itemHeight: el.height });
+       * } */
     };
 
     onItemsRendered = ({

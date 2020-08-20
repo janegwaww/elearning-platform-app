@@ -11,7 +11,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import SearchInput from "./SearchInput";
 import withSearchComponent from "./withSearchComponent";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   item: {
     backgroundColor: "#878791",
   },
@@ -21,15 +21,18 @@ const useStyles = makeStyles({
     },
   },
   drawerPaper: {
-    backgroundColor: "inherit",
+    backgroundColor: "#1b1b1d",
     width: "41.666667%",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
   },
   tab: {
     backgroundColor: "rgba(60,60,60,1)",
     padding: "9px",
     color: "#fff",
   },
-});
+}));
 
 const renderRow = memo(({ index, style, data }) => {
   const classes = useStyles();
@@ -49,7 +52,7 @@ const renderRow = memo(({ index, style, data }) => {
       style={style}
       key={index}
       onClick={() => itemClick({ ...item, index })}
-      className={item.isActive && classes.item}
+      className={item.isActive ? classes.item : ""}
       classes={{ button: classes.button }}
     >
       <Grid container>
@@ -101,7 +104,7 @@ const SearchComponent = ({
       <Box className={classes.tab}>
         <Grid container>
           <Grid item xs={1}>
-            <Typography noWrap>序号&nbsp;&nbsp;&nbsp;|</Typography>
+            <Typography noWrap>序号&nbsp;&nbsp;|</Typography>
           </Grid>
           <Grid item xs={11}>
             <Typography>{`结果: ${itemsArray.length}`}</Typography>

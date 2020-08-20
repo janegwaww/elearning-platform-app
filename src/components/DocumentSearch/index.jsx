@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
@@ -47,10 +46,10 @@ const DocumentSearch = () => {
       />
       <Container maxWidth="xl">
         <Grid container justify={show ? "center" : "flex-end"}>
-          <Grid item xs={0} />
-          <Grid item xs={12} md={show ? 5 : 7}>
+          <Grid item xs={12} lg={show ? 5 : 7}>
             <DocumentComponent
               id={dsid}
+              show={show}
               position={position}
               getInfo={(obj) => setInfo(obj)}
               getPage={(p) => setPage(p)}
