@@ -56,9 +56,7 @@ const DocumentSearchAppBar = ({
                     onClick={handleClick}
                     className={classes.searchButton}
                   >
-                    <Typography variant="body2" noWrap>
-                      语义搜索
-                    </Typography>
+                    <Typography noWrap>语义搜索</Typography>
                   </Button>
                   <IconButton onClick={handleDownload}>
                     <GetAppIcon style={{ color: "#fff" }} />

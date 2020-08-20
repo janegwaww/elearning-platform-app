@@ -1,5 +1,6 @@
 import React, { memo, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 import ListItem from "@material-ui/core/ListItem";
 import { FixedSizeList, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -11,13 +12,13 @@ const useStyles = makeStyles({
     width: "100%",
   },
   image: {
-    height: "100%",
-    width: "auto",
+    height: "auto",
+    width: "100%",
     backgroundColor: "inherit",
     position: "relative",
     "& img": {
-      width: "auto",
-      height: "100%",
+      width: "100%",
+      height: "auto",
       objectFit: "fill",
       display: "block",
     },
@@ -66,15 +67,20 @@ const renderImage = memo(({ index, style, data }) => {
   const item = images[index];
   return (
     <ListItem style={style} key={index} classes={{ root: classes.listItem }}>
-      <div className={classes.image}>
-        <img src={item} alt={item} className="document-image" />
+      <div className={clsx(classes.image, "document-search-image")}>
+        <img src={item} alt={item} />
         {index === page ? <Layer vector={vector} /> : null}
       </div>
     </ListItem>
   );
 }, areEqual);
 
-const DocumentComponent = ({ images = [], position = {}, onItemsRendered }) => {
+const DocumentComponent = ({
+  images = [],
+  position = {},
+  onItemsRendered,
+  itemHeight,
+}) => {
   const classes = useStyles();
   const listRef = useRef(null);
   const itemData = { vector: position.coord, page: position.page_id, images };
@@ -103,7 +109,7 @@ const DocumentComponent = ({ images = [], position = {}, onItemsRendered }) => {
             ref={listRef}
             height={height}
             width={width}
-            itemSize={height}
+            itemSize={itemHeight + 16}
             itemCount={images.length}
             itemData={itemData}
             onItemsRendered={onItemsRendered}

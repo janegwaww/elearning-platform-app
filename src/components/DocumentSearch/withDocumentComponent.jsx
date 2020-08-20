@@ -12,28 +12,35 @@ const withDocumentComponent = (WrapComponent) => {
     }
 
     componentDidMount() {
-      /* window.addEventListener("resize", this.reportWindowSize); */
       documentContent({ file_id: this.props.id }).then((data) => {
         this.setState({ images: data.image_list });
         this.props.getInfo(data);
       });
+      window.addEventListener("resize", this.reportWindowSize);
+      this.reportWindowSize();
     }
 
-    /* componentDidUpdate(prevProps) {
-     *   if (prevProps.show !== this.props.show) {
-     *     this.reportWindowSize();
-     *   }
-     * } */
+    componentDidUpdate(prevProps) {
+      if (prevProps.show !== this.props.show) {
+        setTimeout(() => {
+          this.reportWindowSize();
+        }, 200);
+      }
+    }
 
     componentWillUnmount() {
-      /* window.removeEventListener("resize", this.reportWindowSize); */
+      window.removeEventListener("resize", this.reportWindowSize);
     }
 
-    reportWindowSize = (i = 0) => {
-      /* const el = document.querySelector("img.document-image")[i];
-       * if (el) {
-       *   this.setState({ itemHeight: el.height });
-       * } */
+    reportWindowSize = () => {
+      const el = document.querySelector(".document-search-image");
+      if (el && el.scrollHeight) {
+        this.setState({ itemHeight: el.scrollHeight });
+      } else {
+        setTimeout(() => {
+          this.reportWindowSize();
+        }, 500);
+      }
     };
 
     onItemsRendered = ({
