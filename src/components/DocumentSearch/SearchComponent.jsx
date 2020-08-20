@@ -91,7 +91,7 @@ const SearchComponent = ({
       <Box pt={2} pb={4} pl={5}>
         <Grid container>
           <Grid item xs={10}>
-            <SearchInput handleSearchClick={onSearch} />
+            <SearchInput handleSearchClick={onSearch} open={open} />
           </Grid>
           <Grid item xs={2}>
             <Button onClick={onClose} style={{ color: "#878791" }}>

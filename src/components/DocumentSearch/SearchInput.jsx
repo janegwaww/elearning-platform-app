@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -12,7 +12,6 @@ const useStyles = makeStyles(() => ({
     borderRadius: "20px",
   },
   inputInput: {
-    borderRadius: "50px 0 0 50px",
     color: "#fff",
     "&::placeholder": {
       fontSize: "0.875rem",
@@ -28,9 +27,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SearchInput = ({ handleSearchClick }) => {
+const SearchInput = ({ handleSearchClick, open }) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
+  const inputEl = useRef(null);
 
   const handleSearch = () => {
     if (value) {
@@ -46,8 +46,17 @@ const SearchInput = ({ handleSearchClick }) => {
 
   const handleClear = () => setValue("");
 
+  useEffect(() => {
+    if (inputEl.current && open) {
+      inputEl.current.focus();
+    }
+  }, [open]);
+
   return (
     <InputBase
+      inputProps={{
+        ref: inputEl,
+      }}
       id="creatorhome_local_search_input"
       placeholder="语义搜索"
       type="search"
