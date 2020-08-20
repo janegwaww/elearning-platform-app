@@ -1,6 +1,5 @@
 import React, { memo, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import ListItem from "@material-ui/core/ListItem";
 import { FixedSizeList, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -67,8 +66,8 @@ const renderImage = memo(({ index, style, data }) => {
   const item = images[index];
   return (
     <ListItem style={style} key={index} classes={{ root: classes.listItem }}>
-      <div className={clsx(classes.image, "document-search-image")}>
-        <img src={item} alt={item} />
+      <div className={classes.image}>
+        <img src={item} alt={item} className="document-search-image" />
         {index === page ? <Layer vector={vector} /> : null}
       </div>
     </ListItem>

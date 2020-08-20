@@ -22,9 +22,7 @@ const withDocumentComponent = (WrapComponent) => {
 
     componentDidUpdate(prevProps) {
       if (prevProps.show !== this.props.show) {
-        setTimeout(() => {
-          this.reportWindowSize();
-        }, 200);
+        this.reportWindowSize();
       }
     }
 
@@ -33,13 +31,19 @@ const withDocumentComponent = (WrapComponent) => {
     }
 
     reportWindowSize = () => {
+      setTimeout(() => {
+        this.resizeImageHeight();
+      }, 200);
+    };
+
+    resizeImageHeight = () => {
       const el = document.querySelector(".document-search-image");
       if (el && el.scrollHeight) {
-        this.setState({ itemHeight: el.scrollHeight });
+        this.setState({ itemHeight: el.height });
       } else {
         setTimeout(() => {
-          this.reportWindowSize();
-        }, 500);
+          this.resizeImageHeight();
+        }, 400);
       }
     };
 

@@ -10,8 +10,11 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import GetAppIcon from "@material-ui/icons/GetApp";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#232325",
   },
@@ -21,7 +24,12 @@ const useStyles = makeStyles({
   searchButton: {
     borderRadius: 50,
   },
-});
+  scale: {
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  },
+}));
 
 const DocumentSearchAppBar = ({
   info = {},
@@ -29,6 +37,7 @@ const DocumentSearchAppBar = ({
   show = true,
   handleClick,
   handleDownload,
+  handleScale,
 }) => {
   const classes = useStyles();
   const { file_name = "标题", image_list = [] } = info;
@@ -45,9 +54,11 @@ const DocumentSearchAppBar = ({
                 alignItems="center"
               >
                 <Typography noWrap>{file_name}</Typography>
+
                 <Typography
                   noWrap
                 >{`${page} / ${image_list.length}`}</Typography>
+
                 <Box display="flex">
                   <Button
                     variant="contained"
@@ -58,6 +69,14 @@ const DocumentSearchAppBar = ({
                   >
                     <Typography noWrap>语义搜索</Typography>
                   </Button>
+                  <Box className={classes.scale}>
+                    <IconButton onClick={() => handleScale(true)}>
+                      <AddIcon style={{ color: "#fff" }} />
+                    </IconButton>
+                    <IconButton onClick={() => handleScale(false)}>
+                      <RemoveIcon style={{ color: "#fff" }} />
+                    </IconButton>
+                  </Box>
                   <IconButton onClick={handleDownload}>
                     <GetAppIcon style={{ color: "#fff" }} />
                   </IconButton>

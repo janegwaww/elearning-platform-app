@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
@@ -13,6 +13,8 @@ const DocumentSearch = () => {
   const [info, setInfo] = useState({});
   const [show, setShow] = useState(true);
   const [page, setPage] = useState(1);
+  const [scale, setScale] = useState(5);
+  const docComRef = useRef(null);
 
   const handlePosition = (vector) => {
     setPosition(vector);
@@ -28,6 +30,17 @@ const DocumentSearch = () => {
     setShow((prev) => !prev);
   };
 
+  const handleScale = (iterate) => {
+    if (iterate && scale < 12 && docComRef.current) {
+      setScale((prev) => prev + 1);
+      docComRef.current.reportWindowSize();
+    }
+    if (!iterate && scale > 2) {
+      setScale((prev) => prev - 1);
+      docComRef.current.reportWindowSize();
+    }
+  };
+
   return dsid ? (
     <div className="document-search-layer">
       <DSAppBar
@@ -36,6 +49,7 @@ const DocumentSearch = () => {
         page={page}
         handleClick={showSearch}
         handleDownload={handleDownload}
+        handleScale={handleScale}
       />
 
       <SearchComponent
@@ -44,10 +58,12 @@ const DocumentSearch = () => {
         open={!show}
         onClose={showSearch}
       />
+
       <Container maxWidth="xl">
         <Grid container justify={show ? "center" : "flex-end"}>
-          <Grid item xs={12} lg={show ? 5 : 7}>
+          <Grid item xs={12} lg={show ? scale : 7}>
             <DocumentComponent
+              ref={docComRef}
               id={dsid}
               show={show}
               position={position}
