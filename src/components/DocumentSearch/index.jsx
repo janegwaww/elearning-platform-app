@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+import download from "downloadjs";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
@@ -22,7 +23,7 @@ const DocumentSearch = () => {
 
   const handleDownload = () => {
     if (info.file_path) {
-      window.open(info.file_path);
+      download(info.file_path);
     }
   };
 
