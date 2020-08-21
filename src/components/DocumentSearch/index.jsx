@@ -23,11 +23,11 @@ const params = (id) => ({
   extra_data: { file_id: id },
   model_type: "",
 });
-const fileDownload = (data, fileName) => {
-  const url = window.URL.createObjectURL(new Blob([data]));
+const fileDownload = (res, fileName) => {
+  const url = window.URL.createObjectURL(new Blob([res.data]));
   const save = document.createElement("a");
   save.href = url;
-  save.download = fileName;
+  save.download = `${fileName}.pdf`;
   save.target = "_blank";
   document.body.appendChild(save);
   save.click();
@@ -52,13 +52,14 @@ const DocumentSearch = () => {
       axios
         .post(api, params(dsid), resType)
         .then((res) => {
-          fileDownload(res.data, info.file_name);
+          fileDownload(res, info.file_name);
         })
         .catch((err) => {
           console.error("Could not Download the file from the backend.", err);
         });
     } else {
       // 未登录处理
+      alert("您未登录...");
     }
   };
 
