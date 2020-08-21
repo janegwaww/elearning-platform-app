@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { navigate } from "gatsby";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AppBar from "@material-ui/core/AppBar";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -57,6 +58,13 @@ const ShopBar = ({ info = {}, did }) => {
         );
   };
 
+  const handleCheck = () => {
+    if (info.lang === "cn") {
+      return navigate(`/documentsearch/?dsid=${did}`);
+    }
+    window.open(paidedHref);
+  };
+
   useEffect(() => {
     setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
@@ -90,10 +98,7 @@ const ShopBar = ({ info = {}, did }) => {
           <Box width={100} />
           <div className="unlock-button">
             {isPay ? (
-              <ButtonBase
-                className="pay-button"
-                onClick={() => window.open(paidedHref)}
-              >
+              <ButtonBase className="pay-button" onClick={handleCheck}>
                 查看
               </ButtonBase>
             ) : (
