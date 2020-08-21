@@ -117,15 +117,14 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
       }
     };
 
-    handleSearchClick = () => {
+    handleSearchClick = (value) => {
       // 找到匹配名字的课件或视频
-      const { value } = document.getElementById("series_local_search_input");
       if (value) {
         this.setState({ input: value, isSearch: true }, () =>
-          this.fetchSearchSeriesData()
+          this.fetchSearchSeriesData(),
         );
       } else {
-        this.fetchSeriesData()
+        this.fetchSeriesData();
       }
     };
 
@@ -134,10 +133,10 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
     };
 
     handleEnter = (e) => {
-      if(e.key === 'Enter') {
-        this.handleSearchClick()
+      if (e.key === "Enter") {
+        this.handleSearchClick();
       }
-    }
+    };
 
     render() {
       return (
