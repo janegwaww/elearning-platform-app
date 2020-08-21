@@ -8,7 +8,7 @@ import DSAppBar from "./DSAppBar";
 import { getIdFromHref } from "../../services/utils";
 import "./index.sass";
 
-const api = "http://api.haetek.com:8181/api/v1/gateway";
+const api = "http://api.haetek.com:9191/api/v1/gateway";
 const resType = { responseType: "blob" };
 const params = (id) => ({
   model_action: "download",
