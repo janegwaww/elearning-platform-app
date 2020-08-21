@@ -104,7 +104,9 @@ const SearchComponent = ({
       <Box className={classes.tab}>
         <Grid container>
           <Grid item xs={1}>
-            <Typography noWrap>序号&nbsp;&nbsp;｜</Typography>
+            <Typography noWrap style={{ textOverflow: "unset" }}>
+              序号&nbsp;&nbsp;｜
+            </Typography>
           </Grid>
           <Grid item xs={11}>
             <Typography>{`结果: ${itemsArray.length}`}</Typography>

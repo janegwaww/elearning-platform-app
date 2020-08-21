@@ -59,7 +59,7 @@ const SearchInput = ({ handleSearchClick, open }) => {
       }}
       id="creatorhome_local_search_input"
       placeholder="语义搜索"
-      type="search"
+      type="text"
       fullWidth
       classes={{ input: classes.inputInput, root: classes.root }}
       onKeyDown={handleEnter}

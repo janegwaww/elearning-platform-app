@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
@@ -6,6 +7,25 @@ import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
 import { getIdFromHref } from "../../services/utils";
 import "./index.sass";
+
+const api = "http://api.haetek.com:8181/api/v1/gateway";
+const resType = { responseType: "blob" };
+const params = (id) => ({
+  model_action: "download",
+  model_name: "document",
+  extra_data: { file_id: id },
+  model_type: "",
+});
+const fileDownload = (data, fileName) => {
+  const url = window.URL.createObjectURL(new Blob([data]));
+  const save = document.createElement("a");
+  save.href = url;
+  save.download = fileName;
+  save.target = "_blank";
+  document.body.appendChild(save);
+  save.click();
+  document.body.removeChild(save);
+};
 
 const DocumentSearch = () => {
   const { dsid } = getIdFromHref();
@@ -21,14 +41,15 @@ const DocumentSearch = () => {
   };
 
   const handleDownload = () => {
-    if (info.file_path) {
-      const save = document.createElement("a");
-      save.href = info.file_path;
-      save.download = info.file_name;
-      save.target = "_blank";
-      document.body.appendChild(save);
-      save.click();
-      document.body.removeChild(save);
+    if (dsid && info.file_name) {
+      axios
+        .post(api, params(dsid), resType)
+        .then((res) => {
+          fileDownload(res.data, info.file_name);
+        })
+        .catch((err) => {
+          console.error("Could not Download the file from the backend.", err);
+        });
     }
   };
 
