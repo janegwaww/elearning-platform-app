@@ -63,6 +63,16 @@
   .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
   border: 2px solid transparent;
 }
+/* .up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl legend{
+    display: none;
+  } */
+  .up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl .MuiSelect-icon{
+    position: static;
+  }
 .up-text
   .root
   .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused {

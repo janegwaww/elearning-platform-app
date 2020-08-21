@@ -164,9 +164,13 @@ const PrimarySearchAppBar = () => {
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
-            <div>
+            <div style={{marginRight:20}}>
               <ContributeMenu />
             </div>
+            <div>
+            <ContributeMenu title='知擎杯'/>
+           
+          </div>
             {/* <div className={classes.sectionMobile}>
                 <IconButton
                 aria-label="show more"

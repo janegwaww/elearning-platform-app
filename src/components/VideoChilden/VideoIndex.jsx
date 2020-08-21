@@ -23,6 +23,7 @@ export default class VideoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page_type:'',//是否知擎杯
       depth_of_field: true, //视频显示边框景深
       video_w: 0, //当前视频的宽度
       video_h: 0, //当前视频的高度
@@ -31,7 +32,6 @@ export default class VideoPage extends Component {
       is_edit: false, //true 显示编辑区
       is_now_edit: false, //是否正在编辑字幕
       lang: 2, //1 中文，2中英文，3英文
-
       the_current: {}, //当前字幕
       status: false, //播放状态
       is_del: false, //是否删除除方步文件
@@ -178,7 +178,7 @@ export default class VideoPage extends Component {
     window.onresize = null;
     document.onkeydown = null;
     document.onclick = null;
-    this.setState = () => false;
+    // this.setState = () => false;
   }
 
   cueing(textArr) {
