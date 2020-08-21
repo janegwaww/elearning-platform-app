@@ -1,5 +1,5 @@
 [{
-  "id": "001",
+  "id": "01",
   "title": "哲学",
   "en_title": "philosophy",
   "project": [{
@@ -9,7 +9,7 @@
   }]
 },
 {
-  "id": "002",
+  "id": "05",
   "title": "文学",
   "en_title": "literature",
   "project": [{
@@ -30,7 +30,7 @@
   ]
 },
 {
-  "id": "003",
+  "id": "06",
   "title": "历史学",
   "en_title": "history",
   "project": [{
@@ -51,7 +51,7 @@
   ]
 },
 {
-  "id": "004",
+  "id": "13",
   "title": "艺术学",
   "en_title": "art",
   "project": [{
@@ -82,7 +82,7 @@
   ]
 },
 {
-  "id": "005",
+  "id": "02",
   "title": "经济",
   "en_title": "economic",
   "project": [{
@@ -98,7 +98,7 @@
   ]
 },
 {
-  "id": "006",
+  "id": "03",
   "title": "法学",
   "en_title": "law",
   "project": [{
@@ -134,7 +134,7 @@
   ]
 },
 {
-  "id": "007",
+  "id": "04",
   "title": "教育学",
   "en_title": "pedagogy",
   "project": [{
@@ -155,7 +155,7 @@
   ]
 },
 {
-  "id": "008",
+  "id": "11",
   "title": "军事学",
   "en_title": "military",
   "project": [{
@@ -211,7 +211,7 @@
   ]
 },
 {
-  "id": "009",
+  "id": "08",
   "title": "工学",
   "en_title": "engineering",
   "project": [{
@@ -413,7 +413,7 @@
   ]
 },
 {
-  "id": "010",
+  "id": "12",
   "title": "管理学",
   "en_title": "Management of cyberspace security",
   "project": [{
@@ -464,7 +464,7 @@
   ]
 },
 {
-  "id": "011",
+  "id": "09",
   "title": "农学",
   "en_title": "agronomy",
   "project": [{
@@ -515,7 +515,7 @@
   ]
 },
 {
-  "id": "012",
+  "id": "10",
   "title": "医学",
   "en_title": "medical",
   "project": [{
@@ -576,7 +576,7 @@
   ]
 },
 {
-  "id": "013",
+  "id": "07",
   "title": "理学",
   "en_title": "neo-confucianism",
   "project": [{
