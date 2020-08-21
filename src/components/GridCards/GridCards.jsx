@@ -19,7 +19,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
   const cutItemsToCount = (arr = [], num = 0) => arr.slice(0, num);
 
   // 点击标题跳转事件
-  const handleLink = ({ video_id, series_id, file_id, file_path }) => {
+  const handleLink = ({ video_id, series_id, file_id, file_path, lang }) => {
     if (video_id) {
       return {
         to: `/watch/?vid=${video_id}`,
@@ -30,6 +30,11 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
       return {
         to: `/series/?sid=${series_id}`,
         state: { sid: series_id },
+      };
+    }
+    if (file_id && file_path && lang === "cn") {
+      return {
+        to: `/documentsearch/?dsid=${file_id}`,
       };
     }
     if (file_id && file_path) {

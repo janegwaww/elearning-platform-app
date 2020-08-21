@@ -287,8 +287,11 @@ const docSeriesContainer = ({ data, match_frame }) => {
 };
 
 const docContainer = ({ data, match_frame }) => {
-  const { file_path } = data;
-  const href = !file_path ? `/document/?did=${data.file_id}` : `${file_path}`;
+  const href = !data.file_path
+    ? `/document/?did=${data.file_id}`
+    : data.lang === "cn"
+    ? `/documentsearch/?dsid=${data.file_id}`
+    : `${data.file_path}`;
 
   return (
     <Container
