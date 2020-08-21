@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { navigate } from "gatsby";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AppBar from "@material-ui/core/AppBar";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
@@ -57,6 +58,13 @@ const ShopBar = ({ info = {}, did }) => {
         );
   };
 
+  const handleCheck = () => {
+    if (info.lang === "cn") {
+      return navigate(`/documentsearch/?dsid=${did}`);
+    }
+    window.open(paidedHref);
+  };
+
   useEffect(() => {
     setIsPay(!!info.file_path);
     setPaidedHref(info.file_path);
@@ -82,7 +90,7 @@ const ShopBar = ({ info = {}, did }) => {
           alignItems="baseline"
           pt={2}
           pb={1}
-          style={{maxWdith:1000}}
+          style={{ maxWdith: 1000 }}
         >
           <div className="doc-price-title" style={{ fontSize: "1.25rem" }}>
             限时解锁&nbsp;
@@ -96,7 +104,7 @@ const ShopBar = ({ info = {}, did }) => {
             {isPay ? (
               <ButtonBase
                 className="pay-button"
-                onClick={() => window.open(paidedHref)}
+                onClick={handleCheck}
                 style={{ padding: "0.625rem 3.125rem", fontSize: "1.125rem" }}
               >
                 查看
