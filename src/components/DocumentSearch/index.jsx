@@ -5,11 +5,18 @@ import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
+import { getUser } from "../../services/auth";
 import { getIdFromHref } from "../../services/utils";
 import "./index.sass";
 
-const api = "http://api.haetek.com:8181/api/v1/gateway";
-const resType = { responseType: "blob" };
+const api = "https://api.haetek.com:9191/api/v1/gateway";
+const { token } = getUser();
+const resType = {
+  responseType: "blob",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
 const params = (id) => ({
   model_action: "download",
   model_name: "document",
@@ -41,7 +48,7 @@ const DocumentSearch = () => {
   };
 
   const handleDownload = () => {
-    if (dsid && info.file_name) {
+    if (dsid && info.file_name && token) {
       axios
         .post(api, params(dsid), resType)
         .then((res) => {
@@ -50,6 +57,8 @@ const DocumentSearch = () => {
         .catch((err) => {
           console.error("Could not Download the file from the backend.", err);
         });
+    } else {
+      // 未登录处理
     }
   };
 

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButton: {
     borderRadius: 50,
+    height: 38,
   },
   scale: {
     [theme.breakpoints.down("md")]: {
@@ -58,7 +59,7 @@ const DocumentSearchAppBar = ({
                   noWrap
                 >{`${page} / ${image_list.length}`}</Typography>
 
-                <Box display="flex">
+                <Box display="flex" alignItems="center">
                   <Button
                     variant="contained"
                     color="default"
