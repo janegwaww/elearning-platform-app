@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuListComposition() {
+export default function MenuListComposition(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -105,7 +105,7 @@ export default function MenuListComposition() {
           className={classes.btn}
           onClick={handleToggle}
         >
-          投稿
+          {props.title}投稿
         </Button>
         <Popper
           open={open}
@@ -133,20 +133,25 @@ export default function MenuListComposition() {
                   >
                     <MenuItem
                       onClick={(e) => {
-                  
-                       
+                        if(props.title){
+                          navigate(`/video?page=zhiqing`);
+                          return
+                        }
                         navigate(`/video`);
                       }}
                     >
-                      上传视频文件
+                     上传视频
                     </MenuItem>
                     <MenuItem
                       onClick={(e) => {
-                    
+                        if(props.title){
+                          navigate(`/video/zhiqingtext`);
+                          return
+                        }
                         navigate(`/video/uptext`);
                       }}
                     >
-                      上传文本文件/工程文件
+                    上传文本
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

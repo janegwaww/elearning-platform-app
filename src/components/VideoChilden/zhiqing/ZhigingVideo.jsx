@@ -11,7 +11,8 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
-  ButtonBase
+  Select,
+  FormControl,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -33,9 +34,8 @@ import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
 
-
+const singsArr = require("../components/field.json");
 export default function VideoIndex(props) {
-
   const [seeMore, setSeeMore] = useState(5);
   const [userinfo, setUserinfo] = React.useState(null);
   const [filedata, setFiledata] = React.useState(null);
@@ -47,20 +47,21 @@ export default function VideoIndex(props) {
   const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  // const [videosign, setVideosign] = React.useState([]); //视频标签
-
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
-
   const [addseries, setAddseries] = React.useState(false); //新建系列
-
   const [newseries, setNewseries] = React.useState(""); //新建系列标题
   const [seriesdescription, setSeriesdescription] = React.useState(""); //新系列描述
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState([]); //附件
-
-  // const [signs, setSigns] = useState([]); //标签
   const [currencies, setCurrencies] = useState([]); //系列
+
+  const [invitation, setInvitation] = React.useState(""); //邀请人id
+  const [signs, setSigns] = useState(singsArr); //标签
+  const [videosign, setVideosign] = React.useState(""); //视频标签
+  const [fieldArr, setFieldArr] = React.useState([]);
+  const [field, setField] = React.useState("");
+
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -117,12 +118,16 @@ export default function VideoIndex(props) {
       <header className="ma-heiader fn-size-16 fn-color-21">
         <Container className="toolbar">
           <div className={`box box-between box-align-center  toolbar`}>
-            <div className ='box box-align-center' style={{height:64}}>
-             
-                <img src={loginimg} alt="logo" className='login'   onClick={() => {
+            <div className="box box-align-center" style={{ height: 64 }}>
+              <img
+                src={loginimg}
+                alt="logo"
+                className="login"
+                onClick={() => {
                   navigate("/");
-                }}/>
-            
+                }}
+              />
+
               <Button
                 className={`fn-r-16 btn`}
                 onClick={() => {
@@ -131,9 +136,8 @@ export default function VideoIndex(props) {
               >
                 我的制作中心
               </Button>
-              <div >
+              <div>
                 <Button disabled>使用教程</Button>
-              
               </div>
             </div>
             <div>
@@ -265,6 +269,90 @@ export default function VideoIndex(props) {
                 </Grid>
               </Grid>
 
+              <Grid container spacing={4} className="item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>
+                    <span className="fn-color-F86B6B">*</span>领域：
+                  </label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <div>
+                    <FormControl variant="outlined">
+                      <Select
+                        native
+                        value={videosign}
+                        onChange={(ev) => {
+                          let _value = ev.target.value;
+                          if(videosign!=_value){
+                            setVideosign(_value);
+                            setField('');
+                          }
+                          
+                          if (!_value) {
+                            setField("");
+                            setFieldArr([]);
+                            return;
+                          }
+                          let _new_data = signs.filter((va) => va.id == _value);
+                          let _project = _new_data[0].project;
+                          setFieldArr(_project);
+                          if (_project.length == 1) {
+                            setField(_project[0].id);
+                          }
+                        }}
+                      >
+                        <option aria-label="None" value="">
+                          --请选择分类--
+                        </option>
+                        {signs.map((va) => (
+                          <option key={va.id} value={va.id}>
+                            {va.title}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {videosign && (
+                      <FormControl variant="outlined">
+                        <Select
+                          native
+                          value={field}
+                          onChange={(ev) => {
+                            let _value = ev.target.value;
+                            setField(_value);
+                          }}
+                        >
+                          <option aria-label="None" value="">
+                            全部
+                          </option>
+                          {fieldArr.map((va) => (
+                            <option key={va.id} value={va.id}>
+                              {va.title}
+                            </option>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    )}
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container spacing={4} className=" item">
+                <Grid item xs={4} sm={3} md={2} className="text-right">
+                  <label>邀请ID：</label>
+                </Grid>
+                <Grid item xs={8} sm={9} md={10}>
+                  <TextField
+                    type="number"
+                    placeholder="邀请人ID"
+                    variant="outlined"
+                    value={invitation}
+                    onChange={(ev) => {
+                      setInvitation(ev.target.value);
+                    }}
+                  />
+                </Grid>
+              </Grid>
+{/** 
               <Grid container spacing={4} className="box">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>系列视频</label>
@@ -552,7 +640,7 @@ export default function VideoIndex(props) {
                   </section>
                 </Grid>
               </Grid>
-
+*/}
               <Grid container spacing={4} className=" item">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>上传附件：</label>
@@ -660,7 +748,7 @@ export default function VideoIndex(props) {
                   className="btn"
                   color="primary"
                   disabled={
-                    addseries || !videoTitle || !videodescription ? true : false
+                    addseries || !videoTitle || !videodescription||(!field&&!videosign) ? true : false
                   }
                   onClick={() => {
                     if (!videoTitle) {
@@ -679,33 +767,41 @@ export default function VideoIndex(props) {
                       });
                       return;
                     }
-
+                    if(!field&&!videosign){
+                        setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "请选择领域！",
+                          });
+                          return;
+                    }
                     let _data = {
                       task_id: JSON.parse(sessionStorage.getItem("file_data"))
                         .video_id,
                       title: videoTitle,
                       description: videodescription,
-                      // category: videosign,
+                      category: [field||videosign],
+                      invite: invitation,
                     };
                     if (videoImg) {
                       _data.image_path = videoImg;
                     }
-                    if (currency) {
-                      let isNew = currencies.some((option) => {
-                        if (option.title == currency) {
-                          return option.type == "new";
-                        }
-                      });
-                      if (isNew) {
-                        if (seriesdescription) {
-                          _data.series_description = seriesdescription;
-                        }
-                        if (seriesImg) {
-                          _data.series_image_path = seriesImg;
-                        }
-                      }
-                      _data.series_title = currency;
-                    }
+                    // if (currency) {
+                    //   let isNew = currencies.some((option) => {
+                    //     if (option.title == currency) {
+                    //       return option.type == "new";
+                    //     }
+                    //   });
+                    //   if (isNew) {
+                    //     if (seriesdescription) {
+                    //       _data.series_description = seriesdescription;
+                    //     }
+                    //     if (seriesImg) {
+                    //       _data.series_image_path = seriesImg;
+                    //     }
+                    //   }
+                    //   _data.series_title = currency;
+                    // }
 
                     if (JSON.stringify(adjunct) != "[]") {
                       _data.document = adjunct;

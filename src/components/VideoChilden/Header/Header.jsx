@@ -253,7 +253,11 @@ export default class Header extends Component {
                     this.props.parent.state.video_data.image_path =
                       _data.image_path;
                     JSON.stringify(this.props.parent.state.video_data);
-
+                    console.log(this.props.parent.state.page_type)
+                    if(this.props.parent.state.page_type&&this.props.parent.state.page_type=='zhiqing'){
+                      navigate(`/video/zhiqingvideo`);
+                      return
+                    }
                     navigate(`/video/uppage`);
                   }
                   this.props.parent.setState({

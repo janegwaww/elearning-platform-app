@@ -147,7 +147,11 @@ export default class UploadVideos extends Component {
     });
 
     let _id = this.props.parent.props.location.search.split("=")[1];
-
+    if(_id=='zhiqing'){
+      this.props.parent.setState({page_type:_id});
+      return
+    }
+    
     if (_id) {
       this.setState({
         login_status: true,
@@ -894,7 +898,10 @@ export default class UploadVideos extends Component {
                               files:_data
                             });
                             sessionStorage.setItem('file_data',JSON.stringify(_data));
-                            
+                            if(this.props.parent.state.page_type&&this.props.parent.state.page_type=='zhiqing'){
+                              navigate(`/video/zhiqingvideo`);
+                              return
+                            }
                             navigate(`/video/uppage`);
                           }
                           this.setState({login_status:false})
@@ -987,7 +994,7 @@ export default class UploadVideos extends Component {
           )}
         </DialogModal>
         <Dialog open={lang_open}>
-          <DialogTitle>请选择上传视频的语言</DialogTitle>
+          <DialogTitle>请选择上传视频的源语言</DialogTitle>
           <DialogContent>
             <FormControl component="fieldset">
               <RadioGroup

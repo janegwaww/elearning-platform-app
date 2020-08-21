@@ -6,7 +6,19 @@ const _ = require("lodash");
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 };
-
+exports.onCreateWebpackConfig = ({ config, stage }) => {
+  if (stage === 'build-javascript') {
+      const timestamp = Date.now();
+      config.merge({
+          devtool: false,
+          output: {
+              filename: `name-${timestamp}-[chunkhash].js`,
+              chunkFilename: `name-${timestamp}-[chunkhash].js`
+          }
+      });
+  }
+  return config;
+};
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
     actions.setWebpackConfig({

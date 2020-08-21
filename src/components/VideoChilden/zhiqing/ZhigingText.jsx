@@ -9,9 +9,7 @@ import {
   Grid,
   Select,
   FormControl,
-  NativeSelect,
-  MenuItem,
-  InputBase,
+  
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -41,10 +39,7 @@ export default function VideoIndex(props) {
   const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  const [signs, setSigns] = useState(singsArr); //标签
-  const [videosign, setVideosign] = React.useState(""); //视频标签
-  const [fieldArr, setFieldArr] = React.useState([]);
-  const [field, setField] = React.useState("");
+  
 
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
@@ -56,7 +51,10 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState(null); //附件
   const [invitation, setInvitation] = React.useState(""); //邀请人id
-
+  const [signs, setSigns] = useState(singsArr); //标签
+  const [videosign, setVideosign] = React.useState(""); //视频标签
+  const [fieldArr, setFieldArr] = React.useState([]);
+  const [field, setField] = React.useState("");
   const [currencies, setCurrencies] = useState([]); //系列
   const [authorArr, setAuthorArr] = useState([
     { name: "登录帐号", author_description: "", key: new Date().getTime() },
@@ -395,7 +393,7 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
-                  {/** 
+
                   <Grid container spacing={4} className="item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>
@@ -404,48 +402,68 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <div>
-                      <FormControl variant="outlined">
-                        <Select native value={videosign} onChange={(ev)=>{
-                          
-                          let _value=ev.target.value;
-                          setVideosign(_value);
-                          if(!_value){
-                            setField('');
-                            setFieldArr([]);
-                            return
-                          };
-                         let _new_data= signs.filter(va=> va.id==_value);
-                         let _project =_new_data[0].project
-                         setFieldArr(_project);
-                         if(_project.length==1){
-                           setField(_project[0].id);
-                         }
-                          
-                        }}>
-                          <option aria-label="None" value="">--请选择分类--</option>
-                          {signs.map((va) => (
-                            <option  key={va.id} value={va.id}>{va.title}</option>
-                          ))}
-                        </Select>
-                      </FormControl>&nbsp;&nbsp;&nbsp;&nbsp;
-                      {videosign&&(
-                      <FormControl variant="outlined">
-                        <Select native value={field} onChange={(ev)=>{
-                          let _value=ev.target.value
-                          setField(_value)
-                        }}>
-                          <option aria-label="None" value="">--请选择分类--</option>
-                          {fieldArr.map((va) => (
-                            <option  key={va.id} value={va.id}>{va.title}</option>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      )}
+                        <FormControl variant="outlined">
+                          <Select
+                            native
+                            value={videosign}
+                            onChange={(ev) => {
+                              let _value = ev.target.value;
+                              if(_value!=videosign){
+                                setVideosign(_value);
+                                setField('');
+                              }
+                              
+                              if (!_value) {
+                                setField("");
+                                setFieldArr([]);
+                                return;
+                              }
+                              let _new_data = signs.filter(
+                                (va) => va.id == _value
+                              );
+                              let _project = _new_data[0].project;
+                              setFieldArr(_project);
+                              if (_project.length == 1) {
+                                setField(_project[0].id);
+                              }
+                            }}
+                          >
+                            <option aria-label="None" value="">
+                              --请选择分类--
+                            </option>
+                            {signs.map((va) => (
+                              <option key={va.id} value={va.id}>
+                                {va.title}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {videosign && (
+                          <FormControl variant="outlined">
+                            <Select
+                              native
+                              value={field}
+                              onChange={(ev) => {
+                                let _value = ev.target.value;
+                                setField(_value);
+                              }}
+                            >
+                              <option aria-label="None" value="">
+                                全部
+                              </option>
+                              {fieldArr.map((va) => (
+                                <option key={va.id} value={va.id}>
+                                  {va.title}
+                                </option>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        )}
                       </div>
-                     
                     </Grid>
                   </Grid>
- */}
+                {/**
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -480,6 +498,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
+                   */}
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>文件封面：</label>
@@ -527,7 +546,7 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-
+                {/** 
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>文件系列：</label>
@@ -782,7 +801,7 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                  {/**
+                  */}
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>邀请ID：</label>
@@ -799,7 +818,6 @@ export default function VideoIndex(props) {
                       />
                     </Grid>
                   </Grid>
-                   */}
                   <div className="item" style={{ height: 1 }}></div>
                   <div className="item"></div>
                   <div className=" box box-center">
@@ -819,7 +837,8 @@ export default function VideoIndex(props) {
                         !adjunct ||
                         addseries ||
                         !videoTitle ||
-                        !videodescription 
+                        !videodescription ||
+                        (!field&&!videosign)
                           ? true
                           : false
                       }
@@ -853,16 +872,14 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
-                        // if (!field) {
-                        //   setOpenSnackbar({
-                        //     open: true,
-                        //     type: "error",
-                        //     msg: "请选择领域！",
-                        //   });
-                        //   return;
-                        // }
-
-                       
+                        if (!field&&!videosign) {
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "请选择领域！",
+                          });
+                          return;
+                        }
 
                         let _data = {
                           file_name: videoTitle || adjunct.file_name,
@@ -870,9 +887,9 @@ export default function VideoIndex(props) {
                           file_path: adjunct.file_path,
                           image_path: adjunct.image_path,
                           price: parseFloat(price) || 0,
-                          // category: [field],
+                          category: [field||videosign],
                           author: authorvalueArr,
-                          // invite: invitation,
+                          invite: invitation,
                         };
 
                         if (currency) {
