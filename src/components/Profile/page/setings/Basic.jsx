@@ -135,11 +135,14 @@ const Basic = (props) => {
                     ref={(cropper) => {
                       heraderRef = cropper;
                     }}
+                    viewMode={1}
+                    zoomable={false}
+                    aspectRatio={1}
                     src={headerUrl} // 文件
                     style={{ height: 370, width: 370 }} // 自定义样式
-                    aspectRatio={65 / 82} // 设置图片长宽比
+                   
                     guides={false} // 是否显示九宫格
-                    preview=".cropper-preview" // 设置预览的dom
+                    preview=".header-preview" // 设置预览的dom
                   />
                 ) : (
                   <div
@@ -164,13 +167,15 @@ const Basic = (props) => {
                 )}
                 <div>
                   <div
-                    className="bg-f3 bg-not cropper-preview view-overflow"
+                    className="bg-f3 bg-not header-preview view-overflow"
                     style={{
                       minWidth: 220,
                       height: 220,
                       borderRadius: "50%",
                     }}
-                  ></div>
+                  >
+                  
+                  </div>
                   <p className="fn-color-9E9EA6">头像预览</p>
                 </div>
               </div>

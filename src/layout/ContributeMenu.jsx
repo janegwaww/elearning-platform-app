@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-
+  lists:{
+    zIndex:20000000
+  },
   btn: {
     color: "#fff",
     borderRadius: 20,
@@ -59,9 +61,11 @@ export default function MenuListComposition() {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = (event,pagenum) => {
+   
     if (event) {
       if (anchorRef.current && anchorRef.current.contains(event.target)) {
+     
         return;
       }
     }
@@ -106,6 +110,7 @@ export default function MenuListComposition() {
         <Popper
           open={open}
           anchorEl={anchorRef.current}
+          className={classes.lists}
           role={undefined}
           transition
           disablePortal
@@ -128,7 +133,8 @@ export default function MenuListComposition() {
                   >
                     <MenuItem
                       onClick={(e) => {
-                        handleClose(e);
+                  
+                       
                         navigate(`/video`);
                       }}
                     >
@@ -136,7 +142,7 @@ export default function MenuListComposition() {
                     </MenuItem>
                     <MenuItem
                       onClick={(e) => {
-                        handleClose(e);
+                    
                         navigate(`/video/uptext`);
                       }}
                     >

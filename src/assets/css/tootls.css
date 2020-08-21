@@ -31,7 +31,7 @@ svg {
   display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
   display: -o-box;
 }
-.box-column{
+.box-column {
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -132,7 +132,6 @@ svg {
   word-break: break-all;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-  
 }
 /*多行显示文字*/
 .textview-overflow.two {
@@ -149,7 +148,6 @@ svg {
 .box-shadow {
   box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.1);
 }
-
 
 /* 字体 */
 .fn-size-12 {
@@ -170,10 +168,10 @@ svg {
 .fn-size-20 {
   font-size: 20px;
 }
-.fn-r-10{
+.fn-r-10 {
   font-size: 0.625rem;
 }
-.fn-r-12{
+.fn-r-12 {
   font-size: 0.75rem;
 }
 .fn-r-14 {
@@ -225,10 +223,9 @@ svg {
 .fn-color-FC3535 {
   color: #fc3535;
 }
-.fn-color-6f{
-  color: #6F6F6F;
+.fn-color-6f {
+  color: #6f6f6f;
 }
-
 
 /* 背景色 */
 .bg-white {
@@ -267,6 +264,6 @@ svg {
   /* background-color: #9e9ea6; */
 }
 
-#zmage{
+#zmage {
   z-index: 2000000000 !important;
 }

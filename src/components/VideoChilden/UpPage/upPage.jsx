@@ -11,6 +11,7 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
+  ButtonBase
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -31,10 +32,10 @@ import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
 import loginimg from "../../../../static/logos/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import userStyles from "../components/TextStyle";
+import "../components/textStyle.css";
 
 export default function VideoIndex(props) {
-  const classes = userStyles();
+
   const [seeMore, setSeeMore] = useState(5);
   const [userinfo, setUserinfo] = React.useState(null);
   const [filedata, setFiledata] = React.useState(null);
@@ -107,60 +108,58 @@ export default function VideoIndex(props) {
     });
   }, []);
   return (
-    <section style={{ height: "100vh" }} className="ma-container is-vertical">
+    <section
+      style={{ height: "100vh" }}
+      className={`ma-container is-vertical up-text`}
+    >
       <ProgressBar loading={loginStatus} />
+
       <header className="ma-heiader fn-size-16 fn-color-21">
-        <section className={classes.toolbar}>
-          <Toolbar
-            className={`box-between box-align-center ${classes.toolbar}`}
-          >
-            <Toolbar>
-              <IconButton
-                onClick={() => {
+        <Container className="toolbar">
+          <div className={`box box-between box-align-center  toolbar`}>
+            <div className ='box box-align-center' style={{height:64}}>
+             
+                <img src={loginimg} alt="logo" className='login'   onClick={() => {
                   navigate("/");
-                }}
-              >
-                <img src={loginimg} alt="logo" />
-              </IconButton>
+                }}/>
+            
               <Button
-                className={classes.btn}
+                className={`fn-r-16 btn`}
                 onClick={() => {
                   navigate("/video");
                 }}
               >
                 我的制作中心
               </Button>
-              <div>使用教程</div>
-            </Toolbar>
-            <Toolbar>
-              <div>
-                <Avatar
-                  src={userinfo && userinfo.headshot ? userinfo.headshot : ""}
-                  className={classes.avatar}
-                  onClick={() => {
-                    if (!userinfo) {
-                      navigate("/users/login");
-                      return;
-                    }
-                    sessionStorage.removeItem("now_page");
-                    navigate("/users/profile");
-                  }}
-                />
+              <div >
+                <Button disabled>使用教程</Button>
+              
               </div>
-            </Toolbar>
-          </Toolbar>
-        </section>
+            </div>
+            <div>
+              <Avatar
+                src={userinfo && userinfo.headshot ? userinfo.headshot : ""}
+                className="avatar"
+                onClick={() => {
+                  if (!userinfo) {
+                    navigate("/users/login");
+                    return;
+                  }
+                  sessionStorage.removeItem("now_page");
+                  navigate("/users/profile");
+                }}
+              />
+            </div>
+          </div>
+        </Container>
       </header>
-      <main className={`ma-main bg-f9 ${classes.main}`}>
-        <Container
-          className={`bg-white ${classes.main} `}
-          style={{ height: "100%" }}
-        >
+      <main className={`ma-main bg-f9 main`}>
+        <Container className={`bg-white all-heght main`}>
           <nav>
             <Nav _inx={0} list={["上传视频"]} props={this} />
           </nav>
           <main>
-            <form id="updata_info" className={classes.root}>
+            <form id="updata_info" className="root">
               <Grid container spacing={4} className="item">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>
@@ -281,7 +280,6 @@ export default function VideoIndex(props) {
                           <Button
                             variant="contained"
                             style={{
-                              
                               backgroundColor: "#007CFF",
                               color: "white",
                               padding: "3px 12px",
@@ -480,13 +478,13 @@ export default function VideoIndex(props) {
                                 setSeriesImg("");
                                 return false;
                               }}
-                              className={`${classes.btn} ${classes.btn1}`}
+                              className="btn btn1"
                             >
                               取消
                             </Button>
                             &nbsp;&nbsp;
                             <Button
-                              className={`${classes.btn} `}
+                              className="btn"
                               color="primary"
                               variant="contained"
                               onClick={() => {
@@ -595,7 +593,7 @@ export default function VideoIndex(props) {
                         ))
                       : ""}
 
-                    <div className={classes.textDoc}>
+                    <div className="text-doc">
                       <span
                         className="fn-color-007CFF"
                         onClick={() => {
@@ -650,7 +648,7 @@ export default function VideoIndex(props) {
               <div className="item"></div>
               <div className=" box box-center">
                 <Button
-                  className={`${classes.btn} ${classes.btn1}`}
+                  className="btn btn1"
                   onClick={() => {
                     window.history.back();
                     return false;
@@ -659,7 +657,7 @@ export default function VideoIndex(props) {
                   返回
                 </Button>
                 <Button
-                  className={classes.btn}
+                  className="btn"
                   color="primary"
                   disabled={
                     addseries || !videoTitle || !videodescription ? true : false
@@ -747,7 +745,7 @@ export default function VideoIndex(props) {
                   提交
                 </Button>
                 <Button
-                  className={`${classes.btn} ${classes.btn1}`}
+                  className="btn btn1"
                   onClick={() => {
                     setVideoTitle("");
                     setVideodescription("");

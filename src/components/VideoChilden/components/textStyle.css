@@ -1,0 +1,154 @@
+.up-text {
+  font-size: inherit;
+}
+.toolbar {
+  padding: 0;
+}
+.up-text .btn {
+  color: #fff;
+  border-radius: 16px;
+  width: 140px;
+  height: 32px;
+  line-height: 0;
+  background-color: #007cff;
+  margin: 0 56px;
+  font-size: 1rem;
+}
+.up-text .btn:hover {
+  background-color: #007cff;
+}
+
+.up-text .btn1 {
+  background-color: #f2f2f5;
+  color: #878791;
+  margin: 0;
+}
+.up-text .btn1:hover {
+  background-color: #878791;
+  color: #fff;
+}
+.up-text .avatar {
+  width: 24px;
+  height: 24px;
+}
+/* .up-text .save {
+  width: 22px;
+  height: 22px;
+} */
+.up-text .main {
+  padding: 40px;
+  border-radius: 12px;
+  
+}
+.up-text .main .MuiFormControl-fullWidth{
+  width: 80%;
+}
+.up-text .text-doc span:hover,.up-text .text-doc label:hover,.up-text .login:hover {
+  cursor: pointer;
+}
+/* .up-text .snackbar {
+  top: 40%;
+  transform: translate(-50%,-50%);
+} */
+
+/* radiogroup {
+  flex-direction: row;
+} */
+.up-text .root {
+  width: 100%;
+  font-size: 14px;
+}
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+  border: 2px solid transparent;
+}
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused {
+  border: 2px solid #007cff;
+}
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+  border-width: 0;
+}
+.up-text .root .MuiOutlinedInput-notchedOutline {
+  top: -4px;
+}
+.up-text .root span,
+.up-text .root b {
+  display: inline-block;
+  font-weight: 400;
+}
+.up-text .root button {
+  padding: 0;
+}
+.up-text .root .file {
+  width: 140px;
+  height: 80px;
+  position: relative;
+  border: 1px dashed #d5d5d5;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.up-text .root p {
+  margin: 0;
+}
+.up-text .root .sign {
+  background-color: #f2f2f5;
+  padding: 12px;
+  border-radius: 8px;
+}
+.up-text .root .item {
+  margin-top: 22px;
+}
+.up-text .root .item .del {
+  color: #878791;
+}
+.up-text .root .item .del:hover {
+  color: #f86b6b;
+}
+.up-text .root .item span {
+  position: relative;
+}
+.up-text .root .item span:hover span {
+  display: block;
+}
+.up-text .root .item span span {
+  display: none;
+  position: absolute;
+  right: -10px;
+  bottom: 0;
+  width: 397px;
+  box-shadow: 0px 0px 2px 0px rgba(118, 131, 144, 1);
+  color: #666;
+  transform: translateY(100%);
+  z-index: 1000;
+  padding: 16px;
+  background-color: #fff;
+}
+.up-text .root svg {
+  vertical-align: middle;
+}
+.up-text .root .MuiFormControlLabel-root {
+  min-width: auto;
+}
+.up-text .root .MuiFormControlLabel-root .MuiRadio-root {
+  padding: 0;
+}
+.up-text .root .MuiOutlinedInput-input {
+  padding: 8px 6px;
+  background-color: #fff;
+  font-size: 14px;
+}
+.up-text .root .MuiOutlinedInput-multiline {
+  padding: 1px;
+}
+
+.up-text .root .MuiInputAdornment-root {
+  font-size: 20px;
+  color: #d5d5d5;
+}

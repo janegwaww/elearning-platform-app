@@ -1,0 +1,17 @@
+.cropper-crop-box{
+
+    border-radius:50%;
+    overflow: hidden;
+  }
+  .cropper-crop-box .cropper-point.point-n{
+    top:-2px;
+  }
+  .cropper-crop-box .cropper-point.point-w{
+    left: -2px;
+  }
+  .cropper-crop-box .cropper-point.point-s{
+    bottom:-2px;
+  }
+  .cropper-crop-box .cropper-point.point-e{
+    right: -2px;
+  }

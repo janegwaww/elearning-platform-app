@@ -9,7 +9,7 @@ import {DialogTitle} from './MuiDialogTitle';
 
 import userStyles from "../../components/Profile/components/profileStyle";
 
-
+import '../css/cropper.css';
 
 
 const DialogContent = withStyles((theme) => ({
