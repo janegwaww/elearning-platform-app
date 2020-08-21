@@ -408,7 +408,11 @@ export default function VideoIndex(props) {
                             value={videosign}
                             onChange={(ev) => {
                               let _value = ev.target.value;
-                              setVideosign(_value);
+                              if(_value!=videosign){
+                                setVideosign(_value);
+                                setField('');
+                              }
+                              
                               if (!_value) {
                                 setField("");
                                 setFieldArr([]);
@@ -446,7 +450,7 @@ export default function VideoIndex(props) {
                               }}
                             >
                               <option aria-label="None" value="">
-                                --请选择分类--
+                                全部
                               </option>
                               {fieldArr.map((va) => (
                                 <option key={va.id} value={va.id}>
@@ -459,7 +463,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
-
+                {/**
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -494,6 +498,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
+                   */}
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>文件封面：</label>
@@ -541,7 +546,7 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-
+                {/** 
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>文件系列：</label>
@@ -796,6 +801,7 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
+                  */}
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>邀请ID：</label>
@@ -832,7 +838,7 @@ export default function VideoIndex(props) {
                         addseries ||
                         !videoTitle ||
                         !videodescription ||
-                        !field
+                        (!field&&!videosign)
                           ? true
                           : false
                       }
@@ -866,7 +872,7 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
-                        if (!field) {
+                        if (!field&&!videosign) {
                           setOpenSnackbar({
                             open: true,
                             type: "error",
@@ -881,7 +887,7 @@ export default function VideoIndex(props) {
                           file_path: adjunct.file_path,
                           image_path: adjunct.image_path,
                           price: parseFloat(price) || 0,
-                          category: [field],
+                          category: [field||videosign],
                           author: authorvalueArr,
                           invite: invitation,
                         };

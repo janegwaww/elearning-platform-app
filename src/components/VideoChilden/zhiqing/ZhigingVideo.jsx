@@ -283,7 +283,11 @@ export default function VideoIndex(props) {
                         value={videosign}
                         onChange={(ev) => {
                           let _value = ev.target.value;
-                          setVideosign(_value);
+                          if(videosign!=_value){
+                            setVideosign(_value);
+                            setField('');
+                          }
+                          
                           if (!_value) {
                             setField("");
                             setFieldArr([]);
@@ -319,7 +323,7 @@ export default function VideoIndex(props) {
                           }}
                         >
                           <option aria-label="None" value="">
-                            --请选择分类--
+                            全部
                           </option>
                           {fieldArr.map((va) => (
                             <option key={va.id} value={va.id}>
@@ -348,7 +352,7 @@ export default function VideoIndex(props) {
                   />
                 </Grid>
               </Grid>
-
+{/** 
               <Grid container spacing={4} className="box">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>系列视频</label>
@@ -636,7 +640,7 @@ export default function VideoIndex(props) {
                   </section>
                 </Grid>
               </Grid>
-
+*/}
               <Grid container spacing={4} className=" item">
                 <Grid item xs={4} sm={3} md={2} className="text-right">
                   <label>上传附件：</label>
@@ -744,7 +748,7 @@ export default function VideoIndex(props) {
                   className="btn"
                   color="primary"
                   disabled={
-                    addseries || !videoTitle || !videodescription||!field ? true : false
+                    addseries || !videoTitle || !videodescription||(!field&&!videosign) ? true : false
                   }
                   onClick={() => {
                     if (!videoTitle) {
@@ -763,7 +767,7 @@ export default function VideoIndex(props) {
                       });
                       return;
                     }
-                    if(!field){
+                    if(!field&&!videosign){
                         setOpenSnackbar({
                             open: true,
                             type: "error",
@@ -776,28 +780,28 @@ export default function VideoIndex(props) {
                         .video_id,
                       title: videoTitle,
                       description: videodescription,
-                      category: [field],
+                      category: [field||videosign],
                       invite: invitation,
                     };
                     if (videoImg) {
                       _data.image_path = videoImg;
                     }
-                    if (currency) {
-                      let isNew = currencies.some((option) => {
-                        if (option.title == currency) {
-                          return option.type == "new";
-                        }
-                      });
-                      if (isNew) {
-                        if (seriesdescription) {
-                          _data.series_description = seriesdescription;
-                        }
-                        if (seriesImg) {
-                          _data.series_image_path = seriesImg;
-                        }
-                      }
-                      _data.series_title = currency;
-                    }
+                    // if (currency) {
+                    //   let isNew = currencies.some((option) => {
+                    //     if (option.title == currency) {
+                    //       return option.type == "new";
+                    //     }
+                    //   });
+                    //   if (isNew) {
+                    //     if (seriesdescription) {
+                    //       _data.series_description = seriesdescription;
+                    //     }
+                    //     if (seriesImg) {
+                    //       _data.series_image_path = seriesImg;
+                    //     }
+                    //   }
+                    //   _data.series_title = currency;
+                    // }
 
                     if (JSON.stringify(adjunct) != "[]") {
                       _data.document = adjunct;

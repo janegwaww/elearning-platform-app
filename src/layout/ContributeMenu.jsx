@@ -140,7 +140,7 @@ export default function MenuListComposition(props) {
                         navigate(`/video`);
                       }}
                     >
-                      {props.title}上传视频文件
+                     上传视频
                     </MenuItem>
                     <MenuItem
                       onClick={(e) => {
@@ -151,7 +151,7 @@ export default function MenuListComposition(props) {
                         navigate(`/video/uptext`);
                       }}
                     >
-                    {props.title}上传文本文件/工程文件
+                    上传文本
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
