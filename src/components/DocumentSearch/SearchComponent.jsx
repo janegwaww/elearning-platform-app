@@ -11,40 +11,40 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import SearchInput from "./SearchInput";
 import withSearchComponent from "./withSearchComponent";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   item: {
-    backgroundColor: "#878791",
+    backgroundColor: "#878791"
   },
   button: {
     "&:hover": {
-      backgroundColor: "#878792",
-    },
+      backgroundColor: "#878792"
+    }
   },
   drawerPaper: {
     backgroundColor: "#1b1b1d",
     width: "41.666667%",
     [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
+      width: "100%"
+    }
   },
   tab: {
     backgroundColor: "rgba(60,60,60,1)",
     padding: "9px",
-    color: "#fff",
-  },
+    color: "#fff"
+  }
 }));
 
 const renderRow = memo(({ index, style, data }) => {
   const classes = useStyles();
   const { itemsArray, itemClick } = data;
   const item = itemsArray[index];
-  const refStr = (str) =>
+  const refStr = str =>
     `<span style='background-color: #007cff; border-radius: 2px'>${str}</span>`;
   const markup = {
     __html: `${item.whole_str.replace(
       item.str_for_reference,
-      refStr(item.str_for_reference),
-    )}`,
+      refStr(item.str_for_reference)
+    )}`
   };
   return (
     <ListItem
@@ -75,7 +75,7 @@ const SearchComponent = ({
   itemsArray = [],
   itemClick,
   open,
-  onClose,
+  onClose
 }) => {
   const classes = useStyles();
   const itemData = { itemsArray, itemClick };
@@ -95,7 +95,7 @@ const SearchComponent = ({
           </Grid>
           <Grid item xs={2}>
             <Button onClick={onClose} style={{ color: "#878791" }}>
-              取消
+              收起
             </Button>
           </Grid>
         </Grid>
