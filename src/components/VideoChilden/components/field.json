@@ -76,7 +76,7 @@
     },
     {
       "id": "1305",
-      "title": "设计学(可授艺术学,工学学位)",
+      "title": "设计学",
       "en_title": "design science"
     }
   ]
@@ -144,7 +144,7 @@
     },
     {
       "id": "0402",
-      "title": "心理学(可授教育学、理学学位)",
+      "title": "心理学",
       "en_title": "psychology"
     },
     {
@@ -216,7 +216,7 @@
   "en_title": "engineering",
   "project": [{
       "id": "0801",
-      "title": "力学(可授工学、理学学位)",
+      "title": "力学",
       "en_title": "mechanics"
     },
     {
@@ -236,7 +236,7 @@
     },
     {
       "id": "0805",
-      "title": "材料科学与工程(可授工学、理学学位)",
+      "title": "材料科学与工程",
       "en_title": "Materials science and engineering"
     },
     {
@@ -256,7 +256,7 @@
     },
     {
       "id": "0809",
-      "title": "电子科学与技术(可授工学、理学学位)",
+      "title": "电子科学与技术",
       "en_title": "Electronic science and technology"
     },
     {
@@ -361,18 +361,18 @@
     },
     {
       "id": "0830",
-      "title": "环境科学与工程（可授工学、理学、农学学位）",
+      "title": "环境科学与工程",
       "en_title": "Environmental Science and Engineering"
     },
     {
       "id": "0831",
-      "title": "生物医学工程（可授工学、理学、医学学位）",
+      "title": "生物医学工程",
       "en_title": "Biomedical Engineering"
     },
 
     {
       "id": "0832",
-      "title": "食品科学与工程（可授工学、农学学位）",
+      "title": "食品科学与工程",
       "en_title": "Food Science and engineering"
     },
     {
@@ -382,7 +382,7 @@
     },
     {
       "id": "0834",
-      "title": "风景园林学（可授工学、农学学位）",
+      "title": "风景园林学",
       "en_title": "Landscape architecture"
     },
     {
@@ -418,7 +418,7 @@
   "en_title": "Management of cyberspace security",
   "project": [{
       "id": "1201",
-      "title": "管理科学与工程（可授管理学、工学学位）",
+      "title": "管理科学与工程",
       "en_title": "Management Science and engineering"
     },
     {
@@ -520,7 +520,7 @@
   "en_title": "medical",
   "project": [{
       "id": "1001",
-      "title": "基础医学（可授医学、理学学位）",
+      "title": "基础医学",
       "en_title": "Basic medical"
     },
     {
@@ -535,7 +535,7 @@
     },
     {
       "id": "1004",
-      "title": "公共卫生与预防医学（可授医学、理学学位）",
+      "title": "公共卫生与预防医学",
       "en_title": "Public health and preventive medicine"
     },
     {
@@ -550,12 +550,12 @@
     },
     {
       "id": "1007",
-      "title": "药学（可授医学、理学学位）",
+      "title": "药学",
       "en_title": "A pharmaceutical"
     },
     {
       "id": "1008",
-      "title": "中药学（可授医学、理学学位）",
+      "title": "中药学",
       "en_title": "Chinese Medicine"
     },
     {
@@ -565,12 +565,12 @@
     },
     {
       "id": "1010",
-      "title": "医学技术（可授医学、理学学位）",
+      "title": "医学技术",
       "en_title": "Medical technology"
     },
     {
       "id": "1011",
-      "title": "护理学（可授医学、理学学位）",
+      "title": "护理学",
       "en_title": "nursing"
     }
   ]
@@ -636,7 +636,7 @@
     },
     {
       "id": "0712",
-      "title": "科学技术史（分学科，可授理学、工学、农学、医学学位）",
+      "title": "科学技术史",
       "en_title": "History of Science and Technology"
     },
     {
@@ -646,7 +646,7 @@
     },
     {
       "id": "0714",
-      "title": "统计学（可授理学、经济学学位）",
+      "title": "统计学",
       "en_title": "statistical"
     }
   ]
