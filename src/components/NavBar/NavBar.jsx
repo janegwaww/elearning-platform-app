@@ -104,7 +104,9 @@ const PrimarySearchAppBar = () => {
                 underline="none"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography style={{ cursor: "inherit" }}>知擎首页</Typography>
+                <Typography noWrap component="div">
+                  知擎首页
+                </Typography>
               </Link>
               <Link
                 color="inherit"
@@ -114,12 +116,16 @@ const PrimarySearchAppBar = () => {
                 rel="noopener norefferer"
                 style={{ padding: "6px 8px", display: "none" }}
               >
-                <Typography style={{ cursor: "inherit" }}>加盟学者</Typography>
+                <Typography noWrap component="div">
+                  加盟学者
+                </Typography>
               </Link>
               <Tooltip title="敬请期待..." placement="bottom-start">
                 <div>
                   <ButtonBase disabled>
-                    <Typography color="textSecondary">加盟学者</Typography>
+                    <Typography noWrap color="textSecondary">
+                      加盟学者
+                    </Typography>
                   </ButtonBase>
                 </div>
               </Tooltip>
