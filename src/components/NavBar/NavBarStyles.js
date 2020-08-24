@@ -12,6 +12,11 @@ const useStyles = makeStyles(theme => ({
   },
   logoLink: {
     lineHeight: 0,
+    [theme.breakpoints.down("md")]: {
+      "& img": {
+        width: "110px",
+      },
+    },
   },
   title: {
     display: "none",

@@ -14,6 +14,7 @@ const SearchAutoComplete = ({
   onSearch,
   onRemove,
   options,
+  placeholder,
   ...props
 }) => {
   const [opt, setOpt] = useState(options());
@@ -81,8 +82,8 @@ const SearchAutoComplete = ({
       )}
       renderInput={(params) => (
         <InputBase
-          placeholder="支持跨模态逐帧搜索..."
           type="search"
+          placeholder={placeholder}
           inputProps={{ ...params.inputProps }}
           ref={params.InputProps.ref}
           onKeyDown={handleEnter}
@@ -93,7 +94,7 @@ const SearchAutoComplete = ({
                 className="search-bar-button"
                 onClick={handleSearch}
               >
-                搜索
+                跨模态
               </Button>
             </InputAdornment>
           }

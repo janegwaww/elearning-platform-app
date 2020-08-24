@@ -26,6 +26,8 @@ import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
 import ContributeMenu from "../../layout/ContributeMenu";
 
+const placeholder = "谁推导出洛伦兹变换";
+
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
   /* const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null); */
@@ -43,6 +45,8 @@ const PrimarySearchAppBar = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
       navigate(searchUrlParams({ value }));
+    } else {
+      navigate(searchUrlParams({ value: placeholder }));
     }
   };
 
@@ -132,7 +136,7 @@ const PrimarySearchAppBar = () => {
             </div>
             <div className={classes.search}>
               <InputBase
-                placeholder="支持跨模态逐帧搜索..."
+                placeholder={placeholder}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -147,7 +151,7 @@ const PrimarySearchAppBar = () => {
                       startIcon={<SearchIcon />}
                       onClick={handleSearchClick}
                     >
-                      搜索
+                      跨模态
                     </Button>
                   </InputAdornment>
                 }
@@ -157,16 +161,11 @@ const PrimarySearchAppBar = () => {
                 startIcon={<SearchIcon />}
                 onClick={() => navigate("/search/")}
               >
-                搜索
+                跨模态
               </Button>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/* <IconButton color="inherit">
-                              <Badge badgeContent={17} color="secondary">
-                              <NotificationsIcon />
-                              </Badge>
-                              </IconButton> */}
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
@@ -178,16 +177,16 @@ const PrimarySearchAppBar = () => {
            
           </div>
             {/* <div className={classes.sectionMobile}>
-                <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-                >
-                <MoreIcon />
-                </IconButton>
-                </div> */}
+                          <IconButton
+                          aria-label="show more"
+                          aria-controls={mobileMenuId}
+                          aria-haspopup="true"
+                          onClick={handleMobileMenuOpen}
+                          color="inherit"
+                          >
+                          <MoreIcon />
+                          </IconButton>
+                          </div> */}
           </Toolbar>
         </Container>
       </AppBar>
