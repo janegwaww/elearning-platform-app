@@ -53,10 +53,13 @@ const DocumentSearchAppBar = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography noWrap>{file_name}</Typography>
+                <Typography noWrap color="primary">
+                  {file_name}
+                </Typography>
 
                 <Typography
                   noWrap
+                  color="primary"
                 >{`${page} / ${image_list.length}`}</Typography>
 
                 <Box display="flex" alignItems="center">
