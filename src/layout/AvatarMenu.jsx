@@ -131,7 +131,9 @@ const AvatarMenu = () => {
                   alt={name}
                   style={{ width: 30, height: 30, marginRight: 10 }}
                 />
-                <Typography>{name}</Typography>
+                <Typography noWrap component="div">
+                  {name}
+                </Typography>
               </Box>
             </Link>
             <Divider />
