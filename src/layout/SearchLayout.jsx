@@ -63,6 +63,7 @@ const SearchLayout = ({ children }) => {
                 <AvatarMenu />
               </Box>
               <ContributeMenu />
+              <ContributeMenu  title='知擎杯'/>
             </div>
           </Container>
         </div>

@@ -13,6 +13,7 @@ import { getUser, isLoggedIn } from "../services/auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    marginLeft:20,
     [theme.breakpoints.down("md")]: {
       display: "none",
     },

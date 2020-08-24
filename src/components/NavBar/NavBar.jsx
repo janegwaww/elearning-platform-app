@@ -164,7 +164,7 @@ const PrimarySearchAppBar = () => {
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
-            <div style={{marginRight:20}}>
+            <div>
               <ContributeMenu />
             </div>
             <div>
