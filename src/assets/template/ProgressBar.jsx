@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
- import { makeStyles } from "@material-ui/core/styles"; 
+ import { makeStyles} from "@material-ui/core/styles"; 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
  const useStyles = makeStyles((theme) => ({
@@ -10,6 +10,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
     left: "auto",
     right: 0,
     zIndex: 200000,
+    height:5,
     '& .MuiLinearProgress-colorSecondary':{
       backgroundColor:'rgb(158,205,255)',
       '& .MuiLinearProgress-barColorSecondary':{
@@ -18,9 +19,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
     }
      },
   })); 
-const styles = {
+// const styles = {
  
-};
+// };
 
 const ProgressBar = ({ loading = false }) => {
 const classes = useStyles();
@@ -59,6 +60,7 @@ const classes = useStyles();
   }, [loading]);
 
   return (
+   
     <div  className={classes.root}>
       {show ? (
         <LinearProgress
@@ -68,6 +70,7 @@ const classes = useStyles();
         />
       ) : null}
     </div>
+    
   );
 };
 
