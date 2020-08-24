@@ -57,6 +57,14 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  avatar: {
+    width: 30,
+    height: 30,
+    [theme.breakpoints.down("md")]: {
+      width: 24,
+      height: 24,
+    },
+  },
 }));
 
 const AvatarMenu = () => {
@@ -86,7 +94,7 @@ const AvatarMenu = () => {
           color="inherit"
           className={classes.iconButton}
         >
-          <Avatar src={headshot} alt={name} style={{ width: 30, height: 30 }} />
+          <Avatar src={headshot} alt={name} className={classes.avatar} />
         </IconButton>
       ) : (
         <Link
