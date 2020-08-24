@@ -21,10 +21,12 @@ import searchHistory from "../services/searchHistory";
 import "./SearchLayoutStyles.sass";
 
 const getHistory = searchHistory("kengineSearchHistory");
+const text = "谁推导出洛伦兹变换";
 
 const SearchLayout = ({ children }) => {
   const [input, setInput] = useState("");
   const [refInput, setRefInput] = useState("搜索知识...");
+  const [placeholder, setPlaceholder] = useState("支持跨模态逐帧搜索...");
   const { q, page, type } = getIdFromHref();
 
   const handleSearch = () => {
@@ -38,6 +40,8 @@ const SearchLayout = ({ children }) => {
       setInput(q);
       setRefInput(q);
       getHistory.add(q);
+    } else {
+      setPlaceholder(text);
     }
   }, [q]);
 
@@ -79,6 +83,7 @@ const SearchLayout = ({ children }) => {
                 onSearch={handleSearch}
                 onChange={(v) => setRefInput(v)}
                 onRemove={(v) => getHistory.remove(v)}
+                placeholder={placeholder}
               />
             </Box>
           </Toolbar>
