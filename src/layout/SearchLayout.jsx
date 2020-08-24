@@ -72,8 +72,7 @@ const SearchLayout = ({ children }) => {
                 <AvatarMenu />
               </Box>
               <ContributeMenu />
-              <div style={{ width: 10 }} />
-              <ContributeMenu title="知擎杯" />
+              <ContributeMenu  title='知擎杯'/>
             </div>
           </Container>
         </div>
