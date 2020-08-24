@@ -67,7 +67,9 @@ const DocumentSearchAppBar = ({
                     onClick={handleClick}
                     className={classes.searchButton}
                   >
-                    <Typography noWrap>语义搜索</Typography>
+                    <Typography noWrap component="div">
+                      语义搜索
+                    </Typography>
                   </Button>
                   <Box className={classes.scale}>
                     <IconButton onClick={() => handleScale(true)}>
