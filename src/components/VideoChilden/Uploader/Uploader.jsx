@@ -1024,7 +1024,7 @@ export default class UploadVideos extends Component {
               color="primary"
               onClick={() => {
                 if (!this.state.lang_value) {
-                  new CustomModal().alert("请选择视频的语言", "error", 3000);
+                  new CustomModal().alert("请选择视频的源语言", "error", 3000);
                   return;
                 }
                 this.props.parent.show_edit();
