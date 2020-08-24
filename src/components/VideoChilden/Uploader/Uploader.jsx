@@ -22,12 +22,9 @@ import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
-
 import BMF from "browser-md5-file";
-
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
-
 import DialogModal from "../components/Dialog";
 import gologin from "../../../assets/img/gologin.png";
 import uploadererr from "../../../assets/img/uploadererr.png";
@@ -523,7 +520,6 @@ export default class UploadVideos extends Component {
     _data.sub_josn = data.subtitling;
     this.setState({ status: 3, files: _data });
     // sessionStorage.setItem('file_data',_data);
-
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
