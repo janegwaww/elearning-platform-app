@@ -40,6 +40,7 @@ const SearchLayout = ({ children }) => {
       setInput(q);
       setRefInput(q);
       getHistory.add(q);
+      setPlaceholder("支持跨模态逐帧搜索...");
     } else {
       setPlaceholder(text);
     }
