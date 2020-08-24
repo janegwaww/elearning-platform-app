@@ -7,15 +7,17 @@ const withSearchComponent = (WrapComponent) => {
       super(props);
       this.state = {
         array: [],
+        loading: false,
       };
     }
 
     onSearch = (value) => {
       const { id } = this.props;
       if (value) {
+        this.setState({ loading: true });
         documentSearch({ file_id: id, query_string: value, max_size: 10 }).then(
           (data = []) => {
-            this.setState({ array: data });
+            this.setState({ array: data, loading: false });
           },
         );
       }
@@ -36,13 +38,14 @@ const withSearchComponent = (WrapComponent) => {
     };
 
     render() {
-      const { array } = this.state;
+      const { array, loading } = this.state;
 
       return (
         <WrapComponent
           onSearch={this.onSearch}
           itemsArray={array}
           itemClick={this.handleClick}
+          loading={loading}
           {...this.props}
         />
       );

@@ -8,10 +8,12 @@ import theme from "../layout/theme";
 class DocumentSearchPage extends Component {
   render() {
     return (
-      <div className="document-search-container">
-        <Helmet title={`Document Search | ${config.siteTitle}`} />
-        <DocumentSearch />
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="document-search-container">
+          <Helmet title={`Document Search | ${config.siteTitle}`} />
+          <DocumentSearch />
+        </div>
+      </ThemeProvider>
     );
   }
 }
