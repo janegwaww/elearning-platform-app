@@ -157,6 +157,10 @@
   background-color: #fff;
   font-size: 14px;
 }
+
+.up-text .root .text-right:not(.not-padding){
+  padding-top:24px ;
+}
 .up-text .root .MuiSelect-outlined.MuiSelect-outlined{
   padding-right: 32px; 
 }

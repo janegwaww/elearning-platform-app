@@ -223,7 +223,7 @@ export default function VideoIndex(props) {
               </Grid>
 
               <Grid container spacing={4} className="item">
-                <Grid item xs={4} sm={3} md={2} className="text-right">
+                <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
                   <label>视频封面</label>
                 </Grid>
                 <Grid item xs={8} sm={9} md={10}>
@@ -642,7 +642,7 @@ export default function VideoIndex(props) {
               </Grid>
 */}
               <Grid container spacing={4} className=" item">
-                <Grid item xs={4} sm={3} md={2} className="text-right">
+                <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
                   <label>上传附件：</label>
                 </Grid>
                 <Grid item xs={8} sm={9} md={10}>
