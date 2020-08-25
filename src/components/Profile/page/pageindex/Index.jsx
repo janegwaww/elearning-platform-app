@@ -7,11 +7,11 @@ import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
-
+import NotData from '../../components/NotData';
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import notcoll from "../../../../assets/img/notcoll.png";
 import notvideo from "../../../../assets/img/notvideo.png";
-
+import nothistory from "../../../../assets/img/nothistory.png";
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -81,13 +81,7 @@ class ProfileIndex extends React.Component {
 
       if (res.err === 0) {
         let _data = res.result_data[0];
-        // let _list = ["普通", "系列", "草稿箱"];
-        // if (_data.document && _data.document.length > 0) {
-        //   _list.push("文本");
-        // }
-        // if (_data.document_series && _data.document_series.length > 0) {
-        //   _list.push("系列文本");
-        // }
+        
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -101,7 +95,7 @@ class ProfileIndex extends React.Component {
             _data.document_series && _data.document_series.length > 0
               ? _data.document_series
               : null,
-          // lists_arr: _list,
+         
         });
       }
 
@@ -146,12 +140,11 @@ class ProfileIndex extends React.Component {
     return (
       <section className=" view-scroll all-height all-width bg-f9">
         <ProgressBar loading={login_status} />
-        {/** <SearchLoading loading={this.state.login_status} /> */}
+      
         <main
           className="all-width bg-image "
           style={{
             minHeight: 183,
-
             borderRadius: "0.75rem 0.75rem 0 0",
           }}
         >
@@ -352,12 +345,8 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top all-width all-height view-overflow text-center">
-                    <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-f-16 profile-top-20">
-                      暂无视频
-                    </div>
-                  </div>
+                  <NotData src={notvideo} content ="暂无视频" />
+                 
                 )}
               </div>
             )}
@@ -373,12 +362,10 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top all-width all-height view-overflow text-center">
-                    <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-f-16 profile-top-20">
-                      暂无视频
-                    </div>
-                  </div>
+                  
+                  <NotData src={notvideo} content="暂无视频" />
+                 
+                  
                 )}
               </div>
             )}
@@ -394,12 +381,8 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top all-width all-height view-overflow text-center">
-                    <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-f-16 profile-top-20">
-                      暂无视频
-                    </div>
-                  </div>
+                  <NotData src={notvideo} content="暂无视频" />
+                  
                 )}
               </div>
             )}
@@ -415,12 +398,8 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top all-width all-height view-overflow text-center">
-                    <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
-                      暂无文本
-                    </div>
-                  </div>
+                  <NotData src={notvideo} content="暂无文本" />
+                 
                 )}
               </div>
             )}
@@ -436,12 +415,7 @@ class ProfileIndex extends React.Component {
                     />
                   ))
                 ) : (
-                  <div className="profile-top all-width all-height view-overflow text-center">
-                    <img src={notvideo} style={{ width: 490, height: 293 }} />
-                    <div className="fn-color-6f fn-size-16 profile-top-20">
-                      暂无系列文本
-                    </div>
-                  </div>
+                  <NotData src={notvideo} content="暂无系列文本" />
                 )}
               </div>
             )}
@@ -501,12 +475,8 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top all-width all-height view-overflow text-center">
-                  <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-f-16 profile-top-20">
-                    暂无视频
-                  </div>
-                </div>
+                <NotData src={notcoll} content="暂无收藏记录" />
+               
               )}
             </Grid>
           )}
@@ -524,12 +494,8 @@ class ProfileIndex extends React.Component {
                   </Grid>
                 ))
               ) : (
-                <div className="profile-top all-width all-height view-overflow text-center"> 
-                  <img src={notcoll} style={{ width: 490, height: 293 }} />
-                  <div className="fn-color-6f fn-f-16 profile-top-20">
-                    暂无视频
-                  </div>
-                </div>
+                <NotData src={nothistory} content="暂无历史记录" />
+               
               )}
             </Grid>
           )}

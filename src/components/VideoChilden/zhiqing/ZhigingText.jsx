@@ -114,7 +114,7 @@ export default function VideoIndex(props) {
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
                     <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label>上传附件：</label>
+                      <label><span className="fn-color-F86B6B">*</span>上传附件：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <div>
@@ -423,13 +423,13 @@ export default function VideoIndex(props) {
                               );
                               let _project = _new_data[0].project;
                               setFieldArr(_project);
-                              if (_project.length == 1) {
-                                setField(_project[0].id);
-                              }
+                              // if (_project.length == 1) {
+                              //   setField(_project[0].id);
+                              // }
                             }}
                           >
                             <option aria-label="None" value="">
-                              --请选择分类--
+                              --请选择--
                             </option>
                             {signs.map((va) => (
                               <option key={va.id} value={va.id}>
@@ -450,7 +450,7 @@ export default function VideoIndex(props) {
                               }}
                             >
                               <option aria-label="None" value="">
-                                全部
+                                --请选择--
                               </option>
                               {fieldArr.map((va) => (
                                 <option key={va.id} value={va.id}>
@@ -887,7 +887,7 @@ export default function VideoIndex(props) {
                           file_path: adjunct.file_path,
                           image_path: adjunct.image_path,
                           price: parseFloat(price) || 0,
-                          category: [field||videosign],
+                          category: [videosign&&!field?videosign+'99':field],
                           author: authorvalueArr,
                           invite: invitation,
                         };

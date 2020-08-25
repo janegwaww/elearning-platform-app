@@ -1,653 +1,147 @@
 [{
   "id": "01",
-  "title": "哲学",
-  "en_title": "philosophy",
+  "title": "人文科学",
   "project": [{
     "id": "0101",
-    "title": "哲学",
-    "en_title": "philosophy"
+    "title": "哲学"
+  },
+  {
+    "id": "0102",
+    "title": "语言学"
+  },
+  {
+    "id": "0103",
+    "title": "文学"
+  },
+  {
+    "id": "0104",
+    "title": "历史学"
+  },
+  {
+    "id": "0105",
+    "title": "艺术学"
+  },
+  {
+    "id": "0106",
+    "title": "宗教学"
+  },
+  {
+    "id": "0107",
+    "title": "新闻传播学"
+  },
+  {
+    "id": "0199",
+    "title": "其他"
   }]
 },
 {
-  "id": "05",
-  "title": "文学",
-  "en_title": "literature",
-  "project": [{
-      "id": "0501",
-      "title": "中国语言文学",
-      "en_title": "Chinese linguistics"
-    },
-    {
-      "id": "0502",
-      "title": "外国语言文学",
-      "en_title": "Foreign linguistics"
-    },
-    {
-      "id": "0503",
-      "title": "新闻传播学",
-      "en_title": "Journalism and Communication"
-    }
-  ]
-},
-{
-  "id": "06",
-  "title": "历史学",
-  "en_title": "history",
-  "project": [{
-      "id": "0601",
-      "title": "考古学",
-      "en_title": "archaeology"
-    },
-    {
-      "id": "0602",
-      "title": "中国史",
-      "en_title": "Chinese history"
-    },
-    {
-      "id": "0603",
-      "title": "世界史",
-      "en_title": "History of the world"
-    }
-  ]
-},
-{
-  "id": "13",
-  "title": "艺术学",
-  "en_title": "art",
-  "project": [{
-      "id": "1301",
-      "title": "艺术学理论",
-      "en_title": "Theory of art"
-    },
-    {
-      "id": "1302",
-      "title": "音乐与舞蹈学",
-      "en_title": "Music and dance"
-    },
-    {
-      "id": "1303",
-      "title": "戏剧与影视学",
-      "en_title": "Drama and Cinematography"
-    },
-    {
-      "id": "1304",
-      "title": "美术学",
-      "en_title": "fine arts"
-    },
-    {
-      "id": "1305",
-      "title": "设计学",
-      "en_title": "design science"
-    }
-  ]
-},
-{
   "id": "02",
-  "title": "经济",
-  "en_title": "economic",
+  "title": "社会科学",
   "project": [{
       "id": "0201",
-      "title": "理论经济学",
-      "en_title": "Theoretical economics"
+      "title": "经济学"
     },
     {
       "id": "0202",
-      "title": "应用经济学",
-      "en_title": "Applied economics"
+      "title": "管理学"
+    },
+    {
+      "id": "0203",
+      "title": "法学"
+    },
+    {
+      "id": "0204",
+      "title": "教育学"
+    },
+    {
+      "id": "0205",
+      "title": "军事"
+    },
+    {
+      "id": "0206",
+      "title": "体育"
+    },
+    {
+      "id": "0207",
+      "title": "心理学"
+    },
+    {
+      "id": "0299",
+      "title": "其他"
     }
   ]
 },
 {
   "id": "03",
-  "title": "法学",
-  "en_title": "law",
+  "title": "应用科学",
   "project": [{
       "id": "0301",
-      "title": "法学",
-      "en_title": "law"
+      "title": "计算机科学"
     },
     {
       "id": "0302",
-      "title": "政治学",
-      "en_title": "Political science"
+      "title": "电子工程"
     },
     {
       "id": "0303",
-      "title": "社会学",
-      "en_title": "Sociological politics"
+      "title": "机械工程"
     },
     {
       "id": "0304",
-      "title": "民族学",
-      "en_title": "ethnology"
+      "title": "农业科学"
     },
     {
       "id": "0305",
-      "en_title": "Marxist theory",
-      "title": "马克思主义理论"
+      "title": "医药"
     },
     {
       "id": "0306",
-      "en_title": "The public security to learn",
-      "title": "公安学"
+      "title": "航空航天"
+    },
+    {
+      "id": "0307",
+      "title": "土木工程"
+    },
+    {
+      "id": "0308",
+      "title": "环境能源"
+    },
+    {
+      "id": "0399",
+      "title": "其他"
     }
   ]
 },
 {
   "id": "04",
-  "title": "教育学",
-  "en_title": "pedagogy",
+  "title": "自然科学",
   "project": [{
       "id": "0401",
-      "title": "教育学",
-      "en_title": "pedagogy"
+      "title": "数学"
     },
     {
       "id": "0402",
-      "title": "心理学",
-      "en_title": "psychology"
+      "title": "物理学"
     },
     {
       "id": "0403",
-      "title": "体育学",
-      "en_title": "Sports science"
-    }
-  ]
-},
-{
-  "id": "11",
-  "title": "军事学",
-  "en_title": "military",
-  "project": [{
-      "id": "1101",
-      "title": "军事思想及军事历史",
-      "en_title": "Military thought and military history"
+      "title": "化学"
     },
     {
-      "id": "1102",
-      "title": "战略学",
-      "en_title": "strategy"
+      "id": "0404",
+      "title": "生物科学"
     },
     {
-      "id": "1103",
-      "title": "战役学",
-      "en_title": "The battle to learn"
+      "id": "0405",
+      "title": "地理科学"
     },
     {
-      "id": "1104",
-      "title": "战术学",
-      "en_title": "Science of tactics"
+      "id": "0406",
+      "title": "天文学"
     },
     {
-      "id": "1105",
-      "title": "军队指挥学",
-      "en_title": "Military command science"
-    },
-    {
-      "id": "1106",
-      "title": "军制学",
-      "en_title": "Institution to learn"
-    },
-    {
-      "id": "1107",
-      "title": "军队政治工作学",
-      "en_title": "Military political work"
-    },
-    {
-      "id": "1108",
-      "title": "军事后勤学",
-      "en_title": "Military logistics"
-    },
-    {
-      "id": "1109",
-      "title": "军事装备学",
-      "en_title": "Military equipment science"
-    },
-    {
-      "id": "1110",
-      "title": "军事训练学",
-      "en_title": "Military training"
-    }
-  ]
-},
-{
-  "id": "08",
-  "title": "工学",
-  "en_title": "engineering",
-  "project": [{
-      "id": "0801",
-      "title": "力学",
-      "en_title": "mechanics"
-    },
-    {
-      "id": "0802",
-      "title": "机械工程",
-      "en_title": "Mechanical engineering"
-    },
-    {
-      "id": "0803",
-      "title": "光学工程",
-      "en_title": "Optical engineering"
-    },
-    {
-      "id": "0804",
-      "title": "仪器科学与技术",
-      "en_title": "Instrumental science and technology"
-    },
-    {
-      "id": "0805",
-      "title": "材料科学与工程",
-      "en_title": "Materials science and engineering"
-    },
-    {
-      "id": "0806",
-      "title": "冶金工程",
-      "en_title": "Metallurgical engineering"
-    },
-    {
-      "id": "0807",
-      "title": "动力工程及工程热物理",
-      "en_title": "Power engineering and engineering thermophysics"
-    },
-    {
-      "id": "0808",
-      "title": "电气工程",
-      "en_title": "In electrical engineering"
-    },
-    {
-      "id": "0809",
-      "title": "电子科学与技术",
-      "en_title": "Electronic science and technology"
-    },
-    {
-      "id": "0810",
-      "title": "信息与通信工程",
-      "en_title": "Information and communications engineering"
-    },
-    {
-      "id": "0811",
-      "title": "控制科学与工程",
-      "en_title": "Control Science and engineering"
-    },
-    {
-      "id": "0812",
-      "title": "计算机科学与技术",
-      "en_title": "Computer science and technology"
-    },
-    {
-      "id": "0813",
-      "title": "建筑学",
-      "en_title": "architecture"
-    },
-    {
-      "id": "0814",
-      "title": "土木工程",
-      "en_title": "Civil engineering"
-    },
-    {
-      "id": "0815",
-      "title": "水利工程",
-      "en_title": "Water conservancy project"
-    },
-    {
-      "id": "0816",
-      "title": "测绘科学与技术",
-      "en_title": "Surveying and mapping science and technology"
-    },
-    {
-      "id": "0817",
-      "title": "化学工程与技术",
-      "en_title": "Chemical engineering and technology"
-    },
-    {
-      "id": "0818",
-      "title": "地质资源与地质工程",
-      "en_title": "Geological resources and geological engineering"
-    },
-    {
-      "id": "0819",
-      "title": "矿业工程",
-      "en_title": "Mining engineering"
-    },
-    {
-      "id": "0820",
-      "title": "石油与天然气工程",
-      "en_title": "Oil and gas projects"
-    },
-    {
-      "id": "0821",
-      "title": "纺织科学与工程",
-      "en_title": "Textile Science and Engineering"
-    },
-    {
-      "id": "0822",
-      "title": "轻工技术与工程",
-      "en_title": "Light industrial technology and engineering"
-    },
-    {
-      "id": "0823",
-      "title": "交通运输工程",
-      "en_title": "Traffic and transportation engineering"
-    },
-    {
-      "id": "0824",
-      "title": "船舶与海洋工程",
-      "en_title": "Ships and Marine engineering"
-    },
-    {
-      "id": "0825",
-      "title": "航空宇航科学与技术",
-      "en_title": "Aerospace science and technology"
-    },
-    {
-      "id": "0826",
-      "title": "兵器科学与技术",
-      "en_title": "Weapon science and technology"
-    },
-    {
-      "id": "0827",
-      "title": "核科学与技术",
-      "en_title": "Nuclear science and technology"
-    },
-    {
-      "id": "0828",
-      "title": "农业工程",
-      "en_title": "Agricultural engineering"
-    },
-    {
-      "id": "0829",
-      "title": "林业工程",
-      "en_title": "Forestry engineering"
-    },
-    {
-      "id": "0830",
-      "title": "环境科学与工程",
-      "en_title": "Environmental Science and Engineering"
-    },
-    {
-      "id": "0831",
-      "title": "生物医学工程",
-      "en_title": "Biomedical Engineering"
-    },
-
-    {
-      "id": "0832",
-      "title": "食品科学与工程",
-      "en_title": "Food Science and engineering"
-    },
-    {
-      "id": "0833",
-      "title": "城乡规划学",
-      "en_title": "Urban and rural planning"
-    },
-    {
-      "id": "0834",
-      "title": "风景园林学",
-      "en_title": "Landscape architecture"
-    },
-    {
-      "id": "0835",
-      "title": "软件工程",
-      "en_title": "Software engineering"
-    },
-    {
-      "id": "0836",
-      "title": "生物工程",
-      "en_title": "Biological engineering"
-    },
-    {
-      "id": "0837",
-      "title": "安全科学与工程",
-      "en_title": "Safety science and engineering"
-    },
-    {
-      "id": "0838",
-      "title": "公安技术",
-      "en_title": "The public security technology"
-    },
-    {
-      "id": "0839",
-      "title": "网络空间安全",
-      "en_title": "Cyber space security"
-    }
-  ]
-},
-{
-  "id": "12",
-  "title": "管理学",
-  "en_title": "Management of cyberspace security",
-  "project": [{
-      "id": "1201",
-      "title": "管理科学与工程",
-      "en_title": "Management Science and engineering"
-    },
-    {
-      "id": "1202",
-      "title": "工商管理",
-      "en_title": "Industrial and commercial management"
-    },
-    {
-      "id": "1203",
-      "title": "农林经济管理",
-      "en_title": "Agricultural and forestry economic management"
-    },
-    {
-      "id": "1204",
-      "title": "公共管理",
-      "en_title": "Public management"
-    },
-    {
-      "id": "1205",
-      "title": "图书情报与档案管理",
-      "en_title": "Library information and archives management"
-    },
-    {
-      "id": "1206",
-      "title": "物流管理与工程类",
-      "en_title": "Logistics management and engineering"
-    },
-    {
-      "id": "1207",
-      "title": "工业工程类",
-      "en_title": "Industrial Engineering"
-    },
-    {
-      "id": "1208",
-      "title": "电子商务类",
-      "en_title": "E-commerce"
-    },
-    {
-      "id": "1209",
-      "title": "旅游管理类",
-      "en_title": "Tourism Management"
-    }
-  ]
-},
-{
-  "id": "09",
-  "title": "农学",
-  "en_title": "agronomy",
-  "project": [{
-      "id": "0901",
-      "title": "作物学",
-      "en_title": "Crop science"
-    },
-    {
-      "id": "0902",
-      "title": "园艺学",
-      "en_title": "horticulture"
-    },
-    {
-      "id": "0903",
-      "title": "农业资源与环境",
-      "en_title": "Agricultural resources and environmental horticulture"
-    },
-    {
-      "id": "0904",
-      "title": "植物保护",
-      "en_title": "Plant protection"
-    },
-    {
-      "id": "0905",
-      "title": "畜牧学",
-      "en_title": "Animal husbandry"
-    },
-    {
-      "id": "0906",
-      "title": "兽医学",
-      "en_title": "Veterinary medicine and animal husbandry"
-    },
-    {
-      "id": "0907",
-      "title": "林学",
-      "en_title": "forestry"
-    },
-    {
-      "id": "0908",
-      "title": "水产",
-      "en_title": "The aquatic"
-    },
-    {
-      "id": "0909",
-      "title": "草学",
-      "en_title": "The grass to learn"
-    }
-  ]
-},
-{
-  "id": "10",
-  "title": "医学",
-  "en_title": "medical",
-  "project": [{
-      "id": "1001",
-      "title": "基础医学",
-      "en_title": "Basic medical"
-    },
-    {
-      "id": "1002",
-      "title": "临床医学",
-      "en_title": "Clinical medicine"
-    },
-    {
-      "id": "1003",
-      "title": "口腔医学",
-      "en_title": "Oral medicine"
-    },
-    {
-      "id": "1004",
-      "title": "公共卫生与预防医学",
-      "en_title": "Public health and preventive medicine"
-    },
-    {
-      "id": "1005",
-      "title": "中医学",
-      "en_title": "Traditional Chinese medicine"
-    },
-    {
-      "id": "1006",
-      "title": "中西医结合",
-      "en_title": "Integrated Chinese and Western medicine"
-    },
-    {
-      "id": "1007",
-      "title": "药学",
-      "en_title": "A pharmaceutical"
-    },
-    {
-      "id": "1008",
-      "title": "中药学",
-      "en_title": "Chinese Medicine"
-    },
-    {
-      "id": "1009",
-      "title": "特种医学",
-      "en_title": "Special medical"
-    },
-    {
-      "id": "1010",
-      "title": "医学技术",
-      "en_title": "Medical technology"
-    },
-    {
-      "id": "1011",
-      "title": "护理学",
-      "en_title": "nursing"
-    }
-  ]
-},
-{
-  "id": "07",
-  "title": "理学",
-  "en_title": "neo-confucianism",
-  "project": [{
-      "id": "0701",
-      "title": "数学",
-      "en_title": "mathematics"
-    },
-    {
-      "id": "0702",
-      "title": "物理学",
-      "en_title": "physics"
-    },
-    {
-      "id": "0703",
-      "title": "化学",
-      "en_title": "chemical"
-    },
-    {
-      "id": "0704",
-      "title": "天文学",
-      "en_title": "astronomy"
-    },
-    {
-      "id": "0705",
-      "title": "地理学",
-      "en_title": "geography"
-    },
-    {
-      "id": "0706",
-      "title": "大气科学",
-      "en_title": "Atmospheric sciences"
-    },
-    {
-      "id": "0707",
-      "title": "海洋科学",
-      "en_title": "Marine science"
-    },
-    {
-      "id": "0708",
-      "title": "地球物理学",
-      "en_title": "Geophysics"
-    },
-    {
-      "id": "0709",
-      "title": "地质学",
-      "en_title": "geology"
-    },
-    {
-      "id": "0710",
-      "title": "生物学",
-      "en_title": "biology"
-    },
-    {
-      "id": "0711",
-      "title": "系统科学",
-      "en_title": "System science"
-    },
-    {
-      "id": "0712",
-      "title": "科学技术史",
-      "en_title": "History of Science and Technology"
-    },
-    {
-      "id": "0713",
-      "title": "生态学",
-      "en_title": "ecology"
-    },
-    {
-      "id": "0714",
-      "title": "统计学",
-      "en_title": "statistical"
+      "id": "0499",
+      "title": "其他"
     }
   ]
 }

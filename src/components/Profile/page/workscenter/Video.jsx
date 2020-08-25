@@ -6,6 +6,7 @@ import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 import notvideo from "../../../../assets/img/notvideo.png";
 import LoadData from '../../components/LoadData';
+import NotData from '../../components/NotData';
 export default class Video extends React.Component {
   constructor(props) {
     super(props);
@@ -90,12 +91,8 @@ export default class Video extends React.Component {
                 />
               ))
             ) : (
-              <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notvideo} style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-size-16 profile-top-20">
-                  暂无视频
-                </div>
-              </div>
+              <NotData src={notvideo} content='暂无视频' />
+            
             )}
           </div>
         ) : (

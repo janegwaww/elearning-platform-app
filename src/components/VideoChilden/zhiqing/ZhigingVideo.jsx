@@ -296,13 +296,13 @@ export default function VideoIndex(props) {
                           let _new_data = signs.filter((va) => va.id == _value);
                           let _project = _new_data[0].project;
                           setFieldArr(_project);
-                          if (_project.length == 1) {
-                            setField(_project[0].id);
-                          }
+                          // if (_project.length == 1) {
+                          //   setField(_project[0].id);
+                          // }
                         }}
                       >
                         <option aria-label="None" value="">
-                          --请选择分类--
+                          --请选择--
                         </option>
                         {signs.map((va) => (
                           <option key={va.id} value={va.id}>
@@ -323,7 +323,7 @@ export default function VideoIndex(props) {
                           }}
                         >
                           <option aria-label="None" value="">
-                            全部
+                            --请选择--
                           </option>
                           {fieldArr.map((va) => (
                             <option key={va.id} value={va.id}>
@@ -780,7 +780,7 @@ export default function VideoIndex(props) {
                         .video_id,
                       title: videoTitle,
                       description: videodescription,
-                      category: [field||videosign],
+                      category: [!field&&videosign?videosign+'99':field],
                       invite: invitation,
                     };
                     if (videoImg) {
@@ -847,6 +847,7 @@ export default function VideoIndex(props) {
                     setVideodescription("");
                     // setVideosign([]);
                     // setVideoImg("");
+                    setField(''),
                     setCurrency("");
                     setNewseries("");
                     setSeriesdescription("");

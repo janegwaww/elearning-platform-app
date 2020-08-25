@@ -4,7 +4,7 @@ import { get_data } from "../../../../assets/js/request";
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import { ModalDialog } from "../../components/Modal";
 import Pagination from "@material-ui/lab/Pagination";
-
+import NotData from '../../components/NotData';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
