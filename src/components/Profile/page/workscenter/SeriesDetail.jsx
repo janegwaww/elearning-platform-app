@@ -56,9 +56,10 @@ export default class SeriesDetail extends React.Component {
     };
   }
   update_data(_id) {
+   
     this.setState({
       login_status: true,
-      serise_id: _id,
+      
     });
     get_data({
       model_name: "series",
@@ -76,26 +77,29 @@ export default class SeriesDetail extends React.Component {
               serise_data: _data,
               total_data: _data.video_data,
               total_counts: _data.video_counts,
-
               show_data: _data.video_data.slice(
                 this.state.show_counts * this.state.show_page,
                 (this.state.show_page + 1) * this.state.show_counts
               ),
-              login_status: false,
+              
             });
             this.wind_size();
           }, 300);
         } else {
           new CustomModal().alert("获取详情数据失败", "error", 3000);
           this.setState({
-            serise_data: {},
-            login_status: false,
+            serise_data: {}
           });
         }
+        this.setState({
+          serise_id: _id,
+          login_status: false
+        })
       })
       .catch((err) => {
         this.setState({
           login_status: false,
+          
         });
         new CustomModal().alert("获取详情数据失败，网络出错", "error", 3000);
       });
@@ -171,8 +175,8 @@ export default class SeriesDetail extends React.Component {
                  
                   <NenButton
                     onClick={() => {
-                      // window.history.go();
-                      this.update_data();
+                  
+                      this.update_data(serise_id);
                     }}
                   >
                     点击刷新
