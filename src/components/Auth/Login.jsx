@@ -8,7 +8,6 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import KEForm from "../KEFormKit/KEForm";
-import LoggedIn from "./LoggedIn";
 import { isLoggedIn } from "../../services/auth";
 import config from "../../../data/SiteConfig";
 import backgroundImage from "../../../static/images/login-background-image.png";
@@ -40,7 +39,7 @@ const Login = () => {
           <Helmet title={`Login | ${config.siteTitle}`} />
           <CssBaseline />
           <Container maxWidth="lg">
-            {!logged ? <KEForm /> : <LoggedIn />}
+            <KEForm />
           </Container>
         </div>
       </div>
