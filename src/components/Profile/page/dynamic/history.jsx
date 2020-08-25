@@ -1,7 +1,7 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
-
+import NotData from '../../components/NotData';
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
@@ -109,12 +109,7 @@ export default class History extends React.Component {
                 </Grid>
               ))
             ) : (
-              <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={nothistory} style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-size-16 profile-top-20">
-                  暂无历史记录
-                </div>
-              </div>
+              <NotData src={nothistory} content='暂无历史记录' />
             )}
           </Grid>
         ) : (

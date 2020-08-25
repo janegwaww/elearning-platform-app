@@ -2,27 +2,28 @@ import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import CustomModal from "../../../../assets/js/CustomModal";
 import Pagination from "@material-ui/lab/Pagination";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles,withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import LoadData from "../../components/LoadData";
 import notdata from "../../../../assets/img/notdata.png";
-const NenButton=withStyles({
-  root:{
+import Nda from "../../components/NotData";
+const NenButton = withStyles({
+  root: {
     backgroundColor: "#007CFF",
-      color: "white",
-      fontSize: 16,
-      width: 180,
-      height: 40,
-      borderRadius: 20,
-      '&:hover':{
-        backgroundColor: "#007CFF",
-      }
-  }
-})(Button)
+    color: "white",
+    fontSize: 16,
+    width: 180,
+    height: 40,
+    borderRadius: 20,
+    "&:hover": {
+      backgroundColor: "#007CFF",
+    },
+  },
+})(Button);
 export default class SeriesDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -45,8 +46,8 @@ export default class SeriesDetail extends React.Component {
   }
   componentDidMount() {
     let _id = this.props.id;
-    if(!_id){
-      alert('系列id错误');
+    if (!_id) {
+      alert("系列id错误");
       window.history.go(-1);
     }
     this.update_data(_id);
@@ -57,7 +58,7 @@ export default class SeriesDetail extends React.Component {
   update_data(_id) {
     this.setState({
       login_status: true,
-      serise_id:_id
+      serise_id: _id,
     });
     get_data({
       model_name: "series",
@@ -75,7 +76,7 @@ export default class SeriesDetail extends React.Component {
               serise_data: _data,
               total_data: _data.video_data,
               total_counts: _data.video_counts,
-             
+
               show_data: _data.video_data.slice(
                 this.state.show_counts * this.state.show_page,
                 (this.state.show_page + 1) * this.state.show_counts
@@ -165,16 +166,18 @@ export default class SeriesDetail extends React.Component {
               </div>
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">
-              <img src={notdata} style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-size-16 profile-top-20">
-                  数据加载失败
+                <Nda src={notdata} content="数据加载失败" />
+                <div className="profile-top-20">
+                 
+                  <NenButton
+                    onClick={() => {
+                      // window.history.go();
+                      this.update_data();
+                    }}
+                  >
+                    点击刷新
+                  </NenButton>
                 </div>
-                <div className='profile-top-20'> <NenButton onClick={()=>{
-                  // window.history.go();
-                  this.update_data();
-                }}>点击刷新</NenButton></div>
-
-              
               </div>
             )}
           </div>
