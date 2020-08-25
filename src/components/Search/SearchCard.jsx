@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Bull from "./Bull";
 import Link from "../Link/Link";
 import CardTag from "../GridCards/CardTag";
+import AuthTag from "../GridCards/AuthTag";
 import {
   secondsToDate,
   secondsToHMS,
@@ -85,33 +86,32 @@ const authAvatar = (headshot, href = "/") =>
     </div>
   );
 
-const userAvatar = (name, headshot, id, view = 0, comment = 0, like = 0) => (
+const userAvatar = (data) => (
   <div className="card-avatar">
     <div className="card-avatar-img">
-      {headshot && (
-        <Link href={`/excellentcreator/creator/?cid=${id}`}>
+      {data.headshot && (
+        <Link href={`/excellentcreator/creator/?cid=${data.user_id}`}>
           <Avatar
-            src={headshot}
-            alt={name}
+            src={data.headshot}
+            alt={data.user_name}
             style={{ height: 28, width: 28, marginRight: 5 }}
           />
+          {data.user_name && (
+            <Typography variant="caption" noWrap component="span">
+              {data.user_name}
+            </Typography>
+          )}
         </Link>
       )}
-      {name && (
-        <Typography variant="caption" noWrap>
-          {name}
-        </Typography>
-      )}
-      {name && headshot && <div style={{ marginRight: 40 }} />}
+      <AuthTag authority={data.authority} />
+      {data.user_name && data.headshot && <div style={{ marginRight: 40 }} />}
     </div>
-    {!!(view || comment || like) && (
+    {!!(data.view_counts || data.comment_counts || data.like_counts) && (
       <div style={{ gridColumn: 2, gridRow: 4 }}>
         <Typography variant="caption" color="textSecondary" noWrap>
-          {`${view}观看`}
-          {/* <Bull />
-                        {`${comment}回应`} */}
+          {`${data.view_counts}观看`}
           <Bull />
-          {`${like}点赞`}
+          {`${data.like_counts}点赞`}
         </Typography>
       </div>
     )}
@@ -187,14 +187,7 @@ const videoContainer = ({ data = {}, match_frame = {} }) => {
           <div className="card-subtitle">
             {subtitle({ ...match_frame, id: data.video_id })}
           </div>
-          {userAvatar(
-            data.user_name,
-            data.headshot,
-            data.user_id,
-            data.view_counts,
-            data.comment_counts,
-            data.like_counts,
-          )}
+          {userAvatar(data)}
         </div>
       }
     />
@@ -245,16 +238,7 @@ const seriesContainer = ({ data, match_frame }) => {
             {descriptionItem(data.description, match_frame)}
           </div>
           <div style={{ gridColumn: 2, gridRow: 4 }} />
-          <div style={{ gridColumn: 2, gridRow: 5 }}>
-            {userAvatar(
-              data.user_name,
-              data.headshot,
-              data.user_id,
-              data.view_counts,
-              data.comment_counts,
-              data.like_counts,
-            )}
-          </div>
+          <div style={{ gridColumn: 2, gridRow: 5 }}>{userAvatar(data)}</div>
         </div>
       }
     />
@@ -309,7 +293,7 @@ const docContainer = ({ data, match_frame }) => {
             {descriptionItem(data.description, match_frame)}
           </div>
           <div className="docAvatar">
-            {userAvatar(data.user_name, data.headshot, data.user_id)}
+            {userAvatar(data)}
             <Typography variant="caption" color="textSecondary">
               {`${data.download_counts}次 下载`}
             </Typography>

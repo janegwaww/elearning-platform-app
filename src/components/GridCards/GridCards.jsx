@@ -10,6 +10,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Bull from "../Search/Bull";
 import Link from "../Link/Link";
 import CardTag from "./CardTag";
+import AuthTag from "./AuthTag";
 import { secondsToMouth } from "../../services/utils";
 import "./GridCardsStyles.sass";
 
@@ -125,7 +126,6 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                       </Tooltip>
                     )}
                   </Link>
-
                   {item.introduction && (
                     <Typography
                       variant="caption"
@@ -137,23 +137,29 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                     </Typography>
                   )}
 
-                  {!!item.headshot ? (
+                  {!!item.headshot && (
                     <Link
                       href={`/excellentcreator/creator/?cid=${item.user_id}`}
+                      underline="none"
                     >
                       <div className="grid-avatar">
-                        <Avatar alt={item.user_name} src={`${item.headshot}`} />
+                        <Avatar
+                          alt={item.user_name}
+                          src={`${item.headshot}`}
+                          className="avatar"
+                        />
                         <Typography
-                          display="block"
                           variant="caption"
                           color="textSecondary"
+                          component="div"
+                          className="user-name"
+                          noWrap
                         >
                           {item.user_name}
                         </Typography>
+                        <AuthTag authority={item.authority} />
                       </div>
                     </Link>
-                  ) : (
-                    <div className="grid-avatar" />
                   )}
 
                   <div className="grid-card-feedback">
