@@ -1,7 +1,7 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import WorksItem from "../../components/WorksItem";
-import SearchLoading from "../../../Loading/SearchLoading";
+import NotData from "../../components/NotData";
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import { Nav } from "../../components/ProfileNav";
 import Pagination from "@material-ui/lab/Pagination";
@@ -108,12 +108,8 @@ export default class Collection extends React.Component {
                 </Grid>
               ))
             ) : (
-              <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notcoll} className='not-data' style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-r-16 profile-top-20">
-                  暂无收藏
-                </div>
-              </div>
+              <NotData src={notcoll} content="暂无收藏记录" />
+              
             )}
           </Grid>
         ) : (
@@ -146,11 +142,7 @@ export default class Collection extends React.Component {
             />
           </div>
         )}
-        {/** 
-        <div>
-          <SearchLoading loading={login_status} />
-        </div>
-        */}
+       
       </div>
     );
   }
