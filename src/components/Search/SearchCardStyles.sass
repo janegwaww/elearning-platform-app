@@ -17,9 +17,14 @@
 
   .card-text-part-description
     flex-grow: 1
-    overflow: hidden
     & > p
       line-height: 1.7
+      overflow: hidden
+      margin-bottom: 0.4em
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 3
+      -webkit-box-orient: vertical
     @media screen and (max-width: 960px)
       & > p
         font-size: 0.75rem
@@ -35,9 +40,23 @@
       display: none
 
   .card-subtitle
+    & p
+        overflow: hidden
+        margin-bottom: 0.4em
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 1
+        -webkit-box-orient: vertical
     @media screen and (max-width: 960px)
       & p
         font-size: 0.75rem
+        overflow: hidden
+        margin-bottom: 0.4em
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 3
+        -webkit-box-orient: vertical
+
 
   .docContainer
     border-top: 1px solid #f2f2f5
