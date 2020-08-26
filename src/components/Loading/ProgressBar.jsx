@@ -21,10 +21,10 @@ const ProgressBar = ({ loading = false }) => {
       if (!loading) {
         return 100;
       }
-      if (loading && oldProgress > 90) {
+      if (loading && oldProgress > 80) {
         return oldProgress;
       }
-      return oldProgress + 5;
+      return oldProgress + 10;
     });
   };
 
@@ -33,7 +33,7 @@ const ProgressBar = ({ loading = false }) => {
     if (loading) {
       timer = setInterval(() => {
         increProgress();
-      }, 500);
+      }, 100);
     }
     if (!loading) {
       setTimeout(() => {
