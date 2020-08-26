@@ -8,14 +8,12 @@ const withDocumentComponent = (WrapComponent) => {
       this.state = {
         itemHeight: 841.92,
         images: [],
+        loading: false,
       };
     }
 
     componentDidMount() {
-      documentContent({ file_id: this.props.id }).then((data) => {
-        this.setState({ images: data.image_list });
-        this.props.getInfo(data);
-      });
+      this.fetchData();
       window.addEventListener("resize", this.reportWindowSize);
       this.reportWindowSize();
     }
@@ -28,6 +26,14 @@ const withDocumentComponent = (WrapComponent) => {
 
     componentWillUnmount() {
       window.removeEventListener("resize", this.reportWindowSize);
+    }
+
+    fetchData() {
+      this.setState({ loading: true });
+      documentContent({ file_id: this.props.id }).then((data) => {
+        this.setState({ images: data.image_list, loading: false });
+        this.props.getInfo(data);
+      });
     }
 
     reportWindowSize = () => {

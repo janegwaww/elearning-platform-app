@@ -3,9 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import { FixedSizeList, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import withDocumentComponent from "./withDocumentComponent";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
     width: "100%",
@@ -42,7 +44,11 @@ const useStyles = makeStyles({
   listItem: {
     backgroundColor: "#ebebeb",
   },
-});
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#007cff",
+  },
+}));
 
 const Layer = ({ height, width, vector = [0, 0] }) => {
   const classes = useStyles();
@@ -79,6 +85,7 @@ const DocumentComponent = ({
   position = {},
   onItemsRendered,
   itemHeight,
+  loading,
 }) => {
   const classes = useStyles();
   const listRef = useRef(null);
@@ -117,6 +124,9 @@ const DocumentComponent = ({
           </FixedSizeList>
         )}
       </AutoSizer>
+      <Backdrop open={loading} className={classes.backdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };
