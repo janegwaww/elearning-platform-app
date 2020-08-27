@@ -270,8 +270,8 @@ class CreatorHome extends Component {
     const { background } = auth;
 
     return (
-      <StylesProvider generateClassName={generateClassName}>
-        <Layout>
+      <Layout>
+        <StylesProvider generateClassName={generateClassName}>
           <div className="Creator-container" style={{ width: "100%" }}>
             <Helmet title={`Creator | ${config.siteTitle}`} />
             <Container>
@@ -318,8 +318,8 @@ class CreatorHome extends Component {
             </Container>
             <ProgressBar loading={loading} />
           </div>
-        </Layout>
-      </StylesProvider>
+        </StylesProvider>
+      </Layout>
     );
   }
 }
