@@ -33,7 +33,7 @@ const AuthTag = ({ authority }) => {
     authority === 20 && (
       <div className={classes.officetag}>
         <Chip
-          variant="outline"
+          variant="outlined"
           size="small"
           label="官方"
           color="secondary"
