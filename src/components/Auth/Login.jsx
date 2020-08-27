@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Helmet from "react-helmet";
+import { navigate } from "gatsby";
 import {
   makeStyles,
   StylesProvider,
@@ -9,6 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import KEForm from "../KEFormKit/KEForm";
 import { isLoggedIn } from "../../services/auth";
+import { getIdFromHref } from "../../services/utils";
 import config from "../../../data/SiteConfig";
 import backgroundImage from "../../../static/images/login-background-image.png";
 
@@ -31,6 +33,13 @@ const useStyles = makeStyles(() => ({
 const Login = () => {
   const classes = useStyles();
   const logged = isLoggedIn();
+  const { code } = getIdFromHref();
+
+  useEffect(() => {
+    if (logged && !code) {
+      navigate("/users/profile/");
+    }
+  }, []);
 
   return (
     <StylesProvider generateClassName={generateClassName}>
