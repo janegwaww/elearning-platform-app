@@ -50,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   inputRoot: {
     color: "inherit",
+    backgroundColor: "inherit",
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
