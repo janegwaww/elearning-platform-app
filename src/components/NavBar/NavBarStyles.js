@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.main,
     },
-    "& .MuiButton-startIcon": {
+    "& .knav-MuiButton-startIcon": {
       marginLeft: 0,
       marginRight: 0,
     },
