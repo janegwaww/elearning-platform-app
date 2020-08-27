@@ -709,7 +709,7 @@ export default function VideoIndex(props) {
                           _data.append("type", "document");
                           _data.append("file", _file);
                           get_data(_data).then((res) => {
-                            if (res.err == 0 && res.errmsg == "OK") {
+                            if (res.err === 0 ) {
                               let _adjunct = JSON.parse(
                                 JSON.stringify(adjunct)
                               );

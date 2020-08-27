@@ -14,16 +14,15 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import PublicDialog from "../../../../assets/template/PublicDialog";
 import { getObj } from "../../../../assets/js/totls";
-import { get_data ,get_info} from "../../../../assets/js/request";
+import { get_data, get_info } from "../../../../assets/js/request";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
-
 import { navigate } from "@reach/router";
-import useStyles from "./settingsStyle";
+
 
 const Basic = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
   const [uphead, setUphead] = React.useState(false); //打开上传头像弹窗
   const [headerfiles, setHeaderfiles] = React.useState(null); //文件
@@ -40,19 +39,19 @@ const Basic = (props) => {
   const [birth, setBirth] = React.useState(""); //出生年月
   const [userdescribe, setUserdescribe] = React.useState(""); //用户描述
   React.useEffect(() => {
-    get_info().then(res=>{
-      let _data= res;
-        setUserInfo(_data);
-        setSex(_data.gender);
-        setBirth(_data.birthday);
-        setUsername(_data.user_name);
-        setUserdescribe(_data.introduction)
+    get_info().then((res) => {
+      let _data = res;
+      setUserInfo(_data);
+      setSex(_data.gender);
+      setBirth(_data.birthday);
+      setUsername(_data.user_name);
+      setUserdescribe(_data.introduction);
     });
   }, []);
-  
+
   return (
-    <main className="profile-top fn-size-14 all-width">
-      <div className={classes.root}>
+    <main className="profile-top fn-size-14 all-width settings">
+      <div className="root">
         <Grid container spacing={3}>
           <Grid item xs={2} className="text-right">
             头像:
@@ -64,16 +63,13 @@ const Basic = (props) => {
                   ? "url(" + newheaderurl + ")"
                   : "url(" + userInfo.headshot + ")",
               }}
-              className={`text-center bg-not fn-color-white box box-center view-overflow ${classes.usersimg}`}
+              className={`text-center bg-not fn-color-white box box-center view-overflow usersimg`}
               onClick={() => {
                 setUphead(true);
               }}
             >
-              <div
-                className={`all-width all-height ${classes.mask}`}
-                
-              ></div>
-              <div className={classes.masknext}>
+              <div className={`all-width all-height mask`}></div>
+              <div className="masknext">
                 <CameraAltOutlined />
               </div>
             </div>
@@ -140,7 +136,6 @@ const Basic = (props) => {
                     aspectRatio={1}
                     src={headerUrl} // 文件
                     style={{ height: 370, width: 370 }} // 自定义样式
-                   
                     guides={false} // 是否显示九宫格
                     preview=".header-preview" // 设置预览的dom
                   />
@@ -173,9 +168,7 @@ const Basic = (props) => {
                       height: 220,
                       borderRadius: "50%",
                     }}
-                  >
-                  
-                  </div>
+                  ></div>
                   <p className="fn-color-9E9EA6">头像预览</p>
                 </div>
               </div>
@@ -200,11 +193,8 @@ const Basic = (props) => {
                 setUpcover(true);
               }}
             >
-              <div
-                className={`all-width all-height ${classes.mask}`}
-               
-              ></div>
-              <div className={classes.masknext}>
+              <div className={`all-width all-height mask`}></div>
+              <div className="masknext">
                 <BrokenImageOutlined />
                 <p>上传封面</p>
               </div>
@@ -274,8 +264,9 @@ const Basic = (props) => {
           <Grid item xs={10}>
             <TextField
               placeholder={userInfo && userInfo.user_name}
-              className={classes.input}
+              className={`input `}
               value={username}
+              variant="outlined"
               onChange={(ev, value) => {
                 setUsername(ev.target.value);
               }}
@@ -293,7 +284,7 @@ const Basic = (props) => {
           </Grid>
           <Grid item xs={10}>
             <RadioGroup
-              className={classes.radioRoot}
+              className="radio-root"
               value={sex}
               onChange={(ev) => {
                 setSex(ev.target.value);
@@ -311,7 +302,8 @@ const Basic = (props) => {
             <TextField
               type="date"
               value={birth}
-              className={classes.input}
+              variant="outlined"
+              className="input"
               onChange={(ev, value) => {
                 setBirth(ev.target.value);
               }}
@@ -322,13 +314,11 @@ const Basic = (props) => {
           </Grid>
           <Grid item xs={10}>
             <TextField
-              id="outlined-multiline-static"
-              fullWidth
+              variant="outlined"
               multiline
+              fullWidth
               placeholder={(userInfo && userInfo.introduction) || "个人描述"}
               rows={5}
-              variant="outlined"
-              className={classes.input}
               value={userdescribe}
               onChange={(ev) => {
                 setUserdescribe(ev.target.value);
@@ -337,7 +327,7 @@ const Basic = (props) => {
           </Grid>
           <Grid item xs={12} className="text-center">
             <Button
-              className={classes.btn}
+              className="btn"
               variant="contained"
               color="primary"
               onClick={(ev) => {
@@ -364,9 +354,9 @@ const Basic = (props) => {
                     _head.headshot = res.result_data[0].headshot;
                     _head.name = res.result_data[0].name;
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
-                    new CustomModal().alert(res.errmsg+'!', "success", 3000);
+                    new CustomModal().alert(res.errmsg + "!", "success", 3000);
                     setTimeout(() => {
-                      navigate(`/users?url=/users/profile/settings`)
+                      navigate(`/users?url=/users/profile/settings`);
                     }, 3000);
                   } else {
                     new CustomModal().alert("修改失败!", "error", 3000);

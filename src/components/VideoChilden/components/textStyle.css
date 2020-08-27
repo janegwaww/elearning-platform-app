@@ -1,3 +1,4 @@
+@import "../../../assets/css/texttield.css";
 .up-text {
   font-size: inherit;
 }
@@ -38,12 +39,13 @@
 .up-text .main {
   padding: 40px;
   border-radius: 12px;
-  
 }
-.up-text .main .MuiFormControl-fullWidth{
+.up-text .main .MuiFormControl-fullWidth {
   width: 80%;
 }
-.up-text .text-doc span:hover,.up-text .text-doc label:hover,.up-text .login:hover {
+.up-text .text-doc span:hover,
+.up-text .text-doc label:hover,
+.up-text .login:hover {
   cursor: pointer;
 }
 /* .up-text .snackbar {
@@ -58,36 +60,7 @@
   width: 100%;
   font-size: 14px;
 }
-.up-text
-  .root
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
-  border: 2px solid transparent;
-}
-/* .up-text
-  .root
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl legend{
-    display: none;
-  } */
-  /* .up-text
-  .root
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl .MuiSelect-icon{
-    position: static;
-  } */
-.up-text
-  .root
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused {
-  border: 2px solid #007cff;
-}
-.up-text
-  .root
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
-  border-color: white;
-  border-width: 0;
-}
-.up-text .root .MuiOutlinedInput-notchedOutline {
-  top: -4px;
-}
+
 .up-text .root span,
 .up-text .root b {
   display: inline-block;
@@ -143,8 +116,8 @@
 .up-text .root svg {
   vertical-align: middle;
 }
-.up-text .root .MuiSelect-outlined.MuiSelect-outlined{
-  padding-right: 32px; 
+.up-text .root .MuiSelect-outlined.MuiSelect-outlined {
+  padding-right: 32px;
 }
 .up-text .root .MuiFormControlLabel-root {
   min-width: auto;
@@ -152,17 +125,12 @@
 .up-text .root .MuiFormControlLabel-root .MuiRadio-root {
   padding: 0;
 }
-.up-text .root .MuiOutlinedInput-input {
-  padding: 8px 6px;
-  background-color: #fff;
-  font-size: 14px;
-}
 
-.up-text .root .text-right:not(.not-padding){
-  padding-top:24px ;
+.up-text .root .text-right:not(.not-padding) {
+  padding-top: 24px;
 }
-.up-text .root .MuiSelect-outlined.MuiSelect-outlined{
-  padding-right: 32px; 
+.up-text .root .MuiSelect-outlined.MuiSelect-outlined {
+  padding-right: 32px;
 }
 .up-text .root .MuiOutlinedInput-multiline {
   padding: 1px;

@@ -175,7 +175,7 @@ export default function VideoIndex(props) {
                                 _data.append("type", "document");
                                 _data.append("file", _file);
                                 get_data(_data).then((res) => {
-                                  if (res.err == 0 && res.errmsg == "OK") {
+                                  if (res.err == 0 ) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
@@ -184,22 +184,22 @@ export default function VideoIndex(props) {
                                       "success",
                                       2000
                                     );
-                                  } else if (res.err == -1) {
+                                  } else if (res.err == 4006) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: res.errmsg,
+                                      msg: '此文档已发布',
                                     });
-                                  } else if (res.err == 1) {
+                                  } else if (res.err == 4007) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "success",
-                                      msg: "该课件文件已经发布",
+                                      msg: "此课件已上传，未提交",
                                     });
-                                  } else if (res.err == -2) {
+                                  } else if (res.err == 4008) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",

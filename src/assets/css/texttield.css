@@ -1,0 +1,46 @@
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl,
+.settings
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+  border: 2px solid transparent;
+}
+/* .up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl legend{
+    display: none;
+  } */
+/* .up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl .MuiSelect-icon{
+    position: static;
+  } */
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused,
+.settings
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused {
+  border: 2px solid #007cff;
+}
+.up-text
+  .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused
+  .MuiOutlinedInput-notchedOutline,.settings .root
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+  border-width: 0;
+}
+.up-text .root .MuiOutlinedInput-notchedOutline ,.settings .root .MuiOutlinedInput-notchedOutline{
+  top: -4px;
+}
+.up-text .root .MuiOutlinedInput-input, .root .MuiOutlinedInput-input{
+    padding: 8px 6px;
+    background-color: #fff;
+    font-size: 14px;
+  }
+.root .MuiOutlinedInput-multiline {
+      padding: 0;
+  }
