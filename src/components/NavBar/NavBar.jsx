@@ -44,10 +44,10 @@ const PrimarySearchAppBar = () => {
       <AppBar position="fixed">
         <Container>
           <Toolbar className={classes.toolbar}>
+            <Link href="/" className={classes.logoLink}>
+              <img src={logo} alt="logo" />
+            </Link>
             <div className={classes.menus}>
-              <Link href="/" className={classes.logoLink}>
-                <img src={logo} alt="logo" />
-              </Link>
               <Link
                 href="/"
                 color="inherit"
