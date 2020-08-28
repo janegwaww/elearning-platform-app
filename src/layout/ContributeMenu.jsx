@@ -100,7 +100,7 @@ export default function MenuListComposition(props) {
                       className="menuList"
                     >
                       <MenuItem >
-                      <Link color="inherit" target='_blank' underline="none" href={props.title?`/video?page=zhiqing`:`/video`}>上传视频</Link> 
+                      <Link color="inherit" target='_blank' underline="none" href={props.title?`/video/?page=zhiqing`:`/video/`}>上传视频</Link> 
                       </MenuItem>
                       <MenuItem>
                         <Link color="inherit" target='_blank' underline="none" href={props.title?`/video/zhiqingtext`:`/video/uptext`} >上传文本</Link>

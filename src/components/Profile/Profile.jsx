@@ -11,7 +11,7 @@ import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
 import "./layout/Profile.css";
 import './components/settings.css';
-import Drawer from './components/Drawer';
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);

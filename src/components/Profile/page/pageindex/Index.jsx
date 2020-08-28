@@ -12,6 +12,7 @@ import ProgressBar from "../../../../assets/template/ProgressBar";
 import notcoll from "../../../../assets/img/notcoll.png";
 import notvideo from "../../../../assets/img/notvideo.png";
 import nothistory from "../../../../assets/img/nothistory.png";
+
 class ProfileIndex extends React.Component {
   constructor(props) {
     super(props);
