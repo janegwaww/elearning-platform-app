@@ -1,72 +1,36 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import {Button,Link} from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { navigate } from "@reach/router";
 import LoginModal from "../assets/template/LoginModal";
 import { getUser, isLoggedIn } from "../services/auth";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    marginLeft:20,
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-  },
-  lists:{
-    zIndex:20000000
-  },
-  btn: {
-    color: "#fff",
-    borderRadius: 20,
-    backgroundColor: "#007cff",
+import "../assets/css/contributemenu.css";
 
-    "&:hover": {
-      backgroundColor: "#007cff",
-    },
-  },
-  menuList: {
-    padding: "0.625rem 0.75rem",
 
-    "& .MuiMenuItem-root": {
-      fontSize: "0.875rem",
-      color: "#333",
-      paddingLeft: 0,
-      paddingRight: 0,
-      "&:hover": {
-        color: "#666",
-        backgroundColor: "#eee",
-      },
-    },
-  },
-}));
 
 export default function MenuListComposition(props) {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [upStatus, setUpStatus] = React.useState(false);
-  const [isLogin,setIsLogin] =React.useState(false);
+  const [isLogin, setIsLogin] = React.useState(false);
   const handleToggle = () => {
-   
-    if(!isLoggedIn()){
+    if (!isLoggedIn()) {
       setIsLogin(true);
-      return
+      return;
     }
 
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event,pagenum) => {
-   
+  const handleClose = (event, pagenum) => {
     if (event) {
       if (anchorRef.current && anchorRef.current.contains(event.target)) {
-     
         return;
       }
     }
@@ -80,9 +44,8 @@ export default function MenuListComposition(props) {
     }
   }
 
- 
   const prevOpen = React.useRef(open);
-  
+
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
@@ -92,74 +55,63 @@ export default function MenuListComposition(props) {
   }, [open]);
 
   return (
-    <LoginModal open={isLogin} onEvent={(msg)=>{
-      // if(msg.confirm){
-      //   navigate(`/users/login`);
-      // }
-      setIsLogin(false);
-    }}> 
-      <div className={classes.root}>
-        <Button
-          ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          className={classes.btn}
-          onClick={handleToggle}
-        >
-          {props.title}投稿
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          className={classes.lists}
-          role={undefined}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="menu-list-grow"
-                    onKeyDown={handleListKeyDown}
-                    className={classes.menuList}
-                  >
-                    <MenuItem
-                      onClick={(e) => {
-                        if(props.title){
-                          navigate(`/video?page=zhiqing`);
-                          return
-                        }
-                        navigate(`/video`);
-                      }}
+    <LoginModal
+      open={isLogin}
+      onEvent={(msg) => {
+        // if(msg.confirm){
+        //   navigate(`/users/login`);
+        // }
+        setIsLogin(false);
+      }}
+    >
+      <div className="muncon">
+        <div className='root'>
+          <Button
+            ref={anchorRef}
+            aria-controls={open ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            className="btn"
+            onClick={handleToggle}
+          >
+            {props.title}投稿
+          </Button>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            className="lists"
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom",
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="menu-list-grow"
+                      onKeyDown={handleListKeyDown}
+                      className="menuList"
                     >
-                     上传视频
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(e) => {
-                        if(props.title){
-                          navigate(`/video/zhiqingtext`);
-                          return
-                        }
-                        navigate(`/video/uptext`);
-                      }}
-                    >
-                    上传文本
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
+                      <MenuItem >
+                      <Link color="inherit" target='_blank' href={props.title?`/video?page=zhiqing`:`/video`}>上传视频</Link> 
+                      </MenuItem>
+                      <MenuItem>
+                        <Link color="inherit" target='_blank' href={props.title?`/video/zhiqingtext`:`/video/uptext`} >上传文本</Link>
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
       </div>
     </LoginModal>
   );
