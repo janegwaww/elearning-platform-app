@@ -121,7 +121,7 @@ export default function VideoIndex(props) {
                     <Grid item xs={8} sm={9} md={10}>
                       <div className ='box box-align-center box-between' style={{width:'80%'}}>
                         {adjunct ? (
-                          <p>
+                          <p className='text-overflow'>
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
                             <span
                               className="del"
@@ -158,7 +158,7 @@ export default function VideoIndex(props) {
                               className="fn-color-007CFF "
                             >
                               <Add />
-                              点击上传课件
+                              点击上传课件(建议文件是pdf文档)
                             </label>
                             <input
                               type="file"
