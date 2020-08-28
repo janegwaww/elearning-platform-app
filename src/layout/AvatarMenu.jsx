@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   popMenu: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 20,
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -118,7 +121,7 @@ const AvatarMenu = () => {
         classes={{ paper: classes.popOver }}
       >
         <div style={{ position: "relative" }}>
-          <Box p={2.5} className={classes.popMenu}>
+          <Box className={classes.popMenu}>
             <Link
               href="/users/profile/"
               color="inherit"
