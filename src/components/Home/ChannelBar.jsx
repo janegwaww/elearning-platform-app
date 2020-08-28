@@ -100,7 +100,7 @@ const ChannelBar = ({ id = "hots" }) => {
     </div>
   ) : (
     <div>
-      <div className="skeletons">
+      <div className="channel-bar-skeletons">
         {Array.from({ length: 12 }).map((o, i) => (
           <Skeleton key={i} variant="rect" width={48} height={48} />
         ))}

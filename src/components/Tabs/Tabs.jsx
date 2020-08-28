@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   root: {
     borderBottom: "1px solid #f2f2f5",
+    height: 48,
   },
   indicator: {
     display: "flex",
