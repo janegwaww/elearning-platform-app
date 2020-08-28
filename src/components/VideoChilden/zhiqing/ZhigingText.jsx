@@ -9,7 +9,6 @@ import {
   Grid,
   Select,
   FormControl,
-  
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -23,7 +22,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-import PdfTemplate from '../../../assets/templatepdf/template.pdf';
+import PdfTemplate from "../../../assets/templatepdf/template.pdf";
 
 const singsArr = require("../components/field.json");
 
@@ -39,7 +38,7 @@ export default function VideoIndex(props) {
   const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  
+
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
 
@@ -112,13 +111,24 @@ export default function VideoIndex(props) {
               <main>
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right not-padding"
+                    >
+                      <label>
+                        <span className="fn-color-F86B6B">*</span>上传文件：
+                      </label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div className ='box box-align-center box-between' style={{width:'80%'}}>
+                      <div
+                        className="box box-align-center box-between"
+                        style={{ width: "80%" }}
+                      >
                         {adjunct ? (
-                          <p className='text-overflow'>
+                          <p className="text-overflow">
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
                             <span
                               className="del"
@@ -157,7 +167,7 @@ export default function VideoIndex(props) {
                               <Add />
                               点击上传课件(建议文件是pdf文档)
                             </label>
-                            
+
                             <input
                               type="file"
                               id="text-doc"
@@ -175,7 +185,7 @@ export default function VideoIndex(props) {
                                 _data.append("type", "document");
                                 _data.append("file", _file);
                                 get_data(_data).then((res) => {
-                                  if (res.err == 0 ) {
+                                  if (res.err == 0) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
@@ -184,6 +194,12 @@ export default function VideoIndex(props) {
                                       "success",
                                       2000
                                     );
+                                  } else if (res.err == 4003) {
+                                    setOpenSnackbar({
+                                      open: true,
+                                      type: "error",
+                                      msg: res.errmsg,
+                                    });
                                   } else if (res.err == 4007) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
@@ -219,9 +235,11 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
-                        <div className='download-text'>
-                              {/*download={PdfTemplate}*/}
-                            <a href={PdfTemplate} target='_blank' >查看示例</a>
+                        <div className="download-text">
+                          {/*download={PdfTemplate}*/}
+                          <a href={PdfTemplate} target="_blank">
+                            查看示例
+                          </a>
                         </div>
                       </div>
                     </Grid>
@@ -412,11 +430,11 @@ export default function VideoIndex(props) {
                             value={videosign}
                             onChange={(ev) => {
                               let _value = ev.target.value;
-                              if(_value!=videosign){
+                              if (_value != videosign) {
                                 setVideosign(_value);
-                                setField('');
+                                setField("");
                               }
-                              
+
                               if (!_value) {
                                 setField("");
                                 setFieldArr([]);
@@ -467,7 +485,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
-                {/**
+                  {/**
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -504,7 +522,13 @@ export default function VideoIndex(props) {
                   </Grid>
                    */}
                   <Grid container spacing={4} className=" item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right not-padding"
+                    >
                       <label>文件封面：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
@@ -550,7 +574,7 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                {/** 
+                  {/** 
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>文件系列：</label>
@@ -842,7 +866,7 @@ export default function VideoIndex(props) {
                         addseries ||
                         !videoTitle ||
                         !videodescription ||
-                        (!field&&!videosign)
+                        (!field && !videosign)
                           ? true
                           : false
                       }
@@ -876,7 +900,7 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
-                        if (!field&&!videosign) {
+                        if (!field && !videosign) {
                           setOpenSnackbar({
                             open: true,
                             type: "error",
@@ -891,7 +915,9 @@ export default function VideoIndex(props) {
                           file_path: adjunct.file_path,
                           image_path: adjunct.image_path,
                           price: parseFloat(price) || 0,
-                          category: [videosign&&!field?videosign+'99':field],
+                          category: [
+                            videosign && !field ? videosign + "99" : field,
+                          ],
                           author: authorvalueArr,
                           invite: invitation,
                         };
