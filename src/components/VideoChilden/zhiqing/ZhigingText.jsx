@@ -221,7 +221,7 @@ export default function VideoIndex(props) {
                         )}
                         <div className='download-text'>
                               {/*download={PdfTemplate}*/}
-                            <a href={PdfTemplate} target='_blank' >下载示例</a>
+                            <a href={PdfTemplate} target='_blank' >查看示例</a>
                         </div>
                       </div>
                     </Grid>
