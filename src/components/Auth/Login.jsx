@@ -15,6 +15,7 @@ import config from "../../../data/SiteConfig";
 import backgroundImage from "../../../static/images/login-background-image.png";
 
 const generateClassName = createGenerateClassName({
+  disableGlobal: true,
   seed: "kl",
 });
 

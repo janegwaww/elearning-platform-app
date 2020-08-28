@@ -72,7 +72,8 @@
     "url-join": "^4.0.0",
     "url-parse": "^1.4.7",
     "webuploader": "^0.1.8",
-    "yup": "^0.28.3"
+    "video.js": "^7.8.4",
+    "yup": "^0.28.5"
   },
   "devDependencies": {
     "babel-jest": "^25.5.1",
@@ -97,7 +98,6 @@
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^19.0.0",
-    "video.js": "^7.8.4",
     "write-good": "^1.0.1"
   },
   "keywords": [
