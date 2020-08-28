@@ -98,12 +98,7 @@ const ChannelBar = ({ id = "hots" }) => {
     </Box>
   ) : (
     <div>
-      <Box
-        height={80}
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <div className="channel-bar-skeletons">
         {Array.from({ length: 12 }).map((o, i) => (
           <Skeleton key={i} variant="rect" width={48} height={48} />
         ))}
