@@ -1,7 +1,7 @@
 import React from "react";
 import {  navigate } from "@reach/router";
 import { Nav} from "../../components/ProfileNav";
-
+// import '../../components/settings.css';
 
 const Setings = (props) => {
   

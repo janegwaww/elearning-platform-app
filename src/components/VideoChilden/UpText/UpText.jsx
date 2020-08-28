@@ -25,7 +25,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-
+import PdfTemplate from '../../../assets/templatepdf/template.pdf';
 
 const singsArr = require("../components/field.json");
 
@@ -116,12 +116,12 @@ export default function VideoIndex(props) {
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
                     <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label><span className="fn-color-F86B6B">*</span>上传附件：</label>
+                      <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div>
+                      <div >
                         {adjunct ? (
-                          <p>
+                          <p className='text-overflow'>
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
                             <span
                               className="del"
@@ -158,7 +158,7 @@ export default function VideoIndex(props) {
                               className="fn-color-007CFF "
                             >
                               <Add />
-                              点击上传课件
+                              点击上传课件(建议文件是pdf文档)
                             </label>
                             <input
                               type="file"
@@ -177,7 +177,7 @@ export default function VideoIndex(props) {
                                 _data.append("type", "document");
                                 _data.append("file", _file);
                                 get_data(_data).then((res) => {
-                                  if (res.err == 0 && res.errmsg == "OK") {
+                                  if (res.err == 0 ) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
@@ -186,7 +186,7 @@ export default function VideoIndex(props) {
                                       "success",
                                       2000
                                     );
-                                  } else if (res.err == -1) {
+                                  } else if (res.err == 4007) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
@@ -195,17 +195,17 @@ export default function VideoIndex(props) {
                                       type: "error",
                                       msg: res.errmsg,
                                     });
-                                  } else if (res.err == 1) {
-                                    setOpenSnackbar({
-                                      open: true,
-                                      type: "success",
-                                      msg: "该课件文件已经发布",
-                                    });
-                                  } else if (res.err == -2) {
+                                  } else if (res.err == 4006) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: "课件正在审核中...",
+                                      msg: res.errmsg,
+                                    });
+                                  } else if (res.err == 4008) {
+                                    setOpenSnackbar({
+                                      open: true,
+                                      type: "error",
+                                      msg: res.errmsg,
                                     });
                                   } else {
                                     setOpenSnackbar({
@@ -221,6 +221,7 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
+                        
                       </div>
                     </Grid>
                   </Grid>

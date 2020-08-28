@@ -6,13 +6,14 @@ import TextField from "@material-ui/core/TextField";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
 import wechatQrcode from "../../../../../static/images/wechat-qrcode.jpg";
-import useStyles from "./settingsStyle";
+
 
 const Help = (props) => {
-  const classes = useStyles();
+
 
   return (
-    <div>
+    <main className='settings'>
+    <div className='root'>
       <nav>
         <Navbar
           lists={["热门问题", "会员问题", "账号问题", "其他问题"]}
@@ -59,7 +60,7 @@ const Help = (props) => {
           <ExpandMore style={{ verticalAlign: "middle" }} />
         </p>
       </div>
-      <div className={`profile-top ${classes.root}`}>
+      <div className='profile-top'>
         <Grid container>
           <Grid item xs={2} className="text-right fn-color-878791">
             问题描述(选填)：
@@ -71,25 +72,33 @@ const Help = (props) => {
               rows={3}
               multiline
               fullWidth
-              className={classes.input}
+              
             />
           </Grid>
         </Grid>
       </div>
-      <div className={`profile-top ${classes.root}`}>
+      <div className='profile-top'>
         <Grid container>
           <Grid item xs={2} className="text-right fn-color-878791">
             <span className="fn-color-FC3535">*</span>联系方式：
           </Grid>
           <Grid item xs={8}>
-            <TextField
-              placeholder="请输入您的手机号"
-              className={classes.input}
-            />
+          <TextField
+          placeholder="请输入您的手机号"
+         
+      
+          variant="outlined"
+         
+        />
+
+
+
+
+          
           </Grid>
         </Grid>
       </div>
-      <div className={`profile-top ${classes.root}`}>
+      <div className='profile-top' >
         <Grid container>
           <Grid item xs={2} className="text-right fn-color-878791">
             官方微信公众号：
@@ -103,11 +112,12 @@ const Help = (props) => {
         </Grid>
       </div>
       <div className="text-center profile-top">
-        <Button className={classes.btn} variant="contained" color="primary">
+        <Button className='btn' variant="contained" color="primary">
           提交
         </Button>
       </div>
     </div>
+    </main>
   );
 };
 

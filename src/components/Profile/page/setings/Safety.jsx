@@ -1,17 +1,17 @@
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
-import useStyles from "./settingsStyle";
+
 import { get_data,get_info } from "../../../../assets/js/request";
 import "cropperjs/dist/cropper.css";
-import CustomModal from "../../../../assets/js/CustomModal";
+
 
 import { navigate } from "@reach/router";
 
 import ProfileDialog from "../../components/ProFileDialog";
-
+// import CustomModal from "../../../../assets/js/CustomModal";
 const Safety = (props) => {
-  const classes = useStyles();
+ 
   const [userInfo, setUserInfo] = React.useState(null); //保存用户信息
   const [untieData, setUntieData] = React.useState({
     type: "", //weibo//QQ
@@ -128,7 +128,8 @@ const Safety = (props) => {
   }, []);
 
   return (
-    <div className="all-width">
+    <main className='settings'>
+    <div className="all-width root">
       <Grid
         container
         className="fn-color-2C2C3B fn-size-14"
@@ -143,7 +144,7 @@ const Safety = (props) => {
         <Grid item xs={3}>
           <Button
             data-type="phone"
-            className={`${classes.btn1} all-width`}
+            className={`btn1 all-width`}
             variant="outlined"
             color="secondary"
             onClick={bind_btn}
@@ -172,8 +173,8 @@ const Safety = (props) => {
             data-typeid={userInfo&&userInfo.binding_webchat}
             className={
               userInfo&&userInfo.binding_webchat === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1}  all-width`
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
@@ -202,8 +203,8 @@ const Safety = (props) => {
             data-typeid={userInfo&&userInfo.binding_qq}
             className={
               userInfo&&userInfo.binding_qq === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1} all-width`
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
@@ -232,8 +233,8 @@ const Safety = (props) => {
             data-typeid={userInfo&&userInfo.binding_microblog}
             className={
               userInfo&&userInfo.binding_microblog === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1} all-width`
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
@@ -246,6 +247,7 @@ const Safety = (props) => {
 
       <ProfileDialog parent={props} info={untieData} onEvent={untie_click} />
     </div>
+    </main>
   );
 };
 export default Safety;
