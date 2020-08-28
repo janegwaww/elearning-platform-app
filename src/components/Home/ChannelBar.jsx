@@ -73,7 +73,7 @@ const ChannelBar = ({ id = "hots" }) => {
               const cn = id && id === o.id ? "slice-action" : "";
               const href = o.id === "hots" ? "/" : `/channel/?ch=${o.id}`;
               return (
-                <Box
+                <div
                   className={`item ${cn}`}
                   onClick={(e) => handleChannel(e, { href, name: o.name })}
                   key={o.id}
@@ -88,7 +88,7 @@ const ChannelBar = ({ id = "hots" }) => {
                   <Typography noWrap align="center" variant="body2">
                     {o.name}
                   </Typography>
-                </Box>
+                </div>
               );
             })}
           </Slider>
@@ -102,7 +102,7 @@ const ChannelBar = ({ id = "hots" }) => {
         {Array.from({ length: 12 }).map((o, i) => (
           <Skeleton key={i} variant="rect" width={48} height={48} />
         ))}
-      </Box>
+      </div>
       <Divider />
     </div>
   );

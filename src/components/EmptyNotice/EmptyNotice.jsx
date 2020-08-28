@@ -31,24 +31,28 @@ const EmptyNotice = ({ empty = true, type = "404", handleFresh }) => {
   const typeObj = emptyType(type);
 
   return empty ? (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="80vh"
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "80vh",
+        maxWidth: 600,
+        margin: "auto",
+      }}
     >
       <img src={`${typeObj.img}`} alt="error" width="100%" />
-      <Box height={40} />
+      <div style={{ height: 40 }} />
       <Typography color="textSecondary">{typeObj.text}</Typography>
-      <Box height={40} />
+      <div style={{ height: 40 }} />
       <IconButton
         style={{ padding: 0, borderRadius: "50px" }}
         onClick={handleFresh}
       >
         <img src={`${typeObj.but}`} alt="button" width="100%" />
       </IconButton>
-    </Box>
+    </div>
   ) : null;
 };
 
