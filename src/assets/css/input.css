@@ -10,6 +10,7 @@ input[type="radio"] + label::before {
     margin-bottom: 4px;
     border: 1px solid #565663;
     padding: 2px;
+    box-sizing: content-box;
   }
   input[type="radio"]:checked + label::before {
     background-color: #007cff;
@@ -35,6 +36,7 @@ input[type="radio"] + label::before {
     vertical-align: middle;
     margin-right: 5px;
     padding:3px;
+    box-sizing: content-box;
   }
   /*选定时*/
   input[type="checkbox"]:checked + label::before {
