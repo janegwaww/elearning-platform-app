@@ -25,7 +25,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-
+import PdfTemplate from '../../../assets/templatepdf/template.pdf';
 
 const singsArr = require("../components/field.json");
 
@@ -116,10 +116,10 @@ export default function VideoIndex(props) {
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
                     <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label><span className="fn-color-F86B6B">*</span>上传附件：</label>
+                      <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div>
+                      <div className ='box box-align-center box-between' style={{width:'80%'}}>
                         {adjunct ? (
                           <p>
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -221,6 +221,9 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
+                        <div className='download-text'>
+                            <a href={PdfTemplate} target='_blank'>查看示例</a>
+                        </div>
                       </div>
                     </Grid>
                   </Grid>

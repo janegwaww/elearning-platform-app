@@ -23,7 +23,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-
+import PdfTemplate from '../../../assets/templatepdf/template.pdf';
 
 const singsArr = require("../components/field.json");
 
@@ -40,7 +40,6 @@ export default function VideoIndex(props) {
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
   
-
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
 
@@ -114,10 +113,10 @@ export default function VideoIndex(props) {
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
                     <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label><span className="fn-color-F86B6B">*</span>上传附件：</label>
+                      <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div>
+                      <div className ='box box-align-center box-between' style={{width:'80%'}}>
                         {adjunct ? (
                           <p>
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -158,6 +157,7 @@ export default function VideoIndex(props) {
                               <Add />
                               点击上传课件
                             </label>
+                            
                             <input
                               type="file"
                               id="text-doc"
@@ -184,26 +184,26 @@ export default function VideoIndex(props) {
                                       "success",
                                       2000
                                     );
-                                  } else if (res.err == 4006) {
+                                  } else if (res.err == 4007) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: '此文档已发布',
+                                      msg: res.errmsg,
                                     });
-                                  } else if (res.err == 4007) {
+                                  } else if (res.err == 4006) {
                                     setOpenSnackbar({
                                       open: true,
-                                      type: "success",
-                                      msg: "此课件已上传，未提交",
+                                      type: "error",
+                                      msg: res.errmsg,
                                     });
                                   } else if (res.err == 4008) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: "课件正在审核中...",
+                                      msg: res.errmsg,
                                     });
                                   } else {
                                     setOpenSnackbar({
@@ -219,6 +219,10 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
+                        <div className='download-text'>
+                              {/*download={PdfTemplate}*/}
+                            <a href={PdfTemplate} target='_blank' >下载示例</a>
+                        </div>
                       </div>
                     </Grid>
                   </Grid>

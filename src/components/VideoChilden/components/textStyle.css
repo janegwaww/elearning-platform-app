@@ -47,6 +47,7 @@
 .up-text .text-doc label:hover,
 .up-text .login:hover {
   cursor: pointer;
+  color:#0E5BB6;
 }
 /* .up-text .snackbar {
   top: 40%;
@@ -139,4 +140,18 @@
 .up-text .root .MuiInputAdornment-root {
   font-size: 20px;
   color: #d5d5d5;
+}
+
+
+.download-text a{
+background: url('../../../assets/img/template.jpg') no-repeat left center;
+padding: 1px;
+padding-left:28px ;
+background-size:20px 20px ;
+  text-decoration: none;
+  color:#007CFF;
+}
+.download-text a:hover{
+  color:#0E5BB6;
+  background: url('../../../assets/img/template_active.jpg') no-repeat left center;
 }
