@@ -1,0 +1,55 @@
+@import "../../../assets/css/input.css";
+@import '../../../assets/css/texttield.css';
+
+.settings .btn1 {
+  width: 148px;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid #007cff;
+  color: #007cff;
+  font-size: 0.875rem;
+  padding: 0;
+}
+.settings .btn2 {
+  color: #fc5659;
+  border: 1px solid #fc5659;
+}
+.settings .btn {
+  background-color: #007cff;
+  color: white;
+  font-size: 1rem;
+  width: 180px;
+  height: 40px;
+  border-radius: 20px;
+}
+.settings .btn:hover {
+  background-color: #007cff;
+}
+.settings .btn4 {
+  background-color: #f2f2f5;
+  color: #878791;
+}
+
+.settings .radio-root {
+  flex-direction: row !important;
+}
+.settings .radio-root .MuiRadio-root {
+  padding: 0 9px;
+}
+
+.settings .usersimg {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #f3f3f3;
+  position: relative;
+}
+.settings .mask {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+.settings .masknext {
+  position: relative;
+  z-index: 1;
+}

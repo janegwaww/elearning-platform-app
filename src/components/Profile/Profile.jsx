@@ -10,11 +10,11 @@ import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
 import "./layout/Profile.css";
+import './components/settings.css';
 import Drawer from './components/Drawer';
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       userinfo: null,
       is_show: false,
@@ -85,8 +85,6 @@ class Profile extends React.Component {
           _inx = 1;
         }
         break;
-        
-
     }
 
     if (_router) {
