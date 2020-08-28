@@ -67,8 +67,8 @@ const ChannelBar = ({ id = "hots" }) => {
   };
 
   return !loading && cates.length ? (
-    <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
-      <Box className="bar-container">
+    <div className="channel-bar-paper" id="channel-bar-paper-to-back">
+      <div className="bar-container">
         <div className="bar-content">
           <Slider {...slickSetting}>
             {cates.map((o) => {
@@ -95,21 +95,16 @@ const ChannelBar = ({ id = "hots" }) => {
             })}
           </Slider>
         </div>
-      </Box>
+      </div>
       <Divider />
-    </Box>
+    </div>
   ) : (
     <div>
-      <Box
-        height={80}
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <div className="skeletons">
         {Array.from({ length: 12 }).map((o, i) => (
           <Skeleton key={i} variant="rect" width={48} height={48} />
         ))}
-      </Box>
+      </div>
       <Divider />
     </div>
   );
