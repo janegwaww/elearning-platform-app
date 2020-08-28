@@ -71,8 +71,8 @@
     "slick-carousel": "^1.8.1",
     "url-join": "^4.0.0",
     "url-parse": "^1.4.7",
-    "webuploader": "^0.1.8",
     "video.js": "^7.8.4",
+    "webuploader": "^0.1.8",
     "yup": "^0.28.5"
   },
   "devDependencies": {
