@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
@@ -54,20 +53,20 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
 
   const duration = ({ video_time }) =>
     video_time && (
-      <Box className="video-time-tag">
+      <div className="video-time-tag">
         <Typography variant="caption" color="inherit">
           {video_time}
         </Typography>
-      </Box>
+      </div>
     );
 
   const seriesCounts = ({ video_counts }) =>
     video_counts && (
-      <Box className="video-time-tag">
+      <div className="video-time-tag">
         <Typography variant="caption" color="primary">
           {`共${video_counts}课`}
         </Typography>
-      </Box>
+      </div>
     );
 
   useEffect(() => {
@@ -98,7 +97,7 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
               )}
 
               {item ? (
-                <Box className="grid-context-box">
+                <div className="grid-context-box">
                   <Link href={handleLink(item).to} color="textPrimary">
                     {(!!item.title || !!item.video_title) && (
                       <Tooltip placement="top-start" title={item.title}>
@@ -176,13 +175,13 @@ function GridCards({ items = [], loading = false, itemCount = 0 }) {
                       {!!item.pay_counts && `${item.pay_counts} 购买`}
                     </Typography>
                   </div>
-                </Box>
+                </div>
               ) : (
-                <Box pt={1}>
+                <div style={{ paddingTop: 10 }}>
                   <Skeleton />
                   <Skeleton width="60%" />
                   <Skeleton />
-                </Box>
+                </div>
               )}
             </div>
           </Grid>
