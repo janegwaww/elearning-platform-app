@@ -17,7 +17,7 @@ const getUser = () =>
 const axiosInstance = (token = "") =>
   axios.create({
     baseURL: PATH,
-    timeout: 50000,
+    timeout: 30000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${getUser().token}`,
@@ -43,8 +43,26 @@ const fetchMethod = async (url, params) => {
     const response = await axiosInstance().post(url, params);
     return response;
   } catch (error) {
-    console.log(error);
-    return Promise.resolve({});
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+    if (window.confirm(`您好，网络状况不稳定，请重新加载页面!`)) {
+      window.location.reload();
+    }
+    return Promise.resolve({ Error: error.message });
   }
 };
 

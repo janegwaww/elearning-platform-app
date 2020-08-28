@@ -7,6 +7,10 @@ const apisSearch = searchPartApis();
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
   if (![0, "0"].includes(data.err)) {
+    console.log(data.err);
+  }
+  if (odata.Error) {
+    console.log(odata.Error);
   }
   return Promise.resolve(odata);
 };
@@ -26,7 +30,11 @@ export const getLatestSubscription = pipeThen(
 );
 
 // 获取热门视频的最终数据
-export const getHotVideos = pipeThen(getResultData, apisVideo.hotVideo);
+export const getHotVideos = pipeThen(
+  getResultData,
+  errorMessageNotice,
+  apisVideo.hotVideo,
+);
 
 // 获取热门作者的最终数据
 export const getHotAuths = pipeThen(
