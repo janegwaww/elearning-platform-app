@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   person: {
+    display: "flex",
+    marginTop: 20,
     "&>a": {
       display: "flex",
       flexDirection: "column",
@@ -67,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
       width: 24,
       height: 24,
     },
+  },
+  popAvatar: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 20,
   },
 }));
 
@@ -118,14 +125,14 @@ const AvatarMenu = () => {
         classes={{ paper: classes.popOver }}
       >
         <div style={{ position: "relative" }}>
-          <Box className={classes.popMenu}>
+          <div className={classes.popMenu}>
             <Link
               href="/users/profile/"
               color="inherit"
               underline="none"
               onClick={handleMenuClose}
             >
-              <Box display="flex" alignItems="center" mb={2.5}>
+              <div className={classes.popAvatar}>
                 <Avatar
                   src={headshot}
                   alt={name}
@@ -134,10 +141,10 @@ const AvatarMenu = () => {
                 <Typography noWrap component="div">
                   {name}
                 </Typography>
-              </Box>
+              </div>
             </Link>
             <Divider />
-            <Box display="flex" mt={2.5} className={classes.person}>
+            <div className={classes.person}>
               <Link
                 href="/users/profile/dynamic"
                 color="inherit"
@@ -162,8 +169,8 @@ const AvatarMenu = () => {
                 <img src="/images/person.svg" alt="我的收藏" />
                 <Typography variant="caption">个人中心</Typography>
               </Link>
-            </Box>
-          </Box>
+            </div>
+          </div>
 
           <Button
             fullWidth
