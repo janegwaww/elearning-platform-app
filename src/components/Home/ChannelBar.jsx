@@ -7,13 +7,14 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Slider from "react-slick";
 import useSEO from "../SEO/useSEO";
 import { getCategoryList } from "../../services/home";
+import channelList from "./ChannelBarList.json";
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import "./ChannelBar.sass";
 
 const ChannelBar = ({ id = "hots" }) => {
   const [cates, setCates] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const setSEO = useSEO();
   const slickSetting = {
     dots: true,
@@ -45,17 +46,18 @@ const ChannelBar = ({ id = "hots" }) => {
     ],
   };
 
-  const fetchBarIcons = () => {
-    setLoading(true);
-    getCategoryList({}).then((data = []) => {
-      setCates(data);
-      setLoading(false);
-      setSEO({ title: data.filter((o) => o.id === id).name });
-    });
-  };
+  /* const fetchBarIcons = () => {
+   *   setLoading(true);
+   *   getCategoryList({}).then((data = []) => {
+   *     setCates(data);
+   *     setLoading(false);
+   *     setSEO({ title: data.filter((o) => o.id === id).name });
+   *   });
+   * }; */
 
   useEffect(() => {
-    fetchBarIcons();
+    /* fetchBarIcons(); */
+    setCates(channelList);
   }, []);
 
   const handleChannel = (event, { href, name }) => {
