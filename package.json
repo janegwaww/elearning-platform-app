@@ -61,6 +61,7 @@
     "slick-carousel": "^1.8.1",
     "url-join": "^4.0.0",
     "url-parse": "^1.4.7",
+    "video.js": "^7.8.4",
     "yup": "^0.28.5"
   },
   "devDependencies": {
@@ -83,7 +84,6 @@
     "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^19.0.0",
-    "video.js": "^7.8.4",
     "write-good": "^1.0.1"
   },
   "keywords": [
