@@ -119,7 +119,7 @@ export default function VideoIndex(props) {
                       <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div className ='box box-align-center box-between' style={{width:'80%'}}>
+                      <div >
                         {adjunct ? (
                           <p className='text-overflow'>
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -186,26 +186,26 @@ export default function VideoIndex(props) {
                                       "success",
                                       2000
                                     );
-                                  } else if (res.err == 4006) {
+                                  } else if (res.err == 4007) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: '此文档已发布',
+                                      msg: res.errmsg,
                                     });
-                                  } else if (res.err == 4007) {
+                                  } else if (res.err == 4006) {
                                     setOpenSnackbar({
                                       open: true,
-                                      type: "success",
-                                      msg: "此课件已上传，未提交",
+                                      type: "error",
+                                      msg: res.errmsg,
                                     });
                                   } else if (res.err == 4008) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
-                                      msg: "课件正在审核中...",
+                                      msg: res.errmsg,
                                     });
                                   } else {
                                     setOpenSnackbar({
@@ -221,9 +221,7 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
-                        <div className='download-text'>
-                            <a href={PdfTemplate} target='_blank'>查看示例</a>
-                        </div>
+                        
                       </div>
                     </Grid>
                   </Grid>
