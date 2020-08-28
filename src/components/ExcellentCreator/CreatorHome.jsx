@@ -25,6 +25,7 @@ import config from "../../../data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
 
 const generateClassName = createGenerateClassName({
+  disableGlobal: true,
   seed: "kc",
 });
 
