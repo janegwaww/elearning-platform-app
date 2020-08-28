@@ -49,7 +49,12 @@ const PersonAvatar = ({ auth = {} }) => {
         <Avatar
           alt="avatar"
           src={headshot}
-          style={{ marginRight: "8px", height: 60, width: 60 }}
+          style={{
+            marginRight: "8px",
+            height: 60,
+            width: 60,
+            cursor: "pointer",
+          }}
           onClick={() =>
             navigate(`/excellentcreator/creator?cid=${user_id}`, {
               state: { cid: "" },
