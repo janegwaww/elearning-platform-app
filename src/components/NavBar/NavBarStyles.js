@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: "0.875em",
     },
     "&:hover": {
-      backgroundColor: "inherit",
+      backgroundColor: "#f2f2f5",
     },
   },
   searchButton: {
