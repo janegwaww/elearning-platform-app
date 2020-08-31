@@ -16,7 +16,7 @@ const exportHistory = name => {
   return Object.assign(
     {},
     {
-      values: () => [...new Set(state)],
+      values: () => [...new Set(state)].slice(0, 6),
       add(value) {
         if (!value) return;
         state.unshift(value.trim());
@@ -29,7 +29,7 @@ const exportHistory = name => {
         setValues(name, state);
       },
       save() {
-        setValues(name, state);
+        setValues(name, state.slice(0, 6));
       },
     },
   );
