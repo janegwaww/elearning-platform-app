@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
   inputRoot: {
     color: "inherit",
     backgroundColor: "inherit",
+    "&:hover": {
+      backgroundColor: "inherit",
+    },
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
