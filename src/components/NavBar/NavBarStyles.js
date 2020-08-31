@@ -69,6 +69,9 @@ const useStyles = makeStyles(theme => ({
     "&::placeholder": {
       fontSize: "0.875em",
     },
+    "&:hover": {
+      backgroundColor: "inherit",
+    },
   },
   searchButton: {
     padding: "6px 14px",
