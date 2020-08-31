@@ -1,3 +1,7 @@
+@import './container.css';
+@import './input.css';
+@import './texttield.css';
+
 .all-width {
   width: 100%;
   display: block;

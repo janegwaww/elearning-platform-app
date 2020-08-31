@@ -195,7 +195,13 @@ export default function VideoIndex(props) {
                                       type: "error",
                                       msg: res.errmsg,
                                     });
-                                  } else if (res.err == 4006) {
+                                  } else if (res.err == 4003) {
+                                    setOpenSnackbar({
+                                      open: true,
+                                      type: "error",
+                                      msg: res.errmsg,
+                                    });
+                                  }else if (res.err == 4006) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
