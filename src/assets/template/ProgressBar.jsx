@@ -19,9 +19,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
     }
      },
   })); 
-// const styles = {
- 
-// };
+
 
 const ProgressBar = ({ loading = false }) => {
 const classes = useStyles();

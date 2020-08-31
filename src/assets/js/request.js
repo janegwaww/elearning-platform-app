@@ -3,9 +3,8 @@ import { getUser } from "../../services/auth";
 import CustomModal from "./CustomModal";
 import { navigate } from "@reach/router";
 const _path = __dirname;
-const users_url = '192.168.1.191:8181/api/v1/gateway';//http://192.168.1.191:8181/api/v1/gateway; //个中心
+const users_url = "https://api.haetek.com:9191/api/v1/gateway"; //个中心
 const video_url = "https://api2.haetek.com:9191/api/v1/gateway"; //生字幕
-
 // axios.defaults.timeout = 5000;
 axios.defaults.headers = {
   "Content-Type": "application/json",
