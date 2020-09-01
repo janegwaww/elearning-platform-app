@@ -38,15 +38,20 @@ const QrCodeImg = () => (
 );
 
 const ContractUs = () => {
-  const menu = ["联系我们", "关于我们", "用户协议", "隐私政策"];
+  const menu = [
+    { title: "联系我们", href: "" },
+    { title: "关于我们", href: "" },
+    { title: "用户协议", href: "/protocol/" },
+    { title: "隐私政策", href: "/protocol/privateprotocol" },
+  ];
   return (
     <div className="contract-us">
       <ul>
         {menu.map((o) => (
           <li key={o}>
-            <Link>
+            <Link href={o.href}>
               <Typography noWrap variant="body2">
-                {o}
+                {o.title}
               </Typography>
             </Link>
           </li>
