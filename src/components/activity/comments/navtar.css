@@ -5,8 +5,17 @@
    /* height:7.75rem; */
     position: relative;
     padding:2.5rem 0;
-    font-size:1.875rem;
+    font-size:1rem;
     color:white
+}
+.navtar .acti{
+  color:#fcf800;
+  font-size:1.15em;
+  position: relative;
+
+}
+.acti::before{
+  display:'inline-block'
 }
 /* .navtar::before{
     content: "";

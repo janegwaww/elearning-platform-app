@@ -13,7 +13,7 @@ const NavTar = () => {
           <Grid container>
             <Grid item xs={3}>
               <Link href="/activity/" color="inherit" underline='none'>
-                <span>
+                <span className='acti'>
                   首页
                 </span>
               </Link>

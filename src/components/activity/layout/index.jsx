@@ -17,11 +17,12 @@ export default class MainLayout extends React.Component {
       <ThemeProvider theme={theme}>
         <Helmet>
           <meta name="description" content={config.siteDescription} />
-          <meta name="viewport" content="width=device-width" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <html lang="en" />
           <meta http-equiv="Expires" content="0" />
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="Pragma" content="no-cache" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
         </Helmet>
 
         <section
