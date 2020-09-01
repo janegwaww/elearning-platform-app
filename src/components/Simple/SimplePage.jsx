@@ -1,6 +1,6 @@
 import React from "react";
 import Helmet from "react-helmet";
-import Typography from "@material-ui/core/Typography";
+import { Redirect } from "@reach/router";
 import Layout from "../../layout";
 
 const SimplePage = ({ info = {} }) => {
@@ -11,11 +11,7 @@ const SimplePage = ({ info = {} }) => {
         <meta name="keywords" content={info.keywords} />
         <meta name="description" content={info.description} />
       </Helmet>
-      <div>
-        <Typography variant="h6">{info.title}</Typography>
-        <Typography variant="h6">{info.keywords}</Typography>
-        <Typography variant="h6">{info.description}</Typography>
-      </div>
+      <Redirect noThrow to="/" />
     </Layout>
   );
 };
