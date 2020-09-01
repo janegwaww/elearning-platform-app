@@ -32,7 +32,7 @@ const SearchLayout = ({ children }) => {
 
   const handleSearch = () => {
     if (refInput) {
-      navigate(searchUrlParams({ value: refInput }));
+      navigate(searchUrlParams({ value: refInput.trim() }));
     }
     if (!refInput) {
       // 手机端第一次进入默认搜索

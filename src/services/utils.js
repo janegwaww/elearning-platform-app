@@ -1,5 +1,6 @@
 import urlParse from "url-parse";
 import { globalHistory } from "@reach/router";
+import { flow } from "lodash/fp";
 
 const PATH = "http://api.haetek.com:9191";
 
@@ -7,7 +8,7 @@ const PATH = "http://api.haetek.com:9191";
 const pipeM = method => (...fns) => fns.reduce((f, g) => x => g(x)[method](f));
 
 // 数据流
-export const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
+export const pipe = flow;
 
 // promise数据流
 export const pipeThen = pipeM("then");

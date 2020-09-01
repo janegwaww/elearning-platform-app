@@ -1,6 +1,7 @@
 import urlJoin from "url-join";
 import axios from "axios";
-import { pipe, wrapCamelName } from "./utils";
+import flow from "lodash/fp/flow";
+import { wrapCamelName } from "./utils";
 
 // 接口路径
 export const PATH = "https://api.haetek.com:9191";
@@ -14,7 +15,7 @@ const getUser = () =>
     : {};
 
 // 创建请求方法
-const axiosInstance = (token = "") =>
+const axiosInstance = () =>
   axios.create({
     baseURL: PATH,
     timeout: 30000,
@@ -121,8 +122,8 @@ export const authApis = () => {
     // 视频收藏
     "video_collect",
   ];
-  const getParam = pipe(extraParam("user"))(modelActions);
-  const getApis = pipe(
+  const getParam = flow(extraParam("user"))(modelActions);
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )(modelActions);
@@ -173,8 +174,8 @@ export const videoApis = () => {
     "series_search",
     "documents_search",
   ];
-  const getParam = pipe(extraParam("video"))(modelActions);
-  const getApis = pipe(
+  const getParam = flow(extraParam("video"))(modelActions);
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )(modelActions);
@@ -218,10 +219,10 @@ export const searchPartApis = () => {
     "search_history",
   ].reduce(
     (acc, cur, idx) =>
-      Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
+      Object.assign(acc, flow(extraParam(cur))(modelActionsArr[idx])),
     {},
   );
-  const getApis = pipe(
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )([].concat.apply([], modelActionsArr));
