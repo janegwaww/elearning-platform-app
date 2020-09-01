@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
+import { navigate } from "gatsby";
 import EmptypNotice from "./EmptyNotice";
 import { getIdFromHref } from "../../services/utils";
 
@@ -14,10 +14,11 @@ const withId = (WrapComponent) => {
       this.verifyId();
     }
 
-    handleAction = () => navigate("/");
-
     verifyId = () => {
       const { vid, did, dsid, sid, cid } = getIdFromHref();
+      if (!(vid || did || dsid || sid || cid)) {
+        navigate("/");
+      }
       this.setState({ id: vid || did || dsid || sid || cid });
     };
 

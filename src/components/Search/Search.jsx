@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
+import { flow, slice, map } from "lodash/fp";
 import SearchCard from "./SearchCard";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "../Loading/ProgressBar";
@@ -12,18 +13,19 @@ import { searchUrlParams } from "../../services/utils";
 import "./SearchStyles.sass";
 
 const iterateItems = (arr = [], input) => {
-  // iterate there
-  return arr.slice(0, 12).map((o, i) => (
+  const card = (o, i) => (
     <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
       <SearchCard card={o} />
     </div>
-  ));
+  );
+  return flow(slice(0, 12), map.convert({ cap: false })(card))(arr);
 };
 
 const Search = ({ input, page = 1, type = "all" }) => {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState(0);
+  const [queryWords, setQueryWords] = useState("");
 
   // fetch data from api
   const fetchSearchResult = () => {
@@ -38,6 +40,7 @@ const Search = ({ input, page = 1, type = "all" }) => {
       setResult(resultData);
       setNum(count);
       setLoading(false);
+      setQueryWords(input);
     });
   };
 
@@ -61,7 +64,7 @@ const Search = ({ input, page = 1, type = "all" }) => {
       <Typography
         noWrap
         dangerouslySetInnerHTML={{
-          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
+          __html: `${num}个<span style='color: #007cff'>${queryWords}</span>相关的`,
         }}
       />
       <div style={{ height: 10 }} />

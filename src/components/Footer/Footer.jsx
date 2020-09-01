@@ -48,7 +48,7 @@ const ContractUs = () => {
     <div className="contract-us">
       <ul>
         {menu.map((o) => (
-          <li key={o}>
+          <li key={o.title}>
             <Link href={o.href}>
               <Typography noWrap variant="body2">
                 {o.title}
