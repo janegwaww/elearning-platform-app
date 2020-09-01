@@ -5,6 +5,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
 import CardMedia from "@material-ui/core/CardMedia";
+import flow from "lodash/fp/flow";
 import Bull from "./Bull";
 import Link from "../Link/Link";
 import CardTag from "../GridCards/CardTag";
@@ -12,7 +13,6 @@ import AuthTag from "../GridCards/AuthTag";
 import {
   secondsToDate,
   secondsToHMS,
-  pipe,
   decoratedStr,
 } from "../../services/utils";
 import "./SearchCardStyles.sass";
@@ -313,8 +313,7 @@ const SearchCard = ({ card = {} }) => {
       document: docContainer({ data, match_frame }),
       documents: docSeriesContainer({ data, match_frame }),
     }[source]);
-  const Card = pipe(chosenCard);
-  return <div className="global-search-card">{Card(card)}</div>;
+  return <div className="global-search-card">{flow(chosenCard)(card)}</div>;
 };
 
 export default SearchCard;
