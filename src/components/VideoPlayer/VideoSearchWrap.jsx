@@ -43,7 +43,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     if (path) {
       setShowButton(false);
     } else {
-      enqueueSnackbar("本视频没有字募～", { variant: "info" });
+      enqueueSnackbar("本视频没有字幕～", { variant: "info" });
     }
   };
 
