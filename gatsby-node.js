@@ -3,21 +3,14 @@
 const path = require("path");
 const _ = require("lodash");
 
-exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions;
-};
+exports.createPages = async ({ actions: { createPage } }) => {
+  const simplePages = require("./src/components/Simple/helmetInfo.json");
 
-exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html") {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /reactjs-pdf-reader/,
-            use: loaders.null()
-          }
-        ]
-      }
+  simplePages.forEach((item, i) => {
+    createPage({
+      path: `/seopages/simple${i}`,
+      component: require.resolve("./src/components/Simple/SimplePage.jsx"),
+      context: { item },
     });
-  }
+  });
 };

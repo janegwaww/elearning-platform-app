@@ -4,20 +4,20 @@ import { Redirect } from "@reach/router";
 import Link from "@material-ui/core/Link";
 import Layout from "../../layout";
 
-const SimplePage = ({ info = {} }) => {
+const SimplePage = ({ pageContext: { item } }) => {
   return (
     <Layout>
       <Helmet defer={false}>
-        <title>{`${info.title}`}</title>
-        <meta name="keywords" content={info.keywords} />
-        <meta name="description" content={info.description} />
+        <title>{`${item.title}`}</title>
+        <meta name="keywords" content={item.keywords} />
+        <meta name="description" content={item.description} />
       </Helmet>
-      <Redirect noThrow to="/" />
+      {/* <Redirect noThrow to="/" /> */}
       <div>
         <div style={{ visibility: "hidden" }}>
-          <div>{info.title}</div>
-          <div>{info.keywords}</div>
-          <div>{info.description}</div>
+          <div>{item.title}</div>
+          <div>{item.keywords}</div>
+          <div>{item.description}</div>
         </div>
 
         <Link href="/" color="secondary">
