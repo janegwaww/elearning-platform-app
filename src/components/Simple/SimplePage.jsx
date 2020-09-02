@@ -12,7 +12,7 @@ const SimplePage = ({ pageContext: { item } }) => {
         <meta name="keywords" content={item.keywords} />
         <meta name="description" content={item.description} />
       </Helmet>
-      {/* <Redirect noThrow to="/" /> */}
+      <Redirect noThrow to="/" />
       <div>
         <div style={{ visibility: "hidden" }}>
           <div>{item.title}</div>
