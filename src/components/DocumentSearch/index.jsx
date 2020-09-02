@@ -7,6 +7,9 @@ import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
 import { getUser } from "../../services/auth";
 import { getIdFromHref } from "../../services/utils";
+import { likeTheVideo } from "../../services/video";
+import { isLoggedIn } from "../../services/auth";
+import { useLoginConfirm } from "../LoginConfirm";
 import "./index.sass";
 
 const api = "https://api.haetek.com:9191/api/v1/gateway";
@@ -42,6 +45,7 @@ const DocumentSearch = () => {
   const [page, setPage] = useState(1);
   const [scale, setScale] = useState(5);
   const docComRef = useRef(null);
+  const loginConfirm = useLoginConfirm();
 
   const handlePosition = (vector) => {
     setPosition(vector);
@@ -61,6 +65,22 @@ const DocumentSearch = () => {
       // 未登录处理
       alert("您未登录...");
     }
+  };
+
+  const handleLike = () => {
+    const value = info.is_like ? 0 : 1;
+    likeTheVideo({ relation_id: [dsid], value, type: "document" }).then(
+      (data) => {
+        if (data) {
+          setInfo((prev) => ({
+            ...prev,
+            is_like: value,
+            like_counts: value ? prev.like_counts + 1 : prev.like_counts - 1,
+          }));
+        }
+        !isLoggedIn() && loginConfirm();
+      },
+    );
   };
 
   const showSearch = () => {
@@ -87,6 +107,7 @@ const DocumentSearch = () => {
         handleClick={showSearch}
         handleDownload={handleDownload}
         handleScale={handleScale}
+        handleLikeClick={handleLike}
       />
 
       <SearchComponent

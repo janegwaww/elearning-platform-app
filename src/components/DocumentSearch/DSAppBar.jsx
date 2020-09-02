@@ -12,6 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import UserLikeHeart from "../Introduction/UserLikeHeart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,7 @@ const DocumentSearchAppBar = ({
   handleClick,
   handleDownload,
   handleScale,
+  handleLikeClick,
 }) => {
   const classes = useStyles();
   const { file_name = "标题", image_list = [] } = info;
@@ -60,6 +62,7 @@ const DocumentSearchAppBar = ({
                 <Typography
                   noWrap
                   color="primary"
+                  className={classes.scale}
                 >{`${page} / ${image_list.length}`}</Typography>
 
                 <Box display="flex" alignItems="center">
@@ -85,6 +88,12 @@ const DocumentSearchAppBar = ({
                   <IconButton onClick={handleDownload}>
                     <GetAppIcon style={{ color: "#fff" }} />
                   </IconButton>
+                  <UserLikeHeart
+                    likeCounts={info.like_counts}
+                    like={info.is_like}
+                    handleClick={handleLikeClick}
+                    style={{ color: "#fff" }}
+                  />
                 </Box>
               </Box>
             </Container>
