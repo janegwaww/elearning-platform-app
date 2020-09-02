@@ -60,6 +60,7 @@ const DocumentSearchAppBar = ({
                 <Typography
                   noWrap
                   color="primary"
+                  className={classes.scale}
                 >{`${page} / ${image_list.length}`}</Typography>
 
                 <Box display="flex" alignItems="center">

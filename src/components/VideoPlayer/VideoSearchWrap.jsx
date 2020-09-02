@@ -6,7 +6,6 @@ import {
   InputBase,
   InputAdornment,
   ButtonBase,
-  IconButton,
 } from "@material-ui/core";
 import useQueryMedia from "@material-ui/core/useMediaQuery";
 import ClearIcon from "@material-ui/icons/Clear";
