@@ -56,7 +56,7 @@ public/
 public.zip
 publicbar/
 package-lock.json
-
+static/watch_vid
 
 # Gatsby context
 .gatsby-context.js
