@@ -8,14 +8,32 @@
     font-size:1rem;
     color:white
 }
+
+.navtar span:hover{
+  cursor: pointer;
+}
 .navtar .acti{
   color:#fcf800;
   font-size:1.15em;
   position: relative;
-
+}
+.acti::before,.acti::after{
+  display:'inline-block';
+  content:'';
+  width:0.5rem;
+  height: 0.5rem;
+  border:1px solid #fcf800;
+  position: absolute;
+  
+  top:50%;
+  transform:translateY(-50%);
+  border-radius: 50%;
 }
 .acti::before{
-  display:'inline-block'
+  left: -2.5rem;
+}
+.acti::after{
+  right: -2.5rem;
 }
 /* .navtar::before{
     content: "";

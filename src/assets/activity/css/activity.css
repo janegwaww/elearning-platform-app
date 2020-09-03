@@ -1,28 +1,161 @@
-img {
+.activity img {
   display: block;
   width: 100%;
   height: auto;
 }
-p{
+.activity .file:hover {
+  cursor: pointer;
+}
+.activity p {
   padding: 0;
-  margin:0;
+  margin: 0;
   line-height: 1.25;
   font-family: 微软雅黑;
 }
 
-@media (max-width: 600px){
-  .navtar{
+@media (max-width: 600px) {
+  .navtar {
     font-size: 0.875rem !important;
   }
 }
-@media (min-width: 750px){
-  .navtar{
+@media (min-width: 750px) {
+  .navtar {
     font-size: 1.5rem !important;
   }
 }
 
-@media (min-width: 1280px){
-  .navtar{
+@media (min-width: 1280px) {
+  .navtar {
     font-size: 1.875rem !important;
   }
+}
+
+.activity .figure {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 150000;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+.activity .figure > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.activity .figure > div > div {
+  width: 59.1%;
+  height: 92%; 
+   background:url(../img/figureBg.png) no-repeat left top;
+  background-size: 100% 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 383px;
+}
+.activity .figure > div > div > div {
+  width: 73.1%;
+  height: 81%;
+  background: #fff;
+  position: absolute;
+  left: 10.5%;
+  top: 10.7%;
+  box-shadow: 0px 0px 19px 0px rgba(32, 32, 32, 0.1);
+  border-radius: 13px;
+  border: 6px solid #260d4b;
+  overflow: hidden;
+  /* overflow-y: auto; */
+  padding: 5%;
+}
+.activity .figure .head {
+  width: 232px;
+  height: 232px;
+  margin: 0 auto;
+  
+  border: 6px solid #260d4b;
+  border-radius: 50%;
+  padding: 0.75rem;
+  
+}
+.activity .figure .head div{
+  width:100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.activity .figure .close{
+  display:inline-block;
+  position: absolute;
+  left: 86%;
+  top:33px;
+  transform:translateX(-50%);
+  background-color: white;
+  width:55px;
+  height:55px;color:#260d4b;
+  line-height: 55px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 16px;
+  
+}
+.activity .figure .figurename {
+  background-color: #260d4b;
+  width: 26.6%;
+  height: 4.4375rem;
+  color:#fff;
+  font-size: 1.5rem;
+font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
+font-weight: bold;
+overflow: hidden;
+line-height: 32px;
+transform: translateX(15px);
+position: relative;
+z-index: 10;
+
+letter-spacing: 5px;
+-webkit-clip-path: polygon(0% 0%, 95% 0%, 100% 100%, 100% 0%, 100% 100%, 0% 100%, 0% 100%);
+}
+/* .activity .figure .figurename div{
+  width:100px;
+  height:80px;
+  position: absolute;
+  transform-origin: right bottom;
+  transform: skewY(80deg) translateY(100%);
+  right: 0;
+  bottom: 101%;
+  background-color: white;
+} */
+.activity .figure .figurentitle{
+ width:63%;
+ min-height: 5.75rem;
+ border: 4px solid #260D4B;
+font-size: 1.25rem;
+font-family: MicrosoftYaHei;
+color: #2C2C3B;
+line-height: 1.875;
+padding:2% 5%;
+position: relative;
+overflow: hidden;
+/* border-bottom: none; */
+z-index: 9;
+}
+/* .activity .figure .figurentitle div{
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  border-bottom: 4px solid #260D4B;
+  
+  transform: skewY(1deg);
+  left:-10px;
+  top:-3px;
+} */
+.activity .figure .ma-header + div {
+  font-size: 1.5rem;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #2c2c3b;
+  line-height: 2;
+  overflow-y: auto;
 }

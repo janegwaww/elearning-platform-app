@@ -21,31 +21,3 @@
     vertical-align: middle;
     margin-right: 0.625rem;
 }
-/* .alert div span{
-    position: absolute;
-    right: -25px;
-    top:-5px;
-    display: inline-block;
-    line-height: 30px;
-    width:30px;
-    height: 30px;
-    text-align: center;
-    border-radius: 50%;
-    transition: all 0.3s;
-<<<<<<< HEAD
-   
-=======
->>>>>>> develop
-} */
-/* .alert div span:hover{
-    cursor: pointer;
-    background-color:#f8f8f9;
-} */
-/* .success{
-    color: rgb(30, 70, 32);
-    background-color: rgb(237, 247, 237);
-}
-.error{
-    color: rgb(97, 26, 21);
-    background-color: rgb(253, 236, 234);
-} */
