@@ -78,7 +78,7 @@ const DocumentSearch = () => {
             like_counts: value ? prev.like_counts + 1 : prev.like_counts - 1,
           }));
         }
-        !isLoggedIn() && loginConfirm();
+        !isLoggedIn() && alert("您未登录!");
       },
     );
   };
@@ -117,9 +117,9 @@ const DocumentSearch = () => {
         onClose={showSearch}
       />
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" disableGutters>
         <Grid container justify={show ? "center" : "flex-end"}>
-          <Grid item xs={12} lg={show ? scale : 7}>
+          <Grid item xs={12} md={show ? scale : 7}>
             <DocumentComponent
               ref={docComRef}
               id={dsid}
