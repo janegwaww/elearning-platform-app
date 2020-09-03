@@ -6,7 +6,7 @@ import ChipArray from "../Introduction/ChipArray";
 const IntroductionText = ({ text }) => {
   return (
     <Paper elevation={4} style={{ boxShadow: "none", padding: "20px 0" }}>
-      <Typography variant="body2" component="p">
+      <Typography variant="body2" component="pre">
         {text.description}
       </Typography>
       <br />

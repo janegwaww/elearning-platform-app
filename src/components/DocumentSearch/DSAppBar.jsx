@@ -102,7 +102,6 @@ const DocumentSearchAppBar = ({
           handleClick={handleLikeClick}
           style={{ color: "#232325" }}
         />
-        <span>点赞</span>
       </MenuItem>
     </Menu>
   );

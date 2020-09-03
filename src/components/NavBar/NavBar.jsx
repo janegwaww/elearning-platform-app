@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
-import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
 
@@ -44,7 +43,7 @@ const PrimarySearchAppBar = () => {
         <Container>
           <Toolbar className={classes.toolbar}>
             <Link href="/" className={classes.logoLink}>
-              <img src={logo} alt="logo" />
+              <img src="/logos/logo.svg" alt="logo" />
             </Link>
             <div className={classes.menus}>
               <Link

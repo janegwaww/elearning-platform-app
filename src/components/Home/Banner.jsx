@@ -1,7 +1,8 @@
 import React from "react";
 import { navigate } from "gatsby";
+import Img from "gatsby-image";
 
-const Banner = () => {
+const Banner = ({ data }) => {
   const handleClick = () => {
     if (false) {
       navigate("/");
@@ -18,11 +19,10 @@ const Banner = () => {
       }}
       onClick={handleClick}
     >
-      <img
-        src="../../../images/zhiqingbei.png"
+      <Img
+        fixed={data.file.childImageSharp.fixed}
         alt="banner"
-        width="100%"
-        height="auto"
+        style={{ width: "100%", height: 480 }}
       />
     </div>
   );
