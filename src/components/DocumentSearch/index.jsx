@@ -78,7 +78,7 @@ const DocumentSearch = () => {
             like_counts: value ? prev.like_counts + 1 : prev.like_counts - 1,
           }));
         }
-        !isLoggedIn() && loginConfirm();
+        !isLoggedIn() && alert("您未登录!");
       },
     );
   };
