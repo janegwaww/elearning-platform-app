@@ -19,7 +19,7 @@ import bgtop2 from "../../../assets/activity/img/bgtop2.png";
 import title from "../../../assets/activity/img/title.png";
 import lefttop from "../../../assets/activity/img/detail/lefttop.png";
 import leftbottom from "../../../assets/activity/img/detail/leftbottom.png";
-import rightmiddle from "../../../assets/activity/img/detail/rightmiddle.png";
+// import rightmiddle from "../../../assets/activity/img/detail/rightmiddle.png";
 
 import LoginModal from "../../../assets/template/LoginModal";
 import MenuBar from "../comments/MenuBar";
@@ -27,8 +27,9 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import activityPDF from "../../../assets/templatepdf/activity.pdf";
 import figureImg from "../../../assets/activity/img/figureBg.png";
 import { get_data } from "../../../assets/js/request";
-import {getObj,getStyles} from '../../../assets/js/totls';
 
+import {is_phone} from '../../../assets/js/totls';
+import CustomModal from '../../../assets/js/CustomModal';
 class Pagedetail extends React.Component {
   constructor(props) {
     super(props);
@@ -59,8 +60,6 @@ class Pagedetail extends React.Component {
       this.setState({
         figure_data: res.result_data,
       });
-
-      console.log(res);
     });
   }
   componentWillUnmount() {
@@ -70,10 +69,13 @@ class Pagedetail extends React.Component {
     this.setState({
       contest_w: document.getElementById("contest-judges").clientWidth,
     });
-    let w = document.documentElement.clientWidth;
-
-    let size = (16 / 1920) * w;
-    document.querySelector("html").style.fontSize = size + "px";
+    // let w = document.documentElement.clientWidth;
+    // if(w>750){
+    //   w=750
+    // };
+    // let size = w/16 ;
+    // // document.querySelector("html").style.fontSize = size + "px";
+    // console.log(size)
   }
   render() {
     let {
@@ -84,11 +86,11 @@ class Pagedetail extends React.Component {
       figure_data,
       figure_item,
     } = this.state;
-    console.log(contest_w);
+   
     return (
       <div>
         <div
-          className="all-width"
+          className="all-width "
           style={{
             backgroundImage: `url(${Bgimg})`,
             backgroundSize: "100% 100%",
@@ -119,6 +121,10 @@ class Pagedetail extends React.Component {
             <div
               className="all-width"
               onClick={() => {
+                if(is_phone()){
+                  new CustomModal().alert('此操作请在pc端打开','success',2000);
+                  return
+                }
                 if (!isLoggedIn()) {
                   this.setState({
                     is_login: true,
@@ -144,20 +150,20 @@ class Pagedetail extends React.Component {
             </div>
           </LoginModal>
           <img src={Four} alt="" />
-          <div className="all-width" id="contest-judges">
+          <div className="all-width contestcar" id="contest-judges">
             <div
               className="bg-not text-center"
               style={{
-                width: "28%",
-                height: contest_w * 0.28 * 0.3,
+                width: "10.8em",
+                height: '2.9em',
                 backgroundImage: `url(${title})`,
                 position: "absolute",
                 left: "50%",
-                top: "-0.6rem",
+                top: "-0.3em",
                 transform: "translateX(-50%)",
                 color: "#4E07BA",
-                fontSize: "3.25rem",
-                lineHeight: contest_w * 0.28 * 0.3 + "px",
+                fontSize: "0.5em",
+                lineHeight: '2.9em',
                 fontWeight: "bold",
                 zIndex: 20,
               }}
@@ -187,6 +193,7 @@ class Pagedetail extends React.Component {
                   top: contest_w * 0.73 * 0.1,
                   width: "34%",
                   height: "auto",
+                  transform:'rotate(180deg)'
                 }}
                 alt=""
               />
@@ -198,17 +205,19 @@ class Pagedetail extends React.Component {
                   bottom: -contest_w * 0.73 * 0.05,
                   width: "18.7%",
                   height: "auto",
+                  transform:'rotate(90deg)'
                 }}
                 alt=""
               />
               <img
-                src={rightmiddle}
+                src={leftbottom}
                 style={{
                   width: "29%",
                   height: "auto",
                   right: "-5%",
                   top: "40%",
                   position: "absolute",
+                  transform:'rotate(80deg)'
                 }}
                 alt=""
               />
@@ -239,20 +248,23 @@ class Pagedetail extends React.Component {
                     }}
                     className="bg-white"
                   >
-                    <Grid container spacing={3}>
+                    <Grid container spacing={1}>
                       {figure_data.map((op, inx) => (
                         <Grid
                           item
-                          xs={12}
-                          sm={6}
-                          md={4}
+                          xs={4}
+                         
                           key={op.name}
                           onClick={() => {
+                            if(is_phone()){
+                              return
+                            }
                             this.setState({
                               figure_item: figure_data[inx],
                               head_w: document.querySelector(".head.figurehead").clientWidth,
                             });
                           }}
+                          className='contestcar'
                         >
                           <ContestCar info={op} />
                         </Grid>
@@ -268,11 +280,11 @@ class Pagedetail extends React.Component {
         </div>
         <Footer />
        
-          <div className="figure" style={{display:figure_item?'block':'none'}}>
-            <div>
-              <div>
+          <div className="figure " style={{display:figure_item?'block':'none'}}>
+            <div >
+              <div className='contestcar'>
                 <span
-                  className="close"
+                  className="close "
                   onClick={() => {
                     this.setState({ figure_item: null });
                   }}
@@ -280,32 +292,31 @@ class Pagedetail extends React.Component {
                   <Close />
                 </span>
                 {/*<img src={figureImg} style={{ width: "100%", height: "auto" }} />*/}
-                <div className="ma-container is-vertical" id='headBox'>
-                  <div className="ma-header all-width">
+                <div className="ma-container is-vertical contestcar" id='headBox'>
+                  <div className="ma-header all-width contestcar">
                     <div
-                      className="head figurehead  " id='figurehead'>
+                      className="head figurehead " id='figurehead'>
                      
                       <div className='bg-all'  style={{backgroundImage:`url(${figure_item&&figure_item.headshot})`,backgroundColor:'#e8e8e8'}}></div>
                     
                     </div>
-                    <div className="box box-align-center box-center">
-                      <div className="figurename box box-center box-align-center">
-                        {figure_item&&figure_item.name} <div></div>
+                    <div className="box box-align-center box-center contestcar">
+                      <div className="figurename box box-center box-align-center" >
+                        {figure_item&&figure_item.name} 
                       </div>
                       <div className="figurentitle">
                         {figure_item&&figure_item.label.map((v, inx) => (
-                          <p key={inx}>· {v}</p>
+                          <p key={inx} title={v}>· {v}</p>
                         ))}
 
-                        <div></div>
+                        
                       </div>
                     </div>
                   </div>
                   <div
-                    className="ma-main view-scroll"
-                    style={{ marginTop: "3rem" }}
+                    className="ma-main view-scroll contestcar"
                   >
-                    {figure_item&&figure_item.introduction}
+                    <p> {figure_item&&figure_item.introduction}</p>
                   </div>
                 </div>
               </div>

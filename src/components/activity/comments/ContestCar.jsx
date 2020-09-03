@@ -2,11 +2,11 @@ import React from "react";
 
 const ContestCar = (props) => {
   return (
-    <div style={{ marginTop: "2.5rem" }}>
+    <div style={{ marginTop: "0.4em" }} className='contestcar'>
       <div
         style={{
-          width: "12.5rem",
-          height: "12.5rem",
+          width: "2em",
+          height: "2em",
           borderRadius: "50%",
           margin: "0 auto",
           backgroundColor:'#eee',
@@ -16,7 +16,7 @@ const ContestCar = (props) => {
       ></div>
       <div
         style={{
-          fontSize: "1.25rem",
+          
           fontFamily: "MicrosoftYaHei",
           color: "#2C2C3B",
 
@@ -27,13 +27,13 @@ const ContestCar = (props) => {
         <div
           style={{
             fontWeight: "bold",
-            fontSize: "1.5rem",
-            padding: "20px 0 12px 0",
+            fontSize: "0.24em",
+            padding: "0.84em 0 0.5em 0",
           }}
         >
           {props.info.name}
         </div>
-        <div>
+        <div style={{fontSize:'0.2em'}}>
           {props.info.label.map((v, inx) => (
             <p key={inx}>{v}</p>
           ))}

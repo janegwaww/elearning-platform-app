@@ -7,6 +7,8 @@ import BananerImg3 from "../../../assets/activity/img/banner/banner3.png";
 import LoginModal from "../../../assets/template/LoginModal";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import MenuBar from './MenuBar';
+import {is_phone} from '../../../assets/js/totls';
+import CustomModal from '../../../assets/js/CustomModal';
 const Bananer = () => {
     const [isLogin,setIsLogin]=React.useState(false);
     const [meun,setMeun]=React.useState(false);
@@ -26,6 +28,11 @@ const Bananer = () => {
         }}
       >
       <div className="all-width" onClick={()=>{
+        if(is_phone()){
+          new CustomModal().alert('此操作请在pc端打开','success',2000);
+          return
+        }
+        
           if(!isLoggedIn()){
               setIsLogin(true);
            
@@ -39,12 +46,12 @@ const Bananer = () => {
           className="all-width file"
           style={{ height: "auto" }}
         />
-        {meun&&(
+       {meun&&( 
             
         <MenuBar onEvent={()=>{
             setMeun(false)
         }} />
-        )}
+    )} 
         </div>
         
       </LoginModal>

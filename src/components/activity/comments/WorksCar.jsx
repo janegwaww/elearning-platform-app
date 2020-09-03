@@ -5,64 +5,71 @@ import {
   AccessTimeOutlined,
 } from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar";
+import Link from "@material-ui/core/Link";
 import One from "../../../assets/activity/img/all/8.png";
 import Two from "../../../assets/activity/img/all/9.png";
 import three from "../../../assets/activity/img/all/10.png";
+import {get_date} from '../../../assets/js/totls';
 
-const WordsCar = () => {
+const WordsCar = (props) => {
   return (
-    <div className="all-width">
+    <div>
+    <Link  color="inherit"
+    target="_blank"
+    underline="none"
+    href={props.info.type=='document'?'/documentsearch/?dsid='+props.info.file_id:'/watch/?vid='+props.info.file_id}>
+    <div className="all-width contestcar">
       <div
         style={{
-          height: "10.625rem",
+          height: "1.7em",
           background: "#D8D8D8",
           boxShadow: "0px 0px 8px 0px rgba(32, 32, 32, 0.1)",
-          borderRadius: '12px 12px 0 0',
+          borderRadius: '0.12em ',
           margin: "0 auto",
         }}
         className='view-overflow'
       >
         <img
           style={{
-            height: "100%",
+            height: '100%',
             width: "auto",margin:'0 auto'
           }}
-          src="https://videos.haetek.com/f977a5091dd24c5baade08b6a0968239/snapshots/131b07f790184da6912befdb7de2656d-00005.jpg"
+          src={props.info.image_path}
           alt=""
         />
       </div>
 
-      <div style={{ padding: 20 }}>
-        <div className="textview-overflow two">
-          Python 数据分析与展示(2020年版)析与展示(2020析与展示(2020年版)析与
-          Python 数据分析与展示(2020年版)析
+      <div style={{ padding:'0.2em' }}>
+        <div className="textview-overflow two" style={{fontSize:'0.14em'}}>
+            {props.info.file_name}
         </div>
-        <div style={{margin:'1rem 0'}}>
+        <div style={{margin:'1em 0',fontSize:'0.12em',
+        lineHeight: '1em',color:'#878791'}}>
           <span>
             <Details style={{ transform: "rotate(-90deg)" }} />
-            &nbsp;625
-          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;{props.info.view_counts||0}
+          </span>&nbsp;&nbsp;
           <span>
             <FavoriteBorder />
-            &nbsp;625
-          </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;{props.info.like_counts||0}
+          </span>&nbsp;&nbsp;
           <span>
             <AccessTimeOutlined />
-            &nbsp;7月22日
+            &nbsp;{get_date(props.info.time,'.',8)}
           </span>
         </div>
         <div className="box box-align-center box-between all-width">
-          <div className="box box-align-center ">
-            <Avatar style={{ width: "1.75rem", height: "1.75rem" }} />&nbsp;&nbsp;
-            <span>flare_zhao</span>&nbsp;&nbsp;
+          <div className="box box-align-center " style={{fontSize:'0.12em'}}>
+            <Avatar style={{ width: "1.4em", height: "1.4em" }} src={props.info.headshot} />&nbsp;
+            <div >{props.info.user_name}</div>&nbsp;
 
             <img
               src={One}
               alt=""
-              style={{ width: "1.3125rem", height: "0.75rem" }}
+              style={{ width: "1.25rem", height: "1rem" }}
             />
           </div>
-          <div className="box box-align-center">
+          <div className="box box-align-center" style={{fontSize:'0.1em'}}>
             <img
               src={Two}
               alt=""
@@ -76,6 +83,8 @@ const WordsCar = () => {
           </div>
         </div>
       </div>
+    </div>
+    </Link>
     </div>
   );
 };

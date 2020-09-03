@@ -9,18 +9,36 @@ import Bgimg from "../../../assets/activity/img/bg.png";
 export default class PageIndex extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state={
+      page_inx:'1'
+    }
     this.winsize = this.winsize.bind(this);
   }
   componentDidMount() {
+    let _router = this.props['*'];
+    let _inx = '1'
+    
+    if(_router==='detail'){
+      _inx='3';
+    }else if(_router=='allworks'){
+      _inx='4';
+    }else if(_router=='about'){
+      _inx='2';
+    };
+    this.setState({
+      page_inx:_inx
+    });
+    
     // this.winsize();
-    settings_html();
+    // settings_html();
     // window.onresize = () => {
     //   // this.winsize();
     //   settings_html();
     // };
+   
   }
   componentWillUnmount() {
+    
     window.onresize = null;
     document.querySelector("html").style.fontSize = "medium";
   }
@@ -42,7 +60,9 @@ export default class PageIndex extends React.Component {
           className="activity"
         >
           <Bananer />
-          <NavTar />
+         
+          <NavTar inx={this.state.page_inx} rou={this.props['*']} />
+         
           <div>{children}</div>
         </div>
       </Layout>

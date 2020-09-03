@@ -11,6 +11,8 @@ import fotter from "../../../assets/activity/img/inx/footer.png";
 import LoginModal from "../../../assets/template/LoginModal";
 import MenuBar from '../comments/MenuBar';
 import { getUser, isLoggedIn } from "../../../services/auth";
+import {is_phone} from '../../../assets/js/totls';
+import CustomModal from '../../../assets/js/CustomModal';
 class Pageinx extends React.Component {
     constructor(props){
       super(props);
@@ -40,6 +42,10 @@ class Pageinx extends React.Component {
           <div
             className="all-width"
             onClick={() => {
+              if(is_phone()){
+                new CustomModal().alert('此操作请在pc端打开','success',2000);
+                return
+              }
               if (!isLoggedIn()) {
                 this.setState({
                   is_login:true

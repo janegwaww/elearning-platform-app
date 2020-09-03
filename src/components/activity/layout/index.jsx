@@ -33,7 +33,7 @@ export default class MainLayout extends React.Component {
             <NavBar />
           </header>
           <main className=" ma-main">{children}</main>
-          <ScrollTop />
+        
         </section>
       </ThemeProvider>
     );
