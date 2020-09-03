@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     backgroundColor: "#1b1b1d",
     width: "41.666667%",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
   },
