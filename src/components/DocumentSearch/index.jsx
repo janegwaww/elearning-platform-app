@@ -61,14 +61,14 @@ const DocumentSearch = () => {
         .catch((err) => {
           console.error("Could not Download the file from the backend.", err);
         });
-    } else {
-      // 未登录处理
-      alert("您未登录...");
     }
+    // 未登录处理
+    if (!isLoggedIn()) loginConfirm();
   };
 
   const handleLike = () => {
     const value = info.is_like ? 0 : 1;
+    if (!isLoggedIn()) return loginConfirm();
     likeTheVideo({ relation_id: [dsid], value, type: "document" }).then(
       (data) => {
         if (data) {
@@ -78,7 +78,6 @@ const DocumentSearch = () => {
             like_counts: value ? prev.like_counts + 1 : prev.like_counts - 1,
           }));
         }
-        !isLoggedIn() && alert("您未登录!");
       },
     );
   };
