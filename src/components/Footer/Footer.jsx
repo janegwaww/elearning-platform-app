@@ -12,7 +12,7 @@ import "./Footer.sass";
 const QrCodeImg = ({ data }) => (
   <Grid container>
     {data.allFile.edges.map(({ node }) => (
-      <Grid item xs={4}>
+      <Grid item xs={4} key={node.name}>
         <div className="footer-qrcodes-box">
           <Img
             fluid={node.childImageSharp.fluid}
