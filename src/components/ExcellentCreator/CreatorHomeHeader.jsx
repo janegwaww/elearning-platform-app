@@ -33,12 +33,12 @@ const CreatorAvatar = ({ auth }) => {
   const {
     user_name,
     headshot,
-    introduction,
+    introduction = "",
     description_counts = 0,
     fans_counts = 0,
     like_counts = 0,
     view_counts = 0,
-    user_id,
+    user_id = "",
   } = auth;
 
   return (
