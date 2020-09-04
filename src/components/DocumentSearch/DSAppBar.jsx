@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   functionButton: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "right",
+    justifyContent: "flex-end",
   },
   mobile: {
     display: "none",
@@ -77,18 +77,6 @@ const DocumentSearchAppBar = ({
       anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       transformOrigin={{ vertical: "top", horizontal: "left" }}
     >
-      <MenuItem>
-        <IconButton onClick={() => handleScale(true)} size="small">
-          <AddIcon style={{ color: "#232325" }} />
-        </IconButton>
-        <span>放大</span>
-      </MenuItem>
-      <MenuItem>
-        <IconButton onClick={() => handleScale(false)} size="small">
-          <RemoveIcon style={{ color: "#232325" }} />
-        </IconButton>
-        <span>缩小</span>
-      </MenuItem>
       <MenuItem>
         <IconButton onClick={handleDownload} size="small">
           <GetAppIcon style={{ color: "#232325" }} />
