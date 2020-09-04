@@ -1,11 +1,6 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
-import {
-  makeStyles,
-  withStyles,
-  StylesProvider,
-  createGenerateClassName,
-} from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -23,11 +18,6 @@ import CreatorAvatar from "./CreatorHomeHeader";
 import withId from "../EmptyNotice/withId";
 import config from "../../../data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
-
-const generateClassName = createGenerateClassName({
-  disableGlobal: true,
-  seed: "kc",
-});
 
 const useStyles = makeStyles((theme) => ({
   paginationRoot: {
@@ -152,7 +142,7 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
 const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
   const { background } = auth;
-  return background ? (
+  return (
     <div className={classes.creatorHeader}>
       <div className={classes.creatorHeaderImg}>
         <CardMedia
@@ -166,7 +156,7 @@ const HeadBanner = ({ auth = {} }) => {
         <CreatorAvatar auth={auth} />
       </div>
     </div>
-  ) : null;
+  );
 };
 
 class CreatorHome extends Component {

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { navigate, useStaticQuery, graphql } from "gatsby";
 import Divider from "@material-ui/core/Divider";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Slider from "react-slick";
 import map from "lodash/fp/map";
 import useSEO from "../SEO/useSEO";
-/* import { getCategoryList } from "../../services/home"; */
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import "./ChannelBar.sass";
@@ -22,7 +20,7 @@ const ChannelBar = ({ id = "hots" }) => {
     className: "channel-slider",
     dotsClass: "slick-dots slick-thumb",
     arrows: false,
-    customPaging: function (i) {
+    customPaging: () => {
       return <div className="custom-dot" />;
     },
     responsive: [
@@ -64,8 +62,8 @@ const ChannelBar = ({ id = "hots" }) => {
   };
 
   return (
-    <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
-      <Box className="bar-container">
+    <div className="channel-bar-paper" id="channel-bar-paper-to-back">
+      <div className="bar-container">
         <div className="bar-content">
           <Slider {...slickSetting}>
             {map(({ node }) => {
@@ -92,9 +90,9 @@ const ChannelBar = ({ id = "hots" }) => {
             })(data.allChannelBarListJson.edges)}
           </Slider>
         </div>
-      </Box>
+      </div>
       <Divider />
-    </Box>
+    </div>
   );
 };
 
