@@ -57,6 +57,28 @@ const PrimarySearchAppBar = () => {
                   知擎首页
                 </Typography>
               </Link>
+              <Link
+                href="/activity/"
+                color="inherit"
+                underline="none"
+                style={{ padding: "6px 8px" }}
+              >
+                <Typography noWrap component="div">
+                  知擎杯
+                </Typography>
+              </Link>
+              <Link
+                color="inherit"
+                href="/joinedscholar/"
+                underline="none"
+                target="_blank"
+                rel="noopener norefferer"
+                style={{ padding: "6px 8px", display: "none" }}
+              >
+                <Typography noWrap component="div">
+                  加盟学者
+                </Typography>
+              </Link>
               <Tooltip title="敬请期待..." placement="bottom-start">
                 <div>
                   <ButtonBase disabled>
