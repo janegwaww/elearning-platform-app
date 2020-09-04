@@ -64,8 +64,8 @@ const ChannelBar = ({ id = "hots" }) => {
   };
 
   return (
-    <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
-      <Box className="bar-container">
+    <div className="channel-bar-paper" id="channel-bar-paper-to-back">
+      <div className="bar-container">
         <div className="bar-content">
           <Slider {...slickSetting}>
             {map(({ node }) => {
@@ -94,7 +94,7 @@ const ChannelBar = ({ id = "hots" }) => {
         </div>
       </div>
       <Divider />
-    </Box>
+    </div>
   );
 };
 
