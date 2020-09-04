@@ -16,7 +16,11 @@ const exportHistory = (name) => {
   return Object.assign(
     {},
     {
-      values: () => [...new Set(state)],
+      values: () => [...new Set(state)].slice(0, 6),
+      add(value) {
+        if (!value) return;
+        state.unshift(value.trim());
+      },
       remove(value) {
         const index = state.indexOf(value);
         if (index > -1) {
@@ -24,12 +28,8 @@ const exportHistory = (name) => {
         }
         setValues(name, state);
       },
-      add(value) {
-        if (!value) return;
-        state.unshift(value.trim());
-      },
       save() {
-        setValues(name, state);
+        setValues(name, state.slice(0, 6));
       },
     }
   );

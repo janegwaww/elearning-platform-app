@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { navigate } from "gatsby";
 import Typography from "@material-ui/core/Typography";
+import { flow, slice, map } from "lodash/fp";
 import SearchCard from "./SearchCard";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ProgressBar from "../Loading/ProgressBar";
@@ -7,25 +9,26 @@ import Pagination from "../Series/SePagination";
 import GlobalSearchBar from "./GlobalSearchBar";
 import { searchGlobal } from "../../services/home";
 import { kGlobalSearchRecord } from "../../services/userActiveRecord";
+import { searchUrlParams } from "../../services/utils";
 import "./SearchStyles.sass";
 
 const iterateItems = (arr = [], input) => {
-  // iterate there
-  return arr.slice(0, 12).map((o, i) => (
+  const card = (o, i) => (
     <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
       <SearchCard card={o} />
     </div>
-  ));
+  );
+  return flow(slice(0, 12), map.convert({ cap: false })(card))(arr);
 };
 
-const Search = ({ input }) => {
+const Search = ({ input, page = 1, type = "all" }) => {
   const [result, setResult] = useState([]);
-  const [type, setType] = useState("all");
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState(0);
+  const [queryWords, setQueryWords] = useState("");
 
   // fetch data from api
-  const fetchSearchResult = ({ page = 1 } = {}, callback = () => ({})) => {
+  const fetchSearchResult = () => {
     setLoading(true);
     searchGlobal({
       query_string: input,
@@ -37,23 +40,23 @@ const Search = ({ input }) => {
       setResult(resultData);
       setNum(count);
       setLoading(false);
-      callback(resultData);
+      setQueryWords(input);
     });
   };
 
   const handleTypeClick = (cate) => {
-    setType(cate);
+    navigate(searchUrlParams({ value: input, type: cate }));
   };
 
-  const handlePage = (event, page) => {
-    fetchSearchResult({ page });
+  const handlePage = (event, pa) => {
+    navigate(searchUrlParams({ value: input, type, page: pa }));
   };
 
   useEffect(() => {
     if (input) {
       fetchSearchResult();
     }
-  }, [input, type]);
+  }, [input, type, page]);
 
   return (
     <div className="search-root">
@@ -61,7 +64,7 @@ const Search = ({ input }) => {
       <Typography
         noWrap
         dangerouslySetInnerHTML={{
-          __html: `${num}个<span style='color: #007cff'>${input}</span>相关的`,
+          __html: `${num}个<span style='color: #007cff'>${queryWords}</span>相关的`,
         }}
       />
       <div style={{ height: 10 }} />
@@ -75,7 +78,7 @@ const Search = ({ input }) => {
         />
       </div>
       <br />
-      <Pagination num={num} handlePage={handlePage} />
+      <Pagination num={num} handlePage={handlePage} page={parseInt(page, 10)} />
       <br />
       <ProgressBar loading={loading} />
     </div>

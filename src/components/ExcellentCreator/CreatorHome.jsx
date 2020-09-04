@@ -1,6 +1,11 @@
 import React, { Component, useState } from "react";
 import Helmet from "react-helmet";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  withStyles,
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -10,18 +15,25 @@ import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Layout from "../../layout";
-import config from "../../../data/SiteConfig";
 import GridCards from "../GridCards/GridCards";
 import ProgressBar from "../Loading/ProgressBar";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";
 import CreatorAvatar from "./CreatorHomeHeader";
+import withId from "../EmptyNotice/withId";
+import config from "../../../data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
-import { getIdFromHref } from "../../services/utils";
+
+const generateClassName = createGenerateClassName({
+  disableGlobal: true,
+  seed: "kc",
+});
 
 const useStyles = makeStyles((theme) => ({
-  pagination: {
+  paginationRoot: {
     backgroundColor: "#fff",
+    minHeight: "unset",
+    height: "unset",
   },
   pul: {
     justifyContent: "center",
@@ -46,11 +58,17 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#007cff",
     },
   },
-  headImg: {
+  creatorHeaderImg: {
     height: 300,
+    position: "unset",
     [theme.breakpoints.down("md")]: {
       height: 150,
     },
+  },
+  creatorHeader: {
+    border: "1px solid #f2f2f5",
+    borderRadius: "12px",
+    overflow: "hidden",
   },
 }));
 
@@ -79,7 +97,7 @@ const Pagination = ({ num = 0, handlePage }) => {
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
-      classes={{ root: classes.pagination, ul: classes.pul }}
+      classes={{ root: classes.paginationRoot, ul: classes.pul }}
     />
   );
 };
@@ -87,7 +105,6 @@ const Pagination = ({ num = 0, handlePage }) => {
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   const classes = useStyles();
-
   return (
     <div
       role="tabpanel"
@@ -124,14 +141,19 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
   );
 };
 
-const HeadBanner = ({ bg = "" }) => {
+const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
-
-  return (
-    <div className={classes.headImg}>
-      <img src={bg} height="100%" width="100%" alt={bg} />
+  const { background } = auth;
+  return background ? (
+    <div className={classes.creatorHeader}>
+      <div className={classes.creatorHeaderImg}>
+        <img src={background} height="100%" width="100%" alt={auth.user_name} />
+      </div>
+      <div style={{ height: 158, paddingTop: 10 }}>
+        <CreatorAvatar auth={auth} />
+      </div>
     </div>
-  );
+  ) : null;
 };
 
 class CreatorHome extends Component {
@@ -150,7 +172,7 @@ class CreatorHome extends Component {
   }
 
   componentDidMount() {
-    const { cid } = getIdFromHref();
+    const cid = this.props.id;
     if (cid) {
       this.fetchData(cid);
       this.setState({ cid });
@@ -250,60 +272,57 @@ class CreatorHome extends Component {
 
     return (
       <Layout>
-        <div className="Creator-container" style={{ width: "100%" }}>
-          <Helmet title={`Creator | ${config.siteTitle}`} />
-          <Container>
-            <div>
-              <div
-                style={{
-                  border: "1px solid #f2f2f5",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                }}
-              >
-                <HeadBanner bg={background} />
-                <div style={{ height: 158, paddingTop: 10 }}>
-                  <CreatorAvatar auth={auth} />
-                </div>
-              </div>
-              <br />
+        <StylesProvider generateClassName={generateClassName}>
+          <div className="Creator-container" style={{ width: "100%" }}>
+            <Helmet title={`Creator | ${config.siteTitle}`} />
+            <Container>
+              <div>
+                <HeadBanner auth={auth} />
+                <br />
 
-              <div style={{ minHeight: "60vh" }}>
-                <Box display="flex" justifyContent="space-between">
-                  <Tabs onChange={this.handleTabChange} value={value}>
-                    <TTab label="视频" />
-                    <TTab label="系列" />
-                  </Tabs>
-                  <SearchInput
-                    handleSearchClick={this.handleSearchClick}
-                    handleEnter={this.handleEnter}
+                <div style={{ minHeight: "60vh" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      backgroundColor: "inherit",
+                    }}
+                  >
+                    <Tabs onChange={this.handleTabChange} value={value}>
+                      <TTab label="视频" />
+                      <TTab label="系列" />
+                    </Tabs>
+                    <SearchInput
+                      handleSearchClick={this.handleSearchClick}
+                      handleEnter={this.handleEnter}
+                    />
+                  </div>
+
+                  <TabPanel value={value} index={0}>
+                    <GridCards itemCount={16} loading={loading} items={list} />
+                    <br />
+                  </TabPanel>
+
+                  <TabPanel value={value} index={1}>
+                    <GridCards itemCount={16} loading={loading} items={list} />
+                    <br />
+                  </TabPanel>
+                  <EmptyNotice
+                    empty={!(list.length || loading)}
+                    type="noResult"
+                    handleFresh={() => this.handleTabChange({}, 0)}
                   />
-                </Box>
-
-                <TabPanel value={value} index={0}>
-                  <GridCards itemCount={16} loading={loading} items={list} />
-                  <br />
-                </TabPanel>
-
-                <TabPanel value={value} index={1}>
-                  <GridCards itemCount={16} loading={loading} items={list} />
-                  <br />
-                </TabPanel>
-                <EmptyNotice
-                  empty={!(list.length || loading)}
-                  type="noResult"
-                  handleFresh={() => this.handleTabChange({}, 0)}
-                />
+                </div>
+                <Pagination num={pageCount} handlePage={this.handlePage} />
+                <br />
               </div>
-              <Pagination num={pageCount} handlePage={this.handlePage} />
-              <br />
-            </div>
-          </Container>
-          <ProgressBar loading={loading} />
-        </div>
+            </Container>
+            <ProgressBar loading={loading} />
+          </div>
+        </StylesProvider>
       </Layout>
     );
   }
 }
 
-export default CreatorHome;
+export default withId(CreatorHome);

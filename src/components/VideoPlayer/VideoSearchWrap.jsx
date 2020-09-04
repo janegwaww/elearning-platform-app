@@ -6,7 +6,6 @@ import {
   InputBase,
   InputAdornment,
   ButtonBase,
-  IconButton,
 } from "@material-ui/core";
 import useQueryMedia from "@material-ui/core/useMediaQuery";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -43,7 +42,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     if (path) {
       setShowButton(false);
     } else {
-      enqueueSnackbar("本视频没有字募～", { variant: "info" });
+      enqueueSnackbar("本视频没有字幕～", { variant: "info" });
     }
   };
 

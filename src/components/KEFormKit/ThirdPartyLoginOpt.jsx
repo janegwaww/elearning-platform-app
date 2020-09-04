@@ -20,8 +20,12 @@ const ThirdPartyLoginOpt = () => {
   const [acToken, setAcToken] = useState("");
   const [returnUrl, setReturnUrl] = useState("/");
 
-  const handleNavigate = (href = "") => {
-    navigate(href || returnUrl);
+  const handleNavigate = (href) => {
+    if (!href) {
+      navigate("/");
+    } else {
+      navigate(href || returnUrl);
+    }
   };
 
   // 第一步：获取跳转链接
@@ -77,7 +81,7 @@ const ThirdPartyLoginOpt = () => {
       setReturnUrl(state);
       handleLogin({
         code,
-        state: urlParse(state, true).href,
+        state,
         type: loginMethod(type),
       });
     }

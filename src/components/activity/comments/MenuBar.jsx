@@ -75,7 +75,7 @@ const MenuBar = (props) => {
                 color="inherit"
                 target="_blank"
                 underline="none"
-                href="/video/zhiqingtext"
+                href="/video/zhiqingtext/"
               >
                 <div className="box box-align-center contestcar">
                   <div>

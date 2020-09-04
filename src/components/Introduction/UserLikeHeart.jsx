@@ -8,6 +8,7 @@ export default function UserLikeHeart({
   like = 0,
   likeCounts = 0,
   handleClick = () => ({}),
+  ...props
 }) {
   const HeartIcon = (heart) =>
     heart === 1 ? (
@@ -17,7 +18,12 @@ export default function UserLikeHeart({
     );
 
   return (
-    <IconButton size="small" onClick={handleClick} className="user-like-heart">
+    <IconButton
+      size="small"
+      onClick={handleClick}
+      className="user-like-heart"
+      {...props}
+    >
       <LightTooltip title="喜欢" placement="bottom">
         {HeartIcon(like)}
       </LightTooltip>

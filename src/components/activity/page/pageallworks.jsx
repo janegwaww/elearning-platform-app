@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import Footer from "../comments/Footer";
-import Bgimg from "../../../assets/activity/img/all/bg.png";
+import Bgimg from "../../../assets/activity/img/bg.png";
+
 import lefttop from "../../../assets/activity/img/all/lefttop.png";
 import leftbottom from "../../../assets/activity/img/all/leftbottom.png";
 import righttop from "../../../assets/activity/img/all/righttop.png";
@@ -10,7 +11,8 @@ import TextField from "@material-ui/core/TextField";
 import WordsCar from "../comments/WorksCar";
 import Pagination from "@material-ui/lab/Pagination";
 import { get_data } from "../../../assets/js/request";
-import { thisExpression } from "c:/users/chen-web/appdata/local/microsoft/typescript/3.9/node_modules/@babel/types/lib/index";
+import {is_phone} from '../../../assets/js/totls';
+import ProgressBar from '../../../assets/template/ProgressBar';
 class PageAllWorks extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +50,7 @@ class PageAllWorks extends React.Component {
       },
       "video"
     ).then((res) => {
-      console.log(res);
+      
       if (res.result_data.length > 0) {
         this.setState({
           total_data: res.result_data,
@@ -83,19 +85,15 @@ class PageAllWorks extends React.Component {
       show_count,
       page_num,
     } = this.state;
-    console.log(contest_w);
+    // console.log(contest_w);
     return (
       <div>
         <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
         <div
-          className="all-width"
+          className="all-width bg-not"
           id="all-works"
           style={{
-            backgroundRepeat: "no-repeat",
-
-            margin: "0 auto",
-            backgroundSize: "100% 100%",
-            backgroundPosition: "left center",
+            
             backgroundImage: `url(${Bgimg})`,
 
             position: "relative",
@@ -103,13 +101,13 @@ class PageAllWorks extends React.Component {
           }}
         >
           <div
-            className="bg-white all-height"
+            className="bg-white all-height contestcar"
             style={{
-              width: "74%",
-              // height: 'auto',
+              width:is_phone()?'90%': "74%",
+              backgroundColor:'#260D4B',
               margin: "0 auto",
-              borderRadius: 12,
-              border: "5px solid #260D4B",
+              borderRadius: '0.12em',
+              
               position: "relative",
             }}
           >
@@ -154,7 +152,7 @@ class PageAllWorks extends React.Component {
               alt=""
               style={{
                 position: "absolute",
-                bottom: -20,
+                bottom: is_phone()?-10:-20,
                 right: "-3%",
                 width: "8.3%",
                 height: "auto",
@@ -168,19 +166,24 @@ class PageAllWorks extends React.Component {
                 transform: "translateX(1px)",
                 padding: "5%",
                 borderRadius: 12,
+                border:is_phone()?'5px solid #260D4B': "5px solid #260D4B",
               }}
             >
+            <div className='contestcar box box-align-end' style={{marginBottom:'calc(0.4em + 12px'}}>
+             <div style={{fontSize:'0.3em',lineHeight:'1.3333em',marginRight:'1em'}}>全部作品</div>
+             <div style={{lineHeight:'1.3em',fontSize:is_phone()?'14px':'0.4em'}}>666</div>
+            </div>
               <Grid container spacing={3}>
                 {show_data &&
                   show_data.map((op, inx) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={op.file_id}>
+                    <Grid item xs={6} sm={4} md={3}  key={op.file_id}>
                       <WordsCar  info={op}/>
                     </Grid>
                   ))}
               </Grid>
               {total_counts > show_count && (
                 <div className="settings">
-                  <Grid container spacing={4}>
+                  <Grid container spacing={5}>
                     <Grid item xs={12} sm={8}>
                       <Pagination
                         count={10}

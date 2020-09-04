@@ -15,6 +15,7 @@ export default function UserFeedback({ backData = {} }) {
   const [like, setLike] = useState(0);
   const [collect, setCollect] = useState(0);
   const [lCounts, setLCounts] = useState(0);
+  const [cCounts, setCCounts] = useState(0);
   const [id, setId] = useState("");
   const loginConfirm = useLoginConfirm();
 
@@ -51,7 +52,16 @@ export default function UserFeedback({ backData = {} }) {
   };
 
   const handleStarClick = () =>
-    actionEvent(setCollect, collectTheVideo, collect);
+    actionEvent(setCollect, collectTheVideo, collect, (val) =>
+      val
+        ? setCCounts((prev) => prev + 1)
+        : setCCounts((prev) => {
+            if (prev >= 1) {
+              return prev - 1;
+            }
+            return prev;
+          }),
+    );
 
   const StarOrNot = (star) =>
     star === 1 ? (
@@ -64,6 +74,7 @@ export default function UserFeedback({ backData = {} }) {
     setLike(backData.is_like);
     setCollect(backData.is_collect);
     setLCounts(backData.like_counts);
+    setCCounts(backData.collection_counts);
     setId(backData.video_id);
   }, [backData.is_like, backData.is_collect]);
 
@@ -105,7 +116,7 @@ export default function UserFeedback({ backData = {} }) {
         <LightTooltip title="收藏" placement="bottom">
           {StarOrNot(collect)}
         </LightTooltip>
-        <div style={{ fontSize: "0.875rem" }}>{backData.collection_counts}</div>
+        <div style={{ fontSize: "0.875rem" }}>{cCounts}</div>
       </IconButton>
     </div>
   );

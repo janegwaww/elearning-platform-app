@@ -9,36 +9,35 @@ import Bgimg from "../../../assets/activity/img/bg.png";
 export default class PageIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      page_inx:'1'
-    }
+    this.state = {
+      page_inx: 1,
+    };
     this.winsize = this.winsize.bind(this);
   }
+
   componentDidMount() {
-    let _router = this.props['*'];
-    let _inx = '1'
-    
-    if(_router==='detail'){
-      _inx='3';
-    }else if(_router=='allworks'){
-      _inx='4';
-    }else if(_router=='about'){
-      _inx='2';
-    };
+    let _router = this.props["*"];
+    let _inx = 1;
+
+    if (_router === "detail") {
+      _inx = 3;
+    } else if (_router == "allworks") {
+      _inx = 4;
+    } else if (_router == "about") {
+      _inx = 2;
+    }
     this.setState({
-      page_inx:_inx
+      page_inx: _inx,
     });
-    
+    console.log(this.state.page_inx);
     // this.winsize();
     // settings_html();
     // window.onresize = () => {
     //   // this.winsize();
     //   settings_html();
     // };
-   
   }
   componentWillUnmount() {
-    
     window.onresize = null;
     document.querySelector("html").style.fontSize = "medium";
   }
@@ -50,6 +49,8 @@ export default class PageIndex extends React.Component {
   }
   render() {
     const { children } = this.props;
+    const {page_inx}=this.state;
+   
     return (
       <Layout>
         <div
@@ -60,9 +61,18 @@ export default class PageIndex extends React.Component {
           className="activity"
         >
           <Bananer />
-         
-          <NavTar inx={this.state.page_inx} rou={this.props['*']} />
-         
+
+          <NavTar
+            inx={page_inx}
+            rou={this.props["*"] || "/"}
+            onEvent={id=>{
+              
+              this.setState({
+                page_inx:id
+              })
+            }}
+          />
+
           <div>{children}</div>
         </div>
       </Layout>

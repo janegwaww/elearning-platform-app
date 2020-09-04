@@ -4,6 +4,7 @@ import { Grid } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import ContestCar from "../comments/ContestCar";
 import Bgimg from "../../../assets/activity/img/bg.png";
+
 import One from "../../../assets/activity/img/detail/2.png";
 import downPDF from "../../../assets/activity/img/detail/3.png";
 import Two from "../../../assets/activity/img/detail/32.png";
@@ -30,6 +31,7 @@ import { get_data } from "../../../assets/js/request";
 
 import {is_phone} from '../../../assets/js/totls';
 import CustomModal from '../../../assets/js/CustomModal';
+import ProgressBar from '../../../assets/template/ProgressBar';
 class Pagedetail extends React.Component {
   constructor(props) {
     super(props);
@@ -105,7 +107,7 @@ class Pagedetail extends React.Component {
             </a>
           </div>
 
-          <img src={Two} alt="" />
+          {/*<img src={Two} alt="" />*/}
           <img src={Three} alt="" />
           <img src={ThreeTwo} alt="" />
           <img src={ThreeTh} alt="" />
@@ -150,7 +152,7 @@ class Pagedetail extends React.Component {
             </div>
           </LoginModal>
           <img src={Four} alt="" />
-          <div className="all-width contestcar" id="contest-judges">
+          <div className="all-width contestcar bg-not" id="contest-judges" style={{backgroundImage:`url(${Bgimg})`,backgroundSize:'100% auto'}}>
             <div
               className="bg-not text-center"
               style={{
@@ -171,6 +173,7 @@ class Pagedetail extends React.Component {
               大赛评委
             </div>
             <div
+            className='contestcar'
               style={{
                 backgroundRepeat: "no-repeat",
                 width: "73%",
@@ -226,8 +229,8 @@ class Pagedetail extends React.Component {
                   width: "92%",
                   backgroundColor: "#fcf800",
 
-                  transform: "translateX(1%)",
-                  borderRadius: 13,
+                  transform: "translateX(0.08em)",
+                  borderRadius: '0.13em',
                 }}
               >
                 <div
@@ -235,8 +238,8 @@ class Pagedetail extends React.Component {
                     width: "100%",
                     backgroundColor: "#4E07BA",
                     height: "100%",
-                    transform: "translate(-5px,-2px)",
-                    borderRadius: 13,
+                    transform: "translate(-0.08em,-0.05em)",
+                    borderRadius: '0.13em',
                     padding: "3.5%",
                   }}
                 >

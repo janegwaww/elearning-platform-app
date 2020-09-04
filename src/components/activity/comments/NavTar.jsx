@@ -3,18 +3,16 @@ import { Container, Avatar, Grid } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import "./navtar.css";
 import { navigate } from "@reach/router";
-import { set } from "lodash";
-
+import {is_phone} from '../../../assets/js/totls';
 const NavTar = (props) => {
-  console.log(props)
-  const [pageInx, setPageInx] = React.useState(props.inx);
+  const [pageid, setPageid] = React.useState(props.inx);
+  const [isPhone,setIsPhone] =React.useState(false);
   const [lists, setLists] = React.useState([
     { title: "首页", page: "/" },
     { title: "关于知擎杯", page: "about" },
     { title: "赛事详情", page: "detail" },
     { title: "全部作品", page: "allworks" },
   ]);
-
   const btn_page = (ev) => {
     let _data = ev.target.dataset;
     let _url = "/activity/";
@@ -26,33 +24,34 @@ const NavTar = (props) => {
       _url = _url + "allworks";
     }
     navigate(`${_url}`);
-    setPageInx(_data.id);
+    setPageid(parseInt(_data.id));
+    props.onEvent&&props.onEvent(parseInt(_data.id));
   };
   React.useEffect(()=>{
     let _router = props.rou;
-    let _inx = '1'
-    
+    let _inx = 1
     if(_router==='detail'){
-      _inx='3';
+      _inx=3;
     }else if(_router=='allworks'){
-      _inx='4';
+      _inx=4;
     }else if(_router=='about'){
-      _inx='2';
+      _inx=2;
     };
-    setPageInx(_inx);
-    
+    setPageid(_inx);
+    setIsPhone(is_phone());
   },[])
- console.log(pageInx)
+
   return (
     <div className="all-width contestcar" style={{ backgroundColor: "#fcf800" }}>
      
         <div className="navtar text-center ">
    
-            <div className="box box-align-center all-height ">
+            <div className="box box-align-center all-height contestcar">
               {lists.map((v, inx) => (
                 <div className="box-flex " key={v.title}>
                   <div>
-                    <span className={pageInx == inx + 1 ? "acti" : ""}
+                    <span className={pageid==inx+1? "acti" : ""}
+                    style={{fontSize:isPhone&&pageid==inx+1?'2em':'1.33em'}}
                     key={v.title}
                     data-page={v.page}
                     data-id={inx + 1}
@@ -61,7 +60,6 @@ const NavTar = (props) => {
                 </div>
               ))}
             </div>
-           
       </div>
     </div>
   );

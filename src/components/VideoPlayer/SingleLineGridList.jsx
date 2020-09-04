@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Slider from "react-slick";
+import map from "lodash/fp/map";
 import { secondsToHMS, decoratedStr } from "../../services/utils";
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
@@ -85,7 +86,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
       </div>
       <div className="gridList">
         <Slider {...slickSetting}>
-          {tileList.map((tile, i) => (
+          {map((tile, i) => (
             <div>
               <Box
                 key={i}
@@ -98,7 +99,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
                 <Paper className="title">{secondsToHMS(tile.startTime)}</Paper>
               </Box>
             </div>
-          ))}
+          ))(tileList)}
         </Slider>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Link from "../Link/Link";
+import AuthTag from "../GridCards/AuthTag";
 import { secondsToDate } from "../../services/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -102,6 +103,7 @@ const HeadCard = ({ info = {} }) => {
                 style={{ height: 30, width: 30, marginRight: 10 }}
               />
               <Typography variant="caption">{info.author_name}</Typography>
+              <AuthTag authority={info.authority} />
             </Link>
           )}
         </div>

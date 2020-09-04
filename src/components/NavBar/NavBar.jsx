@@ -1,8 +1,6 @@
 import React from "react";
 import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
-/* import NotificationsIcon from "@material-ui/icons/Notifications"; */
-/* import MoreIcon from "@material-ui/icons/MoreVert"; */
 import {
   Toolbar,
   InputBase,
@@ -12,12 +10,7 @@ import {
   InputAdornment,
   Link,
   ButtonBase,
-  Tooltip
-  /* Menu,
-   * MenuItem,
-   * Badge,
-   * IconButton,
-   * Box, */
+  Tooltip,
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
@@ -26,68 +19,25 @@ import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
 import ContributeMenu from "../../layout/ContributeMenu";
 
+const placeholder = "谁推导出洛伦兹变换";
+
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
-  /* const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null); */
-  /* const isMobileMenuOpen = Boolean(mobileMoreAnchorEl); */
-
-  /* const handleMobileMenuClose = () => {
-   *   setMobileMoreAnchorEl(null);
-   * }; */
-
-  /* const handleMobileMenuOpen = event => {
-   *   setMobileMoreAnchorEl(event.currentTarget);
-   * }; */
 
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
     if (value) {
-      navigate(searchUrlParams(value));
+      navigate(searchUrlParams({ value }));
+    } else {
+      navigate(searchUrlParams({ value: placeholder }));
     }
   };
 
-  const handleEnter = e => {
+  const handleEnter = (e) => {
     if (e.key === "Enter") {
       handleSearchClick();
     }
   };
-
-  /* const mobileMenuId = "primary-search-account-menu-mobile";
-   * const renderMobileMenu = (
-   *   <Menu
-   *     anchorEl={mobileMoreAnchorEl}
-   *     anchorOrigin={{ vertical: "top", horizontal: "right" }}
-   *     id={mobileMenuId}
-   *     keepMounted
-   *     transformOrigin={{ vertical: "top", horizontal: "right" }}
-   *     open={isMobileMenuOpen}
-   *     onClose={handleMobileMenuClose}
-   *     classes={{ list: classes.list }}
-   *   >
-   *     <MenuItem>
-   *       <ButtonBase color="inherit" onClick={() => navigate("/")}>
-   *         <Typography>知擎首页</Typography>
-   *       </ButtonBase>
-   *     </MenuItem>
-   *     <MenuItem>
-   *       <ButtonBase disabled onClick={() => navigate("/joinscholar/")}>
-   *         <Typography color="textSecondary">加盟学者</Typography>
-   *       </ButtonBase>
-   *     </MenuItem>
-   *     <MenuItem>
-   *       <IconButton aria-label="show 11 new notifications" color="inherit">
-   *         <Badge badgeContent={11} color="secondary">
-   *           <NotificationsIcon />
-   *         </Badge>
-   *       </IconButton>
-   *     </MenuItem>
-   *     <MenuItem>
-   *       <Box display="flex" justifyContent="center" width="100%">
-   *         <AvatarMenu />
-   *       </Box>
-   *     </MenuItem>
-   *   </Menu>
-   * ); */
 
   return (
     <div className={classes.grow}>
@@ -104,32 +54,36 @@ const PrimarySearchAppBar = () => {
                 underline="none"
                 style={{ padding: "6px 8px" }}
               >
-                <Typography style={{ cursor: "inherit" }}>知擎首页</Typography>
+                <Typography noWrap component="div">
+                  知擎首页
+                </Typography>
               </Link>
               <Link
+                href="/activity/"
                 color="inherit"
-                href="/joinedscholar/"
                 underline="none"
-                target="_blank"
-                rel="noopener norefferer"
-                style={{ padding: "6px 8px", display: "none" }}
+                style={{ padding: "6px 8px" }}
               >
-                <Typography style={{ cursor: "inherit" }}>加盟学者</Typography>
+                <Typography noWrap component="div">
+                  知擎杯
+                </Typography>
               </Link>
               <Tooltip title="敬请期待..." placement="bottom-start">
                 <div>
                   <ButtonBase disabled>
-                    <Typography color="textSecondary">加盟学者</Typography>
+                    <Typography noWrap color="textSecondary">
+                      加盟学者
+                    </Typography>
                   </ButtonBase>
                 </div>
               </Tooltip>
             </div>
             <div className={classes.search}>
               <InputBase
-                placeholder="支持跨模态逐帧搜索..."
+                placeholder={placeholder}
                 classes={{
                   root: classes.inputRoot,
-                  input: classes.inputInput
+                  input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
                 onKeyDown={handleEnter}
@@ -141,7 +95,7 @@ const PrimarySearchAppBar = () => {
                       startIcon={<SearchIcon />}
                       onClick={handleSearchClick}
                     >
-                      搜索
+                      跨模态
                     </Button>
                   </InputAdornment>
                 }
@@ -149,18 +103,13 @@ const PrimarySearchAppBar = () => {
               <Button
                 className={classes.searchButtonAlone}
                 startIcon={<SearchIcon />}
-                onClick={() => navigate("/search")}
+                onClick={() => navigate("/search/")}
               >
-                搜索
+                跨模态
               </Button>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/* <IconButton color="inherit">
-                              <Badge badgeContent={17} color="secondary">
-                              <NotificationsIcon />
-                              </Badge>
-                              </IconButton> */}
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
@@ -168,24 +117,11 @@ const PrimarySearchAppBar = () => {
               <ContributeMenu />
             </div>
             <div>
-            <ContributeMenu title='知擎杯'/>
-           
-          </div>
-            {/* <div className={classes.sectionMobile}>
-                <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-                >
-                <MoreIcon />
-                </IconButton>
-                </div> */}
+              <ContributeMenu title="知擎杯" />
+            </div>
           </Toolbar>
         </Container>
       </AppBar>
-      {/* {renderMobileMenu} */}
     </div>
   );
 };

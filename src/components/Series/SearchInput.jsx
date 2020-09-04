@@ -13,8 +13,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchInput = ({ handleInput, handleSearchClick, handleEnter }) => {
+const SearchInput = ({
+  handleInput = () => ({}),
+  handleSearchClick,
+  handleEnter,
+}) => {
   const classes = useStyles();
+
+  const onSearch = () => {
+    const { value } = document.getElementById("series_local_search_input");
+    handleSearchClick(value);
+  };
 
   return (
     <InputBase
@@ -26,7 +35,7 @@ const SearchInput = ({ handleInput, handleSearchClick, handleEnter }) => {
       onKeyDown={handleEnter}
       endAdornment={
         <InputAdornment>
-          <IconButton onClick={handleSearchClick}>
+          <IconButton onClick={onSearch}>
             <SearchIcon />
           </IconButton>
         </InputAdornment>

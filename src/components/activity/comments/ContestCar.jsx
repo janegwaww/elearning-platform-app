@@ -2,7 +2,7 @@ import React from "react";
 
 const ContestCar = (props) => {
   return (
-    <div style={{ marginTop: "0.4em" }} className='contestcar'>
+    <div style={{ marginTop: "0.4em" }} className='contestcar contestcaritem'>
       <div
         style={{
           width: "2em",

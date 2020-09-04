@@ -2,12 +2,16 @@
 .contestcar{
   font-size:calc(100vw / 750/2.56 *100);
 }
+.activity{
+font-family: MicrosoftYaHei;
+color: #2C2C3B;
+}
 .activity img {
   display: block;
   width: 100%;
   height: auto;
 }
-.activity .file:hover {
+.activity .file:hover,.contestcaritem {
   cursor: pointer;
 }
 .activity p {

@@ -9,68 +9,95 @@ import five from "../../../assets/activity/img/inx/5.png";
 import upfile from "../../../assets/activity/img/inx/upfile.png";
 import fotter from "../../../assets/activity/img/inx/footer.png";
 import LoginModal from "../../../assets/template/LoginModal";
-import MenuBar from '../comments/MenuBar';
+import MenuBar from "../comments/MenuBar";
 import { getUser, isLoggedIn } from "../../../services/auth";
-import {is_phone} from '../../../assets/js/totls';
-import CustomModal from '../../../assets/js/CustomModal';
+import { is_phone } from "../../../assets/js/totls";
+import CustomModal from "../../../assets/js/CustomModal";
+import ProgressBar from "../../../assets/template/ProgressBar";
+import PhoneInx from "./phoneinx";
 class Pageinx extends React.Component {
-    constructor(props){
-      super(props);
-      this.state={
-        is_login:false,
-        meun:false,
-      }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      is_login: false,
+      meun: false,
+      login_status: true,
+      isPhone:false
+    };
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        login_status: false,
+      });
+    }, 5000);
+    this.setState({
+      isPhone:is_phone()
+    })
+  }
   render() {
-    let {is_login,meun}=this.state;
+    let { is_login, meun, login_status,isPhone } = this.state;
     return (
-      <div className="all-height all-width ">
-        <img src={One} alt="" />
-        <img src={Two} alt="" />
-        <img src={Three} alt="" />
-        <img src={Four} alt="" />
-        <img src={five} alt="" />
+      <div>
+      <ProgressBar loading={login_status} speed={15} />
+        {isPhone ? (
+          <PhoneInx />
+        ) : (
+          <div className="all-height all-width ">
+            
+            <img src={One} alt="" />
+            <img src={Two} alt="" />
+            <img src={Three} alt="" />
+            <img src={Four} alt="" />
+            <img src={five} alt="" />
 
-        <LoginModal
-          open={is_login}
-          onEvent={(msg) => {
-            this.setState({
-              is_login:false
-            })
-          }}
-        >
-          <div
-            className="all-width"
-            onClick={() => {
-              if(is_phone()){
-                new CustomModal().alert('此操作请在pc端打开','success',2000);
-                return
-              }
-              if (!isLoggedIn()) {
+            <LoginModal
+              open={is_login}
+              onEvent={(msg) => {
                 this.setState({
-                  is_login:true
-                })
-                
-              } else {
-                this.setState({
-                  meun:true
-                })
-                
-              }
-            }}
-          >
-            <img src={upfile} alt="" className='file' />
-            {meun&&(
-              <MenuBar left='62%' onEvent={()=>{
-                  this.setState({
-                    meun:false
-                  })
-              }} />
-              )}
+                  is_login: false,
+                });
+              }}
+            >
+              <div
+                className="all-width"
+                onClick={() => {
+                  if (is_phone()) {
+                    new CustomModal().alert(
+                      "此操作请在pc端打开",
+                      "success",
+                      2000
+                    );
+                    return;
+                  }
+                  if (!isLoggedIn()) {
+                    this.setState({
+                      is_login: true,
+                    });
+                  } else {
+                    this.setState({
+                      meun: true,
+                    });
+                  }
+                }}
+              >
+                <img src={upfile} alt="" className="file" />
+                {meun && (
+                  <MenuBar
+                    left="62%"
+                    onEvent={() => {
+                      this.setState({
+                        meun: false,
+                      });
+                    }}
+                  />
+                )}
+              </div>
+            </LoginModal>
+
+            <img src={fotter} alt="" />
           </div>
-        </LoginModal>
-
-        <img src={fotter} alt="" />
+        )}
       </div>
     );
   }

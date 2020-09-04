@@ -2,37 +2,42 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 0.4
+    flexGrow: 0.4,
   },
   toolbar: {
-    padding: 0
+    padding: 0,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   logoLink: {
-    lineHeight: 0
+    lineHeight: 0,
+    [theme.breakpoints.down("md")]: {
+      "& img": {
+        width: "110px",
+      },
+    },
   },
   title: {
     display: "none",
     [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+      display: "block",
+    },
   },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: "auto"
-    }
+      width: "auto",
+    },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -41,13 +46,17 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: "none",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputRoot: {
     color: "inherit",
+    backgroundColor: "inherit",
+    "&:hover": {
+      backgroundColor: "inherit",
+    },
     [theme.breakpoints.down("sm")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   inputInput: {
     backgroundColor: "#f2f2f5",
@@ -58,8 +67,11 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     "&::placeholder": {
-      fontSize: "0.875em"
-    }
+      fontSize: "0.875em",
+    },
+    "&:hover": {
+      backgroundColor: "#f2f2f5",
+    },
   },
   searchButton: {
     padding: "6px 14px",
@@ -68,12 +80,12 @@ const useStyles = makeStyles(theme => ({
     fontSize:14,
     color: theme.palette.primary.main,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.main,
     },
     "& .MuiButton-startIcon": {
       marginLeft: 0,
-      marginRight: 0
-    }
+      marginRight: 0,
+    },
   },
   searchButtonAlone: {
     backgroundColor: theme.palette.secondary.main,
@@ -83,38 +95,41 @@ const useStyles = makeStyles(theme => ({
     float: "right",
     fontSize:14,
     [theme.breakpoints.up("md")]: {
-      display: "none"
-    }
+      display: "none",
+    },
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+    },
   },
   createButton: {
     borderRadius: "20px",
     backgroundColor: theme.palette.secondary.main,
     color: "#fff",
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.main,
     },
     [theme.breakpoints.down("md")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   sectionDesktop: {
     display: "flex",
-    marginRight: "calc(6%)",
+    marginRight: "calc(4%)",
     justifyContent: "space-between",
     width: "calc(12%)",
     [theme.breakpoints.down("md")]: {
       marginRight: 0,
-      width: "calc(50%)"
-    }
+      width: "calc(50%)",
+    },
   },
   sectionMobile: {
     display: "flex",
     [theme.breakpoints.up("md")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   list: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   menus: {
     display: "none",
@@ -122,9 +137,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("md")]: {
       display: "flex",
       flexGrow: 0.6,
-      justifyContent: "space-evenly"
-    }
-  }
+      justifyContent: "space-evenly",
+    },
+  },
 }));
 
 export default useStyles;
