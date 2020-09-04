@@ -54,7 +54,7 @@ class PageAllWorks extends React.Component {
       if (res.result_data.length > 0) {
         this.setState({
           total_data: res.result_data,
-          total_counts: res.result_data.length,
+          total_counts: res.count,
           show_data: res.result_data.slice(
             this.state.page_num * this.state.show_count,
             (this.state.page_num + 1) * this.state.show_count
@@ -171,7 +171,7 @@ class PageAllWorks extends React.Component {
             >
             <div className='contestcar box box-align-end' style={{marginBottom:'calc(0.4em + 12px'}}>
              <div style={{fontSize:'0.3em',lineHeight:'1.3333em',marginRight:'1em'}}>全部作品</div>
-             <div style={{lineHeight:'1.3em',fontSize:is_phone()?'14px':'0.4em'}}>666</div>
+             <div style={{lineHeight:'1.3em',fontSize:is_phone()?'14px':'0.4em'}}>{total_counts}</div>
             </div>
               <Grid container spacing={3}>
                 {show_data &&

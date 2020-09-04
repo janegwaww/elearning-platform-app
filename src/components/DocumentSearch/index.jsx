@@ -26,11 +26,11 @@ const params = (id) => ({
   extra_data: { file_id: id },
   model_type: "",
 });
-const fileDownload = (res, fileName) => {
+const fileDownload = (res, fileName, fileType) => {
   const url = window.URL.createObjectURL(new Blob([res.data]));
   const save = document.createElement("a");
   save.href = url;
-  save.download = `${fileName}.pdf`;
+  save.download = `${fileName}.${fileType}`;
   save.target = "_blank";
   document.body.appendChild(save);
   save.click();
@@ -56,19 +56,19 @@ const DocumentSearch = () => {
       axios
         .post(api, params(dsid), resType)
         .then((res) => {
-          fileDownload(res, info.file_name);
+          fileDownload(res, info.file_name, info.file_type);
         })
         .catch((err) => {
           console.error("Could not Download the file from the backend.", err);
         });
-    } else {
-      // 未登录处理
-      alert("您未登录...");
     }
+    // 未登录处理
+    if (!isLoggedIn()) loginConfirm();
   };
 
   const handleLike = () => {
     const value = info.is_like ? 0 : 1;
+    if (!isLoggedIn()) return loginConfirm();
     likeTheVideo({ relation_id: [dsid], value, type: "document" }).then(
       (data) => {
         if (data) {
@@ -78,7 +78,6 @@ const DocumentSearch = () => {
             like_counts: value ? prev.like_counts + 1 : prev.like_counts - 1,
           }));
         }
-        !isLoggedIn() && loginConfirm();
       },
     );
   };
@@ -117,9 +116,9 @@ const DocumentSearch = () => {
         onClose={showSearch}
       />
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" disableGutters>
         <Grid container justify={show ? "center" : "flex-end"}>
-          <Grid item xs={12} lg={show ? scale : 7}>
+          <Grid item xs={12} md={show ? scale : 7}>
             <DocumentComponent
               ref={docComRef}
               id={dsid}

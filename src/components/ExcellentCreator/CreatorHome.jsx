@@ -1,19 +1,14 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
-import {
-  makeStyles,
-  withStyles,
-  StylesProvider,
-  createGenerateClassName,
-} from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import CardMedia from "@material-ui/core/CardMedia";
 import Layout from "../../layout";
 import GridCards from "../GridCards/GridCards";
 import ProgressBar from "../Loading/ProgressBar";
@@ -24,11 +19,6 @@ import withId from "../EmptyNotice/withId";
 import config from "../../../data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
 
-const generateClassName = createGenerateClassName({
-  disableGlobal: true,
-  seed: "kc",
-});
-
 const useStyles = makeStyles((theme) => ({
   paginationRoot: {
     backgroundColor: "#fff",
@@ -37,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
   pul: {
     justifyContent: "center",
+    borderBottom: "unset",
+    [theme.breakpoints.down("md")]: {
+      "& .MuiPaginationItem-root": {
+        height: 26,
+        minWidth: 26,
+        padding: "0 4px",
+        margin: "0 1px",
+      },
+    },
   },
   panel: {
     minHeight: "60vh",
@@ -61,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   creatorHeaderImg: {
     height: 300,
     position: "unset",
+    backgroundColor: "#f2f2f5",
     [theme.breakpoints.down("md")]: {
       height: 150,
     },
@@ -104,7 +104,6 @@ const Pagination = ({ num = 0, handlePage }) => {
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  const classes = useStyles();
   return (
     <div
       role="tabpanel"
@@ -113,7 +112,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <div style={{ paddingTop: 24 }}>{children}</div>}
     </div>
   );
 }
@@ -144,16 +143,21 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
 const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
   const { background } = auth;
-  return background ? (
+  return (
     <div className={classes.creatorHeader}>
       <div className={classes.creatorHeaderImg}>
-        <img src={background} height="100%" width="100%" alt={auth.user_name} />
+        <CardMedia
+          src={background}
+          alt={background}
+          component="img"
+          height="100%"
+        />
       </div>
       <div style={{ height: 158, paddingTop: 10 }}>
         <CreatorAvatar auth={auth} />
       </div>
     </div>
-  ) : null;
+  );
 };
 
 class CreatorHome extends Component {
@@ -272,54 +276,53 @@ class CreatorHome extends Component {
 
     return (
       <Layout>
-        <StylesProvider generateClassName={generateClassName}>
-          <div className="Creator-container" style={{ width: "100%" }}>
-            <Helmet title={`Creator | ${config.siteTitle}`} />
-            <Container>
-              <div>
-                <HeadBanner auth={auth} />
-                <br />
+        <div className="Creator-container" style={{ width: "100%" }}>
+          <Helmet title={`Creator | ${config.siteTitle}`} />
+          <Container>
+            <div>
+              <HeadBanner auth={auth} />
+              <br />
 
-                <div style={{ minHeight: "60vh" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      backgroundColor: "inherit",
-                    }}
-                  >
-                    <Tabs onChange={this.handleTabChange} value={value}>
-                      <TTab label="视频" />
-                      <TTab label="系列" />
-                    </Tabs>
-                    <SearchInput
-                      handleSearchClick={this.handleSearchClick}
-                      handleEnter={this.handleEnter}
-                    />
-                  </div>
-
-                  <TabPanel value={value} index={0}>
-                    <GridCards itemCount={16} loading={loading} items={list} />
-                    <br />
-                  </TabPanel>
-
-                  <TabPanel value={value} index={1}>
-                    <GridCards itemCount={16} loading={loading} items={list} />
-                    <br />
-                  </TabPanel>
-                  <EmptyNotice
-                    empty={!(list.length || loading)}
-                    type="noResult"
-                    handleFresh={() => this.handleTabChange({}, 0)}
+              <div style={{ minHeight: "60vh" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    backgroundColor: "inherit",
+                    borderBottom: "1px solid #e8e8e8",
+                  }}
+                >
+                  <Tabs onChange={this.handleTabChange} value={value}>
+                    <TTab label="视频" />
+                    <TTab label="系列" />
+                  </Tabs>
+                  <SearchInput
+                    handleSearchClick={this.handleSearchClick}
+                    handleEnter={this.handleEnter}
                   />
                 </div>
-                <Pagination num={pageCount} handlePage={this.handlePage} />
-                <br />
+
+                <TabPanel value={value} index={0}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                </TabPanel>
+
+                <TabPanel value={value} index={1}>
+                  <GridCards itemCount={16} loading={loading} items={list} />
+                  <br />
+                </TabPanel>
+                <EmptyNotice
+                  empty={!(list.length || loading)}
+                  type="noResult"
+                  handleFresh={() => this.handleTabChange({}, 0)}
+                />
               </div>
-            </Container>
-            <ProgressBar loading={loading} />
-          </div>
-        </StylesProvider>
+              <Pagination num={pageCount} handlePage={this.handlePage} />
+              <br />
+            </div>
+          </Container>
+          <ProgressBar loading={loading} />
+        </div>
       </Layout>
     );
   }

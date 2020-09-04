@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
-import logo from "../../../static/logos/logo.svg";
 import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
 import ContributeMenu from "../../layout/ContributeMenu";
@@ -45,7 +44,7 @@ const PrimarySearchAppBar = () => {
         <Container>
           <Toolbar className={classes.toolbar}>
             <Link href="/" className={classes.logoLink}>
-              <img src={logo} alt="logo" />
+              <img src="/logos/logo.svg" alt="logo" />
             </Link>
             <div className={classes.menus}>
               <Link
@@ -66,6 +65,18 @@ const PrimarySearchAppBar = () => {
               >
                 <Typography noWrap component="div">
                   知擎杯
+                </Typography>
+              </Link>
+              <Link
+                color="inherit"
+                href="/joinedscholar/"
+                underline="none"
+                target="_blank"
+                rel="noopener norefferer"
+                style={{ padding: "6px 8px", display: "none" }}
+              >
+                <Typography noWrap component="div">
+                  加盟学者
                 </Typography>
               </Link>
               <Tooltip title="敬请期待..." placement="bottom-start">

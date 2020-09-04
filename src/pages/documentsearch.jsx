@@ -10,12 +10,12 @@ class DocumentSearchPage extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <div className="document-search-container">
-          <Helmet title={`Document Search | ${config.siteTitle}`} />
-          <LoginConfirmProvider>
+        <LoginConfirmProvider>
+          <div className="document-search-container">
+            <Helmet title={`Document Search | ${config.siteTitle}`} />
             <DocumentSearch />
-          </LoginConfirmProvider>
-        </div>
+          </div>
+        </LoginConfirmProvider>
       </ThemeProvider>
     );
   }

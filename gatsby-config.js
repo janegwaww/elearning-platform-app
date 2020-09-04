@@ -8,11 +8,19 @@ module.exports = {
   plugins: [
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-lodash",
+    "gatsby-transformer-json",
     {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "assets",
         path: `${__dirname}/static/`,
+      },
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "data",
+        path: `${__dirname}/data/`,
       },
     },
     {
@@ -37,21 +45,6 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: `gatsby-plugin-baidu-analytics`,
-      options: {
-        // baidu analytics siteId
-        siteId: "b88346942d0f4074f2a16c0cfda3b856",
-        // Put analytics script in the head instead of the body [default:false]
-        head: false,
-      },
-    },
-    {
-      resolve: "gatsby-plugin-nprogress",
-      options: {
-        color: config.themeColor,
-      },
-    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-plugin-catch-links",
@@ -61,6 +54,12 @@ module.exports = {
     "gatsby-plugin-sass",
 
     "gatsby-plugin-typescript",
+    {
+      resolve: "gatsby-plugin-nprogress",
+      options: {
+        color: config.themeColor,
+      },
+    },
     {
       resolve: "gatsby-plugin-manifest",
       options: {
@@ -83,6 +82,15 @@ module.exports = {
             type: "image/png",
           },
         ],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-baidu-analytics`,
+      options: {
+        // baidu analytics siteId
+        siteId: "b88346942d0f4074f2a16c0cfda3b856",
+        // Put analytics script in the head instead of the body [default:false]
+        head: false,
       },
     },
     {
