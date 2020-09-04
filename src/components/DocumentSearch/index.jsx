@@ -26,11 +26,11 @@ const params = (id) => ({
   extra_data: { file_id: id },
   model_type: "",
 });
-const fileDownload = (res, fileName) => {
+const fileDownload = (res, fileName, fileType) => {
   const url = window.URL.createObjectURL(new Blob([res.data]));
   const save = document.createElement("a");
   save.href = url;
-  save.download = `${fileName}.pdf`;
+  save.download = `${fileName}.${fileType}`;
   save.target = "_blank";
   document.body.appendChild(save);
   save.click();
@@ -56,7 +56,7 @@ const DocumentSearch = () => {
       axios
         .post(api, params(dsid), resType)
         .then((res) => {
-          fileDownload(res, info.file_name);
+          fileDownload(res, info.file_name, info.file_type);
         })
         .catch((err) => {
           console.error("Could not Download the file from the backend.", err);
