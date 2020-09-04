@@ -21,9 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const Banner = ({ data }) => {
   const classes = useStyles();
   const handleClick = () => {
-    if (false) {
-      navigate("/");
-    }
+    navigate("/activety/");
   };
 
   return (
