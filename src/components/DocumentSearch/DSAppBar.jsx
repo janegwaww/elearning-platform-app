@@ -109,23 +109,25 @@ const DocumentSearchAppBar = ({
 
                 <Grid item sm={2} align="center">
                   <Typography noWrap color="primary" className={classes.desk}>
-                    {`${page} / ${info.image_list && info.image_list.length}`}
+                    {info.image_list && `${page} / ${info.image_list.length}`}
                   </Typography>
                 </Grid>
 
                 <Grid item xs={6} sm={5} align="right">
                   <div className={classes.functionButton}>
-                    <Button
-                      variant="contained"
-                      color="default"
-                      startIcon={<SearchIcon />}
-                      onClick={handleClick}
-                      className={classes.searchButton}
-                    >
-                      <Typography noWrap component="div">
-                        语义搜索
-                      </Typography>
-                    </Button>
+                    {info.file_type && info.file_type === "pdf" && (
+                      <Button
+                        variant="contained"
+                        color="default"
+                        startIcon={<SearchIcon />}
+                        onClick={handleClick}
+                        className={classes.searchButton}
+                      >
+                        <Typography noWrap component="div">
+                          语义搜索
+                        </Typography>
+                      </Button>
+                    )}
                     <div className={classes.desk}>
                       <IconButton onClick={() => handleScale(true)}>
                         <AddIcon style={{ color: "#fff" }} />
