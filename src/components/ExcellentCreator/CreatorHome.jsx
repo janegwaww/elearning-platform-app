@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pul: {
     justifyContent: "center",
+    borderBottom: "unset",
     [theme.breakpoints.down("md")]: {
       "& .MuiPaginationItem-root": {
         height: 26,

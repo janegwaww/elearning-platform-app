@@ -13,6 +13,18 @@ const useStyles = makeStyles(() => ({
     gridTemplateColumns: "66px auto",
     gridTemplateRows: "repeat(4,1fr)",
     gap: "2px 20px",
+    backgroundColor: "inherit",
+  },
+  avatar: {
+    padding: 10,
+    marginTop: -40,
+    borderRadius: 50,
+    height: 80,
+    width: 80,
+    backgroundColor: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   subButton: {
     backgroundColor: "#fc5659",
@@ -52,19 +64,7 @@ const CreatorAvatar = ({ auth }) => {
                 gridRow: "1/5",
               }}
             >
-              <div
-                style={{
-                  padding: 10,
-                  marginTop: -40,
-                  borderRadius: 50,
-                  height: 80,
-                  width: 80,
-                  backgroundColor: "#fff",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <div className={classes.avatar}>
                 <Avatar
                   src={headshot}
                   alt={user_name}
