@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   functionButton: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "right",
+    justifyContent: "flex-end",
   },
   mobile: {
     display: "none",
