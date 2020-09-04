@@ -109,7 +109,7 @@ const DocumentSearchAppBar = ({
 
                 <Grid item sm={2} align="center">
                   <Typography noWrap color="primary" className={classes.desk}>
-                    {`${page} / ${info.image_list && info.image_list.length}`}
+                    {info.image_list && `${page} / ${info.image_list.length}`}
                   </Typography>
                 </Grid>
 
