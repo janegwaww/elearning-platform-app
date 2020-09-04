@@ -7,10 +7,10 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import Container from "../Container/KeContainer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   authAvatar: {
     display: "grid",
-    gridTemplateColumns: "66px 600px",
+    gridTemplateColumns: "66px auto",
     gridTemplateRows: "repeat(4,1fr)",
     gap: "2px 20px",
   },
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 const CreatorAvatar = ({ auth }) => {
   const classes = useStyles();
   const {
-    background,
     user_name,
     headshot,
     introduction,
@@ -45,7 +44,7 @@ const CreatorAvatar = ({ auth }) => {
   return (
     <Container>
       <Grid container>
-        <Grid item xs={8} md={9}>
+        <Grid item xs={12} md={9}>
           <div className={classes.authAvatar}>
             <div
               style={{
@@ -78,24 +77,21 @@ const CreatorAvatar = ({ auth }) => {
               variant="caption"
               color="textSecondary"
             >{`ID: ${user_id}`}</Typography>
-            <div style={{ gridRow: "3/5", overflow: "hidden" }}>
-              <Typography variant="subtitle1" color="textSecondary">
+            <div style={{ gridRow: "3/5" }}>
+              <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                component="pre"
+                noWrap
+              >
                 {introduction}
               </Typography>
             </div>
           </div>
         </Grid>
-        <Grid item xs={4} md={3}>
+        <Grid item xs={12} md={3}>
           <Typography variant="subtitle1">
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              {/* <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅</span>
-                    <span>{description_counts}</span>
-                    </Box>
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅者</span>
-                    <span>{fans_counts}</span>
-                    </Box> */}
               <Box display="flex" flexDirection="column" alignItems="center">
                 <span>获赞数</span>
                 <span>{like_counts}</span>
