@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { navigate } from "gatsby";
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -11,9 +11,13 @@ import {
   Link,
   ButtonBase,
   Tooltip,
+  IconButton,
 } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
+import MenuMobile from "./MenuMobile";
 import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
 
@@ -21,6 +25,8 @@ const placeholder = "谁推导出洛伦兹变换";
 
 const PrimarySearchAppBar = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const container = useRef(null);
 
   const handleSearchClick = () => {
     const { value } = document.getElementById("navbar-search-input");
@@ -35,6 +41,10 @@ const PrimarySearchAppBar = () => {
     if (e.key === "Enter") {
       handleSearchClick();
     }
+  };
+
+  const handleMobileMenu = () => {
+    setOpen((prev) => !prev);
   };
 
   return (
@@ -123,6 +133,11 @@ const PrimarySearchAppBar = () => {
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
+            <div className={classes.sectionMobile}>
+              <IconButton size="small" onClick={handleMobileMenu}>
+                {open ? <CloseIcon /> : <MenuIcon />}
+              </IconButton>
+            </div>
             <div>
               <Button
                 className={classes.createButton}
@@ -133,7 +148,9 @@ const PrimarySearchAppBar = () => {
             </div>
           </Toolbar>
         </Container>
+        <div ref={container} />
       </AppBar>
+      <MenuMobile open={open} container={container} />
     </div>
   );
 };

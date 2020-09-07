@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Popover from "@material-ui/core/Popover";
-import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
@@ -17,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    textAlign: "center",
+    width: "100%",
   },
   iconButton: {
     padding: 0,
@@ -84,6 +85,23 @@ const AvatarMenu = () => {
   const menuId = "primary-search-account-menu";
   const isLogin = isLoggedIn();
   const { headshot, name } = getUser();
+  const list = [
+    {
+      href: "/users/profile/dynamic/",
+      src: "/images/collect.svg",
+      name: "我的收藏",
+    },
+    {
+      href: "/users/profile/workscenter/",
+      src: "/images/create.svg",
+      name: "创作中心",
+    },
+    {
+      href: "/users/profile/",
+      src: "/images/person.svg",
+      name: "个人中心",
+    },
+  ];
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -148,30 +166,17 @@ const AvatarMenu = () => {
             </Link>
             <Divider />
             <div className={classes.person}>
-              <Link
-                href="/users/profile/dynamic"
-                color="inherit"
-                onClick={handleMenuClose}
-              >
-                <img src="/images/collect.svg" alt="我的收藏" />
-                <Typography variant="caption">我的收藏</Typography>
-              </Link>
-              <Link
-                href="/users/profile/workscenter"
-                color="inherit"
-                onClick={handleMenuClose}
-              >
-                <img src="/images/create.svg" alt="我的收藏" />
-                <Typography variant="caption">创作中心</Typography>
-              </Link>
-              <Link
-                href="/users/profile"
-                color="inherit"
-                onClick={handleMenuClose}
-              >
-                <img src="/images/person.svg" alt="我的收藏" />
-                <Typography variant="caption">个人中心</Typography>
-              </Link>
+              {list.map((o) => (
+                <Link
+                  href={o.href}
+                  color="inherit"
+                  onClick={handleMenuClose}
+                  key={o.name}
+                >
+                  <img src={o.src} alt={o.name} />
+                  <Typography variant="caption">{o.name}</Typography>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -183,7 +188,6 @@ const AvatarMenu = () => {
               e.preventDefault();
               logout(() => ({}));
               handleMenuClose();
-              /* navigate(`/users/login`); */
             }}
           >
             退出
