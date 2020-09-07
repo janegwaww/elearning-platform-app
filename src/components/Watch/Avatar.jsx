@@ -5,10 +5,18 @@ import Typography from "@material-ui/core/Typography";
 /* import Button from "@material-ui/core/Button"; */
 import Divider from "@material-ui/core/Divider";
 import TextCollapse from "../Comments/TextCollapse";
+import AuthTag from "../GridCards/AuthTag";
 import { subscribeAuth } from "../../services/video";
 
 const PersonAvatar = ({ auth = {} }) => {
-  const { user_id, user_name, headshot, is_subscribe, introduction } = auth;
+  const {
+    user_id,
+    user_name,
+    headshot,
+    is_subscribe,
+    introduction,
+    authority,
+  } = auth;
   /* const [chips, setChips] = useState(["资深用户体验设计师"]); */
   const [subButton, setSubButton] = useState(false);
 
@@ -20,7 +28,7 @@ const PersonAvatar = ({ auth = {} }) => {
         if (res) {
           setSubButton(val);
         }
-      }
+      },
     );
   };
 
@@ -41,7 +49,12 @@ const PersonAvatar = ({ auth = {} }) => {
         <Avatar
           alt="avatar"
           src={headshot}
-          style={{ marginRight: "8px", height: 60, width: 60 }}
+          style={{
+            marginRight: "8px",
+            height: 60,
+            width: 60,
+            cursor: "pointer",
+          }}
           onClick={() =>
             navigate(`/excellentcreator/creator?cid=${user_id}`, {
               state: { cid: "" },
@@ -49,13 +62,16 @@ const PersonAvatar = ({ auth = {} }) => {
           }
         />
         <div>
-          <Typography>{user_name}</Typography>
+          <div style={{ display: "flex" }}>
+            <Typography>{user_name}</Typography>
+            <AuthTag authority={authority} />
+          </div>
           {/* <div
-              style={{
+          style={{
               display: "none",
               alignItems: "center",
               justifyContent: "space-between"
-              }}
+          }}
               >
               <Typography variant="caption">212,103万 订阅</Typography>
               <Button

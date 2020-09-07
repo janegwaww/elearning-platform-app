@@ -1,48 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { navigate } from "gatsby";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import React from "react";
+import { navigate, useStaticQuery, graphql } from "gatsby";
 import Divider from "@material-ui/core/Divider";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import Skeleton from "@material-ui/lab/Skeleton";
 import Slider from "react-slick";
+import map from "lodash/fp/map";
 import useSEO from "../SEO/useSEO";
-import { getCategoryList } from "../../services/home";
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import "./ChannelBar.sass";
 
 const ChannelBar = ({ id = "hots" }) => {
-  const screenMatches = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const [cates, setCates] = useState([]);
-  const [loading, setLoading] = useState(true);
   const setSEO = useSEO();
   const slickSetting = {
     dots: true,
     speed: 500,
     infinite: false,
-    slidesToShow: screenMatches ? 5 : 12,
-    slidesToScroll: 5,
+    slidesToShow: 12,
+    slidesToScroll: 12,
     className: "channel-slider",
     dotsClass: "slick-dots slick-thumb",
     arrows: false,
-    customPaging: function (i) {
+    customPaging: () => {
       return <div className="custom-dot" />;
     },
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 8,
+          slidesToScroll: 8,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
+        },
+      },
+    ],
   };
-
-  const fetchBarIcons = () => {
-    setLoading(true);
-    getCategoryList({}).then((data = []) => {
-      setCates(data);
-      setLoading(false);
-      setSEO({ title: data.filter((o) => o.id === id).name });
-    });
-  };
-
-  useEffect(() => {
-    fetchBarIcons();
-  }, []);
+  const data = useStaticQuery(graphql`
+    query {
+      allChannelBarListJson {
+        edges {
+          node {
+            name
+            web_click_icon
+            web_icon
+            id
+          }
+        }
+      }
+    }
+  `);
 
   const handleChannel = (event, { href, name }) => {
     event.preventDefault();
@@ -50,50 +61,36 @@ const ChannelBar = ({ id = "hots" }) => {
     setSEO({ title: name });
   };
 
-  return !loading && cates.length ? (
-    <Box className="channel-bar-paper" id="channel-bar-paper-to-back">
-      <Box className="bar-container">
+  return (
+    <div className="channel-bar-paper" id="channel-bar-paper-to-back">
+      <div className="bar-container">
         <div className="bar-content">
           <Slider {...slickSetting}>
-            {cates.map((o) => {
-              const cn = id && id === o.id ? "slice-action" : "";
-              const href = o.id === "hots" ? "/" : `/channel/?ch=${o.id}`;
+            {map(({ node }) => {
+              const cn = id && id === node.id ? "slice-action" : "";
+              const href = node.id === "hots" ? "/" : `/channel/?ch=${node.id}`;
               return (
-                <Box
+                <div
                   className={`item ${cn}`}
-                  onClick={(e) => handleChannel(e, { href, name: o.name })}
-                  key={o.id}
+                  onClick={(e) => handleChannel(e, { href, name: node.name })}
+                  key={node.id}
                 >
                   <div className="bar-icon">
-                    <img src={`${o.web_icon}`} alt={o.name} />
+                    <img src={`${node.web_icon}`} alt={node.name} />
                   </div>
                   <div className="bar-icon">
-                    <img src={`${o.web_click_icon}`} alt={o.name} />
+                    <img src={`${node.web_click_icon}`} alt={node.name} />
                   </div>
                   <div style={{ height: 10 }} />
                   <Typography noWrap align="center" variant="body2">
-                    {o.name}
+                    {node.name}
                   </Typography>
-                </Box>
+                </div>
               );
-            })}
+            })(data.allChannelBarListJson.edges)}
           </Slider>
         </div>
-      </Box>
-      <Divider />
-    </Box>
-  ) : (
-    <div>
-      <Box
-        height={80}
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        {Array.from({ length: 12 }).map((o, i) => (
-          <Skeleton key={i} variant="rect" width={48} height={48} />
-        ))}
-      </Box>
+      </div>
       <Divider />
     </div>
   );

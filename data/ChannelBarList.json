@@ -1,0 +1,98 @@
+[
+        {
+            "id" : "hots",
+            "name" : "热门",
+            "web_icon" : "/channel_icons/web_icon/hot.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/hot.svg"
+        },
+        {
+            "id" : "math",
+            "name" : "数学",
+            "web_icon" : "/channel_icons/web_icon/maths.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/maths.svg"
+        },
+        {
+            "id" : "ai",
+            "name" : "人工智能",
+            "web_icon" : "/channel_icons/web_icon/AI.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/AI.svg"
+        },
+        {
+            "id" : "physics",
+            "name" : "物理",
+            "web_icon" : "/channel_icons/web_icon/physics.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/physics.svg"
+        },
+        {
+            "id" : "history",
+            "name" : "历史",
+            "web_icon" : "/channel_icons/web_icon/history.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/history.svg"
+        },
+        {
+            "id" : "psychology",
+            "name" : "心理学",
+            "web_icon" : "/channel_icons/web_icon/psychology.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/psychology.svg"
+        },
+        {
+            "id" : "economy",
+            "name" : "金融经济",
+            "web_icon" : "/channel_icons/web_icon/finance.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/finance.svg"
+        },
+        {
+            "id" : "software",
+            "name" : "软件工程",
+            "web_icon" : "/channel_icons/web_icon/SE.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/SE.svg"
+        },
+        {
+            "id" : "cs",
+            "name" : "计算机科学",
+            "web_icon" : "/channel_icons/web_icon/it.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/it.svg"
+        },
+        {
+            "id" : "management",
+            "name" : "管理",
+            "web_icon" : "/channel_icons/web_icon/management.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/management.svg"
+        },
+        {
+            "id" : "mechanics",
+            "name" : "机器人工程",
+            "web_icon" : "/channel_icons/web_icon/mechanical_industry.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/mechanical_industry.svg"
+        },
+        {
+            "id" : "life",
+            "name" : "生活百科",
+            "web_icon" : "/channel_icons/web_icon/life.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/life.svg"
+        },
+        {
+            "id" : "law",
+            "name" : "法律",
+            "web_icon" : "/channel_icons/web_icon/law.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/law.svg"
+        },
+        {
+            "id" : "nature",
+            "name" : "自然",
+            "web_icon" : "/channel_icons/web_icon/nature.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/nature.svg"
+        },
+        {
+            "id" : "health",
+            "name" : "健康",
+            "web_icon" : "/channel_icons/web_icon/health.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/health.svg"
+        },
+        {
+            "id" : "others",
+            "name" : "其他",
+            "web_icon" : "/channel_icons/web_icon/others.svg",
+            "web_click_icon" : "/channel_icons/web_click_icon/others.svg"
+        }
+    ]

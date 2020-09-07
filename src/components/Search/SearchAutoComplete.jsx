@@ -14,10 +14,12 @@ const SearchAutoComplete = ({
   onSearch,
   onRemove,
   options,
+  placeholder,
   ...props
 }) => {
   const [opt, setOpt] = useState(options());
   const [rvalue, setRvalue] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleRemove = (e, value) => {
     e.stopPropagation();
@@ -25,8 +27,16 @@ const SearchAutoComplete = ({
     onRemove(value);
   };
 
+  const handleSearch = (e) => {
+    e.stopPropagation();
+    const { value } = document.getElementById("search-page-input");
+    setOpen(false);
+    onSearch(value);
+  };
+
   const handleEnter = (e) => {
     if (e.key === "Enter" && e.target.value) {
+      setOpen(false);
       onSearch(e.target.value);
     }
   };
@@ -42,16 +52,19 @@ const SearchAutoComplete = ({
   return (
     <Autocomplete
       freeSolo
+      open={open}
       selectOnFocus
       handleHomeEndKeys
-      clearOnBlur={false}
+      blurOnSelect
       options={opt}
       inputValue={refInput}
       getOptionLabel={(option) => option}
+      id="search-page-input"
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
       onOpen={() => getOptions()}
-      onInputChange={(event, newInputValue) => {
-        onChange(newInputValue);
-      }}
+      onChange={(e, v, r) => r === "select-option" && setOpen(false)}
+      onInputChange={(event, newInputValue) => onChange(newInputValue)}
       renderOption={(option) => (
         <Box
           width="100%"
@@ -69,9 +82,8 @@ const SearchAutoComplete = ({
       )}
       renderInput={(params) => (
         <InputBase
-          placeholder="支持跨模态逐帧搜索..."
-          id="search-page-input"
           type="search"
+          placeholder={placeholder}
           inputProps={{ ...params.inputProps }}
           ref={params.InputProps.ref}
           onKeyDown={handleEnter}
@@ -80,9 +92,9 @@ const SearchAutoComplete = ({
               <Button
                 startIcon={<SearchIcon />}
                 className="search-bar-button"
-                onClick={onSearch}
+                onClick={handleSearch}
               >
-                搜索
+                跨模态
               </Button>
             </InputAdornment>
           }

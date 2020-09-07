@@ -7,6 +7,10 @@ const apisSearch = searchPartApis();
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
   if (![0, "0"].includes(data.err)) {
+    console.log(data.err);
+  }
+  if (odata.Error) {
+    console.log(odata.Error);
   }
   return Promise.resolve(odata);
 };
@@ -22,23 +26,27 @@ const getCountResultData = ({ data = {} }) =>
 // 获取最新订阅的最终数据
 export const getLatestSubscription = pipeThen(
   getResultData,
-  apisSearch.latestSubscription
+  apisSearch.latestSubscription,
 );
 
 // 获取热门视频的最终数据
-export const getHotVideos = pipeThen(getResultData, apisVideo.hotVideo);
+export const getHotVideos = pipeThen(
+  getResultData,
+  errorMessageNotice,
+  apisVideo.hotVideo,
+);
 
 // 获取热门作者的最终数据
 export const getHotAuths = pipeThen(
   getResultData,
   errorMessageNotice,
-  apisVideo.hotAuthor
+  apisVideo.hotAuthor,
 );
 
 // 全局搜索
 export const searchGlobal = pipeThen(
   getCountResultData,
-  apisVideo.globalSearch
+  apisVideo.globalSearch,
 );
 
 // 获取作者信息
@@ -48,7 +56,7 @@ export const getCreatorInfo = pipeThen(
   extraAuth,
   getFirstResultData,
   getResultData,
-  apisSearch.getAuthorInformation
+  apisSearch.getAuthorInformation,
 );
 
 // 作者首页搜索
@@ -58,13 +66,13 @@ const extroData = (data = []) =>
 export const creatorHomeSearch = pipeThen(
   extroData,
   getResultData,
-  apisVideo.userSearch
+  apisVideo.userSearch,
 );
 
 // 获取频道
 export const getChannelList = pipeThen(
   getResultData,
-  apisVideo.categoryInformation
+  apisVideo.categoryInformation,
 );
 
 // 获取系列详情
@@ -81,7 +89,7 @@ export const getSeriesInfo = pipeThen(
   extraSeries,
   getFirstResultData,
   getResultData,
-  apisSearch.getSeriesDetails
+  apisSearch.getSeriesDetails,
 );
 
 // 系列详情页搜索
@@ -91,7 +99,7 @@ export const seriesSearch = pipeThen(getResultData, apisVideo.seriesSearch);
 const extraDocSeries = ({ document_data = [], ...info }) => {
   const dData = document_data.reduce(
     (a, c) => [...a, { data: c, source: "document" }],
-    []
+    [],
   );
   return Promise.resolve({ info, series: dData });
 };
@@ -99,13 +107,13 @@ export const getDocumentSeriesInfo = pipeThen(
   extraDocSeries,
   getFirstResultData,
   getResultData,
-  apisSearch.getDocumentSeriesDetails
+  apisSearch.getDocumentSeriesDetails,
 );
 
 // 文本系列详情页搜索
 export const docSeriesSearch = pipeThen(
   getResultData,
-  apisVideo.documentsSearch
+  apisVideo.documentsSearch,
 );
 
 // 获取频道列表栏
@@ -113,3 +121,13 @@ export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);
 
 // 全局搜索数据上传接口
 export const globalSearchResultUpdate = pipeThen(apisSearch.globalSearch);
+
+// 文本内容搜索
+export const documentSearch = pipeThen(getResultData, apisSearch.localSearch);
+
+// 文本搜索页内容
+export const documentContent = pipeThen(
+  getFirstResultData,
+  getResultData,
+  apisSearch.getImage,
+);

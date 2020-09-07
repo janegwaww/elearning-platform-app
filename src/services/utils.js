@@ -1,26 +1,26 @@
 import urlParse from "url-parse";
 import { globalHistory } from "@reach/router";
+import { flow } from "lodash/fp";
 
 const PATH = "http://api.haetek.com:9191";
 
 // 数据流通用方法
-const pipeM = (method) => (...fns) =>
-  fns.reduce((f, g) => (x) => g(x)[method](f));
+const pipeM = method => (...fns) => fns.reduce((f, g) => x => g(x)[method](f));
 
 // 数据流
-export const pipe = (...fns) => (x) => fns.reduce((y, f) => f(y), x);
+export const pipe = flow;
 
 // promise数据流
 export const pipeThen = pipeM("then");
 
 // 字符转对象
-export const strToObj = (k) => ({ [k]: "" });
+export const strToObj = k => ({ [k]: "" });
 
 // 转换为驼峰命名
 export const wrapCamelName = (str = "") =>
   str
     .split("_")
-    .map((o, i) => (i > 0 ? o.replace(/^./, (s) => s.toUpperCase()) : o))
+    .map((o, i) => (i > 0 ? o.replace(/^./, s => s.toUpperCase()) : o))
     .join("");
 
 // 秒转iso时制
@@ -34,13 +34,13 @@ export const secondsToDate = (seconds = 0) =>
 export const secondsToMouth = (seconds = 0) =>
   new Date(seconds * 1000).toISOString().slice(5, 10);
 
-export const remotePath = (path) => `${PATH}/${path}`;
+export const remotePath = path => `${PATH}/${path}`;
 
 export const getIdFromHref = () =>
   urlParse(globalHistory.location.href, true).query;
 
 // 用于pipe追踪
-export const track = (label) => (value) => {
+export const track = label => value => {
   console.log(`${label}: `, value);
   return value;
 };
@@ -57,6 +57,8 @@ export const decoratedStr = (who = "", subs = []) => {
   return who.replace(subStr, result);
 };
 
-export const searchUrlParams = (value) => {
-  return `/search/?${new URLSearchParams(`q=${value}`).toString()}`;
+export const searchUrlParams = ({ value = "", type = "all", page = 1 }) => {
+  return `/search/?${new URLSearchParams(
+    `q=${value}&type=${type}&page=${page}`,
+  ).toString()}`;
 };

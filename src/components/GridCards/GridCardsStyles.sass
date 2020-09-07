@@ -5,6 +5,7 @@
     overflow: hidden
     background-color: #fff
     position: relative
+    width: 100%
 
 
   .series-tag
@@ -30,6 +31,8 @@
 
   .grid-card-image-head
     height: 166px
+    background-color: #f2f2f5
+    color: #f2f2f5
     @media screen and (max-width: 960px)
       height: 100px
 
@@ -49,7 +52,9 @@
     align-items: center
     @media screen and (max-width: 960px)
       height: 22px
-    & > div
+    & .user-name
+      line-height: normal
+    & .avatar
       width: 28px
       height: 28px
       margin: 8px 8px 8px 0
@@ -59,5 +64,6 @@
 
   .grid-context-box
     padding: 16px
+    width: 100%
     @media screen and (max-width: 960px)
       padding: 10px

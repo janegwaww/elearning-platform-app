@@ -386,7 +386,7 @@ const SeriesItem = (props) => {
     title: "",
   });
   const [isShare, setIsShare] = React.useState(false); //分享
-
+ 
   return (
     <div className="box box-between box-align-center profile-top">
       <div
