@@ -134,7 +134,7 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
 
     handleEnter = (e) => {
       if (e.key === "Enter") {
-        this.handleSearchClick();
+        this.handleSearchClick(this.state.input);
       }
     };
 
