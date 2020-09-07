@@ -25,7 +25,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-import PdfTemplate from '../../../assets/templatepdf/template.pdf';
+import PdfTemplate from "../../../assets/templatepdf/template.pdf";
 
 const singsArr = require("../components/field.json");
 
@@ -115,13 +115,21 @@ export default function VideoIndex(props) {
               <main>
                 <form id="updata_text" className="root">
                   <Grid container spacing={4} className="item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
-                      <label><span className="fn-color-F86B6B">*</span>上传文件：</label>
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right not-padding"
+                    >
+                      <label>
+                        <span className="fn-color-F86B6B">*</span>上传文件：
+                      </label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
-                      <div >
+                      <div>
                         {adjunct ? (
-                          <p className='text-overflow'>
+                          <p className="text-overflow">
                             {adjunct.file_name}&nbsp;&nbsp;&nbsp;&nbsp;
                             <span
                               className="del"
@@ -177,7 +185,7 @@ export default function VideoIndex(props) {
                                 _data.append("type", "document");
                                 _data.append("file", _file);
                                 get_data(_data).then((res) => {
-                                  if (res.err == 0 ) {
+                                  if (res.err == 0) {
                                     setVideoImg(res.result_data.image_path);
                                     setSeriesImg(res.result_data.image_path);
                                     setAdjunct(res.result_data);
@@ -201,7 +209,7 @@ export default function VideoIndex(props) {
                                       type: "error",
                                       msg: res.errmsg,
                                     });
-                                  }else if (res.err == 4006) {
+                                  } else if (res.err == 4006) {
                                     setOpenSnackbar({
                                       open: true,
                                       type: "error",
@@ -227,7 +235,6 @@ export default function VideoIndex(props) {
                             />
                           </div>
                         )}
-                        
                       </div>
                     </Grid>
                   </Grid>
@@ -248,7 +255,7 @@ export default function VideoIndex(props) {
                           </Grid>
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
-                              required
+                              disabled={adjunct ? false : true}
                               variant="outlined"
                               data-inx={inx}
                               onChange={(event) => {
@@ -297,6 +304,7 @@ export default function VideoIndex(props) {
                           </Grid>
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
+                              disabled={adjunct ? false : true}
                               data-inx={inx}
                               rows={3}
                               variant="outlined"
@@ -324,6 +332,14 @@ export default function VideoIndex(props) {
                           <span
                             className="fn-color-007CFF"
                             onClick={() => {
+                              if (!adjunct) {
+                                new CustomModal().alert(
+                                  "添加文本后再添加",
+                                  "error",
+                                  2000
+                                );
+                                return;
+                              }
                               setAuthorArr((old) => {
                                 let _old = JSON.parse(JSON.stringify(old));
                                 _old.push({
@@ -351,7 +367,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        required
+                        disabled={adjunct ? false : true}
                         variant="outlined"
                         fullWidth
                         value={videoTitle}
@@ -380,7 +396,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        required
+                        disabled={adjunct ? false : true}
                         rows={3}
                         variant="outlined"
                         multiline
@@ -462,6 +478,7 @@ export default function VideoIndex(props) {
                         <div className="box box-align-center">
                           <span>人民币</span>&nbsp;&nbsp;
                           <TextField
+                            disabled={adjunct ? false : true}
                             style={{ width: "5rem" }}
                             variant="outlined"
                             placeholder="0.00"
@@ -488,7 +505,13 @@ export default function VideoIndex(props) {
                     </Grid>
                   </Grid>
                   <Grid container spacing={4} className=" item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right not-padding"
+                    >
                       <label>文件封面：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
@@ -520,6 +543,7 @@ export default function VideoIndex(props) {
                             <CuttingTemplate
                               id="coverfile"
                               formdata={(() => {
+                                
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
                                 _formData.append("type", "video_image");
@@ -536,7 +560,13 @@ export default function VideoIndex(props) {
                   </Grid>
 
                   <Grid container spacing={4} className=" item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right not-padding"
+                    >
                       <label>文件系列：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
@@ -555,6 +585,14 @@ export default function VideoIndex(props) {
                                   padding: "3px 12px",
                                 }}
                                 onClick={() => {
+                                  if (!adjunct) {
+                                    new CustomModal().alert(
+                                      "添加文本后再添加",
+                                      "error",
+                                      2000
+                                    );
+                                    return;
+                                  }
                                   setAddseries(true);
                                   setSeriesImg(videoImg);
                                   return false;
@@ -826,7 +864,7 @@ export default function VideoIndex(props) {
                         !adjunct ||
                         addseries ||
                         !videoTitle ||
-                        !videodescription 
+                        !videodescription
                           ? true
                           : false
                       }
@@ -868,8 +906,6 @@ export default function VideoIndex(props) {
                         //   });
                         //   return;
                         // }
-
-                       
 
                         let _data = {
                           file_name: videoTitle || adjunct.file_name,
