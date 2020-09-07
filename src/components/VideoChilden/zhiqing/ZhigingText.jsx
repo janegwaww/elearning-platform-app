@@ -262,6 +262,7 @@ export default function VideoIndex(props) {
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
                               required
+                              disabled={adjunct?false:true}
                               variant="outlined"
                               data-inx={inx}
                               onChange={(event) => {
@@ -310,6 +311,7 @@ export default function VideoIndex(props) {
                           </Grid>
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
+                              disabled={adjunct?false:true}
                               data-inx={inx}
                               rows={3}
                               variant="outlined"
@@ -337,6 +339,10 @@ export default function VideoIndex(props) {
                           <span
                             className="fn-color-007CFF"
                             onClick={() => {
+                              if(!adjunct){
+                                new CustomModal().alert('请先添加文件后再添加作者','error',2000);
+                                return
+                              }
                               setAuthorArr((old) => {
                                 let _old = JSON.parse(JSON.stringify(old));
                                 _old.push({
@@ -364,7 +370,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        required
+                        disabled={adjunct?false:true}
                         variant="outlined"
                         fullWidth
                         value={videoTitle}
@@ -393,7 +399,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        required
+                        disabled={adjunct?false:true}
                         rows={3}
                         variant="outlined"
                         multiline
@@ -426,6 +432,7 @@ export default function VideoIndex(props) {
                       <div>
                         <FormControl variant="outlined">
                           <Select
+                            disabled={adjunct?false:true}
                             native
                             value={videosign}
                             onChange={(ev) => {
@@ -836,6 +843,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
+                        disabled={adjunct?false:true}
                         type="number"
                         placeholder="邀请人ID"
                         variant="outlined"

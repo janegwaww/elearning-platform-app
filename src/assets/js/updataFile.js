@@ -174,7 +174,7 @@ UpdataFile.prototype.init = function(file,task_id) {
   this.filesList = filesArr; //分片列表
 
   let _formData = new FormData();
-  _formData.append("task_id",  task_id);
+  _formData.append("task_id",  task_id+new Date().getTime());
   _formData.append("title", _files.name.split('.')[0]);
   _formData.append("video_type", "mp4");
   _formData.append("model_name", "video");

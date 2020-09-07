@@ -10,9 +10,7 @@ import ScrollTop from "../../../layout/ScrollTop";
 import theme from "../../../layout/theme";
 
 export default class MainLayout extends React.Component {
-  componentDidMount() {
-    settings_html();
-  }
+ 
   render() {
     const { children } = this.props;
     return (
