@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   pul: {
     justifyContent: "center",
     borderBottom: "unset",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       "& .MuiPaginationItem-root": {
         height: 26,
         minWidth: 26,
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     height: 300,
     position: "unset",
     backgroundColor: "#f2f2f5",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       height: 150,
     },
   },

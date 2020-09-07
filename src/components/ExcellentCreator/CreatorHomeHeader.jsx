@@ -9,10 +9,7 @@ import Container from "../Container/KeContainer";
 
 const useStyles = makeStyles(() => ({
   authAvatar: {
-    display: "grid",
-    gridTemplateColumns: "66px auto",
-    gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 20px",
+    display: "flex",
     backgroundColor: "inherit",
   },
   avatar: {
@@ -55,35 +52,23 @@ const CreatorAvatar = ({ auth }) => {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <div className={classes.authAvatar}>
-            <div
-              style={{
-                gridColumn: 1,
-                gridRow: "1/5",
-              }}
-            >
-              <div className={classes.avatar}>
-                <Avatar
-                  src={headshot}
-                  alt={user_name}
-                  style={{ width: 66, height: 66 }}
-                />
-              </div>
+            <div className={classes.avatar}>
+              <Avatar
+                src={headshot}
+                alt={user_name}
+                style={{ width: 66, height: 66 }}
+              />
             </div>
-            <Typography variant="body2">{user_name}</Typography>
-            <Typography
-              variant="caption"
-              color="textSecondary"
-            >{`ID: ${user_id}`}</Typography>
-            <div style={{ gridRow: "3/5" }}>
+            <div style={{ width: "80%" }}>
+              <Typography variant="body2">{user_name}</Typography>
               <Typography
-                variant="subtitle1"
+                variant="caption"
                 color="textSecondary"
-                component="pre"
-                noWrap
-              >
+              >{`ID: ${user_id}`}</Typography>
+              <Typography variant="subtitle1" color="textSecondary" noWrap>
                 {introduction}
               </Typography>
             </div>
