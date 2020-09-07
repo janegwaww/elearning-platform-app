@@ -94,7 +94,7 @@ class PageAllWorks extends React.Component {
           id="all-works"
           style={{
             
-            backgroundImage: `url(${Bgimg})`,
+            // backgroundImage: `url(${Bgimg})`,
 
             position: "relative",
             padding: "11% 0",

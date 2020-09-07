@@ -94,9 +94,9 @@ class Pagedetail extends React.Component {
         <div
           className="all-width "
           style={{
-            backgroundImage: `url(${Bgimg})`,
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
+            // backgroundImage: `url(${Bgimg})`,
+            // backgroundSize: "100% 100%",
+            // backgroundRepeat: "no-repeat",
           }}
         >
           <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>

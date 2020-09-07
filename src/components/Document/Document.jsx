@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Link from "@material-ui/core/Link";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -150,13 +151,20 @@ const Document = ({ id = "" }) => {
             <div style={{ minWidth: "6.5625rem" }} />
             <div style={{ width: "calc(100% - 6.5625rem)" }}>
               <div>
-                <Zmage
-                  src={detail.preview_path}
-                  alt=''
-                  style={{ maxWidth: 466, width: "100%" }}
-                />
+                <Link
+                  color="inherit"
+                  target="_blank"
+                  underline="none"
+                  href={"/documentsearch/?dsid=" + did}
+                >
+                  <img src={detail.preview_path} alt="" className="all-width" />
+                </Link>
+                {/***  // <Zmage
+                //   src={detail.preview_path}
+                //   alt=''
+                //   style={{ maxWidth: 466, width: "100%" }}
+                // />*/}
               </div>
-            
             </div>
           </Box>
         </Box>

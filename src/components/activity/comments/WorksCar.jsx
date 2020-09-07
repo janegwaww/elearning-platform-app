@@ -23,7 +23,7 @@ const WordsCar = (props) => {
       <div
         style={{
           height: "1.7em",
-          minHeight:100,
+          minHeight:80,
           background: "#D8D8D8",
           boxShadow: "0px 0px 8px 0px rgba(32, 32, 32, 0.1)",
           borderRadius: '0.12em ',
