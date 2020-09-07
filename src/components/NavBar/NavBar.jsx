@@ -16,6 +16,7 @@ import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
 import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
+import ContributeMenu from "../../layout/ContributeMenu";
 
 const placeholder = "谁推导出洛伦兹变换";
 
@@ -124,12 +125,10 @@ const PrimarySearchAppBar = () => {
               <AvatarMenu />
             </div>
             <div>
-              <Button
-                className={classes.createButton}
-                onClick={() => navigate("/video/")}
-              >
-                <Typography>投稿</Typography>
-              </Button>
+              <ContributeMenu />
+            </div>
+            <div>
+              <ContributeMenu title="知擎杯" />
             </div>
           </Toolbar>
         </Container>

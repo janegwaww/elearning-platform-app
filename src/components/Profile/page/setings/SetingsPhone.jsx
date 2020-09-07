@@ -7,10 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import { get_data } from "../../../../assets/js/request";
 import "cropperjs/dist/cropper.css";
 import CustomModal from "../../../../assets/js/CustomModal";
-import useStyles from "./settingsStyle";
 
 const SetingsPhone = (props) => {
-  const classes = useStyles();
+  
   const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
   const [activeStep, setActiveStep] = React.useState(1);
   const [bindPhone, setBindPhone] = React.useState(""); //旧手机号/新手机号
@@ -161,7 +160,8 @@ const SetingsPhone = (props) => {
     };
   }, []);
   return (
-    <div className="profile-padding ">
+    <main className='settings'>
+    <div className="profile-padding root">
       <div>
         <Nav list={["设置手机"]} parent={props} _inx={0} />
       </div>
@@ -337,7 +337,7 @@ const SetingsPhone = (props) => {
                 style={{ paddingTop: 20 }}
               >
                 <Button
-                  className={classes.btn}
+                  className='btn'
                   variant="contained"
                   color="primary"
                   onClick={handleNext}
@@ -346,7 +346,7 @@ const SetingsPhone = (props) => {
                 </Button>
                 &nbsp;&nbsp;
                 <Button
-                  className={`${classes.btn} ${classes.btn4}`}
+                  className={'btn btn4'}
                   variant="contained"
                   onClick={handleBack}
                 >
@@ -358,6 +358,7 @@ const SetingsPhone = (props) => {
         </div>
       </div>
     </div>
+    </main>
   );
 };
 export default SetingsPhone;

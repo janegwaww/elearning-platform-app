@@ -1,6 +1,6 @@
 const isBrowser = () => typeof window !== "undefined";
-const isExist = key => isBrowser() && window.localStorage.getItem(`${key}`);
-const getValues = key => {
+const isExist = (key) => isBrowser() && window.localStorage.getItem(`${key}`);
+const getValues = (key) => {
   return isExist(key)
     ? new Set(JSON.parse(localStorage.getItem(key)))
     : new Set();
@@ -9,9 +9,9 @@ const setValues = (key, values) => {
   localStorage.setItem(key, JSON.stringify(values));
 };
 
-const exportHistory = name => {
+const exportHistory = (name) => {
   const state = [];
-  getValues(name).forEach(o => state.push(o));
+  getValues(name).forEach((o) => state.push(o));
 
   return Object.assign(
     {},
@@ -31,7 +31,7 @@ const exportHistory = name => {
       save() {
         setValues(name, state.slice(0, 6));
       },
-    },
+    }
   );
 };
 

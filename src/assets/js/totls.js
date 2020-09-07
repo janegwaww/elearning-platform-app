@@ -61,7 +61,7 @@ export const get_date = (timer, sep, num) => {
   //时间戳转换
   let _date = new Date(timer * 1000),
     _y = _date.getFullYear(),
-    _m = _date.getMonth()+1,
+    _m = _date.getMonth() + 1,
     _d = _date.getDate(),
     _h = _date.getHours(),
     _min = _date.getMinutes(),
@@ -80,6 +80,9 @@ export const get_date = (timer, sep, num) => {
   }
 };
 export const get_time = function(time) {
+  if (time == 0) {
+    return 0;
+  }
   let _time_arr = time.split(":");
   let _new_time =
     parseInt(_time_arr[0]) * 3600 +
@@ -90,4 +93,40 @@ export const get_time = function(time) {
 export const ev_stop = (ev) => {
   ev.stopPropagation();
   ev.preventDefault();
+};
+export const switch_time = (time, sep) => {
+  let _time = time;
+  let _h = parseInt(_time / 3600);
+  _h = _h > 9 ? _h : "0" + _h;
+  let _min = _time % 3600;
+  let _m = parseInt(_min / 60);
+  _m = _m > 9 ? _m : "0" + _m;
+  let _s = parseInt(_min % 60);
+  _s = _s > 9 ? _s : "0" + _s;
+
+  return _h + sep + _m + sep + _s;
+};
+export const is_phone = () => {
+
+  let ua = navigator.userAgent;
+  let ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+    isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+    isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+    isMobile = isIphone || isAndroid || ipad;
+  if (isMobile) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const settings_html = () => {
+  let _w = window.screen.width;
+  let _new_w = (48 / 1920) * _w;
+  
+  if (is_phone()) {
+    document.querySelector("html").style.fontSize = _new_w + "px";
+  } else {
+    document.querySelector("html").style.fontSize = 16 + "px";
+  }
 };

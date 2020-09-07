@@ -1,22 +1,18 @@
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
-import useStyles from "./settingsStyle";
-import { get_data } from "../../../../assets/js/request";
+
+import { get_data,get_info } from "../../../../assets/js/request";
 import "cropperjs/dist/cropper.css";
-import CustomModal from "../../../../assets/js/CustomModal";
+
 
 import { navigate } from "@reach/router";
-import {
-  generateThirdPartyUrl,
-  handleThirdLogin,
-  bindingMobile,
-} from "../../../../services/auth";
-import ProfileDialog from "../../components/ProFileDialog";
 
+import ProfileDialog from "../../components/ProFileDialog";
+// import CustomModal from "../../../../assets/js/CustomModal";
 const Safety = (props) => {
-  const classes = useStyles();
-  const [userInfo, setUserInfo] = React.useState({}); //保存用户信息
+ 
+  const [userInfo, setUserInfo] = React.useState(null); //保存用户信息
   const [untieData, setUntieData] = React.useState({
     type: "", //weibo//QQ
     isOpen: false,
@@ -94,45 +90,46 @@ const Safety = (props) => {
           dialogmsg: "确定解除绑定吗?",
         });
       } else {
-        setUntieData({
-          type: _ev_data.type,
-          isOpen: true,
-          isUntie: true,
-          dialogtitle: "绑定第三方帐号",
-          dialogmsg:
-            "亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么",
-          login: true,
-        });
-        // get_data({
-        //   model_name: "user",
-        //   model_action: "generate_third_qrcode",
-        //   extra_data: {
-        //     type: _ev_data.type, //# QQ/微信/微博
-        //     back_url:'http://kengine.haetek.com/users/profile/setings/safety'
-        //   },
-        //   model_type: "",
-        // }).then(res=>{
-        //   console.log(res)
-        //   if(res.err==0){
-        //     // window.location.href = `${res.result_data[0].url}`
-        //     window.open(`${res.result_data[0].url}`);
-        //   }else{
-        //     alert('绑定失败')
-        //   }
-        // })
+        // setUntieData({
+        //   type: _ev_data.type,
+        //   isOpen: true,
+        //   isUntie: true,
+        //   dialogtitle: "绑定第三方帐号",
+        //   dialogmsg:
+        //     "亲！ 在登录页选择第三方账号登录就可以绑定了，现在去登录么",
+        //   login: true,
+        // });
+        get_data({
+          model_name: "user",
+          model_action: "generate_third_qrcode",
+          extra_data: {
+            type: _ev_data.type, //# QQ/微信/微博
+            back_url:'http://kengine.haetek.com/users/profile/settings/safety'
+          },
+          model_type: "",
+        }).then(res=>{
+          
+          if(res.err==0){
+            // window.location.href = `${res.result_data[0].url}`
+            window.open(`${res.result_data[0].url}`);
+          }else{
+            alert('绑定失败')
+          }
+        })
       }
     }
   };
   React.useEffect(() => {
-    if (sessionStorage.getItem("user_info")) {
-      let _data = JSON.parse(sessionStorage.getItem("user_info"));
-      
-      setUserInfo(_data);
-    }
+
+    get_info().then(res=>{
+        setUserInfo(res)
+    })
+   
   }, []);
 
   return (
-    <div className="all-width">
+    <main className='settings'>
+    <div className="all-width root">
       <Grid
         container
         className="fn-color-2C2C3B fn-size-14"
@@ -147,7 +144,7 @@ const Safety = (props) => {
         <Grid item xs={3}>
           <Button
             data-type="phone"
-            className={`${classes.btn1} all-width`}
+            className={`btn1 all-width`}
             variant="outlined"
             color="secondary"
             onClick={bind_btn}
@@ -166,24 +163,24 @@ const Safety = (props) => {
           绑定微信
         </Grid>
         <Grid item xs={7}>
-          {userInfo.binding_webchat === 1
+          {userInfo&&userInfo.binding_webchat === 1
             ? " 已绑定微信"
             : "未绑定微信帐号，绑定后可使用微信直接登录"}
         </Grid>
         <Grid item xs={3}>
           <Button
             data-type="wechat"
-            data-typeid={userInfo.binding_webchat}
+            data-typeid={userInfo&&userInfo.binding_webchat}
             className={
-              userInfo.binding_webchat === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1}  all-width`
+              userInfo&&userInfo.binding_webchat === 1
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
             onClick={bind_btn}
           >
-            {userInfo.binding_webchat === 1 ? "解除绑定" : "绑定微信"}
+            {userInfo&&userInfo.binding_webchat === 1 ? "解除绑定" : "绑定微信"}
           </Button>
         </Grid>
       </Grid>
@@ -196,24 +193,24 @@ const Safety = (props) => {
           绑定QQ:
         </Grid>
         <Grid item xs={7}>
-          {userInfo.binding_qq === 1
+          {userInfo&&userInfo.binding_qq === 1
             ? " 已绑定QQ"
             : "未绑定QQ账号, 绑定后可使用QQ直接登录"}
         </Grid>
         <Grid item xs={3}>
           <Button
             data-type="qq"
-            data-typeid={userInfo.binding_qq}
+            data-typeid={userInfo&&userInfo.binding_qq}
             className={
-              userInfo.binding_qq === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1} all-width`
+              userInfo&&userInfo.binding_qq === 1
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
             onClick={bind_btn}
           >
-            {userInfo.binding_qq === 1 ? "解除绑定" : "绑定QQ"}
+            {userInfo&&userInfo.binding_qq === 1 ? "解除绑定" : "绑定QQ"}
           </Button>
         </Grid>
       </Grid>
@@ -226,30 +223,31 @@ const Safety = (props) => {
           绑定微博:
         </Grid>
         <Grid item xs={7}>
-          {userInfo.binding_microblog === 1
+          {userInfo&&userInfo.binding_microblog === 1
             ? "已绑定微博"
             : "未绑定新浪微博账号, 绑定后可使用微博直接登录"}
         </Grid>
         <Grid item xs={3}>
           <Button
             data-type="microblog"
-            data-typeid={userInfo.binding_microblog}
+            data-typeid={userInfo&&userInfo.binding_microblog}
             className={
-              userInfo.binding_microblog === 1
-                ? `${classes.btn1} ${classes.btn2} all-width`
-                : `${classes.btn1} all-width`
+              userInfo&&userInfo.binding_microblog === 1
+                ? `btn1 btn2 all-width`
+                : `btn1 all-width`
             }
             variant="outlined"
             color="secondary"
             onClick={bind_btn}
           >
-            {userInfo.binding_microblog === 1 ? "解除绑定" : "绑定微博"}
+            {userInfo&&userInfo.binding_microblog === 1 ? "解除绑定" : "绑定微博"}
           </Button>
         </Grid>
       </Grid>
 
       <ProfileDialog parent={props} info={untieData} onEvent={untie_click} />
     </div>
+    </main>
   );
 };
 export default Safety;

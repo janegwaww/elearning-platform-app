@@ -1,6 +1,6 @@
 import React, { createRef, Component } from "react";
 
-import ProgressBar from "../../Loading/ProgressBar";
+import ProgressBar from "../../../assets/template/ProgressBar";
 import "./Uploader.css";
 import {
   Button,
@@ -22,16 +22,14 @@ import Message from "./Message";
 import UpdataFile from "../../../assets/js/updataFile";
 import { navigate } from "@reach/router";
 import { getUser, isLoggedIn } from "../../../services/auth";
-
 import BMF from "browser-md5-file";
-
 import CustomModal from "../../../assets/js/CustomModal";
 import dropupload from "../../../assets/img/dropupload.svg";
-
 import DialogModal from "../components/Dialog";
 import gologin from "../../../assets/img/gologin.png";
 import uploadererr from "../../../assets/img/uploadererr.png";
 import videorest from "../../../assets/img/videorest.png";
+
 
 const NewLinearProgress = withStyles({
   root: {
@@ -146,7 +144,11 @@ export default class UploadVideos extends Component {
     });
 
     let _id = this.props.parent.props.location.search.split("=")[1];
-
+    if(_id=='zhiqing'){
+      this.props.parent.setState({page_type:_id});
+      return
+    }
+    
     if (_id) {
       this.setState({
         login_status: true,
@@ -196,7 +198,7 @@ export default class UploadVideos extends Component {
           }
           if (res.result_data[0].subtitle) {
             _data.sub_josn = res.result_data[0].subtitle;
-            if (_data.sub_josn[0].en_sub) {
+            if (_data.sub_josn[0]&&_data.sub_josn[0].en_sub) {
               this.props.parent.setState({
                 lang: 2,
               });
@@ -461,7 +463,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
-        new CustomModal().alert("生成字幕失败", "error", 4000);
+        alert("生成字幕失败");
+        // new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
@@ -505,7 +508,8 @@ export default class UploadVideos extends Component {
         }
       })
       .catch((err) => {
-        new CustomModal().alert("生成字幕失败", "error", 4000);
+        alert("生成字幕失败");
+        // new CustomModal().alert("生成字幕失败", "error", 4000);
         this.setState({
           status: 3,
         });
@@ -516,7 +520,6 @@ export default class UploadVideos extends Component {
     _data.sub_josn = data.subtitling;
     this.setState({ status: 3, files: _data });
     // sessionStorage.setItem('file_data',_data);
-
     this.props.parent.getUpfileUrl(data);
     alert("字幕已生成(如果您的视频有片头曲 可能要右移才会发现字幕哦)");
   }
@@ -608,7 +611,7 @@ export default class UploadVideos extends Component {
     let _this = this;
     return (
       <div className="section upload-cover fn-color-9E9EA6 ">
-        <ProgressBar loading={login_status} />
+      <ProgressBar loading={login_status} />
         <div className="nav-tabs ">
           <p>我的视频</p>
         </div>
@@ -873,7 +876,33 @@ export default class UploadVideos extends Component {
                   <NewBtn2
                     disabled={status != 3}
                     onClick={() => {
-                      navigate(`/video/uppage`);
+                      this.setState({
+                        login_status:true
+                      })
+                      get_data({
+                        "model_name":"video",
+                        "model_action":"get_image_path",
+                        "extra_data":{
+                        "video_id" : this.state.files.video_id
+                        },
+                        "model_type":""
+                        },'video').then(res=>{
+                          if(res.result_data[0]&&res.result_data[0].image_path){
+                            let _data =JSON.parse(sessionStorage.getItem('file_data'));
+                            _data.image_path=res.result_data[0].image_path;
+                            this.setState({
+                              files:_data
+                            });
+                            sessionStorage.setItem('file_data',JSON.stringify(_data));
+                            if(this.props.parent.state.page_type&&this.props.parent.state.page_type=='zhiqing'){
+                              navigate(`/video/zhiqingvideo`);
+                              return
+                            }
+                            navigate(`/video/uppage`);
+                          }
+                          this.setState({login_status:false})
+                        })
+                        
                     }}
                   >
                     直接发布作品
@@ -961,7 +990,7 @@ export default class UploadVideos extends Component {
           )}
         </DialogModal>
         <Dialog open={lang_open}>
-          <DialogTitle>请选择上传视频的语言</DialogTitle>
+          <DialogTitle>请选择上传视频的源语言</DialogTitle>
           <DialogContent>
             <FormControl component="fieldset">
               <RadioGroup
@@ -991,7 +1020,7 @@ export default class UploadVideos extends Component {
               color="primary"
               onClick={() => {
                 if (!this.state.lang_value) {
-                  new CustomModal().alert("请选择视频的语言", "error", 3000);
+                  new CustomModal().alert("请选择视频的源语言", "error", 3000);
                   return;
                 }
                 this.props.parent.show_edit();

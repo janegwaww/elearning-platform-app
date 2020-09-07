@@ -1,11 +1,11 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
-
-import ProgressBar from "../../../Loading/ProgressBar";
+import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 import notvideo from "../../../../assets/img/notvideo.png";
 import LoadData from "../../components/LoadData";
+import NotData from '../../components/NotData';
 export default class Draft extends React.Component {
   constructor(props) {
     super(props);
@@ -83,19 +83,15 @@ export default class Draft extends React.Component {
             {show_data ? (
               show_data.map((option, inx) => (
                 <SeriesItem
-                  key={option.video_id}
+                  key={option.video_id||option.file_id}
                   parent={this}
                   info={option}
                   series="draft"
                 />
               ))
             ) : (
-              <div className="profile-top all-width all-height view-overflow text-center">
-                <img src={notvideo} style={{ width: 490, height: 293 }} />
-                <div className="fn-color-6f fn-size-16 profile-top-20">
-                  暂无草稿记录
-                </div>
-              </div>
+              <NotData src={notvideo} content='暂无草稿记录' />
+              
             )}
           </div>
         ) : (

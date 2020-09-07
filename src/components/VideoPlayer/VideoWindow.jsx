@@ -10,6 +10,7 @@ import { secondsToHMS } from "../../services/utils";
 class VideoWindow extends Component {
   constructor(props) {
     super(props);
+
     this.state = {};
     this.playerRef = React.createRef(null);
   }

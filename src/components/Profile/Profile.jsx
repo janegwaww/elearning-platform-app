@@ -1,23 +1,20 @@
 import React from "react";
 import Helmet from "react-helmet";
 import Layout from "./layout";
-import config from "../../../data/SiteConfig";
 
 import { navigate, Link } from "@reach/router";
 import { Container, Avatar,Grid } from "@material-ui/core";
-
-
-
-
 import { RightMenu } from "./components/AsadeMenu";
-import { get_data } from "../../assets/js/request";
+import { get_data, get_info } from "../../assets/js/request";
 import usercontainer from "../../assets/img/usercontainer.png";
 import iconDy from "../../assets/img/iconDy.png";
 import iconcrear from "../../assets/img/iconcrear.png";
+import "./layout/Profile.css";
+import './components/settings.css';
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       userinfo: null,
       is_show: false,
@@ -37,18 +34,12 @@ class Profile extends React.Component {
       sessionStorage.removeItem("file_data");
     }
     this.pageRoute(this.props);
-
-    get_data({
-      model_name: "user",
-      model_action: "get_information",
-    }).then((res) => {
-      if (res.err == 0 && res.errmsg == "OK") {
-        this.setState({
-          userinfo: res.result_data[0],
-        });
-        sessionStorage.setItem("user_info", JSON.stringify(res.result_data[0]));
-      }
-    });
+    get_info().then(res=>{
+      this.setState({
+        userinfo: res,
+      });
+    })
+   
   }
   componentWillReceiveProps(nextProps) {
     this.pageRoute(nextProps);
@@ -58,16 +49,27 @@ class Profile extends React.Component {
   }
 
   pageRoute(props) {
+    
+    let _url = props.location.search;
+    if(_url){
+       navigate(`${_url.split('=')[1]}`);
+       return
+    }
+    
     let _menu_open = JSON.parse(JSON.stringify(this.state.menuOpen));
+    Object.keys(_menu_open).forEach((va) => {
+      _menu_open[va] = false;
+    });
+  
+    if(!props['*']&& typeof props['*'] !='string'){
+      return
+    }
     let _router_arr = props["*"].split("/");
 
     let _router = _router_arr[0];
     let _is_show = false;
     let _inx = 0;
-    Object.keys(_menu_open).forEach((va) => {
-      _menu_open[va] = false;
-    });
-    
+   
     switch (_router) {
       case "complaints":
         _menu_open.CreateCenter = true;
@@ -98,15 +100,13 @@ class Profile extends React.Component {
   render() {
     const { menuOpen, inx } = this.state;
     const { children } = this.props;
-
+  
     return (
       <Layout>
-        <Helmet title={`${config.siteTitle}`} />
         <Container className="all-height all-width ">
-         
-          <Grid container>
-            <Grid xs={3} item>
-            
+      
+     <Grid container>
+            <Grid xs={5} sm={3} item>
             <aside
               className=" profile-left all-height bg-white "
               
@@ -120,7 +120,7 @@ class Profile extends React.Component {
                 >
                   <div className="box box-center">
                     <Avatar
-                      style={{ width: 80, height: 80 }}
+                      style={{ width:'5rem', height: '5rem' }}
                       src={
                         this.state.userinfo && this.state.userinfo.headshot
                           ? this.state.userinfo.headshot
@@ -128,12 +128,12 @@ class Profile extends React.Component {
                       }
                     ></Avatar>
                   </div>
-                  <p className="zero-edges fn-color-2C2C3B fn-size-18 text-overflow">
+                  <p className="zero-edges fn-color-2C2C3B fn-r-18 text-overflow">
                     {this.state.userinfo && this.state.userinfo.user_name
                       ? this.state.userinfo.user_name
                       : "暂未留下称呼"}
                   </p>
-                  <p className="zero-edges textview-overflow two fn-color-878791 fn-size-12">
+                  <p className="zero-edges textview-overflow two fn-color-878791 fn-r-12">
                     {this.state.userinfo && this.state.userinfo.introduction
                       ? this.state.userinfo.introduction
                       : "暂未留下描述哦"}
@@ -158,6 +158,7 @@ class Profile extends React.Component {
                   aria-controls="dynamic-menu"
                   aria-haspopup="true"
                   onClick={(evt) => {
+                    
                     navigate(`/users/profile/dynamic`);
                     
                   }}
@@ -185,8 +186,10 @@ class Profile extends React.Component {
                   aria-label="more"
                   aria-controls="create-menu"
                   aria-haspopup="true"
-                
                   onClick={(evt) => {
+                    if(menuOpen.CreateCenter){
+                      return
+                    } 
                     navigate("/users/profile/workscenter");
                     
                   }}
@@ -211,18 +214,14 @@ class Profile extends React.Component {
             </aside>
             
             </Grid>
-            <Grid xs={9} item>
+            <Grid xs={7} sm={9} item>
             <main
-              className=" bg-white"
-              
+              className=" bg-white all-height"
             >
               {children}
             </main>
             </Grid>
           </Grid>
-            
-            
-         
         </Container>
       </Layout>
     );

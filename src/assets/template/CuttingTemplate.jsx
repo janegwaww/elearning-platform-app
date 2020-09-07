@@ -68,6 +68,7 @@ const userStyles = makeStyles((them) => ({
     display: "inline-block",
     overflow: "hidden",
     position: "relative",
+    borderRadius:6,
     "& input[type=file]": {
       width: 1,
       height: 1,

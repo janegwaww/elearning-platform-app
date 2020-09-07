@@ -107,13 +107,10 @@ const AvatarMenu = () => {
           <Avatar src={headshot} alt={name} className={classes.avatar} />
         </IconButton>
       ) : (
-        <Link
-          href="/users/login"
-          underline="none"
-          variant="body1"
-          className={classes.link}
-        >
-          <Typography noWrap>登录/注册</Typography>
+        <Link href="/users/login" underline="none" variant="body1">
+          <Typography noWrap className={classes.link}>
+            登录/注册
+          </Typography>
         </Link>
       )}
 
@@ -193,7 +190,7 @@ const AvatarMenu = () => {
             size="small"
             onClick={() => {
               handleMenuClose();
-              navigate("/users/profile/setings");
+              navigate("/users/profile/settings");
             }}
           >
             <SettingsIcon fontSize="inherit" />

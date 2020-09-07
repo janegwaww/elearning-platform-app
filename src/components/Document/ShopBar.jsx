@@ -70,6 +70,7 @@ const ShopBar = ({ info = {}, did }) => {
     setPaidedHref(info.file_path);
   }, [info.is_pay]);
 
+  //此页面的rem 是2020/8/3更改，即为1920宽屏上的实际尺寸/16,1rem为：16/1920*当前屏宽
   useEffect(() => {
     if (out_trade_no) {
       verifyAliPay({ order_id: out_trade_no }).then((data = {}) => {
@@ -89,16 +90,23 @@ const ShopBar = ({ info = {}, did }) => {
           alignItems="baseline"
           pt={2}
           pb={1}
+          style={{ maxWdith: 1000 }}
         >
-          <div className="doc-price-title">限时解锁&nbsp;</div>
-          <div className="doc-price">
-            <span style={{ fontSize: 23 }}>￥</span>
+          <div className="doc-price-title" style={{ fontSize: "1.25rem" }}>
+            限时解锁&nbsp;
+          </div>
+          <div className="doc-price" style={{ fontSize: "2rem" }}>
+            <span>￥</span>
             {`${info.price || 0}`}
           </div>
-          <Box width={100} />
+          <Box width={"6.25rem"} />
           <div className="unlock-button">
             {isPay ? (
-              <ButtonBase className="pay-button" onClick={handleCheck}>
+              <ButtonBase
+                className="pay-button"
+                onClick={handleCheck}
+                style={{ padding: "0.625rem 3.125rem", fontSize: "1.125rem" }}
+              >
                 查看
               </ButtonBase>
             ) : (
@@ -106,6 +114,7 @@ const ShopBar = ({ info = {}, did }) => {
                 onClick={paymentClick}
                 size="small"
                 className="pay-button"
+                style={{ padding: "0.625rem 3.125rem", fontSize: "1.125rem" }}
               >
                 立即解锁
               </ButtonBase>
@@ -130,7 +139,10 @@ const ShopBar = ({ info = {}, did }) => {
                 disableFocusListener
               >
                 <div>
-                  <HelpOutlineIcon color="error" style={{ fontSize: 12 }} />
+                  <HelpOutlineIcon
+                    color="error"
+                    style={{ fontSize: "0.75rem" }}
+                  />
                 </div>
               </LightTooltip>
             </Box>
