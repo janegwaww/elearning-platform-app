@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Avatar from "@material-ui/core/Avatar";
@@ -15,6 +16,7 @@ import "./GridCardsStyles.sass";
 
 const GridCards = ({ items = [], loading = false, itemCount = 0 }) => {
   const [list, setList] = useState([]);
+  const match = useMediaQuery("(min-width: 600px)");
 
   // 点击标题跳转事件
   const handleLink = ({ video_id, series_id, file_id, file_path, lang }) => {
@@ -146,8 +148,8 @@ const GridCards = ({ items = [], loading = false, itemCount = 0 }) => {
               <Typography variant="caption" color="textSecondary" noWrap>
                 {!!item.view_counts && `${item.view_counts} 观看`}
                 {!!item.view_counts && <Bull />}
-                {!!item.like_counts && `${item.like_counts} 点赞`}
-                {!!item.like_counts && <Bull />}
+                {!!item.like_counts && match && `${item.like_counts} 点赞`}
+                {!!item.like_counts && match && <Bull />}
                 {!!item.upload_time &&
                   `${secondsToMouth(item.upload_time)} 发布`}
                 {!!item.time && `${secondsToMouth(item.time)} 发布`}
