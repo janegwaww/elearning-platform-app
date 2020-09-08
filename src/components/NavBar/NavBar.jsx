@@ -150,7 +150,11 @@ const PrimarySearchAppBar = () => {
         </Container>
         <div ref={container} />
       </AppBar>
-      <MenuMobile open={open} container={container} />
+      <MenuMobile
+        open={open}
+        container={container}
+        handleClose={handleMobileMenu}
+      />
     </div>
   );
 };
