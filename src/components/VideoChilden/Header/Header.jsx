@@ -249,19 +249,21 @@ export default class Header extends Component {
                   "video"
                 ).then((res) => {
                   let _data = res.result_data[0] || res.result_data;
-                  console.log(this.props.parent.state.video_data);
-                  console.log(_data.image_path)
+
                   if (_data.image_path) {
                     this.props.parent.state.video_data.image_path =
                       _data.image_path;
+                    sessionStorage.setItem(
+                      "file_data",
+                      JSON.stringify(this.props.parent.state.video_data)
+                    );
 
-                      console.log(this.props.parent.state.video_data);
-                      
-                   sessionStorage.setItem('file_data', JSON.stringify(this.props.parent.state.video_data));
-                  
-                    if(this.props.parent.state.page_type&&this.props.parent.state.page_type=='zhiqing'){
+                    if (
+                      this.props.parent.state.page_type &&
+                      this.props.parent.state.page_type == "zhiqing"
+                    ) {
                       navigate(`/video/zhiqingvideo`);
-                      return
+                      return;
                     }
                     navigate(`/video/uppage`);
                   }
