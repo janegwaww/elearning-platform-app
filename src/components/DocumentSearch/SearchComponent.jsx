@@ -1,8 +1,6 @@
 import React, { memo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -11,32 +9,9 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import SearchInput from "./SearchInput";
 import withSearchComponent from "./withSearchComponent";
 import ProgressBar from "../Loading/ProgressBar";
-
-const useStyles = makeStyles((theme) => ({
-  item: {
-    backgroundColor: "#878791",
-  },
-  button: {
-    "&:hover": {
-      backgroundColor: "#878792",
-    },
-  },
-  drawerPaper: {
-    backgroundColor: "#1b1b1d",
-    width: "41.666667%",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
-  },
-  tab: {
-    backgroundColor: "rgba(60,60,60,1)",
-    padding: "9px",
-    color: "#fff",
-  },
-}));
+import "./SearchComponent.sass";
 
 const renderRow = memo(({ index, style, data }) => {
-  const classes = useStyles();
   const { itemsArray, itemClick } = data;
   const item = itemsArray[index];
   const refStr = (str) =>
@@ -53,8 +28,7 @@ const renderRow = memo(({ index, style, data }) => {
       style={style}
       key={index}
       onClick={() => itemClick({ ...item, index })}
-      className={item.isActive ? classes.item : ""}
-      classes={{ button: classes.button }}
+      className={`list-button ${item.isActive ? "item" : ""}`}
     >
       <Grid container>
         <Grid item xs={1}>
@@ -79,18 +53,16 @@ const SearchComponent = ({
   onClose,
   loading,
 }) => {
-  const classes = useStyles();
   const itemData = { itemsArray, itemClick };
 
   return (
     <Drawer
-      className={classes.drawer}
+      className="search-component-drawer"
       variant="persistent"
       anchor="left"
       open={open}
-      classes={{ paper: classes.drawerPaper }}
     >
-      <Box pt={2} pb={4} pl={5}>
+      <div className="input-bar">
         <Grid container>
           <Grid item xs={10}>
             <SearchInput handleSearchClick={onSearch} open={open} />
@@ -101,14 +73,14 @@ const SearchComponent = ({
             </Button>
           </Grid>
         </Grid>
-      </Box>
+      </div>
 
-      <Box className={classes.tab}>
+      <div className="tab">
         <Typography noWrap>
           序号&nbsp;&nbsp;｜&nbsp;&nbsp;
           {`结果: ${itemsArray.length}`}
         </Typography>
-      </Box>
+      </div>
 
       <AutoSizer>
         {({ height, width }) => (
