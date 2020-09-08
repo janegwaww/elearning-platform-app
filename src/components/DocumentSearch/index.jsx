@@ -6,10 +6,9 @@ import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
-import { getUser } from "../../services/auth";
+import { isLoggedIn, getUser } from "../../services/auth";
 import { getIdFromHref } from "../../services/utils";
 import { likeTheVideo } from "../../services/video";
-import { isLoggedIn } from "../../services/auth";
 import { useLoginConfirm } from "../LoginConfirm";
 import "./index.sass";
 
@@ -53,9 +52,9 @@ const DocumentSearch = () => {
   };
 
   const handleDownload = () => {
-    if (dsid && info.file_name && token) {
+    if (id && info.file_name && token) {
       axios
-        .post(api, params(dsid), resType)
+        .post(api, params(id), resType)
         .then((res) => {
           fileDownload(res, info.file_name, info.file_type);
         })
@@ -70,7 +69,7 @@ const DocumentSearch = () => {
   const handleLike = () => {
     const value = info.is_like ? 0 : 1;
     if (!isLoggedIn()) return loginConfirm();
-    likeTheVideo({ relation_id: [dsid], value, type: "document" }).then(
+    likeTheVideo({ relation_id: [id], value, type: "document" }).then(
       (data) => {
         if (data) {
           setInfo((prev) => ({
