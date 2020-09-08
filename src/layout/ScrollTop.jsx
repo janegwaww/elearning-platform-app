@@ -23,7 +23,6 @@ function ScrollTop() {
   });
 
   const handleClick = (event) => {
-    console.log(event)
     const anchor = (event.target.ownerDocument || document).querySelector(
       "#back-to-top-anchor",
     );

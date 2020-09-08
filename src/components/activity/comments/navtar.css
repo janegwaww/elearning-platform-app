@@ -1,7 +1,7 @@
 .navtar {
  
   background-color: #4e07ba;
-    width:calc(100% - 0.05em);
+   
     height:1.2em;
     min-height: 42px;
     position: relative;
@@ -23,16 +23,18 @@
 .navtar  span:hover{
   cursor: pointer;
 }
+
 .navtar .acti{
   color:#fcf800;
   font-size:1.33em;
   position: relative;
 }
+
 .acti::before,.acti::after{
   display:block;
   content:'';
-  width:0.3em;
-  height: 0.3em;
+  width:0.5em;
+  height: 0.5em;
   border:1px solid #fcf800;
   position: absolute;
   

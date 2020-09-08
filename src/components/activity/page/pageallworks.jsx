@@ -11,8 +11,8 @@ import TextField from "@material-ui/core/TextField";
 import WordsCar from "../comments/WorksCar";
 import Pagination from "@material-ui/lab/Pagination";
 import { get_data } from "../../../assets/js/request";
-import {is_phone} from '../../../assets/js/totls';
-import ProgressBar from '../../../assets/template/ProgressBar';
+import { is_phone } from "../../../assets/js/totls";
+import ProgressBar from "../../../assets/template/ProgressBar";
 class PageAllWorks extends React.Component {
   constructor(props) {
     super(props);
@@ -23,20 +23,25 @@ class PageAllWorks extends React.Component {
       total_counts: 0,
       page_num: 0,
       show_count: 10,
+      login_status: false,
     };
     this.winsize = this.winsize.bind(this);
     this.up_data = this.up_data.bind(this);
   }
   componentDidMount() {
     this.winsize();
-
-    window.onresize = () => {
+    window.onresize=()=>{
       this.winsize();
-    };
-
+    }
     this.up_data();
   }
+  componentWillUnmount() {
+    window.onresize = null;
+  }
   up_data() {
+    this.setState({
+      login_status: true,
+    });
     get_data(
       {
         model_name: "data",
@@ -50,7 +55,6 @@ class PageAllWorks extends React.Component {
       },
       "video"
     ).then((res) => {
-      
       if (res.result_data.length > 0) {
         this.setState({
           total_data: res.result_data,
@@ -66,11 +70,14 @@ class PageAllWorks extends React.Component {
           show_data: null,
         });
       }
+      setTimeout(() => {
+        this.setState({
+          login_status: false,
+        });
+      }, 300);
     });
   }
-  componentWillUnmount() {
-    window.onresize = null;
-  }
+
   winsize() {
     this.setState({
       contest_w: document.getElementById("all-works").clientWidth,
@@ -85,15 +92,15 @@ class PageAllWorks extends React.Component {
       show_count,
       page_num,
     } = this.state;
-    // console.log(contest_w);
+console.log(contest_w)
     return (
       <div>
+        <ProgressBar loading={this.state.login_status} speed={15} />
         <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
         <div
           className="all-width bg-not"
           id="all-works"
           style={{
-            
             // backgroundImage: `url(${Bgimg})`,
 
             position: "relative",
@@ -103,11 +110,11 @@ class PageAllWorks extends React.Component {
           <div
             className="bg-white all-height contestcar"
             style={{
-              width:is_phone()?'90%': "74%",
-              backgroundColor:'#260D4B',
+              width: is_phone() ? "90%" : "74%",
+              backgroundColor: "#260D4B",
               margin: "0 auto",
-              borderRadius: '0.12em',
-              
+              borderRadius: "0.12em",
+
               position: "relative",
             }}
           >
@@ -152,7 +159,7 @@ class PageAllWorks extends React.Component {
               alt=""
               style={{
                 position: "absolute",
-                bottom: is_phone()?-10:-20,
+                bottom: is_phone() ? -10 : -20,
                 right: "-3%",
                 width: "8.3%",
                 height: "auto",
@@ -166,18 +173,36 @@ class PageAllWorks extends React.Component {
                 transform: "translateX(1px)",
                 padding: "5%",
                 borderRadius: 12,
-                border:is_phone()?'5px solid #260D4B': "5px solid #260D4B",
+                border: is_phone() ? "5px solid #260D4B" : "5px solid #260D4B",
               }}
             >
-            <div className='contestcar box box-align-end' style={{marginBottom:'calc(0.4em + 12px'}}>
-             <div style={{fontSize:'0.3em',lineHeight:'1.3333em',marginRight:'1em'}}>全部作品</div>
-             <div style={{lineHeight:'1.3em',fontSize:is_phone()?'14px':'0.4em'}}>{total_counts}</div>
-            </div>
+              <div
+                className="contestcar box box-align-end"
+                style={{ marginBottom: "calc(0.4em + 12px" }}
+              >
+                <div
+                  style={{
+                    fontSize: "0.3em",
+                    lineHeight: "1.3333em",
+                    marginRight: "1em",
+                  }}
+                >
+                  全部作品
+                </div>
+                <div
+                  style={{
+                    lineHeight: "1.3em",
+                    fontSize: is_phone() ? "14px" : "0.4em",
+                  }}
+                >
+                  {total_counts}
+                </div>
+              </div>
               <Grid container spacing={3}>
                 {show_data &&
                   show_data.map((op, inx) => (
-                    <Grid item xs={6} sm={4} md={3}  key={op.file_id}>
-                      <WordsCar  info={op}/>
+                    <Grid item xs={6} sm={4} md={3} key={op.file_id}>
+                      <WordsCar info={op} />
                     </Grid>
                   ))}
               </Grid>

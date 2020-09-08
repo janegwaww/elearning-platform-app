@@ -44,18 +44,18 @@ const NavTar = (props) => {
   return (
     <div className="all-width contestcar" style={{ backgroundColor: "#fcf800" }}>
      
-        <div className="navtar text-center ">
+        <div className="navtar text-center " style={{ width:isPhone?'calc(100% - 0.1em)':'calc(100% - 0.05em)'}}>
    
             <div className="box box-align-center all-height contestcar">
               {lists.map((v, inx) => (
                 <div className="box-flex " key={v.title}>
                   <div>
-                    <span className={pageid==inx+1? "acti" : ""}
+                    <b></b><span className={pageid==inx+1? "acti" : ""}
                     style={{fontSize:isPhone&&pageid==inx+1?'2em':'1.33em'}}
                     key={v.title}
                     data-page={v.page}
                     data-id={inx + 1}
-                    onClick={btn_page}>{v.title}</span>
+                    onClick={btn_page}>{v.title}</span><b></b>
                   </div>
                 </div>
               ))}
