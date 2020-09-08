@@ -9,6 +9,7 @@ import withDocumentComponent from "./withDocumentComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "block",
     height: "100vh",
     width: "100%",
   },
