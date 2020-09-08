@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { navigate } from "@reach/router";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -38,7 +39,7 @@ const fileDownload = (res, fileName, fileType) => {
 };
 
 const DocumentSearch = () => {
-  const { dsid } = getIdFromHref();
+  const [id, setId] = useState("");
   const [position, setPosition] = useState([]);
   const [info, setInfo] = useState({});
   const [show, setShow] = useState(true);
@@ -97,7 +98,16 @@ const DocumentSearch = () => {
     }
   };
 
-  return dsid ? (
+  useEffect(() => {
+    const { dsid } = getIdFromHref();
+    if (dsid) {
+      setId(dsid);
+    } else {
+      navigate("/");
+    }
+  }, []);
+
+  return id ? (
     <div className="document-search-layer">
       <DSAppBar
         info={info}
@@ -110,7 +120,7 @@ const DocumentSearch = () => {
       />
 
       <SearchComponent
-        id={dsid}
+        id={id}
         onClick={handlePosition}
         open={!show}
         onClose={showSearch}
@@ -121,7 +131,7 @@ const DocumentSearch = () => {
           <Grid item xs={12} md={show ? scale : 7}>
             <DocumentComponent
               ref={docComRef}
-              id={dsid}
+              id={id}
               show={show}
               position={position}
               getInfo={(obj) => setInfo(obj)}
