@@ -151,29 +151,12 @@ const Document = ({ id = "" }) => {
             <div style={{ minWidth: "6.5625rem" }} />
             <div style={{ width: "calc(100% - 6.5625rem)" }}>
               <div>
-<<<<<<< HEAD
-               {/*** <Link
-=======
-               {/**  <Link
->>>>>>> develop
-                  color="inherit"
-                  target="_blank"
-                  underline="none"
-                  href={"/documentsearch/?dsid=" + did}
-                >
-                  <img src={detail.preview_path} alt="" className="all-width" />
-                </Link>*/}
-<<<<<<< HEAD
-                  <Zmage
-                  src={detail.preview_path}
-                   alt=''
-                   style={{ maxWidth: 466, width: "100%" }}
-=======
+
                <Zmage
                    src={detail.preview_path}
                    alt=''
                    style={{ maxWidth: 466, width: "100%",}}
->>>>>>> develop
+
                  />
               </div>
             </div>
