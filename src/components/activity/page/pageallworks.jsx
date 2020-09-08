@@ -92,7 +92,7 @@ class PageAllWorks extends React.Component {
       show_count,
       page_num,
     } = this.state;
-console.log(contest_w)
+// console.log(contest_w)
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={15} />

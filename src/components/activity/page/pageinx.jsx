@@ -30,7 +30,7 @@ class Pageinx extends React.Component {
       this.setState({
         login_status: false,
       });
-    }, 5000);
+    }, 3000);
     this.setState({
       isPhone:is_phone()
     })
@@ -39,7 +39,7 @@ class Pageinx extends React.Component {
     let { is_login, meun, login_status,isPhone } = this.state;
     return (
       <div>
-      <ProgressBar loading={login_status} speed={15} />
+      <ProgressBar loading={login_status} speed={20} />
         {isPhone ? (
           <PhoneInx />
         ) : (
