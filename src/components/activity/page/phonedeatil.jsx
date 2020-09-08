@@ -39,20 +39,9 @@ class Phonedetail extends React.Component {
 
   render() {
     let { is_login, meun } = this.state;
-
     return (
       <div>
-       
-        <div
-          className="all-width "
-          style={
-            {
-              // backgroundImage: `url(${Bgimg})`,
-              // backgroundSize: "100% 100%",
-              // backgroundRepeat: "no-repeat",
-            }
-          }
-        >
+        <div className="all-width ">
           <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
           <img src={One} alt="" />
           <div>
@@ -67,55 +56,20 @@ class Phonedetail extends React.Component {
           <img src={ThreeTwotwo} alt="" />
           <img src={ThreeTh} alt="" />
           <img src={ThreeFo} alt="" />
-          <LoginModal
-            open={is_login}
-            onEvent={(msg) => {
-              this.setState({
-                is_login: false,
-              });
+
+          <img
+            src={upFile}
+            alt=""
+            className="file"
+            onClick={() => {
+              new CustomModal().message("此操作请在pc端打开", "error", 3000);
             }}
-          >
-            <div
-              className="all-width"
-              onClick={() => {
-                if (is_phone()) {
-                  new CustomModal().alert(
-                    "此操作请在pc端打开",
-                    "success",
-                    2000
-                  );
-                  return;
-                }
-                if (!isLoggedIn()) {
-                  this.setState({
-                    is_login: true,
-                  });
-                } else {
-                  this.setState({
-                    meun: true,
-                  });
-                }
-              }}
-            >
-              <img src={upFile} alt="" className="file" />
-              {meun && (
-                <MenuBar
-                  left="62%"
-                  onEvent={() => {
-                    this.setState({
-                      meun: false,
-                    });
-                  }}
-                />
-              )}
-            </div>
-          </LoginModal>
+          />
+
           <img src={Four} alt="" />
           <img src={seven} alt="" />
           <img src={seventwo} alt="" />
           <img src={seventhree} alt="" />
-
-          
 
           <img src={Six} alt="" />
         </div>

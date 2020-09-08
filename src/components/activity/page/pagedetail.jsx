@@ -3,7 +3,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import ContestCar from "../comments/ContestCar";
-import Bgimg from "../../../assets/activity/img/bg.png";
+
 
 import One from "../../../assets/activity/img/detail/2.png";
 import downPDF from "../../../assets/activity/img/detail/3.png";
@@ -20,13 +20,13 @@ import bgtop2 from "../../../assets/activity/img/bgtop2.png";
 import title from "../../../assets/activity/img/title.png";
 import lefttop from "../../../assets/activity/img/detail/lefttop.png";
 import leftbottom from "../../../assets/activity/img/detail/leftbottom.png";
-// import rightmiddle from "../../../assets/activity/img/detail/rightmiddle.png";
+
 
 import LoginModal from "../../../assets/template/LoginModal";
 import MenuBar from "../comments/MenuBar";
 import { getUser, isLoggedIn } from "../../../services/auth";
 import activityPDF from "../../../assets/templatepdf/activity.pdf";
-import figureImg from "../../../assets/activity/img/figureBg.png";
+
 import { get_data } from "../../../assets/js/request";
 
 import { is_phone } from "../../../assets/js/totls";
@@ -74,9 +74,12 @@ class Pagedetail extends React.Component {
     window.onresize = null;
   }
   winsize() {
+  if(!this.isPhone){
     this.setState({
       contest_w: document.getElementById("contest-judges").clientWidth,
     });
+  }
+    
   
   }
   render() {

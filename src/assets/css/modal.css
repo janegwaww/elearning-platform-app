@@ -21,3 +21,23 @@
     vertical-align: middle;
     margin-right: 0.625rem;
 }
+
+.message{
+    position: fixed;
+    top:30%;
+    transform: translateX(-50%);
+    left: 50%;
+    padding: 5px;
+    background-color: white;
+    border-radius:4px;
+    font-size: 0.75rem;
+    z-index: 20000;
+    box-shadow:2px 2px 20px 0px rgba(0,0,0,0.1);
+}
+.message.error{
+    background-color:rgba(249, 147, 149, 1) ;
+    color:white
+}
+.message.success{
+    background-color:rgba(152, 246, 163, 1)
+}

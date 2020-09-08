@@ -42,47 +42,13 @@ export default class PhoneInx extends React.Component {
         <img src={nine} alt="" />
         <img src={ten} alt="" />
         <img src={eleven} alt="" />
-        
-
-        <LoginModal
-          open={is_login}
-          onEvent={(msg) => {
-            this.setState({
-              is_login: false,
-            });
+        <img
+          src={twelve}
+          alt=""
+          onClick={() => {
+            new CustomModal().message("此操作请在pc端打开", "error", 2000);
           }}
-        >
-          <div
-            className="all-width"
-            onClick={() => {
-              if (is_phone()) {
-                new CustomModal().alert("此操作请在pc端打开", "success", 2000);
-                return;
-              }
-              if (!isLoggedIn()) {
-                this.setState({
-                  is_login: true,
-                });
-              } else {
-                this.setState({
-                  meun: true,
-                });
-              }
-            }}
-          >
-          <img src={twelve} alt="" />
-            {meun && (
-              <MenuBar
-                left="62%"
-                onEvent={() => {
-                  this.setState({
-                    meun: false,
-                  });
-                }}
-              />
-            )}
-          </div>
-        </LoginModal>
+        />
 
         <img src={fourteen} alt="" />
         <img src={fifteen} alt="" />

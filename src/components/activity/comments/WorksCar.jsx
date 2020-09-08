@@ -6,9 +6,7 @@ import {
 } from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "@material-ui/core/Link";
-// import One from "../../../assets/activity/img/all/8.png";
-// import Two from "../../../assets/activity/img/all/9.png";
-// import three from "../../../assets/activity/img/all/10.png";
+
 
 import {get_date} from '../../../assets/js/totls';
 
@@ -42,48 +40,31 @@ const WordsCar = (props) => {
       </div>
 
       <div style={{ padding:'20px 0.2em 0' }}>
-        <div className="textview-overflow two" style={{fontSize:'0.14em',minHeight:'2.67em'}}>
+        <div className="textview-overflow two" style={{fontSize:'0.18em',minHeight:'2.67em'}}>
             {props.info.file_name}
         </div>
-        <div style={{margin:'1em 0',fontSize:'0.12em',
-        lineHeight: '1em',color:'#878791'}}>
-          <span>
-            <Details style={{ transform: "rotate(-90deg)",fontSize:'2em' }} />
+        <div style={{margin:'1em 0',fontSize:'0.14em',
+        lineHeight: '1em',color:'#878791'}} className='box box-align-center box-between'>
+          <div>
+            <Details style={{ transform: "rotate(-90deg)",fontSize:'1.8em' }} />
             &nbsp;{props.info.view_counts||0}
-          </span>&nbsp;&nbsp;
-          <span>
-            <FavoriteBorder style={{fontSize:'2em'}} />
+          </div>&nbsp;&nbsp;
+          <div>
+            <FavoriteBorder style={{fontSize:'1.8em'}} />
             &nbsp;{props.info.like_counts||0}
-          </span>&nbsp;&nbsp;
-          <span>
-            <AccessTimeOutlined style={{fontSize:'2em'}}/>
+          </div>&nbsp;&nbsp;
+          <div>
+            <AccessTimeOutlined style={{fontSize:'1.8em'}}/>
             &nbsp;{get_date(props.info.time,'.',8)}
-          </span>
+          </div>
         </div>
         <div className="box box-align-center box-between all-width">
           <div className="box box-align-center box-flex all-width" style={{fontSize:'0.12em'}}>
-            <Avatar style={{ width: "1.4em", height: "1.4em" }} src={props.info.headshot} />&nbsp;
-            <div  title="props.info.user_name" className='text-overflow'>{props.info.user_name}</div>&nbsp;
+            <Avatar style={{ width: "1.4em", height: "1.4em" }} src={props.info.headshot} />&nbsp;&nbsp;
+            <div  title={props.info.user_name} className='text-overflow' style={{fontSize:'0.2em'}}>{props.info.user_name}</div>&nbsp;
 
-            {/*<img
-              src={One}
-              alt=""
-              style={{ width: "1.25rem", height: "1rem" }}
-            />*/}
           </div>
-         {/** <div className="box box-align-center box-flex box-end" style={{fontSize:'0.1em'}}>
-            <img
-              src={Two}
-              alt=""
-              style={{ width: "1rem", height: "1.25rem" }}
-            />&nbsp;&nbsp;
-            <img
-              src={three}
-              alt=""
-              style={{ width: "1rem", height: "1.25rem" }}
-            />
-          </div>
-           */}
+        
         </div>
       </div>
     </div>
