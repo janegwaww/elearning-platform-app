@@ -65,7 +65,7 @@ const DocumentSearchAppBar = ({
   );
 
   return (
-    <>
+    <div className="doc-search-app-bar-container">
       <Slide appear={false} direction="down" in={show}>
         <AppBar className="doc-search-app-bar">
           <Toolbar>
@@ -128,10 +128,10 @@ const DocumentSearchAppBar = ({
         </AppBar>
       </Slide>
       <Slide appear={false} derection="down" in={show}>
-        <Toolbar className={show ? "" : "toolbar"} />
+        <Toolbar className={`${show ? "" : "toolbar"}`} />
       </Slide>
       {renderMobileMenu}
-    </>
+    </div>
   );
 };
 
