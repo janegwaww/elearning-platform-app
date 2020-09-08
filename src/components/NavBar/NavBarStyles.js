@@ -2,7 +2,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   grow: {
-    flexGrow: 0.4,
+    flexGrow: 0.9,
   },
   toolbar: {
     padding: 0,
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
   logoLink: {
     lineHeight: 0,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       "& img": {
         width: "110px",
       },
@@ -108,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.main,
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
@@ -117,15 +117,14 @@ const useStyles = makeStyles(theme => ({
     marginRight: "calc(4%)",
     justifyContent: "space-between",
     width: "calc(12%)",
-    [theme.breakpoints.down("md")]: {
-      marginRight: 0,
-      width: "calc(50%)",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
   sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    display: "none",
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
     },
   },
   list: {

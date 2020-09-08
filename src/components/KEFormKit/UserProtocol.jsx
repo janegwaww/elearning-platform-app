@@ -6,7 +6,8 @@ import Link from "../Link/Link";
 const useStyles = makeStyles((theme) => ({
   protocol: {
     textAlign: "center",
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
     fontSize: "12px",
     color: "#c0c4cc",
   },

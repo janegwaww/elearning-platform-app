@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -16,35 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import UserLikeHeart from "../Introduction/UserLikeHeart";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "#232325",
-  },
-  toolbar: {
-    minHeight: 0,
-  },
-  searchButton: {
-    borderRadius: 50,
-    height: 38,
-  },
-  desk: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  functionButton: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  mobile: {
-    display: "none",
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-    },
-  },
-}));
+import "./DSAppBar.sass";
 
 const DocumentSearchAppBar = ({
   info = {},
@@ -55,7 +26,6 @@ const DocumentSearchAppBar = ({
   handleScale,
   handleLikeClick,
 }) => {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const isMobileMenuOpen = Boolean(anchorEl);
@@ -97,7 +67,7 @@ const DocumentSearchAppBar = ({
   return (
     <>
       <Slide appear={false} direction="down" in={show}>
-        <AppBar classes={{ root: classes.root }}>
+        <AppBar className="doc-search-app-bar">
           <Toolbar>
             <Container maxWidth="lg" disableGutters>
               <Grid container alignItems="center">
@@ -108,27 +78,27 @@ const DocumentSearchAppBar = ({
                 </Grid>
 
                 <Grid item sm={2} align="center">
-                  <Typography noWrap color="primary" className={classes.desk}>
+                  <Typography noWrap color="primary" className="desk">
                     {info.image_list && `${page} / ${info.image_list.length}`}
                   </Typography>
                 </Grid>
 
                 <Grid item xs={6} sm={5} align="right">
-                  <div className={classes.functionButton}>
+                  <div className="functionButton">
                     {info.file_type && info.file_type === "pdf" && (
                       <Button
                         variant="contained"
                         color="default"
                         startIcon={<SearchIcon />}
                         onClick={handleClick}
-                        className={classes.searchButton}
+                        className="searchButton"
                       >
                         <Typography noWrap component="div">
                           语义搜索
                         </Typography>
                       </Button>
                     )}
-                    <div className={classes.desk}>
+                    <div className="desk">
                       <IconButton onClick={() => handleScale(true)}>
                         <AddIcon style={{ color: "#fff" }} />
                       </IconButton>
@@ -145,7 +115,7 @@ const DocumentSearchAppBar = ({
                         style={{ color: "#fff" }}
                       />
                     </div>
-                    <div className={classes.mobile}>
+                    <div className="mobile">
                       <IconButton onClick={handleMobileMenuOpen} size="small">
                         <MoreIcon color="primary" />
                       </IconButton>
@@ -158,7 +128,7 @@ const DocumentSearchAppBar = ({
         </AppBar>
       </Slide>
       <Slide appear={false} derection="down" in={show}>
-        <Toolbar className={show ? "" : classes.toolbar} />
+        <Toolbar className={show ? "" : "toolbar"} />
       </Slide>
       {renderMobileMenu}
     </>
