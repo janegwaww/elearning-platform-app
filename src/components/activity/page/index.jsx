@@ -19,23 +19,18 @@ export default class PageIndex extends React.Component {
     let _router = this.props["*"];
     let _inx = 1;
 
-    if (_router === "detail") {
+    if (_router === "activitydetail") {
       _inx = 3;
-    } else if (_router == "allworks") {
+    } else if (_router == "activityallworks") {
       _inx = 4;
-    } else if (_router == "about") {
+    } else if (_router == "activityabout") {
       _inx = 2;
     }
     this.setState({
       page_inx: _inx,
     });
-    console.log(this.state.page_inx);
-    // this.winsize();
-    // settings_html();
-    // window.onresize = () => {
-    //   // this.winsize();
-    //   settings_html();
-    // };
+   
+   
   }
   componentWillUnmount() {
     window.onresize = null;
@@ -50,7 +45,7 @@ export default class PageIndex extends React.Component {
   render() {
     const { children } = this.props;
     const {page_inx}=this.state;
-   
+  
     return (
       <Layout>
         <div

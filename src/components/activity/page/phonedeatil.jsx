@@ -42,7 +42,7 @@ class Phonedetail extends React.Component {
     return (
       <div>
         <div className="all-width ">
-          <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
+          
           <img src={One} alt="" />
           <div>
             <a href={activityPDF} download={activityPDF}>

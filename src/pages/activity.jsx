@@ -13,9 +13,9 @@ const Activity = () => {
       <Router basepath="/activity">
         <DefaulePage path='/' >
           <PageIndex path='/'/>
-          <PageDetail path='/detail' />
-          <PageAbout path='/about' />
-          <PageAllWorks path='/allworks' />
+          <PageDetail path='/activitydetail' />
+          <PageAbout path='/activityabout' />
+          <PageAllWorks path='/activityallworks' />
         </DefaulePage>
       </Router>
     );

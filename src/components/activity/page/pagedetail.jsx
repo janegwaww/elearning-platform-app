@@ -44,18 +44,31 @@ class Pagedetail extends React.Component {
       figure_data: [],
       figure_item: null,
       isPhone: false,
-      
+      login_status:true
     };
     this.winsize = this.winsize.bind(this);
   }
   componentDidMount() {
-    this.winsize();
+   
     this.setState({
       isPhone: is_phone(),
     });
-    window.onresize = () => {
+    
+   
+    if(is_phone()){
+       window.onresize = () => {
       this.winsize();
     };
+      setTimeout(()=>{
+        this.setState({
+          logig_status:false
+        })
+      },3000)
+    }else{
+      this.winsize();
+      this.setState({
+        logig_status:false
+      })
     get_data(
       {
         model_name: "data",
@@ -67,8 +80,10 @@ class Pagedetail extends React.Component {
     ).then((res) => {
       this.setState({
         figure_data: res.result_data,
+        logig_status:true
       });
     });
+  }
   }
   componentWillUnmount() {
     window.onresize = null;
@@ -91,24 +106,17 @@ class Pagedetail extends React.Component {
       figure_data,
       figure_item,
       isPhone,
+      logig_status,
     } = this.state;
 
     return (
       <div>
+      <ProgressBar loading={isPhone?logig_status:!logig_status} speed={20} />
         {isPhone ? (
           <Phonedetail />
         ) : (
           <div>
-            <div
-              className="all-width "
-              style={
-                {
-                  // backgroundImage: `url(${Bgimg})`,
-                  // backgroundSize: "100% 100%",
-                  // backgroundRepeat: "no-repeat",
-                }
-              }
-            >
+            <div className="all-width ">
               <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
               <img src={One} alt="" />
               <div>

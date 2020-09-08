@@ -1,14 +1,14 @@
 .navtar {
- 
   background-color: #4e07ba;
-   
-    height:1.2em;
-    min-height: 42px;
-    position: relative;
-    
-    color:white
+
+  height: 1.2em;
+  min-height: 42px;
+  position: relative;
+
+  color: white;
 }
-.navtar .box,.navtar .box-flex{
+.navtar .box,
+.navtar .box-flex {
   padding: 0;
   margin: 0;
   flex-basis: 0;
@@ -17,55 +17,33 @@
 }
 .navtar .box-flex div {
   font-size: 0.3em;
-  color:white; 
+  color: white;
 }
 
-.navtar  span:hover{
+.navtar span:hover {
   cursor: pointer;
 }
 
-.navtar .acti{
-  color:#fcf800;
-  font-size:1.33em;
+.navtar .acti {
+  color: #fcf800;
+  font-size: 1.33em;
   position: relative;
 }
 
-.acti::before,.acti::after{
-  display:block;
-  content:'';
-  width:0.5em;
-  height: 0.5em;
-  border:1px solid #fcf800;
+.navtar .acti::before,
+.navtar .acti::after {
+  display: block;
+  width: 0.4em;
+  height: 0.4em;
+  border: 1px solid #fcf800;
   position: absolute;
-  
-  top:50%;
-  transform:translateY(-50%);
+  top: 50%;
+  transform: translateY(-50%);
   border-radius: 50%;
 }
-.acti::before{
+.navtar .acti::before {
   left: -1em;
 }
-.acti::after{
+.navtar .acti::after {
   right: -1em;
 }
-/* .navtar::before{
-    content: "";
-    position: absolute;
-    width:100%;
-    height: 100%;
-    border-right: 3px solid #fcf800;
-    border-top-right-radius: 1px;
-    right: -3px;
-    bottom:-5px;
-} */
-/* .navtar::after {
-  content: "";
-  position: absolute;
-  width:100%;
-  height: 100%;
-  border-bottom: 2px solid #fcf800;
-  border-bottom-left-radius: 1px; 
-  right: 0;
-  bottom: 0;
-  
-} */

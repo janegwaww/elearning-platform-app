@@ -9,19 +9,19 @@ const NavTar = (props) => {
   const [isPhone,setIsPhone] =React.useState(false);
   const [lists, setLists] = React.useState([
     { title: "首页", page: "/" },
-    { title: "关于知擎杯", page: "about" },
-    { title: "赛事详情", page: "detail" },
-    { title: "全部作品", page: "allworks" },
+    { title: "关于知擎杯", page: "activityabout" },
+    { title: "赛事详情", page: "activitydetail" },
+    { title: "全部作品", page: "activityallworks" },
   ]);
   const btn_page = (ev) => {
     let _data = ev.target.dataset;
     let _url = "/activity/";
     if (_data.id == 2) {
-      _url = _url + "about";
+      _url = _url + "activityabout";
     } else if (_data.id == 3) {
-      _url = _url + "detail";
+      _url = _url + "activitydetail";
     } else if (_data.id == 4) {
-      _url = _url + "allworks";
+      _url = _url + "activityallworks";
     }
     navigate(`${_url}`);
     setPageid(parseInt(_data.id));
@@ -30,17 +30,19 @@ const NavTar = (props) => {
   React.useEffect(()=>{
     let _router = props.rou;
     let _inx = 1
-    if(_router==='detail'){
+    if(_router==='activitydetail'){
       _inx=3;
-    }else if(_router=='allworks'){
+    }else if(_router=='activityallworks'){
       _inx=4;
-    }else if(_router=='about'){
+    }else if(_router=='activityabout'){
       _inx=2;
     };
+
     setPageid(_inx);
     setIsPhone(is_phone());
+    props.onEvent&&props.onEvent(_inx);
   },[])
-
+  console.log(pageid,props)
   return (
     <div className="all-width contestcar" style={{ backgroundColor: "#fcf800" }}>
      
