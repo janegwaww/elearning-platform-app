@@ -27,7 +27,8 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
   const isLogin = isLoggedIn();
   const list = [
     { name: "首页", href: "/" },
-    { name: "知擎杯", href: "activity" },
+    { name: "知擎杯", href: "/" },
+    { name: "加盟学者", href: "/" },
   ];
 
   const handleLogin = () => {
