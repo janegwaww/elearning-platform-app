@@ -41,11 +41,6 @@ module.exports = {
           },
           "gatsby-remark-copy-linked-files",
           "gatsby-remark-autolink-headers",
-<<<<<<< HEAD
-          "gatsby-remark-prismjs",
-        ],
-      },
-=======
           "gatsby-remark-prismjs"
         ]
       }
@@ -65,7 +60,6 @@ module.exports = {
       options: {
         color: config.themeColor
       }
->>>>>>> clx
     },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
