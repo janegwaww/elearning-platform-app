@@ -162,9 +162,12 @@ function CuttingTemplate(props) {
         </DialogTitle>
         <DialogContent dividers>
           <div
-            className={classes.croper}
-            style={{ backgroundImage: "url(" + temporaryurl + ")" }}
-          ></div>
+            className={`${classes.croper} text-center bg-all`}
+           
+          >
+          <img src={temporaryurl} alt=''  className='all-height' style={{width:'auto',margin:'0 auto'}}/>
+          
+          </div>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>
@@ -181,6 +184,7 @@ function CuttingTemplate(props) {
               _formdata.append("model_name", files.name);
               _formdata.append("file", files);
 
+              
               get_data( _formdata).then((res) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   props.onEvent && props.onEvent(res.result_data[0]);
