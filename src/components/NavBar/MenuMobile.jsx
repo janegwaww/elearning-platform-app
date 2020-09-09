@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 const ListItemLink = (props) => {
-  return <ListItem button component="a" {...props} />;
+  return <ListItem button {...props} />;
 };
 
 const MenuMobile = ({ open = false, container, handleClose }) => {
@@ -41,6 +41,11 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
       : navigate("/users/login/");
   };
 
+  const handleNavigate = (href) => {
+    navigate(href);
+    handleClose();
+  };
+
   return open ? (
     <Portal container={container.current}>
       <div className={classes.portalBox}>
@@ -48,9 +53,9 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
         <List component="nav">
           {list.map((o) => (
             <ListItemLink
-              href={o.href}
               classes={{ root: classes.listTextRoot }}
               key={o.name}
+              onClick={() => handleNavigate(o.href)}
             >
               <ListItemText primary={o.name} />
             </ListItemLink>
