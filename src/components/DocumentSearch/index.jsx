@@ -1,44 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import { navigate } from "@reach/router";
-import axios from "axios";
+import React, { useState, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
-import { isLoggedIn, getUser } from "../../services/auth";
-import { getIdFromHref } from "../../services/utils";
+import withId from "../EmptyNotice/withId";
+import { isLoggedIn } from "../../services/auth";
 import { likeTheVideo } from "../../services/video";
 import { useLoginConfirm } from "../LoginConfirm";
+import downloadjs from "./fileDownload";
 import "./index.sass";
 
-const api = "https://api.haetek.com:9191/api/v1/gateway";
-const { token } = getUser();
-const resType = {
-  responseType: "blob",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
-const params = (id) => ({
-  model_action: "download",
-  model_name: "document",
-  extra_data: { file_id: id },
-  model_type: "",
-});
-const fileDownload = (res, fileName, fileType) => {
-  const url = window.URL.createObjectURL(new Blob([res.data]));
-  const save = document.createElement("a");
-  save.href = url;
-  save.download = `${fileName}.${fileType}`;
-  save.target = "_blank";
-  document.body.appendChild(save);
-  save.click();
-  document.body.removeChild(save);
-};
-
-const DocumentSearch = () => {
-  const [id, setId] = useState("");
+const DocumentSearch = ({ id }) => {
   const [position, setPosition] = useState([]);
   const [info, setInfo] = useState({});
   const [show, setShow] = useState(true);
@@ -52,16 +25,7 @@ const DocumentSearch = () => {
   };
 
   const handleDownload = () => {
-    if (id && info.file_name && token) {
-      axios
-        .post(api, params(id), resType)
-        .then((res) => {
-          fileDownload(res, info.file_name, info.file_type);
-        })
-        .catch((err) => {
-          console.error("Could not Download the file from the backend.", err);
-        });
-    }
+    downloadjs(id, info.file_name, info.file_type);
     // 未登录处理
     if (!isLoggedIn()) loginConfirm();
   };
@@ -97,16 +61,7 @@ const DocumentSearch = () => {
     }
   };
 
-  useEffect(() => {
-    const { dsid } = getIdFromHref();
-    if (dsid) {
-      setId(dsid);
-    } else {
-      navigate("/");
-    }
-  }, []);
-
-  return id ? (
+  return (
     <div className="document-search-layer">
       <DSAppBar
         info={info}
@@ -140,7 +95,7 @@ const DocumentSearch = () => {
         </Grid>
       </Container>
     </div>
-  ) : null;
+  );
 };
 
-export default DocumentSearch;
+export default withId(DocumentSearch);
