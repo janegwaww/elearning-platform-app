@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     textAlign: "center",
     color: "#007cff",
   },
+  portalBox: {},
 });
 
 const ListItemLink = (props) => {
@@ -29,6 +30,7 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
     { name: "首页", href: "/" },
     { name: "知擎杯", href: "/" },
     { name: "加盟学者", href: "/" },
+    { name: "下载APP", href: "/" },
   ];
 
   const handleLogin = () => {
@@ -41,21 +43,24 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
 
   return open ? (
     <Portal container={container.current}>
-      <Divider />
-      <List component="nav">
-        {list.map((o) => (
-          <ListItemLink
-            href={o.href}
-            classes={{ root: classes.listTextRoot }}
-            key={o.name}
-          >
-            <ListItemText primary={o.name} />
+      <div className={classes.portalBox}>
+        <Divider />
+        <List component="nav">
+          {list.map((o) => (
+            <ListItemLink
+              href={o.href}
+              classes={{ root: classes.listTextRoot }}
+              key={o.name}
+            >
+              <ListItemText primary={o.name} />
+            </ListItemLink>
+          ))}
+          <Divider />
+          <ListItemLink classes={{ root: classes.login }} onClick={handleLogin}>
+            <ListItemText primary={`${isLogin ? "退出登录" : "登录/注册"}`} />
           </ListItemLink>
-        ))}
-        <ListItemLink classes={{ root: classes.login }} onClick={handleLogin}>
-          <ListItemText primary={`${isLogin ? "退出登录" : "登录/注册"}`} />
-        </ListItemLink>
-      </List>
+        </List>
+      </div>
     </Portal>
   ) : null;
 };
