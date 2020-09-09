@@ -166,7 +166,7 @@ export default function VideoIndex(props) {
                               className="fn-color-007CFF "
                             >
                               <Add />
-                              点击上传课件(建议文件是pdf文档)
+                              点击上传文件/文档(建议文件是pdf文档)
                             </label>
                             <input
                               type="file"
@@ -550,6 +550,7 @@ export default function VideoIndex(props) {
                                 return _formData;
                               })()}
                               onEvent={(url) => {
+                                console.log(url)
                                 setVideoImg(url);
                               }}
                             />
@@ -911,7 +912,7 @@ export default function VideoIndex(props) {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
-                          image_path: adjunct.image_path,
+                          image_path:videoImg|| adjunct.image_path,
                           price: parseFloat(price) || 0,
                           // category: [field],
                           author: authorvalueArr,
@@ -939,7 +940,6 @@ export default function VideoIndex(props) {
                           _data.document = adjunct;
                         }
                         setLoginStatus(true);
-
                         get_data({
                           model_name: "document",
                           model_action: "check",
