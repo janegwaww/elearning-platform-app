@@ -34,7 +34,9 @@
   border-width: 0;
 }
 .up-text .root .MuiOutlinedInput-notchedOutline ,.settings .root .MuiOutlinedInput-notchedOutline{
-  top: -4px;
+  top: -3px;
+  height: auto;
+  border:1px solid rgba(0, 0, 0, 0.23);
 }
 .up-text .root .MuiOutlinedInput-input, .root .MuiOutlinedInput-input{
     padding: 8px 6px;
