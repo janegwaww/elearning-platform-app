@@ -3,7 +3,7 @@
     margin-left:20px; 
    
   }
-  @media (max-width: 1280px){
+  @media (max-width: 960px){
     .muncon .root{
         display: none;
     }

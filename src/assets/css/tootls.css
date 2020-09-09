@@ -272,3 +272,6 @@ svg {
 #zmage {
   z-index: 2000000000 !important;
 }
+#zmage #zmageBackground{
+  background-color:#000 !important;
+}
