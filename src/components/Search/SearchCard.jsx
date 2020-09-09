@@ -246,7 +246,7 @@ const seriesContainer = ({ data, match_frame }) => {
 };
 
 const docSeriesContainer = ({ data, match_frame }) => {
-  const href = `/series/?dsid=${data.series_id}`;
+  const href = `/series/?dserid=${data.series_id}`;
   return (
     <Container
       leftComponent={imagePick(data.image_path, href, "documents")}
