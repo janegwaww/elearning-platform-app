@@ -19,6 +19,7 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
     backgroundColor: "#eee",
     height: "56px",
+    width:'100%'
   },
   closeButton: {
     position: "absolute",
@@ -156,7 +157,7 @@ function CuttingTemplate(props) {
       <Dialog
        
         open={open}
-        className={classes.dialog}
+        className={`${classes.dialog} dialog`}
       >
         <DialogTitle  onClose={handleClose}>
           图片预览
@@ -175,9 +176,8 @@ function CuttingTemplate(props) {
             取消
           </Button>
           <Button
-            autoFocus
-            variant="contained"
-            color="primary"
+          
+            variant="contained" color="primary"
             onClick={() => {
               let _formdata = new FormData();
               _formdata.append("model_action", "upload_file");
