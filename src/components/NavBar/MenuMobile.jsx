@@ -30,7 +30,6 @@ const MenuMobile = ({ open = false, container, handleClose }) => {
     { name: "首页", href: "/" },
     { name: "知擎杯", href: "/" },
     { name: "加盟学者", href: "/" },
-    { name: "下载APP", href: "/" },
   ];
 
   const handleLogin = () => {
