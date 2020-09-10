@@ -85,6 +85,7 @@ export const getSeriesInfo = pipeThen(
   extraSeries,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getSeriesDetails,
 );
 
@@ -103,6 +104,7 @@ export const getDocumentSeriesInfo = pipeThen(
   extraDocSeries,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getDocumentSeriesDetails,
 );
 

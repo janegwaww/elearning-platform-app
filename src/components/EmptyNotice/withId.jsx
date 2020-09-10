@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import { navigate } from "gatsby";
 import EmptyNotice from "./EmptyNotice";
 import { getIdFromHref } from "../../services/utils";
@@ -28,9 +28,7 @@ const withId = (WrapComponent) => {
       const { id } = this.state;
 
       return id ? (
-        <>
-          <WrapComponent id={id} />
-        </>
+        <WrapComponent id={id} />
       ) : (
         <EmptyNotice type="loading" handleFresh={() => navigate("/")} />
       );
