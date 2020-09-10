@@ -23,43 +23,14 @@ module.exports = {
         path: `${__dirname}/data/`,
       },
     },
-    {
-      resolve: "gatsby-transformer-remark",
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-relative-images`,
-          },
-          {
-            resolve: "gatsby-remark-images",
-            options: {
-              maxWidth: 690,
-            },
-          },
-          {
-            resolve: "gatsby-remark-responsive-iframe",
-          },
-          "gatsby-remark-copy-linked-files",
-          "gatsby-remark-autolink-headers",
-          "gatsby-remark-prismjs",
-        ],
-      },
-    },
+    "gatsby-transformer-remark",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    "gatsby-plugin-catch-links",
-    "gatsby-plugin-twitter",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-material-ui",
     "gatsby-plugin-sass",
 
     "gatsby-plugin-typescript",
-    {
-      resolve: "gatsby-plugin-nprogress",
-      options: {
-        color: config.themeColor,
-      },
-    },
     {
       resolve: "gatsby-plugin-manifest",
       options: {
