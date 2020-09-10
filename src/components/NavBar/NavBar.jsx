@@ -67,16 +67,7 @@ const PrimarySearchAppBar = () => {
                   知擎首页
                 </Typography>
               </Link>
-              <Link
-                href="/activity/"
-                color="inherit"
-                underline="none"
-                style={{ padding: "6px 8px" }}
-              >
-                <Typography noWrap component="div">
-                  知擎杯
-                </Typography>
-              </Link>
+              
               <Link
                 color="inherit"
                 href="/joinedscholar/"

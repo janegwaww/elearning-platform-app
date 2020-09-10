@@ -139,7 +139,7 @@ svg {
   -webkit-line-clamp: 1;
 }
 /*多行显示文字*/
-.textview-overflow.two {
+.textview-overflow.two ,.grid-context-box .textview-overflow.two {
   -webkit-line-clamp: 2;
 }
 

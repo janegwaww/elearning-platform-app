@@ -49,14 +49,7 @@
   cursor: pointer;
   color:#0E5BB6;
 }
-/* .up-text .snackbar {
-  top: 40%;
-  transform: translate(-50%,-50%);
-} */
 
-/* radiogroup {
-  flex-direction: row;
-} */
 .up-text .root {
   width: 100%;
   font-size: 14px;

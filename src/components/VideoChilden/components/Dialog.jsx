@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   btn1: {
     color: "#fff",
-
     backgroundColor: "#007CFF",
 
     "&:hover": { backgroundColor: "#007CFF" },

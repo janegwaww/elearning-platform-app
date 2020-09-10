@@ -56,18 +56,6 @@ export default class PageIndex extends React.Component {
           className="activity"
         >
           <Bananer />
-
-          <NavTar
-            inx={page_inx}
-            rou={this.props["*"] || "/"}
-            onEvent={id=>{
-              
-              this.setState({
-                page_inx:id
-              })
-            }}
-          />
-
           <div>{children}</div>
         </div>
       </Layout>

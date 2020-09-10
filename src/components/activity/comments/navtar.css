@@ -33,6 +33,7 @@
 .navtar .acti::before,
 .navtar .acti::after {
   display: block;
+  content: '';
   width: 0.4em;
   height: 0.4em;
   border: 1px solid #fcf800;
@@ -40,6 +41,9 @@
   top: 50%;
   transform: translateY(-50%);
   border-radius: 50%;
+  overflow: hidden;
+  zoom: 1;
+  clear: both;
 }
 .navtar .acti::before {
   left: -1em;

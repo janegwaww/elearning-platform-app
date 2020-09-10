@@ -6,6 +6,7 @@ import Three from "../../../assets/activity/img/about/3.png";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import { is_phone } from "../../../assets/js/totls";
 import PhoneAbout from "./phoneabout";
+import NavTar from "../comments/NavTar";
 class PageAbout extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,7 @@ class PageAbout extends React.Component {
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={30} />
+        <NavTar inx={2} />
         {this.state.isPhone ? (
           <PhoneAbout />
         ) : (

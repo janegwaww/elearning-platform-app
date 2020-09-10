@@ -15,6 +15,7 @@ import { is_phone } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import PhoneInx from "./phoneinx";
+import NavTar from "../comments/NavTar";
 class Pageinx extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +41,7 @@ class Pageinx extends React.Component {
     return (
       <div>
       <ProgressBar loading={login_status} speed={20} />
+      <NavTar inx={1} />
         {isPhone ? (
           <PhoneInx />
         ) : (

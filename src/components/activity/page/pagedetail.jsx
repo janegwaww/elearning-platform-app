@@ -33,6 +33,7 @@ import { is_phone } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import Phonedetail from "./phonedeatil";
+import NavTar from "../comments/NavTar";
 class Pagedetail extends React.Component {
   constructor(props) {
     super(props);
@@ -112,6 +113,7 @@ class Pagedetail extends React.Component {
     return (
       <div>
       <ProgressBar loading={isPhone?logig_status:!logig_status} speed={20} />
+      <NavTar inx={3} />
         {isPhone ? (
           <Phonedetail />
         ) : (

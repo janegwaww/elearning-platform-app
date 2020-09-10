@@ -13,6 +13,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { get_data } from "../../../assets/js/request";
 import { is_phone } from "../../../assets/js/totls";
 import ProgressBar from "../../../assets/template/ProgressBar";
+import NavTar from "../comments/NavTar";
 class PageAllWorks extends React.Component {
   constructor(props) {
     super(props);
@@ -21,8 +22,8 @@ class PageAllWorks extends React.Component {
       total_data: null,
       show_data: null,
       total_counts: 0,
-      page_num: 0,
-      show_count: 10,
+      page_num: 1,
+      show_count: 12,
       login_status: false,
     };
     this.winsize = this.winsize.bind(this);
@@ -30,15 +31,15 @@ class PageAllWorks extends React.Component {
   }
   componentDidMount() {
     this.winsize();
-    window.onresize=()=>{
+    window.onresize = () => {
       this.winsize();
-    }
+    };
     this.up_data();
   }
   componentWillUnmount() {
     window.onresize = null;
   }
-  up_data() {
+  up_data(_page, _size) {
     this.setState({
       login_status: true,
     });
@@ -47,8 +48,8 @@ class PageAllWorks extends React.Component {
         model_name: "data",
         model_action: "get_works",
         extra_data: {
-          max_size: this.state.show_count,
-          page: this.state.page_num + 1,
+          max_size: _size || this.state.show_count,
+          page: _page || this.state.page_num,
           type: "all", //# 全部
         },
         model_type: "",
@@ -59,10 +60,11 @@ class PageAllWorks extends React.Component {
         this.setState({
           total_data: res.result_data,
           total_counts: res.count,
-          show_data: res.result_data.slice(
-            this.state.page_num * this.state.show_count,
-            (this.state.page_num + 1) * this.state.show_count
-          ),
+          show_data: res.result_data,
+          // show_data: res.result_data.slice(
+          //   this.state.page_num * this.state.show_count,
+          //   (this.state.page_num + 1) * this.state.show_count
+          // ),
         });
       } else {
         this.setState({
@@ -92,10 +94,11 @@ class PageAllWorks extends React.Component {
       show_count,
       page_num,
     } = this.state;
-// console.log(contest_w)
+    // console.log(contest_w)
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={15} />
+        <NavTar inx={4} />
         <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
         <div
           className="all-width bg-not"
@@ -177,56 +180,108 @@ class PageAllWorks extends React.Component {
               }}
             >
               <div
-                className="contestcar box box-align-end"
+                className="contestcar box box-align-end box-between"
                 style={{ marginBottom: "calc(0.4em + 12px" }}
               >
-                <div
-                  style={{
-                    fontSize: "0.3em",
-                    lineHeight: "1.3333em",
-                    marginRight: "1em",
-                  }}
-                >
-                  全部作品
+                <div className='box box-align-end'>
+                  <div
+                    style={{
+                      fontSize: is_phone() ? 12 : "0.3em",
+                      lineHeight: "1.3333em",
+                      marginRight: "1em",
+                    }}
+                  >
+                    全部作品
+                  </div>
+                  <div
+                    style={{
+                      lineHeight: "1.3em",
+                      fontSize: is_phone() ? "14px" : "0.4em",
+                    }}
+                  >
+                    {total_counts}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    lineHeight: "1.3em",
-                    fontSize: is_phone() ? "14px" : "0.4em",
-                  }}
-                >
-                  {total_counts}
+                <div className='box ' style={{fontSize: is_phone() ? 12 : "0.3em",}}>
+                    <div>最新</div>
+                    <div>最热</div>
+                    <div>时间</div>
                 </div>
               </div>
-              <Grid container spacing={3}>
+              <Grid container spacing={is_phone() ? 2 : 3}>
                 {show_data &&
                   show_data.map((op, inx) => (
-                    <Grid item xs={6} sm={4} md={3} key={op.file_id}>
+                    <Grid
+                      item
+                      xs={6}
+                      sm={4}
+                      md={3}
+                      key={op.file_id || op.video_id}
+                    >
                       <WordsCar info={op} />
                     </Grid>
                   ))}
               </Grid>
               {total_counts > show_count && (
                 <div className="settings">
-                  <Grid container spacing={5}>
+                  <Grid container spacing={5} className="box-align-center">
                     <Grid item xs={12} sm={8}>
                       <Pagination
-                        count={10}
+                        boundaryCount={2}
+                        page={page_num}
+                        size="small"
                         variant="outlined"
                         shape="rounded"
+                        count={Math.ceil(total_counts / show_count)}
+                        onChange={(ev, value) => {
+                          this.setState({
+                            page_num: value,
+                          });
+
+                          this.up_data(value, show_count);
+
+                          document.body.scrollTop = document.documentElement.scrollTop = document.getElementById(
+                            "all-works"
+                          ).offsetTop;
+                        }}
                       />
                     </Grid>
-
+                    {/**  {!is_phone()&&(
                     <Grid item xs={12} sm={4}>
-                      <div className="box box-align-center root">
-                        <span>共21页，跳至</span>
+                      <div
+                        className="box box-align-center root"
+                        style={{ fontSize: "0.12em" }}
+                      >
+                        <span>
+                          共{Math.ceil(total_counts / show_count)}页，跳至
+                        </span>
                         <TextField
                           variant="outlined"
-                          style={{ width: "3.75rem" }}
+                          className="pagination"
+                          style={{ width: "3em" }}
+                          defaultValue={page_num}
+                          onChange={(ev) => {
+                            let _va = ev.target.value;
+                            if (
+                              _va &&
+                              _va <= Math.ceil(total_counts / show_count)
+                            ) {
+                              this.setState({
+                                page_num: parseInt(_va),
+                              });
+                              this.up_data(parseInt(_va), show_count);
+
+                              document.body.scrollTop = document.documentElement.scrollTop = document.getElementById(
+                                "all-works"
+                              ).offsetTop;
+                            }
+                           
+                          }}
                         />
                         <span>页</span>
                       </div>
                     </Grid>
+                    )}*/}
                   </Grid>
                 </div>
               )}

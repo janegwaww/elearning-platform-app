@@ -54,11 +54,11 @@ export default function EditDialog(props) {
       </div>
       <Dialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+       
         open={open}
         className={classes.dialog}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle  onClose={handleClose}>
           {props._type == "del" ? "温馨提示" : props.title}
         </DialogTitle>
         <DialogContent
