@@ -275,3 +275,9 @@ svg {
 #zmage #zmageBackground{
   background-color:#000 !important;
 }
+.MuiDialog-root.dialog{
+  background-color: transparent;
+}
+.MuiDialog-root.dialog .MuiDialogTitle-root{
+  width:100%
+}
