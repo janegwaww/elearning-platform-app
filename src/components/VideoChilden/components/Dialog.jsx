@@ -24,7 +24,7 @@ const DialogModal = (props) => {
   const { _login, open, children, title, onEvent, ...other } = props;
 
   return (
-    <Dialog open={open} className={classes.root}>
+    <Dialog open={open} className={`uploader-asid ${classes.root}`}>
       <div style={{ width: 470, padding: 20 }}>
         <DialogTitle
           onClose={() => {
