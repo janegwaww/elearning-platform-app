@@ -57,4 +57,5 @@
 }
 .btn:hover{
   background-color:#0e5bb6;
+  cursor: pointer;
 }

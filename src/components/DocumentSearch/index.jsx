@@ -1,44 +1,17 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
-import { getUser } from "../../services/auth";
-import { getIdFromHref } from "../../services/utils";
-import { likeTheVideo } from "../../services/video";
+import withId from "../EmptyNotice/withId";
 import { isLoggedIn } from "../../services/auth";
+import { likeTheVideo } from "../../services/video";
 import { useLoginConfirm } from "../LoginConfirm";
+import downloadjs from "./fileDownload";
 import "./index.sass";
 
-const api = "https://api.haetek.com:9191/api/v1/gateway";
-const { token } = getUser();
-const resType = {
-  responseType: "blob",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
-const params = (id) => ({
-  model_action: "download",
-  model_name: "document",
-  extra_data: { file_id: id },
-  model_type: "",
-});
-const fileDownload = (res, fileName, fileType) => {
-  const url = window.URL.createObjectURL(new Blob([res.data]));
-  const save = document.createElement("a");
-  save.href = url;
-  save.download = `${fileName}.${fileType}`;
-  save.target = "_blank";
-  document.body.appendChild(save);
-  save.click();
-  document.body.removeChild(save);
-};
-
-const DocumentSearch = () => {
-  const { dsid } = getIdFromHref();
+const DocumentSearch = ({ id }) => {
   const [position, setPosition] = useState([]);
   const [info, setInfo] = useState({});
   const [show, setShow] = useState(true);
@@ -52,16 +25,7 @@ const DocumentSearch = () => {
   };
 
   const handleDownload = () => {
-    if (dsid && info.file_name && token) {
-      axios
-        .post(api, params(dsid), resType)
-        .then((res) => {
-          fileDownload(res, info.file_name, info.file_type);
-        })
-        .catch((err) => {
-          console.error("Could not Download the file from the backend.", err);
-        });
-    }
+    downloadjs(id, info.file_name, info.file_type);
     // 未登录处理
     if (!isLoggedIn()) loginConfirm();
   };
@@ -69,7 +33,7 @@ const DocumentSearch = () => {
   const handleLike = () => {
     const value = info.is_like ? 0 : 1;
     if (!isLoggedIn()) return loginConfirm();
-    likeTheVideo({ relation_id: [dsid], value, type: "document" }).then(
+    likeTheVideo({ relation_id: [id], value, type: "document" }).then(
       (data) => {
         if (data) {
           setInfo((prev) => ({
@@ -97,7 +61,7 @@ const DocumentSearch = () => {
     }
   };
 
-  return dsid ? (
+  return (
     <div className="document-search-layer">
       <DSAppBar
         info={info}
@@ -110,7 +74,7 @@ const DocumentSearch = () => {
       />
 
       <SearchComponent
-        id={dsid}
+        id={id}
         onClick={handlePosition}
         open={!show}
         onClose={showSearch}
@@ -121,7 +85,7 @@ const DocumentSearch = () => {
           <Grid item xs={12} md={show ? scale : 7}>
             <DocumentComponent
               ref={docComRef}
-              id={dsid}
+              id={id}
               show={show}
               position={position}
               getInfo={(obj) => setInfo(obj)}
@@ -131,7 +95,7 @@ const DocumentSearch = () => {
         </Grid>
       </Container>
     </div>
-  ) : null;
+  );
 };
 
-export default DocumentSearch;
+export default withId(DocumentSearch);

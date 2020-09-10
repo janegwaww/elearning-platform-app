@@ -7,34 +7,13 @@ import {
   DialogActions,
 } from "../../../assets/template/MuiDialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
+import './dialog.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiDialog-paper": {
       overflowY: "visible",
     },
-  },
-  btn: {
-    fontSize: 16,
-    width: 180,
-    height: 40,
-    borderRadius: "27px 21px 21px 27px",
-    border: "1px solid rgba(0,124,255,1)",
-  },
-  btn1: {
-    color: "#fff",
-    backgroundColor: "#007CFF",
-
-    "&:hover": { backgroundColor: "#007CFF" },
-  },
-  btn2: {
-    color: "#007CFF",
-  },
-  btn3: {
-    backgroundColor: "#F2F2F5",
-    color: "#878791",
-    border: "none",
-    marginLeft: 30,
-  },
+  }
 }));
 const stop_run = (prvprops, nextpropx) => {
 
@@ -62,7 +41,7 @@ const DialogModal = (props) => {
               <Button
                 variant="outlined"
                 color="primary"
-                className={`${classes.btn} ${classes.btn2}`}
+                className={`btn btn2`}
                 onClick={() => {
                   onEvent && onEvent({ confirm: true, concel: false });
                 }}
@@ -71,37 +50,37 @@ const DialogModal = (props) => {
               </Button>
             )}
             {_login.type == 2 && (
-              <Button
+              <div
                 variant="outlined"
                 color="primary"
-                className={`${classes.btn} ${classes.btn2}`}
+                className={`btn btn2`}
                 onClick={() => {
                   onEvent && onEvent({ confirm: true, concel: false });
                 }}
               >
                 确定
-              </Button>
+              </div>
             )}
             {_login.type == 1 && (
-              <div>
-                <Button
+              <div className= 'box'>
+                <div
                   variant="contained"
-                  className={`${classes.btn} ${classes.btn1}`}
+                  className={`btn btn1`}
                   onClick={() => {
                     onEvent && onEvent({ confirm: true, concel: false });
                   }}
                 >
                   去登录
-                </Button>
-                <Button
+                </div>
+                <div
                   variant="outlined"
-                  className={`${classes.btn} ${classes.btn3}`}
+                  className={`btn btn3`}
                   onClick={() => {
                     onEvent && onEvent({ confirm: false, concel: true });
                   }}
                 >
                   取消
-                </Button>
+                </div>
               </div>
             )}
           </div>
