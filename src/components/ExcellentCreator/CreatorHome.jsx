@@ -212,12 +212,13 @@ class CreatorHome extends Component {
   fetchData = (id) => {
     this.setState({ loading: true });
     getCreatorInfo({ author_id: id }).then((data) => {
+      const { list = [] } = data;
       this.setState({
         auth: data.auth,
-        list: data.list.slice(0, 16),
+        list: list.slice(0, 16),
         loading: false,
-        listStack: data.list,
-        pageCount: data.list.filter((o) => o.type === "video").length,
+        listStack: list,
+        pageCount: list.filter((o) => o.type === "video").length,
       });
     });
   };

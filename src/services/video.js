@@ -1,6 +1,7 @@
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
 import { logout } from "./auth";
+import { observer } from "./observable";
 
 const apisVideo = videoApis();
 const apisSearch = searchPartApis();
@@ -8,9 +9,7 @@ const apisSearch = searchPartApis();
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (![0, "0", "4104"].includes(data.err)) {
-    console.log(data.err);
-  }
+  observer(data.err);
   return Promise.resolve(odata);
 };
 
