@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
     padding: "6px 14px",
     backgroundColor: theme.palette.secondary.main,
     borderRadius: "0px 50px 50px 0",
-    fontSize:14,
+    fontSize: 14,
     color: theme.palette.primary.main,
     "&:hover": {
       backgroundColor: theme.palette.secondary.main,
@@ -93,7 +93,7 @@ const useStyles = makeStyles(theme => ({
     padding: "6px 14px",
     borderRadius: "50px",
     float: "right",
-    fontSize:14,
+    fontSize: 14,
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
@@ -114,7 +114,6 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: "flex",
-    marginRight: "20px",
     justifyContent: "space-between",
     [theme.breakpoints.down("sm")]: {
       display: "none",
