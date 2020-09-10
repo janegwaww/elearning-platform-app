@@ -1,39 +1,19 @@
 import React, { Component } from "react";
 import styles from "./Header.module.css";
 import { navigate } from "@reach/router";
-
-import { Button, Avatar, Snackbar } from "@material-ui/core";
-
-import { withStyles } from "@material-ui/core/styles";
+import {  Avatar, Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { get_data } from "../../../assets/js/request";
 import { getUser, isLoggedIn } from "../../../services/auth";
-
 import CustomModal from "../../../assets/js/CustomModal";
 import Home from "../../../assets/img/Home.svg";
 import Code from "../../../assets/img/Code.svg";
-import logoimg from "../../../../static/logos/logo.svg";
+import logoimg from "../../../assets/img/logo.svg";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const NewBtn = withStyles({
-  root: {
-    backgroundColor: "#2E2E30",
-    color: "#fff",
-    "border-radius": "16px",
-    width: "140px",
-    height: "32px",
-    "line-height": 0,
-  },
-})(Button);
-
-const NewBtn2 = withStyles({
-  root: {
-    backgroundColor: "#007CFF",
-  },
-})(NewBtn);
 
 export default class Header extends Component {
   constructor(props) {
@@ -77,12 +57,6 @@ export default class Header extends Component {
     };
 
     const btn_save = function(el) {
-      // if (el != "not") {
-      //   _this.props.parent.setState({
-      //     login_status: true,
-      //   });
-      // }
-
       let _video_data = _this.props.parent.state.video_data;
 
       let r_data = {
@@ -100,17 +74,10 @@ export default class Header extends Component {
         if (res.err == 0 && res.errmsg == "OK") {
           _this.setState({ open: true });
 
-          //   if (el != "not") {
-          //     setTimeout(() => {
-          //       navigate(`/video/uppage`);
-          //     }, 500);
-
-          //   }
+      
         }
 
-        // _this.props.parent.setState({
-        //   login_status: false,
-        // });
+     
       });
     };
 
@@ -177,7 +144,7 @@ export default class Header extends Component {
         </div>
         <div className="box box-align-center">
           <div>
-            <NewBtn2
+            <div className={`${styles.btn} text-center`}
               onClick={() => {
                 if (
                   JSON.stringify(this.props.parent.state.video_data) === "{}" ||
@@ -200,10 +167,10 @@ export default class Header extends Component {
               }}
             >
               定时保存
-            </NewBtn2>
+            </div>
           </div>
           <div>
-            <NewBtn2
+            <div className={`${styles.btn} text-center`}
               onClick={() => {
                 if (
                   JSON.stringify(this.props.parent.state.video_data) === "{}"
@@ -274,7 +241,7 @@ export default class Header extends Component {
               }}
             >
               发布视频
-            </NewBtn2>
+            </div>
           </div>
           {/*<div title="点击可保存你编辑文本样式">
             <Save className={styles.save} onClick={btn_save} />

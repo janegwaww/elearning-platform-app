@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DialogModal from "../../components/VideoChilden/components/Dialog";
 import gologin from "../img/gologin.png";
 import { navigate } from "@reach/router";
+
 const LoginModal = (props) => {
   const { children, onEvent, open } = props;
  

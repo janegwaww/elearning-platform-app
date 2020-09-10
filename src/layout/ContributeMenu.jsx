@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Link} from "@material-ui/core";
+import { Button, Link } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
@@ -11,8 +11,6 @@ import { navigate } from "@reach/router";
 import LoginModal from "../assets/template/LoginModal";
 import { getUser, isLoggedIn } from "../services/auth";
 import "../assets/css/contributemenu.css";
-
-
 
 export default function MenuListComposition(props) {
   const [open, setOpen] = React.useState(false);
@@ -65,7 +63,7 @@ export default function MenuListComposition(props) {
       }}
     >
       <div className="muncon">
-        <div className='root'>
+        <div className="root">
           <Button
             ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
@@ -99,11 +97,26 @@ export default function MenuListComposition(props) {
                       onKeyDown={handleListKeyDown}
                       className="menuList"
                     >
-                      <MenuItem >
-                      <Link color="inherit" target='_blank' underline="none" href={props.title?`/video/?page=zhiqing`:`/video/`}>上传视频</Link> 
+                      <MenuItem
+                        onClick={() => {
+                          if (props.title) {
+                            navigate(`/video/?page=zhiqing`);
+                          } else {
+                            navigate(`/video/`);
+                          }
+                        }}
+                      >
+                        上传视频
                       </MenuItem>
-                      <MenuItem>
-                        <Link color="inherit" target='_blank' underline="none" href={props.title?`/video/zhiqingtext`:`/video/uptext`} >上传文本</Link>
+                      <MenuItem onClick={()=>{
+                        if(props.title){
+                          navigate(`/video/zhiqingtext`);
+                        }else{
+                          navigate(`/video/uptext`);
+                        }
+                      }}>
+                          上传文本
+                        
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
