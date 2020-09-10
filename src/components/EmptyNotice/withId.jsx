@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { navigate } from "gatsby";
-import EmptypNotice from "./EmptyNotice";
+import EmptyNotice from "./EmptyNotice";
 import { getIdFromHref } from "../../services/utils";
+import { subscribe } from "../../services/observable";
 
 const withId = (WrapComponent) => {
   return class extends Component {
@@ -12,6 +13,7 @@ const withId = (WrapComponent) => {
 
     componentDidMount() {
       this.verifyId();
+      subscribe(() => this.setState({ id: "" }));
     }
 
     verifyId = () => {
@@ -25,7 +27,11 @@ const withId = (WrapComponent) => {
     render() {
       const { id } = this.state;
 
-      return id ? <WrapComponent id={id} /> : null;
+      return id ? (
+        <WrapComponent id={id} />
+      ) : (
+        <EmptyNotice type="loading" handleFresh={() => navigate("/")} />
+      );
     }
   };
 };
