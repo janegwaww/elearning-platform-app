@@ -1,9 +1,8 @@
 import React from "react";
-import { Container, Avatar, Grid } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
+
 import "./navtar.css";
 import { navigate } from "@reach/router";
-import {is_phone} from '../../../assets/js/totls';
+
 const NavTar = (props) => {
   
   const [isPhone,setIsPhone] =React.useState(false);

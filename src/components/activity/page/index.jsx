@@ -52,6 +52,7 @@ export default class PageIndex extends React.Component {
           style={{
             backgroundImage: `url(${Bgimg})`,
             backgroundRepeat: "no-repeat",
+            minHeight:'calc(100vh - 4rem)'
           }}
           className="activity"
         >

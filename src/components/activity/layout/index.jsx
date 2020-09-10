@@ -32,7 +32,7 @@ export default class MainLayout extends React.Component {
           <header style={{ height: "4rem"}} className="ma-header">
             <NavBar />
           </header>
-          <main className=" ma-main">{children}</main>
+          <main className=" ma-main ">{children}</main>
         <ScrollTop />
         </section>
       </ThemeProvider>
