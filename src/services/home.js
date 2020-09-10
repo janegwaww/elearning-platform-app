@@ -1,17 +1,13 @@
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
+import { observer } from "./observable";
 
 const apisVideo = videoApis();
 const apisSearch = searchPartApis();
 
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (![0, "0"].includes(data.err)) {
-    console.log(data.err);
-  }
-  if (odata.Error) {
-    console.log(odata.Error);
-  }
+  observer(data.err);
   return Promise.resolve(odata);
 };
 
@@ -56,6 +52,7 @@ export const getCreatorInfo = pipeThen(
   extraAuth,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getAuthorInformation,
 );
 
@@ -89,6 +86,7 @@ export const getSeriesInfo = pipeThen(
   extraSeries,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getSeriesDetails,
 );
 
@@ -107,6 +105,7 @@ export const getDocumentSeriesInfo = pipeThen(
   extraDocSeries,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getDocumentSeriesDetails,
 );
 
@@ -129,5 +128,6 @@ export const documentSearch = pipeThen(getResultData, apisSearch.localSearch);
 export const documentContent = pipeThen(
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getImage,
 );
