@@ -21,7 +21,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
   })); 
 
 
-const ProgressBar = ({ loading = false }) => {
+const ProgressBar = ({ loading = false,speed=5 }) => {
 const classes = useStyles();
   const [progress, setProgress] = useState(0);
   const [show, setShow] = useState(false);
@@ -37,7 +37,7 @@ const classes = useStyles();
       if (loading && oldProgress > 90) {
         return oldProgress;
       }
-      return oldProgress + 5;
+      return oldProgress + speed;
     });
   };
 

@@ -98,6 +98,7 @@ const userStyles = makeStyles((them) => ({
     backgroundPosition: "center center",
     backgroundSize: "100% 100%",
     backgroundRepeat: "no-repeat",
+    backgroundColor:'#f2f2f5'
   },
 }));
 
@@ -153,16 +154,16 @@ function CuttingTemplate(props) {
         </label>
       </div>
       <Dialog
-        aria-labelledby="customized-dialog-title"
+       
         open={open}
         className={classes.dialog}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle  onClose={handleClose}>
           图片预览
         </DialogTitle>
         <DialogContent dividers>
           <div
-            className={`${classes.croper} text-center bg-all`}
+            className={`${classes.croper} text-center `}
            
           >
           <img src={temporaryurl} alt=''  className='all-height' style={{width:'auto',margin:'0 auto'}}/>
