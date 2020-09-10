@@ -52,6 +52,7 @@ export const getCreatorInfo = pipeThen(
   extraAuth,
   getFirstResultData,
   getResultData,
+  errorMessageNotice,
   apisSearch.getAuthorInformation,
 );
 
