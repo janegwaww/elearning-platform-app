@@ -18,13 +18,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import AvatarMenu from "../../layout/AvatarMenu";
 import Container from "../Container/KeContainer";
 import MenuMobile from "./MenuMobile";
-import useStyles from "./NavBarStyles";
 import { searchUrlParams } from "../../services/utils";
+import "./NavBar.sass";
 
 const placeholder = "谁推导出洛伦兹变换";
 
 const PrimarySearchAppBar = () => {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const container = useRef(null);
 
@@ -48,14 +47,14 @@ const PrimarySearchAppBar = () => {
   };
 
   return (
-    <div className={classes.grow}>
+    <div className="app-primary-nav-bar">
       <AppBar position="fixed">
         <Container>
-          <Toolbar className={classes.toolbar}>
-            <Link href="/" className={classes.logoLink}>
+          <Toolbar disabledGutters>
+            <Link href="/" className="logoLink">
               <img src="/logos/logo.svg" alt="logo" />
             </Link>
-            <div className={classes.menus}>
+            <div className="menus">
               <Link
                 href="/"
                 color="inherit"
@@ -98,20 +97,17 @@ const PrimarySearchAppBar = () => {
                 </div>
               </Tooltip>
             </div>
-            <div className={classes.search}>
+            <div className="search">
               <InputBase
                 placeholder={placeholder}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
                 inputProps={{ "aria-label": "search" }}
                 onKeyDown={handleEnter}
                 id="navbar-search-input"
+                className="navbar-search-input"
                 endAdornment={
                   <InputAdornment>
                     <Button
-                      className={classes.searchButton}
+                      className="searchButton"
                       startIcon={<SearchIcon />}
                       onClick={handleSearchClick}
                     >
@@ -121,26 +117,26 @@ const PrimarySearchAppBar = () => {
                 }
               />
               <Button
-                className={classes.searchButtonAlone}
+                className="searchButtonAlone"
                 startIcon={<SearchIcon />}
                 onClick={() => navigate("/search/")}
               >
                 跨模态
               </Button>
             </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
+            <div className="grow" />
+            <div className="sectionDesktop">
               <div style={{ flexGrow: 1 }} />
               <AvatarMenu />
             </div>
-            <div className={classes.sectionMobile}>
+            <div className="sectionMobile">
               <IconButton size="small" onClick={handleMobileMenu}>
                 {open ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
             </div>
             <div>
               <Button
-                className={classes.createButton}
+                className="createButton"
                 onClick={() => navigate("/video/")}
               >
                 <Typography>投稿</Typography>
