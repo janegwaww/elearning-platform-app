@@ -46,3 +46,16 @@
   margin: 0 1.26rem ;
 }
 
+.btn{
+  background-color: #007CFF;
+    color: #fff;
+    border-radius: 16px;
+    width: 140px;
+    height: 32px;
+    line-height: 32px;
+    box-shadow: 0 0 5px 2px #232325;
+}
+.btn:hover{
+  background-color:#0e5bb6;
+  cursor: pointer;
+}
