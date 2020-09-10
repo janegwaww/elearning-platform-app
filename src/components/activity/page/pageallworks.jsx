@@ -25,21 +25,33 @@ class PageAllWorks extends React.Component {
       page_num: 1,
       show_count: 12,
       login_status: false,
+      sort:'like',
+      
     };
     this.winsize = this.winsize.bind(this);
     this.up_data = this.up_data.bind(this);
+    this.btn_data = this.btn_data.bind(this);
   }
   componentDidMount() {
     this.winsize();
-    window.onresize = () => {
-      this.winsize();
-    };
+    // window.onresize = () => {
+    //   this.winsize();
+    // };
     this.up_data();
   }
   componentWillUnmount() {
     window.onresize = null;
   }
-  up_data(_page, _size) {
+  btn_data(ev){
+    let _data = ev.target.dataset;
+    this.setState({
+      sort:_data.ty,
+      page_num:1
+    })
+    this.up_data(1,this.state.show_count,_data.ty)
+    
+  }
+  up_data(_page, _size,_sort) {
     this.setState({
       login_status: true,
     });
@@ -51,6 +63,7 @@ class PageAllWorks extends React.Component {
           max_size: _size || this.state.show_count,
           page: _page || this.state.page_num,
           type: "all", //# 全部
+          sort:_sort||this.state.sort
         },
         model_type: "",
       },
@@ -93,6 +106,8 @@ class PageAllWorks extends React.Component {
       show_data,
       show_count,
       page_num,
+      sort,
+      styles
     } = this.state;
     // console.log(contest_w)
     return (
@@ -203,9 +218,10 @@ class PageAllWorks extends React.Component {
                   </div>
                 </div>
                 <div className='box ' style={{fontSize: is_phone() ? 12 : "0.3em",}}>
-                    <div>最新</div>
-                    <div>最热</div>
-                    <div>时间</div>
+                <div data-ty='like' className={`allsort ${sort=='like'&&'sort'}`} onClick={this.btn_data}>最热</div>&nbsp;&nbsp;
+                    <div data-ty='time' className={`allsort ${sort=='time'&&'sort'}`} onClick={this.btn_data}>最新</div>
+                    
+                    
                 </div>
               </div>
               <Grid container spacing={is_phone() ? 2 : 3}>
@@ -218,7 +234,7 @@ class PageAllWorks extends React.Component {
                       md={3}
                       key={op.file_id || op.video_id}
                     >
-                      <WordsCar info={op} />
+                      <WordsCar info={op} sort={sort}/>
                     </Grid>
                   ))}
               </Grid>

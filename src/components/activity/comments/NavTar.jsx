@@ -24,8 +24,7 @@ const NavTar = (props) => {
       _url = _url + "activityallworks";
     }
     navigate(`${_url}`);
-    
-    // props.onEvent&&props.onEvent(parseInt(_data.id));
+   
   };
  
   return (

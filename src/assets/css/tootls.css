@@ -141,13 +141,16 @@ svg {
 /*多行显示文字*/
 .textview-overflow.two ,.grid-context-box .textview-overflow.two {
   -webkit-line-clamp: 2;
+  white-space:normal;
 }
 
 .textview-overflow.three {
   -webkit-line-clamp: 3;
+  white-space:normal;
 }
 .textview-overflow.four {
   -webkit-line-clamp: 4;
+  white-space:normal;
 }
 /* 阴影 */
 .box-shadow {

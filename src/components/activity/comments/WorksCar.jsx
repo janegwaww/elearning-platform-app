@@ -69,11 +69,11 @@ const WordsCar = (props) => {
               alt=""
             />
           </div>
-          <div className="grid-context-box" style={{padding:'16px 12px'}}>
+          <div className="grid-context-box" style={{ padding: "16px 12px" }}>
             <Tooltip
               placement="top-start"
               title={props.info.file_name || props.info.title}
-              style={{minHeight:32}}
+              style={{ minHeight: 32 }}
               className="textview-overflow two"
             >
               <Typography gutterBottom variant="body2" noWrap align="left">
@@ -88,24 +88,28 @@ const WordsCar = (props) => {
                 lineHeight: 1.5,
                 color: "#878791",
               }}
-              className="box box-align-center box-between"
+             
             >
-              <div>
-                <Details
-                  style={{ transform: "rotate(-90deg)", fontSize: 16 }}
-                />
-                &nbsp;{props.info.view_counts || 0}
-              </div>
-              &nbsp;&nbsp;
-              <div>
-                <FavoriteBorder style={{ fontSize: 16 }} />
-                &nbsp;{props.info.like_counts || 0}
-              </div>
-              &nbsp;&nbsp;
-              <div>
-                <AccessTimeOutlined style={{ fontSize: 16 }} />
-                &nbsp;{get_date(props.info.time, ".", 8)}
-              </div>
+              {props.sort == "like" ? (
+                <div  className="box box-align-center box-between">
+                  <div className='box-flex'>
+                    <Details
+                      style={{ transform: "rotate(-90deg)", fontSize: 18 }}
+                    />
+                    &nbsp;{props.info.view_counts || 0}
+                  </div>
+                  
+                  <div className='box-flex'>
+                    <FavoriteBorder style={{ fontSize: 18 }} />
+                    &nbsp;{props.info.like_counts || 0}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <AccessTimeOutlined style={{ fontSize: 18 }} />
+                  &nbsp;{get_date(props.info.time, ".", 8)}
+                </div>
+              )}
             </div>
             <div className="grid-avatar">
               <Avatar alt="" src={props.info.headshot} className="avatar" />
@@ -120,35 +124,6 @@ const WordsCar = (props) => {
               </Typography>
             </div>
           </div>
-
-          {/*<div style={{ padding:isPhone?'10px 0.2em 0':'20px 0.2em 0' }}>
-        <div className="textview-overflow two" style={{fontSize:'0.2em',minHeight:'2.67em'}} title={props.info.file_name||props.info.title}>
-            {props.info.file_name||props.info.title}
-        </div>
-        <div style={{margin:'1em 0',fontSize:'0.2em',
-        lineHeight: '1em',color:'#878791'}} className='box box-align-center box-between'>
-          <div>
-            <Details style={{ transform: "rotate(-90deg)",fontSize:'1.8em' }} />
-            &nbsp;{props.info.view_counts||0}
-          </div>&nbsp;&nbsp;
-          <div>
-            <FavoriteBorder style={{fontSize:'1.8em'}} />
-            &nbsp;{props.info.like_counts||0}
-          </div>&nbsp;&nbsp;
-          <div>
-            <AccessTimeOutlined style={{fontSize:'1.8em'}}/>
-            &nbsp;{get_date(props.info.time,'.',8)}
-          </div>
-        </div>
-        <div className="box box-align-center box-between all-width">
-          <div className="box box-align-center box-flex all-width" style={{fontSize:'0.2em'}}>
-            <Avatar style={{ width: "1.4em", height: "1.4em" }} src={props.info.headshot} />&nbsp;&nbsp;
-            <div  title={props.info.user_name} className='text-overflow' style={{fontSize:'0.75em'}}>{props.info.user_name}</div>&nbsp;
-
-          </div>
-        
-        </div>
-      </div>*/}
         </div>
       </Link>
     </div>

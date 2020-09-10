@@ -3,7 +3,7 @@
   font-size:calc(100vw / 750/2.56 *100);
 }
 .activity{
-font-family: MicrosoftYaHei;
+font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
 color: #2C2C3B;
 }
 .activity img {
@@ -20,7 +20,13 @@ color: #2C2C3B;
   line-height: 1.25;
   font-family: 微软雅黑;
 }
-
+.activity .sort{
+  color:#4E07BA;
+  font-weight: bold;
+}
+.activity .allsort:hover{
+  cursor: pointer;
+}
 /* @media (max-width: 600px) {
   .navtar {
     font-size: 0.875rem !important;
