@@ -114,9 +114,8 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: "flex",
-    marginRight: "calc(6%)",
+    marginRight: "20px",
     justifyContent: "space-between",
-    width: "calc(12%)",
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
