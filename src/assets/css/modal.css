@@ -1,20 +1,34 @@
+:root{
+    --z-index:20000;
+}
 .alert{
     position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top:0;
+    background-color: rgba(0,0,0,0.2);
+    z-index: var(--z-index);
+   
+}
+.alert div{
+    position: fixed;
     top:50%;
+
     transform: translate(-50%,-50%);
     left: 50%;
     padding: 1.875rem 2.5rem;
     background-color: white;
     border-radius: 0.625rem;
-    min-width: 13rem;
+    /* min-width: 13rem; */
     font-size: 1.125rem;
-    z-index: 20000;
     box-shadow:2px 2px 20px 0px rgba(0,0,0,0.1);
+    z-index: calc(var(--z-index) + 1);
 }
-.alert div{
+/* .alert div{
     position: relative;
     width:100%;
-}
+} */
 .alert div img{
     width:1.75rem;
     height: 1.75rem;

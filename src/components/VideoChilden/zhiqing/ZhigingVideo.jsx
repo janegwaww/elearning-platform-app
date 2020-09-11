@@ -13,6 +13,7 @@ import {
   Grid,
   Select,
   FormControl,
+  Link
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -733,6 +734,13 @@ export default function VideoIndex(props) {
                 </Grid>
               </Grid>
               <div className="item" style={{ height: 1 }}></div>
+              <Grid container spacing={4} className='item'>
+                        <Grid item xs={12} className='text-center fn-color-007CFF'>
+                          <input type='checkbox' className='notcss' />
+                          <Link href='/protocol/statement' color="inherit">
+                          免责声明</Link>
+                        </Grid>
+                  </Grid>
               <div className="item"></div>
               <div className=" box box-center">
                 <Button
