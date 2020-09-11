@@ -62,7 +62,7 @@ export default function VideoIndex(props) {
   const [videosign, setVideosign] = React.useState(""); //视频标签
   const [fieldArr, setFieldArr] = React.useState([]);
   const [field, setField] = React.useState("");
-
+  const [ statement,setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -733,25 +733,42 @@ export default function VideoIndex(props) {
                   </div>
                 </Grid>
               </Grid>
-              <div className="item" style={{ height: 1 }}></div>
-              <Grid container spacing={4} className='item'>
-                        <Grid item xs={12} className='text-center fn-color-007CFF'>
-                          <input type='checkbox' className='notcss' />
-                          <Link href='/protocol/statement' color="inherit">
-                          免责声明</Link>
-                        </Grid>
-                  </Grid>
+              <div className="item" ></div>
+              <Grid container spacing={4} className="item">
+              <Grid
+                item
+                xs={4}
+                sm={3}
+                md={2}
+                className="text-right"
+              ></Grid>
+              <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
+                
+                <input
+                  type="checkbox"
+                  className="notcss"
+                  checked={statement ? true : false}
+                  onChange={(ev) => {
+                    setStatement(ev.target.checked);
+                    console.log(ev.target.checked);
+                  }}
+                />
+                已阅读并同意
+                <span className="fn-color-007CFF">
+                  <Link
+                    href="/protocol/statement"
+                    color="inherit"
+                    underline="always"
+                    target='_brank'
+                  >
+                    免责声明
+                  </Link>
+                </span>
+              </Grid>
+            </Grid>
               <div className="item"></div>
               <div className=" box box-center">
-                <Button
-                  className="btn btn1"
-                  onClick={() => {
-                    window.history.back();
-                    return false;
-                  }}
-                >
-                  返回
-                </Button>
+                
                 <Button
                   className="btn"
                   color="primary"
@@ -783,6 +800,14 @@ export default function VideoIndex(props) {
                           });
                           return;
                     }
+                    if(!statement){
+                      setOpenSnackbar({
+                        open: true,
+                        type: "error",
+                        msg: "亲！请您认真阅读免责声明，并打上勾哦",
+                      });
+                      return;
+                    }
                     let _data = {
                       task_id: JSON.parse(sessionStorage.getItem("file_data"))
                         .video_id,
@@ -790,6 +815,7 @@ export default function VideoIndex(props) {
                       description: videodescription,
                       category: [!field&&videosign?videosign+'99':field],
                       invite: invitation,
+                      statement:statement
                     };
                     if (videoImg) {
                       _data.image_path = videoImg;
