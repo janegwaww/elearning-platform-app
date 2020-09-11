@@ -19,12 +19,15 @@ input[type="radio"] + label::before {
     padding: 2px;
   }
   input[type="radio"],
-  input[type="checkbox"] {
+  input[type="checkbox"]:not(.notcss) {
     position: absolute;
     clip: rect(0, 0, 0, 0);
   }
-  
-  input[type="checkbox"] + label::before {
+  input[type="radio"],
+  input[type="checkbox"]{
+    vertical-align: middle;
+  }
+  input[type="checkbox"]:not(.notcss) + label::before {
     /*设置label标签的伪元素*/
     content: "\a0"; /* 不换行空格 */
     display: inline-block;
@@ -39,7 +42,7 @@ input[type="radio"] + label::before {
     box-sizing: content-box;
   }
   /*选定时*/
-  input[type="checkbox"]:checked + label::before {
+  input[type="checkbox"]:not(.notcss):checked + label::before {
     /* content: "\2714";    √ */
     /* text-align: center; */
     /* background-color: rgb(68, 171, 247); */

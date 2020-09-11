@@ -15,15 +15,7 @@ export default class MainLayout extends React.Component {
     const { children } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <Helmet>
-          <meta name="description" content={config.siteDescription} />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-         
-          <meta http-equiv="Expires" content="0" />
-          <meta http-equiv="Cache-Control" content="no-cache" />
-          <meta http-equiv="Pragma" content="no-cache" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-        </Helmet>
+        
         <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
         <section
           className=" bg-f9 ma-container is-vertical"

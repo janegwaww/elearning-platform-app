@@ -7,11 +7,7 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
-  Select,
-  FormControl,
-  NativeSelect,
-  MenuItem,
-  InputBase,
+  
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -536,12 +532,11 @@ export default function VideoIndex(props) {
                                 />
                               )}
                             </div>
-                          ) : (
-                            ""
-                          )}
+                          ) :null}
                           <div>
                             <CuttingTemplate
                               id="coverfile"
+                              isClick={!adjunct?true:false}
                               formdata={(() => {
                                 
                                 let _formData = new FormData();
@@ -550,7 +545,7 @@ export default function VideoIndex(props) {
                                 return _formData;
                               })()}
                               onEvent={(url) => {
-                                console.log(url)
+                            
                                 setVideoImg(url);
                               }}
                             />
