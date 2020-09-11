@@ -25,9 +25,9 @@ const DocumentSearch = ({ id }) => {
   };
 
   const handleDownload = () => {
-    downloadjs(id, info.file_name, info.file_type);
     // 未登录处理
-    if (!isLoggedIn()) loginConfirm();
+    if (!isLoggedIn()) return loginConfirm();
+    downloadjs(id, info.file_name, info.file_type);
   };
 
   const handleLike = () => {

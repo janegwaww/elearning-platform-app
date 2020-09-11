@@ -26,7 +26,7 @@ const errorEvents = {
 };
 
 const _action = err => {
-  if (errors.includes(err)) {
+  if (err === "4103") {
     if (isFunction(errorEvents.IdIncorrectEvent)) {
       errorEvents.IdIncorrectEvent();
     }
