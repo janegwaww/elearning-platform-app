@@ -190,13 +190,7 @@ function CuttingTemplate(props) {
             取消
           </Button>
           <Button
-<<<<<<< HEAD
-            autoFocus
-            variant="contained"
-            color="primary"
-=======
             variant="contained" color="primary"
->>>>>>> 5c8fb60... add 声明
             onClick={() => {
               let _formdata = new FormData();
               _formdata.append("model_action", "upload_file");
