@@ -14,11 +14,14 @@ const withId = (WrapComponent) => {
 
     componentDidMount() {
       this.verifyId();
-      subscribe(() => this.setState({ idNotExist: true }));
+      subscribe("idNotExist", () => this.setState({ idNotExist: true }));
     }
 
     verifyId() {
       const { vid, did, dsid, sid, cid, dserid } = getIdFromHref();
+      if (!(vid || did || dsid || sid || cid || dserid)) {
+        navigate("/");
+      }
       this.setState({ id: vid || did || dsid || sid || cid || dserid });
     }
 

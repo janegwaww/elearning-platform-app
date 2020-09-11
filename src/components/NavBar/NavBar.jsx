@@ -51,7 +51,7 @@ const PrimarySearchAppBar = () => {
     <div className="app-primary-nav-bar">
       <AppBar position="fixed">
         <Container>
-          <Toolbar disabledGutters>
+          <Toolbar disableGutters>
             <Link href="/" className="logoLink">
               <img src="/logos/logo.svg" alt="logo" />
             </Link>

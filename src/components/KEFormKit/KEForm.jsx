@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import Grid from "@material-ui/core/Grid";
+import { useSnackbar } from "notistack";
 import useStyles from "./KEFormStyle";
 import ThirdPartyLoginOpt from "./ThirdPartyLoginOpt";
 import AccountForm from "./AccountForm";
@@ -8,6 +9,7 @@ import UserProtocol from "./UserProtocol";
 import QrCodeLoginComponent from "./QrCodeLoginComponent";
 import QrCodeIcon from "./QrCodeIcon";
 import prevHref from "../../services/prevHref";
+import { subscribe } from "../../services/observable";
 import {
   generateQRCode,
   enquiryQRCode,
@@ -15,6 +17,7 @@ import {
 } from "../../services/auth";
 
 const KEForm = ({ modal, modalClose }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
@@ -55,11 +58,11 @@ const KEForm = ({ modal, modalClose }) => {
         setQrcodeValue(data);
         // varifyQRCode(data);
       });
-    } else {
     }
   }, [accountLogin]);
 
   useEffect(() => {
+    subscribe("authError", enqueueSnackbar);
     return () => {};
   }, []);
 

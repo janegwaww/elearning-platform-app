@@ -1,5 +1,6 @@
 import { authApis } from "./api";
 import { pipeThen } from "./utils";
+import { observer } from "./observable";
 
 const apis = authApis();
 const isBrowser = () => typeof window !== "undefined";
@@ -49,9 +50,9 @@ const getResultData = ({ data = {} }) =>
 
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
-  const {data={}} = odata
+  const { data = {} } = odata;
   if (![0, "0"].includes(data.err)) {
-    alert(data.errmsg);
+    observer(data);
   }
   return Promise.resolve(odata);
 };
@@ -72,7 +73,7 @@ const getArrayData = ([arr]) => Promise.resolve(arr || {});
 const getLoginData = ({ data = {}, headers = {} }) =>
   Promise.resolve({
     resultData: data.result_data ? data.result_data[0] : {},
-    authorization: headers.authorization
+    authorization: headers.authorization,
   });
 
 // 存入用户数据和headers
@@ -81,7 +82,7 @@ const setLoginUser = ({ resultData = {}, authorization = "" }) => {
   setUser({
     name: `${resultData.name}`,
     headshot: `${resultData.headshot}`,
-    token: `${authorization}`
+    token: `${authorization}`,
   });
   return Promise.resolve(!!authorization);
 };
@@ -96,7 +97,7 @@ export const generateSMSCode = pipeThen(
   getArrayData,
   getResultData,
   errorMessageNotice,
-  apis.generateCode
+  apis.generateCode,
 );
 
 // -------------------------
@@ -105,7 +106,7 @@ export const handleLogin = pipeThen(
   setLoginUser,
   getLoginData,
   errorMessageNotice,
-  apis.codeLogin
+  apis.codeLogin,
 );
 
 // -----------------------
@@ -118,7 +119,7 @@ export const generateQRCode = pipeThen(
   getArrayData,
   getResultData,
   errorMessageNotice,
-  apis.generateQrcode
+  apis.generateQrcode,
 );
 
 // ------------------------
@@ -126,7 +127,7 @@ export const generateQRCode = pipeThen(
 export const enquiryQRCode = pipeThen(
   setLoginUser,
   getLoginData,
-  apis.enquiryQrcode
+  apis.enquiryQrcode,
 );
 
 // ---------------------
@@ -139,7 +140,7 @@ export const generateThirdPartyUrl = pipeThen(
   getArrayData,
   getResultData,
   errorMessageNotice,
-  apis.generateThirdQrcode
+  apis.generateThirdQrcode,
 );
 
 // -------------------------
@@ -153,7 +154,7 @@ const setThirdLogin = ({ resultData = {}, authorization = "" }) => {
     setUser({
       name: resultData.name,
       headshot: resultData.headshot,
-      token: authorization
+      token: authorization,
     });
     return Promise.resolve(true);
   }
@@ -168,7 +169,7 @@ export const handleThirdLogin = pipeThen(
   setThirdLogin,
   getLoginData,
   errorMessageNotice,
-  apis.thirdLogin
+  apis.thirdLogin,
 );
 
 // --------------------
@@ -177,7 +178,7 @@ export const bindingMobile = pipeThen(
   setLoginUser,
   getLoginData,
   errorMessageNotice,
-  apis.thirdBindMobile
+  apis.thirdBindMobile,
 );
 
 // --------------------
@@ -199,5 +200,5 @@ export const userAlreadyExist = pipeThen(
   verifyMobile,
   getErrData,
   errorMessageNotice,
-  apis.checkMobile
+  apis.checkMobile,
 );
