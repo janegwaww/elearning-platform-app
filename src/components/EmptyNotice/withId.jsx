@@ -19,6 +19,9 @@ const withId = (WrapComponent) => {
 
     verifyId() {
       const { vid, did, dsid, sid, cid, dserid } = getIdFromHref();
+      if (!(vid || did || dsid || sid || cid || dserid)) {
+        navigate("/");
+      }
       this.setState({ id: vid || did || dsid || sid || cid || dserid });
     }
 
