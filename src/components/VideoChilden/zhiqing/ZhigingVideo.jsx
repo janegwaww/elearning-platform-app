@@ -13,6 +13,7 @@ import {
   Grid,
   Select,
   FormControl,
+  Link
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -732,9 +733,8 @@ export default function VideoIndex(props) {
                   </div>
                 </Grid>
               </Grid>
-<<<<<<< HEAD
-              <div className="item" style={{ height: 1 }}></div>
-=======
+             
+
               <div className="item" ></div>
               <Grid container spacing={4} className="item">
               <Grid
@@ -768,7 +768,7 @@ export default function VideoIndex(props) {
                 </span>
               </Grid>
             </Grid>
->>>>>>> 1cec6f4... add 免责链接'
+
               <div className="item"></div>
               <div className=" box box-center">
                 

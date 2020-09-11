@@ -12,6 +12,8 @@ import { PhotoCameraOutlined } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 
 import { get_data, get_alldata } from "../js/request";
+import {getObj} from '../js/totls';
+import CustomModal from '../js/CustomModal';
 
 const styles = (theme) => ({
   root: {
@@ -95,7 +97,7 @@ const userStyles = makeStyles((them) => ({
   },
   croper: {
     width: 620,
-    height: 200,
+    height: 350,
     backgroundPosition: "center center",
     backgroundSize: "100% 100%",
     backgroundRepeat: "no-repeat",
@@ -130,7 +132,6 @@ function CuttingTemplate(props) {
           id={props.id}
           accept='.png,.jpeg,.jpg'
           onChange={(e) => {
-            setOpen(true);
             e.preventDefault();
             let files;
             if (e.dataTransfer) {
@@ -138,6 +139,10 @@ function CuttingTemplate(props) {
             } else if (e.target) {
               files = e.target.files[0];
             }
+            if(!files){
+              return false
+            }
+            setOpen(true);
             setfiles(files);
             const reader = new FileReader();
             reader.onload = () => {
@@ -148,10 +153,20 @@ function CuttingTemplate(props) {
             return false;
           }}
         />
-        <label htmlFor={props.id} className="all-width all-height fn-size-14">
+        {/**htmlFor={props.id} */}
+        <label  className="all-width all-height fn-size-14" onClick={()=>{
+          console.log(props.isClick)
+          if(!props.isClick){
+            getObj(props.id).click();
+          }else{
+            new CustomModal().alert('亲！请先添加文件/文档哦','error',3000);
+           
+          }
+          
+        }}>
           <PhotoCameraOutlined />
           <br />
-          上传缩略图
+          上传封面图
         </label>
       </div>
       <Dialog
@@ -176,7 +191,6 @@ function CuttingTemplate(props) {
             取消
           </Button>
           <Button
-          
             variant="contained" color="primary"
             onClick={() => {
               let _formdata = new FormData();
@@ -184,8 +198,6 @@ function CuttingTemplate(props) {
               _formdata.append("type", "video_image");
               _formdata.append("model_name", files.name);
               _formdata.append("file", files);
-
-              
               get_data( _formdata).then((res) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   props.onEvent && props.onEvent(res.result_data[0]);
@@ -193,11 +205,7 @@ function CuttingTemplate(props) {
                   setTemporaryurl("");
                   setfiles(null);
                 } else {
-                  setOpenSnackbar({
-                    open: true,
-                    type: "error",
-                    msg: "上传失败",
-                  });
+                  new CustomModal().alert('上传失败','error',3000);
                 }
               });
             }}

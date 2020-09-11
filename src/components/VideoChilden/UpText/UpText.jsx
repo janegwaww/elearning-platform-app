@@ -7,15 +7,7 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
-<<<<<<< HEAD
-  Select,
-  FormControl,
-  NativeSelect,
-  MenuItem,
-  InputBase,
-=======
-  Link
->>>>>>> 1cec6f4... add 免责链接'
+  Link,
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -29,7 +21,6 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-
 
 const singsArr = require("../components/field.json");
 
@@ -60,14 +51,14 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState(null); //附件
   const [invitation, setInvitation] = React.useState(""); //邀请人id
- 
+
   const [currencies, setCurrencies] = useState([]); //系列
   const [authorArr, setAuthorArr] = useState([
     { name: "登录帐号", author_description: "", key: new Date().getTime() },
   ]);
   const [authorvalueArr, setAuthorvalueArr] = useState([]);
   const [price, setPrice] = useState("0.00");
-  const [ statement,setStatement] = useState(false);
+  const [statement, setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -423,7 +414,7 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
-                  
+
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -491,21 +482,18 @@ export default function VideoIndex(props) {
                                 />
                               )}
                             </div>
-                          ) : (
-                            ""
-                          )}
+                          ) : null}
                           <div>
                             <CuttingTemplate
                               id="coverfile"
+                              isClick={!adjunct ? true : false}
                               formdata={(() => {
-                                
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
                                 _formData.append("type", "video_image");
                                 return _formData;
                               })()}
                               onEvent={(url) => {
-                                console.log(url)
                                 setVideoImg(url);
                               }}
                             />
@@ -783,45 +771,48 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                
-                  <div className="item" ></div>
+
+                  <div className="item"></div>
 
                   <Grid container spacing={4} className="item">
-                  <Grid
-                    item
-                    xs={4}
-                    sm={3}
-                    md={2}
-                    className="text-right"
-                  ></Grid>
-                  <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
-                    
-                    <input
-                      type="checkbox"
-                      className="notcss"
-                      checked={statement ? true : false}
-                      onChange={(ev) => {
-                        setStatement(ev.target.checked);
-                      
-                      }}
-                    />
-                    已阅读并同意
-                    <span className="fn-color-007CFF">
-                      <Link
-                        href="/protocol/statement"
-                        color="inherit"
-                        underline="always"
-                        target='_brank'
-                      >
-                        免责声明
-                      </Link>
-                    </span>
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right"
+                    ></Grid>
+                    <Grid
+                      item
+                      xs={8}
+                      sm={9}
+                      md={10}
+                      className="fn-color-9E9EA6"
+                    >
+                      <input
+                        type="checkbox"
+                        className="notcss"
+                        checked={statement ? true : false}
+                        onChange={(ev) => {
+                          setStatement(ev.target.checked);
+                        }}
+                      />
+                      已阅读并同意
+                      <span className="fn-color-007CFF">
+                        <Link
+                          href="/protocol/statement"
+                          color="inherit"
+                          underline="always"
+                          target="_brank"
+                        >
+                          免责声明
+                        </Link>
+                      </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
                   <div className="item"></div>
                   <div className=" box box-center">
-                   
                     <Button
                       className="btn"
                       color="primary"
@@ -871,7 +862,7 @@ export default function VideoIndex(props) {
                         //   });
                         //   return;
                         // }
-                        if(!statement){
+                        if (!statement) {
                           setOpenSnackbar({
                             open: true,
                             type: "error",
@@ -883,9 +874,9 @@ export default function VideoIndex(props) {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
-                          image_path:videoImg|| adjunct.image_path,
+                          image_path: videoImg || adjunct.image_path,
                           price: parseFloat(price) || 0,
-                          statement:statement,
+                          statement: statement,
                           // category: [field],
                           author: authorvalueArr,
                           // invite: invitation,

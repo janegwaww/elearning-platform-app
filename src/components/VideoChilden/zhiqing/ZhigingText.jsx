@@ -9,10 +9,9 @@ import {
   Grid,
   Select,
   FormControl,
-<<<<<<< HEAD
-=======
-  Link,
->>>>>>> 1cec6f4... add 免责链接'
+
+  Link
+
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -539,12 +538,9 @@ export default function VideoIndex(props) {
                           )}
                           <div>
                             <CuttingTemplate
-<<<<<<< HEAD
-                              id="coverfile"
-=======
+
                               id="zhiqingfile"
                               isClick={!adjunct ? true : false}
->>>>>>> 1cec6f4... add 免责链接'
                               formdata={(() => {
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
@@ -578,9 +574,7 @@ export default function VideoIndex(props) {
                       />
                     </Grid>
                   </Grid>
-<<<<<<< HEAD
-                  <div className="item" style={{ height: 1 }}></div>
-=======
+
                   <div className="item"></div>
                   <Grid container spacing={4} className="item">
                     <Grid
@@ -614,7 +608,7 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
->>>>>>> 1cec6f4... add 免责链接'
+
                   <div className="item"></div>
                   <div className=" box box-center">
                     <Button
