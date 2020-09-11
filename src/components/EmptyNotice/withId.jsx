@@ -8,30 +8,28 @@ const withId = (WrapComponent) => {
   return class extends Component {
     constructor(props) {
       super(props);
-      this.state = { id: "" };
+      this.state = { id: "", idNotExist: false };
+      this.verifyId = this.verifyId.bind(this);
     }
 
     componentDidMount() {
       this.verifyId();
-      subscribe(() => this.setState({ id: "" }));
+      subscribe(() => this.setState({ idNotExist: true }));
     }
 
-    verifyId = () => {
+    verifyId() {
       const { vid, did, dsid, sid, cid, dserid } = getIdFromHref();
-      if (!(vid || did || dsid || sid || cid || dserid)) {
-        navigate("/");
-      }
       this.setState({ id: vid || did || dsid || sid || cid || dserid });
-    };
+    }
 
     render() {
-      const { id } = this.state;
+      const { id, idNotExist } = this.state;
 
-      return id ? (
-        <WrapComponent id={id} />
-      ) : (
-        <EmptyNotice type="loading" handleFresh={() => navigate("/")} />
-      );
+      if (idNotExist) {
+        return <EmptyNotice type="loading" handleFresh={() => navigate("/")} />;
+      }
+
+      return id ? <WrapComponent id={id} /> : null;
     }
   };
 };
