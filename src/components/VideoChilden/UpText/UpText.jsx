@@ -7,11 +7,15 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
+<<<<<<< HEAD
   Select,
   FormControl,
   NativeSelect,
   MenuItem,
   InputBase,
+=======
+  Link
+>>>>>>> 1cec6f4... add 免责链接'
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -25,7 +29,7 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-import PdfTemplate from "../../../assets/templatepdf/template.pdf";
+
 
 const singsArr = require("../components/field.json");
 
@@ -56,13 +60,14 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState(null); //附件
   const [invitation, setInvitation] = React.useState(""); //邀请人id
-
+ 
   const [currencies, setCurrencies] = useState([]); //系列
   const [authorArr, setAuthorArr] = useState([
     { name: "登录帐号", author_description: "", key: new Date().getTime() },
   ]);
   const [authorvalueArr, setAuthorvalueArr] = useState([]);
   const [price, setPrice] = useState("0.00");
+  const [ statement,setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -418,57 +423,7 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
-                  {/** 
-                  <Grid container spacing={4} className="item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right">
-                      <label>
-                        <span className="fn-color-F86B6B">*</span>领域：
-                      </label>
-                    </Grid>
-                    <Grid item xs={8} sm={9} md={10}>
-                      <div>
-                      <FormControl variant="outlined">
-                        <Select native value={videosign} onChange={(ev)=>{
-                          
-                          let _value=ev.target.value;
-                          setVideosign(_value);
-                          if(!_value){
-                            setField('');
-                            setFieldArr([]);
-                            return
-                          };
-                         let _new_data= signs.filter(va=> va.id==_value);
-                         let _project =_new_data[0].project
-                         setFieldArr(_project);
-                         if(_project.length==1){
-                           setField(_project[0].id);
-                         }
-                          
-                        }}>
-                          <option aria-label="None" value="">--请选择分类--</option>
-                          {signs.map((va) => (
-                            <option  key={va.id} value={va.id}>{va.title}</option>
-                          ))}
-                        </Select>
-                      </FormControl>&nbsp;&nbsp;&nbsp;&nbsp;
-                      {videosign&&(
-                      <FormControl variant="outlined">
-                        <Select native value={field} onChange={(ev)=>{
-                          let _value=ev.target.value
-                          setField(_value)
-                        }}>
-                          <option aria-label="None" value="">--请选择分类--</option>
-                          {fieldArr.map((va) => (
-                            <option  key={va.id} value={va.id}>{va.title}</option>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      )}
-                      </div>
-                     
-                    </Grid>
-                  </Grid>
- */}
+                  
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -828,36 +783,45 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                  {/**
-                  <Grid container spacing={4} className=" item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right">
-                      <label>邀请ID：</label>
-                    </Grid>
-                    <Grid item xs={8} sm={9} md={10}>
-                      <TextField
-                        type="number"
-                        placeholder="邀请人ID"
-                        variant="outlined"
-                        value={invitation}
-                        onChange={(ev) => {
-                          setInvitation(ev.target.value);
-                        }}
-                      />
-                    </Grid>
+                
+                  <div className="item" ></div>
+
+                  <Grid container spacing={4} className="item">
+                  <Grid
+                    item
+                    xs={4}
+                    sm={3}
+                    md={2}
+                    className="text-right"
+                  ></Grid>
+                  <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
+                    
+                    <input
+                      type="checkbox"
+                      className="notcss"
+                      checked={statement ? true : false}
+                      onChange={(ev) => {
+                        setStatement(ev.target.checked);
+                      
+                      }}
+                    />
+                    已阅读并同意
+                    <span className="fn-color-007CFF">
+                      <Link
+                        href="/protocol/statement"
+                        color="inherit"
+                        underline="always"
+                        target='_brank'
+                      >
+                        免责声明
+                      </Link>
+                    </span>
                   </Grid>
-                   */}
-                  <div className="item" style={{ height: 1 }}></div>
+                </Grid>
+
                   <div className="item"></div>
                   <div className=" box box-center">
-                    <Button
-                      className={`btn btn1`}
-                      onClick={() => {
-                        window.history.back();
-                        return false;
-                      }}
-                    >
-                      返回
-                    </Button>
+                   
                     <Button
                       className="btn"
                       color="primary"
@@ -907,13 +871,21 @@ export default function VideoIndex(props) {
                         //   });
                         //   return;
                         // }
-
+                        if(!statement){
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "亲！请您认真阅读免责声明，并打上勾哦",
+                          });
+                          return;
+                        }
                         let _data = {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
                           image_path:videoImg|| adjunct.image_path,
                           price: parseFloat(price) || 0,
+                          statement:statement,
                           // category: [field],
                           author: authorvalueArr,
                           // invite: invitation,

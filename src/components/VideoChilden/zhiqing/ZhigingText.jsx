@@ -9,6 +9,10 @@ import {
   Grid,
   Select,
   FormControl,
+<<<<<<< HEAD
+=======
+  Link,
+>>>>>>> 1cec6f4... add 免责链接'
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -59,6 +63,7 @@ export default function VideoIndex(props) {
   ]);
   const [authorvalueArr, setAuthorvalueArr] = useState([]);
   const [price, setPrice] = useState("0.00");
+  const [statement, setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -262,7 +267,7 @@ export default function VideoIndex(props) {
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
                               required
-                              disabled={adjunct?false:true}
+                              disabled={adjunct ? false : true}
                               variant="outlined"
                               data-inx={inx}
                               onChange={(event) => {
@@ -311,7 +316,7 @@ export default function VideoIndex(props) {
                           </Grid>
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
-                              disabled={adjunct?false:true}
+                              disabled={adjunct ? false : true}
                               data-inx={inx}
                               rows={3}
                               variant="outlined"
@@ -339,9 +344,13 @@ export default function VideoIndex(props) {
                           <span
                             className="fn-color-007CFF"
                             onClick={() => {
-                              if(!adjunct){
-                                new CustomModal().alert('请先添加文件后再添加作者','error',2000);
-                                return
+                              if (!adjunct) {
+                                new CustomModal().alert(
+                                  "请先添加文件后再添加作者",
+                                  "error",
+                                  2000
+                                );
+                                return;
                               }
                               setAuthorArr((old) => {
                                 let _old = JSON.parse(JSON.stringify(old));
@@ -370,7 +379,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         variant="outlined"
                         fullWidth
                         value={videoTitle}
@@ -399,7 +408,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         rows={3}
                         variant="outlined"
                         multiline
@@ -432,7 +441,7 @@ export default function VideoIndex(props) {
                       <div>
                         <FormControl variant="outlined">
                           <Select
-                            disabled={adjunct?false:true}
+                            disabled={adjunct ? false : true}
                             native
                             value={videosign}
                             onChange={(ev) => {
@@ -492,7 +501,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
-                 
+
                   <Grid container spacing={4} className=" item">
                     <Grid
                       item
@@ -530,7 +539,12 @@ export default function VideoIndex(props) {
                           )}
                           <div>
                             <CuttingTemplate
+<<<<<<< HEAD
                               id="coverfile"
+=======
+                              id="zhiqingfile"
+                              isClick={!adjunct ? true : false}
+>>>>>>> 1cec6f4... add 免责链接'
                               formdata={(() => {
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
@@ -546,14 +560,14 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                  
+
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>邀请ID：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         type="number"
                         placeholder="邀请人ID"
                         variant="outlined"
@@ -564,18 +578,45 @@ export default function VideoIndex(props) {
                       />
                     </Grid>
                   </Grid>
+<<<<<<< HEAD
                   <div className="item" style={{ height: 1 }}></div>
+=======
+                  <div className="item"></div>
+                  <Grid container spacing={4} className="item">
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right"
+                    ></Grid>
+                    <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
+                      
+                      <input
+                        type="checkbox"
+                        className="notcss"
+                        checked={statement ? true : false}
+                        onChange={(ev) => {
+                          setStatement(ev.target.checked);
+                          console.log(ev.target.checked);
+                        }}
+                      />
+                      已阅读并同意
+                      <span className="fn-color-007CFF">
+                        <Link
+                          href="/protocol/statement"
+                          color="inherit"
+                          underline="always"
+                          target='_brank'
+                        >
+                          免责声明
+                        </Link>
+                      </span>
+                    </Grid>
+                  </Grid>
+>>>>>>> 1cec6f4... add 免责链接'
                   <div className="item"></div>
                   <div className=" box box-center">
-                    <Button
-                      className={`btn btn1`}
-                      onClick={() => {
-                        window.history.back();
-                        return false;
-                      }}
-                    >
-                      返回
-                    </Button>
                     <Button
                       className="btn"
                       color="primary"
@@ -626,13 +667,22 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
+                        if(!statement){
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "亲！请您认真阅读免责声明，并打上勾哦",
+                          });
+                          return;
+                        }
 
                         let _data = {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
-                          image_path:videoImg|| adjunct.image_path,
+                          image_path: videoImg || adjunct.image_path,
                           price: parseFloat(price) || 0,
+                          statement:statement,
                           category: [
                             videosign && !field ? videosign + "99" : field,
                           ],
