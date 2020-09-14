@@ -11,7 +11,8 @@ color: #2C2C3B;
   width: 100%;
   height: auto;
 }
-.activity .file:hover,.contestcaritem {
+.activity .file:hover {
+  /* ,.contestcaritem */
   cursor: pointer;
 }
 .activity p {

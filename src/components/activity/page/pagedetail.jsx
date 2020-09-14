@@ -120,7 +120,7 @@ class Pagedetail extends React.Component {
         ) : (
           <div>
             <div className="all-width ">
-              <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
+         
               <img src={one} alt="" />
               <div>
                 <a href={activityPDF} download={activityPDF}>
@@ -289,6 +289,7 @@ class Pagedetail extends React.Component {
                               xs={4}
                               key={op.name}
                               onClick={() => {
+                                return false
                                 if (is_phone()) {
                                   return;
                                 }
