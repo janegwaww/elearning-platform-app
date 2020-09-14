@@ -10,6 +10,7 @@ import {
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "notistack";
+import { delay, toNumber } from "lodash";
 import SingleLineGridList from "./SingleLineGridList";
 import { useLoginConfirm } from "../LoginConfirm";
 import { subtitles, ksearchRecord } from "../../services/video";
@@ -28,7 +29,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   const verifyTimer = () => {
     const { time } = getIdFromHref();
     if (time) {
-      setTimer(time);
+      setTimer(toNumber(time));
     }
   };
 
@@ -69,9 +70,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      verifyTimer();
-    }, 500);
+    delay(verifyTimer, 300);
   }, []);
 
   return (

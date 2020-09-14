@@ -1,4 +1,5 @@
 import React from "react";
+import { delay, defer } from "lodash";
 import { documentContent } from "../../services/home";
 
 const withDocumentComponent = (WrapComponent) => {
@@ -10,6 +11,7 @@ const withDocumentComponent = (WrapComponent) => {
         images: [],
         loading: false,
       };
+      this.resizeImageHeight = this.resizeImageHeight.bind(this);
     }
 
     componentDidMount() {
@@ -36,22 +38,16 @@ const withDocumentComponent = (WrapComponent) => {
       });
     }
 
-    reportWindowSize = () => {
-      setTimeout(() => {
-        this.resizeImageHeight();
-      }, 200);
-    };
+    reportWindowSize = () => delay(this.resizeImageHeight, 100);
 
-    resizeImageHeight = () => {
+    resizeImageHeight() {
       const el = document.querySelector(".document-search-image");
       if (el && el.scrollHeight) {
         this.setState({ itemHeight: el.height });
       } else {
-        setTimeout(() => {
-          this.resizeImageHeight();
-        }, 400);
+        defer(this.resizeImageHeight);
       }
-    };
+    }
 
     onItemsRendered = ({
       overscanStartIndex,
