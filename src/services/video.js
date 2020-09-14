@@ -9,7 +9,9 @@ const apisSearch = searchPartApis();
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  observer(data.err);
+  if (![0, "0"].includes(data.err)) {
+    observer(data);
+  }
   return Promise.resolve(odata);
 };
 

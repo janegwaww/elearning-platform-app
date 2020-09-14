@@ -14,7 +14,7 @@ const withId = (WrapComponent) => {
 
     componentDidMount() {
       this.verifyId();
-      subscribe(() => this.setState({ idNotExist: true }));
+      subscribe("idNotExist", () => this.setState({ idNotExist: true }));
     }
 
     verifyId() {
