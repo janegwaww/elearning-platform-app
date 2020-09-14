@@ -16,7 +16,7 @@ const WordsCar = (props) => {
   React.useEffect(() => {
     setIsPhone((old) => is_phone());
   }, []);
-  console.log(isPhone);
+
   return (
     <div className="activity-workscar grid-cards-container ">
       <Link
@@ -80,7 +80,6 @@ const WordsCar = (props) => {
                 {props.info.file_name || props.info.title}
               </Typography>
             </Tooltip>
-
             <div
               style={{
                 margin: "0.5em 0",
@@ -88,28 +87,49 @@ const WordsCar = (props) => {
                 lineHeight: 1.5,
                 color: "#878791",
               }}
-             
             >
-              {props.sort == "like" ? (
-                <div  className="box box-align-center box-between">
-                  <div className='box-flex'>
+              <div className="show-phone">
+                {props.sort == "like" ? (
+                  <div className="box box-align-center box-between">
+                    <div className="box-flex">
+                      <Details
+                        style={{ transform: "rotate(-90deg)", fontSize: 18 }}
+                      />
+                      &nbsp;{props.info.view_counts || 0}
+                    </div>
+
+                    <div className="box-flex">
+                      <FavoriteBorder style={{ fontSize: 18 }} />
+                      &nbsp;{props.info.like_counts || 0}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <AccessTimeOutlined style={{ fontSize: 18 }} />
+                    &nbsp;{get_date(props.info.time, ".", 8)}
+                  </div>
+                )}
+              </div>
+
+              <div className=" show-pc">
+                <div className="box box-align-center box-between all-width">
+                  <div>
                     <Details
                       style={{ transform: "rotate(-90deg)", fontSize: 18 }}
                     />
                     &nbsp;{props.info.view_counts || 0}
                   </div>
-                  
-                  <div className='box-flex'>
+
+                  <div>
                     <FavoriteBorder style={{ fontSize: 18 }} />
                     &nbsp;{props.info.like_counts || 0}
                   </div>
+                  <div>
+                    <AccessTimeOutlined style={{ fontSize: 18 }} />
+                    &nbsp;{get_date(props.info.time, ".", 8)}
+                  </div>
                 </div>
-              ) : (
-                <div>
-                  <AccessTimeOutlined style={{ fontSize: 18 }} />
-                  &nbsp;{get_date(props.info.time, ".", 8)}
-                </div>
-              )}
+              </div>
             </div>
             <div className="grid-avatar">
               <Avatar alt="" src={props.info.headshot} className="avatar" />

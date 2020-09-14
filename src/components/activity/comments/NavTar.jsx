@@ -2,7 +2,7 @@ import React from "react";
 
 import "./navtar.css";
 import { navigate } from "@reach/router";
-
+import {is_phone} from '../../../assets/js/totls';
 const NavTar = (props) => {
   
   const [isPhone,setIsPhone] =React.useState(false);
@@ -25,7 +25,9 @@ const NavTar = (props) => {
     navigate(`${_url}`);
    
   };
- 
+ React.useEffect(()=>{
+   setIsPhone(()=>is_phone());
+ },[])
   return (
     <div className="all-width contestcar" style={{ backgroundColor: "#fcf800" }}>
      
@@ -35,7 +37,7 @@ const NavTar = (props) => {
                 <div className="box-flex " key={v.title}>
                   <div>
                     <span className={props.inx==inx+1? "acti" : ""}
-                    style={{fontSize:isPhone&&pageid==inx+1?'2em':'1.33em'}}
+                    style={{fontSize:isPhone&&props.inx==inx+1?'2em':!isPhone&&props.inx==inx+1?'1.33em':'inherit'}}
                     key={v.title}
                     data-page={v.page}
                     data-id={inx + 1}

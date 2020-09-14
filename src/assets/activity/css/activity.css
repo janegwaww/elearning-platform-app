@@ -27,11 +27,23 @@ color: #2C2C3B;
 .activity .allsort:hover{
   cursor: pointer;
 }
-/* @media (max-width: 600px) {
-  .navtar {
-    font-size: 0.875rem !important;
+
+@media (min-width: 1260px) {
+  .activity .show-phone{
+   display: none;
   }
-} */
+  .activity .show-pc{
+    display: block;
+  }
+}
+@media (max-width: 1260px) {
+  .activity .show-phone{
+   display: block;
+  }
+  .activity .show-pc{
+    display: none;
+  }
+}
 /* @media (max-width: 750px) {
   .navtar {
     font-size: 1.5rem !important;
