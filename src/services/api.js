@@ -60,7 +60,18 @@ const fetchMethod = async (url, params) => {
       console.log("Error", error.message);
     }
     console.log(error.config);
-    if (window.confirm(`您好，网络状况不稳定，请重新加载页面!`)) {
+    if (
+      [
+        "video_play",
+        "hot_video",
+        "global_search",
+        "get_author_information",
+        "get_series_details",
+        "get_document_series_details",
+        "get_images",
+      ].includes(params.model_action) &&
+      window.confirm(`您好，网络状况不稳定，请重新加载页面!`)
+    ) {
       window.location.reload();
     }
     return Promise.resolve({ Error: error.message });
