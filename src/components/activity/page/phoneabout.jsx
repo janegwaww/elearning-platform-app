@@ -1,10 +1,11 @@
 import React from "react";
-import Footer from "../comments/Footer";
+
 import One from "../../../assets/activity/img/phoneabout/1.png";
 import Two from "../../../assets/activity/img/phoneabout/2.png";
 import Three from "../../../assets/activity/img/phoneabout/3.png";
 import four from "../../../assets/activity/img/phoneabout/4.png";
 import five from "../../../assets/activity/img/phoneabout/5.png";
+import six from '../../../assets/activity/img/phfot.png'
 
 class PhoneAbout extends React.Component {
   render() {
@@ -15,7 +16,7 @@ class PhoneAbout extends React.Component {
         <img src={Three} alt="" />
         <img src={four} alt="" />
         <img src={five} alt="" />
-        <Footer />
+        <img src={six} alt=''/>
       </div>
     );
   }

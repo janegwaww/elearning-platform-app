@@ -1,22 +1,21 @@
 import React from "react";
 
-import One from "../../../assets/activity/img/phonedetail/2.png";
-import downPDF from "../../../assets/activity/img/phonedetail/3.png";
-
-import Three from "../../../assets/activity/img/phonedetail/331.png";
-import ThreeTwo from "../../../assets/activity/img/phonedetail/332.png";
-import ThreeTwotwo from "../../../assets/activity/img/phonedetail/3322.png";
-
-import ThreeTh from "../../../assets/activity/img/phonedetail/333.png";
-import ThreeFo from "../../../assets/activity/img/phonedetail/334.png";
-import upFile from "../../../assets/activity/img/phonedetail/5.png";
-import Four from "../../../assets/activity/img/phonedetail/6.png";
+import one from "../../../assets/activity/img/phonedetail/1.png";
+import two from "../../../assets/activity/img/phonedetail/2.png";
+import three from "../../../assets/activity/img/phonedetail/3.png";
+import four from "../../../assets/activity/img/phonedetail/4.png";
+import five from "../../../assets/activity/img/phonedetail/5.png";
+import six from "../../../assets/activity/img/phonedetail/6.png";
 import seven from "../../../assets/activity/img/phonedetail/7.png";
-import seventwo from "../../../assets/activity/img/phonedetail/72.png";
-import seventhree from "../../../assets/activity/img/phonedetail/73.png";
+import eight from "../../../assets/activity/img/phonedetail/8.png";
+import nine from "../../../assets/activity/img/phonedetail/9.png";
+import ten from "../../../assets/activity/img/phonedetail/10.png";
+import eleven from "../../../assets/activity/img/phonedetail/11.png";
+import twelve from "../../../assets/activity/img/phonedetail/12.png";
+import thireteen from "../../../assets/activity/img/phonedetail/13.png";
 
-import Six from "../../../assets/activity/img/phonedetail/8.png";
-import Footer from "../comments/Footer";
+
+
 
 import LoginModal from "../../../assets/template/LoginModal";
 
@@ -43,37 +42,28 @@ class Phonedetail extends React.Component {
       <div>
         <div className="all-width ">
           
-          <img src={One} alt="" />
+          <img src={one} alt="" />
           <div>
             <a href={activityPDF} download={activityPDF}>
-              <img src={downPDF} alt="" />
+              <img src={two} alt="" />
             </a>
           </div>
-
-          {/*<img src={Two} alt="" />*/}
-          <img src={Three} alt="" />
-          <img src={ThreeTwo} alt="" />
-          <img src={ThreeTwotwo} alt="" />
-          <img src={ThreeTh} alt="" />
-          <img src={ThreeFo} alt="" />
-
-          <img
-            src={upFile}
-            alt=""
-            className="file"
-            onClick={() => {
-              new CustomModal().message("此操作请在pc端打开", "error", 3000);
-            }}
-          />
-
-          <img src={Four} alt="" />
+          <img src={three} alt="" />
+          <img src={four} alt="" />
+          <img src={five} alt="" />
+          <img src={six} alt="" />
           <img src={seven} alt="" />
-          <img src={seventwo} alt="" />
-          <img src={seventhree} alt="" />
-
-          <img src={Six} alt="" />
+          <img src={eight} alt="" onClick={() => {
+            new CustomModal().message("此操作请在pc端打开", "error", 3000);
+          }} />
+          <img src={nine} alt="" />
+          <img src={ten} alt="" />
+          <img src={eleven} alt="" />
+          <img src={twelve} alt="" />
+          <img src={thireteen} alt="" />
+          
         </div>
-        <Footer />
+        
       </div>
     );
   }

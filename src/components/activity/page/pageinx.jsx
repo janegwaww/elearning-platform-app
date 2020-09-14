@@ -7,7 +7,10 @@ import Four from "../../../assets/activity/img/inx/4.png";
 import five from "../../../assets/activity/img/inx/5.png";
 
 import upfile from "../../../assets/activity/img/inx/upfile.png";
-import fotter from "../../../assets/activity/img/inx/footer.png";
+import six from "../../../assets/activity/img/inx/6.png";
+import seven from "../../../assets/activity/img/inx/7.png";
+
+
 import LoginModal from "../../../assets/template/LoginModal";
 import MenuBar from "../comments/MenuBar";
 import { getUser, isLoggedIn } from "../../../services/auth";
@@ -16,6 +19,7 @@ import CustomModal from "../../../assets/js/CustomModal";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import PhoneInx from "./phoneinx";
 import NavTar from "../comments/NavTar";
+import Footer from '../comments/Footer';
 class Pageinx extends React.Component {
   constructor(props) {
     super(props);
@@ -96,8 +100,10 @@ class Pageinx extends React.Component {
                 )}
               </div>
             </LoginModal>
-
-            <img src={fotter} alt="" />
+            <img src={six} alt=''/>
+            <img src={seven} alt=''/>
+            <Footer />
+           
           </div>
         )}
       </div>

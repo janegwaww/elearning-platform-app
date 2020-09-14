@@ -5,16 +5,17 @@ import { Close } from "@material-ui/icons";
 import ContestCar from "../comments/ContestCar";
 
 
-import One from "../../../assets/activity/img/detail/2.png";
-import downPDF from "../../../assets/activity/img/detail/3.png";
-import Two from "../../../assets/activity/img/detail/32.png";
-import Three from "../../../assets/activity/img/detail/331.png";
-import ThreeTwo from "../../../assets/activity/img/detail/332.png";
-import ThreeTh from "../../../assets/activity/img/detail/333.png";
-import ThreeFo from "../../../assets/activity/img/detail/334.png";
-import upFile from "../../../assets/activity/img/detail/5.png";
-import Four from "../../../assets/activity/img/detail/6.png";
-import Six from "../../../assets/activity/img/detail/8.png";
+import one from "../../../assets/activity/img/detail/1.png";
+import two from "../../../assets/activity/img/detail/2.png";
+import three from "../../../assets/activity/img/detail/3.png";
+import four from "../../../assets/activity/img/detail/4.png";
+import five from "../../../assets/activity/img/detail/5.png";
+import six from "../../../assets/activity/img/detail/6.png";
+import seven from "../../../assets/activity/img/detail/7.png";
+import eight from "../../../assets/activity/img/detail/8.png";
+
+import ten from "../../../assets/activity/img/detail/10.png";
+
 import Footer from "../comments/Footer";
 import bgtop2 from "../../../assets/activity/img/bgtop2.png";
 import title from "../../../assets/activity/img/title.png";
@@ -120,18 +121,16 @@ class Pagedetail extends React.Component {
           <div>
             <div className="all-width ">
               <div style={{ height: 2, backgroundColor: "#fcf800" }}></div>
-              <img src={One} alt="" />
+              <img src={one} alt="" />
               <div>
                 <a href={activityPDF} download={activityPDF}>
-                  <img src={downPDF} alt="" />
+                  <img src={two} alt="" />
                 </a>
               </div>
-
-              {/*<img src={Two} alt="" />*/}
-              <img src={Three} alt="" />
-              <img src={ThreeTwo} alt="" />
-              <img src={ThreeTh} alt="" />
-              <img src={ThreeFo} alt="" />
+              <img src={three} alt="" />
+              <img src={four} alt="" />
+              <img src={five} alt="" />
+              <img src={six} alt="" />
               <LoginModal
                 open={is_login}
                 onEvent={(msg) => {
@@ -162,7 +161,8 @@ class Pagedetail extends React.Component {
                     }
                   }}
                 >
-                  <img src={upFile} alt="" className="file" />
+                <img src={seven} alt=""  className="file"/>
+                  
                   {meun && (
                     <MenuBar
                       left="62%"
@@ -175,12 +175,12 @@ class Pagedetail extends React.Component {
                   )}
                 </div>
               </LoginModal>
-              <img src={Four} alt="" />
+              <img src={eight} alt="" />
               <div
                 className="all-width contestcar bg-not"
                 id="contest-judges"
                 style={{
-                  // backgroundImage: `url(${Bgimg})`,
+                  
                   backgroundSize: "100% auto",
                 }}
               >
@@ -311,7 +311,7 @@ class Pagedetail extends React.Component {
                 </div>
               </div>
 
-              <img src={Six} alt="" />
+              <img src={ten} alt="" />
             </div>
             <Footer />
 
