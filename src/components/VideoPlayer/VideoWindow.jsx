@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import defer from "lodash/defer";
 import ReactVideo from "./ReactVideo";
 import withSubtitle from "./withSubtitle";
 import { startWatchRecord, endWatchRecord } from "../../services/video";
@@ -13,6 +14,13 @@ class VideoWindow extends Component {
 
     this.state = {};
     this.playerRef = React.createRef(null);
+
+    this.recordStart = this.recordStart.bind(this);
+    this.seekToCurrentTime = this.seekToCurrentTime.bind(this);
+    this.getCurrentTime = this.getCurrentTime.bind(this);
+    this.getPlay = this.getPlay.bind(this);
+    this.getTrack = this.getTrack.bind(this);
+    this.getSource = this.getSource.bind(this);
   }
 
   componentDidMount() {
@@ -40,7 +48,7 @@ class VideoWindow extends Component {
     });
   }
 
-  recordStart = () => {
+  recordStart() {
     if (this.playerRef.current) {
       const { player } = this.playerRef.current;
       player &&
@@ -51,36 +59,32 @@ class VideoWindow extends Component {
           });
         });
     } else {
-      setTimeout(() => {
-        this.recordStart();
-      }, 500);
+      defer(this.recordStart);
     }
-  };
+  }
 
   // 跳转时间
   seekToCurrentTime(timer) {
     if (this.playerRef.current) {
       return this.playerRef.current.seekTo(timer);
     } else {
-      setTimeout(() => {
-        this.seekToCurrentTime(timer);
-      }, 500);
+      defer(() => this.seekToCurrentTime(timer));
     }
   }
 
-  getCurrentTime = () => {
+  getCurrentTime() {
     if (this.playerRef.current) {
       return this.seekToCurrentTime();
     }
-  };
+  }
 
-  getPlay = () => {
+  getPlay() {
     if (this.playerRef.current) {
       this.playerRef.current.player.play();
     }
-  };
+  }
 
-  getTrack = (info) => {
+  getTrack(info) {
     const track = info.isLoged
       ? [
           {
@@ -97,14 +101,16 @@ class VideoWindow extends Component {
           },
         ];
     return info.vttPath ? track : [];
-  };
+  }
 
-  getSource = (info) => [
-    {
-      src: `${info.path}`,
-      type: "video/mp4",
-    },
-  ];
+  getSource(info) {
+    return [
+      {
+        src: `${info.path}`,
+        type: "video/mp4",
+      },
+    ];
+  }
 
   render() {
     const { info, loading } = this.props;
