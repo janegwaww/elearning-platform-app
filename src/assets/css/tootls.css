@@ -50,6 +50,12 @@ svg {
   -webkit-flex: 1;
   flex-direction: row;
 }
+.box-center-y{
+  justify-content: center;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -webkit-box-pack: center;
+}
 .box-center {
   -ms-flex-align: center;
   align-items: center;

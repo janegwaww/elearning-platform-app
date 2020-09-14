@@ -349,7 +349,7 @@ class Pagedetail extends React.Component {
                         <div className="figurename box box-center box-align-center">
                           {figure_item && figure_item.name}
                         </div>
-                        <div className="figurentitle">
+                        <div className="figurentitle box-column box box-center-y">
                           {figure_item &&
                             figure_item.label.map((v, inx) => (
                               <p key={inx} title={v}>
