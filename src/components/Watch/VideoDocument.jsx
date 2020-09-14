@@ -51,8 +51,8 @@ export default function VideoDocument({ vid }) {
       <div className={classes.content}>
         {files.length ? (
           <List className={classes.list}>
-            {map((o, i) => (
-              <ListItem divider key={i} disableGutters>
+            {map((o) => (
+              <ListItem divider key={o.file_id} disableGutters>
                 <Link
                   href={`/document/?did=${o.file_id}`}
                   underline="none"
