@@ -8,7 +8,7 @@ import { LoginConfirmProvider } from "../components/LoginConfirm";
 import { getIdFromHref } from "../services/utils";
 
 const WitchWatch = ({ vid = "" }) => {
-  const match = useQueryMedia((theme) => theme.breakpoints.down("md"));
+  const match = useQueryMedia((theme) => theme.breakpoints.down("sm"));
   return match ? (
     <WatchMobile vid={vid} />
   ) : (
