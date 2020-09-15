@@ -3,10 +3,20 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import ChipArray from "../Introduction/ChipArray";
 
+const styles = {
+  paper: {
+    boxShadow: "none",
+    padding: "20px 0",
+  },
+  desc: {
+    whiteSpace: "pre-wrap",
+  },
+};
+
 const IntroductionText = ({ text }) => {
   return (
-    <Paper elevation={4} style={{ boxShadow: "none", padding: "20px 0" }}>
-      <Typography variant="body2" component="p">
+    <Paper elevation={4} style={styles.paper}>
+      <Typography variant="body2" component="pre" style={styles.desc}>
         {text.description}
       </Typography>
       <br />

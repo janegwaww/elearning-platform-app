@@ -6,12 +6,11 @@ import {
   InputBase,
   InputAdornment,
   ButtonBase,
-  IconButton,
 } from "@material-ui/core";
-import useQueryMedia from "@material-ui/core/useMediaQuery";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import { useSnackbar } from "notistack";
+import { delay, toNumber } from "lodash";
 import SingleLineGridList from "./SingleLineGridList";
 import { useLoginConfirm } from "../LoginConfirm";
 import { subtitles, ksearchRecord } from "../../services/video";
@@ -26,12 +25,11 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   const [showButton, setShowButton] = useState(true);
   const [timer, setTimer] = useState(0);
   const [input, setInput] = useState("");
-  const noMatchMobile = useQueryMedia((theme) => theme.breakpoints.up("md"));
 
   const verifyTimer = () => {
     const { time } = getIdFromHref();
     if (time) {
-      setTimer(time);
+      setTimer(toNumber(time));
     }
   };
 
@@ -43,7 +41,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     if (path) {
       setShowButton(false);
     } else {
-      enqueueSnackbar("本视频没有字募～", { variant: "info" });
+      enqueueSnackbar("本视频没有字幕～", { variant: "info" });
     }
   };
 
@@ -72,9 +70,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      verifyTimer();
-    }, 500);
+    delay(verifyTimer, 300);
   }, []);
 
   return (

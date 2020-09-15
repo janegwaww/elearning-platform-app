@@ -6,9 +6,10 @@ import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
+import map from "lodash/fp/map";
 import { getVideoDocument } from "../../services/video";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   content: {
     borderRadius: "12px",
     backgroundColor: "#f2f2f5",
@@ -50,8 +51,8 @@ export default function VideoDocument({ vid }) {
       <div className={classes.content}>
         {files.length ? (
           <List className={classes.list}>
-            {files.map((o, i) => (
-              <ListItem divider key={i} disableGutters>
+            {map((o) => (
+              <ListItem divider key={o.file_id} disableGutters>
                 <Link
                   href={`/document/?did=${o.file_id}`}
                   underline="none"
@@ -99,7 +100,7 @@ export default function VideoDocument({ vid }) {
                   </Box>
                 </Link>
               </ListItem>
-            ))}
+            ))(files)}
           </List>
         ) : (
           <div style={{ height: "68px", padding: 10 }}>

@@ -7,7 +7,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 const styles = {
   root: {
     position: "fixed",
-    bottom: "22%",
+    bottom: "18%",
     right: "40px",
     opacity: "0.6",
   },
@@ -24,7 +24,7 @@ function ScrollTop() {
 
   const handleClick = (event) => {
     const anchor = (event.target.ownerDocument || document).querySelector(
-      "#back-to-top-anchor"
+      "#back-to-top-anchor",
     );
 
     if (anchor) {

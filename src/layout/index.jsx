@@ -15,18 +15,18 @@ class MainLayout extends React.Component {
     const { children } = this.props;
 
     return (
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <SEO>
+      <SEO>
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider>
             <CssBaseline />
             <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
             <NavBar />
             <div className="layout-container">{children}</div>
             <ScrollTop />
             <Footer config={config} />
-          </SEO>
-        </SnackbarProvider>
-      </ThemeProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </SEO>
     );
   }
 }

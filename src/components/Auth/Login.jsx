@@ -1,12 +1,23 @@
 import React, { useEffect } from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { isLoggedIn } from "../../services/auth";
+import Container from "@material-ui/core/Container";
+import { SnackbarProvider } from "notistack";
 import KEForm from "../KEFormKit/KEForm";
+import { isLoggedIn } from "../../services/auth";
+import { getIdFromHref } from "../../services/utils";
 import config from "../../../data/SiteConfig";
-import backgroundImage from "../../../static/images/login-background-image.png";
+
+const generateClassName = createGenerateClassName({
+  disableGlobal: true,
+  seed: "kl",
+});
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -15,28 +26,36 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "rgba(232,240,255,1)",
   },
   secondary: {
-    background: `left top / 100% 100% no-repeat url(${backgroundImage})`,
+    background: `left top / 100% 100% no-repeat url('/images/login-background-image.png')`,
     height: "100vh",
   },
 }));
 
 const Login = () => {
   const classes = useStyles();
+  const logged = isLoggedIn();
+  const { code } = getIdFromHref();
 
   useEffect(() => {
-    if (isLoggedIn()) {
-      /* navigate(`/users/profile`); */
+    if (logged && !code) {
+      navigate("/users/profile/");
     }
   }, []);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.secondary}>
-        <Helmet title={`Login | ${config.siteTitle}`} />
-        <CssBaseline />
-        <KEForm />
-      </div>
-    </div>
+    <StylesProvider generateClassName={generateClassName}>
+      <SnackbarProvider>
+        <div className={classes.root}>
+          <div className={classes.secondary}>
+            <Helmet title={`Login | ${config.siteTitle}`} />
+            <CssBaseline />
+            <Container maxWidth="lg">
+              <KEForm />
+            </Container>
+          </div>
+        </div>
+      </SnackbarProvider>
+    </StylesProvider>
   );
 };
 

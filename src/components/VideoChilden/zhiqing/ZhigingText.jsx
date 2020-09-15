@@ -9,9 +9,7 @@ import {
   Grid,
   Select,
   FormControl,
-
-  Link
-
+  Link,
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -538,7 +536,6 @@ export default function VideoIndex(props) {
                           )}
                           <div>
                             <CuttingTemplate
-
                               id="zhiqingfile"
                               isClick={!adjunct ? true : false}
                               formdata={(() => {
@@ -574,7 +571,6 @@ export default function VideoIndex(props) {
                       />
                     </Grid>
                   </Grid>
-
                   <div className="item"></div>
                   <Grid container spacing={4} className="item">
                     <Grid
@@ -608,7 +604,6 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
-
                   <div className="item"></div>
                   <div className=" box box-center">
                     <Button

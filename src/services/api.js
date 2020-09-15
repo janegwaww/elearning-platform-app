@@ -1,6 +1,7 @@
 import urlJoin from "url-join";
 import axios from "axios";
-import { pipe, wrapCamelName } from "./utils";
+import flow from "lodash/fp/flow";
+import { wrapCamelName } from "./utils";
 
 // 接口路径
 export const PATH = "https://api.haetek.com:9191";
@@ -14,10 +15,10 @@ const getUser = () =>
     : {};
 
 // 创建请求方法
-const axiosInstance = (token = "") =>
+const axiosInstance = () =>
   axios.create({
     baseURL: PATH,
-    timeout: 50000,
+    timeout: 30000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${getUser().token}`,
@@ -43,8 +44,37 @@ const fetchMethod = async (url, params) => {
     const response = await axiosInstance().post(url, params);
     return response;
   } catch (error) {
-    console.log(error);
-    return Promise.resolve({});
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+    if (
+      [
+        "video_play",
+        "hot_video",
+        "global_search",
+        "get_author_information",
+        "get_series_details",
+        "get_document_series_details",
+        "get_images",
+      ].includes(params.model_action) &&
+      window.confirm(`您好，网络状况不稳定，请重新加载页面!`)
+    ) {
+      window.location.reload();
+    }
+    return Promise.resolve({ Error: error.message });
   }
 };
 
@@ -103,8 +133,8 @@ export const authApis = () => {
     // 视频收藏
     "video_collect",
   ];
-  const getParam = pipe(extraParam("user"))(modelActions);
-  const getApis = pipe(
+  const getParam = flow(extraParam("user"))(modelActions);
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )(modelActions);
@@ -155,8 +185,8 @@ export const videoApis = () => {
     "series_search",
     "documents_search",
   ];
-  const getParam = pipe(extraParam("video"))(modelActions);
-  const getApis = pipe(
+  const getParam = flow(extraParam("video"))(modelActions);
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )(modelActions);
@@ -175,6 +205,8 @@ export const searchPartApis = () => {
       "view_advanced_info",
       "download_file",
       "get_document_series_details",
+      "local_search",
+      "get_image",
     ],
     ["add_subscription", "latest_subscription"],
     ["get_author_information", "share"],
@@ -198,10 +230,10 @@ export const searchPartApis = () => {
     "search_history",
   ].reduce(
     (acc, cur, idx) =>
-      Object.assign(acc, pipe(extraParam(cur))(modelActionsArr[idx])),
+      Object.assign(acc, flow(extraParam(cur))(modelActionsArr[idx])),
     {},
   );
-  const getApis = pipe(
+  const getApis = flow(
     names => names.map(wrapCamelName),
     extraApis(fetchMethod, getParam),
   )([].concat.apply([], modelActionsArr));

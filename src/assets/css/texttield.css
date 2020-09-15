@@ -43,6 +43,9 @@
     background-color: #fff;
     font-size: 14px;
   }
+  .pagination .MuiOutlinedInput-input{
+    text-align: center;
+  }
 .root .MuiOutlinedInput-multiline {
       padding: 0;
   }

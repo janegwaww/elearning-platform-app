@@ -11,6 +11,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Box from "@material-ui/core/Box";
+import map from "lodash/fp/map";
 import Link from "../Link/Link";
 import { getRelativeVideos, getRecommendVideos } from "../../services/video";
 
@@ -55,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "4px",
     marginRight: "10px",
     overflow: "hidden",
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ecf0f1',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ecf0f1",
     "& img": {
       width: "auto",
       height: "100%",
@@ -164,6 +165,10 @@ export default function VideoList({ vid, type }) {
     recommend: <Typography>推荐视频</Typography>,
   };
 
+  const iterateItem = (o) => (
+    <RenderRow item={o} order={verticle} key={o.video_id} />
+  );
+
   useEffect(() => {
     if (vid) {
       fetchData({});
@@ -184,9 +189,7 @@ export default function VideoList({ vid, type }) {
       <List
         className={clsx(classes.fixedList, verticle && classes.fixedListVert)}
       >
-        {series.map((o) => (
-          <RenderRow item={o} order={verticle} key={o.video_id} />
-        ))}
+        {map(iterateItem)(series)}
       </List>
       <div>
         <br />

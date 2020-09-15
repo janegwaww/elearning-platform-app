@@ -1,6 +1,8 @@
+import { now } from "lodash";
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
 import { logout } from "./auth";
+import { observer } from "./observable";
 
 const apisVideo = videoApis();
 const apisSearch = searchPartApis();
@@ -8,7 +10,8 @@ const apisSearch = searchPartApis();
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
-  if (![0, "0", "4104"].includes(data.err)) {
+  if (![0, "0"].includes(data.err)) {
+    observer(data);
   }
   return Promise.resolve(odata);
 };
@@ -60,7 +63,7 @@ const extraVideoInfo = (data = {}) => ({
   videoPath: data.video_path,
   mergePath: data.merge_path,
   path: data.video_path,
-  vttPath: data.vtt_path,
+  vttPath: `${data.vtt_path}?t=${now()}`,
   assPath: data.ass_path,
   title: data.title,
   authName: data.user_name,

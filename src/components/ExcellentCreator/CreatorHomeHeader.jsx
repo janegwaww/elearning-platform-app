@@ -7,12 +7,21 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import Container from "../Container/KeContainer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   authAvatar: {
-    display: "grid",
-    gridTemplateColumns: "66px 600px",
-    gridTemplateRows: "repeat(4,1fr)",
-    gap: "2px 20px",
+    display: "flex",
+    backgroundColor: "inherit",
+  },
+  avatar: {
+    padding: 10,
+    marginTop: -40,
+    borderRadius: 50,
+    height: 80,
+    width: 80,
+    backgroundColor: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   subButton: {
     backgroundColor: "#fc5659",
@@ -31,71 +40,43 @@ const useStyles = makeStyles((theme) => ({
 const CreatorAvatar = ({ auth }) => {
   const classes = useStyles();
   const {
-    background,
     user_name,
     headshot,
-    introduction,
+    introduction = "",
     description_counts = 0,
     fans_counts = 0,
     like_counts = 0,
     view_counts = 0,
-    user_id,
+    user_id = "",
   } = auth;
 
   return (
     <Container>
-      <Grid container>
-        <Grid item xs={8} md={9}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={9}>
           <div className={classes.authAvatar}>
-            <div
-              style={{
-                gridColumn: 1,
-                gridRow: "1/5",
-              }}
-            >
-              <div
-                style={{
-                  padding: 10,
-                  marginTop: -40,
-                  borderRadius: 50,
-                  height: 80,
-                  width: 80,
-                  backgroundColor: "#fff",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Avatar
-                  src={headshot}
-                  alt={user_name}
-                  style={{ width: 66, height: 66 }}
-                />
-              </div>
+            <div className={classes.avatar}>
+              <Avatar
+                src={headshot}
+                alt={user_name}
+                style={{ width: 66, height: 66 }}
+              />
             </div>
-            <Typography variant="body2">{user_name}</Typography>
-            <Typography
-              variant="caption"
-              color="textSecondary"
-            >{`ID: ${user_id}`}</Typography>
-            <div style={{ gridRow: "3/5", overflow: "hidden" }}>
-              <Typography variant="subtitle1" color="textSecondary">
+            <div style={{ width: "80%" }}>
+              <Typography variant="body2">{user_name}</Typography>
+              <Typography
+                variant="caption"
+                color="textSecondary"
+              >{`ID: ${user_id}`}</Typography>
+              <Typography variant="subtitle1" color="textSecondary" noWrap>
                 {introduction}
               </Typography>
             </div>
           </div>
         </Grid>
-        <Grid item xs={4} md={3}>
+        <Grid item xs={12} md={3}>
           <Typography variant="subtitle1">
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              {/* <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅</span>
-                    <span>{description_counts}</span>
-                    </Box>
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                    <span>订阅者</span>
-                    <span>{fans_counts}</span>
-                    </Box> */}
               <Box display="flex" flexDirection="column" alignItems="center">
                 <span>获赞数</span>
                 <span>{like_counts}</span>

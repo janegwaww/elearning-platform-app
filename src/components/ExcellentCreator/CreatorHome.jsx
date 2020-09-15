@@ -1,30 +1,41 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import MuiPagination from "@material-ui/lab/Pagination";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import CardMedia from "@material-ui/core/CardMedia";
 import Layout from "../../layout";
-import config from "../../../data/SiteConfig";
 import GridCards from "../GridCards/GridCards";
 import ProgressBar from "../Loading/ProgressBar";
 import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";
 import CreatorAvatar from "./CreatorHomeHeader";
+import withId from "../EmptyNotice/withId";
+import config from "../../../data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
-import { getIdFromHref } from "../../services/utils";
 
 const useStyles = makeStyles((theme) => ({
-  pagination: {
+  paginationRoot: {
     backgroundColor: "#fff",
+    minHeight: "unset",
+    height: "unset",
   },
   pul: {
     justifyContent: "center",
+    borderBottom: "unset",
+    [theme.breakpoints.down("sm")]: {
+      "& .MuiPaginationItem-root": {
+        height: 26,
+        minWidth: 26,
+        padding: "0 4px",
+        margin: "0 1px",
+      },
+    },
   },
   panel: {
     minHeight: "60vh",
@@ -46,11 +57,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#007cff",
     },
   },
-  headImg: {
+  creatorHeaderImg: {
     height: 300,
-    [theme.breakpoints.down("md")]: {
+    position: "unset",
+    backgroundColor: "#f2f2f5",
+    [theme.breakpoints.down("sm")]: {
       height: 150,
     },
+  },
+  creatorHeader: {
+    border: "1px solid #f2f2f5",
+    borderRadius: "12px",
+    overflow: "hidden",
   },
 }));
 
@@ -79,15 +97,13 @@ const Pagination = ({ num = 0, handlePage }) => {
       variant="outlined"
       shape="rounded"
       onChange={handlePage}
-      classes={{ root: classes.pagination, ul: classes.pul }}
+      classes={{ root: classes.paginationRoot, ul: classes.pul }}
     />
   );
 };
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  const classes = useStyles();
-
   return (
     <div
       role="tabpanel"
@@ -96,7 +112,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <div style={{ paddingTop: 24 }}>{children}</div>}
     </div>
   );
 }
@@ -124,12 +140,22 @@ const SearchInput = ({ handleSearchClick, handleEnter }) => {
   );
 };
 
-const HeadBanner = ({ bg = "" }) => {
+const HeadBanner = ({ auth = {} }) => {
   const classes = useStyles();
-
+  const { background } = auth;
   return (
-    <div className={classes.headImg}>
-      <img src={bg} height="100%" width="100%" alt={bg} />
+    <div className={classes.creatorHeader}>
+      <div className={classes.creatorHeaderImg}>
+        <CardMedia
+          src={background}
+          alt={background}
+          component="img"
+          height="100%"
+        />
+      </div>
+      <div style={{ height: 158, paddingTop: 10 }}>
+        <CreatorAvatar auth={auth} />
+      </div>
     </div>
   );
 };
@@ -150,7 +176,7 @@ class CreatorHome extends Component {
   }
 
   componentDidMount() {
-    const { cid } = getIdFromHref();
+    const cid = this.props.id;
     if (cid) {
       this.fetchData(cid);
       this.setState({ cid });
@@ -186,12 +212,13 @@ class CreatorHome extends Component {
   fetchData = (id) => {
     this.setState({ loading: true });
     getCreatorInfo({ author_id: id }).then((data) => {
+      const { list = [] } = data;
       this.setState({
         auth: data.auth,
-        list: data.list.slice(0, 16),
+        list: list.slice(0, 16),
         loading: false,
-        listStack: data.list,
-        pageCount: data.list.filter((o) => o.type === "video").length,
+        listStack: list,
+        pageCount: list.filter((o) => o.type === "video").length,
       });
     });
   };
@@ -254,22 +281,18 @@ class CreatorHome extends Component {
           <Helmet title={`Creator | ${config.siteTitle}`} />
           <Container>
             <div>
-              <div
-                style={{
-                  border: "1px solid #f2f2f5",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                }}
-              >
-                <HeadBanner bg={background} />
-                <div style={{ height: 158, paddingTop: 10 }}>
-                  <CreatorAvatar auth={auth} />
-                </div>
-              </div>
+              <HeadBanner auth={auth} />
               <br />
 
               <div style={{ minHeight: "60vh" }}>
-                <Box display="flex" justifyContent="space-between">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    backgroundColor: "inherit",
+                    borderBottom: "1px solid #e8e8e8",
+                  }}
+                >
                   <Tabs onChange={this.handleTabChange} value={value}>
                     <TTab label="视频" />
                     <TTab label="系列" />
@@ -278,7 +301,7 @@ class CreatorHome extends Component {
                     handleSearchClick={this.handleSearchClick}
                     handleEnter={this.handleEnter}
                   />
-                </Box>
+                </div>
 
                 <TabPanel value={value} index={0}>
                   <GridCards itemCount={16} loading={loading} items={list} />
@@ -306,4 +329,4 @@ class CreatorHome extends Component {
   }
 }
 
-export default CreatorHome;
+export default withId(CreatorHome);

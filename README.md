@@ -1,18 +1,3 @@
-<div align="center" style="margin-bottom:30px">
-    <a href='https://github.com/vagr9k/gatsby-advanced-starter/blob/master/LICENSE'>
-    <img src="https://img.shields.io/github/license/vagr9k/gatsby-advanced-starter.svg" alt="Logo" />
-    </a>
-    <a href='https://github.com/vagr9k/gatsby-advanced-starter'>
-    <img src="https://img.shields.io/github/tag/vagr9k/gatsby-advanced-starter.svg" alt="Logo" />
-    </a>
-        <a href='https://github.com/vagr9k/gatsby-advanced-starter/stargazers'>
-    <img src="https://img.shields.io/github/stars/vagr9k/gatsby-advanced-starter.svg" alt="Logo" />
-    </a>
-        <a href="https://twitter.com/intent/tweet?text=A%20cool%20%40gatsbyjs%20starter%3A&url=https%3A%2F%2Fgithub.com%2FVagr9K%2Fgatsby-advanced-starter">
-    <img src="https://img.shields.io/twitter/url/https/github.com/vagr9k/gatsby-advanced-starter.svg?style=social" alt="Logo" />
-    </a>
-</div>
-
 <div align="center"  style="margin-bottom:30px">
     <img src="static/logos/logo-1024.png" alt="Logo" width='200px' height='200px'/>
 </div>
@@ -229,7 +214,3 @@ backend:
 You can visit `/admin/` after and will be greeted by a login dialog (depending on the auth provider you ave chosen above).
 
 For NetlifyCMS specific issues visit the [official documentation](https://www.netlifycms.org/docs/intro/).
-
-# Author
-
-Ruben Harutyunyan ([@Vagr9K](https://twitter.com/Vagr9K))
