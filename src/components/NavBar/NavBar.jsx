@@ -69,7 +69,7 @@ const PrimarySearchAppBar = () => {
                 href="/activity/"
                 color="inherit"
                 underline="none"
-                style={{ padding: "6px 8px", display: "none" }}
+                style={{ padding: "6px 8px" }}
               >
                 <Typography noWrap component="div">
                   知擎杯
