@@ -21,6 +21,7 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
     backgroundColor: "#eee",
     height: "56px",
+    width:'100%'
   },
   closeButton: {
     position: "absolute",
@@ -171,7 +172,7 @@ function CuttingTemplate(props) {
       <Dialog
        
         open={open}
-        className={classes.dialog}
+        className={`${classes.dialog} dialog`}
       >
         <DialogTitle  onClose={handleClose}>
           图片预览

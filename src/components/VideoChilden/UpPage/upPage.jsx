@@ -30,7 +30,7 @@ import { get_data } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
-import loginimg from "../../../../static/logos/logo.svg";
+import loginimg from '../../../assets/img/logo.svg';
 import { getUser, isLoggedIn } from "../../../services/auth";
 
 

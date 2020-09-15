@@ -14,7 +14,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     });
   });
 };
-
+exports.onCreateWebpackConfig = ({ config, stage }) => {
+  if (stage === 'build-javascript') {
+      const timestamp = Date.now();
+      config.merge({
+          devtool: false,
+          output: {
+              filename: `name-${timestamp}-[chunkhash].js`,
+              chunkFilename: `name-${timestamp}-[chunkhash].js`
+          }
+      });
+  }
+  return config;
+};
 exports.onCreateWebpackConfig = ({ config, stage }) => {
   if (stage === "build-javascript") {
     const timestamp = Date.now();

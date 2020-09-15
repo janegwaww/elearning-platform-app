@@ -41,10 +41,10 @@ export default function CustomizedDialogs(props) {
   </Button>*/}
       <Dialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+     
         open={props.info.isOpen}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle  onClose={handleClose}>
           {props.info.dialogtitle}
         </DialogTitle>
         <DialogContent dividers>
