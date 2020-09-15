@@ -1,3 +1,4 @@
+import { now } from "lodash";
 import { videoApis, searchPartApis } from "./api";
 import { pipeThen } from "./utils";
 import { logout } from "./auth";
@@ -62,7 +63,7 @@ const extraVideoInfo = (data = {}) => ({
   videoPath: data.video_path,
   mergePath: data.merge_path,
   path: data.video_path,
-  vttPath: data.vtt_path,
+  vttPath: `${data.vtt_path}?t=${now()}`,
   assPath: data.ass_path,
   title: data.title,
   authName: data.user_name,

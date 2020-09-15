@@ -64,7 +64,7 @@ const actionAuth = (data = {}) => {
   const { err, errmsg } = data;
   if (err === "4004" || err === "4003" || err === "4103") {
     if (isFunction(errorEvents.authErrorEvent)) {
-      errorEvents.authErrorEvent(errmsg, { variant: "warning" });
+      errorEvents.authErrorEvent(errmsg);
     }
   }
   return data;

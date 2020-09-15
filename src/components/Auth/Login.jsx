@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import ErrorIcon from "@material-ui/icons/Error";
 import { SnackbarProvider } from "notistack";
 import KEForm from "../KEFormKit/KEForm";
 import { isLoggedIn } from "../../services/auth";
@@ -29,6 +30,15 @@ const useStyles = makeStyles(() => ({
     background: `left top / 100% 100% no-repeat url('/images/login-background-image.png')`,
     height: "100vh",
   },
+  containerRoot: {
+    backgroundColor: "#fff",
+    color: "black",
+    padding: "12px 16px",
+    "& svg": {
+      marginRight: 8,
+      fontSize: "1.8em",
+    },
+  },
 }));
 
 const Login = () => {
@@ -44,7 +54,13 @@ const Login = () => {
 
   return (
     <StylesProvider generateClassName={generateClassName}>
-      <SnackbarProvider>
+      <SnackbarProvider
+        variant="warning"
+        classes={{ variantWarning: classes.containerRoot }}
+        iconVariant={{
+          warning: <ErrorIcon color="error" />,
+        }}
+      >
         <div className={classes.root}>
           <div className={classes.secondary}>
             <Helmet title={`Login | ${config.siteTitle}`} />
