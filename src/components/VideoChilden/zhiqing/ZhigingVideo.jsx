@@ -530,22 +530,7 @@ export default function VideoIndex(props) {
                     if (videoImg) {
                       _data.image_path = videoImg;
                     }
-                    // if (currency) {
-                    //   let isNew = currencies.some((option) => {
-                    //     if (option.title == currency) {
-                    //       return option.type == "new";
-                    //     }
-                    //   });
-                    //   if (isNew) {
-                    //     if (seriesdescription) {
-                    //       _data.series_description = seriesdescription;
-                    //     }
-                    //     if (seriesImg) {
-                    //       _data.series_image_path = seriesImg;
-                    //     }
-                    //   }
-                    //   _data.series_title = currency;
-                    // }
+                  
 
                     if (JSON.stringify(adjunct) != "[]") {
                       _data.document = adjunct;

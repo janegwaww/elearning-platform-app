@@ -3,8 +3,6 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import ContestCar from "../comments/ContestCar";
-
-
 import one from "../../../assets/activity/img/detail/1.png";
 import two from "../../../assets/activity/img/detail/2.png";
 import three from "../../../assets/activity/img/detail/3.png";
@@ -13,28 +11,19 @@ import five from "../../../assets/activity/img/detail/5.png";
 import six from "../../../assets/activity/img/detail/6.png";
 import seven from "../../../assets/activity/img/detail/7.png";
 import eight from "../../../assets/activity/img/detail/8.png";
-
 import ten from "../../../assets/activity/img/detail/10.png";
-
 import Footer from "../comments/Footer";
 import bgtop2 from "../../../assets/activity/img/bgtop2.png";
 import title from "../../../assets/activity/img/title.png";
 import lefttop from "../../../assets/activity/img/detail/lefttop.png";
 import leftbottom from "../../../assets/activity/img/detail/leftbottom.png";
-
-
-import LoginModal from "../../../assets/template/LoginModal";
-import MenuBar from "../comments/MenuBar";
-import { getUser, isLoggedIn } from "../../../services/auth";
 import activityPDF from "../../../assets/templatepdf/activity.pdf";
-
 import { get_data } from "../../../assets/js/request";
-
 import { is_phone } from "../../../assets/js/totls";
-import CustomModal from "../../../assets/js/CustomModal";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import Phonedetail from "./phonedeatil";
 import NavTar from "../comments/NavTar";
+import BtnFile from '../comments/BtnFile';
 class Pagedetail extends React.Component {
   constructor(props) {
     super(props);
@@ -131,56 +120,13 @@ class Pagedetail extends React.Component {
               <img src={four} alt="" />
               <img src={five} alt="" />
               <img src={six} alt="" />
-              <LoginModal
-                open={is_login}
-                onEvent={(msg) => {
-                  this.setState({
-                    is_login: false,
-                  });
-                }}
-              >
-                <div
-                  className="all-width"
-                  onClick={() => {
-                    if (is_phone()) {
-                      new CustomModal().alert(
-                        "此操作请在pc端打开",
-                        "success",
-                        2000
-                      );
-                      return;
-                    }
-                    if (!isLoggedIn()) {
-                      this.setState({
-                        is_login: true,
-                      });
-                    } else {
-                      this.setState({
-                        meun: true,
-                      });
-                    }
-                  }}
-                >
-                <img src={seven} alt=""  className="file"/>
-                  
-                  {meun && (
-                    <MenuBar
-                      left="62%"
-                      onEvent={() => {
-                        this.setState({
-                          meun: false,
-                        });
-                      }}
-                    />
-                  )}
-                </div>
-              </LoginModal>
+              <BtnFile img={seven} left="62%" />
+             
               <img src={eight} alt="" />
               <div
                 className="all-width contestcar bg-not"
                 id="contest-judges"
                 style={{
-                  
                   backgroundSize: "100% auto",
                 }}
               >

@@ -7,7 +7,7 @@ import {
   Snackbar,
   InputAdornment,
   Grid,
-  Link
+  Link,
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -21,7 +21,6 @@ import { getUser, isLoggedIn } from "../../../services/auth";
 import MainLayout from "../../Profile/layout/index";
 import Zmage from "react-zmage";
 import LoginModal from "../../../assets/template/LoginModal";
-
 
 const singsArr = require("../components/field.json");
 
@@ -415,7 +414,6 @@ export default function VideoIndex(props) {
                       </span>
                     </Grid>
                   </Grid>
-                  
                   <Grid container spacing={4} className="item ">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>价格：</label>
@@ -489,14 +487,12 @@ export default function VideoIndex(props) {
                               id="coverfile"
                               isClick={!adjunct?true:false}
                               formdata={(() => {
-                                
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
                                 _formData.append("type", "video_image");
                                 return _formData;
                               })()}
                               onEvent={(url) => {
-                            
                                 setVideoImg(url);
                               }}
                             />
@@ -874,7 +870,7 @@ export default function VideoIndex(props) {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
-                          image_path:videoImg|| adjunct.image_path,
+                          image_path: videoImg || adjunct.image_path,
                           price: parseFloat(price) || 0,
                           statement:statement,
                           // category: [field],

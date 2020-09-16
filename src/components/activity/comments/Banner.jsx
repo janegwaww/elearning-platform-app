@@ -7,12 +7,10 @@ import phoneImg1  from '../../../assets/activity/img/phoneb/1.png';
 import phoneImg2  from '../../../assets/activity/img/phoneb/2.png';
 import phoneImg3  from '../../../assets/activity/img/phoneb/3.png';
 
-import LoginModal from "../../../assets/template/LoginModal";
-import { getUser, isLoggedIn } from "../../../services/auth";
-import MenuBar from "./MenuBar";
+
 import { is_phone } from "../../../assets/js/totls";
 import CustomModal from "../../../assets/js/CustomModal";
-
+import BtnFile from './BtnFile';
 export default class Banner extends React.Component {
   constructor(props) {
     super(props);
@@ -65,50 +63,7 @@ export default class Banner extends React.Component {
           className="all-width"
           style={{ height: "auto" }}
         />
-
-        <LoginModal
-          open={isLogin}
-          onEvent={(msg) => {
-            this.setState({
-              isLogin: false,
-            });
-          }}
-        >
-          <div
-            className="all-width"
-            onClick={() => {
-              
-
-              if (!isLoggedIn()) {
-                this.setState({
-                  isLogin: true,
-                });
-              } else {
-                this.setState({
-                  meun: true,
-                });
-              }
-            }}
-          >
-            <img
-              src={BananerImg2}
-              alt=""
-              className="all-width file"
-              style={{ height: "auto" }}
-            />
-            {meun && (
-              <MenuBar
-                onEvent={() => {
-                  this.setState({
-                    meun:false
-                  })
-                 
-                }}
-              />
-            )}
-          </div>
-        </LoginModal>
-
+        <BtnFile img={BananerImg2} /> 
         <img
           src={BananerImg3}
           alt=""

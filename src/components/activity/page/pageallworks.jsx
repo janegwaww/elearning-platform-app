@@ -36,9 +36,9 @@ class PageAllWorks extends React.Component {
   }
   componentDidMount() {
     this.winsize();
-    // window.onresize = () => {
-    //   this.winsize();
-    // };
+    window.onresize = () => {
+      this.winsize();
+    };
     this.up_data();
   }
   componentWillUnmount() {
@@ -110,7 +110,7 @@ class PageAllWorks extends React.Component {
       sort,
       styles,
     } = this.state;
-    // console.log(contest_w)
+    console.log(contest_w)
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={15} />
@@ -334,13 +334,13 @@ class PageAllWorks extends React.Component {
             <LoadData />
           )}
         </div>
-        {!total_data ? (
+       {/** {!total_data ? (
           <div style={{ position: "fixed", bottom: 0 }}>
             <Footer />
           </div>
-        ) : (
+        ) : ( */}
           <Footer />
-        )}
+      {/**  )} */}
       </div>
     );
   }
