@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     color: "#909399",
     fontSize: "12px",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
