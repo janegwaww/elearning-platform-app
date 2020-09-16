@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import keLoginLeftBackgroundImage from "../../../static/images/ke-pic-left.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,7 +10,10 @@ const useStyles = makeStyles(theme => ({
     transform: "translateY(-50%)",
     left: "50%",
     margin: "0 0 0 -440px",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
+      margin: "0 0 0 -220px",
+    },
+    [theme.breakpoints.down("xs")]: {
       left: 0,
       margin: 0,
       width: "100%",
@@ -37,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "strech",
     padding: "0 10%",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("xs")]: {
       minWidth: "100%",
       minHeight: "100%",
     },
@@ -45,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   KELogo: {
     height: "580px",
     width: "100%",
-    background: `left top / 100% 100% no-repeat url(${keLoginLeftBackgroundImage})`,
+    background: `left top / 100% 100% no-repeat url('/images/ke-pic-left.png')`,
     position: "relative",
   },
   loginBg: {
