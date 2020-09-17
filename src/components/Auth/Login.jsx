@@ -29,6 +29,7 @@ const useStyles = makeStyles(() => ({
   secondary: {
     background: `left top / 100% 100% no-repeat url('/images/login-background-image.png')`,
     height: "100vh",
+    maxWidth: "100%",
   },
   containerRoot: {
     backgroundColor: "#fff",
