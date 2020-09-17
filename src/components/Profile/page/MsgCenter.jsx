@@ -15,7 +15,7 @@ class MsgCenter extends React.Component {
   }
 
   update_data(data) {
-    get_data( data).then((res) => {
+    get_data(data).then((res) => {
       console.log(res.result_data);
       if (res.err == 0) {
         this.setState({
@@ -25,10 +25,8 @@ class MsgCenter extends React.Component {
     });
   }
 
-  
   componentWillReceiveProps(nextProps) {
     if (this.state.page_id != nextProps.parent.state.nowPage.childpage_id) {
-     
       this.setState({
         page_id: nextProps.parent.state.nowPage.childpage_id,
       });
@@ -40,11 +38,7 @@ class MsgCenter extends React.Component {
       <section className="all-height viev-scroll profile-padding">
         <div className="box box-align-center box-between">
           <nav>
-            <Nav
-              list={['']}
-              _inx={0}
-              parent={this}
-            />
+            <Nav list={[""]} _inx={0} parent={this} />
           </nav>
           <div className="pronavbar-btn fn-color-9E9EA6 bg-F2F2F5 fn-size-12 text-center">
             全部已读

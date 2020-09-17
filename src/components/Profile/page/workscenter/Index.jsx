@@ -16,20 +16,11 @@ const WorksCenter = (props) => {
    
     if (_router == "document") {
       setNum(2);
-      // setUrl(_router);
-      // setLists((old) => {
-      //   let _new = JSON.parse(JSON.stringify(lists));
-      //   _new.push("文本");
-      //   return _new;
-      // });
+      
+     
     } else if (_router == "seriesdoc") {
       setNum(3);
-      // setUrl(_router);
-      // setLists((old) => {
-      //   let _new = JSON.parse(JSON.stringify(lists));
-      //   _new.push("系列文本");
-      //   return _new;
-      // });
+    
     } else if (_router == "series" || _router == "seriesdetail") {
       setNum(1);
     } else if (_router == "draft") {

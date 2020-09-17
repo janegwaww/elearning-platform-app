@@ -850,14 +850,7 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
-                        // if (!field) {
-                        //   setOpenSnackbar({
-                        //     open: true,
-                        //     type: "error",
-                        //     msg: "请选择领域！",
-                        //   });
-                        //   return;
-                        // }
+                    
                         if(!statement){
                           setOpenSnackbar({
                             open: true,

@@ -47,7 +47,7 @@ export default function VideoIndex(props) {
   const [loginStatus, setLoginStatus] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState(""); //视频标题
   const [videodescription, setVideodescription] = React.useState(""); //视频描述
-  // const [videosign, setVideosign] = React.useState([]); //视频标签
+ 
 
   const [videoImg, setVideoImg] = React.useState(""); //视频图片路径
   const [currency, setCurrency] = React.useState(""); //视频系列
@@ -59,7 +59,7 @@ export default function VideoIndex(props) {
   const [seriesImg, setSeriesImg] = React.useState(null); //新系列图片路径
   const [adjunct, setAdjunct] = React.useState([]); //附件
   
-  // const [signs, setSigns] = useState([]); //标签
+  
   const [currencies, setCurrencies] = useState([]); //系列
   const [ statement,setStatement] = useState(false);
   const snackbarClose = () => {

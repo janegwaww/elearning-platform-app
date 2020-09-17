@@ -243,9 +243,7 @@ export default class Header extends Component {
               发布视频
             </div>
           </div>
-          {/*<div title="点击可保存你编辑文本样式">
-            <Save className={styles.save} onClick={btn_save} />
-            </div>*/}
+        
 
           <div onClick={this.btn_user}>
             {this.state.user_info ? (
@@ -257,8 +255,7 @@ export default class Header extends Component {
                       : ""
                   }
                 />
-                {/**<span>{this.state.user_info.name}</span>
-                <ArrowDropDown /> */}
+              
               </div>
             ) : (
               <Avatar />
