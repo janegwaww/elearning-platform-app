@@ -1,39 +1,46 @@
 import React from "react";
-import Helmet from "react-helmet";
-import { Container, Avatar, Grid } from "@material-ui/core";
-import { ArrowDownwardOutlined } from "@material-ui/icons";
-import "../../../assets/activity/css/activity.css";
-import Layout from "../layout";
-import Bananer from "../comments/Banner";
-import NavTar from "../comments/NavTar";
-import Footer from '../comments/Footer';
-import Bgimg from "../../../assets/activity/img/bg.png";
-import One from '../../../assets/activity/img/about/1.png';
-import Two from '../../../assets/activity/img/about/2.png';
-import Three from '../../../assets/activity/img/about/3.png';
-class PageAbout extends React.Component {
 
+import One from "../../../assets/activity/img/about/1.png";
+import Two from "../../../assets/activity/img/about/2.png";
+import Three from "../../../assets/activity/img/about/3.png";
+import ProgressBar from "../../../assets/template/ProgressBar";
+import { is_phone } from "../../../assets/js/totls";
+import PhoneAbout from "./phoneabout";
+import NavTar from "../comments/NavTar";
+class PageAbout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      login_status: true,
+      isPhone: false,
+    };
+  }
+  componentDidMount() {
+    this.setState({
+      isPhone: is_phone(),
+    });
+    setTimeout(() => {
+      this.setState({
+        login_status: false,
+      });
+    }, 1500);
+  }
   render() {
     return (
-      <Layout>
-        <div
-          style={{
-            backgroundImage: `url(${Bgimg})`,
-            height: "100vh",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <Bananer />
-          <NavTar />
+      <div>
+        <ProgressBar loading={this.state.login_status} speed={50} />
+        <NavTar inx={2} />
+        {this.state.isPhone ? (
+          <PhoneAbout />
+        ) : (
           <div className="all-width">
-            <img src={One} alt='' />
-            <img src={Two} alt=''/>
-            <img src={Three} alt=''/>
-            <Footer />
+            <img src={One} alt="" />
+            <img src={Two} alt="" />
+            <img src={Three} alt="" />
+           
           </div>
-         
-        </div>
-      </Layout>
+        )}
+      </div>
     );
   }
 }

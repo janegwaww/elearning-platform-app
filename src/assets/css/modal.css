@@ -1,51 +1,57 @@
+:root{
+    --z-index:20000;
+}
 .alert{
     position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top:0;
+    background-color: rgba(0,0,0,0.2);
+    z-index: var(--z-index);
+   
+}
+.alert div{
+    position: fixed;
     top:50%;
+
     transform: translate(-50%,-50%);
     left: 50%;
     padding: 1.875rem 2.5rem;
     background-color: white;
     border-radius: 0.625rem;
-    min-width: 13rem;
+    /* min-width: 13rem; */
     font-size: 1.125rem;
-    z-index: 20000;
     box-shadow:2px 2px 20px 0px rgba(0,0,0,0.1);
+    z-index: calc(var(--z-index) + 1);
 }
-.alert div{
+/* .alert div{
     position: relative;
     width:100%;
-}
+} */
 .alert div img{
     width:1.75rem;
     height: 1.75rem;
     vertical-align: middle;
     margin-right: 0.625rem;
 }
-/* .alert div span{
-    position: absolute;
-    right: -25px;
-    top:-5px;
-    display: inline-block;
-    line-height: 30px;
-    width:30px;
-    height: 30px;
-    text-align: center;
-    border-radius: 50%;
-    transition: all 0.3s;
-<<<<<<< HEAD
-   
-=======
->>>>>>> develop
-} */
-/* .alert div span:hover{
-    cursor: pointer;
-    background-color:#f8f8f9;
-} */
-/* .success{
-    color: rgb(30, 70, 32);
-    background-color: rgb(237, 247, 237);
+
+.message{
+    position: fixed;
+    top:30%;
+    transform: translateX(-50%);
+    left: 50%;
+    padding: 5px;
+    background-color: white;
+    border-radius:4px;
+    font-size: 0.75rem;
+    z-index: 20000;
+    box-shadow:2px 2px 20px 0px rgba(0,0,0,0.1);
 }
-.error{
-    color: rgb(97, 26, 21);
-    background-color: rgb(253, 236, 234);
-} */
+.message.error{
+    background-color:rgba(249, 147, 149, 1) ;
+    color:white
+}
+.message.success{
+    background-color:rgba(152, 246, 163, 1)
+}

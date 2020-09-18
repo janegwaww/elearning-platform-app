@@ -9,6 +9,7 @@ import {
   Grid,
   Select,
   FormControl,
+  Link,
 } from "@material-ui/core";
 
 import Alert from "@material-ui/lab/Alert";
@@ -59,6 +60,7 @@ export default function VideoIndex(props) {
   ]);
   const [authorvalueArr, setAuthorvalueArr] = useState([]);
   const [price, setPrice] = useState("0.00");
+  const [statement, setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -165,7 +167,7 @@ export default function VideoIndex(props) {
                               className="fn-color-007CFF "
                             >
                               <Add />
-                              点击上传课件(建议文件是pdf文档)
+                              点击上传文件/文档(建议文件是pdf文档)
                             </label>
 
                             <input
@@ -262,7 +264,7 @@ export default function VideoIndex(props) {
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
                               required
-                              disabled={adjunct?false:true}
+                              disabled={adjunct ? false : true}
                               variant="outlined"
                               data-inx={inx}
                               onChange={(event) => {
@@ -311,7 +313,7 @@ export default function VideoIndex(props) {
                           </Grid>
                           <Grid item xs={8} sm={9} md={10}>
                             <TextField
-                              disabled={adjunct?false:true}
+                              disabled={adjunct ? false : true}
                               data-inx={inx}
                               rows={3}
                               variant="outlined"
@@ -339,9 +341,13 @@ export default function VideoIndex(props) {
                           <span
                             className="fn-color-007CFF"
                             onClick={() => {
-                              if(!adjunct){
-                                new CustomModal().alert('请先添加文件后再添加作者','error',2000);
-                                return
+                              if (!adjunct) {
+                                new CustomModal().alert(
+                                  "请先添加文件后再添加作者",
+                                  "error",
+                                  2000
+                                );
+                                return;
                               }
                               setAuthorArr((old) => {
                                 let _old = JSON.parse(JSON.stringify(old));
@@ -370,7 +376,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         variant="outlined"
                         fullWidth
                         value={videoTitle}
@@ -399,7 +405,7 @@ export default function VideoIndex(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         rows={3}
                         variant="outlined"
                         multiline
@@ -432,7 +438,7 @@ export default function VideoIndex(props) {
                       <div>
                         <FormControl variant="outlined">
                           <Select
-                            disabled={adjunct?false:true}
+                            disabled={adjunct ? false : true}
                             native
                             value={videosign}
                             onChange={(ev) => {
@@ -492,42 +498,7 @@ export default function VideoIndex(props) {
                       </div>
                     </Grid>
                   </Grid>
-                  {/**
-                  <Grid container spacing={4} className="item ">
-                    <Grid item xs={4} sm={3} md={2} className="text-right">
-                      <label>价格：</label>
-                    </Grid>
-                    <Grid item xs={8} sm={9} md={10}>
-                      <div>
-                        <div className="box box-align-center">
-                          <span>人民币</span>&nbsp;&nbsp;
-                          <TextField
-                            style={{ width: "5rem" }}
-                            variant="outlined"
-                            placeholder="0.00"
-                            value={price}
-                            onChange={(event) => {
-                              let _v = event.target.value;
-                              _v = _v.match(/^[0-9]+(.[0-9]{0,2})?$/g);
-                              if (!_v) {
-                                _v = "";
-                              } else {
-                                _v = _v[0];
-                              }
 
-                              setPrice(_v);
-                            }}
-                          />
-                          &nbsp;&nbsp;
-                          <span>元</span>
-                        </div>
-                        <p className="fn-color-F86B6B">
-                          请输入正整数或者带两位小数的数字
-                        </p>
-                      </div>
-                    </Grid>
-                  </Grid>
-                   */}
                   <Grid container spacing={4} className=" item">
                     <Grid
                       item
@@ -565,7 +536,8 @@ export default function VideoIndex(props) {
                           )}
                           <div>
                             <CuttingTemplate
-                              id="coverfile"
+                              id="zhiqingfile"
+                              isClick={!adjunct ? true : false}
                               formdata={(() => {
                                 let _formData = new FormData();
                                 _formData.append("model_action", "upload_file");
@@ -581,269 +553,14 @@ export default function VideoIndex(props) {
                       </section>
                     </Grid>
                   </Grid>
-                  {/** 
-                  <Grid container spacing={4} className=" item">
-                    <Grid item xs={4} sm={3} md={2} className="text-right">
-                      <label>文件系列：</label>
-                    </Grid>
-                    <Grid item xs={8} sm={9} md={10}>
-                      <section style={{ width: "100%" }}>
-                        <p>
-                          将您的文件添加到一个或多个系列中。系列文件有助于学习者更快地发现您的内容。
-                        </p>
-                        <section className="item">
-                          {!addseries ? (
-                            <section className="sign">
-                              <Button
-                                variant="contained"
-                                style={{
-                                  backgroundColor: "#007CFF",
-                                  color: "white",
-                                  padding: "3px 12px",
-                                }}
-                                onClick={() => {
-                                  setAddseries(true);
-                                  setSeriesImg(videoImg);
-                                  return false;
-                                }}
-                              >
-                                <Add />
-                                新建系列
-                              </Button>
 
-                              {currencies.length > 0 && (
-                                <section style={{ paddingTop: 12 }}>
-                                  <div
-                                    className="line"
-                                    style={{ marginBottom: 12 }}
-                                  ></div>
-                                  {currencies.map((option, inx) => (
-                                    <p key={option.title}>
-                                      <input
-                                        type="radio"
-                                        name="gender1"
-                                        checked={option.title == currency}
-                                        value={option.title}
-                                        id={option._id + "_" + inx}
-                                        onClick={(ev) => {
-                                          if (ev.target.checked) {
-                                            ev.target.checked = false;
-                                            setCurrency("");
-                                          }
-                                        }}
-                                        onChange={(event) => {
-                                          setCurrency(event.target.value);
-                                        }}
-                                      />
-                                      <label htmlFor={option._id + "_" + inx}>
-                                        {option.title}
-                                      </label>
-                                    </p>
-                                  ))}
-                                </section>
-                              )}
-                            </section>
-                          ) : (
-                            <section className="all-width sign">
-                              <Grid container spacing={4} className=" item">
-                                <Grid
-                                  item
-                                  xs={4}
-                                  sm={3}
-                                  md={2}
-                                  className="text-right"
-                                >
-                                  <label>
-                                    <span className="fn-color-F86B6B">*</span>
-                                    系列标题：
-                                  </label>
-                                </Grid>
-                                <Grid item xs={8} sm={9} md={10}>
-                                  <TextField
-                                    fullWidth
-                                    type="text"
-                                    variant="outlined"
-                                    value={newseries}
-                                    onChange={(e) => {
-                                      setNewseries(e.target.value);
-                                    }}
-                                    InputProps={{
-                                      endAdornment: (
-                                        <InputAdornment position="end">
-                                          <Cancel
-                                            onClick={() => {
-                                              setNewseries("");
-                                            }}
-                                          />
-                                        </InputAdornment>
-                                      ),
-                                    }}
-                                  />
-                                </Grid>
-                              </Grid>
-                              <Grid container spacing={4} className=" item">
-                                <Grid
-                                  item
-                                  xs={4}
-                                  sm={3}
-                                  md={2}
-                                  className="text-right"
-                                >
-                                  <label>系列描述：</label>
-                                </Grid>
-                                <Grid item xs={8} sm={9} md={10}>
-                                  <TextField
-                                    rows={2}
-                                    variant="outlined"
-                                    multiline
-                                    fullWidth
-                                    value={seriesdescription}
-                                    onChange={(event) => {
-                                      setSeriesdescription(event.target.value);
-                                    }}
-                                  />
-                                </Grid>
-                              </Grid>
-
-                              <Grid container spacing={4} className=" item">
-                                <Grid
-                                  item
-                                  xs={4}
-                                  sm={3}
-                                  md={2}
-                                  className="text-right"
-                                >
-                                  <label>系列封面：</label>
-                                </Grid>
-                                <Grid item xs={8} sm={9} md={10}>
-                                  <div>
-                                    <p>
-                                      将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                                    </p>
-                                    <div className="box item">
-                                      {seriesImg ? (
-                                        <div
-                                          className="file bg-all text-center"
-                                          style={{
-                                            marginRight: 10,
-                                          }}
-                                        >
-                                          {seriesImg && (
-                                            <Zmage
-                                              src={seriesImg}
-                                              alt=""
-                                              className="all-height"
-                                              style={{ width: "auto" }}
-                                            />
-                                          )}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-
-                                      <CuttingTemplate
-                                        id="seriesfile"
-                                        onEvent={(url) => {
-                                          setSeriesImg(url);
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
-                                </Grid>
-                              </Grid>
-                              <div className="item"></div>
-                              <div className="box box-center">
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    setAddseries(false);
-                                    setSeriesImg("");
-                                    return false;
-                                  }}
-                                  className={`btn btn1`}
-                                >
-                                  取消
-                                </Button>
-                                &nbsp;&nbsp;
-                                <Button
-                                  className={`btn `}
-                                  color="primary"
-                                  variant="contained"
-                                  onClick={() => {
-                                    let _data = currencies;
-
-                                    if (!newseries) {
-                                      setOpenSnackbar({
-                                        open: true,
-                                        type: "error",
-                                        msg:
-                                          "新建系列失败，新建的标题不能为空!",
-                                      });
-                                      return;
-                                    }
-
-                                    if (
-                                      _data.some(
-                                        (option) => newseries == option.title
-                                      )
-                                    ) {
-                                      setOpenSnackbar({
-                                        open: true,
-                                        type: "error",
-                                        msg:
-                                          "新建系列失败，您所新建的系列已存在!",
-                                      });
-                                      return;
-                                    }
-                                    // if (!seriesdescription) {
-                                    //   setOpenSnackbar({
-                                    //     open: true,
-                                    //     type: "error",
-                                    //     msg:
-                                    //       "亲，新建了系列，系列描述不要忘记填写哦!",
-                                    //   });
-                                    //   return;
-                                    // }
-                                    if (
-                                      _data.length === 0 ||
-                                      !_data[_data.length - 1].type
-                                    ) {
-                                      _data.push({
-                                        title: newseries,
-                                        label: newseries,
-                                        type: "new",
-                                      });
-                                    } else {
-                                      _data[_data.length - 1] = {
-                                        title: newseries,
-                                        label: newseries,
-                                        type: "new",
-                                      };
-                                    }
-
-                                    setCurrencies(_data);
-                                    setAddseries(false);
-                                    setCurrency(newseries);
-                                    return false;
-                                  }}
-                                >
-                                  确认
-                                </Button>
-                              </div>
-                            </section>
-                          )}
-                        </section>
-                      </section>
-                    </Grid>
-                  </Grid>
-                  */}
                   <Grid container spacing={4} className=" item">
                     <Grid item xs={4} sm={3} md={2} className="text-right">
                       <label>邀请ID：</label>
                     </Grid>
                     <Grid item xs={8} sm={9} md={10}>
                       <TextField
-                        disabled={adjunct?false:true}
+                        disabled={adjunct ? false : true}
                         type="number"
                         placeholder="邀请人ID"
                         variant="outlined"
@@ -854,18 +571,41 @@ export default function VideoIndex(props) {
                       />
                     </Grid>
                   </Grid>
-                  <div className="item" style={{ height: 1 }}></div>
+                  <div className="item"></div>
+                  <Grid container spacing={4} className="item">
+                    <Grid
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className="text-right"
+                    ></Grid>
+                    <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
+                      
+                      <input
+                        type="checkbox"
+                        className="notcss"
+                        checked={statement ? true : false}
+                        onChange={(ev) => {
+                          setStatement(ev.target.checked);
+                          console.log(ev.target.checked);
+                        }}
+                      />
+                      已阅读并同意
+                      <span className="fn-color-007CFF">
+                        <Link
+                          href="/protocol/statement"
+                          color="inherit"
+                          underline="always"
+                          target='_brank'
+                        >
+                          免责声明
+                        </Link>
+                      </span>
+                    </Grid>
+                  </Grid>
                   <div className="item"></div>
                   <div className=" box box-center">
-                    <Button
-                      className={`btn btn1`}
-                      onClick={() => {
-                        window.history.back();
-                        return false;
-                      }}
-                    >
-                      返回
-                    </Button>
                     <Button
                       className="btn"
                       color="primary"
@@ -916,13 +656,22 @@ export default function VideoIndex(props) {
                           });
                           return;
                         }
+                        if(!statement){
+                          setOpenSnackbar({
+                            open: true,
+                            type: "error",
+                            msg: "亲！请您认真阅读免责声明，并打上勾哦",
+                          });
+                          return;
+                        }
 
                         let _data = {
                           file_name: videoTitle || adjunct.file_name,
                           description: videodescription,
                           file_path: adjunct.file_path,
-                          image_path: adjunct.image_path,
+                          image_path: videoImg || adjunct.image_path,
                           price: parseFloat(price) || 0,
+                          statement:statement,
                           category: [
                             videosign && !field ? videosign + "99" : field,
                           ],

@@ -1,31 +1,68 @@
 .navtar {
-  /* height: calc(7.75rem - 2px); */
   background-color: #4e07ba;
-    width:calc(100% - 3px);
-   /* height:7.75rem; */
-    position: relative;
-    padding:2.5rem 0;
-    font-size:1.875rem;
-    color:white
+
+  height: 1.2em;
+  min-height: 42px;
+  position: relative;
+
+  color: white;
 }
-/* .navtar::before{
-    content: "";
-    position: absolute;
-    width:100%;
-    height: 100%;
-    border-right: 3px solid #fcf800;
-    border-top-right-radius: 1px;
-    right: -3px;
-    bottom:-5px;
-} */
-/* .navtar::after {
-  content: "";
+.navtar .box,
+.navtar .box-flex {
+  padding: 0;
+  margin: 0;
+  flex-basis: 0;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+.navtar .box-flex div {
+  font-size: 0.3em;
+  color: white;
+}
+.navtar .box-flex div>span{
+  position: relative;
+  z-index: 1;
+}
+.navtar .box-flex div span span{
+  display: inline-block;
+  width:200%;
+  height: 250%;
+  background-color: transparent;
   position: absolute;
-  width:100%;
-  height: 100%;
-  border-bottom: 2px solid #fcf800;
-  border-bottom-left-radius: 1px; 
-  right: 0;
-  bottom: 0;
-  
-} */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 0;
+}
+.navtar span:hover {
+  cursor: pointer;
+}
+
+.navtar .acti {
+  color: #fcf800;
+  font-size: 1.33em;
+  position: relative;
+}
+
+.navtar .acti::before,
+.navtar .acti::after {
+  display: block;
+  content: '';
+  width: 0.4em;
+  height: 0.4em;
+  border: 1px solid #fcf800;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  overflow: hidden;
+  zoom: 1;
+  clear: both;
+  z-index: 5;
+}
+.navtar .acti::before {
+  left: -1em;
+}
+.navtar .acti::after {
+  right: -1em;
+}

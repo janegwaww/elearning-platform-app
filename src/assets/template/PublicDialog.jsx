@@ -46,7 +46,7 @@ export default function CustomizedDialogs(props) {
       <div>
         <Dialog
           onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
+        
           open={props.open}
           className={`${classes.dialog} fn-size-14 `}
         >

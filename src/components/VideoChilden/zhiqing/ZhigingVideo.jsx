@@ -13,6 +13,7 @@ import {
   Grid,
   Select,
   FormControl,
+  Link
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
@@ -31,7 +32,7 @@ import { get_data } from "../../../assets/js/request";
 
 import { navigate } from "@reach/router";
 import CuttingTemplate from "../../../assets/template/CuttingTemplate";
-import loginimg from "../../../../static/logos/logo.svg";
+import loginimg from "../../../assets/img/logo.svg";
 import { getUser, isLoggedIn } from "../../../services/auth";
 
 const singsArr = require("../components/field.json");
@@ -61,7 +62,7 @@ export default function VideoIndex(props) {
   const [videosign, setVideosign] = React.useState(""); //视频标签
   const [fieldArr, setFieldArr] = React.useState([]);
   const [field, setField] = React.useState("");
-
+  const [ statement,setStatement] = useState(false);
   const snackbarClose = () => {
     //关闭提示
     setOpenSnackbar({ open: false });
@@ -352,304 +353,14 @@ export default function VideoIndex(props) {
                   />
                 </Grid>
               </Grid>
-{/** 
-              <Grid container spacing={4} className="box">
-                <Grid item xs={4} sm={3} md={2} className="text-right">
-                  <label>系列视频</label>
-                </Grid>
-                <Grid item xs={8} sm={9} md={10}>
-                  <section style={{ width: "100%" }}>
-                    <p>
-                      将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                    </p>
-                    <section className="item">
-                      {!addseries ? (
-                        <section className="sign">
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: "#007CFF",
-                              color: "white",
-                              padding: "3px 12px",
-                            }}
-                            onClick={() => {
-                              setAddseries(true);
-                              setSeriesImg(videoImg);
-                              return false;
-                            }}
-                          >
-                            <Add />
-                            新建系列
-                          </Button>
-                          {currencies.length > 0 && (
-                            <section style={{ paddingTop: 12 }}>
-                              <div
-                                className="line"
-                                style={{ marginBottom: 12 }}
-                              ></div>
-                              {currencies.map((option, inx) => {
-                                if (inx < seeMore) {
-                                  return (
-                                    <p
-                                      key={option.title}
-                                      style={{ marginTop: 5 }}
-                                      title={option.title}
-                                    >
-                                      <input
-                                        type="radio"
-                                        name="gender1"
-                                        checked={option.title == currency}
-                                        value={option.title}
-                                        id={option._id + "_" + inx}
-                                        onClick={(ev) => {
-                                          if (ev.target.checked) {
-                                            ev.target.checked = false;
-                                            setCurrency("");
-                                          }
-                                        }}
-                                        onChange={(event) => {
-                                          setCurrency(event.target.value);
-                                        }}
-                                      />
 
-                                      <label
-                                        htmlFor={option._id + "_" + inx}
-                                        className="p"
-                                      >
-                                        {" "}
-                                        {option.title}
-                                      </label>
-                                    </p>
-                                  );
-                                }
-                              })}
-                              {currencies.length > 5 && (
-                                <p className="text-center fn-color-007CFF fn-size-12 ">
-                                  {seeMore > 5 ? (
-                                    <span
-                                      className="p"
-                                      onClick={() => {
-                                        setSeeMore(5);
-                                      }}
-                                    >
-                                      收起
-                                      <ExpandLess />
-                                    </span>
-                                  ) : (
-                                    <span
-                                      className="p"
-                                      onClick={() => {
-                                        setSeeMore(currencies.length);
-                                      }}
-                                    >
-                                      查看更多
-                                      <ExpandMore />
-                                    </span>
-                                  )}
-                                </p>
-                              )}
-                            </section>
-                          )}
-                        </section>
-                      ) : (
-                        <section className="all-width sign">
-                          <Grid container spacing={4} className="item ">
-                            <Grid
-                              item
-                              xs={4}
-                              sm={3}
-                              md={2}
-                              className="text-right"
-                            >
-                              <label>
-                                <span className="fn-color-F86B6B">*</span>
-                                系列标题
-                              </label>
-                            </Grid>
-                            <Grid item xs={8} sm={9} md={10}>
-                              <TextField
-                                fullWidth
-                                type="text"
-                                variant="outlined"
-                                value={newseries}
-                                onChange={(e) => {
-                                  setNewseries(e.target.value);
-                                }}
-                                InputProps={{
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <Cancel
-                                        onClick={() => {
-                                          setNewseries("");
-                                        }}
-                                      />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                            </Grid>
-                          </Grid>
-                          <Grid container spacing={4} className=" item">
-                            <Grid
-                              item
-                              xs={4}
-                              sm={3}
-                              md={2}
-                              className="text-right"
-                            >
-                              <label>系列描述</label>
-                            </Grid>
-                            <Grid item xs={8} sm={9} md={10}>
-                              <TextField
-                                rows={2}
-                                variant="outlined"
-                                multiline
-                                fullWidth
-                                value={seriesdescription}
-                                onChange={(event) => {
-                                  setSeriesdescription(event.target.value);
-                                }}
-                              />
-                            </Grid>
-                          </Grid>
-                          <Grid container spacing={4} className=" item">
-                            <Grid
-                              item
-                              xs={4}
-                              sm={3}
-                              md={2}
-                              className="text-right"
-                            >
-                              <label>系列封面</label>
-                            </Grid>
-                            <Grid item xs={8} sm={9} md={10}>
-                              <div>
-                                <p>
-                                  将您的视频添加到一个或多个播放列表中。播放列表有助于观看者更快地发现您的内容。
-                                </p>
-                                <div className="box item">
-                                  {seriesImg ? (
-                                    <div
-                                      className="file bg-all text-center"
-                                      style={{
-                                        marginRight: 10,
-                                      }}
-                                    >
-                                      {seriesImg && (
-                                        <Zmage
-                                          className=" all-height"
-                                          style={{ width: "auto" }}
-                                          src={seriesImg}
-                                        />
-                                      )}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  <CuttingTemplate
-                                    id="seriesfile"
-                                    onEvent={(url) => {
-                                      setSeriesImg(url);
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            </Grid>
-                          </Grid>
-                          <div className="item"></div>
-                          <div className="box box-center">
-                            <Button
-                              variant="contained"
-                              onClick={() => {
-                                setAddseries(false);
-                                setSeriesImg("");
-                                return false;
-                              }}
-                              className="btn btn1"
-                            >
-                              取消
-                            </Button>
-                            &nbsp;&nbsp;
-                            <Button
-                              className="btn"
-                              color="primary"
-                              variant="contained"
-                              onClick={() => {
-                                let _data = currencies;
-
-                                if (!newseries) {
-                                  setOpenSnackbar({
-                                    open: true,
-                                    type: "error",
-                                    msg: "新建系列失败，新建的标题不能为空!",
-                                  });
-                                  return;
-                                }
-
-                                if (
-                                  _data.some(
-                                    (option) => newseries == option.title
-                                  )
-                                ) {
-                                  setOpenSnackbar({
-                                    open: true,
-                                    type: "error",
-                                    msg: "新建系列失败，您所新建的系列已存在!",
-                                  });
-                                  return;
-                                }
-                                // if (!seriesdescription) {
-                                //   setOpenSnackbar({
-                                //     open: true,
-                                //     type: "error",
-                                //     msg:
-                                //       "亲，新建了系列，系列描述不要忘记填写哦!",
-                                //   });
-                                //   return;
-                                // }
-                                if (
-                                  _data.length === 0 ||
-                                  !_data[_data.length - 1].type
-                                ) {
-                                  _data.push({
-                                    title: newseries,
-                                    label: newseries,
-                                    type: "new",
-                                  });
-                                } else {
-                                  _data[_data.length - 1] = {
-                                    title: newseries,
-                                    label: newseries,
-                                    type: "new",
-                                  };
-                                }
-
-                                setCurrencies(_data);
-                                setAddseries(false);
-                                setCurrency(newseries);
-                                return false;
-                              }}
-                            >
-                              确认
-                            </Button>
-                          </div>
-                        </section>
-                      )}
-                    </section>
-                  </section>
-                </Grid>
-              </Grid>
-*/}
               <Grid container spacing={4} className=" item">
                 <Grid item xs={4} sm={3} md={2} className="text-right not-padding">
                   <label>上传附件：</label>
                 </Grid>
                 <Grid item xs={8} sm={9} md={10}>
                   <div>
-                    {/*<p style={{ marginBottom: 20 }}>
-                    视频相对应的的课件（以.pdf结尾的文件）
-                          </p>*/}
+                   
 
                     {adjunct && adjunct.length > 0
                       ? adjunct.map((option, inx) => (
@@ -732,18 +443,42 @@ export default function VideoIndex(props) {
                   </div>
                 </Grid>
               </Grid>
-              <div className="item" style={{ height: 1 }}></div>
+              <div className="item" ></div>
+              <Grid container spacing={4} className="item">
+              <Grid
+                item
+                xs={4}
+                sm={3}
+                md={2}
+                className="text-right"
+              ></Grid>
+              <Grid item xs={8} sm={9} md={10} className='fn-color-9E9EA6'>
+                
+                <input
+                  type="checkbox"
+                  className="notcss"
+                  checked={statement ? true : false}
+                  onChange={(ev) => {
+                    setStatement(ev.target.checked);
+                    console.log(ev.target.checked);
+                  }}
+                />
+                已阅读并同意
+                <span className="fn-color-007CFF">
+                  <Link
+                    href="/protocol/statement"
+                    color="inherit"
+                    underline="always"
+                    target='_brank'
+                  >
+                    免责声明
+                  </Link>
+                </span>
+              </Grid>
+            </Grid>
               <div className="item"></div>
               <div className=" box box-center">
-                <Button
-                  className="btn btn1"
-                  onClick={() => {
-                    window.history.back();
-                    return false;
-                  }}
-                >
-                  返回
-                </Button>
+                
                 <Button
                   className="btn"
                   color="primary"
@@ -775,6 +510,14 @@ export default function VideoIndex(props) {
                           });
                           return;
                     }
+                    if(!statement){
+                      setOpenSnackbar({
+                        open: true,
+                        type: "error",
+                        msg: "亲！请您认真阅读免责声明，并打上勾哦",
+                      });
+                      return;
+                    }
                     let _data = {
                       task_id: JSON.parse(sessionStorage.getItem("file_data"))
                         .video_id,
@@ -782,26 +525,12 @@ export default function VideoIndex(props) {
                       description: videodescription,
                       category: [!field&&videosign?videosign+'99':field],
                       invite: invitation,
+                      statement:statement
                     };
                     if (videoImg) {
                       _data.image_path = videoImg;
                     }
-                    // if (currency) {
-                    //   let isNew = currencies.some((option) => {
-                    //     if (option.title == currency) {
-                    //       return option.type == "new";
-                    //     }
-                    //   });
-                    //   if (isNew) {
-                    //     if (seriesdescription) {
-                    //       _data.series_description = seriesdescription;
-                    //     }
-                    //     if (seriesImg) {
-                    //       _data.series_image_path = seriesImg;
-                    //     }
-                    //   }
-                    //   _data.series_title = currency;
-                    // }
+                  
 
                     if (JSON.stringify(adjunct) != "[]") {
                       _data.document = adjunct;

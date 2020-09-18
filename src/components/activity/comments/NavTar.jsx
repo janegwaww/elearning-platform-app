@@ -1,42 +1,74 @@
 import React from "react";
-import { Container, Avatar, Grid } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
-import "./navtar.css";
 
-const NavTar = () => {
- 
+import "./navtar.css";
+import { navigate } from "@reach/router";
+import { is_phone } from "../../../assets/js/totls";
+const NavTar = (props) => {
+  const [isPhone, setIsPhone] = React.useState(false);
+  const [lists, setLists] = React.useState([
+    { title: "首页", page: "/" },
+    { title: "关于知擎杯", page: "activityabout" },
+    { title: "赛事详情", page: "activitydetail" },
+    { title: "全部作品", page: "activityallworks" },
+  ]);
+  const btn_page = (ev) => {
+    let _data = ev.target.dataset;
+    if (JSON.stringify(_data) == "{}") {
+      _data = ev.target.parentNode.dataset;
+    }
+    if (props.inx == _data.id) return;
+
+    let _url = "/activity/";
+    if (_data.id == 2) {
+      _url = _url + "activityabout";
+    } else if (_data.id == 3) {
+      _url = _url + "activitydetail";
+    } else if (_data.id == 4) {
+      _url = _url + "activityallworks";
+    }
+    navigate(`${_url}`);
+  };
+  React.useEffect(() => {
+    setIsPhone(() => is_phone());
+  }, []);
   return (
-    <div className="all-width view-overflow">
-      <div style={{backgroundColor:'#fcf800'}}>
-      <div className="navtar text-center ">
-        <Container >
-          <Grid container>
-            <Grid item xs={3}>
-              <Link href="/activity/" color="inherit" underline='none'>
-                <span>
-                  首页
+    <div
+      className="all-width contestcar"
+      style={{ backgroundColor: "#fcf800" }}
+    >
+      <div
+        className="navtar text-center "
+        style={{
+          width: isPhone ? "calc(100% - 0.1em)" : "calc(100% - 0.05em)",
+        }}
+      >
+        <div className="box box-align-center all-height contestcar">
+          {lists.map((v, inx) => (
+            <div className="box-flex " key={v.title}>
+              <div>
+                <span
+                  className={props.inx == inx + 1 ? "acti" : ""}
+                  style={{
+                    fontSize:
+                      isPhone && props.inx == inx + 1
+                        ? "2em"
+                        : !isPhone && props.inx == inx + 1
+                        ? "1.33em"
+                        : "inherit",
+                  }}
+                  key={v.title}
+                  data-page={v.page}
+                  data-id={inx + 1}
+                  onClick={btn_page}
+                >
+                  {v.title}
+                  <span></span>
                 </span>
-              </Link>
-            </Grid>
-            <Grid item xs={3}>
-            <Link href="/activity/about" color="inherit" underline='none'>
-              <span>关于知擎杯</span>
-              </Link>
-            </Grid>
-            <Grid item xs={3}>
-              <Link href="/activity/detail" color="inherit" underline='none'>
-                <span data-page="detail">赛事详情</span>
-              </Link>
-            </Grid>
-            <Grid item xs={3}>
-            <Link href="/activity/allworks" color="inherit" underline='none'>
-              <span>全部作品</span>
-              </Link>
-            </Grid>
-          </Grid>
-        </Container>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-     </div>
     </div>
   );
 };

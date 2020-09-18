@@ -17,7 +17,6 @@ function UpdataFile(options) {
   this.onload = null; //成功
   this.error = null; //失败
   this.onchange = null; //监听
- 
 }
 
 UpdataFile.prototype.on = function(attribute, c_b) {

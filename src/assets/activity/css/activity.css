@@ -3,7 +3,7 @@
   font-size:calc(100vw / 750/2.56 *100);
 }
 .activity{
-font-family: MicrosoftYaHei;
+font-family: MicrosoftYaHei-Bold, MicrosoftYaHei;
 color: #2C2C3B;
 }
 .activity img {
@@ -11,7 +11,8 @@ color: #2C2C3B;
   width: 100%;
   height: auto;
 }
-.activity .file:hover,.contestcaritem {
+.activity .file:hover {
+  /* ,.contestcaritem */
   cursor: pointer;
 }
 .activity p {
@@ -20,28 +21,31 @@ color: #2C2C3B;
   line-height: 1.25;
   font-family: 微软雅黑;
 }
+.activity .sort{
+  color:#4E07BA;
+  font-weight: bold;
+}
+.activity .allsort:hover{
+  cursor: pointer;
+}
 
-/* @media (max-width: 600px) {
-  .navtar {
-    font-size: 0.875rem !important;
+@media (min-width: 1260px) {
+  .activity .show-phone{
+   display: none;
   }
-} */
-/* @media (max-width: 750px) {
-  .navtar {
-    font-size: 1.5rem !important;
+  .activity .show-pc{
+    display: block;
   }
-   */
-/* } */
-/* @media (min-width: 750px) {
-  .contestCar{
-    font-size:calc(750px / 16);
+}
+@media (max-width: 1260px) {
+  .activity .show-phone{
+   display: block;
   }
-} */
-/* @media (min-width: 1280px) {
-  .navtar {
-    font-size: 1.875rem !important;
+  .activity .show-pc{
+    display: none;
   }
-} */
+}
+
 
 .activity .figure {
   position: fixed;
@@ -58,17 +62,17 @@ color: #2C2C3B;
   height: 100%;
   position: relative;
 }
-/* .activity .figure > div > div {
+.activity .figure > div > div {
   width: 59.1%;
   height: 92%; 
-   /* background:url(../img/figureBg.png) no-repeat left top; 
+   background:url(../img/figureBg.png) no-repeat left top;
   background-size: 100% 100%;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   min-width: 383px;
-} */
+}
 .activity .figure > div > div > div {
   width: 73.1%;
   height: 81%;
@@ -80,7 +84,7 @@ color: #2C2C3B;
   border-radius: 13px;
   border: 6px solid #260d4b;
   overflow: hidden;
-  /* overflow-y: auto; */
+  
   padding: 5%;
 }
 .activity .figure .head {

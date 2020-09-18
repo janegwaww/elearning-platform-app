@@ -29,7 +29,6 @@ module.exports = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-material-ui",
     "gatsby-plugin-sass",
-
     "gatsby-plugin-typescript",
     {
       resolve: "gatsby-plugin-manifest",
@@ -67,8 +66,15 @@ module.exports = {
     {
       resolve: "gatsby-plugin-create-client-paths",
       options: {
-        prefixes: [`/users/*`, `/excellentcreator/*`, `/video/*`, `/protocol/*`,`/phone/*`,`/activity/*`]
-      }
-    }
-  ]
+        prefixes: [
+          `/users/*`,
+          `/excellentcreator/*`,
+          `/video/*`,
+          `/protocol/*`,
+          `/phone/*`,
+          `/activity/*`,
+        ],
+      },
+    },
+  ],
 };

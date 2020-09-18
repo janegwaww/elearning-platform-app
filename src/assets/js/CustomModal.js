@@ -41,4 +41,36 @@ CustomModal.prototype.alert = function(option) {
   
 };
 
+CustomModal.prototype.message=function(){
+  if (arguments.length > 1) {
+    this.msg = arguments[0];
+    this.severity = arguments[1];
+    this.times = arguments[2];
+    
+  } else {
+    this.option = option;
+  }
+  if (this.severity) {
+    this.obj.className = "message " + this.severity;
+  } else {
+    this.obj.className = "message" +' error';
+  }
+
+  let _div = document.createElement("div");
+  if (this.msg&&this.severity=='success') {
+    _div.innerHTML = this.msg ;
+  }else{
+    _div.innerHTML = this.msg||'网络错误' ;
+  }
+  this.obj.appendChild(_div);
+  this.body.appendChild(this.obj);
+  // document.getElementById('close').onclick=()=>{
+  //   this.body.removeChild(this.obj);
+  // }
+  setTimeout(()=>{
+      if(!document.querySelector('.message')){return};
+      this.body.removeChild(this.obj);
+  },this.times||5000)
+}
+
 export default CustomModal;

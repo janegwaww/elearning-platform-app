@@ -1,7 +1,10 @@
-import React from 'react';
-import Footer from '../../../assets/activity/img/footer.png';
+import React from "react";
+import footer from "../../../assets/activity/img/footer.png";
 
- const Footerpage =()=>(<div>
-        <img src={Footer} alt='' className='all-width' style={{height:'auto'}} />
-        </div>)
-    export default Footerpage;
+
+const Footer = () => (
+  <div>
+    <img src={footer} alt="" />
+  </div>
+);
+export default Footer;

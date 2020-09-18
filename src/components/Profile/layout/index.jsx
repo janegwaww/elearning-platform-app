@@ -25,7 +25,7 @@ export default class MainLayout extends React.Component {
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="Pragma" content="no-cache" />
         </Helmet>
-
+        <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
         <section
           className=" bg-f9 ma-container is-vertical"
           style={{ minHeight: "100vh" }}
