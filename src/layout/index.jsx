@@ -2,6 +2,7 @@ import React from "react";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import ErrorIcon from "@material-ui/icons/Error";
 import config from "../../data/SiteConfig";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
@@ -17,7 +18,12 @@ class MainLayout extends React.Component {
     return (
       <SEO>
         <ThemeProvider theme={theme}>
-          <SnackbarProvider>
+          <SnackbarProvider
+            variant="warning"
+            className="layout-snackbar-provider"
+            iconVariant={{ warning: <ErrorIcon color="error" /> }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
             <CssBaseline />
             <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
             <NavBar />

@@ -29,6 +29,7 @@ const useStyles = makeStyles(() => ({
   secondary: {
     background: `left top / 100% 100% no-repeat url('/images/login-background-image.png')`,
     height: "100vh",
+    maxWidth: "100%",
   },
   containerRoot: {
     backgroundColor: "#fff",
@@ -57,6 +58,7 @@ const Login = () => {
       <SnackbarProvider
         variant="warning"
         classes={{ variantWarning: classes.containerRoot }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         iconVariant={{
           warning: <ErrorIcon color="error" />,
         }}

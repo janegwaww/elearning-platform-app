@@ -41,16 +41,20 @@ const VideoSearchWrap = ({ children, vid, path }) => {
     if (path) {
       setShowButton(false);
     } else {
-      enqueueSnackbar("本视频没有字幕～", { variant: "info" });
+      enqueueSnackbar("本视频没有字幕～");
     }
   };
 
   const handleInputClick = (e) => {
     e.preventDefault();
-    subtitles({ query_string: input, video_id: [vid] }).then((data) => {
-      setGridList(data);
-      !isLoggedIn() && loginConfirm();
-    });
+    if (input) {
+      subtitles({ query_string: input, video_id: [vid] }).then((data) => {
+        setGridList(data);
+        !isLoggedIn() && loginConfirm();
+      });
+    } else {
+      enqueueSnackbar("关健字不能为空！");
+    }
   };
 
   const handleEnter = (e) => {
