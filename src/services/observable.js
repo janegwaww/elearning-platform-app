@@ -1,4 +1,4 @@
-import { flow, curry, isFunction, includes, reduce } from "lodash/fp";
+import { flow, curry, isFunction, includes, reduce, toString } from "lodash/fp";
 
 const errors = [
   { code: "5001", msg: "服务器内部错误" },
@@ -29,6 +29,7 @@ const errorEvents = {
 const track = (data = {}) =>
   console.log(`err: ${data.err}, msg: ${data.errmsg}`);
 
+const toDataString = ({ err, errmsg }) => ({ err: toString(err), errmsg });
 // 传过来的错误必须含于上述的错误代码中
 const inCludesErr = (data = {}) => {
   const { err, errmsg } = data;
@@ -84,6 +85,7 @@ const trigger = (type, callback = () => ({})) => {
 };
 
 export const observer = flow(
+  toDataString,
   inCludesErr,
   defaultAction,
   actionIdNotExist,

@@ -58,6 +58,7 @@ const Login = () => {
       <SnackbarProvider
         variant="warning"
         classes={{ variantWarning: classes.containerRoot }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         iconVariant={{
           warning: <ErrorIcon color="error" />,
         }}

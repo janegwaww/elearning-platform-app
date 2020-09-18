@@ -1,0 +1,54 @@
+.layout-navbar-avatar-menu
+  display: flex
+  justify-content: center
+  align-items: center
+  text-align: center
+  width: 100%
+
+  .avatar
+    width: 30px
+    height: 30px
+    @media screen and (max-width: 960px)
+      width: 24px
+      height: 24px
+
+  .iconButton
+    padding: 0px
+
+.layout-navbar-avatar-menu-popover
+  .setIcon
+    position: absolute
+    top: 0px
+    right: 0px
+    @media screen and (max-width: 960px)
+      display: none
+
+  .person
+    display: flex
+    margin-top: 20px
+    & > a
+      display: flex
+      flex-direction: column
+      &:not(:last-child)
+        margin-right: 20px
+      & > img
+        margin-bottom: 10px
+
+  .logout
+    border-radius: 0
+
+  .link
+    color: #007cff
+    cursor: pointer
+
+  .popMenu
+    display: flex
+    flex-direction: column
+    padding: 20px
+    @media screen and (max-width: 960px)
+      display: none
+
+  .popAvatar
+    display: flex
+    align-items: center
+    margin-bottom: 20px
