@@ -57,13 +57,8 @@ const AvatarMenu = () => {
           <Avatar src={headshot} alt={name} className="avatar" />
         </IconButton>
       ) : (
-        <Link
-          href="/users/login"
-          underline="none"
-          variant="body1"
-          color="secondary"
-        >
-          <Typography noWrap component="div">
+        <Link href="/users/login" underline="none" variant="body1">
+          <Typography noWrap className="link">
             登录/注册
           </Typography>
         </Link>
