@@ -61,9 +61,11 @@ const AvatarMenu = () => {
           href="/users/login"
           underline="none"
           variant="body1"
-          className="link"
+          color="secondary"
         >
-          <Typography noWrap>登录/注册</Typography>
+          <Typography noWrap component="div">
+            登录/注册
+          </Typography>
         </Link>
       )}
 
@@ -72,7 +74,6 @@ const AvatarMenu = () => {
         anchorReference="anchorEl"
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         id={menuId}
-        keepMounted
         transformOrigin={{ vertical: "top", horizontal: "center" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
