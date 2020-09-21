@@ -11,6 +11,7 @@ import five from "../../../assets/activity/img/detail/5.png";
 import six from "../../../assets/activity/img/detail/6.png";
 import seven from "../../../assets/activity/img/detail/7.png";
 import eight from "../../../assets/activity/img/detail/8.png";
+import nine from '../../../assets/activity/img/detail/9.png'
 import ten from "../../../assets/activity/img/detail/10.png";
 import Footer from "../comments/Footer";
 import bgtop2 from "../../../assets/activity/img/bgtop2.png";
@@ -47,16 +48,16 @@ class Pagedetail extends React.Component {
     
    
     if(is_phone()){
-       window.onresize = () => {
-      this.winsize();
-    };
+    //    window.onresize = () => {
+    //   this.winsize();
+    // };
       setTimeout(()=>{
         this.setState({
           logig_status:false
         })
       },3000)
     }else{
-      this.winsize();
+      // this.winsize();
       this.setState({
         logig_status:false
       })
@@ -123,6 +124,8 @@ class Pagedetail extends React.Component {
               <BtnFile img={seven} left="62%" />
              
               <img src={eight} alt="" />
+              <img src={nine} alt="" />
+              {/** 
               <div
                 className="all-width contestcar bg-not"
                 id="contest-judges"
@@ -257,10 +260,10 @@ class Pagedetail extends React.Component {
                   </div>
                 </div>
               </div>
-
+*/}
               <img src={ten} alt="" />
             </div>
-            <Footer />
+          
 
             <div
               className="figure "
