@@ -285,42 +285,7 @@ class PageAllWorks extends React.Component {
                               }}
                             />
                           </Grid>
-                          {/**  {!is_phone()&&(
-                    <Grid item xs={12} sm={4}>
-                      <div
-                        className="box box-align-center root"
-                        style={{ fontSize: "0.12em" }}
-                      >
-                        <span>
-                          共{Math.ceil(total_counts / show_count)}页，跳至
-                        </span>
-                        <TextField
-                          variant="outlined"
-                          className="pagination"
-                          style={{ width: "3em" }}
-                          defaultValue={page_num}
-                          onChange={(ev) => {
-                            let _va = ev.target.value;
-                            if (
-                              _va &&
-                              _va <= Math.ceil(total_counts / show_count)
-                            ) {
-                              this.setState({
-                                page_num: parseInt(_va),
-                              });
-                              this.up_data(parseInt(_va), show_count);
-
-                              document.body.scrollTop = document.documentElement.scrollTop = document.getElementById(
-                                "all-works"
-                              ).offsetTop;
-                            }
-                           
-                          }}
-                        />
-                        <span>页</span>
-                      </div>
-                    </Grid>
-                    )}*/}
+                         
                         </Grid>
                       </div>
                     )}
@@ -334,13 +299,9 @@ class PageAllWorks extends React.Component {
             <LoadData />
           )}
         </div>
-       {/** {!total_data ? (
-          <div style={{ position: "fixed", bottom: 0 }}>
-            <Footer />
-          </div>
-        ) : ( */}
+      
           <Footer />
-      {/**  )} */}
+   
       </div>
     );
   }

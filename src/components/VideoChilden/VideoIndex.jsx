@@ -70,22 +70,17 @@ export default class VideoPage extends Component {
       t_w = 1000;
     }
 
-    // let scale = 880 / 1920;
-    // let num = t_w * scale;
+   
     let scale = 370 / 1080;
     let num = t_h * scale;
     let num_w = (num / 9) * 16;
-    // if(num>580){
-    //   num=580
-    // }
-    // let num_h = (num / 16) * 9;
+  
 
     getObj("max-box").style.height =
       document.documentElement.offsetHeight + "px";
 
     this.setState({
-      // video_w: num,
-      // video_h: num_h,
+    
       video_w: num_w,
       video_h: num,
       t_w: t_w,
@@ -761,7 +756,7 @@ export default class VideoPage extends Component {
                       ""
                     )}
                   </div>
-                  {/**  <div style={{ height: 20, backgroundColor: "#565663" }}></div>*/}
+              
                   <main className="box box-align-center box-between fn-size-14">
                     <div className="play-time">
                       <span className="fn-color-F2F2F5">

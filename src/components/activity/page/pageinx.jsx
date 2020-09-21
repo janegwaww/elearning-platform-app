@@ -5,14 +5,11 @@ import Two from "../../../assets/activity/img/inx/2.png";
 import Three from "../../../assets/activity/img/inx/3.png";
 import Four from "../../../assets/activity/img/inx/4.png";
 import five from "../../../assets/activity/img/inx/5.png";
-import upfile from "../../../assets/activity/img/inx/upfile.png";
 import six from "../../../assets/activity/img/inx/6.png";
-import seven from "../../../assets/activity/img/inx/7.png";
 import { is_phone } from "../../../assets/js/totls";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import PhoneInx from "./phoneinx";
 import NavTar from "../comments/NavTar";
-import Footer from '../comments/Footer';
 import BtnFile from '../comments/BtnFile';
 class Pageinx extends React.Component {
   constructor(props) {
@@ -49,11 +46,10 @@ class Pageinx extends React.Component {
             <img src={Two} alt="" />
             <img src={Three} alt="" />
             <img src={Four} alt="" />
-            <img src={five} alt="" />
-            <BtnFile img={upfile}  left="62%"/>
+           
+            <BtnFile img={five}  left="62%"/>
             <img src={six} alt=''/>
-            <img src={seven} alt=''/>
-            <Footer />
+           
            
           </div>
         )}

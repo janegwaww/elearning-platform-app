@@ -46,13 +46,7 @@ class SliderTemplate extends React.Component {
     }
     return true;
   }
-  // shouldComponentUpdate(nextProps, nextState) {
 
-  //   // console.log(nextProps, nextState);
-  //   //   console.log(getObj('mark').clientWidth)
-
-  //   return true;
-  // }
   render() {
     let _this = this;
     let lists = [];

@@ -12,7 +12,7 @@ import nine from "../../../assets/activity/img/phoneinx/9.png";
 import ten from "../../../assets/activity/img/phoneinx/10.png";
 import eleven from "../../../assets/activity/img/phoneinx/11.png";
 import twelve from "../../../assets/activity/img/phoneinx/12.png";
-import thireteen from "../../../assets/activity/img/phoneinx/13.png";
+
 
 import CustomModal from "../../../assets/js/CustomModal";
 
@@ -46,7 +46,7 @@ export default class PhoneInx extends React.Component {
         />
         <img src={eleven} alt="" />
         <img src={twelve} alt="" />
-        <img src={thireteen} alt="" />
+       
        
       </div>
     );
