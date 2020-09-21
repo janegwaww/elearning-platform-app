@@ -1,0 +1,47 @@
+.layout-navbar-avatar-menu
+  display: flex
+  justify-content: center
+  align-items: center
+  text-align: center
+  width: 100%
+
+  .avatar
+    width: 30px
+    height: 30px
+
+  .iconButton
+    padding: 0px
+
+  .link
+    color: #007cff
+    cursor: pointer
+
+.layout-navbar-avatar-menu-popover
+  .setIcon
+    position: absolute
+    top: 0px
+    right: 0px
+
+  .person
+    display: flex
+    margin-top: 20px
+    & > a
+      display: flex
+      flex-direction: column
+      &:not(:last-child)
+        margin-right: 20px
+      & > img
+        margin-bottom: 10px
+
+  .logout
+    border-radius: 0
+
+  .popMenu
+    display: flex
+    flex-direction: column
+    padding: 20px
+
+  .popAvatar
+    display: flex
+    align-items: center
+    margin-bottom: 20px

@@ -22,6 +22,7 @@ class MainLayout extends React.Component {
             variant="warning"
             className="layout-snackbar-provider"
             iconVariant={{ warning: <ErrorIcon color="error" /> }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
           >
             <CssBaseline />
             <span id="back-to-top-anchor" style={{ height: 0, width: 0 }} />
