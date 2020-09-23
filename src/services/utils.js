@@ -4,14 +4,9 @@ import { flow } from "lodash/fp";
 
 const PATH = "http://api.haetek.com:9191";
 
-// 数据流通用方法
-const pipeM = method => (...fns) => fns.reduce((f, g) => x => g(x)[method](f));
-
-// 数据流
-export const pipe = flow;
-
 // promise数据流
-export const pipeThen = pipeM("then");
+export const pipeThen = (...fns) =>
+  flow(fns.reduce((f, g) => x => g(x).then(f)));
 
 // 字符转对象
 export const strToObj = k => ({ [k]: "" });
