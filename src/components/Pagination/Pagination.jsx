@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
 import MuiPagination from "@material-ui/lab/Pagination";
-import { pipe } from "../../services/utils";
+import flow from "lodash/fp/flow";
 import "./PaginationStyles.sass";
 
 function Pagination({ fetch = () => ({}), size = 16 }, ref) {
@@ -19,7 +19,7 @@ function Pagination({ fetch = () => ({}), size = 16 }, ref) {
   const getLength = (data = []) => data.length;
 
   const handlePage = (event, page = 1) => {
-    fetch({ page }, pipe(getLength, increse(page), getCount));
+    fetch({ page }, flow(getLength, increse(page), getCount));
     setCurPage(page);
   };
 
