@@ -12,15 +12,6 @@ import { kGlobalSearchRecord } from "../../services/userActiveRecord";
 import { searchUrlParams } from "../../services/utils";
 import "./SearchStyles.sass";
 
-const iterateItems = (arr = [], input) => {
-  const card = (o, i) => (
-    <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
-      <SearchCard card={o} />
-    </div>
-  );
-  return flow(slice(0, 12), map.convert({ cap: false })(card))(arr);
-};
-
 const Search = ({ input, page = 1, type = "all" }) => {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -70,7 +61,14 @@ const Search = ({ input, page = 1, type = "all" }) => {
       <div style={{ height: 10 }} />
       <GlobalSearchBar type={type} handleTypeClick={handleTypeClick} />
       <div style={{ minHeight: "60vh" }}>
-        {iterateItems(result, input)}
+        {flow(
+          slice(0, 12),
+          map.convert({ cap: false })((o, i) => (
+            <div key={i} onClick={() => kGlobalSearchRecord({ ...o, input })}>
+              <SearchCard card={o} />
+            </div>
+          )),
+        )(result)}
         <EmptyNotice
           empty={!result.length && !loading}
           type="noResult"
