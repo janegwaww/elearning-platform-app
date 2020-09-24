@@ -10,6 +10,7 @@ color: #2C2C3B;
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 .activity .file:hover {
   /* ,.contestcaritem */
