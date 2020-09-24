@@ -1,5 +1,6 @@
 import React from "react";
-import { getIdFromHref, pipe } from "../../services/utils";
+import flow from "lodash/fp/flow";
+import { getIdFromHref } from "../../services/utils";
 
 const filterData = (name) => (data = []) => {
   const arr = [];
@@ -69,9 +70,9 @@ const withSeries = (WrapComponent, getSeriesData, seriesSearch) => {
     setSeriesState = (page, data = {}) => {
       const { type } = this.state;
       this.setState({
-        series: pipe(filterData(type), sd(page))(data.series),
-        docSeries: pipe(sd(page))(data.series),
-        seriesLength: pipe(filterData(type))(data.series).length,
+        series: flow(filterData(type), sd(page))(data.series),
+        docSeries: flow(sd(page))(data.series),
+        seriesLength: flow(filterData(type))(data.series).length,
         docSeriesLength: data.series.length,
         seriesInfo: data.info,
         loading: false,
