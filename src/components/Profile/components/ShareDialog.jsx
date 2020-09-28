@@ -20,7 +20,7 @@ import bianmiao from "../../../assets/img/bianmiao.png";
 import del from "../../../assets/img/del.png";
 import yixi from "../../../assets/img/yixi.png";
 import restbian from "../../../assets/img/restbian.png";
-import download from "../../../assets/img/download.png";
+
 
 import moveout from "../../../assets/img/moveout.png";
 
