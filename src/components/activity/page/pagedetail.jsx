@@ -47,7 +47,7 @@ class Pagedetail extends React.Component {
     });
     setTimeout(()=>{
       this.setState({
-        logig_status:false
+        login_status:false
       })
     },3000)
    
@@ -102,12 +102,12 @@ class Pagedetail extends React.Component {
       figure_data,
       figure_item,
       isPhone,
-      logig_status,
+      login_status,
     } = this.state;
 
     return (
       <div>
-      <ProgressBar loading={isPhone?logig_status:!logig_status} speed={20} />
+      <ProgressBar loading={login_status} speed={20} />
       <NavTar inx={3} />
         {isPhone ? (
           <Phonedetail />

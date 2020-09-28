@@ -98,7 +98,7 @@ export default function EditDialog(props) {
                     });
                 }}
                 color="primary"
-                className={`${classes.btn1} ${classes.root}`}
+                className={classes.btn1}
               >
                 确定
             </Button>
