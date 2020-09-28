@@ -45,37 +45,41 @@ class Pagedetail extends React.Component {
     this.setState({
       isPhone: is_phone(),
     });
-    
-   
-    if(is_phone()){
-    //    window.onresize = () => {
-    //   this.winsize();
-    // };
-      setTimeout(()=>{
-        this.setState({
-          logig_status:false
-        })
-      },3000)
-    }else{
-      // this.winsize();
+    setTimeout(()=>{
       this.setState({
         logig_status:false
       })
-    get_data(
-      {
-        model_name: "data",
-        model_action: "get_judge",
-        extra_data: {},
-        model_type: "",
-      },
-      "video"
-    ).then((res) => {
-      this.setState({
-        figure_data: res.result_data,
-        logig_status:true
-      });
-    });
-  }
+    },3000)
+   
+    // if(is_phone()){
+    //    window.onresize = () => {
+    //   this.winsize();
+    // };
+    //   setTimeout(()=>{
+    //     this.setState({
+    //       logig_status:false
+    //     })
+    //   },3000)
+    // }else{
+      // this.winsize();
+      // this.setState({
+      //   logig_status:false
+      // })
+    // get_data(
+    //   {
+    //     model_name: "data",
+    //     model_action: "get_judge",
+    //     extra_data: {},
+    //     model_type: "",
+    //   },
+    //   "video"
+    // ).then((res) => {
+    //   this.setState({
+    //     figure_data: res.result_data,
+    //     logig_status:true
+    //   });
+    // });
+  // }
   }
   componentWillUnmount() {
     window.onresize = null;
