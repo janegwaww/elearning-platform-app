@@ -3,12 +3,10 @@ import React, { useRef, useEffect, useState } from "react";
 import { withStyles, makeStyles, createStyles, StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
-import { DialogTitle } from "../../../assets/template/MuiDialogTitle";
 import userStyles from "./profileStyle";
 import { updata_img, get_data } from "../../../assets/js/request";
-import { DialogContent, DialogActions } from '../../../assets/template/MuiDialogTitle';
-// import CustomModal from "../../../../assets/js/CustomModal";
+import {DialogTitle, DialogContent, DialogActions } from '../../../assets/template/MuiDialogTitle';
+
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'c',
@@ -22,7 +20,7 @@ const DialogActionsCustom = withStyles(theme => ({
 }))(DialogActions);
 
 export default function EditDialog(props) {
-  const classes = userStyles();
+  const classes = userStyles(props);
 
   const { children } = props;
   const [open, setOpen] = useState(false);
@@ -39,6 +37,7 @@ export default function EditDialog(props) {
 
   return (
     <div>
+       <StylesProvider generateClassName={generateClassName}>
       <div onClick={handleClickOpen}>
         {props.icon_img ? (
           <div className="text-center">
@@ -81,9 +80,9 @@ export default function EditDialog(props) {
           />
         </DialogContent>
         {props.btn != "no_show" && (
-          <StylesProvider generateClassName={generateClassName}>
+         
             < DialogActionsCustom >
-            <StylesProvider generateClassName={generateClassName}>
+            
               <Button
                 disabled={props._disabled ? true : false}
                 onClick={(evt) => {
@@ -102,7 +101,7 @@ export default function EditDialog(props) {
               >
                 确定
             </Button>
-            </StylesProvider>
+            
               {!props.notconcel && (
                 <Button
                   onClick={(e) => {
@@ -121,9 +120,10 @@ export default function EditDialog(props) {
                 </Button>
               )}
             </DialogActionsCustom>
-          </StylesProvider>
+         
         )}
       </Dialog>
+      </StylesProvider>
     </div >
   );
 }
