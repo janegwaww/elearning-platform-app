@@ -131,3 +131,10 @@ export const settings_html = () => {
     document.querySelector("html").style.fontSize = 16 + "px";
   }
 };
+export const empty_content =(num)=>{
+  let list = [];
+  for(let i=0;i<num;i++){
+    list.push(i);
+  }
+  return list;
+}
