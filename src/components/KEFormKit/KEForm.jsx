@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { navigate } from "gatsby";
+import { navigate } from "@reach/router";
 import Grid from "@material-ui/core/Grid";
 import { useSnackbar } from "notistack";
 import useStyles from "./KEFormStyle";

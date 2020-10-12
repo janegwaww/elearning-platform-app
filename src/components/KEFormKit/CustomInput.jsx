@@ -8,11 +8,11 @@ import {
   InputLabel,
   IconButton,
   FormHelperText,
-  Divider
+  Divider,
 } from "@material-ui/core";
 import useStyles from "./CustomInputStyle";
 
-const CustomInput = props => {
+const CustomInput = (props) => {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState("");
   const [timer, setTimer] = useState(0);
@@ -22,16 +22,20 @@ const CustomInput = props => {
     form: { touched, errors, setFieldValue, setFieldTouched, values },
     type,
     label,
-    onSend
+    onSend,
   } = props;
 
   useEffect(() => {
+    let setTimeoutId;
     if (timer > 0) {
-      setTimeout(() => setTimer(timer - 1), 1000);
+      setTimeoutId = setTimeout(() => setTimer(timer - 1), 1000);
     }
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
   }, [timer]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { value } = event.target;
     setInputValue(value);
     setFieldValue(name, value);
