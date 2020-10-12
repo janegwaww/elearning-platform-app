@@ -37,6 +37,7 @@
   top: -3px;
   height: auto;
   border:1px solid rgba(0, 0, 0, 0.23);
+  width:auto;
 }
 .up-text .root .MuiOutlinedInput-input, .root .MuiOutlinedInput-input{
     padding: 8px 6px;
