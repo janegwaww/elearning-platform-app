@@ -82,8 +82,8 @@ const userStyles = makeStyles((theme) => ({
     padding :'10px 20px',
     border:'1px solid #F2F2F5',
     borderRadius:6,
-    resize: 'none'
-  
+    resize: 'none',
+  width:'100%'
 
   }
 

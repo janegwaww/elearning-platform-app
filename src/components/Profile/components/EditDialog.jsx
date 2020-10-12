@@ -1,34 +1,27 @@
 //编辑系列 编辑描述
 import React, { useRef, useEffect, useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles, createStyles, StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-
-import { DialogTitle } from "../../../assets/template/MuiDialogTitle";
 import userStyles from "./profileStyle";
 import { updata_img, get_data } from "../../../assets/js/request";
+import {DialogTitle, DialogContent, DialogActions } from '../../../assets/template/MuiDialogTitle';
 
-// import CustomModal from "../../../../assets/js/CustomModal";
 
-const DialogContent = withStyles((theme) => ({
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'c',
+  seed: 't'
+});
+
+const DialogActionsCustom = withStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
+    justifyContent: 'center'
   },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    justifyContent: "center",
-  },
-}))(MuiDialogActions);
+}))(DialogActions);
 
 export default function EditDialog(props) {
-  const classes = userStyles();
+  const classes = userStyles(props);
+
   const { children } = props;
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -38,12 +31,13 @@ export default function EditDialog(props) {
     e.preventDefault();
     e.stopPropagation();
     // setTimeout(() => {
-      setOpen(false);
+    setOpen(false);
     // }, 50);
   };
 
   return (
     <div>
+       <StylesProvider generateClassName={generateClassName}>
       <div onClick={handleClickOpen}>
         {props.icon_img ? (
           <div className="text-center">
@@ -54,11 +48,11 @@ export default function EditDialog(props) {
       </div>
       <Dialog
         onClose={handleClose}
-       
+
         open={open}
         className={classes.dialog}
       >
-        <DialogTitle  onClose={handleClose}>
+        <DialogTitle onClose={handleClose}>
           {props._type == "del" ? "温馨提示" : props.title}
         </DialogTitle>
         <DialogContent
@@ -86,45 +80,51 @@ export default function EditDialog(props) {
           />
         </DialogContent>
         {props.btn != "no_show" && (
-          <DialogActions>
-            <Button
-              disabled={props._disabled ? true : false}
-              onClick={(evt) => {
-                evt.preventDefault();
-                evt.stopPropagation();
-
-                handleClose(evt);
-                props.onEvent &&
-                  props.onEvent({
-                    confirm: true,
-                    cancel: false,
-                  });
-              }}
-              color="primary"
-              className={classes.btn1}
-            >
-              确定
-            </Button>
-            {!props.notconcel && (
+         
+            < DialogActionsCustom >
+            
               <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleClose(e);
+                disabled={props._disabled ? true : false}
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  evt.stopPropagation();
+
+                  handleClose(evt);
                   props.onEvent &&
                     props.onEvent({
-                      confirm: false,
-                      cancel: true,
+                      confirm: true,
+                      cancel: false,
                     });
                 }}
-                className={`${classes.btn1} ${classes.btn2}`}
+                color="primary"
+                className={classes.btn1}
               >
-                取消
-              </Button>
-            )}
-          </DialogActions>
+                确定
+            </Button>
+            
+              {!props.notconcel && (
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleClose(e);
+                    props.onEvent &&
+                      props.onEvent({
+                        confirm: false,
+                        cancel: true,
+                      });
+                  }}
+                  className={`${classes.btn1} ${classes.btn2} `}
+                >
+                  取消
+                </Button>
+              )}
+            </DialogActionsCustom>
+         
         )}
       </Dialog>
-    </div>
+      </StylesProvider>
+    </div >
   );
 }
+

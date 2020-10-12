@@ -1,13 +1,12 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import Footer from "../comments/Footer";
-import Bgimg from "../../../assets/activity/img/bg.png";
 
 import lefttop from "../../../assets/activity/img/all/lefttop.png";
 import leftbottom from "../../../assets/activity/img/all/leftbottom.png";
 import righttop from "../../../assets/activity/img/all/righttop.png";
 import rightbottom from "../../../assets/activity/img/all/rightbottom.png";
-import TextField from "@material-ui/core/TextField";
+
 import WordsCar from "../comments/WorksCar";
 import Pagination from "@material-ui/lab/Pagination";
 import { get_data } from "../../../assets/js/request";
@@ -22,8 +21,8 @@ class PageAllWorks extends React.Component {
     super(props);
     this.state = {
       contest_w: 0,
-      total_data: null,
-      show_data: null,
+      total_data: new Array(12),
+      show_data: new Array(12),
       total_counts: 0,
       page_num: 1,
       show_count: 12,
@@ -70,6 +69,7 @@ class PageAllWorks extends React.Component {
       },
       "video"
     ).then((res) => {
+    
       if (res.result_data.length > 0) {
         this.setState({
           total_data: res.result_data,
@@ -110,7 +110,14 @@ class PageAllWorks extends React.Component {
       sort,
       styles,
     } = this.state;
-    console.log(contest_w)
+  
+    if (show_data && !show_data[0]) {
+      for (let i = 0; i < show_data.length; i++) {
+        show_data[i]=i
+      }
+
+    }
+    console.log(show_data)
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={15} />
@@ -244,6 +251,7 @@ class PageAllWorks extends React.Component {
                       </div>
                     </div>
                     <Grid container spacing={is_phone() ? 2 : 3}>
+
                       {show_data &&
                         show_data.map((op, inx) => (
                           <Grid
@@ -251,9 +259,9 @@ class PageAllWorks extends React.Component {
                             xs={6}
                             sm={4}
                             md={3}
-                            key={op.file_id || op.video_id}
+                            key={op.file_id || op.video_id||op}
                           >
-                            <WordsCar info={op} sort={sort} />
+                            <WordsCar info={typeof op=='number'?'':op} sort={sort} />
                           </Grid>
                         ))}
                     </Grid>
@@ -285,23 +293,23 @@ class PageAllWorks extends React.Component {
                               }}
                             />
                           </Grid>
-                         
+
                         </Grid>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <NotData src={notimg} content="暂无数据记录" />
-                )}
+                    <NotData src={notimg} content="暂无数据记录" />
+                  )}
               </div>
             </div>
           ) : (
-            <LoadData />
-          )}
+              <LoadData />
+            )}
         </div>
-      
-          <Footer />
-   
+
+        <Footer />
+
       </div>
     );
   }
