@@ -8,7 +8,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import {DialogTitle} from './MuiDialogTitle';
 
 import userStyles from "../../components/Profile/components/profileStyle";
-
+import  "../../components/Profile/components/profileStyle.css";
 import '../css/cropper.css';
 
 
@@ -48,7 +48,7 @@ export default function CustomizedDialogs(props) {
           onClose={handleClose}
         
           open={props.open}
-          className={`${classes.dialog} fn-size-14 `}
+          className='dialog fn-size-14'
         >
           <DialogTitle className='text-center' onClose={handleClose}>
             {props.title}
