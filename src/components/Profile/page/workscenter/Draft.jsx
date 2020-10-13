@@ -1,5 +1,6 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
+import  {empty_content} from '../../../../assets/js/totls';
 import SeriesItem from "../../components/SeriesItem";
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
@@ -12,8 +13,8 @@ export default class Draft extends React.Component {
     this.state = {
       page_type: "Draft",
       total_counts: 0,
-      total_data: null,
-      show_data: null,
+      total_data: new Array(10),
+      show_data: empty_content(10),
       show_counts: 10,
       show_page: 0,
       login_status: false,
@@ -40,6 +41,7 @@ export default class Draft extends React.Component {
         type: "draft",
       },
     }).then((res) => {
+     
       if (res.err == 0 && res.result_data.length > 0) {
         let _data = res.result_data;
         this.setState({
@@ -74,7 +76,7 @@ export default class Draft extends React.Component {
       login_status,
       ...other
     } = this.state;
-
+   
     return (
       <div>
         <ProgressBar loading={login_status} />
@@ -83,9 +85,9 @@ export default class Draft extends React.Component {
             {show_data ? (
               show_data.map((option, inx) => (
                 <SeriesItem
-                  key={option.video_id||option.file_id}
+                  key={option.video_id||option.file_id||option}
                   parent={this}
-                  info={option}
+                  info={typeof option=='number'||typeof option=='string'?'':option}
                   series="draft"
                 />
               ))

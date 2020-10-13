@@ -20,7 +20,7 @@ class ProfileIndex extends React.Component {
     this.state = {
       // userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
-      works_video: null, //作品数据
+      works_video: empty_content(2), //作品数据
       works_series: null, //系列数据
       works_draft: null, //草稿数据
       history_data: empty_content(4), //历史数据
@@ -337,12 +337,13 @@ class ProfileIndex extends React.Component {
           <div>
             {video_type == "video" && (
               <div>
+                
                 {works_video && works_video.length > 0 ? (
                   works_video.map((option) => (
                     <SeriesItem
                       parent={this}
-                      info={option}
-                      key={option.video_id}
+                      info={typeof option=='number'||typeof option=='string'?'':option}
+                      key={option.video_id||option}
                       series={video_type}
                     />
                   ))

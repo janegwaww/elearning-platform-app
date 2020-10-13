@@ -1,7 +1,7 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
 import SeriesItem from "../../components/SeriesItem";
-
+import  {empty_content} from '../../../../assets/js/totls';
 import ProgressBar from "../../../../assets/template/ProgressBar";
 import Pagination from "@material-ui/lab/Pagination";
 import notvideo from "../../../../assets/img/notvideo.png";
@@ -13,8 +13,8 @@ export default class Video extends React.Component {
     this.state = {
       page_type: "video",
       total_counts: 0,
-      total_data: null,
-      show_data: null,
+      total_data: new Array(10),
+      show_data: empty_content(10),
       show_counts: 10,
       show_page: 0,
       login_status: false,
@@ -84,9 +84,9 @@ export default class Video extends React.Component {
             {show_data ? (
               show_data.map((option, inx) => (
                 <SeriesItem
-                  key={option.video_id}
+                  key={option.video_id||option}
                   parent={this}
-                  info={option}
+                  info={typeof option=='string'||typeof option=='number'?'':option}
                   series="video"
                 />
               ))
