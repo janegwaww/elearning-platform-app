@@ -220,7 +220,7 @@ class ProfileIndex extends React.Component {
           >
             <div className="box-flex bg-EDF6FF all-height">
               <p className="zero-edges">视频播放量</p>
-              <p className="r-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.view_counts) ||
                   0}
               </p>
@@ -251,7 +251,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData &&
                   _this.state.userData.collections_counts) ||
                   0}
