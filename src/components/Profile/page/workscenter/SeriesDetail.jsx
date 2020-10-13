@@ -11,6 +11,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import LoadData from "../../components/LoadData";
 import notdata from "../../../../assets/img/notdata.png";
 import Nda from "../../components/NotData";
+import { empty_content } from "../../../../assets/js/totls";
+import { type } from "jquery";
 const NenButton = withStyles({
   root: {
     backgroundColor: "#007CFF",
@@ -30,11 +32,11 @@ export default class SeriesDetail extends React.Component {
     this.state = {
       page_type: "series_detail",
       is_load: false,
-      serise_data: null,
+      serise_data: {nullHtml:'not'},
       serise_id: "",
       total_counts: 0,
       total_data: null,
-      show_data: null,
+      show_data: empty_content(8),
       show_counts: 8,
       show_page: 0,
       item_h: 0,
@@ -69,9 +71,10 @@ export default class SeriesDetail extends React.Component {
       },
     })
       .then((res) => {
+        
         if (res.err == 0 && res.result_data.length > 0) {
           let _data = res.result_data[0];
-
+          
           setTimeout(() => {
             this.setState({
               serise_data: _data,
@@ -86,7 +89,7 @@ export default class SeriesDetail extends React.Component {
             this.wind_size();
           }, 300);
         } else {
-          new CustomModal().alert("获取详情数据失败", "error", 3000);
+          new CustomModal().alert("获取详情数据失败", "error");
           this.setState({
             serise_data: {}
           });
@@ -101,7 +104,7 @@ export default class SeriesDetail extends React.Component {
           login_status: false,
           
         });
-        new CustomModal().alert("获取详情数据失败，网络出错", "error", 3000);
+        new CustomModal().alert("获取详情数据失败，网络出错", "error");
       });
   }
   wind_size(e) {
@@ -137,7 +140,7 @@ export default class SeriesDetail extends React.Component {
       item_h,
       ...other
     } = this.state;
-
+    console.log( serise_data)
     return (
       <div>
         <ProgressBar loading={login_status} />
@@ -148,18 +151,19 @@ export default class SeriesDetail extends React.Component {
               <div className="all-width">
                 <SeriesItem
                   parent={this}
-                  info={serise_data}
+                  info={serise_data.nullHtml=='not'?null:serise_data}
                   series="series_detail"
                   _id={serise_id}
                 />
+              
                 <Grid container className="grid">
                   {show_data &&
                     show_data.map((option, inx) => (
-                      <Grid item xs={3} key={option.video_id}>
+                      <Grid item xs={3} key={option.video_id||option}>
                         <WorksItem
                           parent={this}
                           inx={inx}
-                          info={option}
+                          info={typeof option=='number'||typeof option=='string'?'':option}
                           history="3"
                           _h={item_h}
                           _id={serise_id}
@@ -167,6 +171,7 @@ export default class SeriesDetail extends React.Component {
                       </Grid>
                     ))}
                 </Grid>
+                
               </div>
             ) : (
               <div className="profile-top all-width all-height view-overflow text-center">

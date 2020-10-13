@@ -189,7 +189,7 @@ export const ShareDialog = (props) => {
                 _input.value = _url;
                 _input.select(); // 选中文本
                 document.execCommand("copy"); // 执行浏览器复制命令
-                new CustomModal().alert("复制成功", "success", 3000);
+                new CustomModal().alert("复制成功", "success");
               }}
             >
               复制地址
@@ -289,14 +289,14 @@ export const SericesMenu = (props) => {
 
                 get_data(_data).then((data) => {
                   if (data.err == 0) {
-                    new CustomModal().alert(data.errmsg, "success", 5000);
+                    new CustomModal().alert(data.errmsg, "success", 2000);
                     // if(props._type=='series'){
                     //   props.parent.update_data('series');
                     // }else{
                     props.parent.update_data(props.info.series_id);
                     // }
                   } else {
-                    new CustomModal().alert("修改失败", "error", 5000);
+                    new CustomModal().alert("修改失败", "error", 2000);
                   }
                 });
               }
@@ -417,12 +417,12 @@ export const SericesMenu = (props) => {
                     },
                   }).then((res) => {
                     if (res.err === 0) {
-                      new CustomModal().alert("更改成功", "success", 3000);
+                      new CustomModal().alert("更改成功", "success");
                       if (props._id) {
                         props.parent.update_data(props._id);
                       }
                     } else {
-                      new CustomModal().alert(res.errmsg, "error", 3000);
+                      new CustomModal().alert(res.errmsg, "error", 2000);
                     }
                   });
                 }
@@ -600,10 +600,10 @@ export const VideoMenu = (props) => {
                     // if(props._type=='series_detail'){
                     props.parent.update_data(props._id);
                     // }
-                    new CustomModal().alert(res.errmsg, "success", 3000);
+                    new CustomModal().alert(res.errmsg, "success");
                     return;
                   }
-                  new CustomModal().alert(res.errmsg, "error", 3000);
+                  new CustomModal().alert(res.errmsg, "error");
                 });
               }
             }}
@@ -746,7 +746,7 @@ export const VideoMenu = (props) => {
                   },
                 }).then((res) => {
                   if (res.err == 0 && res.errmsg == "OK") {
-                    new CustomModal().alert("移动成功", "success", 3000);
+                    new CustomModal().alert("移动成功", "success", 2000);
                     props.parent.update_data("video");
                   }
                 });
@@ -863,7 +863,7 @@ export const VideoMenu = (props) => {
                     },
                   }).then((res) => {
                     if (res.err == 0 && res.errmsg == "OK") {
-                      new CustomModal().alert("移出成功", "success", 3000);
+                      new CustomModal().alert("移出成功", "success");
                       props.parent.update_data(props._id);
                     }
                   });
@@ -895,7 +895,7 @@ export const VideoMenu = (props) => {
                   },
                 }).then((res) => {
                   if (res.err === 0) {
-                    new CustomModal().alert("删除成功", "success", 5000);
+                    new CustomModal().alert("删除成功", "success");
                     // if(props._type=='video'){
                     //   props.parent.update_data('video')
                     // }
@@ -1005,7 +1005,7 @@ export const DocMenu = (props) => {
                   },
                 }).then((res) => {
                   if (res.err === 0) {
-                    new CustomModal().alert("删除成功", "success", 5000);
+                    new CustomModal().alert("删除成功", "success");
                     props.parent.update_data(props._id);
               
                   }

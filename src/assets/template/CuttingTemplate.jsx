@@ -159,7 +159,7 @@ function CuttingTemplate(props) {
           if(!props.isClick){
             getObj(props.id).click();
           }else{
-            new CustomModal().alert('亲！请先添加文件/文档哦','error',3000);
+            new CustomModal().alert('亲！请先添加文件/文档哦','error');
            
           }
           
@@ -205,7 +205,7 @@ function CuttingTemplate(props) {
                   setTemporaryurl("");
                   setfiles(null);
                 } else {
-                  new CustomModal().alert('上传失败','error',3000);
+                  new CustomModal().alert('上传失败','error');
                 }
               });
             }}

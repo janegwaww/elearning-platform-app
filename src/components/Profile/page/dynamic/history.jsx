@@ -1,5 +1,6 @@
 import React from "react";
 import { get_data } from "../../../../assets/js/request";
+import { empty_content} from '../../../../assets/js/totls';
 import WorksItem from "../../components/WorksItem";
 import NotData from '../../components/NotData';
 import ProgressBar from "../../../../assets/template/ProgressBar";
@@ -14,8 +15,8 @@ export default class History extends React.Component {
     this.state = {
       page_type: "history",
       total_counts: 0,
-      total_data: null,
-      show_data: null,
+      total_data: new Array(12),
+      show_data: empty_content(12),
       show_counts: 12,
       show_page: 0,
       login_status: false,
@@ -99,10 +100,11 @@ export default class History extends React.Component {
           <Grid container spacing={4} className="grid">
             {show_data ? (
               show_data.map((option) => (
-                <Grid item xs={6} sm={4} md={3} key={option.video_id || option.series_id}>
+                <Grid item xs={6} sm={4} md={3} key={option.video_id || option.series_id||option}>
                   <WorksItem
                     parent={this}
-                    info={option}
+                 
+                    info={typeof option=='number'||typeof option=='string'?"":option}
                     history={2}
                     _h={this.state.item_h}
                   />

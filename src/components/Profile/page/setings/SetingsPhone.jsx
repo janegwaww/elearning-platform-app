@@ -29,11 +29,11 @@ const SetingsPhone = (props) => {
       _phone = userInfo.mobile;
     }
     if (!_phone || _phone.length != 11) {
-      new CustomModal().alert("输入合法的手机号", "error", 3000);
+      new CustomModal().alert("输入合法的手机号", "error");
       return;
     }
     if (!_code || _code.length != 4) {
-      new CustomModal().alert("输入合法的验证码", "error", 3000);
+      new CustomModal().alert("输入合法的验证码", "error");
       return;
     }
     if (activeStep === 1) {
@@ -64,10 +64,10 @@ const SetingsPhone = (props) => {
         if (activeStep === 1) {
           setToken(res.result_data[0].token);
           setCountdown(0);
-          new CustomModal().alert("身份验证成功", "success", 3000);
+          new CustomModal().alert("身份验证成功", "success");
         }
         if (activeStep === 2) {
-          new CustomModal().alert("绑定手机成功", "success", 3000);
+          new CustomModal().alert("绑定手机成功", "success");
           userInfo.mobile = bindPhone;
           sessionStorage.setItem("user_info", JSON.stringify(userInfo));
           setCountdown(0);
@@ -88,7 +88,7 @@ const SetingsPhone = (props) => {
           }
         }, 2000);
       } else {
-        new CustomModal().alert(res.errmsg, "error", 3000);
+        new CustomModal().alert(res.errmsg, "error");
       }
     });
   };
@@ -116,8 +116,7 @@ const SetingsPhone = (props) => {
       if (_phone != userInfo.mobile) {
         new CustomModal().alert(
           "输入的手机号与原来的手机号不一至，请重新输入",
-          "error",
-          3000
+          "error"
         );
         return;
       }
@@ -138,15 +137,14 @@ const SetingsPhone = (props) => {
       if (res.err === 0) {
         new CustomModal().alert(
           "请留意手机，验证码60秒内有效",
-          "success",
-          3000
+          "success"
         );
         setCountdown(60);
         timeRef.current = setTimeout(() => {
           time_remaining();
         }, 1000);
       } else {
-        new CustomModal().alert(res.errmsg || "获取验证码失败", "error", 3000);
+        new CustomModal().alert(res.errmsg || "获取验证码失败", "error");
       }
     });
   };

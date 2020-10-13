@@ -5,7 +5,6 @@ const _ = require("lodash");
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const simplePages = require("./src/components/Simple/helmetInfo.json");
-
   simplePages.forEach((item, i) => {
     createPage({
       path: `/seopages/simple${i}`,
@@ -13,32 +12,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: { item },
     });
   });
-};
-exports.onCreateWebpackConfig = ({ config, stage }) => {
-  if (stage === 'build-javascript') {
-      const timestamp = Date.now();
-      config.merge({
-          devtool: false,
-          output: {
-              filename: `name-${timestamp}-[chunkhash].js`,
-              chunkFilename: `name-${timestamp}-[chunkhash].js`
-          }
-      });
-  }
-  return config;
-};
-exports.onCreateWebpackConfig = ({ config, stage }) => {
-  if (stage === "build-javascript") {
-    const timestamp = Date.now();
-    config.merge({
-      devtool: false,
-      output: {
-        filename: `name-${timestamp}-[chunkhash].js`,
-        chunkFilename: `name-${timestamp}-[chunkhash].js`,
-      },
-    });
-  }
-  return config;
 };
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {

@@ -12,8 +12,7 @@ CustomModal.prototype.alert = function(option) {
   if (arguments.length > 1) {
     this.msg = arguments[0];
     this.severity = arguments[1];
-    this.times = arguments[2];
-    
+    this.times = arguments[2];    
   } else {
     this.option = option;
   }
@@ -37,7 +36,7 @@ CustomModal.prototype.alert = function(option) {
   setTimeout(()=>{
       if(!document.querySelector('.alert')){return};
       this.body.removeChild(this.obj);
-  },this.times||5000)
+  },this.times||1500)
   
 };
 
@@ -70,7 +69,7 @@ CustomModal.prototype.message=function(){
   setTimeout(()=>{
       if(!document.querySelector('.message')){return};
       this.body.removeChild(this.obj);
-  },this.times||5000)
+  },this.times||1500)
 }
 
 export default CustomModal;

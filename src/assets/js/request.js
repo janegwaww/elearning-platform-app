@@ -98,9 +98,9 @@ export const updata_img = function(_file, _type) {
     get_data(_form)
       .then((res) => {
         if (res.err == 0 && res.errmsg == "OK") {
-          new CustomModal().alert("上传成功", "success", 3000);
+          new CustomModal().alert("上传成功", "success");
         } else {
-          new CustomModal().alert("上传失败", "error", 3000);
+          new CustomModal().alert("上传失败", "error");
         }
         resolve(res);
         // new CustomModal().alert('上传成功','success',3000)

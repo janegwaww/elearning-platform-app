@@ -10,19 +10,21 @@ import rightbottom from "../../../assets/activity/img/all/rightbottom.png";
 import WordsCar from "../comments/WorksCar";
 import Pagination from "@material-ui/lab/Pagination";
 import { get_data } from "../../../assets/js/request";
+import { empty_content} from "../../../assets/js/totls";
 import { is_phone } from "../../../assets/js/totls";
 import ProgressBar from "../../../assets/template/ProgressBar";
 import NavTar from "../comments/NavTar";
 import LoadData from "../../Profile/components/LoadData";
 import NotData from "../../Profile/components/NotData";
 import notimg from "../../../../static/images/no-result.svg";
+
 class PageAllWorks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       contest_w: 0,
       total_data: new Array(12),
-      show_data: new Array(12),
+      show_data: empty_content(12),
       total_counts: 0,
       page_num: 1,
       show_count: 12,
@@ -111,13 +113,7 @@ class PageAllWorks extends React.Component {
       styles,
     } = this.state;
   
-    if (show_data && !show_data[0]) {
-      for (let i = 0; i < show_data.length; i++) {
-        show_data[i]=i
-      }
-
-    }
-    console.log(show_data)
+   
     return (
       <div>
         <ProgressBar loading={this.state.login_status} speed={15} />
@@ -261,7 +257,7 @@ class PageAllWorks extends React.Component {
                             md={3}
                             key={op.file_id || op.video_id||op}
                           >
-                            <WordsCar info={typeof op=='number'?'':op} sort={sort} />
+                            <WordsCar info={typeof op=='number'||typeof op=='string'?'':op} sort={sort} />
                           </Grid>
                         ))}
                     </Grid>

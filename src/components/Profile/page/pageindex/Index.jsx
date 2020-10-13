@@ -5,6 +5,7 @@ import { Navbar, Nav } from "../../components/ProfileNav";
 import SeriesItem from "../../components/SeriesItem";
 import WorksItem from "../../components/WorksItem";
 import { get_data } from "../../../../assets/js/request";
+import {empty_content} from '../../../../assets/js/totls';
 import { getUser, isLoggedIn } from "../../../../services/auth";
 import { navigate } from "@reach/router";
 import NotData from '../../components/NotData';
@@ -19,11 +20,11 @@ class ProfileIndex extends React.Component {
     this.state = {
       // userInfo: props.parent.state.userinfo, //用户信息
       userData: null, //用户数据
-      works_video: null, //作品数据
+      works_video: empty_content(2), //作品数据
       works_series: null, //系列数据
       works_draft: null, //草稿数据
-      history_data: null, //历史数据
-      collection_data: null, //收藏数据
+      history_data: empty_content(4), //历史数据
+      collection_data: empty_content(4), //收藏数据
       document_data: null, //文本数据数据
       document_series: null, //系列文本数据
       video_type: "video", //系列与普通/草稿
@@ -82,7 +83,7 @@ class ProfileIndex extends React.Component {
 
       if (res.err === 0) {
         let _data = res.result_data[0];
-        
+    
         this.setState({
           userData: _data,
           works_video: _data.video,
@@ -219,7 +220,7 @@ class ProfileIndex extends React.Component {
           >
             <div className="box-flex bg-EDF6FF all-height">
               <p className="zero-edges">视频播放量</p>
-              <p className="r-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData && _this.state.userData.view_counts) ||
                   0}
               </p>
@@ -250,7 +251,7 @@ class ProfileIndex extends React.Component {
             </div>
             <div className="box-flex bg-EDF6FF">
               <p className="zero-edges">收藏数</p>
-              <p className="fn-size-20 fn-color-007CFF">
+              <p className="fn-f-20 fn-color-007CFF">
                 {(_this.state.userData &&
                   _this.state.userData.collections_counts) ||
                   0}
@@ -336,12 +337,13 @@ class ProfileIndex extends React.Component {
           <div>
             {video_type == "video" && (
               <div>
+                
                 {works_video && works_video.length > 0 ? (
                   works_video.map((option) => (
                     <SeriesItem
                       parent={this}
-                      info={option}
-                      key={option.video_id}
+                      info={typeof option=='number'||typeof option=='string'?'':option}
+                      key={option.video_id||option}
                       series={video_type}
                     />
                   ))
@@ -433,7 +435,7 @@ class ProfileIndex extends React.Component {
                 list={["我的收藏", "历史记录"]}
                 _inx={page_type - 1}
                 onEvent={(num) => {
-                  console.log(num);
+                  
                   this.setState({
                     page_type: num,
                   });
@@ -466,10 +468,10 @@ class ProfileIndex extends React.Component {
             <Grid container spacing={4} className="grid">
               {collection_data && collection_data.length > 0 ? (
                 collection_data.map((option) => (
-                  <Grid item xs={3} key={option.video_id || option.series_id}>
+                  <Grid item xs={3} key={option.video_id || option.series_id||option}>
                     <WorksItem
                       parent={this}
-                      info={option}
+                      info={typeof option=='number'||typeof option=='string'?"":option}
                       history={page_type}
                       _h={this.state.item_h}
                     />
@@ -485,10 +487,10 @@ class ProfileIndex extends React.Component {
             <Grid container spacing={4} className="grid">
               {history_data && history_data.length > 0 ? (
                 history_data.map((option) => (
-                  <Grid item xs={3} key={option.video_id || option.series_id}>
+                  <Grid item xs={3} key={option.video_id || option.series_id||option}>
                     <WorksItem
                       parent={this}
-                      info={option}
+                      info={typeof option=='number'||typeof option=='string'?"":option}
                       history={page_type}
                       _h={this.state.item_h}
                     />

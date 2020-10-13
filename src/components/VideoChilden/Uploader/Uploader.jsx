@@ -239,8 +239,7 @@ export default class UploadVideos extends Component {
         } else {
           new CustomModal().alert(
             "获取资源失败，请尝试刷新重新获取",
-            "error",
-            4000
+            "error"
           );
         }
         // console.log(res);
@@ -589,7 +588,7 @@ export default class UploadVideos extends Component {
       })
       .catch((err) => {
         this.setState({ status: 3 });
-        new CustomModal().alert("生成字幕失败", "error", 4000);
+        new CustomModal().alert("生成字幕失败", "error");
         // console.log(err);
       });
   }
@@ -1020,7 +1019,7 @@ export default class UploadVideos extends Component {
               color="primary"
               onClick={() => {
                 if (!this.state.lang_value) {
-                  new CustomModal().alert("请选择视频的源语言", "error", 3000);
+                  new CustomModal().alert("请选择视频的源语言", "error");
                   return;
                 }
                 this.props.parent.show_edit();

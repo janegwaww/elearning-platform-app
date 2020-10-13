@@ -54,7 +54,7 @@ class Phonedetail extends React.Component {
           <img src={six} alt="" />
           <img src={seven} alt="" />
           <img src={eight} alt="" onClick={() => {
-            new CustomModal().message("此操作请在pc端打开", "error", 3000);
+            new CustomModal().message("此操作请在pc端打开", "error",2000);
           }} />
           <img src={nine} alt="" />
           <img src={ten} alt="" />
