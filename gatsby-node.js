@@ -54,9 +54,6 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
       },
     });
   }
-};
-
-exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     devServer: {
       watchOptions: {
