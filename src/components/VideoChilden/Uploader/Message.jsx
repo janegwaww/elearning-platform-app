@@ -89,7 +89,7 @@ const Message = (props) => {
                         is_del:false
                       });
                       props.parent.props.parent.video_live.load();
-                    new CustomModal().alert('删除成功！','success',3000)
+                    new CustomModal().alert('删除成功！','success')
                     // setOpen(true);
                   });
                   return;

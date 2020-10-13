@@ -44,7 +44,7 @@ export default class Banner extends React.Component {
           className="all-width"
           style={{ height: "auto" }}
           onClick={()=>{
-           new CustomModal().message('此操作请在pc端打开','error',3000);
+           new CustomModal().message('此操作请在pc端打开','error');
           }}
         /><img
         src={phoneImg3}

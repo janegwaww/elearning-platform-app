@@ -347,19 +347,18 @@ const Basic = (props) => {
                   },
                   model_type: "",
                 };
-
                 get_data(_data).then((res) => {
                   if (res.err == 0) {
                     let _head = JSON.parse(localStorage.getItem("haetekUser"));
                     _head.headshot = res.result_data[0].headshot;
                     _head.name = res.result_data[0].name;
                     localStorage.setItem("haetekUser", JSON.stringify(_head));
-                    new CustomModal().alert(res.errmsg + "!", "success", 3000);
+                    new CustomModal().alert(res.errmsg + "!", "success");
                     setTimeout(() => {
                       navigate(`/users?url=/users/profile/settings`);
                     }, 3000);
                   } else {
-                    new CustomModal().alert("修改失败!", "error", 3000);
+                    new CustomModal().alert("修改失败!", "error");
                   }
                 });
               }}

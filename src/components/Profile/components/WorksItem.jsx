@@ -197,8 +197,7 @@ const WorksItem = (props) => {
                           if (res.err == 0 && res.errmsg == "OK") {
                             new CustomModal().alert(
                               "取消收藏成功",
-                              "success",
-                              3000
+                              "success"
                             );
                             if (props.parent.state.userCollection) {
                               get_data({
@@ -344,7 +343,7 @@ const WorksItem = (props) => {
                     },
                   }).then((res) => {
                     if (res.err == 0 && res.errmsg == "OK") {
-                      new CustomModal().alert("删除历史成功", "srccess", 5000);
+                      new CustomModal().alert("删除历史成功", "srccess");
                       props.parent.update_data();
                     }
                   });
@@ -360,7 +359,7 @@ const WorksItem = (props) => {
                     },
                   }).then((res) => {
                     if (res.err === 0) {
-                      new CustomModal().alert("删除成功", "success", 5000);
+                      new CustomModal().alert("删除成功", "success");
                       setModalMsg({
                         open: false,
                       });

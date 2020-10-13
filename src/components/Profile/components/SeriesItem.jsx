@@ -467,7 +467,7 @@ const SeriesItem = (props) => {
                       new CustomModal().alert(
                         "审核中的作品暂不支持删除",
                         "error",
-                        3000
+                        2000
                       );
                       return;
                     }
@@ -528,7 +528,7 @@ const SeriesItem = (props) => {
           if (msg.confirm) {
             get_data(req_data).then((res) => {
               if (res.err === 0) {
-                new CustomModal().alert("删除成功", "success", 5000);
+                new CustomModal().alert("删除成功", "success");
                 props.parent.update_data();
 
                 setModalMsg({
