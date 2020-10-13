@@ -7,13 +7,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 };
 
-exports.onCreateWebpackConfig = ({
-  stage,
-  rules,
-  loaders,
-  plugins,
-  actions,
-}) => {
+exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     devServer: {
       watchOptions: {
