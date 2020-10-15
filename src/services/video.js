@@ -26,14 +26,14 @@ const tokenExpired = (odata = {}) => {
 };
 
 // 获取后端结果字段
-const getResultData = ({ data = {} }) =>
+const getResultData = ({ data = {} } = {}) =>
   Promise.resolve(data.result_data || []);
 
 // 获取后端错误代码
-const getErrData = ({ data = {} }) => Promise.resolve(data.err || "0");
+const getErrData = ({ data = {} } = {}) => Promise.resolve(data.err || "0");
 
 // 获数组中的第一条数据
-const getResultDataFirst = arr => Promise.resolve((arr && arr[0]) || {});
+const getResultDataFirst = ([arr] = []) => Promise.resolve(arr || {});
 
 // ----------字募搜索-------------
 // 截取前端需要的字募字段
@@ -44,7 +44,7 @@ const getSubtitleFrontParam = (arr = []) =>
     wholeStr: i.whole_str,
   }));
 
-const subtitleFront = ({ match_frame = [] }) => {
+const subtitleFront = ({ match_frame = [] } = {}) => {
   return Promise.resolve(getSubtitleFrontParam(match_frame));
 };
 
@@ -209,7 +209,7 @@ export const aliWapPayment = pipeThen(
 );
 
 // 分享功能
-const getUrl = ({ url }) => {
+const getUrl = ({ url } = {}) => {
   return Promise.resolve(url);
 };
 export const userShare = pipeThen(

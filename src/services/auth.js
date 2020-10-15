@@ -4,6 +4,7 @@ import { observer } from "./observable";
 
 const apis = authApis();
 const isBrowser = () => typeof window !== "undefined";
+
 // 获取用户
 export const getUser = () =>
   isBrowser() && window.localStorage.getItem("haetekUser")
@@ -22,7 +23,7 @@ export const isLoggedIn = () => {
 };
 
 // 退出登录
-export const logout = callback => {
+export const logout = (callback = () => {}) => {
   setUser({});
   callback();
 };
@@ -45,7 +46,7 @@ export const logout = callback => {
 //     "err_msg": "200",
 //     "result_data": [{}]  // 返回这一个字段
 // }
-const getResultData = ({ data = {} }) =>
+const getResultData = ({ data = {} } = {}) =>
   Promise.resolve(data.result_data || []);
 
 // 错误信息提示
@@ -66,11 +67,11 @@ const errorMessageNotice = (odata = {}) => {
 //           {}   // 返回第一组
 //     ]
 // }
-const getArrayData = ([arr]) => Promise.resolve(arr || {});
+const getArrayData = ([arr] = []) => Promise.resolve(arr || {});
 
 // 获取数据,headers
 // 因为登录有headers,因此需要同时处理返回的数据和headers
-const getLoginData = ({ data = {}, headers = {} }) =>
+const getLoginData = ({ data = {}, headers = {} } = {}) =>
   Promise.resolve({
     resultData: data.result_data ? data.result_data[0] : {},
     authorization: headers.authorization,
@@ -78,7 +79,7 @@ const getLoginData = ({ data = {}, headers = {} }) =>
 
 // 存入用户数据和headers
 // 这一步是从上一步获取的用户数据流存入游览器
-const setLoginUser = ({ resultData = {}, authorization = "" }) => {
+const setLoginUser = ({ resultData = {}, authorization = "" } = {}) => {
   setUser({
     name: `${resultData.name}`,
     headshot: `${resultData.headshot}`,
@@ -89,7 +90,7 @@ const setLoginUser = ({ resultData = {}, authorization = "" }) => {
 
 // ----------------------------
 // 获取验证码专门方法
-const sendSMSCode = ({ code = "" }) => Promise.resolve(!!code);
+const sendSMSCode = ({ code = "" } = {}) => Promise.resolve(!!code);
 
 // 导出用于发送验证码的方法
 export const generateSMSCode = pipeThen(
@@ -111,7 +112,7 @@ export const handleLogin = pipeThen(
 
 // -----------------------
 // 获取返回给前端的二维码专门处理方法
-const getQrcode = ({ qrcode = "" }) => Promise.resolve(qrcode);
+const getQrcode = ({ qrcode = "" } = {}) => Promise.resolve(qrcode);
 
 // 导出获取二维码的方法
 export const generateQRCode = pipeThen(
@@ -132,7 +133,7 @@ export const enquiryQRCode = pipeThen(
 
 // ---------------------
 // 获取后台返回数据中的url的方法
-const getUrl = ({ url = "" }) => Promise.resolve(url);
+const getUrl = ({ url = "" } = {}) => Promise.resolve(url);
 
 // 获取第三方跳转地址
 export const generateThirdPartyUrl = pipeThen(
@@ -146,10 +147,10 @@ export const generateThirdPartyUrl = pipeThen(
 // -------------------------
 // 设置三方登录数据并返回对应值
 // 三方登录这里处理了三种情况：
-//        第一次登录则获取用于绑定手机的access token
-//        不是第一次登录就直接登录
-//        登录失败
-const setThirdLogin = ({ resultData = {}, authorization = "" }) => {
+//        1.第一次登录则获取用于绑定手机的access token
+//        2.不是第一次登录就直接登录
+//        3.登录失败
+const setThirdLogin = ({ resultData = {}, authorization = "" } = {}) => {
   if (authorization) {
     setUser({
       name: resultData.name,
@@ -184,16 +185,10 @@ export const bindingMobile = pipeThen(
 // --------------------
 // 获取错误代码
 // 因为验证手机号是否登录是用错误码来判的
-const getErrData = ({ data = {} }) => Promise.resolve(data.err);
+const getErrData = ({ data = {} } = {}) => Promise.resolve(data.err);
 
 // 验证手机号
-const verifyMobile = err => {
-  if (err === 0) {
-    Promise.resolve(true);
-  } else {
-    Promise.resolve(false);
-  }
-};
+const verifyMobile = err => Promise.resolve(err === 0);
 
 // 导出手机号是否已经存在方法
 export const userAlreadyExist = pipeThen(
