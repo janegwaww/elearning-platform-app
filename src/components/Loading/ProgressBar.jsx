@@ -10,7 +10,7 @@ const styles = {
   zIndex: 1201,
 };
 
-const ProgressBar = ({ loading = false }) => {
+const ProgressBar = ({ loading = false } = {}) => {
   const [progress, setProgress] = useState(0);
 
   const increProgress = () => {
