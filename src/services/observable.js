@@ -1,5 +1,6 @@
-import { flow, curry, isFunction, includes, reduce, toString } from "lodash/fp";
+import { flow, isFunction, includes, reduce, toString } from "lodash/fp";
 
+// 错误种类
 const errors = [
   { code: "5001", msg: "服务器内部错误" },
   { code: "4602", msg: "支付失败" },
@@ -16,20 +17,27 @@ const errors = [
   { code: "4002", msg: "数据过期" },
   { code: "4001", msg: "数据库查询错误" },
 ];
+// 错误码
 const errorCodes = reduce((arr, val) => {
   arr.push(val.code);
   return arr;
 }, [])(errors);
+
+// 错误监控执行方法
 const errorEvents = {
   defaultEvent: "",
-  idIncorrectEvent: "",
-  authErrorEvent: "",
+  setEvent(type, func) {
+    this[type] = func;
+  },
 };
+
 // 用于追踪bug方法
 const track = (data = {}) =>
-  console.log(`err: ${data.err}, msg: ${data.errmsg}`);
+  console.log(`code: ${data.err}, msg: ${data.errmsg}`);
 
+// 错误码转换为字符串
 const toDataString = ({ err, errmsg }) => ({ err: toString(err), errmsg });
+
 // 传过来的错误必须含于上述的错误代码中
 const inCludesErr = (data = {}) => {
   const { err, errmsg } = data;
@@ -43,20 +51,23 @@ const inCludesErr = (data = {}) => {
   return {};
 };
 
+// 是函数就执行
+const isFuncOpt = (func, msg) => {
+  if (isFunction(func)) {
+    func(msg);
+  }
+};
+
 const defaultAction = (data = {}) => {
   const { errmsg } = data;
-  if (isFunction(errorEvents.defaultEvent)) {
-    errorEvents.defaultEvent(errmsg);
-  }
+  isFuncOpt(errorEvents.defaultEvent, errmsg);
   return data;
 };
 
 const actionIdNotExist = (data = {}) => {
   const { err, errmsg } = data;
   if (err === "4103") {
-    if (isFunction(errorEvents.idIncorrectEvent)) {
-      errorEvents.idIncorrectEvent(errmsg);
-    }
+    isFuncOpt(errorEvents.idNotExist, errmsg);
   }
   return data;
 };
@@ -64,24 +75,18 @@ const actionIdNotExist = (data = {}) => {
 const actionAuth = (data = {}) => {
   const { err, errmsg } = data;
   if (err === "4004" || err === "4003" || err === "4103") {
-    if (isFunction(errorEvents.authErrorEvent)) {
-      errorEvents.authErrorEvent(errmsg);
-    }
+    isFuncOpt(errorEvents.authError, errmsg);
   }
   return data;
 };
 
-const trigger = (type, callback = () => ({})) => {
-  switch (type) {
-    case "idNotExist":
-      errorEvents.idIncorrectEvent = callback;
-      break;
-    case "authError":
-      errorEvents.authErrorEvent = callback;
-      break;
-    default:
-      errorEvents.defaultEvent = callback;
-  }
+const trigger = (
+  type = "defaultEvent",
+  func = msg => {
+    window.alert(msg);
+  },
+) => {
+  errorEvents.setEvent(type, func);
 };
 
 export const observer = flow(
@@ -93,6 +98,6 @@ export const observer = flow(
   track,
 );
 
-export const subscribe = curry(trigger);
+export const subscribe = trigger;
 
 export default { observer, subscribe };
