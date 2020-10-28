@@ -13,12 +13,12 @@ const errorMessageNotice = (odata = {}) => {
   return Promise.resolve(odata);
 };
 
-const getResultData = ({ data = {} }) =>
+const getResultData = ({ data = {} } = {}) =>
   Promise.resolve(data.result_data || []);
 
-const getFirstResultData = ([data = {}]) => Promise.resolve(data);
+const getFirstResultData = ([data = {}] = []) => Promise.resolve(data);
 
-const getCountResultData = ({ data = {} }) =>
+const getCountResultData = ({ data = {} } = {}) =>
   Promise.resolve({ resultData: data.result_data, count: data.count });
 
 // 获取最新订阅的最终数据
@@ -48,7 +48,8 @@ export const searchGlobal = pipeThen(
 );
 
 // 获取作者信息
-const extraAuth = ({ data, ...auth }) => Promise.resolve({ auth, list: data });
+const extraAuth = ({ data, ...auth } = {}) =>
+  Promise.resolve({ auth, list: data });
 
 export const getCreatorInfo = pipeThen(
   extraAuth,
@@ -78,7 +79,7 @@ export const getChannelList = pipeThen(
 const concatSeries = (arr, sour) =>
   arr.reduce((acc, cur) => acc.concat({ data: cur, source: sour }), []);
 
-const extraSeries = ({ video_data = [], document_data = [], ...info }) => {
+const extraSeries = ({ video_data = [], document_data = [], ...info } = {}) => {
   const videos = concatSeries(video_data, "video");
   const doc = concatSeries(document_data, "document");
   return Promise.resolve({ info, series: [...videos, ...doc] });
