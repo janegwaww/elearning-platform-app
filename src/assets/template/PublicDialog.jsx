@@ -1,30 +1,11 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import {DialogTitle} from './MuiDialogTitle';
-
+import {DialogTitle,DialogActions} from './MuiDialogTitle';
+import {DialogContent} from './DialogContent';
 import userStyles from "../../components/Profile/components/profileStyle";
 import  "../../components/Profile/components/profileStyle.css";
 import '../css/cropper.css';
-
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-    
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 export default function CustomizedDialogs(props) {
   
@@ -33,12 +14,12 @@ export default function CustomizedDialogs(props) {
     const [files,setFiles]= React.useState(null);
     const confirmClick = (ev) => {
       ev.preventDefault();
-            ev.stopPropagation();
+      ev.stopPropagation();
       props.onEvent&&props.onEvent({ cancel: false, confirm: true });
     };
     const handleClose = (ev) => {
       ev.preventDefault();
-            ev.stopPropagation();
+      ev.stopPropagation();
       props.onEvent&&props.onEvent({ cancel: true, confirm: false });
     };
 
@@ -46,7 +27,6 @@ export default function CustomizedDialogs(props) {
       <div>
         <Dialog
           onClose={handleClose}
-        
           open={props.open}
           className='dialog fn-size-14'
         >

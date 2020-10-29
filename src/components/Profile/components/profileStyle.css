@@ -1,14 +1,16 @@
+.dialog .MuiDialog-paperWidthSm {
+  max-width: 850px;
+  margin: 0;
+  overflow: hidden;
+}
+.dialog .MuiPaper-root {
+  padding: 20px;
+  box-shadow: 2px 2px 20px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
 
-    .dialog .MuiDialog-paperWidthSm{
-      max-width:850px;
-      margin:0;
-      overflow:hidden;
-    
-    }
-    .dialog .MuiPaper-root{
-      padding:20px;
-      box-shadow:2px 2px 20px 0px rgba(0,0,0,0.1);
-      border-radius:12px;
-    }
-    
-  
+.share-img {
+  width: 36px;
+  height: 36px;
+  margin: 20px;
+}

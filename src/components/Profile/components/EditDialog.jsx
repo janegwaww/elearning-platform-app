@@ -5,7 +5,8 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import userStyles from "./profileStyle";
 import { updata_img, get_data } from "../../../assets/js/request";
-import {DialogTitle, DialogContent, DialogActions } from '../../../assets/template/MuiDialogTitle';
+import {DialogTitle,  DialogActions } from '../../../assets/template/MuiDialogTitle';
+import {DialogContent}from '../../../assets/template/DialogContent'
 
 
 const generateClassName = createGenerateClassName({
