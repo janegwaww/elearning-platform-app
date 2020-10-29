@@ -375,7 +375,7 @@ const SeriesItem = (props) => {
     title: "",
   });
   const [isShare, setIsShare] = React.useState(false); //分享
-console.log(props)
+
   return (
     <div className='profile-top'>
       {!props.info ? (

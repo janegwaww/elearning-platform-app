@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -12,6 +12,8 @@ const styles = (theme) => ({
       margin: 0,
       padding: theme.spacing(2),
       textAlign: "center",
+      width:'100%',
+      display:'block'
     },
     closeButton: {
       position: "absolute",
@@ -21,10 +23,10 @@ const styles = (theme) => ({
     },
   });
   export const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
+    const { children, classes, onClose,align, ...other } = props;
   
     return (
-      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <MuiDialogTitle disableTypography className={classes.root} {...other} style={{textAlign:align?align:'center'}}>
         <Typography variant="h6">{children}</Typography>
         {onClose ? (
           <IconButton
@@ -45,7 +47,6 @@ const styles = (theme) => ({
       position: 'relative'
     },
   }))(MuiDialogContent);
-  
   export const DialogActions = withStyles((theme) => ({
     root: {
       margin: 0,

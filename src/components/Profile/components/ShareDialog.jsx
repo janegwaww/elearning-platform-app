@@ -21,9 +21,8 @@ import del from "../../../assets/img/del.png";
 import yixi from "../../../assets/img/yixi.png";
 import restbian from "../../../assets/img/restbian.png";
 
-
 import moveout from "../../../assets/img/moveout.png";
-
+import QRCode from "qrcode.react";
 import userStyles from "./profileStyle";
 // 分享弹窗
 const input_use = makeStyles((theme) => ({
@@ -59,7 +58,7 @@ const input_use = makeStyles((theme) => ({
     margin: 4,
   },
 }));
-function main_url(type,info) {
+function main_url(type, info) {
   let _url;
   if (type == "document_series") {
     _url = "http://kengine.haetek.com/series/?dsid=" + info.series_id;
@@ -74,15 +73,19 @@ function main_url(type,info) {
 }
 export const ShareDialog = (props) => {
   const input_class = input_use();
+  const [winWechat, setWinWechat] = React.useState("");
   const btn_share = (ev) => {
-    // console.log(props);
+    
     ev.preventDefault();
     ev.stopPropagation();
     let _type = ev.target.dataset.type;
-    let _id, _title, _url,_source = props.info.type || props.parent._typ;
+    let _id,
+      _title,
+      _url,
+      _source = props.info.type || props.parent._typ;
     if (props.info.type == "document_series") {
       _url = "http://kengine.haetek.com/series/?dsid=" + props.info.series_id;
-      _source='document';
+      _source = "document";
       _id = props.info.series_id;
       _title = props.info.series_title;
     } else if (props.info.type == "document") {
@@ -108,22 +111,29 @@ export const ShareDialog = (props) => {
         summary: props.info.description,
         desc: "说点什么呗", //暂不写
         type: _type, //"wechat"/"microblog"/ “q_Zone”,
-        source:_source, // "video",
+        source: _source, // "video",
         share_id: _id,
       },
     };
-    // console.log(_data);
+    
     get_data(_data).then((res) => {
       if (res.err === 0 && res.errmsg == "OK") {
         let _new_url = res.result_data[0].url;
+        if (_type === "wechat") {
+          setWinWechat(_url);
+          return;
+        }
         new CustomModal().alert("正在为您跳转页面,请稍后...", "success", 2000);
+
         setTimeout(() => {
           props.onEvent && props.onEvent();
+
           window.open(_new_url);
         }, 2000);
       }
     });
   };
+  
 
   return (
     <PublicDialog
@@ -131,6 +141,7 @@ export const ShareDialog = (props) => {
       title="分享"
       not_show={true}
       onEvent={(msg) => {
+        setWinWechat('');//关闭时切换回分享选项
         props.onEvent && props.onEvent();
         if (msg.cancel) {
           props.onEvent && props.onEvent();
@@ -139,64 +150,77 @@ export const ShareDialog = (props) => {
       }}
     >
       {/*分享*/}
-      <div>
-        <div className="box box-center">
-          <img
-            src={wx}
-            style={{ width: 36, height: 36, margin: 20 }}
-            data-type="wechat"
-            onClick={btn_share}
+      {winWechat ? (
+        <div
+          style={{ width: 400, height: 300, paddingTop: 30 }}
+          className="text-center"
+        >
+          <QRCode
+            value={winWechat} //value参数为生成二维码的链接
+            size={200} //二维码的宽高尺寸
+            fgColor="#000000" //二维码的颜色
           />
-          <img
-            src={qq}
-            style={{ width: 36, height: 36, margin: 20 }}
-            data-type="qq"
-            onClick={btn_share}
-          />
-          <img
-            src={qqz}
-            style={{ width: 36, height: 36, margin: 20 }}
-            data-type="qZone"
-            onClick={btn_share}
-          />
-          <img
-            src={wb}
-            style={{ width: 36, height: 36, margin: 20 }}
-            data-type="microblog"
-            onClick={btn_share}
-          />
+          <p>用微信扫描二维码</p>
         </div>
+      ) : (
         <div>
-          <Paper component="form" className={input_class.root}>
-            <InputBase
-              className={input_class.input}
-              placeholder="分享url"
-              value={main_url(props.info.type,props.info) 
-              }
-              inputProps={{ "aria-label": "search google maps" }}
+          <div className="box box-center">
+            <img
+              src={wx}
+              className='share-img'
+              data-type="wechat"
+              onClick={btn_share}
             />
-            <IconButton
-              type="submit"
-              className={input_class.iconButton}
-              aria-label="search"
-              onClick={(ev) => {
-                ev.preventDefault();
-                ev.stopPropagation();
-                let _input =
-                  ev.target.parentNode.parentNode.childNodes[0].childNodes[0];
-                let _url = main_url(props.info.type,props.info);
-                
-                _input.value = _url;
-                _input.select(); // 选中文本
-                document.execCommand("copy"); // 执行浏览器复制命令
-                new CustomModal().alert("复制成功", "success");
-              }}
-            >
-              复制地址
-            </IconButton>
-          </Paper>
+            <img
+              src={qq}
+              className='share-img'
+              data-type="qq"
+              onClick={btn_share}
+            />
+            <img
+              src={qqz}
+              className='share-img'
+              data-type="qZone"
+              onClick={btn_share}
+            />
+            <img
+              src={wb}
+              className='share-img'
+              data-type="microblog"
+              onClick={btn_share}
+            />
+          </div>
+          <div>
+            <Paper component="form" className={input_class.root}>
+              <InputBase
+                className={input_class.input}
+                placeholder="分享url"
+                value={main_url(props.info.type, props.info)}
+                inputProps={{ "aria-label": "search google maps" }}
+              />
+              <IconButton
+                type="submit"
+                className={input_class.iconButton}
+                aria-label="search"
+                onClick={(ev) => {
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                  let _input =
+                    ev.target.parentNode.parentNode.childNodes[0].childNodes[0];
+                  let _url = main_url(props.info.type, props.info);
+
+                  _input.value = _url;
+                  _input.select(); // 选中文本
+                  document.execCommand("copy"); // 执行浏览器复制命令
+                  new CustomModal().alert("复制成功", "success");
+                }}
+              >
+                复制地址
+              </IconButton>
+            </Paper>
+          </div>
         </div>
-      </div>
+      )}
     </PublicDialog>
   );
 };
@@ -983,39 +1007,38 @@ export const DocMenu = (props) => {
           </div>
           <div> 分享</div>
         </MenuItem>
-          {props.info.type!='document_series'&&(
-        <MenuItem
-          data-id="6"
-          onClick={() => {
-            handleClose();
-          }}
-        >
-          <EditDialog
-            title="删除作品"
-            icon_img={del}
-            info={props.info}
-            _type="del"
-            onEvent={(msg) => {
-              if (msg.confirm) {
-                get_data({
-                  model_name: "document",
-                  model_action: "delete",
-                  extra_data: {
-                    file_id: props.info.file_id,
-                  },
-                }).then((res) => {
-                  if (res.err === 0) {
-                    new CustomModal().alert("删除成功", "success");
-                    props.parent.update_data(props._id);
-              
-                  }
-                });
-              }
+        {props.info.type != "document_series" && (
+          <MenuItem
+            data-id="6"
+            onClick={() => {
+              handleClose();
             }}
           >
-            <p>上传作品不容易, 确定真的要删除该作品?</p>
-          </EditDialog>
-        </MenuItem>
+            <EditDialog
+              title="删除作品"
+              icon_img={del}
+              info={props.info}
+              _type="del"
+              onEvent={(msg) => {
+                if (msg.confirm) {
+                  get_data({
+                    model_name: "document",
+                    model_action: "delete",
+                    extra_data: {
+                      file_id: props.info.file_id,
+                    },
+                  }).then((res) => {
+                    if (res.err === 0) {
+                      new CustomModal().alert("删除成功", "success");
+                      props.parent.update_data(props._id);
+                    }
+                  });
+                }
+              }}
+            >
+              <p>上传作品不容易, 确定真的要删除该作品?</p>
+            </EditDialog>
+          </MenuItem>
         )}
       </Menu>
       <ShareDialog
