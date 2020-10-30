@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React from "react";
 import videojs from "video.js";
-import vjsSubSwitchButton from "./vjsSubSwitchButton";
+import "./vjsSubSwitchButton";
 import "./ReactVideo.sass";
 
 export default class VideoPlayer extends React.Component {
@@ -13,9 +13,10 @@ export default class VideoPlayer extends React.Component {
       controls: true,
       preload: "auto",
       responsive: true,
-      // fluid: true,
-      textTrackSettings: false,
       playbackRates: [0.5, 1, 1.5, 2],
+      textTrackDisplay: true,
+      posterImage: true,
+      textTrackSettings: true,
       language: "zh",
       languages: {
         zh: {
@@ -26,10 +27,25 @@ export default class VideoPlayer extends React.Component {
         nativeTextTracks: false,
       },
       controlBar: {
+        muteToggle: false,
+        subsCapsButton: false,
+        subtitlesButton: false,
+        currentTimeDisplay: true,
+        timeDivider: true,
+        remainingTimeDisplay: false,
+        durationDisplay: true,
+        fullscreenToggle: true,
+        pictureInPictureToggle: true,
         volumePanel: {
           inline: false,
         },
-        subsCapsButton: false,
+        playToggle: {
+          replay: true,
+        },
+        progressControl: {
+          keepTooltipsInside: false,
+        },
+        vjsSubSwitchButton: true,
       },
       userActions: {
         hotkeys(event) {
@@ -63,13 +79,23 @@ export default class VideoPlayer extends React.Component {
             }
           }
         });
+
+        const settings = this.textTrackSettings;
+        settings.setValues({
+          backgroundColor: "#000",
+          backgroundOpacity: "0",
+          edgeStyle: "dropshadow",
+          color: "#fff",
+        });
+        settings.updateDisplay();
+
         console.log("onPlayerReady", this);
       },
     );
 
-    const subSwitch = this.player.controlBar.addChild("vjsSubSwitchButton", {});
-    subSwitch.addClass("vjs-control");
-    subSwitch.addClass("vjs-sub-switch");
+    const { vjsSubSwitchButton } = this.player.controlBar;
+    vjsSubSwitchButton.addClass("vjs-control");
+    vjsSubSwitchButton.addClass("vjs-sub-switch");
   }
 
   componentDidUpdate(prevProps) {

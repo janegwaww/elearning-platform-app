@@ -1,0 +1,115 @@
+WEBVTT
+
+NOTE
+可能设置的参数：
+region,
+vertical显示方向，
+line,
+position,
+size,
+align,
+
+
+
+00:00:00.050 --> 00:00:05.160 region:fred align:start size:50%  position:80
+<v.loud Mary>高维向量空间的大多数性质是非常不直观的。
+<i>themost of the properties of high dimensional vector spaces are very un intuitive</i>.
+
+00:00:05.210 --> 00:00:10.520 region:fred
+<v Fred>它们不直观的一个方式是在高维向量空间中，
+ and one of the ways that they're un intuitive is in a high dimensional vector space,
+
+0
+00:00:10.570 --> 00:00:13.230
+一个词可以接近许多其他词
+ a word can be close to lots of other words
+
+1
+00:00:13.280 --> 00:00:15.040
+在不同的方向。
+in different directions.
+
+2
+00:00:16.930 --> 00:00:23.860
+好吧，我们开始讨论我们是如何学习这些词向量的
+okay sowe sort of started to talk about how we went about learning these word vectors i'm sort of gonna
+
+2
+00:00:23.910 --> 00:00:30.850
+花大约五分钟的时间进行优化，如果你想的话，这不是一个真正的优化类
+take about a five minutedetour into optimization now this isn't really an optimization class if you want
+
+2
+00:00:30.900 --> 00:00:37.780
+学习很多关于优化的知识，在这里你可以学到更多关于优化的知识
+to learn a lot about optimization where you can learn more about optimization if you do two twenty nine
+
+2
+00:00:37.830 --> 00:00:44.710
+如果你做一些像steven boys优化类的事情，你可以学到很多优化，但是
+and if you do something like steven boys optimization class you can learn a lot of optimizationbut this
+
+2
+00:00:44.760 --> 00:00:50.720
+这是一个真正的婴儿优化，但只是为了确保每个人都在同一页
+is sort of really baby optimization but just to make sure everyone's on the same page here
+
+3
+00:00:50.770 --> 00:00:57.620
+三张幻灯片对，最后我们做了什么，我很抱歉我写的东西
+three slides right so what we did at the end what we did over there where i apologize that my writing
+
+3
+00:00:57.670 --> 00:01:04.460
+太小了，但这会给你一个机会，当你做作业二的时候，你必须写
+was too smallbut that will give you the chance to when doing homework two and you have to write that
+
+3
+00:01:04.510 --> 00:01:11.640
+为了自己解决这个问题，并在过程中学习更多，所以我们得到的是成本函数
+out to work it out for yourselves and learn more in the processright so what we had was the cost function
+
+3
+00:01:11.690 --> 00:01:19.000
+我们想要最小化，所以我们做的就是做一些微积分来计算梯度
+that we wanted to minimize and so what we did was we did our bit of calculus to count calculate the gradient
+
+3
+00:01:19.050 --> 00:01:25.900
+关于我们的词向量的成本函数，它是我们的变量θ，然后我们
+of the cost function with respect to our word vectors which were our variables theta and then what we
+
+3
+00:01:25.950 --> 00:01:32.740
+要做的就是说如果我们朝负的方向迈出一小步
+want to do is say well if we take a small step in the direction of the negative of the gradient that
+
+3
+00:01:32.790 --> 00:01:39.690
+会把我们带到山下，在这个空间里，我们想继续这样做，然后朝着
+will be taking us down down hill in this space and we wanna keep on doing that and sort of head to the
+
+3
+00:01:39.740 --> 00:01:46.760
+最小空间，我是说，当然，在我们的高维空间里，你知道这可能不太好
+minimum of our space i mean of course in our high multidimensional space you know it might not be a nice
+
+3
+00:01:46.810 --> 00:01:48.260
+像这样平滑的曲线
+smooth curve like this
+
+4
+00:01:48.200 --> 00:01:52.900
+可能是一条可怕的非凸曲线，但这只是个想法。
+might be a horrible and non convex curve, but that's just the idea.
+
+5
+00:01:52.950 --> 00:01:56.500
+所以本质上，我们说我们有旧的参数。
+so essentially, we say we've got the old parameters.
+
+6
+00:01:56.550 --> 00:01:59.960
+我们用公式求出目标函数的梯度。
+we work out the gradient of the objective function using.

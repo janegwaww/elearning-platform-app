@@ -96,7 +96,7 @@ class VideoWindow extends Component {
           {
             src: "",
             label: "登录开启字幕",
-            kind: "notice",
+            kind: "metadata",
           },
         ];
     return info.vttPath ? track : [];

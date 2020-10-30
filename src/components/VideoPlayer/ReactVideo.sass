@@ -12,27 +12,9 @@
     height: 216px
   .vjs-text-track-display
     .vjs-text-track-cue
-      line-height: inherit !important
-      background-color: transparent
-      height: 66px !important
-      top: calc(80% + 40px) !important
-      @media screen and (max-width: 960px)
-        top: calc(80%) !important
-      & > div
-        color: #fff !important
-        font-size: 18px !important
-        font-family: PingFangSC-Regular,PingFang SC !important
-        background-color: transparent !important
-        text-shadow: 1px 2px 2px rgba(0,0,0,1) !important
-        @media screen and (max-width: 960px)
-          font-size: 12px !important
 
   &.vjs-fullscreen:not(.vjs-ios-native-fs)
     .vjs-text-track-cue
-      & > div
-        font-size: 34px !important
-        @media screen and (max-width: 960px)
-          font-size: 18px !important
 
   .vjs-big-play-button
     top: 50%
@@ -72,18 +54,15 @@
             color: rgba(252,86,89,1)
 
     .vjs-current-time
-      display: block !important
+      display: block
 
     .vjs-duration
-      display: block !important
+      display: block
       flex-grow: 1
       text-align: left
 
-    .vjs-remaining-time
-      display: none
-
     .vjs-time-divider
-      display: block !important
+      display: block
 
     .vjs-subs-caps-button
       order: 1
