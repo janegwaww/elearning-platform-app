@@ -42,9 +42,7 @@ export default class VideoPlayer extends React.Component {
         playToggle: {
           replay: true,
         },
-        progressControl: {
-          keepTooltipsInside: false,
-        },
+        progressControl: true,
         vjsSubSwitchButton: true,
       },
       userActions: {
