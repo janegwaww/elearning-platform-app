@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import Layout from "../../layout";
-import config from "../../../data/SiteConfig";
+import config from "../../../static/site-data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
 import CreatorBar from "../Home/CreatorBar";
 import { getHotAuths } from "../../services/home";

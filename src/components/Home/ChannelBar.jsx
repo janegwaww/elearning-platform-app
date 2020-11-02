@@ -42,14 +42,12 @@ const ChannelBar = ({ id = "hots" }) => {
   };
   const data = useStaticQuery(graphql`
     query {
-      allChannelBarListJson {
-        edges {
-          node {
-            name
-            web_click_icon
-            web_icon
-            id
-          }
+      file(relativePath: { eq: "site-data/ChannelBarList.json" }) {
+        childrenChannelBarListJson {
+          name
+          web_click_icon
+          web_icon
+          id
         }
       }
     }
@@ -66,7 +64,7 @@ const ChannelBar = ({ id = "hots" }) => {
       <div className="bar-container">
         <div className="bar-content">
           <Slider {...slickSetting}>
-            {map(({ node }) => {
+            {map((node) => {
               const cn = id && id === node.id ? "slice-action" : "";
               const href = node.id === "hots" ? "/" : `/channel/?ch=${node.id}`;
               return (
@@ -87,7 +85,7 @@ const ChannelBar = ({ id = "hots" }) => {
                   </Typography>
                 </div>
               );
-            })(data.allChannelBarListJson.edges)}
+            })(data.file.childrenChannelBarListJson)}
           </Slider>
         </div>
       </div>

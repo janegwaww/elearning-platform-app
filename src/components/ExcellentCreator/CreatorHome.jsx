@@ -16,7 +16,7 @@ import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import Container from "../Container/KeContainer";
 import CreatorAvatar from "./CreatorHomeHeader";
 import withId from "../EmptyNotice/withId";
-import config from "../../../data/SiteConfig";
+import config from "../../../static/site-data/SiteConfig";
 import { getCreatorInfo, creatorHomeSearch } from "../../services/home";
 
 const useStyles = makeStyles((theme) => ({

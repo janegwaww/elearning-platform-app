@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
-import config from "../../data/SiteConfig";
+import config from "../../static/site-data/SiteConfig";
 import Home from "../components/Home/Home";
 import Banner from "../components/Home/Banner";
 import Container from "../components/Container/KeContainer";
