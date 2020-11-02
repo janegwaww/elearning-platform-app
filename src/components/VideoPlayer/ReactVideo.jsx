@@ -5,6 +5,17 @@ import videojs from "video.js";
 import "./vjsSubSwitchButton";
 import "./ReactVideo.sass";
 
+videojs.hook("setup", function (player) {
+  const settings = player.textTrackSettings;
+  settings.setValues({
+    backgroundColor: "#000",
+    backgroundOpacity: "0",
+    edgeStyle: "dropshadow",
+    color: "#fff",
+  });
+  settings.updateDisplay();
+});
+
 export default class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -77,16 +88,6 @@ export default class VideoPlayer extends React.Component {
             }
           }
         });
-
-        const settings = this.textTrackSettings;
-        settings.setValues({
-          backgroundColor: "#000",
-          backgroundOpacity: "0",
-          edgeStyle: "dropshadow",
-          color: "#fff",
-        });
-        settings.updateDisplay();
-
         console.log("onPlayerReady", this);
       },
     );
