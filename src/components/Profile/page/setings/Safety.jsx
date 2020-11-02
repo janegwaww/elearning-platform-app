@@ -4,12 +4,10 @@ import { Button, Grid } from "@material-ui/core";
 
 import { get_data,get_info } from "../../../../assets/js/request";
 import "cropperjs/dist/cropper.css";
-
-
 import { navigate } from "@reach/router";
 
 import ProfileDialog from "../../components/ProFileDialog";
-// import CustomModal from "../../../../assets/js/CustomModal";
+import CustomModal from "../../../../assets/js/CustomModal";
 const Safety = (props) => {
  
   const [userInfo, setUserInfo] = React.useState(null); //保存用户信息
@@ -41,7 +39,8 @@ const Safety = (props) => {
         model_type: "",
       }).then((res) => {
         if (res.err === 0) {
-          alert("解除绑定成功");
+          
+          new CustomModal().alert('解除绑定成功','success');
           setUserInfo((old) => {
             if (untieData.type == "wechat") {
               old.binding_webchat = 0;

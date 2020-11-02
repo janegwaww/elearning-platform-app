@@ -1,68 +1,15 @@
 import React, { useState, useCallback } from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Dialog, Button, Snackbar } from "@material-ui/core";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
+import { Dialog, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import Button from "@material-ui/core/Button";
 import { PhotoCameraOutlined } from "@material-ui/icons";
+import { get_data } from "../js/request";
+import { getObj } from "../js/totls";
+import CustomModal from "../js/CustomModal";
+import { DialogActions, DialogTitle } from "./MuiDialogTitle";
+import { DialogContent } from "./DialogContent";
 
-import Typography from "@material-ui/core/Typography";
-
-import { get_data, get_alldata } from "../js/request";
-import {getObj} from '../js/totls';
-import CustomModal from '../js/CustomModal';
-
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-    backgroundColor: "#eee",
-    height: "56px",
-    width:'100%'
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => {
-  return {
-    root: {
-      margin: 0,
-      padding: theme.spacing(1),
-    },
-  };
-})(MuiDialogActions);
 const userStyles = makeStyles((them) => ({
   file: {
     width: 140,
@@ -71,7 +18,7 @@ const userStyles = makeStyles((them) => ({
     display: "inline-block",
     overflow: "hidden",
     position: "relative",
-    borderRadius:6,
+    borderRadius: 6,
     "& input[type=file]": {
       width: 1,
       height: 1,
@@ -79,7 +26,7 @@ const userStyles = makeStyles((them) => ({
     "& label": {
       top: 0,
       left: 0,
-      width:'100% !important ',
+      width: "100% !important ",
       color: "#999",
       margin: 0,
       display: "block",
@@ -87,7 +34,7 @@ const userStyles = makeStyles((them) => ({
       textAlign: "center",
       paddingTop: 15,
       backgroundColor: "white",
-      margin:'0 !important'
+      margin: "0 !important",
     },
   },
   dialog: {
@@ -101,7 +48,11 @@ const userStyles = makeStyles((them) => ({
     backgroundPosition: "center center",
     backgroundSize: "100% 100%",
     backgroundRepeat: "no-repeat",
-    backgroundColor:'#f2f2f5'
+    backgroundColor: "#f2f2f5",
+  },
+  btn: {
+    backgroundColor: "#1976d2",
+    color: "#fff",
   },
 }));
 
@@ -130,7 +81,7 @@ function CuttingTemplate(props) {
         <input
           type="file"
           id={props.id}
-          accept='.png,.jpeg,.jpg'
+          accept=".png,.jpeg,.jpg"
           onChange={(e) => {
             e.preventDefault();
             let files;
@@ -139,8 +90,8 @@ function CuttingTemplate(props) {
             } else if (e.target) {
               files = e.target.files[0];
             }
-            if(!files){
-              return false
+            if (!files) {
+              return false;
             }
             setOpen(true);
             setfiles(files);
@@ -154,36 +105,34 @@ function CuttingTemplate(props) {
           }}
         />
         {/**htmlFor={props.id} */}
-        <label  className="all-width all-height fn-size-14" onClick={()=>{
-          console.log(props.isClick)
-          if(!props.isClick){
-            getObj(props.id).click();
-          }else{
-            new CustomModal().alert('亲！请先添加文件/文档哦','error');
-           
-          }
-          
-        }}>
+        <label
+          className="all-width all-height fn-size-14"
+          onClick={() => {
+            console.log(props.isClick);
+            if (!props.isClick) {
+              getObj(props.id).click();
+            } else {
+              new CustomModal().alert("亲！请先添加文件/文档哦", "error");
+            }
+          }}
+        >
           <PhotoCameraOutlined />
           <br />
           上传封面图
         </label>
       </div>
-      <Dialog
-       
-        open={open}
-        className={`${classes.dialog} dialog`}
-      >
-        <DialogTitle  onClose={handleClose}>
+      <Dialog open={open} className={`${classes.dialog} dialog`}>
+        <DialogTitle onClose={handleClose} align="left">
           图片预览
         </DialogTitle>
         <DialogContent dividers>
-          <div
-            className={`${classes.croper} text-center `}
-           
-          >
-          <img src={temporaryurl} alt=''  className='all-height' style={{width:'auto',margin:'0 auto'}}/>
-          
+          <div className={`${classes.croper} text-center `}>
+            <img
+              src={temporaryurl}
+              alt=""
+              className="all-height"
+              style={{ width: "auto", margin: "0 auto" }}
+            />
           </div>
         </DialogContent>
         <DialogActions>
@@ -191,21 +140,23 @@ function CuttingTemplate(props) {
             取消
           </Button>
           <Button
-            variant="contained" color="primary"
+            variant="contained"
+            color="primary"
+            className={classes.btn}
             onClick={() => {
               let _formdata = new FormData();
               _formdata.append("model_action", "upload_file");
               _formdata.append("type", "video_image");
               _formdata.append("model_name", files.name);
               _formdata.append("file", files);
-              get_data( _formdata).then((res) => {
+              get_data(_formdata).then((res) => {
                 if (res.err == 0 && res.errmsg == "OK") {
                   props.onEvent && props.onEvent(res.result_data[0]);
                   setOpen(false);
                   setTemporaryurl("");
                   setfiles(null);
                 } else {
-                  new CustomModal().alert('上传失败','error');
+                  new CustomModal().alert("上传失败", "error");
                 }
               });
             }}
