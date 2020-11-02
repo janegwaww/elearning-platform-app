@@ -115,7 +115,7 @@ const AvatarMenu = () => {
             className="logout"
             onClick={(e) => {
               e.preventDefault();
-              logout(() => ({}));
+              logout(() => navigate("/"));
               handleMenuClose();
             }}
           >
