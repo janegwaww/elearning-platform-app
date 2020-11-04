@@ -121,6 +121,7 @@ class VideoWindow extends Component {
         poster={`${info.imagePath}`}
         tracks={this.getTrack(info)}
         sources={this.getSource(info)}
+        trackDisplay={info.trackDisplay}
       />
     ) : (
       <Box

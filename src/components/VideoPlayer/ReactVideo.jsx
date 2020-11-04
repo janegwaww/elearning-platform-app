@@ -3,6 +3,7 @@
 import React from "react";
 import videojs from "video.js";
 import "./vjsSubSwitchButton";
+import "./vjsTrackDisplay";
 import "./ReactVideo.sass";
 
 videojs.hook("setup", function (player) {
@@ -69,6 +70,7 @@ export default class VideoPlayer extends React.Component {
           }
         },
       },
+      vjsTrackDisplay: true,
     };
   }
 
