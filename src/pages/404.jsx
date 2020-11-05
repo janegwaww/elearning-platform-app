@@ -2,7 +2,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import { navigate } from "gatsby";
 import Layout from "../layout";
-import config from "../../data/SiteConfig";
+import config from "../../static/site-data/SiteConfig";
 import KeContainer from "../components/Container/KeContainer";
 import EmptyNotice from "../components/EmptyNotice/EmptyNotice";
 

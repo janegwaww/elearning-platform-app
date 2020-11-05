@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import config from "../../data/SiteConfig";
+import config from "../../static/site-data/SiteConfig";
 import JoinedScholar from "../components/JoinedScholar/JoinedScholar";
 
 export default class JoinedScholarPage extends Component {

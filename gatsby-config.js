@@ -1,4 +1,4 @@
-const config = require("./data/SiteConfig");
+const config = require("./static/site-data/SiteConfig");
 
 module.exports = {
   pathPrefix: "/",
@@ -14,13 +14,6 @@ module.exports = {
       options: {
         name: "assets",
         path: `${__dirname}/static/`,
-      },
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "data",
-        path: `${__dirname}/data/`,
       },
     },
     "gatsby-transformer-remark",
