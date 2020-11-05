@@ -35,14 +35,14 @@ class vjsTrackDisplay extends TextTrackDisplay {
   updateDisplayStateBackend(track) {
     // 字募要根据后台传过来的值改变样式
     // 要改变的样式有这几个：
-    // color,
-    // fontFamily,
-    // fontSize,
-    // fontStyle,
-    // letterSpacing,
-    // lineHeight,
-    // writingMode,
-    // position
+    // color(值没有限制),
+    // fontFamily(值没有限制),
+    // fontSize(值要有限制),
+    // fontStyle(不用限制),
+    // letterSpacing(要有限制),
+    // lineHeight(要有限制),
+    // writingMode(不用限制),
+    // position(限制为九宫格)
     const overrides = this.options_.playerOptions.trackDisplay;
     const cues = track.activeCues;
 
