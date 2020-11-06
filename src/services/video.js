@@ -72,6 +72,7 @@ const extraVideoInfo = (data = {}) => ({
   videoId: data.video_id,
   isLoged: data.is_login,
   description: data.description,
+  trackDisplay: data.font_style,
   data,
 });
 

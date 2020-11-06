@@ -56,6 +56,13 @@ class vjsTrackDisplay extends TextTrackDisplay {
       }
 
       const cueDiv = cue.displayState;
+      if (overrides.position) {
+        // cueDiv.parentNode.style.top = overrides.top;
+        // cueDiv.parentNode.style.left = overrides.left;
+      }
+      if (overrides.textAlign) {
+        cueDiv.style.textAlign = overrides.textAlign;
+      }
       if (overrides.color) {
         cueDiv.firstChild.style.color = overrides.color;
       }
@@ -76,6 +83,9 @@ class vjsTrackDisplay extends TextTrackDisplay {
       }
       if (overrides.writingMode) {
         cueDiv.firstChild.style.writingMode = overrides.writingMode;
+      }
+      if (overrides.textDecoration) {
+        cueDiv.firstChild.style.textDecoration = overrides.textDecoration;
       }
     }
   }
