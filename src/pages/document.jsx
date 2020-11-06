@@ -1,19 +1,21 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 import Layout from "../layout";
 import Document from "../components/Document/Document";
 import Container from "../components/Container/KeContainer";
 import { LoginConfirmProvider } from "../components/LoginConfirm";
-import Helmet from "react-helmet";
-import config from "../../data/SiteConfig";
-import {settings_html} from '../assets/js/totls';
+import config from "../../static/site-data/SiteConfig";
+import { settings_html } from "../assets/js/totls";
+
 class DocumentPage extends Component {
   componentDidMount() {
     settings_html();
-    
   }
-  componentWillUnmount(){
-    document.querySelector('html').style.fontSize="medium";
+
+  componentWillUnmount() {
+    document.querySelector("html").style.fontSize = "medium";
   }
+
   render() {
     return (
       <Layout>
@@ -27,8 +29,8 @@ class DocumentPage extends Component {
               content="width=device-width, initial-scale=1, shrink-to-fit=no"
             />
           </Helmet>
-          <LoginConfirmProvider> 
-            <Container  style={{maxWidth:1000}}>
+          <LoginConfirmProvider>
+            <Container style={{ maxWidth: 1000 }}>
               <Document />
             </Container>
           </LoginConfirmProvider>

@@ -2,7 +2,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import config from "../../../../data/SiteConfig";
+import config from "../../../../static/site-data/SiteConfig";
 import NavBar from "../../NavBar/NavBar";
 import { settings_html } from "../../../assets/js/totls";
 
