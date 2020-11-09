@@ -57,8 +57,7 @@ class vjsTrackDisplay extends TextTrackDisplay {
 
       const cueDiv = cue.displayState;
       if (overrides.position) {
-        // cueDiv.parentNode.style.top = overrides.top;
-        // cueDiv.parentNode.style.left = overrides.left;
+        cueDiv.style.top = overrides.top;
       }
       if (overrides.textAlign) {
         cueDiv.style.textAlign = overrides.textAlign;
