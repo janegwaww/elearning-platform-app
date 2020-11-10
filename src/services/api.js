@@ -158,5 +158,4 @@ function createWebService(baseUrl) {
 //     ["start_watch_history", "end_watch_history", "search_history"],
 //     ["payment", "query_trade_result", "wap_payment"],
 //     ["global_search"],
-
 export default createWebService(API_PATH);
