@@ -1,9 +1,8 @@
-import { videoApis, searchPartApis } from "./api";
+import service from "./api";
 import { pipeThen } from "./utils";
 import { observer } from "./observable";
 
-const apisVideo = videoApis();
-const apisSearch = searchPartApis();
+const videoApis = service.video;
 
 const errorMessageNotice = (odata = {}) => {
   const { data = {} } = odata;
@@ -24,27 +23,27 @@ const getCountResultData = ({ data = {} } = {}) =>
 // 获取最新订阅的最终数据
 export const getLatestSubscription = pipeThen(
   getResultData,
-  apisSearch.latestSubscription,
+  service.subscription.latestSubscription,
 );
 
 // 获取热门视频的最终数据
 export const getHotVideos = pipeThen(
   getResultData,
   errorMessageNotice,
-  apisVideo.hotVideo,
+  videoApis.hotVideo,
 );
 
 // 获取热门作者的最终数据
 export const getHotAuths = pipeThen(
   getResultData,
   errorMessageNotice,
-  apisVideo.hotAuthor,
+  videoApis.hotAuthor,
 );
 
 // 全局搜索
 export const searchGlobal = pipeThen(
   getCountResultData,
-  apisVideo.globalSearch,
+  videoApis.globalSearch,
 );
 
 // 获取作者信息
@@ -56,7 +55,7 @@ export const getCreatorInfo = pipeThen(
   getFirstResultData,
   getResultData,
   errorMessageNotice,
-  apisSearch.getAuthorInformation,
+  service.user.getAuthorInformation,
 );
 
 // 作者首页搜索
@@ -66,13 +65,13 @@ const extroData = (data = []) =>
 export const creatorHomeSearch = pipeThen(
   extroData,
   getResultData,
-  apisVideo.userSearch,
+  videoApis.userSearch,
 );
 
 // 获取频道
 export const getChannelList = pipeThen(
   getResultData,
-  apisVideo.categoryInformation,
+  videoApis.categoryInformation,
 );
 
 // 获取系列详情
@@ -90,11 +89,11 @@ export const getSeriesInfo = pipeThen(
   getFirstResultData,
   getResultData,
   errorMessageNotice,
-  apisSearch.getSeriesDetails,
+  service.series.getSeriesDetails,
 );
 
 // 系列详情页搜索
-export const seriesSearch = pipeThen(getResultData, apisVideo.seriesSearch);
+export const seriesSearch = pipeThen(getResultData, videoApis.seriesSearch);
 
 // 获取文本系列详情页接口
 const extraDocSeries = ({ document_data = [], ...info }) => {
@@ -109,28 +108,36 @@ export const getDocumentSeriesInfo = pipeThen(
   getFirstResultData,
   getResultData,
   errorMessageNotice,
-  apisSearch.getDocumentSeriesDetails,
+  service.document.getDocumentSeriesDetails,
 );
 
 // 文本系列详情页搜索
 export const docSeriesSearch = pipeThen(
   getResultData,
-  apisVideo.documentsSearch,
+  videoApis.documentsSearch,
 );
 
 // 获取频道列表栏
-export const getCategoryList = pipeThen(getResultData, apisSearch.getCategory);
+export const getCategoryList = pipeThen(
+  getResultData,
+  service.category.getCategory,
+);
 
 // 全局搜索数据上传接口
-export const globalSearchResultUpdate = pipeThen(apisSearch.globalSearch);
+export const globalSearchResultUpdate = pipeThen(
+  service.searchHistory.globalSearch,
+);
 
 // 文本内容搜索
-export const documentSearch = pipeThen(getResultData, apisSearch.localSearch);
+export const documentSearch = pipeThen(
+  getResultData,
+  service.document.localSearch,
+);
 
 // 文本搜索页内容
 export const documentContent = pipeThen(
   getFirstResultData,
   getResultData,
   errorMessageNotice,
-  apisSearch.getImage,
+  service.document.getImage,
 );
