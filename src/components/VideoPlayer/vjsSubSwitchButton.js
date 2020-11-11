@@ -47,6 +47,7 @@ class vjsSubSwitchButton extends vjsComponent {
    * vjsComponent class that this class is extending.
    */
   mount(disabled) {
+    this.el().className = "vjs-control vjs-sub-switch";
     ReactDOM.render(
       <SubSwitch
         vjsComponent={this}

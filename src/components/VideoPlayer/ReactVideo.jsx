@@ -47,7 +47,7 @@ export default class VideoPlayer extends React.Component {
         remainingTimeDisplay: false,
         durationDisplay: true,
         fullscreenToggle: true,
-        pictureInPictureToggle: true,
+        /* pictureInPictureToggle: true, */
         volumePanel: {
           inline: false,
         },
@@ -93,10 +93,6 @@ export default class VideoPlayer extends React.Component {
         console.log("onPlayerReady", this);
       },
     );
-
-    const { vjsSubSwitchButton } = this.player.controlBar;
-    vjsSubSwitchButton.addClass("vjs-control");
-    vjsSubSwitchButton.addClass("vjs-sub-switch");
   }
 
   componentDidUpdate(prevProps) {
