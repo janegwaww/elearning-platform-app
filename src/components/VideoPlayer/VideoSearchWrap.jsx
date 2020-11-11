@@ -9,8 +9,6 @@ import {
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
-import { useSnackbar } from "notistack";
-import { delay, toNumber } from "lodash";
 import SingleLineGridList from "./SingleLineGridList";
 import { useLoginConfirm } from "../LoginConfirm";
 import { subtitles, ksearchRecord } from "../../services/video";
@@ -18,18 +16,18 @@ import { getIdFromHref, secondsToHMS } from "../../services/utils";
 import { isLoggedIn } from "../../services/auth";
 import "./VideoSearchWrapStyles.sass";
 
-const VideoSearchWrap = ({ children, vid, path }) => {
-  const { enqueueSnackbar } = useSnackbar();
+const VideoSearchWrap = ({ vjsComponent }) => {
   const loginConfirm = useLoginConfirm();
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
-  const [timer, setTimer] = useState(0);
   const [input, setInput] = useState("");
+  const [vid, setVid] = useState("");
+  const [hasTrack, setHasTrack] = useState("");
 
   const verifyTimer = () => {
     const { time } = getIdFromHref();
     if (time) {
-      setTimer(toNumber(time));
+      vjsComponent.player().currentTime(time);
     }
   };
 
@@ -38,10 +36,10 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   };
 
   const handleSearchClick = () => {
-    if (path) {
+    if (hasTrack) {
       setShowButton(false);
     } else {
-      enqueueSnackbar("本视频没有字幕～");
+      alert("本视频没有字幕～");
     }
   };
 
@@ -53,7 +51,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
         !isLoggedIn() && loginConfirm();
       });
     } else {
-      enqueueSnackbar("关健字不能为空！");
+      alert("关健字不能为空！");
     }
   };
 
@@ -64,7 +62,7 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   };
 
   const handleJump = (time) => {
-    setTimer(time);
+    vjsComponent.player().currentTime(time);
     // 记录搜索点击用的
     ksearchRecord({
       video_id: vid,
@@ -74,62 +72,62 @@ const VideoSearchWrap = ({ children, vid, path }) => {
   };
 
   useEffect(() => {
-    delay(verifyTimer, 300);
+    setVid(vjsComponent.options().playerOptions.videoId);
+    setHasTrack(!!vjsComponent.player().textTracks()[0]);
+    setTimeout(verifyTimer, 300);
   }, []);
 
   return (
-    <>
-      <div className="video-search-wrap">
-        <div className={`searchButton ${!showButton && "hiddenSearchButton"}`}>
+    <div className="video-search-wrap">
+      <div className={`searchButton ${!showButton && "hiddenSearchButton"}`}>
+        <Button
+          startIcon={<SearchIcon />}
+          onClick={handleSearchClick}
+          className="showSearchButton"
+        >
+          逐帧搜索
+        </Button>
+      </div>
+
+      <div className={clsx("searchInput", !showButton && "showSearchInput")}>
+        <Paper component="form" className="paper">
+          <InputBase
+            className="KeInput"
+            id="watch-subtitle-search"
+            placeholder="支持语义理解..."
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleEnter}
+            endAdornment={
+              <InputAdornment position="end">
+                <ButtonBase onClick={() => setInput("")}>
+                  <ClearIcon
+                    fontSize="small"
+                    style={{ visibility: `${input ? "visible" : "hidden"}` }}
+                  />
+                </ButtonBase>
+              </InputAdornment>
+            }
+          />
           <Button
+            className="KeSearchButton"
+            aria-label="search"
             startIcon={<SearchIcon />}
-            onClick={handleSearchClick}
-            className="showSearchButton"
+            onClick={handleInputClick}
           >
             逐帧搜索
           </Button>
-        </div>
-        <div className={clsx("searchInput", !showButton && "showSearchInput")}>
-          <Paper component="form" className="paper">
-            <InputBase
-              className="KeInput"
-              id="watch-subtitle-search"
-              placeholder="支持语义理解..."
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleEnter}
-              endAdornment={
-                <InputAdornment position="end">
-                  <ButtonBase onClick={() => setInput("")}>
-                    <ClearIcon
-                      fontSize="small"
-                      style={{ visibility: `${input ? "visible" : "hidden"}` }}
-                    />
-                  </ButtonBase>
-                </InputAdornment>
-              }
-            />
-
-            <Button
-              className="KeSearchButton"
-              aria-label="search"
-              startIcon={<SearchIcon />}
-              onClick={handleInputClick}
-            >
-              逐帧搜索
-            </Button>
-          </Paper>
-          <div>
-            <ClearIcon className="clearIcon" onClick={closeSearchInput} />
-          </div>
-        </div>
-        <div>{children(timer)}</div>
+        </Paper>
         <div>
-          <SingleLineGridList tileList={gridList} clipJump={handleJump} />
+          <ClearIcon className="clearIcon" onClick={closeSearchInput} />
         </div>
       </div>
-    </>
+
+      <div className="searchGridList">
+        <SingleLineGridList tileList={gridList} clipJump={handleJump} />
+      </div>
+    </div>
   );
 };
 

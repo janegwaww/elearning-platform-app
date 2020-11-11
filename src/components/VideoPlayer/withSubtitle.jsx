@@ -18,8 +18,8 @@ const withSubtitle = (WrapComponent) => {
 
     continuePlayTime = () => {
       if (!this.wrapComponentRef.current) return;
-      const { getCurrentTime } = this.wrapComponentRef.current;
-      return getCurrentTime();
+      const { seekToCurrentTime } = this.wrapComponentRef.current;
+      return seekToCurrentTime();
     };
 
     continuePlayPause = (time) => {
@@ -43,7 +43,6 @@ const withSubtitle = (WrapComponent) => {
           () => this.continuePlayPause(time),
         );
       }
-      console.log(this.wrapComponentRef);
     };
 
     render() {

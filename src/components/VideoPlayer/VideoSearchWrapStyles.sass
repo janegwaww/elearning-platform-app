@@ -1,5 +1,5 @@
 .video-search-wrap
-  position: relative
+  width: 100%
 
   .searchButton
     position: absolute
@@ -49,10 +49,10 @@
 
   .clearIcon
     font-size: 14px
-    background-color: rgba(236, 240, 241,0.6)
+    background-color: rgba(236, 240, 241,0.8)
     border-radius: 20px
     margin-left: 4px
-    color: rgba(149, 165, 166,1.0)
+    color: rgba(158,158,166,1)
     @media screen and (max-width: 960px)
       display: none
 
@@ -64,6 +64,7 @@
     font-size: 12px
     padding: 6px 12px;
     z-index: 2
+    display: inline-flex
     &:hover
         background-color: #007cff
     @media screen and (max-width: 960px)
@@ -76,9 +77,10 @@
     font-size: 12px
     padding: 6px 14px
     min-width: 98px
+    display: inline-flex
     @media screen and (max-width: 960px)
       min-width: 70px
-      padding: 6px 6px
+      padding: 10px 6px
     &:hover
       background-color: #007cff
     & .MuiButton-startIcon
@@ -99,3 +101,9 @@
         font-size: 12px
       &::placeholder-shown
         text-overflow: ellipsis
+
+  .searchGridList
+    position: absolute
+    width: 100%
+    bottom: 0
+    z-index: 2
