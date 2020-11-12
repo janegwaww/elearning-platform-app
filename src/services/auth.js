@@ -1,8 +1,8 @@
-import { authApis } from "./api";
+import service from "./api";
 import { pipeThen } from "./utils";
 import { observer } from "./observable";
 
-const apis = authApis();
+const apis = service.user;
 const isBrowser = () => typeof window !== "undefined";
 
 // 获取用户

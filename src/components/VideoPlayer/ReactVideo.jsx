@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React from "react";
 import videojs from "video.js";
-import vjsSubSwitchButton from "./vjsSubSwitchButton";
+import "./vjsSubSwitchButton";
+import "./vjsSubtitleSearch";
 import "./ReactVideo.sass";
 
 export default class VideoPlayer extends React.Component {
@@ -44,6 +45,7 @@ export default class VideoPlayer extends React.Component {
           }
         },
       },
+      vjsSubtitleSearch: true,
     };
   }
 

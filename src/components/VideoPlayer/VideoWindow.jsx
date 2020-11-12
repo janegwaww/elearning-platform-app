@@ -17,7 +17,6 @@ class VideoWindow extends Component {
 
     this.recordStart = this.recordStart.bind(this);
     this.seekToCurrentTime = this.seekToCurrentTime.bind(this);
-    this.getCurrentTime = this.getCurrentTime.bind(this);
     this.getPlay = this.getPlay.bind(this);
     this.getTrack = this.getTrack.bind(this);
     this.getSource = this.getSource.bind(this);
@@ -25,26 +24,18 @@ class VideoWindow extends Component {
 
   componentDidMount() {
     this.recordStart();
-    window.addEventListener("beforeunload", (e) => {
-      /* e.preventDefault(); */
+    window.addEventListener("beforeunload", () => {
       return endWatchRecord({
         video_id: this.props.info.videoId,
-        end_time: secondsToHMS(this.getCurrentTime()),
+        end_time: secondsToHMS(this.seekToCurrentTime()),
       });
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { timer } = this.props;
-    if (timer !== prevProps.timer) {
-      this.seekToCurrentTime(timer);
-    }
   }
 
   componentWillUnmount() {
     endWatchRecord({
       video_id: this.props.info.videoId,
-      end_time: secondsToHMS(this.getCurrentTime()),
+      end_time: secondsToHMS(this.seekToCurrentTime()),
     });
   }
 
@@ -52,10 +43,10 @@ class VideoWindow extends Component {
     if (this.playerRef.current) {
       const { player } = this.playerRef.current;
       player &&
-        player.one("play", (e) => {
+        player.one("play", () => {
           startWatchRecord({
             video_id: this.props.info.videoId,
-            start_time: secondsToHMS(this.getCurrentTime()),
+            start_time: secondsToHMS(this.seekToCurrentTime()),
           });
         });
     } else {
@@ -65,17 +56,13 @@ class VideoWindow extends Component {
 
   // 跳转时间
   seekToCurrentTime(timer) {
+    let result = 0;
     if (this.playerRef.current) {
-      return this.playerRef.current.seekTo(timer);
+      result = this.playerRef.current.seekTo(timer);
     } else {
       defer(() => this.seekToCurrentTime(timer));
     }
-  }
-
-  getCurrentTime() {
-    if (this.playerRef.current) {
-      return this.seekToCurrentTime();
-    }
+    return result;
   }
 
   getPlay() {
@@ -139,13 +126,8 @@ class VideoWindow extends Component {
   }
 }
 
-VideoWindow.defaultProps = {
-  timer: 0,
-};
-
 VideoWindow.propTypes = {
   info: PropTypes.object.isRequired,
-  timer: PropTypes.number,
 };
 
 export default withSubtitle(VideoWindow);

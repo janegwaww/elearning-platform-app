@@ -62,6 +62,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
   const getCount = () => tileList.length;
 
   const handleClick = (e, time) => {
+    e.stopPropagation();
     clipJump(time);
   };
 
@@ -86,8 +87,8 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
       </div>
       <div className="gridList">
         <Slider {...slickSetting}>
-          {map((tile, i) => (
-            <div>
+          {map.convert({ cap: false })((tile, i) => (
+            <div key={i}>
               <Box
                 key={i}
                 onClick={(e) => handleClick(e, tile.startTime)}

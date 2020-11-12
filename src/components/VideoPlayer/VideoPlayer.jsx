@@ -13,36 +13,33 @@ class VideoPlayer extends Component {
       videoInfo: {},
       loading: false,
     };
+
     this.videoWindowRef = React.createRef();
+    this.fetchVideo = this.fetchVideo.bind(this);
   }
 
   componentDidMount() {
     this.props.vid && this.fetchVideo(this.props.vid);
   }
 
-  fetchVideo = (vid) => {
+  fetchVideo(vid) {
     this.setState({ loading: true });
     videoPath({ video_id: vid }).then((data) => {
       this.setState({ videoInfo: data, loading: false });
       this.props.handleVideoInfo(data.data);
     });
-  };
+  }
 
   render() {
     const { videoInfo, loading } = this.state;
 
     return (
       <Fragment>
-        <VideoSearchWrap vid={this.props.vid} path={videoInfo.vttPath}>
-          {(timer) => (
-            <VideoWindow
-              info={videoInfo}
-              timer={timer}
-              loading={loading}
-              ref={this.videoWindowRef}
-            />
-          )}
-        </VideoSearchWrap>
+        <VideoWindow
+          info={videoInfo}
+          loading={loading}
+          ref={this.videoWindowRef}
+        />
         <UseSetSEO info={videoInfo} />
       </Fragment>
     );
