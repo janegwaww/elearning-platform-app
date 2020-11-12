@@ -36,8 +36,9 @@
     visibility: hidden
     opacity: 0
     @media screen and (max-width:960px)
+      position: absolute
       top: 228px
-      left: 35%
+      left: 5%
       visibility: visible
       opacity: 1
 
@@ -53,6 +54,8 @@
     margin: auto
     background-color: rgba(0,0,0,0)
     box-shadow: unset
+    @media screen and (max-width:960px)
+      width: 260px
 
   .KeInput
     border-top-left-radius: 20px
@@ -106,5 +109,13 @@
     z-index: 2
 
 .video-js:fullscreen
+  @media screen and (max-width: 960px)
+    .searchInput
+      visibility: hidden
+      opacity: 0
+
+    .searchGridList
+      display: none
+
   .searchGridList
     bottom: 0
