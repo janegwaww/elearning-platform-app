@@ -118,10 +118,8 @@ const VideoSearchWrap = ({ vjsComponent }) => {
           >
             逐帧搜索
           </Button>
-        </Paper>
-        <div>
           <ClearIcon className="clearIcon" onClick={closeSearchInput} />
-        </div>
+        </Paper>
       </div>
 
       <div className="searchGridList">
