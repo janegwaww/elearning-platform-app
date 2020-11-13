@@ -42,15 +42,6 @@ export const logout = (callback = () => {}) => {
 const getResultData = ({ data = {} } = {}) =>
   Promise.resolve(data.result_data || []);
 
-// 错误信息提示
-const errorMessageNotice = (odata = {}) => {
-  const { data = {} } = odata;
-  if (![0, "0"].includes(data.err)) {
-    observer(data);
-  }
-  return Promise.resolve(odata);
-};
-
 // 获取后端接口返回的结果字段中的第一个数组
 // {
 //     "count": "len(result_data)",
@@ -60,7 +51,16 @@ const errorMessageNotice = (odata = {}) => {
 //           {}   // 返回第一组
 //     ]
 // }
-const getArrayData = ([arr] = []) => Promise.resolve(arr || {});
+const getArrayData = ([arr = {}] = []) => Promise.resolve(arr);
+
+// 错误信息提示
+const errorMessageNotice = (odata = {}) => {
+  const { data = {} } = odata;
+  if (![0, "0"].includes(data.err)) {
+    observer(data);
+  }
+  return Promise.resolve(odata);
+};
 
 // 获取数据,headers
 // 因为登录有headers,因此需要同时处理返回的数据和headers
@@ -177,10 +177,10 @@ export const bindingMobile = pipeThen(
 
 // --------------------
 // 获取错误代码
-// 因为验证手机号是否登录是用错误码来判的
+// 因为验证是否登录是用错误码来判的
 const getErrData = ({ data = {} } = {}) => Promise.resolve(data.err);
 
-// 验证手机号
+// 验证错误代码
 const verifyErrCode = err => Promise.resolve(err === 0);
 
 // 导出手机号是否已经存在方法
