@@ -24,11 +24,11 @@ const VideoSearchWrap = ({ vjsComponent = {} }) => {
 
   const handleInputClick = (e) => {
     e.preventDefault();
-    !isLoggedIn() && setOpen(true);
     if (input) {
       subtitles({ query_string: input, video_id: [vid] }).then((data) => {
         setGridList(data);
         vjsComponent.setState({ queryResult: data, queryString: input });
+        !isLoggedIn() && setOpen(true);
       });
     } else {
       alert("关健字不能为空！");
