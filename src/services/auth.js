@@ -15,13 +15,6 @@ export const getUser = () =>
 const setUser = user =>
   window.localStorage.setItem("haetekUser", JSON.stringify(user));
 
-// 是否登录
-export const isLoggedIn = () => {
-  const user = getUser();
-
-  return !!user.token;
-};
-
 // 退出登录
 export const logout = (callback = () => {}) => {
   setUser({});
@@ -188,12 +181,25 @@ export const bindingMobile = pipeThen(
 const getErrData = ({ data = {} } = {}) => Promise.resolve(data.err);
 
 // 验证手机号
-const verifyMobile = err => Promise.resolve(err === 0);
+const verifyErrCode = err => Promise.resolve(err === 0);
 
 // 导出手机号是否已经存在方法
 export const userAlreadyExist = pipeThen(
-  verifyMobile,
+  verifyErrCode,
   getErrData,
   errorMessageNotice,
   apis.checkMobile,
+);
+
+// 验证用户是否过期，过期则退出登录
+const ifFalseThenOut = isLogin => {
+  if (!isLogin) logout();
+  return Promise.resolve(isLogin);
+};
+
+export const isLoggedIn = pipeThen(
+  ifFalseThenOut,
+  verifyErrCode,
+  getErrData,
+  apis.isLogin,
 );
