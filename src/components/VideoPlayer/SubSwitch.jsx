@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { navigate } from "gatsby";
+import { navigate } from "@reach/router";
 import { withStyles } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import LoginConfirmModal from "../LoginConfirm/LoginConfirmModal";
 
-const KeSwitch = withStyles((theme) => ({
+const KeSwitch = withStyles(() => ({
   switchBase: {
     color: "#fff",
     "&.Mui-checked": {
@@ -22,17 +22,14 @@ const KeSwitch = withStyles((theme) => ({
   },
 }))(Switch);
 
-const SubSwitch = ({
-  handleChange = () => ({}),
-  disabled = false,
-  ...props
-}) => {
+const SubSwitch = ({ handleChange = () => ({}), disabled = false }) => {
   const [checked, setChecked] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const toggleChecked = (e) => {
+  const toggleChecked = () => {
     if (disabled) {
-      return setOpen(true);
+      setOpen(true);
+      return;
     }
     setChecked(!checked);
     handleChange(!checked);

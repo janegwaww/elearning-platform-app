@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { navigate } from "@reach/router";
 import clsx from "clsx";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -8,26 +9,26 @@ import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import SingleLineGridList from "./SingleLineGridList";
-import { useLoginConfirm } from "../LoginConfirm";
+import LoginConfirmModal from "../LoginConfirm/LoginConfirmModal";
 import { subtitles } from "../../services/video";
 import { isLoggedIn } from "../../services/auth";
 import "./VideoSearchWrapStyles.sass";
 
 const VideoSearchWrap = ({ vjsComponent = {} }) => {
-  const loginConfirm = useLoginConfirm();
   const { vid } = vjsComponent.state;
   const { handleJump } = vjsComponent;
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleInputClick = (e) => {
     e.preventDefault();
+    !isLoggedIn() && setOpen(true);
     if (input) {
       subtitles({ query_string: input, video_id: [vid] }).then((data) => {
         setGridList(data);
         vjsComponent.setState({ queryResult: data, queryString: input });
-        !isLoggedIn() && loginConfirm();
       });
     } else {
       alert("关健字不能为空！");
@@ -93,6 +94,11 @@ const VideoSearchWrap = ({ vjsComponent = {} }) => {
       <div className="searchGridList">
         <SingleLineGridList tileList={gridList} clipJump={handleJump} />
       </div>
+      <LoginConfirmModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        handleConfirm={() => navigate("/users/login")}
+      />
     </div>
   );
 };
