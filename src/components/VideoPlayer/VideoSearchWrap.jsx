@@ -16,7 +16,7 @@ import "./VideoSearchWrapStyles.sass";
 const VideoSearchWrap = ({ vjsComponent = {} }) => {
   const loginConfirm = useLoginConfirm();
   const { vid } = vjsComponent.state;
-  const { handleJump, setState } = vjsComponent;
+  const { handleJump } = vjsComponent;
   const [gridList, setGridList] = useState([]);
   const [showButton, setShowButton] = useState(true);
   const [input, setInput] = useState("");
@@ -26,7 +26,7 @@ const VideoSearchWrap = ({ vjsComponent = {} }) => {
     if (input) {
       subtitles({ query_string: input, video_id: [vid] }).then((data) => {
         setGridList(data);
-        setState({ queryResult: data, queryString: input });
+        vjsComponent.setState({ queryResult: data, queryString: input });
         !isLoggedIn() && loginConfirm();
       });
     } else {
