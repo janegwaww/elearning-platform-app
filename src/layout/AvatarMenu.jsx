@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { navigate } from "gatsby";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { isLoggedIn, logout, getUser } from "../services/auth";
+import { isLoggedInPromise, logout, getUser } from "../services/auth";
 import "./AvatarMenu.sass";
 
 const list = [
@@ -30,10 +30,10 @@ const list = [
 ];
 
 const AvatarMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const menuId = "primary-search-account-menu";
-  const isLogin = isLoggedIn();
+  const [isLogin, setIsLogin] = useState(false);
   const { headshot, name } = getUser();
 
   const handleProfileMenuOpen = (event) => {
@@ -43,6 +43,14 @@ const AvatarMenu = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await isLoggedInPromise();
+      setIsLogin(res);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="layout-navbar-avatar-menu">
