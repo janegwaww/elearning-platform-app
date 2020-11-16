@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { navigate } from "gatsby";
+import { navigate } from "@reach/router";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Popover from "@material-ui/core/Popover";
@@ -9,32 +9,19 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { isLoggedInPromise, logout, getUser } from "../services/auth";
+import paths from "./AvatarMenu.json";
 import "./AvatarMenu.sass";
 
-const list = [
-  {
-    href: "/users/profile/dynamic/",
-    src: "/images/collect.svg",
-    name: "我的收藏",
-  },
-  {
-    href: "/users/profile/workscenter/",
-    src: "/images/create.svg",
-    name: "创作中心",
-  },
-  {
-    href: "/users/profile/",
-    src: "/images/person.svg",
-    name: "个人中心",
-  },
-];
+const LOGIN = "/users/login";
+const PROFILE = "/users/profile/";
+const SETTING = "/users/profile/setings";
 
 const AvatarMenu = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isMenuOpen = Boolean(anchorEl);
   const menuId = "primary-search-account-menu";
   const [isLogin, setIsLogin] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { headshot, name } = getUser();
+  const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,6 +29,20 @@ const AvatarMenu = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    handleMenuClose();
+    logout(() => {
+      setIsLogin(false);
+      navigate("/");
+    });
+  };
+
+  const handleSet = () => {
+    handleMenuClose();
+    navigate(SETTING);
   };
 
   useEffect(() => {
@@ -65,7 +66,7 @@ const AvatarMenu = () => {
           <Avatar src={headshot} alt={name} className="avatar" />
         </IconButton>
       ) : (
-        <Link href="/users/login" underline="none" variant="body1">
+        <Link href={LOGIN} underline="none" variant="body1">
           <Typography noWrap className="link">
             登录/注册
           </Typography>
@@ -73,19 +74,19 @@ const AvatarMenu = () => {
       )}
 
       <Popover
+        id={menuId}
         anchorEl={anchorEl}
         anchorReference="anchorEl"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        id={menuId}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
         className="layout-navbar-avatar-menu-popover"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <div style={{ position: "relative" }}>
           <div className="popMenu">
             <Link
-              href="/users/profile/"
+              href={PROFILE}
               color="inherit"
               underline="none"
               onClick={handleMenuClose}
@@ -103,7 +104,7 @@ const AvatarMenu = () => {
             </Link>
             <Divider />
             <div className="person">
-              {list.map((o) => (
+              {paths.map((o) => (
                 <Link
                   href={o.href}
                   color="inherit"
@@ -121,22 +122,11 @@ const AvatarMenu = () => {
             fullWidth
             variant="contained"
             className="logout"
-            onClick={(e) => {
-              e.preventDefault();
-              logout(() => navigate("/"));
-              handleMenuClose();
-            }}
+            onClick={handleLogout}
           >
             退出
           </Button>
-          <IconButton
-            className="setIcon"
-            size="small"
-            onClick={() => {
-              handleMenuClose();
-              navigate("/users/profile/setings");
-            }}
-          >
+          <IconButton className="setIcon" size="small" onClick={handleSet}>
             <SettingsIcon fontSize="inherit" />
           </IconButton>
         </div>
