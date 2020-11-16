@@ -18,7 +18,7 @@ import {
 import "./SearchCardStyles.sass";
 
 const imagePick = (path, href = "/", type) =>
-  !!path && (
+  Boolean(path) && (
     <CardTag type={type}>
       <div className="image-pick">
         <Link href={href}>
@@ -67,7 +67,7 @@ const descriptionItem = (description, match = {}) => {
       : description,
   };
   return (
-    !!createMarkup.__html && (
+    Boolean(createMarkup.__html) && (
       <Typography
         variant="body2"
         color="textSecondary"

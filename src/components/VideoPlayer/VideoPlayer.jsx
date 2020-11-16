@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import VideoWindow from "./VideoWindow";
-import VideoSearchWrap from "./VideoSearchWrap";
 import UseSetSEO from "./UseSetSEO";
 import { videoPath } from "../../services/video";
-import { secondsToHMS } from "../../services/utils";
 
 class VideoPlayer extends Component {
   constructor(props) {

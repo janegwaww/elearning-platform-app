@@ -29,22 +29,14 @@ const useStyles = makeStyles(() => ({
 
 const SearchInput = ({ handleSearchClick, open }) => {
   const classes = useStyles();
-  const [value, setValue] = useState("");
   const inputEl = useRef(null);
+  const [value, setValue] = useState("");
 
-  const handleSearch = () => {
-    if (value) {
-      handleSearchClick(value);
-    }
-  };
-
-  const handleEnter = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
+  const handleSearch = () => value && handleSearchClick(value);
 
   const handleClear = () => setValue("");
+
+  const handleEnter = (e) => e.key === "Enter" && handleSearch();
 
   useEffect(() => {
     if (inputEl.current && open) {

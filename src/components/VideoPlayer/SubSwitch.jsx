@@ -35,13 +35,9 @@ const SubSwitch = ({ handleChange = () => ({}), disabled = false }) => {
     handleChange(!checked);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
-  const handleConfirm = () => {
-    navigate("/users/login");
-  };
+  const handleConfirm = () => navigate("/users/login");
 
   return disabled === "noSubtitle" ? null : (
     <Typography component="div" variant="caption">

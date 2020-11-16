@@ -61,15 +61,10 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
 
   const getCount = () => tileList.length;
 
-  const handleClick = (e, time) => {
-    e.stopPropagation();
-    clipJump(time);
-  };
+  const handleClick = (time) => clipJump(time);
 
   useEffect(() => {
-    if (tileList.length > 0) {
-      handleOpen();
-    }
+    tileList.length > 0 && handleOpen();
   }, [tileList]);
 
   return (
@@ -91,7 +86,7 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
             <div key={i}>
               <Box
                 key={i}
-                onClick={(e) => handleClick(e, tile.startTime)}
+                onClick={(e) => handleClick(tile.startTime)}
                 className="GridListTile-tile"
               >
                 <PressMatchedLine

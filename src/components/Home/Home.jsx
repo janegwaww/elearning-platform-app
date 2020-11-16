@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { navigate } from "@reach/router";
 import GridCards from "../GridCards/GridCards";
 import ChannelBar from "./ChannelBar";
 import { getHotVideos } from "../../services/home";
@@ -6,7 +7,6 @@ import EmptyNotice from "../EmptyNotice/EmptyNotice";
 import ChangeBatchButton from "./ChangeBatchButton";
 import Tabs from "../Tabs/Tabs";
 import ProgressBar from "../Loading/ProgressBar";
-import { navigate } from "@reach/router";
 
 class Home extends Component {
   constructor(props) {
@@ -16,13 +16,17 @@ class Home extends Component {
       loading: true,
       type: "all",
     };
+
+    this.fetchHotVideo = this.fetchHotVideo.bind(this);
+    this.handleTab = this.handleTab.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.fetchHotVideo();
   }
 
-  fetchHotVideo = ({ page = 1 } = {}, callback = () => ({})) => {
+  fetchHotVideo({ page = 1 } = {}, callback = () => ({})) {
     const { type } = this.state;
     this.setState({ loading: true });
     getHotVideos({ max_size: 24, page, type }).then((data) => {
@@ -30,18 +34,18 @@ class Home extends Component {
       this.setState({ loading: false });
       callback(data);
     });
-  };
+  }
 
-  handleTab = (type) => {
+  handleTab(type) {
     this.setState({ type }, () => {
       this.fetchHotVideo({});
     });
-  };
+  }
 
-  handleChange = () => {
+  handleChange() {
     navigate("/");
     this.fetchHotVideo();
-  };
+  }
 
   render() {
     const { hotVideos, loading } = this.state;

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-import { Link } from "gatsby";
 import Layout from "../../layout";
 import config from "../../../static/site-data/SiteConfig";
 import HomeTab from "../Home/HomeTab";
@@ -15,18 +14,19 @@ export default class ExcellentCreator extends Component {
       authList: [],
       loading: true,
     };
+    this.fetchAuthData = this.fetchAuthData.bind(this);
   }
 
   componentDidMount() {
     this.fetchAuthData();
   }
 
-  fetchAuthData = () => {
+  fetchAuthData() {
     this.setState({ loading: true });
     getHotAuths({ max_size: 5, page: 1, video_size: 4 }).then((data) => {
       this.setState({ authList: data, loading: false });
     });
-  };
+  }
 
   render() {
     const { authList, loading } = this.state;

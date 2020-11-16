@@ -14,7 +14,6 @@ export default class VideoPlayer extends React.Component {
       controls: true,
       preload: "auto",
       responsive: true,
-      // fluid: true,
       textTrackSettings: false,
       playbackRates: [0.5, 1, 1.5, 2],
       language: "zh",
