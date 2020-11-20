@@ -2,10 +2,8 @@ import React, { Component, Fragment } from "react";
 import { Grid, Divider, Box, Tabs, Tab, Typography } from "@material-ui/core";
 import LazyIntroduction from "../Introduction/Introduction";
 import LazyPersonAvatar from "./Avatar";
-import LazyVideoList from "../VideoList/VideoList";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import VideoDocumentGrid from "./VideoDocumentGrid";
-import IntroductionText from "./IntroductionText";
 import withId from "../EmptyNotice/withId";
 import VideoPlayerTitle from "../VideoPlayer/VideoPlayerTitle";
 
@@ -34,15 +32,17 @@ class Watch extends Component {
       avatar: {},
       value: 0,
     };
+    this.handleVideoInfo = this.handleVideoInfo.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  handleVideoInfo = (data) => {
+  handleVideoInfo(data) {
     this.setState({ avatar: data });
-  };
+  }
 
-  handleTabChange = (event, newValue) => {
+  handleTabChange(event, newValue) {
     this.setState({ value: newValue });
-  };
+  }
 
   render() {
     const vid = this.props.id;

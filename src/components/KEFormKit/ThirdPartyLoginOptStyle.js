@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     margin: "20px 14px",
-    cursor: "pointer",
   },
   bindingMobile: {
     position: "absolute",

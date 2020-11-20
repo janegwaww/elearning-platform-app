@@ -15,11 +15,12 @@ class Watch extends Component {
     this.state = {
       avatar: {},
     };
+    this.handleVideoInfo = this.handleVideoInfo.bind(this);
   }
 
-  handleVideoInfo = (data) => {
+  handleVideoInfo(data) {
     this.setState({ avatar: data });
-  };
+  }
 
   render() {
     const vid = this.props.id;

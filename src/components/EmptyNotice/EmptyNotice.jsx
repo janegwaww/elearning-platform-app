@@ -1,32 +1,10 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-
-const emptyType = (t) =>
-  ({
-    "404": {
-      img: "/images/404.svg",
-      text: "哎呀,服务器出错了,刷新试试~",
-      but: "/images/fresh-404.svg",
-    },
-    loading: {
-      img: "/images/loading-fail.svg",
-      text: "数据加载失败",
-      but: "/images/back_home.svg",
-    },
-    noResult: {
-      img: "/images/no-result.svg",
-      text: "搜索无结果",
-      but: "/images/fresh-404.svg",
-    },
-    networkError: {
-      img: "/images/network-error.svg",
-      text: "无网络",
-      but: "/images/fresh-404.svg",
-    },
-  }[t]);
+import errJson from "./EmptyNotice.json";
 
 const EmptyNotice = ({ empty = true, type = "404", handleFresh }) => {
+  const emptyType = (t) => errJson[t];
   const typeObj = emptyType(type);
 
   return empty ? (

@@ -12,12 +12,12 @@ class vjsSubSwitchButton extends vjsComponent {
 
     /* Bind the current class context to the mount method */
     this.mount = this.mount.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleDisabled = this.handleDisabled.bind(this);
 
     /* When player is ready, call method to mount React component */
     player.ready(() => {
       this.mount(this.handleDisabled(player.options()));
-
-      //   console.log("vjsComponent", this, "player", player, "options", options);
     });
 
     /* Remove React root when component is destroyed */
@@ -26,18 +26,20 @@ class vjsSubSwitchButton extends vjsComponent {
     });
   }
 
-  handleChange = (e) => {
+  handleChange(e) {
     if (!this.player().textTracks()[0]) return;
     if (e) {
       this.player().textTracks()[0].mode = "showing";
     } else {
       this.player().textTracks()[0].mode = "disabled";
     }
-  };
+  }
 
-  handleDisabled = (options) => {
-    return options.tracks[0] ? options.tracks[0].label === "登录开启字幕" : 'noSubtitle';
-  };
+  handleDisabled(options) {
+    return options.tracks[0]
+      ? options.tracks[0].label === "登录开启字幕"
+      : "noSubtitle";
+  }
 
   /**
    * We will render out the React EpisodeList component into the DOM element
@@ -53,7 +55,7 @@ class vjsSubSwitchButton extends vjsComponent {
         handleChange={this.handleChange}
         disabled={disabled}
       />,
-      this.el()
+      this.el(),
     );
   }
 }

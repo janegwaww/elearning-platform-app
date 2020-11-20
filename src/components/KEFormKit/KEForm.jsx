@@ -11,14 +11,14 @@ import QrCodeIcon from "./QrCodeIcon";
 import prevHref from "../../services/prevHref";
 import { subscribe } from "../../services/observable";
 import {
+  /* enquiryQRCode, */
   generateQRCode,
-  enquiryQRCode,
   handleLogin,
 } from "../../services/auth";
 
 const KEForm = ({ modal, modalClose }) => {
-  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [accountLogin, setAccountLogin] = useState(true);
   const [qrcodeValue, setQrcodeValue] = useState("");
 
@@ -31,26 +31,25 @@ const KEForm = ({ modal, modalClose }) => {
   };
 
   const handleClickLogin = ({ mobile, smscode }) => {
-    handleLogin({ mobile, code: smscode }).then((res) => {
-      if (res) {
-        handleNavigate();
-      }
-    });
+    handleLogin({ mobile, code: smscode }).then(
+      (res) => res && handleNavigate(),
+    );
   };
 
-  const varifyQRCode = (code) => {
-    if (accountLogin) return;
-    enquiryQRCode({ qrcode: code }).then((res) => {
-      if (res) {
-        handleNavigate();
-      }
-      if (!res) {
-        setTimeout(() => {
-          varifyQRCode(code);
-        }, 1000);
-      }
-    });
-  };
+  /* const varifyQRCode = (code) => {
+   *   if (accountLogin) return;
+   *   enquiryQRCode({ qrcode: code }).then((res) => {
+   *     if (res) {
+   *       handleNavigate();
+   *     }
+   *     if (!res) {
+   *       setTimeout(() => {
+   *         varifyQRCode(code);
+   *       }, 1000);
+   *     }
+   *   });
+   * };
+   */
 
   useEffect(() => {
     if (!accountLogin) {
@@ -63,7 +62,6 @@ const KEForm = ({ modal, modalClose }) => {
 
   useEffect(() => {
     subscribe("authError", enqueueSnackbar);
-    return () => {};
   }, []);
 
   return (

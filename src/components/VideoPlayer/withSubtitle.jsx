@@ -7,6 +7,10 @@ const withSubtitle = (WrapComponent) => {
       super(props);
       this.state = { ...this.props };
       this.wrapComponentRef = React.createRef(null);
+
+      this.continuePlayTime = this.continuePlayTime.bind(this);
+      this.continuePlayPause = this.continuePlayPause.bind(this);
+      this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -16,19 +20,19 @@ const withSubtitle = (WrapComponent) => {
       }
     }
 
-    continuePlayTime = () => {
+    continuePlayTime() {
       if (!this.wrapComponentRef.current) return;
       const { seekToCurrentTime } = this.wrapComponentRef.current;
       return seekToCurrentTime();
-    };
+    }
 
-    continuePlayPause = (time) => {
+    continuePlayPause(time) {
       if (!this.wrapComponentRef.current) return;
       this.wrapComponentRef.current.seekToCurrentTime(time);
       this.wrapComponentRef.current.getPlay();
-    };
+    }
 
-    handleChange = (e) => {
+    handleChange(e) {
       const { info } = this.state;
       const time = this.continuePlayTime();
       if (!info) return;
@@ -43,7 +47,7 @@ const withSubtitle = (WrapComponent) => {
           () => this.continuePlayPause(time),
         );
       }
-    };
+    }
 
     render() {
       const {

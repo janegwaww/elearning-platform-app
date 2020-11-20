@@ -7,6 +7,8 @@ import { LoginConfirmProvider } from "../components/LoginConfirm";
 import config from "../../static/site-data/SiteConfig";
 import { settings_html } from "../assets/js/totls";
 
+const styles = { width: "100%", backgroundColor: "#f2f2f5" };
+
 class DocumentPage extends Component {
   componentDidMount() {
     settings_html();

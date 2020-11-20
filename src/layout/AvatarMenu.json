@@ -1,0 +1,17 @@
+[
+  {
+    "href": "/users/profile/dynamic/",
+    "src": "/images/collect.svg",
+    "name": "我的收藏"
+  },
+  {
+    "href": "/users/profile/workscenter/",
+    "src": "/images/create.svg",
+    "name": "创作中心"
+  },
+  {
+    "href": "/users/profile/",
+    "src": "/images/person.svg",
+    "name": "个人中心"
+  }
+]

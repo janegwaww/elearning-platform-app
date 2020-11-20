@@ -9,9 +9,12 @@ const withSearchComponent = (WrapComponent) => {
         array: [],
         loading: false,
       };
+
+      this.onSearch = this.onSearch.bind(this);
+      this.handleClick = this.handleClick.bind(this);
     }
 
-    onSearch = (value) => {
+    onSearch(value) {
       const { id } = this.props;
       if (value) {
         this.setState({ loading: true });
@@ -21,21 +24,21 @@ const withSearchComponent = (WrapComponent) => {
           },
         );
       }
-    };
+    }
 
-    handleClick = (item) => {
+    handleClick(item) {
       const { array } = this.state;
-      this.props.onClick(item);
+      const { onClick } = this.props;
+      onClick(item);
       this.setState({
         array: array.map((o, i) => {
           if (i === item.index) {
             return { ...o, isActive: true };
-          } else {
-            return { ...o, isActive: false };
           }
+          return { ...o, isActive: false };
         }),
       });
-    };
+    }
 
     render() {
       const { array, loading } = this.state;
