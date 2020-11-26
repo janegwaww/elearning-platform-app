@@ -11,7 +11,7 @@ import Bull from "../Search/Bull";
 import Link from "../Link/Link";
 import CardTag from "./CardTag";
 import AuthTag from "./AuthTag";
-import { secondsToMouth } from "../../services/utils";
+import Moment from "../Moment";
 import "./GridCardsStyles.sass";
 
 const GridCards = ({ items = [], loading = false, itemCount = 0 }) => {
@@ -150,11 +150,9 @@ const GridCards = ({ items = [], loading = false, itemCount = 0 }) => {
                 {!!item.view_counts && <Bull />}
                 {!!item.like_counts && match && `${item.like_counts} 点赞`}
                 {!!item.like_counts && match && <Bull />}
-                {!!item.upload_time &&
-                  `${secondsToMouth(item.upload_time)} 发布`}
-                {!!item.time && `${secondsToMouth(item.time)} 发布`}
-                {!!item.update_time &&
-                  `${secondsToMouth(item.update_time)} 发布`}
+                <Moment
+                  date={item.upload_time || item.time || item.update_time}
+                />
                 {!!item.pay_counts && `${item.pay_counts} 购买`}
               </Typography>
             </div>

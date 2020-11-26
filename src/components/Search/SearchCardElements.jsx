@@ -9,11 +9,8 @@ import Bull from "./Bull";
 import CardTag from "../GridCards/CardTag";
 import Link from "../Link/Link";
 import AuthTag from "../GridCards/AuthTag";
-import {
-  secondsToDate,
-  secondsToHMS,
-  decoratedStr,
-} from "../../services/utils";
+import Moment from "../Moment";
+import { secondsToHMS, decoratedStr } from "../../services/utils";
 
 export const imagePick = (path, href = "/", type) =>
   Boolean(path) && (
@@ -44,16 +41,7 @@ export const TitleItem = ({ pay, title, time, href, match = {} }) => {
         </Link>
       )}
       <div style={{ width: 10 }} />
-      {time && (
-        <Typography
-          variant="caption"
-          color="textSecondary"
-          className="upload-time-title"
-          noWrap
-        >
-          {`${secondsToDate(time)} 发布`}
-        </Typography>
-      )}
+      <Moment date={time} />
     </div>
   );
 };
