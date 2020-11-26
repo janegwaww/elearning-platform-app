@@ -1,8 +1,9 @@
 import React from "react";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
 import Moment from "react-moment";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
+import "moment/min/locales";
 
 // Sets the moment instance to use.
 Moment.globalMoment = moment;
