@@ -11,7 +11,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     devServer: {
       watchOptions: {
-        ignored: /\.#|node_modules|~$/,
+        ignored: [/\.#|node_modules|~$/, /\.\/locale$/],
       },
     },
   });
