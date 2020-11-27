@@ -20,7 +20,7 @@ Moment.globalLocal = true;
 // Use a <span> tag for every react-moment instance.
 Moment.globalElement = "span";
 
-const MomentDisplay = ({ date = "" }) => {
+const MomentDisplay = ({ date = "", ...others }) => {
   return date ? (
     <Tooltip title={new Date(date * 1000).toISOString()} placement="top-start">
       <Typography
@@ -29,8 +29,9 @@ const MomentDisplay = ({ date = "" }) => {
         className="upload-time-title"
         noWrap
       >
-        <Moment fromNow>{date * 1000}</Moment>
-        发布
+        <Moment fromNow {...others}>
+          {date * 1000}
+        </Moment>
       </Typography>
     </Tooltip>
   ) : null;

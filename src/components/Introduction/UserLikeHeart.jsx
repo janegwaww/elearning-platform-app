@@ -11,7 +11,7 @@ export default function UserLikeHeart({
   ...props
 }) {
   const HeartIcon = (heart) =>
-    heart === 1 ? (
+    heart ? (
       <FavoriteIcon style={{ fontSize: 16, margin: 4 }} />
     ) : (
       <FavoriteBorderIcon style={{ fontSize: 16, margin: 4 }} />

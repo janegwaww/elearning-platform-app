@@ -1,44 +1,17 @@
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-/* import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
- * import ExpandLessIcon from "@material-ui/icons/ExpandLess"; */
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Divider,
-  IconButton,
-  Paper,
-  Collapse,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
+import { Card, IconButton, Menu, MenuItem } from "@material-ui/core";
 import FileViewButton from "./FileViewButton";
 import UserFeedback from "./UserFeedback";
-/* import ChipArray from "./ChipArray"; */
 import "./IntroductionStyles.sass";
 
 export default function Introduction({ intros }) {
   const [intro, setIntro] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
-  /* const [checked, setChecked] = useState(false); */
-
-  /* const handleChange = () => {
-   *   setChecked(prev => !prev);
-   * }; */
 
   useEffect(() => {
     setIntro(intros);
   }, [intros.video_id]);
-
-  /* const ExpandIcon = () =>
-   *   checked ? (
-   *     <ExpandLessIcon fontSize="small" />
-   *   ) : (
-   *     <ExpandMoreIcon fontSize="small" />
-   *   ); */
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -90,25 +63,6 @@ export default function Introduction({ intros }) {
           {renderMenu}
         </div>
       </div>
-      {/* <Divider /> */}
-      {/* <CardContent>
-          <Collapse in={checked} collapsedHeight={60}>
-          <Paper elevation={4} style={{ boxShadow: "none" }}>
-          <Typography variant="body2" component="p">
-          {intro.description}
-          </Typography>
-          </Paper>
-          </Collapse>
-          </CardContent>
-          <ChipArray chips={intro.category} />
-          <CardActions>
-          <Button size="small" color="secondary" onClick={handleChange}>
-          <Typography variant="body2">
-          {checked ? "收起" : "查看更多"}
-          </Typography>
-          <ExpandIcon />
-          </Button>
-          </CardActions> */}
     </Card>
   );
 }

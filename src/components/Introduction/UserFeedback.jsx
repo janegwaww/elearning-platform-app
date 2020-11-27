@@ -19,11 +19,9 @@ export default function UserFeedback({ backData = {} }) {
   const [id, setId] = useState("");
   const loginConfirm = useLoginConfirm();
 
-  const oppositeValue = (val) => (val === 1 ? 0 : 1);
-
   const actionEvent = (setData, actApi, value, callback = () => ({})) => {
-    const val = oppositeValue(value);
-    /* setData(val); */
+    const val = value ? 0 : 1;
+    setData(val);
     actApi({
       relation_id: [id],
       value: val,
@@ -32,6 +30,8 @@ export default function UserFeedback({ backData = {} }) {
       if (data) {
         setData(val);
         callback(val);
+      } else {
+        setData(!val);
       }
       !isLoggedIn() && loginConfirm();
     });
@@ -64,7 +64,7 @@ export default function UserFeedback({ backData = {} }) {
     );
 
   const StarOrNot = (star) =>
-    star === 1 ? (
+    star ? (
       <StarIcon style={{ fontSize: 18, margin: "8px" }} />
     ) : (
       <StarBorderIcon style={{ fontSize: 18, margin: "8px" }} />
