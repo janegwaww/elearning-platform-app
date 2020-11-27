@@ -41,8 +41,8 @@ class Watch extends Component {
             <br />
             <VideoDocument vid={vid} />
             <br />
-            <Divider />
             <LazyVideoList vid={vid} type="series" />
+            <br />
             <LazyVideoList vid={vid} type="recommend" />
           </Grid>
         </Grid>
