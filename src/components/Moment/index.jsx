@@ -21,8 +21,9 @@ Moment.globalLocal = true;
 Moment.globalElement = "span";
 
 const MomentDisplay = ({ date = "", ...others }) => {
+  const time = moment.unix(date).format();
   return date ? (
-    <Tooltip title={new Date(date * 1000).toISOString()} placement="top-start">
+    <Tooltip title={time} placement="top-start">
       <Typography
         variant="caption"
         color="textSecondary"
@@ -30,7 +31,7 @@ const MomentDisplay = ({ date = "", ...others }) => {
         noWrap
       >
         <Moment fromNow {...others}>
-          {date * 1000}
+          {time}
         </Moment>
       </Typography>
     </Tooltip>
