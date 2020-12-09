@@ -15,11 +15,12 @@ class Watch extends Component {
     this.state = {
       avatar: {},
     };
+    this.handleVideoInfo = this.handleVideoInfo.bind(this);
   }
 
-  handleVideoInfo = (data) => {
+  handleVideoInfo(data) {
     this.setState({ avatar: data });
-  };
+  }
 
   render() {
     const vid = this.props.id;
@@ -40,9 +41,10 @@ class Watch extends Component {
             <br />
             <VideoDocument vid={vid} />
             <br />
-            <Divider />
             <LazyVideoList vid={vid} type="series" />
+            <br />
             <LazyVideoList vid={vid} type="recommend" />
+            <br />
           </Grid>
         </Grid>
       </Fragment>

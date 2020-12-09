@@ -1,11 +1,10 @@
 import { now } from "lodash";
-import { videoApis, searchPartApis } from "./api";
+import service from "./api";
 import { pipeThen } from "./utils";
 import { logout } from "./auth";
 import { observer } from "./observable";
 
-const apisVideo = videoApis();
-const apisSearch = searchPartApis();
+const videoApis = service.video;
 
 // 错误信息提示
 const errorMessageNotice = (odata = {}) => {
@@ -19,7 +18,7 @@ const errorMessageNotice = (odata = {}) => {
 // token过期退出登录
 const tokenExpired = (odata = {}) => {
   const { data = {} } = odata;
-  if (["4104"].includes(data.err)) {
+  if (["4104", 4104].includes(data.err)) {
     logout(() => ({}));
   }
   return Promise.resolve(odata);
@@ -54,7 +53,7 @@ export const subtitles = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisVideo.localSearch,
+  videoApis.localSearch,
 );
 
 // -----视频播放-----------
@@ -84,11 +83,11 @@ export const videoPath = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisVideo.videoPlay,
+  videoApis.videoPlay,
 );
 
 // -----------获取评论-------------
-export const getComments = pipeThen(getResultData, apisSearch.getComment);
+export const getComments = pipeThen(getResultData, service.comment.getComment);
 
 // ----------获取视频简介-----------
 const extraFrontIntro = (data = {}) =>
@@ -108,7 +107,7 @@ export const getVideoIntro = pipeThen(
   extraFrontIntro,
   getResultDataFirst,
   getResultData,
-  apisVideo.videoPlay,
+  videoApis.videoPlay,
 );
 
 // ---------视频收藏-----------
@@ -119,7 +118,7 @@ export const collectTheVideo = pipeThen(
   getErrData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.addCollection,
+  service.collection.addCollection,
 );
 
 // --------视频点赞-----------
@@ -128,7 +127,7 @@ export const likeTheVideo = pipeThen(
   getErrData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.giveLike,
+  service.like.giveLike,
 );
 
 // -------获取相关视频---------
@@ -136,13 +135,13 @@ export const likeTheVideo = pipeThen(
 export const getRelativeVideos = pipeThen(
   getResultDataFirst,
   getResultData,
-  apisVideo.getRelatedVideo,
+  videoApis.getRelatedVideo,
 );
 
 // ----------获取推荐视频----------
 export const getRecommendVideos = pipeThen(
   getResultData,
-  apisVideo.getRelatedVideo,
+  videoApis.getRelatedVideo,
 );
 
 // ------订阅作者---------
@@ -150,13 +149,13 @@ export const subscribeAuth = pipeThen(
   boolErrData,
   getErrData,
   errorMessageNotice,
-  apisSearch.addSubscription,
+  service.subscription.addSubscription,
 );
 
 // 获取进阶列表
 export const getVideoDocument = pipeThen(
   getResultData,
-  apisSearch.viewAdvanced,
+  service.document.viewAdvanced,
 );
 
 // 获取课件详情
@@ -164,25 +163,30 @@ export const getDocumentDetail = pipeThen(
   getResultDataFirst,
   getResultData,
   errorMessageNotice,
-  apisSearch.viewAdvancedInfo,
+  service.document.viewAdvancedInfo,
 );
 
 // 获取相关课件
 export const getRelateDocs = pipeThen(
   getResultData,
   tokenExpired,
-  apisSearch.viewFile,
+  service.document.viewFile,
 );
 
 // 下载课件
-export const downloadDocs = pipeThen(getResultData, apisSearch.downloadFile);
+export const downloadDocs = pipeThen(
+  getResultData,
+  service.document.downloadFile,
+);
 
 // 开始播放调取该接口
-export const startWatchRecord = pipeThen(apisSearch.startWatchHistory);
+export const startWatchRecord = pipeThen(
+  service.videoHistory.startWatchHistory,
+);
 // 结束播放调取该接口
-export const endWatchRecord = pipeThen(apisSearch.endWatchHistory);
+export const endWatchRecord = pipeThen(service.videoHistory.endWatchHistory);
 // 点击搜索结果调取该接口
-export const ksearchRecord = pipeThen(apisSearch.searchHistory);
+export const ksearchRecord = pipeThen(service.videoHistory.searchHistory);
 
 // 支付宝创建订单
 export const aliPayment = pipeThen(
@@ -190,14 +194,14 @@ export const aliPayment = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.payment,
+  service.pay.payment,
 );
 
 // 校验支付宝订单
 export const verifyAliPay = pipeThen(
   getResultDataFirst,
   getResultData,
-  apisSearch.queryTradeResult,
+  service.pay.queryTradeResult,
 );
 
 // 支付宝创建订单
@@ -206,7 +210,7 @@ export const aliWapPayment = pipeThen(
   getResultData,
   tokenExpired,
   errorMessageNotice,
-  apisSearch.wapPayment,
+  service.pay.wapPayment,
 );
 
 // 分享功能
@@ -217,5 +221,5 @@ export const userShare = pipeThen(
   getUrl,
   getResultDataFirst,
   getResultData,
-  apisSearch.share,
+  service.user.share,
 );

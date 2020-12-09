@@ -13,10 +13,13 @@ export const strToObj = k => ({ [k]: "" });
 
 // 转换为驼峰命名
 export const wrapCamelName = (str = "") =>
+  str.replace(/_+(.)/g, (x, chr) => chr.toUpperCase());
+
+// 转换为dash命名
+export const wrapDashName = (str = "") =>
   str
-    .split("_")
-    .map((o, i) => (i > 0 ? o.replace(/^./, s => s.toUpperCase()) : o))
-    .join("");
+    .replace(/([a-z\d])([A-Z])/g, "$1_$2")
+    .replace(/[A-Z]/g, m => m.toLowerCase());
 
 // 秒转iso时制
 export const secondsToHMS = (seconds = 0) =>

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Helmet from "react-helmet";
 import SEOContext from "./SEOContext";
-import config from "../../../data/SiteConfig";
+import config from "../../../static/site-data/SiteConfig";
 
 const SEO = ({ children }) => {
   const [seo, setSeo] = useState({

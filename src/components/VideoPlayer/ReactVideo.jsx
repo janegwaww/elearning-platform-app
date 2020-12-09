@@ -4,6 +4,7 @@ import React from "react";
 import videojs from "video.js";
 import "./vjsSubSwitchButton";
 import "./vjsTrackDisplay";
+import "./vjsSubtitleSearch";
 import "./ReactVideo.sass";
 
 videojs.hook("setup", function (player) {
@@ -25,10 +26,10 @@ export default class VideoPlayer extends React.Component {
       controls: true,
       preload: "auto",
       responsive: true,
+      textTrackSettings: false,
       playbackRates: [0.5, 1, 1.5, 2],
       textTrackDisplay: true,
       posterImage: true,
-      textTrackSettings: true,
       language: "zh",
       languages: {
         zh: {
@@ -71,6 +72,7 @@ export default class VideoPlayer extends React.Component {
         },
       },
       vjsTrackDisplay: true,
+      vjsSubtitleSearch: true,
     };
   }
 

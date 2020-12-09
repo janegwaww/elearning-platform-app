@@ -14,7 +14,7 @@ import ScrollTop from "./ScrollTop";
 import AvatarMenu from "./AvatarMenu";
 import Container from "../components/Container/KeContainer";
 import SearchAutoComplete from "../components/Search/SearchAutoComplete";
-import config from "../../data/SiteConfig";
+import config from "../../static/site-data/SiteConfig";
 import theme from "./theme";
 import { searchUrlParams, getIdFromHref } from "../services/utils";
 import searchHistory from "../services/searchHistory";

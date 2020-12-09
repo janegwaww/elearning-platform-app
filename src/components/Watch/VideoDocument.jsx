@@ -22,6 +22,23 @@ const useStyles = makeStyles(() => ({
       borderBottom: "none",
     },
   },
+  avatar: {
+    marginRight: 10,
+    height: 68,
+    width: 120,
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "4px",
+  },
+  title: {
+    "text-overflow": "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": 2,
+    "-webkit-box-orient": "vertical",
+    overflow: "hidden",
+  },
 }));
 
 export default function VideoDocument({ vid }) {
@@ -62,18 +79,7 @@ export default function VideoDocument({ vid }) {
                   style={{ width: "100%" }}
                 >
                   <Box height={68} display="flex">
-                    <div
-                      style={{
-                        marginRight: 10,
-                        height: 68,
-                        width: 120,
-                        overflow: "hidden",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: "4px",
-                      }}
-                    >
+                    <div className={classes.avatar}>
                       <img
                         src={o.image_path}
                         alt={o.image_path}
@@ -88,7 +94,7 @@ export default function VideoDocument({ vid }) {
                       width="calc(100% - 120px - 14px)"
                     >
                       <Tooltip title={o.file_name} placement="top-start">
-                        <Typography noWrap variant="body2">
+                        <Typography variant="body2" className={classes.title}>
                           {o.file_name}
                         </Typography>
                       </Tooltip>

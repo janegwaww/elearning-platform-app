@@ -8,6 +8,11 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 import { isLoggedIn, logout } from "../../services/auth";
 
+const list = [
+  { name: "首页", href: "/" },
+  { name: "知擎杯", href: "/activity/" },
+  { name: "加盟学者", href: "/" },
+];
 const useStyles = makeStyles({
   listTextRoot: {
     textAlign: "center",
@@ -26,11 +31,6 @@ const ListItemLink = (props) => {
 const MenuMobile = ({ open = false, container, handleClose }) => {
   const classes = useStyles();
   const isLogin = isLoggedIn();
-  const list = [
-    { name: "首页", href: "/" },
-    { name: "知擎杯", href: "/activity/" },
-    { name: "加盟学者", href: "/" },
-  ];
 
   const handleLogin = () => {
     isLogin

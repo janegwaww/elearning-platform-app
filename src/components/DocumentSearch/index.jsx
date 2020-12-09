@@ -5,10 +5,10 @@ import DocumentComponent from "./DocumentComponent";
 import SearchComponent from "./SearchComponent";
 import DSAppBar from "./DSAppBar";
 import withId from "../EmptyNotice/withId";
+import downloadjs from "./fileDownload";
 import { isLoggedIn } from "../../services/auth";
 import { likeTheVideo } from "../../services/video";
 import { useLoginConfirm } from "../LoginConfirm";
-import downloadjs from "./fileDownload";
 import "./index.sass";
 
 const DocumentSearch = ({ id }) => {
@@ -27,13 +27,13 @@ const DocumentSearch = ({ id }) => {
   const handleDownload = () => {
     // 未登录处理
     if (!isLoggedIn()) return loginConfirm();
-    downloadjs(id, info.file_name, info.file_type);
+    return downloadjs(id, info.file_name, info.file_type);
   };
 
   const handleLike = () => {
     const value = info.is_like ? 0 : 1;
     if (!isLoggedIn()) return loginConfirm();
-    likeTheVideo({ relation_id: [id], value, type: "document" }).then(
+    return likeTheVideo({ relation_id: [id], value, type: "document" }).then(
       (data) => {
         if (data) {
           setInfo((prev) => ({

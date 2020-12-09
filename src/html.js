@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import config from "../data/SiteConfig";
+import config from "../static/site-data/SiteConfig";
 
 export default function HTML(props) {
   return (
@@ -38,5 +38,5 @@ HTML.propTypes = {
   bodyAttributes: PropTypes.object,
   preBodyComponents: PropTypes.array,
   body: PropTypes.string,
-  postBodyComponents: PropTypes.array
+  postBodyComponents: PropTypes.array,
 };

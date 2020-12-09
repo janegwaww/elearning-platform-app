@@ -3,7 +3,7 @@ import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ErrorIcon from "@material-ui/icons/Error";
-import config from "../../data/SiteConfig";
+import config from "../../static/site-data/SiteConfig";
 import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import ScrollTop from "./ScrollTop";

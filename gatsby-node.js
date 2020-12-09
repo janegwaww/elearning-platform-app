@@ -1,5 +1,4 @@
 /* eslint "no-console": "off" */
-
 const path = require("path");
 const _ = require("lodash");
 
@@ -11,7 +10,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     devServer: {
       watchOptions: {
-        ignored: /\.#|node_modules|~$/,
+        ignored: [/\.#|node_modules|~$/],
       },
     },
   });

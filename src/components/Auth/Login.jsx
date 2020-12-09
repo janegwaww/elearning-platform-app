@@ -13,7 +13,7 @@ import { SnackbarProvider } from "notistack";
 import KEForm from "../KEFormKit/KEForm";
 import { isLoggedIn } from "../../services/auth";
 import { getIdFromHref } from "../../services/utils";
-import config from "../../../data/SiteConfig";
+import config from "../../../static/site-data/SiteConfig";
 
 const generateClassName = createGenerateClassName({
   disableGlobal: true,

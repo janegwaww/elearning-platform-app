@@ -1,8 +1,8 @@
-import { authApis } from "./api";
+import service from "./api";
 import { pipeThen } from "./utils";
 import { observer } from "./observable";
 
-const apis = authApis();
+const apis = service.user;
 const isBrowser = () => typeof window !== "undefined";
 
 // 获取用户
@@ -15,17 +15,17 @@ export const getUser = () =>
 const setUser = user =>
   window.localStorage.setItem("haetekUser", JSON.stringify(user));
 
+// 退出登录
+export const logout = (callback = () => {}) => {
+  setUser({});
+  callback();
+};
+
 // 是否登录
 export const isLoggedIn = () => {
   const user = getUser();
 
   return !!user.token;
-};
-
-// 退出登录
-export const logout = (callback = () => {}) => {
-  setUser({});
-  callback();
 };
 
 // ------------------------------------------------
@@ -49,15 +49,6 @@ export const logout = (callback = () => {}) => {
 const getResultData = ({ data = {} } = {}) =>
   Promise.resolve(data.result_data || []);
 
-// 错误信息提示
-const errorMessageNotice = (odata = {}) => {
-  const { data = {} } = odata;
-  if (![0, "0"].includes(data.err)) {
-    observer(data);
-  }
-  return Promise.resolve(odata);
-};
-
 // 获取后端接口返回的结果字段中的第一个数组
 // {
 //     "count": "len(result_data)",
@@ -67,7 +58,16 @@ const errorMessageNotice = (odata = {}) => {
 //           {}   // 返回第一组
 //     ]
 // }
-const getArrayData = ([arr] = []) => Promise.resolve(arr || {});
+const getArrayData = ([arr = {}] = []) => Promise.resolve(arr);
+
+// 错误信息提示
+const errorMessageNotice = (odata = {}) => {
+  const { data = {} } = odata;
+  if (![0, "0"].includes(data.err)) {
+    observer(data);
+  }
+  return Promise.resolve(odata);
+};
 
 // 获取数据,headers
 // 因为登录有headers,因此需要同时处理返回的数据和headers
@@ -184,16 +184,28 @@ export const bindingMobile = pipeThen(
 
 // --------------------
 // 获取错误代码
-// 因为验证手机号是否登录是用错误码来判的
+// 因为验证是否登录是用错误码来判的
 const getErrData = ({ data = {} } = {}) => Promise.resolve(data.err);
 
-// 验证手机号
-const verifyMobile = err => Promise.resolve(err === 0);
+// 验证错误代码
+const verifyErrCode = err => Promise.resolve(err == 0);
 
 // 导出手机号是否已经存在方法
 export const userAlreadyExist = pipeThen(
-  verifyMobile,
+  verifyErrCode,
   getErrData,
   errorMessageNotice,
   apis.checkMobile,
+);
+
+// 验证用户是否过期，过期则退出登录
+const ifFalseThenOut = isLogin => {
+  if (!isLogin) logout();
+  return Promise.resolve(isLogin);
+};
+export const isLoggedInPromise = pipeThen(
+  ifFalseThenOut,
+  verifyErrCode,
+  getErrData,
+  apis.isLogin,
 );

@@ -61,14 +61,10 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
 
   const getCount = () => tileList.length;
 
-  const handleClick = (e, time) => {
-    clipJump(time);
-  };
+  const handleClick = (time) => clipJump(time);
 
   useEffect(() => {
-    if (tileList.length > 0) {
-      handleOpen();
-    }
+    tileList.length > 0 && handleOpen();
   }, [tileList]);
 
   return (
@@ -86,11 +82,11 @@ function SingleLineGridList({ tileList = [], clipJump = () => ({}) }) {
       </div>
       <div className="gridList">
         <Slider {...slickSetting}>
-          {map((tile, i) => (
-            <div>
+          {map.convert({ cap: false })((tile, i) => (
+            <div key={i}>
               <Box
                 key={i}
-                onClick={(e) => handleClick(e, tile.startTime)}
+                onClick={(e) => handleClick(tile.startTime)}
                 className="GridListTile-tile"
               >
                 <PressMatchedLine
