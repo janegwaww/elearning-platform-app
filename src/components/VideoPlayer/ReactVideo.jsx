@@ -26,7 +26,7 @@ export default class VideoPlayer extends React.Component {
       controls: true,
       preload: "auto",
       responsive: true,
-      textTrackSettings: false,
+      textTrackSettings: true,
       playbackRates: [0.5, 1, 1.5, 2],
       textTrackDisplay: true,
       posterImage: true,
