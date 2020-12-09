@@ -92,7 +92,6 @@ export default class VideoPlayer extends React.Component {
             }
           }
         });
-        console.log("onPlayerReady", this);
       },
     );
   }

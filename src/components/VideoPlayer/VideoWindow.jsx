@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import defer from "lodash/defer";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactVideo from "./ReactVideo";
 import withSubtitle from "./withSubtitle";
-import { startWatchRecord, endWatchRecord } from "../../services/video";
 import { secondsToHMS } from "../../services/utils";
+import { startWatchRecord, endWatchRecord } from "../../services/video";
 
 class VideoWindow extends Component {
   constructor(props) {
